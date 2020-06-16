@@ -131,37 +131,34 @@
   margin: 0;
 }
 
-.chart-container{
-  margin:10px;
+.chart-container {
+  margin: 10px;
   border-radius: 5px;
   width: 250px;
   height: 125px;
   position: relative;
 }
 
-.chart-content{
+.chart-content {
   position: absolute;
-  bottom:10px;
-  left:10px;
+  bottom: 10px;
+  left: 10px;
 }
 
-.bg-chart1{
-  box-shadow: 2px 2px 10px #63c2de ;
+.bg-chart1 {
+  box-shadow: 2px 2px 10px #63c2de;
   background-color: #63c2de;
-
 }
-.bg-chart2{
+.bg-chart2 {
   background-color: #001529;
-  box-shadow: 2px 2px 10px #001529 ;
+  box-shadow: 2px 2px 10px #001529;
 }
-.bg-chart3{
+.bg-chart3 {
   background-color: #ffc23d;
-  box-shadow: 2px 2px 10px #ffc23d ;
-
+  box-shadow: 2px 2px 10px #ffc23d;
 }
 
-.bg-chart4{
+.bg-chart4 {
   background-color: #f86c6b;
-  box-shadow: 2px 2px 10px #f86c6b ;
-
+  box-shadow: 2px 2px 10px #f86c6b;
 }
