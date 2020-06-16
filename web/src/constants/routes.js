@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 
 export const publicRoutes = [
-  { Component: lazy(() => import('screens/signIn.screen')), path: '/' },
+  { Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')), path: '/' },
   {
     Component: lazy(() => import('screens/404.screen')),
     path: '/sign-up/shipper/',
@@ -19,7 +19,7 @@ export const extraRoutesShipper = [
   },
   {
     path: '/',
-    Component: lazy(() => import('screens/404.screen')),
+    Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')),
   },
   {
     path: '/freight-exchange/view-bid/:id',
@@ -33,13 +33,13 @@ export const extraRoutesSupplierFTL = [
   },
   {
     path: '/',
-    Component: lazy(() => import('screens/404.screen')),
+    Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')),
   },
 ];
 export const extraRoutesSupplierPTL = [
   {
     path: '/',
-    Component: lazy(() => import('screens/404.screen')),
+    Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')),
   },
 ];
 export const shipperRoutes = [

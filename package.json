@@ -53,5 +53,8 @@
       "pretty-quick —-staged",
       "eslint --fix"
     ]
+  },
+  "dependencies": {
+    "node-sass": "^4.14.1"
   }
 }

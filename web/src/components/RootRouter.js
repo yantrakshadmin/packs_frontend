@@ -17,7 +17,7 @@ import { NotFound404Screen } from 'screens/404.screen';
  */
 export const RootRouter = () => {
   switch ('private') {
-    case null:
+    case 'private':
       return (
         <Router>
           {publicRoutes.map((Route, index) => {
@@ -27,7 +27,7 @@ export const RootRouter = () => {
         </Router>
       );
 
-    case 'private':
+    case null:
       return <PrivateRoutes routes={shipperRoutes} extraRoutes={extraRoutesShipper} />;
 
     case 'private1':
