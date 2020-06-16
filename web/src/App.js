@@ -1,32 +1,23 @@
-import React, { useEffect } from 'react';
 import './App.css';
 
-import { Router } from '@reach/router';
-import { Provider, useDispatch } from 'react-redux';
+import React, { Suspense } from 'react';
+import { Provider } from 'react-redux';
+
+import 'web/src/helpers/shared';
 
 import { store } from 'common/reducers';
-import { sessionStarted } from 'common/actions/demo';
 
-import { GettingStarted } from 'components/GettingStarted';
-import { MonorepoIntro } from 'components/MonorepoIntro';
+import { Loading } from 'web/src/components/Loding';
+import { RootRouter } from 'web/src/components/RootRouter';
 
-const Initial = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(sessionStarted());
-  }, [dispatch]);
-
-  return null;
-};
-
-const App = () => (
-  <Provider store={store}>
-    <Initial />
-    <Router>
-      <GettingStarted path='/' />
-      <MonorepoIntro path='/intro/' />
-    </Router>
-  </Provider>
-);
+function App() {
+  return (
+    <Provider store={store}>
+      <Suspense fallback={<Loading />}>
+        <RootRouter />
+      </Suspense>
+    </Provider>
+  );
+}
 
 export default App;
