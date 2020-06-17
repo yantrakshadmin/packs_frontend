@@ -1,22 +1,29 @@
-import { loadAPI } from '../helpers/api';
+import {loadAPI} from '../helpers/api';
 
-export const getJWTTokens = ({ username, password }) =>
+export const getJWTTokens = ({username, password}) =>
   loadAPI(`/api/token/`, {
     method: 'POST',
-    data: { username, password },
+    data: {username, password},
     secure: false,
   });
 
-export const isUserVerified = ({ username }) =>
+export const isUserVerified = ({username}) =>
   loadAPI(`/verification/`, {
-    params: { username },
+    params: {username},
     secure: false,
   });
 
-export const verifyUser = ({ username, otp }) =>
+export const verifyUser = ({username, otp}) =>
   loadAPI('/verifyOTP/', {
     method: 'POST',
-    data: { username, otp },
+    data: {username, otp},
+    secure: false,
+  });
+
+export const createEmployee = ({username, email, password, first_name, last_name}) =>
+  loadAPI('/create-employee/', {
+    method: 'POST',
+    data: {username, email, password, first_name, last_name},
     secure: false,
   });
 

@@ -1,10 +1,10 @@
-import { combineReducers, createStore, applyMiddleware } from 'redux';
+import {combineReducers, createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 
-import { demo } from './demo';
+import {signUpEmployee} from './signUp';
 
 const reducers = combineReducers({
-  demo,
+  user: signUpEmployee,
 });
 
 export const store = createStore(reducers, applyMiddleware(thunk));
