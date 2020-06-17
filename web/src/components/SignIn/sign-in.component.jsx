@@ -5,6 +5,8 @@ import './sign-in.styles.scss';
 const SignIn = (props) => {
   const [signIn, setSignIn] = useState(false);
 
+  const [form] = Form.useForm();
+
   const layout = {
     labelCol: {
       span: 8,
@@ -22,6 +24,7 @@ const SignIn = (props) => {
 
   const onFinish = (values) => {
     console.log('Success:', values);
+    form.resetFields();
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -36,6 +39,7 @@ const SignIn = (props) => {
     return (
       <Form
         className='signin'
+        form={form}
         {...layout}
         name='basic'
         initialValues={{
