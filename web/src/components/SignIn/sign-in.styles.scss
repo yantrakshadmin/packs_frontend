@@ -1,20 +1,15 @@
 .signin {
   margin-top: 30vh;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
   color: black;
 }
 
 .intro {
-  align-items: center;
   margin-top: 20vh;
   text-align: center;
 
   .content {
     width: 35vw;
     font-size: 20px;
-    text-align: center;
     margin-left: 4vw;
   }
 }
