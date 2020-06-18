@@ -1,11 +1,15 @@
 import React from 'react';
-import { Button, Form, Card, Typography, Divider, Checkbox, Input } from 'antd';
+import {Button, Form, Card, Typography, Divider, Checkbox, Input} from 'antd';
+import {connect} from 'react-redux';
+import {signUpEmployeeStartAsync} from 'common/actions/signUp';
+import {redirectTo} from '@reach/router';
 
 import './sign-up.styles.scss';
 
-const { Title, Text } = Typography;
+const {Text} = Typography;
 
-const SignUp = ({ userType }) => {
+const SignUp = ({user, signUpEmployeeStartAsync}) => {
+  if (user) redirectTo('/');
   const [form] = Form.useForm();
 
   const layout = {
@@ -23,8 +27,8 @@ const SignUp = ({ userType }) => {
     },
   };
 
-  const onFinish = (values) => {
-    console.log('Success:', values);
+  const onFinish = ({username, email, firstname: first_name, lastname: last_name, password}) => {
+    signUpEmployeeStartAsync({username, email, last_name, first_name, password});
     form.resetFields();
   };
 
@@ -33,29 +37,29 @@ const SignUp = ({ userType }) => {
   };
 
   return (
-    <div className='container'>
-      <Card style={{ boxShadow: '2px 2px 2px grey', borderRadius: '5px' }}>
+    <div className="container">
+      <Card style={{boxShadow: '2px 2px 2px grey', borderRadius: '5px'}}>
         <Typography>
           {/* <Title level={3} style={{fontFamily: 'Arial, Helvetica, sans-serif'}}>
             Register as a Client
           </Title> */}
-          <Text strong style={{ fontSize: '25px' }}>
+          <Text strong style={{fontSize: '25px'}}>
             Register as an Employee
           </Text>
           <Divider />
           <Form
-            className='signin'
+            className="signin"
             form={form}
             {...layout}
-            name='basic'
+            name="basic"
             initialValues={{
               remember: true,
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}>
             <Form.Item
-              label='First Name'
-              name='firstname'
+              label="First Name"
+              name="firstname"
               rules={[
                 {
                   required: true,
@@ -66,8 +70,8 @@ const SignUp = ({ userType }) => {
             </Form.Item>
 
             <Form.Item
-              label='Last Name'
-              name='lastname'
+              label="Last Name"
+              name="lastname"
               rules={[
                 {
                   required: true,
@@ -78,8 +82,8 @@ const SignUp = ({ userType }) => {
             </Form.Item>
 
             <Form.Item
-              label='Username'
-              name='username'
+              label="Username"
+              name="username"
               rules={[
                 {
                   required: true,
@@ -90,8 +94,8 @@ const SignUp = ({ userType }) => {
             </Form.Item>
 
             <Form.Item
-              label='Email'
-              name='email'
+              label="Email"
+              name="email"
               rules={[
                 {
                   required: true,
@@ -106,8 +110,8 @@ const SignUp = ({ userType }) => {
             </Form.Item>
 
             <Form.Item
-              name='password'
-              label='Password'
+              name="password"
+              label="Password"
               rules={[
                 {
                   required: true,
@@ -119,8 +123,8 @@ const SignUp = ({ userType }) => {
             </Form.Item>
 
             <Form.Item
-              name='confirm'
-              label='Confirm Password'
+              name="confirm"
+              label="Confirm Password"
               dependencies={['password']}
               hasFeedback
               rules={[
@@ -128,7 +132,7 @@ const SignUp = ({ userType }) => {
                   required: true,
                   message: 'Please confirm your password!',
                 },
-                ({ getFieldValue }) => ({
+                ({getFieldValue}) => ({
                   validator(rule, value) {
                     if (!value || getFieldValue('password') === value) {
                       return Promise.resolve();
@@ -141,12 +145,12 @@ const SignUp = ({ userType }) => {
               <Input.Password />
             </Form.Item>
 
-            <Form.Item {...tailLayout} name='remember' valuePropName='checked'>
+            <Form.Item {...tailLayout} name="remember" valuePropName="checked">
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
 
             <Form.Item {...tailLayout}>
-              <Button type='primary' htmlType='submit'>
+              <Button type="primary" htmlType="submit">
                 Submit
               </Button>
             </Form.Item>
@@ -157,4 +161,8 @@ const SignUp = ({ userType }) => {
   );
 };
 
-export default SignUp;
+const mapStateToProps = (state) => {
+  return {user: state.user.userMeta};
+};
+
+export default connect(mapStateToProps, {signUpEmployeeStartAsync})(SignUp);
