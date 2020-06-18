@@ -27,4 +27,11 @@ export const createEmployee = ({username, email, password, first_name, last_name
     secure: false,
   });
 
+export const createClient = ({username, email, password, first_name, last_name}) =>
+  loadAPI('/create-client/', {
+    method: 'POST',
+    data: {username, email, password, first_name, last_name},
+    secure: false,
+  });
+
 export const getUserMeta = () => loadAPI(`/user/meta/`);

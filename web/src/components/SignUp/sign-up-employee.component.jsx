@@ -1,13 +1,15 @@
 import React from 'react';
 import {Button, Form, Card, Typography, Divider, Checkbox, Input} from 'antd';
 import {connect} from 'react-redux';
-import {signUpStartAsync} from 'common/actions/signUpEmployee';
+import {signUpEmployeeStartAsync} from 'common/actions/signUp';
+import {redirectTo} from '@reach/router';
 
 import './sign-up.styles.scss';
 
-const {Title, Text} = Typography;
+const {Text} = Typography;
 
-const SignUp = ({user, signUpStartAsync}) => {
+const SignUp = ({user, signUpEmployeeStartAsync}) => {
+  if (user) redirectTo('/');
   const [form] = Form.useForm();
 
   const layout = {
@@ -26,7 +28,7 @@ const SignUp = ({user, signUpStartAsync}) => {
   };
 
   const onFinish = ({username, email, firstname: first_name, lastname: last_name, password}) => {
-    signUpStartAsync({username, email, last_name, first_name, password});
+    signUpEmployeeStartAsync({username, email, last_name, first_name, password});
     form.resetFields();
   };
 
@@ -160,7 +162,7 @@ const SignUp = ({user, signUpStartAsync}) => {
 };
 
 const mapStateToProps = (state) => {
-  return {user: state.user.usermeta};
+  return {user: state.user.userMeta};
 };
 
-export default connect(mapStateToProps, {signUpStartAsync})(SignUp);
+export default connect(mapStateToProps, {signUpEmployeeStartAsync})(SignUp);

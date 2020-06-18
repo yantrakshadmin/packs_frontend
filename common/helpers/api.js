@@ -50,6 +50,7 @@ export const loadAPI = async (url, opts = {}) => {
 
     const {data, status} = res;
     await onSuccess(data);
+    console.log(data);
     return {data, status, error: undefined, loading: false};
   } catch (error) {
     if (error.response) {
