@@ -25,7 +25,7 @@ export const auth = (state = initialState, action) => {
     case USER_AUTHENTICATED:
       return $({loading: false, userMeta: action.payload, error: ''});
     case SIGN_OUT_USER:
-      return $({userMeta: {type: 'public'}, error: ''});
+      return initialState;
     default:
       return $();
   }

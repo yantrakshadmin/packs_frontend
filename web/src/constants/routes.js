@@ -53,6 +53,7 @@ export const employeeRoutes = [
     name: 'Masters',
     icon: ['fas', 'layer-group'],
     path: '/masters/',
+    Component: lazy(() => import('screens/404.screen')),
     // isSubMenu: true,
     // subMenu: [
     //   {
@@ -89,16 +90,19 @@ export const employeeRoutes = [
 export const clientRoutes = [
   {
     name: 'Inventory',
+    icon: ['fas', 'layer-group'],
     path: '/inventory/',
     Component: lazy(() => import('screens/404.screen')),
   },
   {
     name: 'Material Request',
+    icon: ['fas', 'layer-group'],
     path: '/material-request/',
     Component: lazy(() => import('screens/404.screen')),
   },
   {
     name: 'Client Inventory',
+    icon: ['fas', 'layer-group'],
     path: '/client-inventory/',
     Component: lazy(() => import('screens/404.screen')),
   },
