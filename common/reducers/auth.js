@@ -27,6 +27,6 @@ export const auth = (state = initialState, action) => {
     case SIGN_OUT_USER:
       return initialState;
     default:
-      return $();
+      return state;
   }
 };
