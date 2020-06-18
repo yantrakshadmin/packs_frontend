@@ -1,6 +1,6 @@
 import React, {useState, Suspense} from 'react';
 import {Layout, Menu, Divider, Dropdown, Avatar, Typography} from 'antd';
-import {Link} from '@reach/router';
+import {Link, redirectTo} from '@reach/router';
 import {UserOutlined} from '@ant-design/icons';
 import {useDispatch} from 'react-redux';
 import {signOutUser} from 'common/actions/signIn';
@@ -14,10 +14,16 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 const {SubMenu} = Menu;
 const {Header, Content, Sider, Footer} = Layout;
 const {Text} = Typography;
+
 const ScreenWrapper = ({routes, navigate, children, user}) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [collapsedWidth, setCollapsedWidth] = useState(80);
   const dispatch = useDispatch();
+
+  const onSignOut = () => {
+    dispatch(signOutUser());
+    navigate('');
+  };
 
   const menu = (
     <Menu>
@@ -26,11 +32,7 @@ const ScreenWrapper = ({routes, navigate, children, user}) => {
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="1">
-        <Text
-          onClick={() => {
-            dispatch(signOutUser());
-          }}
-          type="danger">
+        <Text onClick={() => onSignOut()} type="danger">
           Log Out
         </Text>
       </Menu.Item>
