@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
 import {Form, Button, Input, Checkbox, notification} from 'antd';
 import {ACCESS_TOKEN, REFRESH_TOKEN} from 'common/constants/storage';
-import {getJWTTokens, isUserVerified} from 'common/api/auth';
-// import { getUserMeta} from 'common/helpers/api';
+import {getJWTTokens} from 'common/api/auth';
+import {getUserMeta} from 'common/helpers/auth';
+import {useDispatch} from 'react-redux';
 
 import './sign-in.styles.scss';
 
 const SignIn = (props) => {
+  const dispatch = useDispatch();
   const [signIn, setSignIn] = useState(false);
 
   const [form] = Form.useForm();
@@ -36,7 +38,7 @@ const SignIn = (props) => {
       await window.storage.set(REFRESH_TOKEN, refresh);
 
       console.log(access);
-      // await getUserMeta(dispatch);
+      await getUserMeta(dispatch);
     } catch (e) {
       notification.error({message: `Can't SignIn user: ${username}`, description: e.toString()});
     }

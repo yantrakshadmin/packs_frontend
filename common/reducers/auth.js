@@ -1,12 +1,18 @@
-import {SIGN_UP_START, SIGN_UP_SUCCESS, SIGN_UP_FAILURE} from '../actions';
+import {
+  SIGN_UP_START,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_FAILURE,
+  USER_AUTHENTICATED,
+  SIGN_OUT_USER,
+} from '../actions';
 
 const initialState = {
   loading: false,
-  userMeta: null,
+  userMeta: {type: 'public'},
   error: '',
 };
 
-export const signUp = (state = initialState, action) => {
+export const auth = (state = initialState, action) => {
   const $ = (newState) => ({...state, ...newState});
 
   switch (action.type) {
@@ -16,6 +22,10 @@ export const signUp = (state = initialState, action) => {
       return $({loading: false, userMeta: null, error: action.payload});
     case SIGN_UP_SUCCESS:
       return $({loading: false, error: '', userMeta: action.payload});
+    case USER_AUTHENTICATED:
+      return $({loading: false, userMeta: action.payload, error: ''});
+    case SIGN_OUT_USER:
+      return $({userMeta: {type: 'public'}, error: ''});
     default:
       return $();
   }

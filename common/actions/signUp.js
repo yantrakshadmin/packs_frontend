@@ -11,7 +11,7 @@ export const signUpFailure = () => ({
 
 export const signUpSuccess = (user) => ({
   type: SIGN_UP_SUCCESS,
-  payload: user,
+  payload: {...user, type: 'public'},
 });
 
 export const signUpEmployeeStartAsync = ({
