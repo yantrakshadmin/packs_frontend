@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, Form, Card, Typography, Divider, Checkbox, Input} from 'antd';
 import {connect} from 'react-redux';
 import {signUpEmployeeStartAsync} from 'common/actions/signUp';
@@ -9,12 +9,15 @@ import './sign-up.styles.scss';
 const {Text} = Typography;
 
 const SignUp = ({user, signUpEmployeeStartAsync}) => {
-  if (user) redirectTo('/');
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (user.first_name) redirectTo('/');
+  }, [user]);
 
   const layout = {
     labelCol: {
-      span: 8,
+      span: 10,
     },
     wrapperCol: {
       span: 12,

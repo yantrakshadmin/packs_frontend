@@ -1,7 +1,7 @@
-import { lazy } from 'react';
+import {lazy} from 'react';
 
 export const publicRoutes = [
-  { Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')), path: '/' },
+  {Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')), path: '/'},
   {
     Component: lazy(() => import('../components/SignUp/sign-up-client.component')),
     path: '/sign-up/client/',
@@ -42,64 +42,64 @@ export const extraRoutesSupplierPTL = [
     Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')),
   },
 ];
-export const shipperRoutes = [
+export const employeeRoutes = [
   {
     name: 'Dashboard',
     icon: ['fas', 'home'],
     path: '/dashboard/',
-    Component: lazy(() => import('screens/404.screen')),
+    Component: lazy(() => import('screens/Dashboard')),
   },
   {
     name: 'Masters',
     icon: ['fas', 'layer-group'],
     path: '/masters/',
-    isSubMenu: true,
-    subMenu: [
-      {
-        name: 'Item',
-        path: '/master/item/',
-        Component: lazy(() => import('screens/404.screen')),
-      },
-      {
-        name: 'Vendor',
-        path: '/master/vendor/',
-        Component: lazy(() => import('screens/404.screen')),
-      },
-      {
-        name: 'Address',
-        path: '/master/address/',
-        Component: lazy(() => import('screens/404.screen')),
-      },
-    ],
+    // isSubMenu: true,
+    // subMenu: [
+    //   {
+    //     name: 'Item',
+    //     path: '/master/item/',
+    //     Component: lazy(() => import('screens/404.screen')),
+    //   },
+    //   {
+    //     name: 'Vendor',
+    //     path: '/master/vendor/',
+    //     Component: lazy(() => import('screens/404.screen')),
+    //   },
+    //   {
+    //     name: 'Address',
+    //     path: '/master/address/',
+    //     Component: lazy(() => import('screens/404.screen')),
+    //   },
+    // ],
   },
   {
-    name: 'Sales Order',
+    name: 'GRN',
     icon: ['fas', 'layer-group'],
-    path: '/sales-orders/',
+    path: '/grn/',
     Component: lazy(() => import('screens/404.screen')),
   },
   {
-    name: 'Freight Exchange',
+    name: 'PFEP',
     icon: ['fas', 'layer-group'],
-    path: '/freight-exchange/',
+    path: '/pfep/',
+    Component: lazy(() => import('screens/404.screen')),
+  },
+];
+
+export const clientRoutes = [
+  {
+    name: 'Inventory',
+    path: '/inventory/',
     Component: lazy(() => import('screens/404.screen')),
   },
   {
-    name: 'Live Trucks',
-    icon: ['fas', 'layer-group'],
-    path: '/live-trucks/',
+    name: 'Material Request',
+    path: '/material-request/',
     Component: lazy(() => import('screens/404.screen')),
   },
   {
-    name: 'Shipping',
-    icon: ['fas', 'compass'],
-    path: '/shipping/',
-    Component: lazy(() => import('screens/404.screen')),
-  },
-  {
-    name: 'Transport Directory',
-    icon: ['fas', 'layer-group'],
-    path: '/transport-directory/',
+    name: 'Client Inventory',
+    path: '/client-inventory/',
     Component: lazy(() => import('screens/404.screen')),
   },
 ];

@@ -1,3 +1,5 @@
 export const SIGN_UP_START = 'SIGN_UP_START';
 export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
+export const USER_AUTHENTICATED = 'USER_AUTHENTICATED';
+export const SIGN_OUT_USER = 'SIGN_OUT_USER';
