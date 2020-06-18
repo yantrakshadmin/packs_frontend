@@ -31,10 +31,8 @@ const ScreenWrapper = ({routes, navigate, children, user}) => {
         <Link to="/edit-profile/">Edit Profile</Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="1">
-        <Text onClick={() => onSignOut()} type="danger">
-          Log Out
-        </Text>
+      <Menu.Item key="1" onClick={() => onSignOut()}>
+        <Text type="danger">Log Out</Text>
       </Menu.Item>
     </Menu>
   );
