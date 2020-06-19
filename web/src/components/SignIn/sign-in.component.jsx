@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Form, Button, Input, Checkbox, notification} from 'antd';
 import {ACCESS_TOKEN, REFRESH_TOKEN} from 'common/constants/storage';
 import {getJWTTokens} from 'common/api/auth';
 import {getUserMeta} from 'common/helpers/auth';
 import {useDispatch} from 'react-redux';
-import {useNavigate} from '@reach/router';
 import {connect} from 'react-redux';
 
 import './sign-in.styles.scss';
@@ -14,12 +13,6 @@ const SignIn = ({user}) => {
   const [signIn, setSignIn] = useState(false);
 
   const [form] = Form.useForm();
-  const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (user.type !== 'public') navigate(`/${user.type}/`);
-  //   console.log(user.type);
-  // }, [user]);
 
   const layout = {
     labelCol: {

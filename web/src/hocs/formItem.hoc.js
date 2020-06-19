@@ -1,9 +1,9 @@
 import React from 'react';
-import { Form, Input, Upload, Select, Radio, DatePicker, Checkbox } from 'antd';
-import { Icon } from '@ant-design/compatible';
-import { FORM_ELEMENT_TYPES } from 'constants/formFields.constant';
+import {Form, Input, Upload, Select, Radio, DatePicker, Checkbox, InputNumber} from 'antd';
+import {Icon} from '@ant-design/compatible';
+import {FORM_ELEMENT_TYPES} from 'constants/formFields.constant';
 
-const { Option } = Select;
+const {Option} = Select;
 const CheckboxGroup = Checkbox.Group;
 
 export const formItem = (key, rules, kwargs, type, others, customLabel, noLabel) => {
@@ -22,7 +22,19 @@ export const formItem = (key, rules, kwargs, type, others, customLabel, noLabel)
           name={key}
           rules={rules}
           {...formOptions}>
-          <Input {...kwargs} />
+          <Input {...kwargs} size="small" />
+        </Form.Item>
+      );
+
+    case FORM_ELEMENT_TYPES.INPUT_NUMBER:
+      return (
+        <Form.Item
+          key={key}
+          label={noLabel ? null : customLabel || key.charAt(0).toUpperCase() + key.slice(1)}
+          name={key}
+          rules={rules}
+          {...formOptions}>
+          <InputNumber {...kwargs} size="middle" />
         </Form.Item>
       );
 
@@ -35,11 +47,11 @@ export const formItem = (key, rules, kwargs, type, others, customLabel, noLabel)
           rules={rules}
           {...formOptions}>
           <Upload.Dragger {...kwargs}>
-            <p className='ant-upload-drag-icon'>
-              <Icon type='inbox' />
+            <p className="ant-upload-drag-icon">
+              <Icon type="inbox" />
             </p>
-            <p className='ant-upload-text p-1'>{others.p1}</p>
-            <p className='ant-upload-hint p-1'>{others.p2}</p>
+            <p className="ant-upload-text p-1">{others.p1}</p>
+            <p className="ant-upload-hint p-1">{others.p2}</p>
           </Upload.Dragger>
         </Form.Item>
       );
@@ -58,14 +70,14 @@ export const formItem = (key, rules, kwargs, type, others, customLabel, noLabel)
                 key={index.toString()}
                 value={others.valueIndex ? index : item.value || item[others.key] || item}>
                 {others.customTitle ? (
-                  <text style={{ fontSize: 13, fontWeight: 'bold' }}>{item[others.customTitle]}</text>
+                  <text style={{fontSize: 13, fontWeight: 'bold'}}>{item[others.customTitle]}</text>
                 ) : (
                   item.label || item[others.key] || item
                 )}
                 {others.dataKeys ? (
-                  <div className='row' style={{ flexWrap: 'wrap' }}>
+                  <div className="row" style={{flexWrap: 'wrap'}}>
                     {others.dataKeys.map((i) => (
-                      <text style={{ fontSize: 11, marginLeft: 5, marginRight: 5 }}>{item[i]}</text>
+                      <text style={{fontSize: 11, marginLeft: 5, marginRight: 5}}>{item[i]}</text>
                     ))}
                   </div>
                 ) : null}
@@ -83,7 +95,7 @@ export const formItem = (key, rules, kwargs, type, others, customLabel, noLabel)
           name={key}
           rules={rules}
           {...formOptions}>
-          <Radio.Group value='Ggg'>
+          <Radio.Group value="Ggg">
             {others.radioOptions.map((item) => (
               <Radio key={item.value} value={item.value}>
                 {item.label}

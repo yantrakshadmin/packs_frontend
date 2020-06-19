@@ -20,6 +20,8 @@ export const verifyUser = ({username, otp}) =>
     secure: false,
   });
 
+export const getUserMeta = () => loadAPI(`/user/meta/`);
+
 export const createEmployee = ({username, email, password, first_name, last_name}) =>
   loadAPI('/create-employee/', {
     method: 'POST',
@@ -34,4 +36,43 @@ export const createClient = ({username, email, password, first_name, last_name})
     secure: false,
   });
 
-export const getUserMeta = () => loadAPI(`/user/meta/`);
+export const createProduct = ({
+  name,
+  short_code,
+  description,
+  category,
+  priceperunit,
+  height,
+  width,
+  length,
+  actual_weight,
+  volumetric_weight,
+  cavity_length,
+  cavity_width,
+  hsn_code,
+}) =>
+  loadAPI('/create-product/', {
+    method: 'POST',
+    data: {
+      name,
+      short_code,
+      description,
+      category,
+      priceperunit,
+      height,
+      width,
+      length,
+      actual_weight,
+      volumetric_weight,
+      cavity_length,
+      cavity_width,
+      hsn_code,
+    },
+    secure: true,
+  });
+
+export const retrieveProducts = () =>
+  loadAPI('/products/', {
+    method: 'GET',
+    secure: true,
+  });
