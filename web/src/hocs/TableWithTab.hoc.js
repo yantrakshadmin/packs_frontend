@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Typography, Button, Divider, Row, Col, Table, Modal, Tabs } from 'antd';
+import React, {useState} from 'react';
+import {Typography, Button, Divider, Row, Col, Table, Modal, Tabs} from 'antd';
 
-const { Title } = Typography;
-const { TabPane } = Tabs;
+const {Title} = Typography;
+const {TabPane} = Tabs;
 
 export const TableWithTabHOC = ({
   title,
@@ -55,14 +55,14 @@ export const TableWithTabHOC = ({
         <Modal
           visible={modalVisible || !!editingId}
           destroyOnClose
-          style={{ minWidth: '80vw' }}
+          style={{minWidth: '80vw'}}
           title={`Add ${title}`}
           onCancel={onCancel}
           footer={null}>
           <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} />
         </Modal>
       ) : null}
-      <Row justify='space-between' align='middle'>
+      <Row justify="space-between" align="middle">
         <Col>
           <Title level={3}>{title}</Title>
         </Col>
@@ -75,7 +75,7 @@ export const TableWithTabHOC = ({
                   <Col span={24}>
                     {tabs[getIndex()].menu.map((i) => (
                       <Button
-                        className='m-2 '
+                        className="m-2 "
                         type={i.type || 'primary'}
                         key={i.title}
                         onClick={i.onClick}>
@@ -91,18 +91,16 @@ export const TableWithTabHOC = ({
         <Col>
           {hideRightButton ? null : (
             <Button
-              type='primary'
+              type="primary"
               onClick={() => {
                 setModalVisible(true);
               }}>
-              Add 
-              {' '}
-              {title}
+              Add {title}
             </Button>
           )}
         </Col>
       </Row>
-      <Divider style={{ margin: 0, padding: 0 }} />
+      <Divider style={{margin: 0, padding: 0}} />
       <Row />
       <Row>
         <Col span={24}>
@@ -113,23 +111,24 @@ export const TableWithTabHOC = ({
                   <Table
                     bordered
                     rowKey={rowKey}
+                    size="small"
                     rowSelection={
                       customRowSelectionType
-                        ? { ...rowSelection, type: customRowSelectionType[tab.key] }
+                        ? {...rowSelection, type: customRowSelectionType[tab.key]}
                         : rowSelection
                     }
                     expandable={
                       ExpandBody
                         ? {
-                          expandedRowRender: (record) => (
-                            <p style={{ margin: 0 }}>
-                              <ExpandBody {...expandParams} {...record} />
-                            </p>
-                          ),
-                          rowExpandable: (record) =>
-                            expandHandleKey ? record[expandHandleKey] : null,
-                          expandRowByClick: true,
-                        }
+                            expandedRowRender: (record) => (
+                              <p style={{margin: 0}}>
+                                <ExpandBody {...expandParams} {...record} />
+                              </p>
+                            ),
+                            rowExpandable: (record) =>
+                              expandHandleKey ? record[expandHandleKey] : null,
+                            expandRowByClick: true,
+                          }
                         : null
                     }
                     dataSource={tab.data}

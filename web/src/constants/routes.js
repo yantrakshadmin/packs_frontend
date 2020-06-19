@@ -53,7 +53,7 @@ export const employeeRoutes = [
     name: 'Masters',
     icon: ['fas', 'layer-group'],
     path: '/masters/',
-    Component: lazy(() => import('screens/productForm.screen')),
+    Component: lazy(() => import('screens/employee/Product.employee.screen')),
     // isSubMenu: true,
     // subMenu: [
     //   {

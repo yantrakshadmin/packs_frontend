@@ -115,7 +115,7 @@ export const productFormFields = [
 
   {
     key: 'cavity_length',
-    rules: [{required: true, message: 'Please enter Cavity Length!'}],
+    rules: [{required: true, message: 'Please enter cavity length!'}],
     type: FORM_ELEMENT_TYPES.INPUT_NUMBER,
     kwargs: {
       placeholder: 'Enter',
