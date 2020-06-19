@@ -124,12 +124,12 @@ export const productFormFields = [
   },
 
   {
-    key: 'hsc_code',
-    rules: [{required: true, message: 'Please enter hsc_code!'}],
+    key: 'hsn_code',
+    rules: [{required: true, message: 'Please enter hsn_code!'}],
     type: FORM_ELEMENT_TYPES.INPUT_NUMBER,
     kwargs: {
       placeholder: 'Enter',
     },
-    label: 'HSC Code',
+    label: 'HSN Code',
   },
 ];
