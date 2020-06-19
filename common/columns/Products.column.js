@@ -49,24 +49,4 @@ export default [
     key: 'actual_weight',
     dataIndex: 'actual_weight',
   },
-  {
-    title: 'Volumetric Weight',
-    key: 'volumetric_weight',
-    dataIndex: 'volumetric_weight',
-  },
-  {
-    title: 'Cavity Length',
-    key: 'cavity_length',
-    dataIndex: 'cavity_length',
-  },
-  {
-    title: 'Cavity Width',
-    key: 'cavity_width',
-    dataIndex: 'cavity_width',
-  },
-  {
-    title: 'HSN Code',
-    key: 'hsn_code',
-    dataIndex: 'hsn_code',
-  },
 ];

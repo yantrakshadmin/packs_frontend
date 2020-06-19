@@ -21,10 +21,10 @@ export const useHandelForm = ({create, edit, retrieve, id, success, failure, don
       if (error) throw Error(error);
 
       notification.success({message: successMessage});
-      // done();
+      done();
     } catch (e) {
       notification.error({message: failureMessage, description: e.toString()});
-      // close();
+      close();
     }
   };
 

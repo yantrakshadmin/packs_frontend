@@ -2,16 +2,15 @@ import React, {useState, useEffect} from 'react';
 import {ProductForm} from '../../forms/createProduct.form';
 import {TableWithTabHOC} from '../../hocs/TableWithTab.hoc';
 import {useAPI} from 'common/hooks/api';
-import {loadAPI} from 'common/helpers/api';
 import productColumns from 'common/columns/Products.column';
 import {Popconfirm, Modal} from 'antd';
 import {CloseSquareOutlined, EditOutlined} from '@ant-design/icons';
+import {deleteProduct} from 'common/api/auth';
+import {deleteHOC} from '../../hocs/deleteHoc';
 
 const ProductEmployeeScreen = () => {
   const {data, loading, reload} = useAPI('/products/', {});
-  const [selected, setSelected] = useState([]);
-  const [editingId, setEditingId] = useState(undefined);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [editingId, setEditingId] = useState(null);
 
   console.log(data);
 
@@ -23,17 +22,17 @@ const ProductEmployeeScreen = () => {
       render: (row) => (
         <div className="row align-center justify-between">
           <EditOutlined style={{fontSize: 30}} onClick={() => setEditingId(row.id)} />
-          {/* <Popconfirm
+          <Popconfirm
             title="Confirm Delete"
             onConfirm={deleteHOC({
               row,
               reload,
-              api: deleteOrders,
-              success: 'Deleted address successfully',
-              failure: 'Error in deleting address',
+              api: deleteProduct,
+              success: 'Deleted product successfully',
+              failure: 'Error in deleting product',
             })}>
             <CloseSquareOutlined style={{color: '#ff0000', fontSize: 30, margin: 5}} />
-          </Popconfirm> */}
+          </Popconfirm>
         </div>
       ),
     },
@@ -49,24 +48,14 @@ const ProductEmployeeScreen = () => {
     },
   ];
 
-  const onChange = (selectedRowKeys) => {
-    setSelected(selectedRowKeys);
-  };
-
-  const reset = () => {
-    setSelected([]);
-  };
-
-  const cancelEditing = () => setEditingId(undefined);
+  const cancelEditing = () => setEditingId(null);
 
   return (
     <TableWithTabHOC
-      reset={reset}
       rowKey={(record) => record.id}
-      rowSelection={{type: 'checkbox', selectedRowKeys: selected, onChange}}
       refresh={reload}
       tabs={tabs}
-      customRowSelectionType={{allProducts: 'checkbox'}}
+      size="small"
       title="Products"
       editingId={editingId}
       cancelEditing={cancelEditing}

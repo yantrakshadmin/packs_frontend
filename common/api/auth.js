@@ -76,3 +76,53 @@ export const retrieveProducts = () =>
     method: 'GET',
     secure: true,
   });
+
+export const editProduct = (
+  id,
+  {
+    name,
+    short_code,
+    description,
+    category,
+    priceperunit,
+    height,
+    width,
+    length,
+    actual_weight,
+    volumetric_weight,
+    cavity_length,
+    cavity_width,
+    hsn_code,
+  },
+) =>
+  loadAPI(`/edit-product/${id}/`, {
+    method: 'PATCH',
+    secure: true,
+    data: {
+      name,
+      short_code,
+      description,
+      category,
+      priceperunit,
+      height,
+      width,
+      length,
+      actual_weight,
+      volumetric_weight,
+      cavity_length,
+      cavity_width,
+      hsn_code,
+    },
+  });
+
+export const retrieveProduct = (id) =>
+  loadAPI(`/edit-product/${id}`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteProduct = (id) =>
+  loadAPI(`/edit-product/${id}`, {
+    method: 'DELETE',
+    secure: true,
+  });

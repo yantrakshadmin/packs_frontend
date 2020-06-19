@@ -11,6 +11,7 @@ export const TableWithTabHOC = ({
   refresh,
   rowSelection,
   rowKey,
+  size,
   reset,
   editingId,
   cancelEditing,
@@ -111,7 +112,7 @@ export const TableWithTabHOC = ({
                   <Table
                     bordered
                     rowKey={rowKey}
-                    size="small"
+                    size={size}
                     rowSelection={
                       customRowSelectionType
                         ? {...rowSelection, type: customRowSelectionType[tab.key]}
