@@ -26,9 +26,9 @@ const RootRouter = ({user}) => {
       //   return <PrivateRoutes routes={shipperRoutes} extraRoutes={extraRoutesShipper} />;
 
       case 'employee':
-        return <PrivateRoutes routes={employeeRoutes} />;
+        return <PrivateRoutes routes={employeeRoutes} user={user} />;
       case 'client':
-        return <PrivateRoutes routes={clientRoutes} />;
+        return <PrivateRoutes routes={clientRoutes} user={user} />;
 
       default:
         return null;

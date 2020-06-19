@@ -1,6 +1,6 @@
 import React, {useState, Suspense} from 'react';
 import {Layout, Menu, Divider, Dropdown, Avatar, Typography} from 'antd';
-import {Link, redirectTo} from '@reach/router';
+import {Link} from '@reach/router';
 import {UserOutlined} from '@ant-design/icons';
 import {useDispatch} from 'react-redux';
 import {signOutUser} from 'common/actions/signIn';
@@ -19,10 +19,9 @@ const ScreenWrapper = ({routes, navigate, children, user}) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [collapsedWidth, setCollapsedWidth] = useState(80);
   const dispatch = useDispatch();
-
   const onSignOut = () => {
     dispatch(signOutUser());
-    navigate('');
+    navigate('../');
   };
 
   const menu = (
@@ -85,7 +84,7 @@ const ScreenWrapper = ({routes, navigate, children, user}) => {
                     title={i.name}>
                     {i.subMenu.map((subItem) => (
                       <Menu.Item key={subItem.name}>
-                        <Link to={subItem.path} key={subItem.name}>
+                        <Link to={`/${user.type}${subItem.path}`} key={subItem.name}>
                           {subItem.name}
                         </Link>
                       </Menu.Item>
@@ -99,7 +98,7 @@ const ScreenWrapper = ({routes, navigate, children, user}) => {
                   icon={
                     <FontAwesomeIcon icon={i.icon} style={{marginRight: isCollapsed ? 50 : 5}} />
                   }>
-                  <Link to={i.path} key={i.name}>
+                  <Link to={`/${user.type}${i.path}`} key={i.name}>
                     {i.name}
                   </Link>
                 </Menu.Item>

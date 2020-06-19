@@ -57,6 +57,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "node-sass": "^4.14.1",
+    "react-router-dom": "^5.2.0",
     "redux-persist": "^6.0.0",
     "semantic-ui-react": "^0.88.2"
   }
