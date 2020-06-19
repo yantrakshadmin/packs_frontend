@@ -86,9 +86,18 @@ export const productFormFields = [
     label: 'Volumetric Weight',
   },
   {
+    key: 'document',
+    rules: [{required: false, message: 'Please attach document!'}],
+    type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
+    kwargs: {
+      placeholder: 'Attach',
+    },
+    label: 'Document',
+  },
+  {
     key: 'category',
     rules: [{required: true, message: 'Please select category!'}],
-    type: FORM_ELEMENT_TYPES.INPUT,
+    type: FORM_ELEMENT_TYPES.SELECT,
     kwargs: {
       placeholder: 'Enter',
     },

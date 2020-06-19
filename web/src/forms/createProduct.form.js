@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Form, Col, Row, Button, Divider, Typography, Spin} from 'antd';
 import {formItem} from '../hocs/formItem.hoc';
 import {productFormFields} from 'common/formFields/product.formFields';
+import categoryOptions from 'common/formFields/categoryOptions';
 
 // import {useAPI} from '@app/common/hooks/api';
 import {useHandelForm} from 'hooks/form';
@@ -57,6 +58,8 @@ export const ProductForm = ({id, onCancel, onDone}) => {
   //     dataKeys: ['name', 'city', 'pin', 'street', 'state', 'phone'],
   //   };
 
+  const others = {selectOptions: categoryOptions};
+
   return (
     <Spin spinning={loading}>
       <Divider orientation="left">Product Details</Divider>
@@ -76,23 +79,24 @@ export const ProductForm = ({id, onCancel, onDone}) => {
             ))}
           </Col>
           <Col span={8}>
-            {productFormFields.slice(5, 9).map((item) => (
+            {productFormFields.slice(5, 10).map((item) => (
+              <div className="p-2">
+                {formItem(item.key, item.rules, item.kwargs, item.type, item.label)}
+              </div>
+            ))}
+          </Col>
+          <Col span={8}>
+            {productFormFields.slice(10, 14).map((item) => (
               <div className="p-2">
                 {formItem(
                   item.key,
                   item.rules,
                   item.kwargs,
                   item.type,
-                  //   otherConfigsDropdown,
+                  //   item.others,
+                  others,
                   item.label,
                 )}
-              </div>
-            ))}
-          </Col>
-          <Col span={8}>
-            {productFormFields.slice(9, 13).map((item) => (
-              <div className="p-2">
-                {formItem(item.key, item.rules, item.kwargs, item.type, item.others, item.label)}
               </div>
             ))}
           </Col>
