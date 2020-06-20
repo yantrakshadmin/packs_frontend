@@ -1,12 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {ProductForm} from '../../forms/createProduct.form';
 import {TableWithTabHOC} from '../../hocs/TableWithTab.hoc';
 import {useAPI} from 'common/hooks/api';
 import productColumns from 'common/columns/Products.column';
-import {Popconfirm, Modal} from 'antd';
-import {CloseSquareOutlined, EditOutlined} from '@ant-design/icons';
+import {Popconfirm, Button} from 'antd';
+// import {CloseSquareOutlined, EditOutlined} from '@ant-design/icons';
 import {deleteProduct} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
+import Delete from '../../icons/Delete';
+import Edit from '../../icons/Edit';
 
 const ProductEmployeeScreen = () => {
   const {data, loading, reload} = useAPI('/products/', {});
@@ -21,7 +23,11 @@ const ProductEmployeeScreen = () => {
       key: 'operation',
       render: (row) => (
         <div className="row align-center justify-between">
-          <EditOutlined style={{fontSize: 30}} onClick={() => setEditingId(row.id)} />
+          <Button
+            style={{backgroundColor: 'white', border: 'none', padding: '1px'}}
+            onClick={() => setEditingId(row.id)}>
+            <Edit />
+          </Button>
           <Popconfirm
             title="Confirm Delete"
             onConfirm={deleteHOC({
@@ -31,7 +37,9 @@ const ProductEmployeeScreen = () => {
               success: 'Deleted product successfully',
               failure: 'Error in deleting product',
             })}>
-            <CloseSquareOutlined style={{color: '#ff0000', fontSize: 30, margin: 5}} />
+            <Button style={{backgroundColor: 'white', border: 'none', padding: '1px'}}>
+              <Delete />
+            </Button>
           </Popconfirm>
         </div>
       ),
