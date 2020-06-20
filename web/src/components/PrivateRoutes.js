@@ -4,13 +4,11 @@ import {Router} from '@reach/router';
 import ScreenWrapper from 'components/ScreenWrapper';
 import Redirect from 'components/Redirect';
 import {NotFound404Screen} from 'screens/404.screen';
-import {ProductForm} from '../forms/createProduct.form';
 
 export const PrivateRoutes = ({routes, extraRoutes, user}) => {
   return (
     <Router>
       <Redirect path="/" user={user} />
-      <ProductForm path="/form" />
       <ScreenWrapper path={`/${user.type}/`} routes={routes}>
         {routes.map((Route, index) => {
           return <Route.Component path={`${Route.path}`} key={index.toString()} />;

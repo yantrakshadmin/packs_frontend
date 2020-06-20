@@ -1,21 +1,17 @@
-import React, {useState, useEffect} from 'react';
-import {Form, Col, Row, Button, Divider, Typography, Spin} from 'antd';
+import React from 'react';
+import {Form, Col, Row, Button, Divider, Spin} from 'antd';
 import {formItem} from '../hocs/formItem.hoc';
 import {productFormFields} from 'common/formFields/product.formFields';
 import categoryOptions from 'common/formFields/categoryOptions';
 
 // import {useAPI} from '@app/common/hooks/api';
 import {useHandelForm} from 'hooks/form';
-import {createProduct, retrieveProduct, editProduct, retrieveProducts} from 'common/api/auth';
+import {createProduct, retrieveProduct, editProduct} from 'common/api/auth';
 // import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
-
-const {Text} = Typography;
 
 export const ProductForm = ({id, onCancel, onDone}) => {
   //   const [items, setItems] = useState([]);
-  const [error, setError] = useState(null);
-
-  const {form, data, submit, loading} = useHandelForm({
+  const {form, submit, loading} = useHandelForm({
     create: createProduct,
     edit: editProduct,
     retrieve: retrieveProduct,

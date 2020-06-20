@@ -25,7 +25,7 @@ export const TableWithTabHOC = ({
   const [modalVisible, setModalVisible] = useState(!!editingId);
   const [activeTab, setActiveTab] = useState(tabs[0].key);
   const callback = (key) => {
-    reset();
+    if (reset) reset();
     setActiveTab(key);
   };
 
