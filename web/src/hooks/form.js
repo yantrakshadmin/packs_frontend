@@ -13,6 +13,7 @@ export const useHandleForm = ({create, edit, retrieve, id, success, failure, don
 
   const submit = async (data) => {
     try {
+      console.log(data);
       let api;
       if (isEdit) api = () => edit(id, data);
       else api = () => create(data);
@@ -21,10 +22,10 @@ export const useHandleForm = ({create, edit, retrieve, id, success, failure, don
       if (error) throw Error(error);
 
       notification.success({message: successMessage});
-      done();
+      // done();
     } catch (e) {
       notification.error({message: failureMessage, description: e.toString()});
-      close();
+      // close();
     }
   };
 
@@ -40,7 +41,7 @@ export const useHandleForm = ({create, edit, retrieve, id, success, failure, don
       }
     } catch (e) {
       notification.error({message: 'Error in getting data', description: e.toString()});
-      close();
+      // close();
     }
 
     setLoading(false);

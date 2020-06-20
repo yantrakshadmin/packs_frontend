@@ -126,3 +126,35 @@ export const deleteProduct = (id) =>
     method: 'DELETE',
     secure: true,
   });
+
+export const createKit = ({kit_name, kit_info, components_per_kit, kit_client, products}) =>
+  loadAPI('/create-kit/', {
+    method: 'POST',
+    secure: true,
+    data: {kit_name, kit_info, components_per_kit, kit_client, products},
+  });
+
+export const editKit = (id, {kit_name, kit_info, components_per_kit, kit_client, products}) =>
+  loadAPI(`/edit-kit/${id}`, {
+    method: 'PATCH',
+    secure: true,
+    data: {kit_name, kit_info, components_per_kit, kit_client, products},
+  });
+
+export const retrieveKits = () =>
+  loadAPI('/kits/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const retrieveKit = (id) =>
+  loadAPI(`/edit-kit/${id}`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteKit = (id) =>
+  loadAPI(`/edit-kit/${id}`, {
+    method: 'DELETE',
+    secure: true,
+  });
