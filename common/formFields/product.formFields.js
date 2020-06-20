@@ -9,7 +9,7 @@ export const productFormFields = [
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
-    label: 'Name',
+    customLabel: 'Name',
   },
   {
     key: 'short_code',
@@ -19,7 +19,7 @@ export const productFormFields = [
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
-    label: 'Short Code',
+    customLabel: 'Short Code',
   },
   {
     key: 'description',
@@ -28,7 +28,7 @@ export const productFormFields = [
     kwargs: {
       placeholder: 'Enter',
     },
-    label: 'Description',
+    customLabel: 'Description',
   },
   {
     key: 'category',
@@ -37,7 +37,7 @@ export const productFormFields = [
     kwargs: {
       placeholder: 'Select',
     },
-    label: 'Category',
+    customLabel: 'Category',
   },
   {
     key: 'priceperunit',
@@ -47,7 +47,7 @@ export const productFormFields = [
       placeholder: 'Enter',
       type: 'number',
     },
-    label: 'Price Per Unit',
+    customLabel: 'Price Per Unit',
   },
   {
     key: 'hsn_code',
@@ -57,7 +57,7 @@ export const productFormFields = [
       placeholder: 'Enter',
       type: 'number',
     },
-    label: 'HSN Code',
+    customLabel: 'HSN Code',
   },
 
   {
@@ -94,7 +94,7 @@ export const productFormFields = [
     kwargs: {
       placeholder: 'Enter',
     },
-    label: 'Actual Weight',
+    customLabel: 'Actual Weight',
   },
   {
     key: 'volumetric_weight',
@@ -103,7 +103,7 @@ export const productFormFields = [
     kwargs: {
       placeholder: 'Enter',
     },
-    label: 'Volumetric Weight',
+    customLabel: 'Volumetric Weight',
   },
   {
     key: 'cavity_length',
@@ -112,7 +112,7 @@ export const productFormFields = [
     kwargs: {
       placeholder: 'Enter',
     },
-    label: 'Cavity Length',
+    customLabel: 'Cavity Length',
   },
   {
     key: 'cavity_width',
@@ -121,7 +121,7 @@ export const productFormFields = [
     kwargs: {
       placeholder: 'Enter',
     },
-    label: 'Cavity Width',
+    customLabel: 'Cavity Width',
   },
   {
     key: 'document',

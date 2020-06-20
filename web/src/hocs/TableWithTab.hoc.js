@@ -10,6 +10,7 @@ export const TableWithTabHOC = ({
   modalBody: ModalBody = () => null,
   refresh,
   rowSelection,
+  modalWidth,
   rowKey,
   size,
   reset,
@@ -56,7 +57,7 @@ export const TableWithTabHOC = ({
         <Modal
           visible={modalVisible || !!editingId}
           destroyOnClose
-          style={{minWidth: '80vw'}}
+          style={{minWidth: `${modalWidth}vw`}}
           title={`Add ${title}`}
           onCancel={onCancel}
           footer={null}>

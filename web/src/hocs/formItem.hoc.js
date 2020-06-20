@@ -6,7 +6,7 @@ import {FORM_ELEMENT_TYPES} from 'constants/formFields.constant';
 const {Option} = Select;
 const CheckboxGroup = Checkbox.Group;
 
-export const formItem = (key, rules, kwargs, type, others, customLabel, noLabel) => {
+export const formItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
   let formOptions = {};
   if (others) {
     if (others.formOptions) {
@@ -50,8 +50,12 @@ export const formItem = (key, rules, kwargs, type, others, customLabel, noLabel)
             <p className="ant-upload-drag-icon">
               <Icon type="inbox" />
             </p>
-            <p className="ant-upload-text p-1">{others.p1}</p>
-            <p className="ant-upload-hint p-1">{others.p2}</p>
+            {others ? (
+              <>
+                <p className="ant-upload-text p-1">{others.p1}</p>
+                <p className="ant-upload-hint p-1">{others.p2}</p>
+              </>
+            ) : null}
           </Upload.Dragger>
         </Form.Item>
       );

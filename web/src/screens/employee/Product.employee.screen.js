@@ -79,6 +79,7 @@ const ProductEmployeeScreen = () => {
       editingId={editingId}
       cancelEditing={cancelEditing}
       modalBody={ProductForm}
+      modalWidth={45}
       // expandHandleKey='package'
       expandParams={{loading}}
       // ExpandBody={ItemTable}
