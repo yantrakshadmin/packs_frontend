@@ -54,24 +54,24 @@ export const employeeRoutes = [
     icon: ['fas', 'layer-group'],
     path: '/masters/',
     Component: lazy(() => import('screens/employee/Product.employee.screen')),
-    // isSubMenu: true,
-    // subMenu: [
-    //   {
-    //     name: 'Item',
-    //     path: '/master/item/',
-    //     Component: lazy(() => import('screens/404.screen')),
-    //   },
-    //   {
-    //     name: 'Vendor',
-    //     path: '/master/vendor/',
-    //     Component: lazy(() => import('screens/404.screen')),
-    //   },
-    //   {
-    //     name: 'Address',
-    //     path: '/master/address/',
-    //     Component: lazy(() => import('screens/404.screen')),
-    //   },
-    // ],
+    isSubMenu: true,
+    subMenu: [
+      {
+        name: 'Products',
+        path: '/master/products/',
+        Component: lazy(() => import('screens/employee/Product.employee.screen')),
+      },
+      {
+        name: 'Kits',
+        path: '/master/kits/',
+        Component: lazy(() => import('screens/employee/Kit.employee.screen')),
+      },
+      // {
+      //   name: 'Address',
+      //   path: '/master/address/',
+      //   Component: lazy(() => import('screens/404.screen')),
+      // },
+    ],
   },
   {
     name: 'GRN',
