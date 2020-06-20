@@ -1,4 +1,4 @@
-export default [
+export const categoryOptions = [
   'Metal',
   'Wood',
   'Plastic',

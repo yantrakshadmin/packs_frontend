@@ -2,16 +2,16 @@ import React from 'react';
 import {Form, Col, Row, Button, Divider, Spin} from 'antd';
 import {formItem} from '../hocs/formItem.hoc';
 import {productFormFields} from 'common/formFields/product.formFields';
-import categoryOptions from 'common/formFields/categoryOptions';
+import {categoryOptions} from 'common/formFields/categoryOptions';
 
 // import {useAPI} from '@app/common/hooks/api';
-import {useHandelForm} from 'hooks/form';
+import {useHandleForm} from 'hooks/form';
 import {createProduct, retrieveProduct, editProduct} from 'common/api/auth';
 // import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 
 export const ProductForm = ({id, onCancel, onDone}) => {
   //   const [items, setItems] = useState([]);
-  const {form, submit, loading} = useHandelForm({
+  const {form, submit, loading} = useHandleForm({
     create: createProduct,
     edit: editProduct,
     retrieve: retrieveProduct,
@@ -23,7 +23,7 @@ export const ProductForm = ({id, onCancel, onDone}) => {
   });
 
   const others = {selectOptions: categoryOptions};
-
+  console.log(others);
   return (
     <Spin spinning={loading}>
       <Divider orientation="left">Product Details</Divider>
@@ -34,36 +34,42 @@ export const ProductForm = ({id, onCancel, onDone}) => {
         // onFieldsChange={()=>{setItems(form.getFieldsValue(['packages']).packages);}}
         hideRequiredMark
         autoComplete="off">
-        <Row>
-          <Col span={8}>
-            {productFormFields.slice(0, 5).map((item, idx) => (
-              <div key={idx} className="p-2">
-                {formItem(item.key, item.rules, item.kwargs, item.type, item.others, item.label)}
-              </div>
-            ))}
-          </Col>
-          <Col span={8}>
-            {productFormFields.slice(5, 10).map((item, idx) => (
+        <Row style={{justifyContent: 'left'}}>
+          {productFormFields.slice(0, 3).map((item, idx) => (
+            <Col span={8}>
               <div key={idx} className="p-2">
                 {formItem(item.key, item.rules, item.kwargs, item.type, item.label)}
               </div>
-            ))}
-          </Col>
-          <Col span={8}>
-            {productFormFields.slice(10, 14).map((item, idx) => (
+            </Col>
+          ))}
+        </Row>
+        <Row style={{justifyContent: 'left'}}>
+          {productFormFields.slice(3, 6).map((item, idx) => (
+            <Col span={8}>
               <div key={idx} className="p-2">
-                {formItem(
-                  item.key,
-                  item.rules,
-                  item.kwargs,
-                  item.type,
-                  //   item.others,
-                  others,
-                  item.label,
-                )}
+                {formItem(item.key, item.rules, item.kwargs, item.type, others, item.label)}
               </div>
-            ))}
-          </Col>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{justifyContent: 'space-between'}}>
+          {productFormFields.slice(6, 11).map((item, idx) => (
+            <Col span={4}>
+              <div key={idx} className="p-2">
+                {formItem(item.key, item.rules, item.kwargs, item.type, item.label)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{justifyContent: 'space-between'}}>
+          {productFormFields.slice(11, 14).map((item, idx) => (
+            <Col span={4}>
+              <div key={idx} className="p-2">
+                {formItem(item.key, item.rules, item.kwargs, item.type, item.label)}
+              </div>
+            </Col>
+          ))}
+          <Col span={4}></Col> <Col span={4}></Col>
         </Row>
         {/* <Divider orientation="left">Items Details</Divider> */}
 

@@ -24,7 +24,12 @@ const ProductEmployeeScreen = () => {
       render: (row) => (
         <div className="row align-center justify-between">
           <Button
-            style={{backgroundColor: 'white', border: 'none', padding: '1px'}}
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
             onClick={() => setEditingId(row.id)}>
             <Edit />
           </Button>
@@ -37,7 +42,13 @@ const ProductEmployeeScreen = () => {
               success: 'Deleted product successfully',
               failure: 'Error in deleting product',
             })}>
-            <Button style={{backgroundColor: 'white', border: 'none', padding: '1px'}}>
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                boxShadow: 'none',
+                border: 'none',
+                padding: '1px',
+              }}>
               <Delete />
             </Button>
           </Popconfirm>
