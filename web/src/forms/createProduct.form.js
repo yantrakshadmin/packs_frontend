@@ -38,7 +38,7 @@ export const ProductForm = ({id, onCancel, onDone}) => {
           {productFormFields.slice(0, 3).map((item, idx) => (
             <Col span={8}>
               <div key={idx} className="p-2">
-                {formItem(item.key, item.rules, item.kwargs, item.type, item.label)}
+                {formItem(item)}
               </div>
             </Col>
           ))}
@@ -47,30 +47,31 @@ export const ProductForm = ({id, onCancel, onDone}) => {
           {productFormFields.slice(3, 6).map((item, idx) => (
             <Col span={8}>
               <div key={idx} className="p-2">
-                {formItem(item.key, item.rules, item.kwargs, item.type, others, item.label)}
+                {formItem({...item, others})}
               </div>
             </Col>
           ))}
         </Row>
         <Row style={{justifyContent: 'space-between'}}>
-          {productFormFields.slice(6, 11).map((item, idx) => (
-            <Col span={4}>
+          {productFormFields.slice(6, 10).map((item, idx) => (
+            <Col span={6}>
               <div key={idx} className="p-2">
-                {formItem(item.key, item.rules, item.kwargs, item.type, item.label)}
+                {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
         <Row style={{justifyContent: 'space-between'}}>
-          {productFormFields.slice(11, 14).map((item, idx) => (
-            <Col span={4}>
+          {productFormFields.slice(10, 13).map((item, idx) => (
+            <Col span={6}>
               <div key={idx} className="p-2">
-                {formItem(item.key, item.rules, item.kwargs, item.type, item.label)}
+                {formItem(item)}
               </div>
             </Col>
           ))}
-          <Col span={4}></Col> <Col span={4}></Col>
+          <Col span={6}></Col>
         </Row>
+        <Row justify="center">{formItem(productFormFields[13])}</Row>
         {/* <Divider orientation="left">Items Details</Divider> */}
 
         {/* <Form.List name="packages">
