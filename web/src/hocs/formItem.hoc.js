@@ -22,7 +22,7 @@ export const formItem = (key, rules, kwargs, type, others, customLabel, noLabel)
           name={key}
           rules={rules}
           {...formOptions}>
-          <Input {...kwargs} size="small" />
+          <Input {...kwargs} size="middle" />
         </Form.Item>
       );
 
@@ -46,7 +46,7 @@ export const formItem = (key, rules, kwargs, type, others, customLabel, noLabel)
           name={key}
           rules={rules}
           {...formOptions}>
-          <Upload.Dragger {...kwargs}>
+          <Upload.Dragger {...kwargs} style={{maxHeight: '70px'}}>
             <p className="ant-upload-drag-icon">
               <Icon type="inbox" />
             </p>

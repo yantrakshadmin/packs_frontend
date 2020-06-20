@@ -21,6 +21,44 @@ export const productFormFields = [
     others: null,
     label: 'Short Code',
   },
+  {
+    key: 'description',
+    rules: [{required: true, message: 'Please enter description!'}],
+    type: FORM_ELEMENT_TYPES.INPUT,
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    label: 'Description',
+  },
+  {
+    key: 'category',
+    rules: [{required: true, message: 'Please select category!'}],
+    type: FORM_ELEMENT_TYPES.SELECT,
+    kwargs: {
+      placeholder: 'Select',
+    },
+    label: 'Category',
+  },
+  {
+    key: 'priceperunit',
+    rules: [{required: true, message: 'Please enter price per unit!'}],
+    type: FORM_ELEMENT_TYPES.INPUT,
+    kwargs: {
+      placeholder: 'Enter',
+      type: 'number',
+    },
+    label: 'Price Per Unit',
+  },
+  {
+    key: 'hsn_code',
+    rules: [{required: true, message: 'Please enter hsn_code!'}],
+    type: FORM_ELEMENT_TYPES.INPUT,
+    kwargs: {
+      placeholder: 'Enter',
+      type: 'number',
+    },
+    label: 'HSN Code',
+  },
 
   {
     key: 'height',
@@ -39,24 +77,6 @@ export const productFormFields = [
       placeholder: 'Enter',
     },
     label: 'Width',
-  },
-  {
-    key: 'cavity_width',
-    rules: [{required: true, message: 'Please enter cavity width!'}],
-    type: FORM_ELEMENT_TYPES.INPUT_NUMBER,
-    kwargs: {
-      placeholder: 'Enter',
-    },
-    label: 'Cavity Width',
-  },
-  {
-    key: 'description',
-    rules: [{required: true, message: 'Please enter description!'}],
-    type: FORM_ELEMENT_TYPES.INPUT,
-    kwargs: {
-      placeholder: 'Enter',
-    },
-    label: 'Description',
   },
   {
     key: 'length',
@@ -86,34 +106,6 @@ export const productFormFields = [
     label: 'Volumetric Weight',
   },
   {
-    key: 'document',
-    rules: [{required: false, message: 'Please attach document!'}],
-    type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
-    kwargs: {
-      placeholder: 'Attach',
-    },
-    label: 'Document',
-  },
-  {
-    key: 'category',
-    rules: [{required: true, message: 'Please select category!'}],
-    type: FORM_ELEMENT_TYPES.SELECT,
-    kwargs: {
-      placeholder: 'Enter',
-    },
-    label: 'Category',
-  },
-  {
-    key: 'priceperunit',
-    rules: [{required: true, message: 'Please enter price per unit!'}],
-    type: FORM_ELEMENT_TYPES.INPUT_NUMBER,
-    kwargs: {
-      placeholder: 'Enter',
-    },
-    label: 'Price Per Unit',
-  },
-
-  {
     key: 'cavity_length',
     rules: [{required: true, message: 'Please enter cavity length!'}],
     type: FORM_ELEMENT_TYPES.INPUT_NUMBER,
@@ -122,14 +114,22 @@ export const productFormFields = [
     },
     label: 'Cavity Length',
   },
-
   {
-    key: 'hsn_code',
-    rules: [{required: true, message: 'Please enter hsn_code!'}],
+    key: 'cavity_width',
+    rules: [{required: true, message: 'Please enter cavity width!'}],
     type: FORM_ELEMENT_TYPES.INPUT_NUMBER,
     kwargs: {
       placeholder: 'Enter',
     },
-    label: 'HSN Code',
+    label: 'Cavity Width',
+  },
+  {
+    key: 'document',
+    rules: [{required: false, message: 'Please attach document!'}],
+    type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
+    kwargs: {
+      placeholder: 'Attach',
+    },
+    label: 'Document',
   },
 ];
