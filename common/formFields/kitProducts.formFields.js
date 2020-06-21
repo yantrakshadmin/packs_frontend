@@ -3,14 +3,14 @@ import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
 export const kitProductsFormFields = [
   {
     key: 'product',
-    rules: [{required: true, message: 'Please enter product id!'}],
+    rules: [{required: true, message: 'Please select product!'}],
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
     },
-    type: FORM_ELEMENT_TYPES.INPUT,
+    type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
-    customLabel: 'Product ID',
+    customLabel: 'Product',
   },
   {
     key: 'quantity',

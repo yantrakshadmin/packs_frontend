@@ -36,6 +36,12 @@ export const createClient = ({username, email, password, first_name, last_name})
     secure: false,
   });
 
+export const retrieveClients = () =>
+  loadAPI('/clients/', {
+    method: 'GET',
+    secure: true,
+  });
+
 export const createProduct = ({
   name,
   short_code,
@@ -135,7 +141,7 @@ export const createKit = ({kit_name, kit_info, components_per_kit, kit_client, p
   });
 
 export const editKit = (id, {kit_name, kit_info, components_per_kit, kit_client, products}) =>
-  loadAPI(`/edit-kit/${id}`, {
+  loadAPI(`/edit-kit/${id}/`, {
     method: 'PATCH',
     secure: true,
     data: {kit_name, kit_info, components_per_kit, kit_client, products},
@@ -148,7 +154,7 @@ export const retrieveKits = () =>
   });
 
 export const retrieveKit = (id) =>
-  loadAPI(`/edit-kit/${id}`, {
+  loadAPI(`/edit-kit/${id}/`, {
     method: 'GET',
     secure: true,
   });

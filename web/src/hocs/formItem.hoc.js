@@ -7,6 +7,7 @@ const {Option} = Select;
 const CheckboxGroup = Checkbox.Group;
 
 export const formItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
+  console.log(others);
   let formOptions = {};
   if (others) {
     if (others.formOptions) {
