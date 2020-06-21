@@ -39,7 +39,7 @@ export const kitFormFields = [
       placeholder: 'Enter',
       type: 'number',
     },
-    type: FORM_ELEMENT_TYPES.INPUT,
+    type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
     customLabel: 'Kit Client',
   },

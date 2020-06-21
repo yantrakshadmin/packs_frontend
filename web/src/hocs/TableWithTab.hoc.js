@@ -31,13 +31,12 @@ export const TableWithTabHOC = ({
   };
 
   const onCancel = () => {
-    setModalVisible(false);
     cancelEditing();
   };
 
   const onDone = () => {
     refresh();
-    onCancel();
+    cancelEditing();
   };
 
   const getIndex = () => {
