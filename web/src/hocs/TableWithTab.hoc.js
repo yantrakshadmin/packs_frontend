@@ -31,12 +31,13 @@ export const TableWithTabHOC = ({
   };
 
   const onCancel = () => {
+    setModalVisible(false);
     cancelEditing();
   };
 
   const onDone = () => {
     refresh();
-    cancelEditing();
+    onCancel();
   };
 
   const getIndex = () => {
@@ -57,7 +58,7 @@ export const TableWithTabHOC = ({
           visible={modalVisible || !!editingId}
           destroyOnClose
           style={{minWidth: `${modalWidth}vw`}}
-          title={`Add ${title}`}
+          title={`Add ${title.slice(0, -1)}`}
           onCancel={onCancel}
           footer={null}>
           <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} />

@@ -42,7 +42,15 @@ const ScreenWrapper = ({routes, navigate, children, user}) => {
         className="header row align-center justify-between"
         style={{backgroundColor: '#fff', paddingLeft: 20, paddingRight: 20}}>
         <div className="bg-white m-0 row align-center">
-          <img style={{width: 120, height: 30, marginRight: 10}} alt="Yantraksh" src={logo} />
+          <img
+            style={{
+              height: '33px',
+              width: '135px',
+              position: 'absolute',
+            }}
+            alt="Yantraksh"
+            src={logo}
+          />
         </div>
 
         {/* eslint-disable-next-line max-len */}
