@@ -66,7 +66,7 @@ export const KitForm = ({id, onCancel, onDone}) => {
             </div>
           </Col>
         </Row>
-        <Divider orientation="left">Kit Details</Divider>
+        <Divider orientation="left">Product Details</Divider>
 
         <Form.List name="products">
           {(fields, {add, remove}) => {
@@ -75,7 +75,7 @@ export const KitForm = ({id, onCancel, onDone}) => {
                 {fields.map((field) => (
                   <Row align="middle">
                     {kitProductsFormFields.slice(0, 1).map((item) => (
-                      <Col span={8}>
+                      <Col span={10}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -95,7 +95,7 @@ export const KitForm = ({id, onCancel, onDone}) => {
                       </Col>
                     ))}
                     {kitProductsFormFields.slice(1, 2).map((item) => (
-                      <Col span={8}>
+                      <Col span={10}>
                         <div className="p-2">
                           {formItem({
                             ...item,
