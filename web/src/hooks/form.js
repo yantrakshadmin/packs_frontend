@@ -19,11 +19,15 @@ export const useHandleForm = ({create, edit, retrieve, id, success, failure, don
       else api = () => create(data);
 
       const {error} = await api();
-      if (error) throw Error(error);
+      if (error) {
+        console.log(error);
+        throw Error(error.code);
+      }
 
       notification.success({message: successMessage});
       done();
     } catch (e) {
+      // console.log(e);
       notification.error({message: failureMessage, description: e.toString()});
       close();
     }
@@ -48,7 +52,7 @@ export const useHandleForm = ({create, edit, retrieve, id, success, failure, don
   };
 
   useEffect(() => {
-    loader().then();
+    loader();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 

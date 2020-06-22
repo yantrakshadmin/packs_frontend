@@ -1,17 +1,16 @@
 import React from 'react';
 import {Form, Col, Row, Button, Divider, Spin} from 'antd';
 import formItem from '../hocs/formItem.hoc';
-import {productFormFields} from 'common/formFields/product.formFields';
-import {categoryOptions} from 'common/formFields/categoryOptions';
-
+import {wareHouseFormFields} from 'common/formFields/warehouse.formFields.js';
+import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {createProduct, retrieveProduct, editProduct} from 'common/api/auth';
+import {createWarehouse, editWarehouse, retrieveWarehouse} from 'common/api/auth';
 
-export const ProductForm = ({id, onCancel, onDone}) => {
+export const WareHouseForm = ({id, onCancel, onDone}) => {
   const {form, submit, loading} = useHandleForm({
-    create: createProduct,
-    edit: editProduct,
-    retrieve: retrieveProduct,
+    create: createWarehouse,
+    edit: editWarehouse,
+    retrieve: retrieveWarehouse,
     success: 'Product created/edited successfully.',
     failure: 'Error in creating/editing product.',
     done: onDone,
@@ -19,14 +18,12 @@ export const ProductForm = ({id, onCancel, onDone}) => {
     id,
   });
 
-  const others = {selectOptions: categoryOptions};
-  console.log(others);
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Product Details</Divider>
+      <Divider orientation="left">Warehouse Details</Divider>
       <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
         <Row style={{justifyContent: 'left'}}>
-          {productFormFields.slice(0, 3).map((item, idx) => (
+          {wareHouseFormFields.slice(0, 3).map((item, idx) => (
             <Col span={8}>
               <div key={idx} className="p-2">
                 {formItem(item)}
@@ -35,34 +32,24 @@ export const ProductForm = ({id, onCancel, onDone}) => {
           ))}
         </Row>
         <Row style={{justifyContent: 'left'}}>
-          {productFormFields.slice(3, 6).map((item, idx) => (
+          {wareHouseFormFields.slice(3, 6).map((item, idx) => (
             <Col span={8}>
               <div key={idx} className="p-2">
-                {formItem({...item, others})}
+                {formItem({...item})}
               </div>
             </Col>
           ))}
         </Row>
         <Row style={{justifyContent: 'space-between'}}>
-          {productFormFields.slice(6, 10).map((item, idx) => (
-            <Col span={6}>
+          {wareHouseFormFields.slice(6, 9).map((item, idx) => (
+            <Col span={8}>
               <div key={idx} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
-        <Row style={{justifyContent: 'space-between'}}>
-          {productFormFields.slice(10, 13).map((item, idx) => (
-            <Col span={6}>
-              <div key={idx} className="p-2">
-                {formItem(item)}
-              </div>
-            </Col>
-          ))}
-          <Col span={6}></Col>
-        </Row>
-        <Row justify="center">{formItem(productFormFields[13])}</Row>
+        <Row align="center">{formItem(wareHouseFormFields[9])}</Row>
 
         <Row>
           <Button type="primary" htmlType="submit">

@@ -1,27 +1,29 @@
 import React, {useState} from 'react';
-import {ProductForm} from '../../forms/createProduct.form';
+import {WareHouseForm} from '../../forms/warehouse.form';
 import {TableWithTabHOC} from '../../hocs/TableWithTab.hoc';
 import {useAPI} from 'common/hooks/api';
-import productColumns from 'common/columns/Products.column';
+import warehouseColumns from 'common/columns/Warehouse.column';
 import {Popconfirm, Button} from 'antd';
-import {deleteProduct} from 'common/api/auth';
+import {deleteWarehouse} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 
-const ProductEmployeeScreen = () => {
-  const {data, loading, reload} = useAPI('/products/', {});
+const WarehouseEmployeeScreen = () => {
+  const {data, loading, reload} = useAPI('/warehouse/', {});
   const [editingId, setEditingId] = useState(null);
 
   console.log(data);
 
   const columns = [
-    ...productColumns,
+    ...warehouseColumns,
     {
       title: 'Action',
       key: 'operation',
+      fixed: 'right',
+      width: '200',
       render: (row) => (
-        <div className="row align-center justify-between">
+        <div className="row align-center justify-evenly">
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -37,7 +39,7 @@ const ProductEmployeeScreen = () => {
             onConfirm={deleteHOC({
               row,
               reload,
-              api: deleteProduct,
+              api: deleteWarehouse,
               success: 'Deleted product successfully',
               failure: 'Error in deleting product',
             })}>
@@ -58,8 +60,8 @@ const ProductEmployeeScreen = () => {
 
   const tabs = [
     {
-      name: 'All Products',
-      key: 'allProducts',
+      name: 'All Warehouses',
+      key: 'allWarehouses',
       data,
       columns,
       loading,
@@ -73,15 +75,15 @@ const ProductEmployeeScreen = () => {
       rowKey={(record) => record.id}
       refresh={reload}
       tabs={tabs}
-      size="small"
-      title="Products"
+      size="middle"
+      title="Warehouses"
       editingId={editingId}
       cancelEditing={cancelEditing}
-      modalBody={ProductForm}
+      modalBody={WareHouseForm}
       modalWidth={45}
       expandParams={{loading}}
     />
   );
 };
 
-export default ProductEmployeeScreen;
+export default WarehouseEmployeeScreen;

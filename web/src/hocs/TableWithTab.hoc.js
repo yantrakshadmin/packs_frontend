@@ -12,6 +12,7 @@ export const TableWithTabHOC = ({
   rowSelection,
   modalWidth,
   rowKey,
+  scroll,
   size,
   reset,
   editingId,
@@ -114,6 +115,7 @@ export const TableWithTabHOC = ({
                     bordered
                     rowKey={rowKey}
                     size={size}
+                    scroll={scroll}
                     rowSelection={
                       customRowSelectionType
                         ? {...rowSelection, type: customRowSelectionType[tab.key]}
