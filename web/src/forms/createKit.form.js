@@ -1,6 +1,6 @@
-import React from 'react';
-import {Form, Col, Row, Button, Divider, Spin, Typography} from 'antd';
-import {formItem} from '../hocs/formItem.hoc';
+import React, {useEffect} from 'react';
+import {Form, Col, Row, Button, Divider, Spin, Typography, Select} from 'antd';
+import formItem from '../hocs/formItem.hoc';
 import {kitFormFields} from 'common/formFields/kit.formFields';
 import {kitProductsFormFields} from 'common/formFields/kitProducts.formFields';
 import {useAPI} from 'common/hooks/api';
@@ -11,6 +11,7 @@ import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 export const KitForm = ({id, onCancel, onDone}) => {
   const {data: clients} = useAPI('/clients/', {});
   const {data: products} = useAPI('/products/', {});
+
   const {form, submit, loading} = useHandleForm({
     create: createKit,
     edit: editKit,
@@ -79,6 +80,11 @@ export const KitForm = ({id, onCancel, onDone}) => {
                         <div className="p-2">
                           {formItem({
                             ...item,
+                            kwargs: {
+                              placeholder: 'Enter',
+                              type: 'number',
+                              // showSearch: true,
+                            },
                             others: {
                               selectOptions: products || [],
                               key: 'id',

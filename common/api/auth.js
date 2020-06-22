@@ -164,3 +164,160 @@ export const deleteKit = (id) =>
     method: 'DELETE',
     secure: true,
   });
+
+export const createVendor = ({
+  name,
+  street,
+  city,
+  pincode,
+  state,
+  contact_person_name,
+  contact_person_no,
+  email,
+  type,
+  payment_terms,
+  pan,
+  gst,
+  code,
+  remarks,
+  beneficiary_name,
+  account_no,
+  bank_name,
+  ifsc,
+}) =>
+  loadAPI('/create-vendor/', {
+    method: 'POST',
+    data: {
+      name,
+      street,
+      city,
+      pincode,
+      state,
+      contact_person_name,
+      contact_person_no,
+      email,
+      type,
+      payment_terms,
+      pan,
+      gst,
+      code,
+      remarks,
+      beneficiary_name,
+      account_no,
+      bank_name,
+      ifsc,
+    },
+    secure: true,
+  });
+
+export const editVendor = (
+  id,
+  {
+    name,
+    street,
+    city,
+    pincode,
+    state,
+    contact_person_name,
+    contact_person_no,
+    email,
+    type,
+    payment_terms,
+    pan,
+    gst,
+    code,
+    remarks,
+    beneficiary_name,
+    account_no,
+    bank_name,
+    ifsc,
+  },
+) =>
+  loadAPI(`/edit-vendor/${id}/`, {
+    method: 'PATCH',
+    data: {
+      name,
+      street,
+      city,
+      pincode,
+      state,
+      contact_person_name,
+      contact_person_no,
+      email,
+      type,
+      payment_terms,
+      pan,
+      gst,
+      code,
+      remarks,
+      beneficiary_name,
+      account_no,
+      bank_name,
+      ifsc,
+    },
+    secure: true,
+  });
+
+export const deleteVendor = (id) =>
+  loadAPI(`/edit-vendor/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const retrieveVendor = (id) =>
+  loadAPI(`/edit-vendor/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const retrieveVendors = () =>
+  loadAPI(`/vendors/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const createWarehouse = ({
+  name,
+  email,
+  contact,
+  address,
+  city,
+  pincode,
+  state,
+  pan,
+  gst,
+  document,
+}) =>
+  loadAPI('/create-warehouse/', {
+    method: 'POST',
+    data: {name, email, contact, address, city, pincode, state, pan, gst, document},
+    secure: true,
+  });
+
+export const editWarehouse = (
+  id,
+  {name, email, contact, address, city, pincode, state, pan, gst, document},
+) =>
+  loadAPI(`/edit-warehouse/${id}/`, {
+    method: 'PATCH',
+    data: {name, email, contact, address, city, pincode, state, pan, gst, document},
+    secure: true,
+  });
+
+export const deleteWarehouse = (id) =>
+  loadAPI(`/edit-warehouse/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const retrieveWarehouse = (id) =>
+  loadAPI(`/edit-warehouse/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const retrieveWarehouses = () =>
+  loadAPI('/warehouse/', {
+    method: 'GET',
+    secure: true,
+  });

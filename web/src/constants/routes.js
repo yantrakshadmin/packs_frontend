@@ -66,11 +66,16 @@ export const employeeRoutes = [
         path: '/master/kits/',
         Component: lazy(() => import('screens/employee/Kit.employee.screen')),
       },
-      // {
-      //   name: 'Address',
-      //   path: '/master/address/',
-      //   Component: lazy(() => import('screens/404.screen')),
-      // },
+      {
+        name: 'Vendors',
+        path: '/master/vendors/',
+        Component: lazy(() => import('screens/employee/Vendors.screen')),
+      },
+      {
+        name: 'Warehouses',
+        path: '/master/warehouses/',
+        Component: lazy(() => import('screens/employee/Warehouse.screen')),
+      },
     ],
   },
   {

@@ -1,13 +1,34 @@
 import React from 'react';
-import {Form, Input, Upload, Select, Radio, DatePicker, Checkbox, InputNumber} from 'antd';
+import {Form, Input, Upload, Select, Radio, DatePicker, Checkbox, InputNumber, message} from 'antd';
+import SelectOptions from '../forms/selectOptions';
 import {Icon} from '@ant-design/compatible';
 import {FORM_ELEMENT_TYPES} from 'constants/formFields.constant';
 
 const {Option} = Select;
 const CheckboxGroup = Checkbox.Group;
 
-export const formItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
-  console.log(others);
+const props = {
+  name: 'file',
+  multiple: true,
+  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+  onChange(info) {
+    const {status} = info.file;
+    if (status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully.`);
+    } else if (status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  },
+};
+
+const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
+  let selectOptions = [];
+  if (others) if (others.selectOptions) selectOptions = others.selectOptions;
+
+  if (type === FORM_ELEMENT_TYPES.SELECT) console.log(others.selectOptions);
   let formOptions = {};
   if (others) {
     if (others.formOptions) {
@@ -47,7 +68,7 @@ export const formItem = ({key, rules, kwargs, type, others, customLabel, noLabel
           name={key}
           rules={rules}
           {...formOptions}>
-          <Upload.Dragger {...kwargs} style={{maxHeight: '70px'}}>
+          <Upload.Dragger {...kwargs} {...props} style={{maxHeight: '70px'}}>
             <p className="ant-upload-drag-icon">
               <Icon type="inbox" />
             </p>
@@ -69,26 +90,32 @@ export const formItem = ({key, rules, kwargs, type, others, customLabel, noLabel
           name={key}
           rules={rules}
           {...formOptions}>
-          <Select {...kwargs}>
-            {others.selectOptions.map((item, index) => (
-              <Option
-                key={index.toString()}
-                value={others.valueIndex ? index : item.value || item[others.key] || item}>
-                {others.customTitle ? (
-                  <text style={{fontSize: 13, fontWeight: 'bold'}}>{item[others.customTitle]}</text>
-                ) : (
-                  item.label || item[others.key] || item
-                )}
-                {others.dataKeys ? (
-                  <div className="row" style={{flexWrap: 'wrap'}}>
-                    {others.dataKeys.map((i) => (
-                      <text style={{fontSize: 11, marginLeft: 5, marginRight: 5}}>{item[i]}</text>
-                    ))}
-                  </div>
-                ) : null}
-              </Option>
-            ))}
-          </Select>
+          {!kwargs.showSearch ? (
+            <Select {...kwargs}>
+              {others.selectOptions.map((item, index) => (
+                <Option
+                  key={index.toString()}
+                  value={others.valueIndex ? index : item.value || item[others.key] || item}>
+                  {others.customTitle ? (
+                    <text style={{fontSize: 13, fontWeight: 'bold'}}>
+                      {item[others.customTitle]}
+                    </text>
+                  ) : (
+                    item.label || item[others.key] || item
+                  )}
+                  {others.dataKeys ? (
+                    <div className="row" style={{flexWrap: 'wrap'}}>
+                      {others.dataKeys.map((i) => (
+                        <text style={{fontSize: 11, marginLeft: 5, marginRight: 5}}>{item[i]}</text>
+                      ))}
+                    </div>
+                  ) : null}
+                </Option>
+              ))}
+            </Select>
+          ) : (
+            <SelectOptions others={others} />
+          )}
         </Form.Item>
       );
 
@@ -140,3 +167,5 @@ export const formItem = ({key, rules, kwargs, type, others, customLabel, noLabel
       return null;
   }
 };
+
+export default FormItem;

@@ -4,10 +4,6 @@ export const kitProductsFormFields = [
   {
     key: 'product',
     rules: [{required: true, message: 'Please select product!'}],
-    kwargs: {
-      placeholder: 'Enter',
-      type: 'number',
-    },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
     customLabel: 'Product',

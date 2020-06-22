@@ -4,6 +4,7 @@ import {persistStore, persistReducer} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import {auth} from './auth';
+import {fetchData} from './data';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -14,6 +15,7 @@ const persistConfig = {
 
 const reducers = combineReducers({
   user: auth,
+  data: fetchData,
 });
 
 const newReducer = persistReducer(persistConfig, reducers);

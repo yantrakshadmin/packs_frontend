@@ -1,27 +1,29 @@
 import React, {useState} from 'react';
-import {ProductForm} from '../../forms/createProduct.form';
+import {VendorForm} from '../../forms/vendor.form';
 import {TableWithTabHOC} from '../../hocs/TableWithTab.hoc';
 import {useAPI} from 'common/hooks/api';
-import productColumns from 'common/columns/Products.column';
+import vendorColumns from 'common/columns/Vendors.column';
 import {Popconfirm, Button} from 'antd';
-import {deleteProduct} from 'common/api/auth';
+import {deleteVendor} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 
-const ProductEmployeeScreen = () => {
-  const {data, loading, reload} = useAPI('/products/', {});
+const VendorEmployeeScreen = () => {
+  const {data, loading, reload} = useAPI('/vendors/', {});
   const [editingId, setEditingId] = useState(null);
 
   console.log(data);
 
   const columns = [
-    ...productColumns,
+    ...vendorColumns,
     {
       title: 'Action',
       key: 'operation',
+      fixed: 'right',
+      width: '200',
       render: (row) => (
-        <div className="row align-center justify-between">
+        <div className="row align-center justify-evenly">
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -37,7 +39,7 @@ const ProductEmployeeScreen = () => {
             onConfirm={deleteHOC({
               row,
               reload,
-              api: deleteProduct,
+              api: deleteVendor,
               success: 'Deleted product successfully',
               failure: 'Error in deleting product',
             })}>
@@ -58,8 +60,8 @@ const ProductEmployeeScreen = () => {
 
   const tabs = [
     {
-      name: 'All Products',
-      key: 'allProducts',
+      name: 'All Vendors',
+      key: 'allVendors',
       data,
       columns,
       loading,
@@ -73,15 +75,16 @@ const ProductEmployeeScreen = () => {
       rowKey={(record) => record.id}
       refresh={reload}
       tabs={tabs}
-      size="small"
-      title="Products"
+      size="middle"
+      title="Vendors"
       editingId={editingId}
       cancelEditing={cancelEditing}
-      modalBody={ProductForm}
+      modalBody={VendorForm}
       modalWidth={45}
+      scroll={{x: 2000}}
       expandParams={{loading}}
     />
   );
 };
 
-export default ProductEmployeeScreen;
+export default VendorEmployeeScreen;
