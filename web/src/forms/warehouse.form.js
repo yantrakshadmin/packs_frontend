@@ -18,10 +18,29 @@ export const WareHouseForm = ({id, onCancel, onDone}) => {
     id,
   });
 
+  const handleFieldsChange = (data = null) => {
+    console.log(data);
+
+    if (data)
+      if (data[0])
+        if (data[0].name)
+          if (data[0].name[0])
+            if (data[0].name[0] === 'gst' || data[0].name[0] === 'pan') {
+              let val = data[0].value.toUpperCase();
+              form.setFieldsValue({[data[0].name[0]]: val});
+            }
+  };
+
   return (
     <Spin spinning={loading}>
       <Divider orientation="left">Warehouse Details</Divider>
-      <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
+      <Form
+        onFinish={submit}
+        form={form}
+        layout="vertical"
+        hideRequiredMark
+        autoComplete="off"
+        onFieldsChange={handleFieldsChange}>
         <Row style={{justifyContent: 'left'}}>
           {wareHouseFormFields.slice(0, 3).map((item, idx) => (
             <Col span={8}>

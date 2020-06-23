@@ -1,10 +1,11 @@
 import React from 'react';
-import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import {Form, Col, Row, Button, Divider, Spin, Input} from 'antd';
 import formItem from '../hocs/formItem.hoc';
 import {vendorFormFields} from 'common/formFields/vendor.formFields';
 // import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
 import {createVendor, editVendor, retrieveVendor} from 'common/api/auth';
+import {useState} from 'react';
 
 export const VendorForm = ({id, onCancel, onDone}) => {
   const {form, submit, loading} = useHandleForm({
@@ -18,10 +19,29 @@ export const VendorForm = ({id, onCancel, onDone}) => {
     id,
   });
 
+  const handleFieldsChange = (data) => {
+    console.log(data);
+
+    if (data)
+      if (data[0])
+        if (data[0].name)
+          if (data[0].name[0])
+            if (data[0].name[0] === 'gst' || data[0].name[0] === 'pan') {
+              let val = data[0].value.toUpperCase();
+              form.setFieldsValue({[data[0].name[0]]: val});
+            }
+  };
+
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Product Details</Divider>
-      <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
+      <Divider orientation="left">Vendor Details</Divider>
+      <Form
+        onFinish={submit}
+        form={form}
+        layout="vertical"
+        hideRequiredMark
+        autoComplete="off"
+        onFieldsChange={handleFieldsChange}>
         <Row>
           {' '}
           <Col span={24}>{formItem(vendorFormFields[0])}</Col>
@@ -70,7 +90,11 @@ export const VendorForm = ({id, onCancel, onDone}) => {
               </div>
             </Col>
           ))}
-          <Col span={6}></Col>
+          <Col span={6}>
+            {/* <Form.Item key="upper" label="Upper" name="upper">
+              <Input size="middle" value={value.toUpperCase()} onChange={handleChange} />
+            </Form.Item> */}
+          </Col>
         </Row>
 
         <Row>

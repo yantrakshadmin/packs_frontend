@@ -74,7 +74,7 @@ export const employeeRoutes = [
       {
         name: 'Warehouses',
         path: '/master/warehouses/',
-        Component: lazy(() => import('screens/employee/Warehouse.screen')),
+        Component: lazy(() => import('screens/employee/Warehouse.employee.screen')),
       },
     ],
   },

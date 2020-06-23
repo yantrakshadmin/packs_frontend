@@ -56,6 +56,7 @@ export const createProduct = ({
   cavity_length,
   cavity_width,
   hsn_code,
+  document,
 }) =>
   loadAPI('/create-product/', {
     method: 'POST',
@@ -290,7 +291,7 @@ export const createWarehouse = ({
 }) =>
   loadAPI('/create-warehouse/', {
     method: 'POST',
-    data: {name, email, contact, address, city, pincode, state, pan, gst, document},
+    data: {name, email, contact, address, city, pincode, state, pan, gst},
     secure: true,
   });
 
@@ -300,7 +301,7 @@ export const editWarehouse = (
 ) =>
   loadAPI(`/edit-warehouse/${id}/`, {
     method: 'PATCH',
-    data: {name, email, contact, address, city, pincode, state, pan, gst, document},
+    data: {name, email, contact, address, city, pincode, state, pan, gst},
     secure: true,
   });
 

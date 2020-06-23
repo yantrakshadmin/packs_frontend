@@ -83,7 +83,7 @@ export const KitForm = ({id, onCancel, onDone}) => {
                             kwargs: {
                               placeholder: 'Enter',
                               type: 'number',
-                              // showSearch: true,
+                              showSearch: true,
                             },
                             others: {
                               selectOptions: products || [],

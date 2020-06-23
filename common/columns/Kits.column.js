@@ -1,8 +1,8 @@
 export default [
   {
-    title: 'ID',
-    key: 'id',
-    dataIndex: 'id',
+    title: 'Sr. No.',
+    key: 'no.',
+    render: (record, text, index) => index + 1,
   },
   {
     title: 'Kit Name',

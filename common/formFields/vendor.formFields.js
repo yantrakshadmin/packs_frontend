@@ -119,7 +119,7 @@ export const vendorFormFields = [
       placeholder: 'Enter',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
+    others: {uppercase: true},
     customLabel: 'PAN',
   },
   {
@@ -129,7 +129,7 @@ export const vendorFormFields = [
       placeholder: 'Enter',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
+    others: {uppercase: true},
     customLabel: 'GST',
   },
   {

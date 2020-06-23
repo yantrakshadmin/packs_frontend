@@ -8,6 +8,8 @@ import {deleteProduct} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
+import File from '../../icons/File';
+import Upload from '../../icons/Upload';
 
 const ProductEmployeeScreen = () => {
   const {data, loading, reload} = useAPI('/products/', {});
@@ -32,6 +34,21 @@ const ProductEmployeeScreen = () => {
             onClick={() => setEditingId(row.id)}>
             <Edit />
           </Button>
+          {/* {row.document ? (
+            <File />
+          ) : (
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                boxShadow: 'none',
+                padding: '1px',
+              }}
+              // onClick={() => setEditingId(row.id)}>
+            >
+              <Upload />
+            </Button>
+          )} */}
           <Popconfirm
             title="Confirm Delete"
             onConfirm={deleteHOC({

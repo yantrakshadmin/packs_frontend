@@ -1,13 +1,13 @@
 export default [
   {
+    title: 'Sr. No.',
+    key: 'no.',
+    render: (record, text, index) => index + 1,
+  },
+  {
     title: 'Name',
     key: 'name',
     dataIndex: 'name',
-  },
-  {
-    title: 'ID',
-    key: 'id',
-    dataIndex: 'id',
   },
   {
     title: 'Short Code',

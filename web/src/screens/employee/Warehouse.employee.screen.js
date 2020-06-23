@@ -8,6 +8,8 @@ import {deleteWarehouse} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
+import Upload from '../../icons/Upload';
+import File from '../../icons/File';
 
 const WarehouseEmployeeScreen = () => {
   const {data, loading, reload} = useAPI('/warehouse/', {});
@@ -34,6 +36,21 @@ const WarehouseEmployeeScreen = () => {
             onClick={() => setEditingId(row.id)}>
             <Edit />
           </Button>
+          {/* {row.document ? (
+            <File />
+          ) : (
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                boxShadow: 'none',
+                padding: '1px',
+              }}
+              // onClick={() => setEditingId(row.id)}>
+            >
+              <Upload />
+            </Button>
+          )} */}
           <Popconfirm
             title="Confirm Delete"
             onConfirm={deleteHOC({
