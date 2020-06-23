@@ -322,3 +322,61 @@ export const retrieveWarehouses = () =>
     method: 'GET',
     secure: true,
   });
+
+export const editClientProfile = (
+  id,
+  {
+    client_name,
+    client_shipping_address,
+    client_shipping_city,
+    client_shipping_pincode,
+    client_shipping_state,
+    client_email,
+    client_contact_no,
+    client_contact_person,
+    client_billing_address,
+    client_city,
+    client_pincode,
+    client_state,
+    client_region,
+    client_payment_terms,
+    client_category,
+    client_product_user_types,
+    client_pan,
+    client_code,
+    client_is_gst_registered,
+    client_gst,
+  },
+) =>
+  loadAPI(`/client-profile/${id}/`, {
+    method: 'PATCH',
+    data: {
+      client_name,
+      client_shipping_address,
+      client_shipping_city,
+      client_shipping_pincode,
+      client_shipping_state,
+      client_email,
+      client_contact_no,
+      client_contact_person,
+      client_billing_address,
+      client_city,
+      client_pincode,
+      client_state,
+      client_region,
+      client_payment_terms,
+      client_category,
+      client_product_user_types,
+      client_pan,
+      client_code,
+      client_is_gst_registered,
+      client_gst,
+    },
+    secure: true,
+  });
+
+export const retrieveClientProfile = (id) =>
+  loadAPI(`/client-profile/${id}`, {
+    method: 'GET',
+    secure: true,
+  });

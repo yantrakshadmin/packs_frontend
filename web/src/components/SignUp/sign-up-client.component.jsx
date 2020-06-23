@@ -60,6 +60,7 @@ const SignUp = ({user, signUpClientStartAsync}) => {
               remember: true,
             }}
             onFinish={onFinish}
+            hideRequiredMark
             onFinishFailed={onFinishFailed}>
             <Form.Item
               label="First Name"

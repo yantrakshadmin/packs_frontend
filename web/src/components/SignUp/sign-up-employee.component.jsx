@@ -55,6 +55,7 @@ const SignUp = ({user, signUpEmployeeStartAsync}) => {
             form={form}
             {...layout}
             name="basic"
+            hideRequiredMark
             initialValues={{
               remember: true,
             }}

@@ -15,8 +15,8 @@ export const PrivateRoutes = ({routes, extraRoutes, user}) => {
         })}
         {routes.map((Route) => {
           return Route.subMenu
-            ? Route.subMenu.map((ChildRoute, ind) => (
-                <ChildRoute.Component path={`${ChildRoute.path}`} key={ind.toString()} />
+            ? Route.subMenu.map((ChildRoute, index) => (
+                <ChildRoute.Component path={`${ChildRoute.path}`} key={index.toString()} />
               ))
             : null;
         })}

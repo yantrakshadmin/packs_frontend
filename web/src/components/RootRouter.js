@@ -1,7 +1,12 @@
 import React from 'react';
 import {Router} from '@reach/router';
 import {connect} from 'react-redux';
-import {publicRoutes, employeeRoutes, clientRoutes} from 'web/src/constants/routes';
+import {
+  publicRoutes,
+  employeeRoutes,
+  clientRoutes,
+  extraRoutesClient,
+} from 'web/src/constants/routes';
 
 import {PrivateRoutes} from 'components/PrivateRoutes';
 import {NotFound404Screen} from 'screens/404.screen';
@@ -22,13 +27,10 @@ const RootRouter = ({user}) => {
           </Router>
         );
 
-      // case null:
-      //   return <PrivateRoutes routes={shipperRoutes} extraRoutes={extraRoutesShipper} />;
-
       case 'employee':
         return <PrivateRoutes routes={employeeRoutes} user={user} />;
       case 'client':
-        return <PrivateRoutes routes={clientRoutes} user={user} />;
+        return <PrivateRoutes routes={clientRoutes} extraRoutes={extraRoutesClient} user={user} />;
 
       default:
         return null;
