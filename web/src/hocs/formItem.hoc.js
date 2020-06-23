@@ -3,6 +3,7 @@ import {Form, Input, Upload, Select, Radio, DatePicker, Checkbox, InputNumber, m
 import SelectOptions from '../forms/selectOptions';
 import {Icon} from '@ant-design/compatible';
 import {FORM_ELEMENT_TYPES} from 'constants/formFields.constant';
+import {useState, useEffect} from 'react';
 
 const {Option} = Select;
 const CheckboxGroup = Checkbox.Group;
@@ -25,18 +26,22 @@ const props = {
 };
 
 const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
-  let selectOptions = [];
-  if (others) if (others.selectOptions) selectOptions = others.selectOptions;
+  let uppercase = false;
+  if (others)
+    if (others.uppercase) uppercase = true;
+    else uppercase = false;
 
-  if (type === FORM_ELEMENT_TYPES.SELECT) console.log(others.selectOptions);
   let formOptions = {};
   if (others) {
     if (others.formOptions) {
       formOptions = others.formOptions;
     }
   }
+
   switch (type) {
-    case FORM_ELEMENT_TYPES.INPUT:
+    case FORM_ELEMENT_TYPES.INPUT: {
+      console.log('again');
+
       return (
         <Form.Item
           key={key}
@@ -44,9 +49,10 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
           name={key}
           rules={rules}
           {...formOptions}>
-          <Input {...kwargs} size="middle" />
+          {uppercase ? <Input {...kwargs} size="middle" /> : <Input {...kwargs} size="middle" />}
         </Form.Item>
       );
+    }
 
     case FORM_ELEMENT_TYPES.INPUT_NUMBER:
       return (
@@ -85,6 +91,7 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
     case FORM_ELEMENT_TYPES.SELECT:
       return (
         <Form.Item
+          shouldUpdate
           key={key}
           label={noLabel ? null : customLabel || key.charAt(0).toUpperCase() + key.slice(1)}
           name={key}
@@ -95,7 +102,13 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
               {others.selectOptions.map((item, index) => (
                 <Option
                   key={index.toString()}
-                  value={others.valueIndex ? index : item.value || item[others.key] || item}>
+                  value={
+                    others.uppercase
+                      ? item[others.key].toUpperCase() ||
+                        item.toUpperCase() ||
+                        item.value.toUpperCase()
+                      : item.value || item[others.key] || item
+                  }>
                   {others.customTitle ? (
                     <text style={{fontSize: 13, fontWeight: 'bold'}}>
                       {item[others.customTitle]}

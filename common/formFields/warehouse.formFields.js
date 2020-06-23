@@ -82,7 +82,7 @@ export const wareHouseFormFields = [
       placeholder: 'Enter',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
+    others: {uppercase: true},
     customLabel: 'Warehouse PAN',
   },
   {
@@ -92,7 +92,7 @@ export const wareHouseFormFields = [
       placeholder: 'Enter',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
+    others: {uppercase: true},
     customLabel: 'Warehouse GST',
   },
   {
