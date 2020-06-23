@@ -164,7 +164,7 @@ export const clientFormFields = [
     },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: {selectOptions: ['Static', 'Transfer']},
-    customLabel: 'Client Porduct User Type',
+    customLabel: 'Client Product User Type',
   },
   {
     key: 'client_pan',

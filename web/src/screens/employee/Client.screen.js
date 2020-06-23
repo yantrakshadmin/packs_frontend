@@ -75,7 +75,7 @@ const WarehouseEmployeeScreen = () => {
       editingId={editingId}
       cancelEditing={cancelEditing}
       modalBody={ClientForm}
-      modalWidth={45}
+      modalWidth={60}
       expandParams={{loading}}
       hideRightButton
       scroll={{x: 2000}}
