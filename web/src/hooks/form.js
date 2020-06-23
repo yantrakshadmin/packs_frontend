@@ -15,6 +15,7 @@ export const useHandleForm = ({create, edit, retrieve, id, success, failure, don
     try {
       console.log(data);
       let api;
+      console.log(isEdit);
       if (isEdit) api = () => edit(id, data);
       else api = () => create(data);
 
@@ -45,7 +46,7 @@ export const useHandleForm = ({create, edit, retrieve, id, success, failure, don
       }
     } catch (e) {
       notification.error({message: 'Error in getting data', description: e.toString()});
-      // close();
+      close();
     }
 
     setLoading(false);

@@ -41,7 +41,9 @@ const SignIn = ({user}) => {
       console.log(access);
       await getUserMeta(dispatch);
     } catch (e) {
-      notification.error({message: `Can't SignIn user: ${username}`, description: e.toString()});
+      notification.error({
+        message: `Can't Sign In user: ${username} - User does not exist.`,
+      });
     }
     form.resetFields();
   };
@@ -61,6 +63,7 @@ const SignIn = ({user}) => {
           form={form}
           {...layout}
           name="basic"
+          hideRequiredMark
           initialValues={{
             remember: true,
           }}

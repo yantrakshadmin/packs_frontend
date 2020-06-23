@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Typography, Button, Divider, Row, Col, Table, Modal, Tabs} from 'antd';
+import {ExpandOutlined} from '@ant-design/icons';
 
 const {Title} = Typography;
 const {TabPane} = Tabs;
@@ -54,17 +55,17 @@ export const TableWithTabHOC = ({
 
   return (
     <div>
-      {!hideRightButton || showModal ? (
-        <Modal
-          visible={modalVisible || !!editingId}
-          destroyOnClose
-          style={{minWidth: `${modalWidth}vw`}}
-          title={`Add ${title.slice(0, -1)}`}
-          onCancel={onCancel}
-          footer={null}>
-          <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} />
-        </Modal>
-      ) : null}
+      {/* {!hideRightButton || showModal ? ( */}
+      <Modal
+        visible={modalVisible || !!editingId}
+        destroyOnClose
+        style={{minWidth: `${modalWidth}vw`}}
+        title={`Add ${title.slice(0, -1)}`}
+        onCancel={onCancel}
+        footer={null}>
+        <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} />
+      </Modal>
+      {/* ) : null} */}
       <Row justify="space-between" align="middle">
         <Col>
           <Title level={3}>{title}</Title>
