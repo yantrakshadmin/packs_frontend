@@ -380,3 +380,35 @@ export const retrieveClientProfile = (id) =>
     method: 'GET',
     secure: true,
   });
+
+export const createReceiverClient = ({name, city, address, emitter}) =>
+  loadAPI('/create-receiverclient/', {
+    method: 'POST',
+    data: {name, city, address, emitter},
+    secure: true,
+  });
+
+export const editReceiverClient = (id, {name, city, address, emitter}) =>
+  loadAPI(`/edit-receiverclient/${id}/`, {
+    method: 'PATCH',
+    data: {name, city, address, emitter},
+    secure: true,
+  });
+
+export const deleteReceiverClient = (id) =>
+  loadAPI(`/edit-receiverclient/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const retrieveReceiverClient = (id) =>
+  loadAPI(`/edit-receiverclient/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const retieveReceiverClients = (id) =>
+  loadAPI(`/receiverclients/`, {
+    method: 'GET',
+    secure: true,
+  });

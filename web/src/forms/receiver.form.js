@@ -1,0 +1,70 @@
+import React from 'react';
+import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import formItem from '../hocs/formItem.hoc';
+import {receiverFormFields} from 'common/formFields/Receiver.formFields.js';
+import {useAPI} from 'common/hooks/api';
+import {useHandleForm} from 'hooks/form';
+import {createReceiverClient, editReceiverClient, retrieveReceiverClient} from 'common/api/auth';
+
+export const ReceiverForm = ({id, onCancel, onDone}) => {
+  const {data} = useAPI('/clients/');
+
+  const {form, submit, loading} = useHandleForm({
+    create: createReceiverClient,
+    edit: editReceiverClient,
+    retrieve: retrieveReceiverClient,
+    success: 'Receiver Client created/edited successfully.',
+    failure: 'Error in creating/editing receiver client.',
+    done: onDone,
+    close: onCancel,
+    id,
+  });
+
+  const others = {
+    selectOptions: data || [],
+    key: 'user',
+    customTitle: 'client_name',
+  };
+
+  return (
+    <Spin spinning={loading}>
+      <Divider orientation="left">Receiver Client Details</Divider>
+      <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
+        <Row style={{justifyContent: 'left'}}>
+          {receiverFormFields.slice(0, 2).map((item, idx) => (
+            <Col span={8}>
+              <div key={idx} className="p-2">
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{justifyContent: 'left'}}>
+          {receiverFormFields.slice(2, 3).map((item, idx) => (
+            <Col span={8}>
+              <div key={idx} className="p-2">
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+          {receiverFormFields.slice(3, 4).map((item, idx) => (
+            <Col span={8}>
+              <div key={idx} className="p-2">
+                {formItem({...item, others})}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row>
+          <Button type="primary" htmlType="submit">
+            Save
+          </Button>
+          <div className="p-2" />
+          <Button type="primary" onClick={onCancel}>
+            Cancel
+          </Button>
+        </Row>
+      </Form>
+    </Spin>
+  );
+};

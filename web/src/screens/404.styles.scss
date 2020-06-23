@@ -1,0 +1,25 @@
+.container {
+  //   display: flex;
+  justify-content: center;
+
+  .image {
+    max-height: 50vh;
+  }
+
+  .content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    button {
+      background-color: greenyellow;
+      border-radius: 10%;
+      color: white;
+      font-size: small;
+      border: none;
+      outline: none;
+      text-decoration: none;
+    }
+  }
+}

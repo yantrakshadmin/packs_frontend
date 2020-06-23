@@ -10,12 +10,20 @@ export const publicRoutes = [
     Component: lazy(() => import('../components/SignUp/sign-up-employee.component')),
     path: '/sign-up/employee/',
   },
+  {
+    path: '*',
+    Component: lazy(() => import('screens/404.screen')),
+  },
 ];
 
 export const extraRoutesClient = [
   {
     path: '/edit-profile/',
     Component: lazy(() => import('screens/client/EditProfile.screen')),
+  },
+  {
+    path: '*',
+    Component: lazy(() => import('screens/404.screen')),
   },
   // {
   //   path: '/',
@@ -28,8 +36,8 @@ export const extraRoutesEmployee = [
     Component: lazy(() => import('screens/404.screen')),
   },
   {
-    path: '/',
-    Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')),
+    path: '*',
+    Component: lazy(() => import('screens/404.screen')),
   },
 ];
 export const employeeRoutes = [
@@ -70,6 +78,11 @@ export const employeeRoutes = [
         name: 'Clients',
         path: '/master/clients/',
         Component: lazy(() => import('screens/employee/Client.screen')),
+      },
+      {
+        name: 'Receiver Clients',
+        path: '/master/receiver-clients/',
+        Component: lazy(() => import('screens/employee/ReceiverClient.screen')),
       },
     ],
   },
