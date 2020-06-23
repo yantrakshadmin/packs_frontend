@@ -100,15 +100,7 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
           {!kwargs.showSearch ? (
             <Select {...kwargs}>
               {others.selectOptions.map((item, index) => (
-                <Option
-                  key={index.toString()}
-                  value={
-                    others.uppercase
-                      ? item[others.key].toUpperCase() ||
-                        item.toUpperCase() ||
-                        item.value.toUpperCase()
-                      : item.value || item[others.key] || item
-                  }>
+                <Option key={index.toString()} value={item.value || item[others.key] || item}>
                   {others.customTitle ? (
                     <text style={{fontSize: 13, fontWeight: 'bold'}}>
                       {item[others.customTitle]}
@@ -127,8 +119,20 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
               ))}
             </Select>
           ) : (
-            <SelectOptions others={others} />
+            <Select {...kwargs} style={{fontWeight: 'bold'}}>
+              {others.selectOptions.map((item, index) => (
+                <Option
+                  key={index.toString()}
+                  value={item.value || item[others.key] || item}
+                  style={{fontWeight: 'bold'}}>
+                  {item[others.customTitle]}
+                </Option>
+              ))}
+            </Select>
           )}
+          {/* ) : (
+            <SelectOptions others={others} />
+          )} */}
         </Form.Item>
       );
 

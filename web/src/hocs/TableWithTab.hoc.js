@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Typography, Button, Divider, Row, Col, Table, Modal, Tabs} from 'antd';
+import {Typography, Button, Divider, Row, Col, Table, Modal, Tabs, Pagination} from 'antd';
 
 const {Title} = Typography;
 const {TabPane} = Tabs;
@@ -112,6 +112,7 @@ export const TableWithTabHOC = ({
               {tabs.map((tab) => (
                 <TabPane tab={tab.name} key={tab.key}>
                   <Table
+                    pagination={<Pagination showSizeChanger />}
                     bordered
                     rowKey={rowKey}
                     size={size}

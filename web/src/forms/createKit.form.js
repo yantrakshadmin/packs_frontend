@@ -34,12 +34,6 @@ export const KitForm = ({id, onCancel, onDone}) => {
     submit(data);
   };
 
-  const othersClients = {
-    selectOptions: clients || [],
-    key: 'user',
-    customTitle: 'client_name',
-  };
-
   return (
     <Spin spinning={loading}>
       <Divider orientation="left">Kit Details</Divider>
@@ -63,7 +57,21 @@ export const KitForm = ({id, onCancel, onDone}) => {
           ))}
           <Col span={12}>
             <div key={4} className="p-2">
-              {formItem({...kitFormFields[3], others: othersClients})}
+              {formItem({
+                ...kitFormFields[3],
+                kwargs: {
+                  showSearch: true,
+                  placeholder: 'Select',
+                  optionFilterProp: 'children',
+                  filterOption: (input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                },
+                others: {
+                  selectOptions: clients || [],
+                  key: 'user',
+                  customTitle: 'client_name',
+                },
+              })}
             </div>
           </Col>
         </Row>
@@ -81,9 +89,12 @@ export const KitForm = ({id, onCancel, onDone}) => {
                           {formItem({
                             ...item,
                             kwargs: {
-                              placeholder: 'Enter',
+                              placeholder: 'Select',
                               type: 'number',
-                              // showSearch: true,
+                              showSearch: true,
+                              // optionFilterProp: 'children',
+                              filterOption: (input, option) =>
+                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                             },
                             others: {
                               selectOptions: products || [],
