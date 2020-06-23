@@ -33,7 +33,7 @@ export const ClientForm = ({id, onCancel, onDone}) => {
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Warehouse Details</Divider>
+      <Divider orientation="left">Client Details</Divider>
       <Form
         onFinish={submit}
         form={form}
