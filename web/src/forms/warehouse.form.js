@@ -2,7 +2,6 @@ import React from 'react';
 import {Form, Col, Row, Button, Divider, Spin} from 'antd';
 import formItem from '../hocs/formItem.hoc';
 import {wareHouseFormFields} from 'common/formFields/warehouse.formFields.js';
-import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
 import {createWarehouse, editWarehouse, retrieveWarehouse} from 'common/api/auth';
 
@@ -11,8 +10,8 @@ export const WareHouseForm = ({id, onCancel, onDone}) => {
     create: createWarehouse,
     edit: editWarehouse,
     retrieve: retrieveWarehouse,
-    success: 'Product created/edited successfully.',
-    failure: 'Error in creating/editing product.',
+    success: 'Warehouse created/edited successfully.',
+    failure: 'Error in creating/editing warehouse.',
     done: onDone,
     close: onCancel,
     id,

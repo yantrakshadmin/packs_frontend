@@ -9,9 +9,15 @@ const ProductTable = ({loading, products}) => {
     let temp = [];
     temp = products.map((prod) => prod.product);
     setData(temp);
-  }, products);
+  }, [products]);
 
-  return <Table dataSource={data} columns={productsColumns} size="small" pagination={false} />;
+  return (
+    <Row align="center" style={{margin: '3vh'}}>
+      <Col span={24}>
+        <Table dataSource={data} columns={productsColumns} size="small" pagination={false} />
+      </Col>
+    </Row>
+  );
 };
 
 export default ProductTable;

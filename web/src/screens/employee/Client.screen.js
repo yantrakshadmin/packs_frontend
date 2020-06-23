@@ -5,8 +5,8 @@ import {useAPI} from 'common/hooks/api';
 import clientColumns from 'common/columns/Clients.column';
 import {Button} from 'antd';
 import Edit from '../../icons/Edit';
-import Upload from '../../icons/Upload';
-import File from '../../icons/File';
+// import Upload from '../../icons/Upload';
+// import File from '../../icons/File';
 
 const WarehouseEmployeeScreen = () => {
   const {data, loading, reload} = useAPI('/clients/', {});

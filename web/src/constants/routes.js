@@ -15,7 +15,7 @@ export const publicRoutes = [
 export const extraRoutesClient = [
   {
     path: '/edit-profile/',
-    Component: lazy(() => import('forms/client.form')),
+    Component: lazy(() => import('screens/client/EditProfile.screen')),
   },
   // {
   //   path: '/',

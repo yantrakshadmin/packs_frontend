@@ -3,7 +3,7 @@ import {Form, Input, Upload, Select, Radio, DatePicker, Checkbox, InputNumber, m
 import SelectOptions from '../forms/selectOptions';
 import {Icon} from '@ant-design/compatible';
 import {FORM_ELEMENT_TYPES} from 'constants/formFields.constant';
-import {useState, useEffect} from 'react';
+// import {useState, useEffect} from 'react';
 
 const {Option} = Select;
 const CheckboxGroup = Checkbox.Group;

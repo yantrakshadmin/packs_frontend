@@ -2,7 +2,6 @@ import React from 'react';
 import {Form, Col, Row, Button, Divider, Spin} from 'antd';
 import formItem from '../hocs/formItem.hoc';
 import {clientFormFields} from 'common/formFields/clientProfile.formFields';
-import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
 import {editClientProfile, retrieveClientProfile} from 'common/api/auth';
 
@@ -11,8 +10,8 @@ export const ClientForm = ({id, onCancel, onDone}) => {
     create: null,
     edit: editClientProfile,
     retrieve: retrieveClientProfile,
-    success: 'Product created/edited successfully.',
-    failure: 'Error in creating/editing product.',
+    success: 'Client created/edited successfully.',
+    failure: 'Error in creating/editing client.',
     done: onDone,
     close: onCancel,
     id,
@@ -96,7 +95,7 @@ export const ClientForm = ({id, onCancel, onDone}) => {
             Save
           </Button>
           <div className="p-2" />
-          <Button type="primary" onClick={onCancel}>
+          <Button type="primary" onClick={onDone}>
             Cancel
           </Button>
         </Row>
