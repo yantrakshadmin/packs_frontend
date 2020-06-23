@@ -80,9 +80,9 @@ const KitEmployeeScreen = () => {
       cancelEditing={cancelEditing}
       modalBody={KitForm}
       modalWidth={45}
-      // expandHandleKey="products"
-      // expandParams={{loading}}
-      // ExpandBody={ProductTable}
+      expandHandleKey="products"
+      expandParams={{loading}}
+      ExpandBody={ProductTable}
     />
   );
 };
