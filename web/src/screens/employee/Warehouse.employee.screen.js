@@ -8,8 +8,8 @@ import {deleteWarehouse} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
-import Upload from '../../icons/Upload';
-import File from '../../icons/File';
+// import Upload from '../../icons/Upload';
+// import File from '../../icons/File';
 
 const WarehouseEmployeeScreen = () => {
   const {data, loading, reload} = useAPI('/warehouse/', {});

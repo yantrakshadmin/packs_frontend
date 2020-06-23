@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Typography, Button, Divider, Row, Col, Table, Modal, Tabs} from 'antd';
-import {ExpandOutlined} from '@ant-design/icons';
 
 const {Title} = Typography;
 const {TabPane} = Tabs;

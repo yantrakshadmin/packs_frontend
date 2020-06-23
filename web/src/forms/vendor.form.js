@@ -1,11 +1,10 @@
 import React from 'react';
-import {Form, Col, Row, Button, Divider, Spin, Input} from 'antd';
+import {Form, Col, Row, Button, Divider, Spin} from 'antd';
 import formItem from '../hocs/formItem.hoc';
 import {vendorFormFields} from 'common/formFields/vendor.formFields';
 // import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
 import {createVendor, editVendor, retrieveVendor} from 'common/api/auth';
-import {useState} from 'react';
 
 export const VendorForm = ({id, onCancel, onDone}) => {
   const {form, submit, loading} = useHandleForm({

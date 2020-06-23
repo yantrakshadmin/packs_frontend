@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
-import {Form, Col, Row, Button, Divider, Spin, Typography, Select} from 'antd';
+import React from 'react';
+import {Form, Col, Row, Button, Divider, Spin} from 'antd';
 import formItem from '../hocs/formItem.hoc';
 import {kitFormFields} from 'common/formFields/kit.formFields';
 import {kitProductsFormFields} from 'common/formFields/kitProducts.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {createKit, retrieveKit, editKit, retrieveClients} from 'common/api/auth';
+import {createKit, retrieveKit, editKit} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 
 export const KitForm = ({id, onCancel, onDone}) => {
@@ -16,8 +16,8 @@ export const KitForm = ({id, onCancel, onDone}) => {
     create: createKit,
     edit: editKit,
     retrieve: retrieveKit,
-    success: 'Product created/edited successfully.',
-    failure: 'Error in creating/editing product.',
+    success: 'Kit created/edited successfully.',
+    failure: 'Error in creating/editing kit.',
     done: onDone,
     close: onCancel,
     id,
