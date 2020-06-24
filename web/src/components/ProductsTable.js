@@ -13,16 +13,11 @@ const ProductTable = ({loading, products}) => {
   }, [products]);
 
   return (
-    <>
-      <Row align="stretch">
-        <h1>Products</h1>
-      </Row>
-      <Row align="center" style={{margin: '3vh'}}>
-        <Col span={24}>
-          <Table dataSource={data} columns={smallProductsColumns} size="small" pagination={false} />
-        </Col>
-      </Row>
-    </>
+    <Row align="center" style={{margin: '3vh'}}>
+      <Col span={24}>
+        <Table dataSource={data} columns={smallProductsColumns} size="small" pagination={false} />
+      </Col>
+    </Row>
   );
 };
 

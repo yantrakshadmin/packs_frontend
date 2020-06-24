@@ -3,7 +3,7 @@ import {FlowForm} from '../../forms/flow.form';
 import {TableWithTabHOC} from '../../hocs/TableWithTab.hoc';
 import {useAPI} from 'common/hooks/api';
 import flowsColumns from 'common/columns/Flows.column';
-// import ProductTable from '../../components/ProductsTable';
+import KitsTable from '../../components/KitsTable';
 import {Popconfirm, Button} from 'antd';
 import {deleteFlow} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
@@ -80,9 +80,9 @@ const FlowEmployeeScreen = () => {
       cancelEditing={cancelEditing}
       modalBody={FlowForm}
       modalWidth={50}
-      //   expandHandleKey="products"
-      //   expandParams={{loading}}
-      //   ExpandBody={ProductTable}
+      expandHandleKey="kits"
+      expandParams={{loading}}
+      ExpandBody={KitsTable}
     />
   );
 };
