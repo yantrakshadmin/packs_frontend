@@ -23,7 +23,7 @@ const KitEmployeeScreen = () => {
     {
       title: 'Action',
       key: 'operation',
-      render: (row) => (
+      render: (text, record) => (
         <div className="row justify-evenly">
           <Button
             style={{
@@ -32,13 +32,13 @@ const KitEmployeeScreen = () => {
               boxShadow: 'none',
               padding: '1px',
             }}
-            onClick={() => setEditingId(row.id)}>
+            onClick={() => setEditingId(record.id)}>
             <Edit />
           </Button>
           <Popconfirm
             title="Confirm Delete"
             onConfirm={deleteHOC({
-              row,
+              record,
               reload,
               api: deleteKit,
               success: 'Deleted kit successfully',

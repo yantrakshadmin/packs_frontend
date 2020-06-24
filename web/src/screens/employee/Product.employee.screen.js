@@ -22,7 +22,7 @@ const ProductEmployeeScreen = () => {
     {
       title: 'Action',
       key: 'operation',
-      render: (row) => (
+      render: (text, record) => (
         <div className="row align-center justify-between">
           <Button
             style={{
@@ -31,10 +31,10 @@ const ProductEmployeeScreen = () => {
               boxShadow: 'none',
               padding: '1px',
             }}
-            onClick={() => setEditingId(row.id)}>
+            onClick={() => setEditingId(record.id)}>
             <Edit />
           </Button>
-          {/* {row.document ? (
+          {/* {record.document ? (
             <File />
           ) : (
             <Button
@@ -44,7 +44,7 @@ const ProductEmployeeScreen = () => {
                 boxShadow: 'none',
                 padding: '1px',
               }}
-              // onClick={() => setEditingId(row.id)}>
+              // onClick={() => setEditingId(record.id)}>
             >
               <Upload />
             </Button>
@@ -52,7 +52,7 @@ const ProductEmployeeScreen = () => {
           <Popconfirm
             title="Confirm Delete"
             onConfirm={deleteHOC({
-              row,
+              record,
               reload,
               api: deleteProduct,
               success: 'Deleted product successfully',

@@ -21,7 +21,7 @@ const WarehouseEmployeeScreen = () => {
       key: 'operation',
       fixed: 'right',
       width: '200',
-      render: (record) => (
+      render: (text, record) => (
         <div className="row align-center justify-evenly">
           <Button
             style={{

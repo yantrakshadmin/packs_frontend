@@ -22,7 +22,7 @@ const VendorEmployeeScreen = () => {
       key: 'operation',
       fixed: 'right',
       width: '200',
-      render: (row) => (
+      render: (text, record) => (
         <div className="row align-center justify-evenly">
           <Button
             style={{
@@ -31,13 +31,13 @@ const VendorEmployeeScreen = () => {
               boxShadow: 'none',
               padding: '1px',
             }}
-            onClick={() => setEditingId(row.id)}>
+            onClick={() => setEditingId(record.id)}>
             <Edit />
           </Button>
           <Popconfirm
             title="Confirm Delete"
             onConfirm={deleteHOC({
-              row,
+              record,
               reload,
               api: deleteVendor,
               success: 'Deleted product successfully',

@@ -18,7 +18,6 @@ export const TableWithTabHOC = ({
   editingId,
   cancelEditing,
   hideRightButton,
-  showModal,
   customRowSelectionType,
   expandHandleKey,
   ExpandBody,
@@ -54,7 +53,6 @@ export const TableWithTabHOC = ({
 
   return (
     <div>
-      {/* {!hideRightButton || showModal ? ( */}
       <Modal
         visible={modalVisible || !!editingId}
         destroyOnClose
@@ -115,8 +113,16 @@ export const TableWithTabHOC = ({
                     pagination={<Pagination showSizeChanger />}
                     bordered
                     rowKey={rowKey}
+                    expandRowByClick
                     size={size}
                     scroll={scroll}
+                    expandIcon={({expanded, onExpand, record}) =>
+                      expanded ? (
+                        <div onClick={(e) => onExpand(record, e)} />
+                      ) : (
+                        <div onClick={(e) => onExpand(record, e)} />
+                      )
+                    }
                     rowSelection={
                       customRowSelectionType
                         ? {...rowSelection, type: customRowSelectionType[tab.key]}
