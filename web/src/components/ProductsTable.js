@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Table, Row, Col} from 'antd';
-import productsColumns from 'common/columns/Products.column';
+import smallProductsColumns from 'common/columns/smallProduct.column';
 import Title from 'antd/lib/skeleton/Title';
 
 const ProductTable = ({loading, products}) => {
@@ -8,7 +8,7 @@ const ProductTable = ({loading, products}) => {
 
   useEffect(() => {
     let temp = [];
-    temp = products.map((prod) => prod.product);
+    temp = products.map((prod) => ({...prod.product, quantity: prod.quantity}));
     setData(temp);
   }, [products]);
 
@@ -19,7 +19,7 @@ const ProductTable = ({loading, products}) => {
       </Row>
       <Row align="center" style={{margin: '3vh'}}>
         <Col span={24}>
-          <Table dataSource={data} columns={productsColumns} size="small" pagination={false} />
+          <Table dataSource={data} columns={smallProductsColumns} size="small" pagination={false} />
         </Col>
       </Row>
     </>

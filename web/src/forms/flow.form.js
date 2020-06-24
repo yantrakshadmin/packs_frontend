@@ -24,6 +24,25 @@ export const FlowForm = ({id, onCancel, onDone}) => {
     id,
   });
 
+  const handleFieldsChange = (data) => {
+    // console.log(data);
+
+    if (data)
+      if (data[0])
+        if (data[0].name)
+          if (data[0].name[2]) {
+            if (data[0].name[2] === 'quantity') {
+              // console.log(data[0].value);
+              // form.setFieldsValue()
+              form.setFieldsValue({
+                [[data[0].name[0], data[0].name[1], 'component_pm']]: 5,
+              });
+            }
+            // if (data[0].name[2] === 'kit') {
+            // }
+          }
+  };
+
   const preProcess = (data) => {
     const {kits} = data;
     const newKits = kits.map((kitty) => ({
@@ -40,7 +59,13 @@ export const FlowForm = ({id, onCancel, onDone}) => {
   return (
     <Spin spinning={loading}>
       <Divider orientation="left">Flow Details</Divider>
-      <Form onFinish={preProcess} form={form} layout="vertical" hideRequiredMark autoComplete="off">
+      <Form
+        onFinish={preProcess}
+        form={form}
+        layout="vertical"
+        hideRequiredMark
+        autoComplete="off"
+        onFieldsChange={handleFieldsChange}>
         <Row style={{justifyContent: 'left'}}>
           {flowFormFields.slice(0, 3).map((item, idx) => (
             <Col span={8}>
