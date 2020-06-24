@@ -23,7 +23,7 @@ const ReceiverClientEmployeeScreen = () => {
       title: 'Action',
       key: 'operation',
       width: '200',
-      render: (row) => (
+      render: (text, record) => (
         <div className="row align-center justify-evenly">
           <Button
             style={{
@@ -32,10 +32,10 @@ const ReceiverClientEmployeeScreen = () => {
               boxShadow: 'none',
               padding: '1px',
             }}
-            onClick={() => setEditingId(row.id)}>
+            onClick={() => setEditingId(record.id)}>
             <Edit />
           </Button>
-          {/* {row.document ? (
+          {/* {record.document ? (
             <File />
           ) : (
             <Button
@@ -45,7 +45,7 @@ const ReceiverClientEmployeeScreen = () => {
                 boxShadow: 'none',
                 padding: '1px',
               }}
-              // onClick={() => setEditingId(row.id)}>
+              // onClick={() => setEditingId(record.id)}>
             >
               <Upload />
             </Button>
@@ -53,7 +53,7 @@ const ReceiverClientEmployeeScreen = () => {
           <Popconfirm
             title="Confirm Delete"
             onConfirm={deleteHOC({
-              row,
+              record,
               reload,
               api: deleteReceiverClient,
               success: 'Deleted Receiver Client successfully',

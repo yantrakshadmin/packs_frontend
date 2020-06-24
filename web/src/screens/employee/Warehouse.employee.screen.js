@@ -24,7 +24,7 @@ const WarehouseEmployeeScreen = () => {
       key: 'operation',
       fixed: 'right',
       width: '200',
-      render: (row) => (
+      render: (text, record) => (
         <div className="row align-center justify-evenly">
           <Button
             style={{
@@ -33,10 +33,10 @@ const WarehouseEmployeeScreen = () => {
               boxShadow: 'none',
               padding: '1px',
             }}
-            onClick={() => setEditingId(row.id)}>
+            onClick={() => setEditingId(record.id)}>
             <Edit />
           </Button>
-          {/* {row.document ? (
+          {/* {record.document ? (
             <File />
           ) : (
             <Button
@@ -46,7 +46,7 @@ const WarehouseEmployeeScreen = () => {
                 boxShadow: 'none',
                 padding: '1px',
               }}
-              // onClick={() => setEditingId(row.id)}>
+              // onClick={() => setEditingId(record.id)}>
             >
               <Upload />
             </Button>
@@ -54,7 +54,7 @@ const WarehouseEmployeeScreen = () => {
           <Popconfirm
             title="Confirm Delete"
             onConfirm={deleteHOC({
-              row,
+              record,
               reload,
               api: deleteWarehouse,
               success: 'Deleted product successfully',

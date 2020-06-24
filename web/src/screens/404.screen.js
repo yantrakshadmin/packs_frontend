@@ -1,10 +1,8 @@
 import React from 'react';
-import {Typography, Button} from 'antd';
+import {Button} from 'antd';
 
 import './404.styles.scss';
 import {navigate} from '@reach/router';
-
-const {Text, Title} = Typography;
 
 export const NotFound404Screen = () => (
   <div className="container">
@@ -17,9 +15,7 @@ export const NotFound404Screen = () => (
         backgroundPosition: 'center',
       }}></div>
     <div className="content">
-      {/* <Title level={2}>404</Title> */}
       <h1>404</h1>
-      {/* <Title level={4}>Page Not Found</Title> */}
       <h2>Page Not Found</h2>
       <Button onClick={() => navigate('/')}>Return To Home</Button>
     </div>
