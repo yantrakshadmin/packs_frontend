@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {Typography, Button, Divider, Row, Col, Table, Modal, Tabs, Pagination} from 'antd';
 
+import './table.styles.scss';
+
 const {Title} = Typography;
 const {TabPane} = Tabs;
 
@@ -110,12 +112,13 @@ export const TableWithTabHOC = ({
               {tabs.map((tab) => (
                 <TabPane tab={tab.name} key={tab.key}>
                   <Table
-                    pagination={<Pagination showSizeChanger />}
                     bordered
                     rowKey={rowKey}
                     expandRowByClick
+                    pagination={{pageSize: 5, position: ['bottomRight']}}
                     size={size}
                     scroll={scroll}
+                    rowClassName="no-vertical"
                     expandIcon={({expanded, onExpand, record}) =>
                       expanded ? (
                         <div onClick={(e) => onExpand(record, e)} />
