@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {Table, Row, Col} from 'antd';
+import {Table, Row, Col, Spin} from 'antd';
 import smallProductsColumns from 'common/columns/smallProduct.column';
-import Title from 'antd/lib/skeleton/Title';
 
 const ProductTable = ({loading, products}) => {
   const [data, setData] = useState([]);
@@ -13,11 +12,13 @@ const ProductTable = ({loading, products}) => {
   }, [products]);
 
   return (
-    <Row align="center" style={{margin: '3vh'}}>
-      <Col span={24}>
-        <Table dataSource={data} columns={smallProductsColumns} size="small" pagination={false} />
-      </Col>
-    </Row>
+    <Spin spinning={loading}>
+      <Row align="center" style={{margin: '3vh'}}>
+        <Col span={24}>
+          <Table dataSource={data} columns={smallProductsColumns} size="small" pagination={false} />
+        </Col>
+      </Row>
+    </Spin>
   );
 };
 

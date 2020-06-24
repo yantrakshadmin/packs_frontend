@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Table, Row, Col} from 'antd';
+import {Table, Row, Col, Spin} from 'antd';
 import expandedKitColumns from 'common/columns/expandedKit.column';
 import Title from 'antd/lib/skeleton/Title';
 
@@ -18,11 +18,13 @@ const ProductTable = ({loading, kits}) => {
   }, [kits]);
 
   return (
-    <Row align="center" style={{margin: '3vh'}}>
-      <Col span={24}>
-        <Table dataSource={data} columns={expandedKitColumns} size="small" pagination={false} />
-      </Col>
-    </Row>
+    <Spin spinning={loading}>
+      <Row align="center" style={{margin: '3vh'}}>
+        <Col span={24}>
+          <Table dataSource={data} columns={expandedKitColumns} size="small" pagination={false} />
+        </Col>
+      </Row>
+    </Spin>
   );
 };
 
