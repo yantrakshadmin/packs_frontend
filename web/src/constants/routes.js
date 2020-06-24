@@ -84,6 +84,11 @@ export const employeeRoutes = [
         path: '/master/receiver-clients/',
         Component: lazy(() => import('screens/employee/ReceiverClient.screen')),
       },
+      {
+        name: 'Flows',
+        path: '/master/flows/',
+        Component: lazy(() => import('screens/employee/Flow.screen')),
+      },
     ],
   },
   {

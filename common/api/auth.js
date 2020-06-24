@@ -412,3 +412,46 @@ export const retieveReceiverClients = (id) =>
     method: 'GET',
     secure: true,
   });
+
+export const createFlow = ({
+  flow_name,
+  flow_info,
+  flow_type,
+  flow_days,
+  sender_client,
+  receiver_client,
+  kits,
+}) =>
+  loadAPI('/create-flow/', {
+    method: 'POST',
+    secure: true,
+    data: {flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits},
+  });
+
+export const editFlow = (
+  id,
+  {flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits},
+) =>
+  loadAPI(`/edit-flow/${id}/`, {
+    method: 'PATCH',
+    secure: true,
+    data: {flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits},
+  });
+
+export const retreiveFlow = (id) =>
+  loadAPI(`/edit-flow/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const retreiveFlows = (id) =>
+  loadAPI(`/flows/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteFlow = (id) =>
+  loadAPI(`/edit-flow/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
