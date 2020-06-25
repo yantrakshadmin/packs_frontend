@@ -42,7 +42,7 @@ const SignIn = ({user}) => {
       await getUserMeta(dispatch);
     } catch (e) {
       notification.error({
-        message: `Can't Sign In user: ${username} - User does not exist.`,
+        message: `Can't Sign In user: ${username} - Invalid Credentials.`,
       });
     }
     form.resetFields();

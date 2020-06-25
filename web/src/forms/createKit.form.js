@@ -62,14 +62,14 @@ export const KitForm = ({id, onCancel, onDone}) => {
                 kwargs: {
                   showSearch: true,
                   placeholder: 'Select',
-                  optionFilterProp: 'children',
                   filterOption: (input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                    option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
                   selectOptions: clients || [],
                   key: 'user',
                   customTitle: 'client_name',
+                  dataKeys: ['client_shipping_address'],
                 },
               })}
             </div>
@@ -92,9 +92,8 @@ export const KitForm = ({id, onCancel, onDone}) => {
                               placeholder: 'Select',
                               type: 'number',
                               showSearch: true,
-                              // optionFilterProp: 'children',
                               filterOption: (input, option) =>
-                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                                option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                             },
                             others: {
                               selectOptions: products || [],

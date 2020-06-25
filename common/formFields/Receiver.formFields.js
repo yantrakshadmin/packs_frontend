@@ -39,6 +39,6 @@ export const receiverFormFields = [
     },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
-    customLabel: 'Receiver Emitter',
+    customLabel: 'Emitter',
   },
 ];

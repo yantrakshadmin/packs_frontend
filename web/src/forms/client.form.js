@@ -56,7 +56,7 @@ export const ClientForm = ({id, onCancel, onDone}) => {
           {clientFormFields.slice(5, 8).map((item, idx) => (
             <Col span={8}>
               <div key={idx} className="p-2">
-                {formItem({...item})}
+                {formItem(item)}
               </div>
             </Col>
           ))}

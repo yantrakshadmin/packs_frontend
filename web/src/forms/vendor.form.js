@@ -58,7 +58,7 @@ export const VendorForm = ({id, onCancel, onDone}) => {
           {vendorFormFields.slice(3, 7).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className="p-2">
-                {formItem({...item})}
+                {formItem({item})}
               </div>
             </Col>
           ))}
@@ -89,11 +89,7 @@ export const VendorForm = ({id, onCancel, onDone}) => {
               </div>
             </Col>
           ))}
-          <Col span={6}>
-            {/* <Form.Item key="upper" label="Upper" name="upper">
-              <Input size="middle" value={value.toUpperCase()} onChange={handleChange} />
-            </Form.Item> */}
-          </Col>
+          <Col span={6}></Col>
         </Row>
 
         <Row>

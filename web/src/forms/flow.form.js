@@ -34,8 +34,9 @@ export const FlowForm = ({id, onCancel, onDone}) => {
             if (data[0].name[2] === 'quantity') {
               // console.log(data[0].value);
               // form.setFieldsValue()
+              const field = form.getFieldValue('kits');
               form.setFieldsValue({
-                [[data[0].name[0], data[0].name[1], 'component_pm']]: 5,
+                [field[data[0].name[1]].component_pm]: data[0].value,
               });
             }
             // if (data[0].name[2] === 'kit') {
@@ -70,7 +71,7 @@ export const FlowForm = ({id, onCancel, onDone}) => {
           {flowFormFields.slice(0, 3).map((item, idx) => (
             <Col span={8}>
               <div key={idx} className="p-2">
-                {formItem(item)}
+                {formItem({...item, form})}
               </div>
             </Col>
           ))}
@@ -79,7 +80,7 @@ export const FlowForm = ({id, onCancel, onDone}) => {
           {flowFormFields.slice(3, 4).map((item, idx) => (
             <Col span={8}>
               <div key={idx} className="p-2">
-                {formItem({...item})}
+                {formItem({...item, form})}
               </div>
             </Col>
           ))}
@@ -90,15 +91,16 @@ export const FlowForm = ({id, onCancel, onDone}) => {
                 kwargs: {
                   showSearch: true,
                   placeholder: 'Select',
-                  optionFilterProp: 'children',
                   filterOption: (input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                    option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
                   selectOptions: clients || [],
                   key: 'user',
                   customTitle: 'client_name',
+                  dataKeys: ['client_shipping_address'],
                 },
+                form,
               })}
             </div>
           </Col>
@@ -109,15 +111,16 @@ export const FlowForm = ({id, onCancel, onDone}) => {
                 kwargs: {
                   showSearch: true,
                   placeholder: 'Select',
-                  optionFilterProp: 'children',
                   filterOption: (input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                    option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
                   selectOptions: receiverClients || [],
                   key: 'id',
                   customTitle: 'name',
+                  dataKeys: ['city', 'address'],
                 },
+                form,
               })}
             </div>
           </Col>
@@ -137,16 +140,15 @@ export const FlowForm = ({id, onCancel, onDone}) => {
                             ...item,
                             kwargs: {
                               placeholder: 'Select',
-                              type: 'number',
                               showSearch: true,
-                              optionFilterProp: 'children',
                               filterOption: (input, option) =>
-                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                                option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                             },
+                            form,
                             others: {
                               selectOptions: kits || [],
                               key: 'id',
-                              dataKeys: ['short_code', 'description', 'category'],
+                              dataKeys: ['components_per_kit', 'kit_info', 'kit_name'],
                               customTitle: 'kit_name',
                               formOptions: {
                                 ...field,
@@ -170,6 +172,7 @@ export const FlowForm = ({id, onCancel, onDone}) => {
                                 fieldKey: [field.fieldKey, item.key],
                               },
                             },
+                            form,
                           })}
                         </div>
                       </Col>
@@ -186,6 +189,7 @@ export const FlowForm = ({id, onCancel, onDone}) => {
                                 fieldKey: [field.fieldKey, item.key],
                               },
                             },
+                            form,
                           })}
                         </div>
                       </Col>

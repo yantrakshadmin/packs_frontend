@@ -20,19 +20,13 @@ export const ReceiverForm = ({id, onCancel, onDone}) => {
     id,
   });
 
-  const others = {
-    selectOptions: data || [],
-    key: 'user',
-    customTitle: 'client_name',
-  };
-
   return (
     <Spin spinning={loading}>
       <Divider orientation="left">Receiver Client Details</Divider>
       <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
         <Row style={{justifyContent: 'left'}}>
           {receiverFormFields.slice(0, 2).map((item, idx) => (
-            <Col span={8}>
+            <Col span={12}>
               <div key={idx} className="p-2">
                 {formItem(item)}
               </div>
@@ -41,16 +35,31 @@ export const ReceiverForm = ({id, onCancel, onDone}) => {
         </Row>
         <Row style={{justifyContent: 'left'}}>
           {receiverFormFields.slice(2, 3).map((item, idx) => (
-            <Col span={8}>
+            <Col span={12}>
               <div key={idx} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
           ))}
           {receiverFormFields.slice(3, 4).map((item, idx) => (
-            <Col span={8}>
+            <Col span={12}>
               <div key={idx} className="p-2">
-                {formItem({...item, others})}
+                {formItem({
+                  ...item,
+                  others: {
+                    selectOptions: data || [],
+                    key: 'user',
+                    customTitle: 'client_name',
+                    dataKeys: ['client_shipping_address'],
+                  },
+                  kwargs: {
+                    placeholder: 'Select',
+                    type: 'number',
+                    showSearch: true,
+                    filterOption: (input, option) =>
+                      option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                  },
+                })}
               </div>
             </Col>
           ))}
