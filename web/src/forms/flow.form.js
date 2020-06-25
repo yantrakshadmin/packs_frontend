@@ -5,13 +5,17 @@ import {flowFormFields} from 'common/formFields/flow.formFields';
 import {flowKitsFormFields} from 'common/formFields/flowKit.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {createFlow, editFlow, retreiveFlow} from 'common/api/auth';
+import {createFlow, editFlow, retreiveFlow, retrieveKit} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
+import {useState} from 'react';
 
 export const FlowForm = ({id, onCancel, onDone}) => {
   const {data: receiverClients} = useAPI('/receiverclients/', {});
   const {data: clients} = useAPI('/clients/', {});
   const {data: kits} = useAPI('/kits/', {});
+
+  const [kitCp, setKitCp] = useState(null);
+  const [kitQty, setKitQty] = useState(null);
 
   const {form, submit, loading} = useHandleForm({
     create: createFlow,
@@ -24,23 +28,48 @@ export const FlowForm = ({id, onCancel, onDone}) => {
     id,
   });
 
-  const handleFieldsChange = (data) => {
-    // console.log(data);
-
+  const handleFieldsChange = async (data) => {
+    console.log(data);
     if (data)
       if (data[0])
         if (data[0].name)
           if (data[0].name[2]) {
             if (data[0].name[2] === 'quantity') {
-              // console.log(data[0].value);
-              // form.setFieldsValue()
-              const field = form.getFieldValue('kits');
-              form.setFieldsValue({
-                [field[data[0].name[1]].component_pm]: data[0].value,
-              });
+              setKitQty(data[0].value);
+              let kit_id = form.getFieldValue([data[0].name[0], data[0].name[1], 'kit']);
+              if (kit_id) {
+                const {
+                  data: {components_per_kit: comp},
+                } = await retrieveKit(kit_id);
+                setKitCp(comp);
+              }
+              console.log(kit_id);
+              if (kitCp) {
+                form.setFields([
+                  {
+                    name: [data[0].name[0], data[0].name[1], 'component_pm'],
+                    value: kitQty * kitCp,
+                  },
+                ]);
+              }
             }
-            // if (data[0].name[2] === 'kit') {
-            // }
+            if (data[0].name[2] === 'kit') {
+              let qty = form.getFieldValue([data[0].name[0], data[0].name[1], 'quantity']);
+              setKitQty(qty);
+              const {
+                data: {components_per_kit: comp},
+              } = await retrieveKit(data[0].value);
+              setKitCp(comp);
+              if (kitQty) {
+                console.log('yes');
+                form.setFields([
+                  {
+                    name: [data[0].name[0], data[0].name[1], 'component_pm'],
+                    value: kitQty * kitCp,
+                  },
+                ]);
+              }
+            }
           }
   };
 
