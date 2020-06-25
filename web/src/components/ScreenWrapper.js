@@ -6,6 +6,7 @@ import {useDispatch} from 'react-redux';
 import {signOutUser} from 'common/actions/signIn';
 import {connect} from 'react-redux';
 
+import {changePage} from 'common/actions/changePage';
 import logo from 'common/assets/Yantraksh Logo.png';
 
 import {Loading} from 'components/Loading';
@@ -15,7 +16,7 @@ const {SubMenu} = Menu;
 const {Header, Content, Sider, Footer} = Layout;
 const {Text} = Typography;
 
-const ScreenWrapper = ({routes, navigate, children, user}) => {
+const ScreenWrapper = ({routes, navigate, children, user, changePage}) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [collapsedWidth, setCollapsedWidth] = useState(80);
   const dispatch = useDispatch();
@@ -92,7 +93,10 @@ const ScreenWrapper = ({routes, navigate, children, user}) => {
                     title={i.name}>
                     {i.subMenu.map((subItem) => (
                       <Menu.Item key={subItem.name}>
-                        <Link to={`/${user.type}${subItem.path}`} key={subItem.name}>
+                        <Link
+                          to={`/${user.type}${subItem.path}`}
+                          key={subItem.name}
+                          onClick={() => changePage(1)}>
                           {subItem.name}
                         </Link>
                       </Menu.Item>
@@ -106,7 +110,7 @@ const ScreenWrapper = ({routes, navigate, children, user}) => {
                   icon={
                     <FontAwesomeIcon icon={i.icon} style={{marginRight: isCollapsed ? 50 : 5}} />
                   }>
-                  <Link to={`/${user.type}${i.path}`} key={i.name}>
+                  <Link to={`/${user.type}${i.path}`} key={i.name} onClick={() => changePage(1)}>
                     {i.name}
                   </Link>
                 </Menu.Item>
@@ -141,4 +145,4 @@ const mapStateToProps = (state) => {
   return {user: state.user.userMeta};
 };
 
-export default connect(mapStateToProps)(ScreenWrapper);
+export default connect(mapStateToProps, {changePage})(ScreenWrapper);

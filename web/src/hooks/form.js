@@ -22,7 +22,7 @@ export const useHandleForm = ({create, edit, retrieve, id, success, failure, don
       const {error} = await api();
       if (error) {
         console.log(error);
-        throw Error(error.code);
+        throw Error(Object.values(error));
       }
 
       notification.success({message: successMessage});

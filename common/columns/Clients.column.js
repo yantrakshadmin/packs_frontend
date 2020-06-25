@@ -1,10 +1,5 @@
 export default [
   {
-    title: 'Sr. No.',
-    key: 'no.',
-    render: (record, text, index) => index + 1,
-  },
-  {
     title: 'Client Name',
     key: 'client_name',
     dataIndex: 'client_name',

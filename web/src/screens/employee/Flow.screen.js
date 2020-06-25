@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {FlowForm} from '../../forms/flow.form';
-import {TableWithTabHOC} from '../../hocs/TableWithTab.hoc';
+import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {useAPI} from 'common/hooks/api';
 import flowsColumns from 'common/columns/Flows.column';
 import KitsTable from '../../components/KitsTable';
