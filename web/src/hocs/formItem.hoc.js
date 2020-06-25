@@ -24,7 +24,7 @@ const props = {
   },
 };
 
-const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
+const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel, form}) => {
   let uppercase = false;
   if (others)
     if (others.uppercase) uppercase = true;
@@ -96,42 +96,27 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
           name={key}
           rules={rules}
           {...formOptions}>
-          {!kwargs.showSearch ? (
-            <Select {...kwargs}>
-              {others.selectOptions.map((item, index) => (
-                <Option key={index.toString()} value={item.value || item[others.key] || item}>
-                  {others.customTitle ? (
-                    <text style={{fontSize: 13, fontWeight: 'bold'}}>
-                      {item[others.customTitle]}
-                    </text>
-                  ) : (
-                    item.label || item[others.key] || item
-                  )}
-                  {others.dataKeys ? (
-                    <div className="row" style={{flexWrap: 'wrap'}}>
-                      {others.dataKeys.map((i) => (
-                        <text style={{fontSize: 11, marginLeft: 5, marginRight: 5}}>{item[i]}</text>
-                      ))}
-                    </div>
-                  ) : null}
-                </Option>
-              ))}
-            </Select>
-          ) : (
-            <Select {...kwargs} style={{fontWeight: 'bold'}}>
-              {others.selectOptions.map((item, index) => (
-                <Option
-                  key={index.toString()}
-                  value={item.value || item[others.key] || item}
-                  style={{fontWeight: 'bold'}}>
-                  {item[others.customTitle]}
-                </Option>
-              ))}
-            </Select>
-          )}
-          {/* ) : (
-            <SelectOptions others={others} />
-          )} */}
+          <Select {...kwargs}>
+            {others.selectOptions.map((item, index) => (
+              <Option
+                key={index.toString()}
+                search={item[others.customTitle]}
+                value={item.value || item[others.key] || item}>
+                {others.customTitle ? (
+                  <text style={{fontSize: 13, fontWeight: 'bold'}}>{item[others.customTitle]}</text>
+                ) : (
+                  item.label || item[others.key] || item
+                )}
+                {others.dataKeys ? (
+                  <div className="row" style={{flexWrap: 'wrap'}}>
+                    {others.dataKeys.map((i) => (
+                      <text style={{fontSize: 11, marginLeft: 5, marginRight: 5}}>{item[i]}</text>
+                    ))}
+                  </div>
+                ) : null}
+              </Option>
+            ))}
+          </Select>
         </Form.Item>
       );
 
