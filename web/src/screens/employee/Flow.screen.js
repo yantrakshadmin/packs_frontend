@@ -23,6 +23,7 @@ const FlowEmployeeScreen = () => {
     {
       title: 'Action',
       key: 'operation',
+      // fixed: 'right',
       render: (text, record) => (
         <div className="row justify-evenly">
           <Button
