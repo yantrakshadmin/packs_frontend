@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {VendorForm} from '../../forms/vendor.form';
-import {TableWithTabHOC} from '../../hocs/TableWithTab.hoc';
+import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {useAPI} from 'common/hooks/api';
 import vendorColumns from 'common/columns/Vendors.column';
 import {Popconfirm, Button} from 'antd';
@@ -8,14 +8,20 @@ import {deleteVendor} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
+import {connect} from 'react-redux';
 
-const VendorEmployeeScreen = () => {
+const VendorEmployeeScreen = ({currentPage}) => {
   const {data, loading, reload} = useAPI('/vendors/', {});
   const [editingId, setEditingId] = useState(null);
 
   console.log(data);
 
   const columns = [
+    {
+      title: 'Sr. No.',
+      key: 'srno',
+      render: (text, record, index) => (currentPage - 1) * 5 + index + 1,
+    },
     ...vendorColumns,
     {
       title: 'Action',
@@ -87,4 +93,8 @@ const VendorEmployeeScreen = () => {
   );
 };
 
-export default VendorEmployeeScreen;
+const mapStateToProps = (state) => {
+  return {currentPage: state.page.currentPage};
+};
+
+export default connect(mapStateToProps)(VendorEmployeeScreen);

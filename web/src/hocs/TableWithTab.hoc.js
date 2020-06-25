@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
 import {Typography, Button, Divider, Row, Col, Table, Modal, Tabs, Pagination} from 'antd';
+import {connect} from 'react-redux';
+import {changePage} from 'common/actions/changePage';
 
 import './table.styles.scss';
 
 const {Title} = Typography;
 const {TabPane} = Tabs;
 
-export const TableWithTabHOC = ({
+const TableWithTabHOC = ({
   title,
   tabs,
   modalBody: ModalBody = () => null,
@@ -18,15 +20,19 @@ export const TableWithTabHOC = ({
   size,
   reset,
   editingId,
+  pageSize,
   cancelEditing,
   hideRightButton,
   customRowSelectionType,
   expandHandleKey,
   ExpandBody,
   expandParams,
+  changePage,
 }) => {
   const [modalVisible, setModalVisible] = useState(!!editingId);
   const [activeTab, setActiveTab] = useState(tabs[0].key);
+  const [page, setPage] = useState(1);
+
   const callback = (key) => {
     if (reset) reset();
     setActiveTab(key);
@@ -115,7 +121,13 @@ export const TableWithTabHOC = ({
                     bordered
                     rowKey={rowKey}
                     expandRowByClick
-                    pagination={{pageSize: 5, position: ['bottomRight']}}
+                    pagination={{
+                      pageSize: pageSize || 5,
+                      position: ['bottomRight'],
+                      onChange(current) {
+                        changePage(current);
+                      },
+                    }}
                     size={size}
                     scroll={scroll}
                     rowClassName="no-vertical"
@@ -162,3 +174,5 @@ export const TableWithTabHOC = ({
     </div>
   );
 };
+
+export default connect(null, {changePage})(TableWithTabHOC);

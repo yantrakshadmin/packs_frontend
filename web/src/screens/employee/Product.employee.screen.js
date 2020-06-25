@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
+import {connect} from 'react-redux';
 import {ProductForm} from '../../forms/createProduct.form';
-import {TableWithTabHOC} from '../../hocs/TableWithTab.hoc';
+import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {useAPI} from 'common/hooks/api';
 import productColumns from 'common/columns/Products.column';
 import {Popconfirm, Button} from 'antd';
@@ -11,13 +12,18 @@ import Edit from '../../icons/Edit';
 // import File from '../../icons/File';
 // import Upload from '../../icons/Upload';
 
-const ProductEmployeeScreen = () => {
+const ProductEmployeeScreen = ({currentPage}) => {
   const {data, loading, reload} = useAPI('/products/', {});
   const [editingId, setEditingId] = useState(null);
 
   console.log(data);
 
   const columns = [
+    {
+      title: 'Sr. No.',
+      key: 'srno',
+      render: (text, record, index) => (currentPage - 1) * 5 + index + 1,
+    },
     ...productColumns,
     {
       title: 'Action',
@@ -101,4 +107,8 @@ const ProductEmployeeScreen = () => {
   );
 };
 
-export default ProductEmployeeScreen;
+const mapStateToProps = (state) => {
+  return {currentPage: state.page.currentPage};
+};
+
+export default connect(mapStateToProps)(ProductEmployeeScreen);

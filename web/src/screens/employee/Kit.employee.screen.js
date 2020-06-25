@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {KitForm} from '../../forms/createKit.form';
-import {TableWithTabHOC} from '../../hocs/TableWithTab.hoc';
+import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {useAPI} from 'common/hooks/api';
 import kitsColumns from 'common/columns/Kits.column';
 import ProductTable from '../../components/ProductsTable';
@@ -9,8 +9,9 @@ import {deleteKit} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
+import {connect} from 'react-redux';
 
-const KitEmployeeScreen = () => {
+const KitEmployeeScreen = ({currentPage}) => {
   const {data, loading, reload} = useAPI('/kits/', {});
   const [editingId, setEditingId] = useState(null);
 
@@ -19,6 +20,11 @@ const KitEmployeeScreen = () => {
   };
 
   const columns = [
+    {
+      title: 'Sr. No.',
+      key: 'srno',
+      render: (text, record, index) => (currentPage - 1) * 5 + index + 1,
+    },
     ...kitsColumns,
     {
       title: 'Action',
@@ -87,4 +93,8 @@ const KitEmployeeScreen = () => {
   );
 };
 
-export default KitEmployeeScreen;
+const mapStateToProps = (state) => {
+  return {currentPage: state.page.currentPage};
+};
+
+export default connect(mapStateToProps)(KitEmployeeScreen);
