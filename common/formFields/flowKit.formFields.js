@@ -29,6 +29,7 @@ export const flowKitsFormFields = [
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
+      disabled: true,
     },
     others: null,
     customLabel: 'Components PM',
