@@ -1,0 +1,18 @@
+.container {
+  margin: 5vh;
+
+  .logo img {
+    height: 200px;
+    width: 350px;
+    margin-top: 20px;
+    margin-left: 20px;
+  }
+  .meta {
+    display: flex;
+    margin: 3vh;
+
+    .left {
+      align-items: center;
+    }
+  }
+}

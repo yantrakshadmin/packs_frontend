@@ -1,37 +1,37 @@
 import React, {useState} from 'react';
-import {WareHouseForm} from '../../forms/warehouse.form';
+import {MaterialRequestForm} from '../../forms/materialRequest.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {useAPI} from 'common/hooks/api';
-import warehouseColumns from 'common/columns/Warehouse.column';
+import materialRequestColumns from 'common/columns/materialRequest.column.js';
+import MaterialRequestsTable from '../../components/MaterialRequestsTable';
 import {Popconfirm, Button} from 'antd';
-import {deleteWarehouse} from 'common/api/auth';
+import {deleteMr} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import {connect} from 'react-redux';
-// import Upload from '../../icons/Upload';
-// import File from '../../icons/File';
 
-const WarehouseEmployeeScreen = ({currentPage}) => {
-  const {data, loading, reload} = useAPI('/warehouse/', {});
+const MaterialRequestEmployeeScreen = ({currentPage}) => {
+  const {data, loading, reload} = useAPI('/mrequets/', {});
   const [editingId, setEditingId] = useState(null);
 
-  console.log(data);
+  const cancelEditing = () => {
+    setEditingId(null);
+  };
 
   const columns = [
-    {
-      title: 'Sr. No.',
-      key: 'srno',
-      render: (text, record, index) => (currentPage - 1) * 5 + index + 1,
-    },
-    ...warehouseColumns,
+    // {
+    //   title: 'Sr. No.',
+    //   key: 'srno',
+    //   render: (text, record, index) => (currentPage - 1) * 5 + index + 1,
+    // },
+    ...materialRequestColumns,
     {
       title: 'Action',
       key: 'operation',
-      fixed: 'right',
-      width: '200',
+      // fixed: 'right',
       render: (text, record) => (
-        <div className="row align-center justify-evenly">
+        <div className="row justify-evenly">
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -45,29 +45,14 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
             }}>
             <Edit />
           </Button>
-          {/* {record.document ? (
-            <File />
-          ) : (
-            <Button
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                boxShadow: 'none',
-                padding: '1px',
-              }}
-              // onClick={() => setEditingId(record.id)}>
-            >
-              <Upload />
-            </Button>
-          )} */}
           <Popconfirm
             title="Confirm Delete"
             onConfirm={deleteHOC({
               record,
               reload,
-              api: deleteWarehouse,
-              success: 'Deleted product successfully',
-              failure: 'Error in deleting product',
+              api: deleteMr,
+              success: 'Deleted Material Request successfully',
+              failure: 'Error in deleting material request',
             })}>
             <Button
               style={{
@@ -87,15 +72,13 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
 
   const tabs = [
     {
-      name: 'All Warehouses',
-      key: 'allWarehouses',
+      name: 'All Material Requests',
+      key: 'allMaterialRequests',
       data,
       columns,
       loading,
     },
   ];
-
-  const cancelEditing = () => setEditingId(null);
 
   return (
     <TableWithTabHOC
@@ -103,12 +86,14 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
       refresh={reload}
       tabs={tabs}
       size="middle"
-      title="Warehouses"
+      title="Material Requests"
       editingId={editingId}
       cancelEditing={cancelEditing}
-      modalBody={WareHouseForm}
-      modalWidth={45}
+      modalBody={MaterialRequestForm}
+      modalWidth={50}
+      expandHandleKey="flows"
       expandParams={{loading}}
+      ExpandBody={MaterialRequestsTable}
     />
   );
 };
@@ -117,4 +102,4 @@ const mapStateToProps = (state) => {
   return {currentPage: state.page.currentPage};
 };
 
-export default connect(mapStateToProps)(WarehouseEmployeeScreen);
+export default connect(mapStateToProps)(MaterialRequestEmployeeScreen);

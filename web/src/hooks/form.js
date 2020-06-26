@@ -1,8 +1,19 @@
 import {useForm} from 'antd/es/form/util';
 import {useEffect, useState} from 'react';
 import {notification} from 'antd';
+import moment from 'moment';
 
-export const useHandleForm = ({create, edit, retrieve, id, success, failure, done, close}) => {
+export const useHandleForm = ({
+  create,
+  edit,
+  retrieve,
+  id,
+  success,
+  failure,
+  done,
+  close,
+  date,
+}) => {
   const isEdit = !!id;
   const [form] = useForm();
   const [loading, setLoading] = useState(isEdit);
@@ -41,6 +52,7 @@ export const useHandleForm = ({create, edit, retrieve, id, success, failure, don
     try {
       if (isEdit) {
         const {data} = await retrieve(id);
+        if (date) data[date] = moment(data[date]);
         form.setFieldsValue(data);
         setApiData(data);
       }

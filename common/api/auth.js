@@ -450,8 +450,46 @@ export const retreiveFlows = (id) =>
     secure: true,
   });
 
+export const retreiveMyFlows = () =>
+  loadAPI('/myflows/', {
+    method: 'GET',
+    secure: true,
+  });
+
 export const deleteFlow = (id) =>
   loadAPI(`/edit-flow/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const createMr = ({delivery_required_on, flows}) =>
+  loadAPI('/create-mrequets/', {
+    method: 'POST',
+    data: {delivery_required_on, flows},
+    secure: true,
+  });
+
+export const editMr = (id, {delivery_required_on, flows}) =>
+  loadAPI(`/edit-mrequets/${id}/`, {
+    method: 'PATCH',
+    data: {delivery_required_on, flows},
+    secure: true,
+  });
+
+export const retreiveMr = (id) =>
+  loadAPI(`/edit-mrequets/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const retreiveMrs = () =>
+  loadAPI('/mrequets/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteMr = (id) =>
+  loadAPI(`/edit-mrequets/${id}/`, {
     method: 'DELETE',
     secure: true,
   });

@@ -5,15 +5,14 @@ import {
   publicRoutes,
   employeeRoutes,
   clientRoutes,
+  extraRoutesEmployee,
   extraRoutesClient,
+  outerRoutesEmployee,
 } from 'web/src/constants/routes';
 
 import {PrivateRoutes} from 'components/PrivateRoutes';
 import {NotFound404Screen} from 'screens/404.screen';
 
-/**
- * @return {*[]}
- */
 const RootRouter = ({user}) => {
   if (user) {
     switch (user.type) {
@@ -28,7 +27,14 @@ const RootRouter = ({user}) => {
         );
 
       case 'employee':
-        return <PrivateRoutes routes={employeeRoutes} user={user} />;
+        return (
+          <PrivateRoutes
+            routes={employeeRoutes}
+            extraRoutes={extraRoutesEmployee}
+            outerRoutes={outerRoutesEmployee}
+            user={user}
+          />
+        );
       case 'client':
         return <PrivateRoutes routes={clientRoutes} extraRoutes={extraRoutesClient} user={user} />;
 

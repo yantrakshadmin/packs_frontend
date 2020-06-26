@@ -36,7 +36,10 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
               boxShadow: 'none',
               padding: '1px',
             }}
-            onClick={() => setEditingId(record.user)}>
+            onClick={(e) => {
+              setEditingId(record.user);
+              e.stopPropagation();
+            }}>
             <Edit />
           </Button>
           {/* {row.document ? (

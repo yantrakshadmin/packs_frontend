@@ -27,7 +27,6 @@ export const flowKitsFormFields = [
     rules: [{required: true, message: 'Please enter components pm!'}],
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
-      placeholder: 'Enter',
       type: 'number',
       disabled: true,
     },
