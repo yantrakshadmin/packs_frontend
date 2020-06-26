@@ -59,7 +59,7 @@ const ScreenWrapper = ({routes, navigate, children, user, changePage}) => {
         <Dropdown overlay={menu} trigger={['click']}>
           <div className="row align-center">
             <p className="m-2">{user.name}</p>
-            <Avatar size="large" icon={<UserOutlined />} />
+            <Avatar size="large" src={user.dp} />
           </div>
         </Dropdown>
       </Header>

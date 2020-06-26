@@ -3,6 +3,7 @@ import {Form, Input, Upload, Select, Radio, DatePicker, Checkbox, InputNumber, m
 import {Icon} from '@ant-design/compatible';
 import {FORM_ELEMENT_TYPES} from 'constants/formFields.constant';
 // import {useState, useEffect} from 'react';
+// import moment from 'moment';
 
 const {Option} = Select;
 const CheckboxGroup = Checkbox.Group;
@@ -25,6 +26,8 @@ const props = {
 };
 
 const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel, form}) => {
+  if (others) if (others.selectOptions) console.log(others.selectOptions);
+
   let uppercase = false;
   if (others)
     if (others.uppercase) uppercase = true;
@@ -146,7 +149,7 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel, form}
           label={noLabel ? null : customLabel || key.charAt(0).toUpperCase() + key.slice(1)}
           name={key}
           rules={rules}>
-          <DatePicker />
+          <DatePicker onChange={(date) => console.log(date)} />
         </Form.Item>
       );
     case FORM_ELEMENT_TYPES.MULTIPLE_CHECKBOX:

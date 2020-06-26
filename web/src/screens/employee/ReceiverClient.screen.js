@@ -38,7 +38,10 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
               boxShadow: 'none',
               padding: '1px',
             }}
-            onClick={() => setEditingId(record.id)}>
+            onClick={(e) => {
+              setEditingId(record.id);
+              e.stopPropagation();
+            }}>
             <Edit />
           </Button>
           {/* {record.document ? (
@@ -71,7 +74,8 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
                 boxShadow: 'none',
                 border: 'none',
                 padding: '1px',
-              }}>
+              }}
+              onClick={(e) => e.stopPropagation()}>
               <Delete />
             </Button>
           </Popconfirm>

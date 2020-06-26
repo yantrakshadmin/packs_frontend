@@ -30,6 +30,12 @@ export const extraRoutesClient = [
   //   Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')),
   // },
 ];
+export const outerRoutesEmployee = [
+  {
+    path: '/docket/',
+    Component: lazy(() => import('components/Docket/Docket')),
+  },
+];
 export const extraRoutesEmployee = [
   {
     path: '/edit-profile/',
@@ -45,7 +51,7 @@ export const employeeRoutes = [
     name: 'Dashboard',
     icon: ['fas', 'home'],
     path: '/dashboard/',
-    Component: lazy(() => import('screens/Dashboard')),
+    Component: lazy(() => import('screens/404.screen')),
   },
   {
     name: 'Masters',
@@ -116,7 +122,7 @@ export const clientRoutes = [
     name: 'Material Request',
     icon: ['fas', 'layer-group'],
     path: '/material-request/',
-    Component: lazy(() => import('screens/404.screen')),
+    Component: lazy(() => import('screens/client/MaterialRequest.screen')),
   },
   {
     name: 'Client Inventory',
