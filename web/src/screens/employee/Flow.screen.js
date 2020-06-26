@@ -9,8 +9,9 @@ import {deleteFlow} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
+import {connect} from 'react-redux';
 
-const FlowEmployeeScreen = () => {
+const FlowEmployeeScreen = ({currentPage}) => {
   const {data, loading, reload} = useAPI('/flows/', {});
   const [editingId, setEditingId] = useState(null);
 
@@ -19,6 +20,11 @@ const FlowEmployeeScreen = () => {
   };
 
   const columns = [
+    {
+      title: 'Sr. No.',
+      key: 'srno',
+      render: (text, record, index) => (currentPage - 1) * 5 + index + 1,
+    },
     ...flowsColumns,
     {
       title: 'Action',
@@ -88,4 +94,8 @@ const FlowEmployeeScreen = () => {
   );
 };
 
-export default FlowEmployeeScreen;
+const mapStateToProps = (state) => {
+  return {currentPage: state.page.currentPage};
+};
+
+export default connect(mapStateToProps)(FlowEmployeeScreen);

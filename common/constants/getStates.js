@@ -3,7 +3,7 @@ import States from './statesAndCity.json';
 
 export const getStates = (country) => {
   if (country) {
-    return Countries.countries.filter((i) => i.country === country)[0].states;
+    return States.states.filter((i) => i.country === country)[0].states;
   }
   return [];
 };
