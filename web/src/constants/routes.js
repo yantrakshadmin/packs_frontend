@@ -98,6 +98,12 @@ export const employeeRoutes = [
     ],
   },
   {
+    name: 'Material Request',
+    icon: ['fas', 'layer-group'],
+    path: '/material-request/',
+    Component: lazy(() => import('screens/employee/MaterialRequest.screen')),
+  },
+  {
     name: 'GRN',
     icon: ['fas', 'layer-group'],
     path: '/grn/',

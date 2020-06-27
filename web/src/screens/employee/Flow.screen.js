@@ -29,6 +29,7 @@ const FlowEmployeeScreen = ({currentPage}) => {
     {
       title: 'Action',
       key: 'operation',
+      width: '7vw',
       // fixed: 'right',
       render: (text, record) => (
         <div className="row justify-evenly">
