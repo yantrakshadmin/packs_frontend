@@ -2,27 +2,27 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {ProductForm} from '../../forms/createProduct.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import {useAPI} from 'common/hooks/api';
 import productColumns from 'common/columns/Products.column';
-import {Popconfirm, Button, Input} from 'antd';
-import {deleteProduct} from 'common/api/auth';
+import {Popconfirm, Button, Input, Spin} from 'antd';
+import {deleteProduct, retrieveProducts} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import {useTableSearch} from 'hooks/useTableSearch';
+
 // import File from '../../icons/File';
 // import Upload from '../../icons/Upload';
 
 const {Search} = Input;
 
 const ProductEmployeeScreen = ({currentPage}) => {
-  const [searchVal, setSearchVal] = useState('s');
+  const [searchVal, setSearchVal] = useState(null);
 
-  const {loading, reload} = useAPI('/products/', {});
   const [editingId, setEditingId] = useState(null);
-  const {filteredData} = useTableSearch(searchVal);
 
-  // console.log(data);
+  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveProducts});
+
+  console.log(loading);
 
   const columns = [
     {
@@ -104,11 +104,8 @@ const ProductEmployeeScreen = ({currentPage}) => {
   return (
     <>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <div style={{width: '10vw', display: 'flex', alignItems: 'flex-end'}}>
-          <Input
-            onChange={(e) => setSearchVal(e.target.value)}
-            // onSearch={(val) => setSearchVal(val)}
-            placeholder="Search"></Input>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
       </div>
       <br />
