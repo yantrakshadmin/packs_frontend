@@ -28,7 +28,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
     {
       title: 'Action',
       key: 'operation',
-      width: '200',
+      width: '7vw',
       render: (text, record) => (
         <div className="row align-center justify-evenly">
           <Button

@@ -29,6 +29,7 @@ const KitEmployeeScreen = ({currentPage}) => {
     {
       title: 'Action',
       key: 'operation',
+      width: '7vw',
       render: (text, record) => (
         <div className="row justify-evenly">
           <Button

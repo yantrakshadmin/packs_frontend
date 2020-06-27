@@ -130,12 +130,13 @@ const TableWithTabHOC = ({
                     size={size}
                     scroll={scroll}
                     rowClassName="no-vertical"
-                    expandIcon={({expanded, onExpand, record}) =>
-                      expanded ? (
-                        <div onClick={(e) => onExpand(record, e)} />
-                      ) : (
-                        <div onClick={(e) => onExpand(record, e)} />
-                      )
+                    expandIcon={
+                      ({expanded, onExpand, record}) => null
+                      // expanded ? (
+                      //   <div onClick={(e) => onExpand(record, e)} />
+                      // ) : (
+                      //   <div onClick={(e) => onExpand(record, e)} />
+                      // )
                     }
                     rowSelection={
                       customRowSelectionType
