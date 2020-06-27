@@ -1,19 +1,23 @@
 import React, {useState} from 'react';
 import {MaterialRequestForm} from '../../forms/materialRequest.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import {useAPI} from 'common/hooks/api';
 import materialRequestColumns from 'common/columns/materialRequest.column.js';
 import MaterialRequestsTable from '../../components/MaterialRequestsTable';
-import {Popconfirm, Button} from 'antd';
-import {deleteMr} from 'common/api/auth';
+import {Popconfirm, Button, Input} from 'antd';
+import {deleteMr, retrieveMrs} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import {connect} from 'react-redux';
+import {useTableSearch} from 'hooks/useTableSearch';
+
+const {Search} = Input;
 
 const MaterialRequestEmployeeScreen = ({currentPage}) => {
-  const {data, loading, reload} = useAPI('/mrequets/', {});
+  const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
+
+  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveMrs});
 
   const cancelEditing = () => {
     setEditingId(null);
@@ -74,27 +78,35 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
     {
       name: 'All Material Requests',
       key: 'allMaterialRequests',
-      data,
+      data: filteredData,
       columns,
       loading,
     },
   ];
 
   return (
-    <TableWithTabHOC
-      rowKey={(record) => record.id}
-      refresh={reload}
-      tabs={tabs}
-      size="middle"
-      title="Material Requests"
-      editingId={editingId}
-      cancelEditing={cancelEditing}
-      modalBody={MaterialRequestForm}
-      modalWidth={50}
-      expandHandleKey="flows"
-      expandParams={{loading}}
-      ExpandBody={MaterialRequestsTable}
-    />
+    <>
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
+        </div>
+      </div>
+      <br />
+      <TableWithTabHOC
+        rowKey={(record) => record.id}
+        refresh={reload}
+        tabs={tabs}
+        size="middle"
+        title="Material Requests"
+        editingId={editingId}
+        cancelEditing={cancelEditing}
+        modalBody={MaterialRequestForm}
+        modalWidth={50}
+        expandHandleKey="flows"
+        expandParams={{loading}}
+        ExpandBody={MaterialRequestsTable}
+      />
+    </>
   );
 };
 

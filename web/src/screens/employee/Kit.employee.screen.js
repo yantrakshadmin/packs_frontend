@@ -1,19 +1,23 @@
 import React, {useState} from 'react';
 import {KitForm} from '../../forms/createKit.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import {useAPI} from 'common/hooks/api';
 import kitsColumns from 'common/columns/Kits.column';
 import ProductTable from '../../components/ProductsTable';
-import {Popconfirm, Button} from 'antd';
-import {deleteKit} from 'common/api/auth';
+import {Popconfirm, Button, Input} from 'antd';
+import {deleteKit, retrieveKits} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import {connect} from 'react-redux';
+import {useTableSearch} from 'hooks/useTableSearch';
+
+const {Search} = Input;
 
 const KitEmployeeScreen = ({currentPage}) => {
-  const {data, loading, reload} = useAPI('/kits/', {});
+  const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
+
+  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveKits});
 
   const cancelEditing = () => {
     setEditingId(null);
@@ -74,27 +78,35 @@ const KitEmployeeScreen = ({currentPage}) => {
     {
       name: 'All Kits',
       key: 'allKits',
-      data,
+      data: filteredData,
       columns,
       loading,
     },
   ];
 
   return (
-    <TableWithTabHOC
-      rowKey={(record) => record.id}
-      refresh={reload}
-      tabs={tabs}
-      size="middle"
-      title="Kits"
-      editingId={editingId}
-      cancelEditing={cancelEditing}
-      modalBody={KitForm}
-      modalWidth={45}
-      expandHandleKey="products"
-      expandParams={{loading}}
-      ExpandBody={ProductTable}
-    />
+    <>
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
+        </div>
+      </div>
+      <br />
+      <TableWithTabHOC
+        rowKey={(record) => record.id}
+        refresh={reload}
+        tabs={tabs}
+        size="middle"
+        title="Kits"
+        editingId={editingId}
+        cancelEditing={cancelEditing}
+        modalBody={KitForm}
+        modalWidth={45}
+        expandHandleKey="products"
+        expandParams={{loading}}
+        ExpandBody={ProductTable}
+      />
+    </>
   );
 };
 

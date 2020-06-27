@@ -1,18 +1,24 @@
 import React, {useState} from 'react';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import MaterialRequestsTable from '../../components/MaterialRequestsTable';
-import {useAPI} from 'common/hooks/api';
 import materialEmployeecolumns from 'common/columns/materialEmployee.column';
-import {Button} from 'antd';
+import {Button, Input} from 'antd';
 import {connect} from 'react-redux';
+import {useTableSearch} from 'hooks/useTableSearch';
+import {retrieveEmployeeMrs} from 'common/api/auth';
 // import Upload from '../../icons/Upload';
 // import File from '../../icons/File';
 
+const {Search} = Input;
+
 const ReceiverClientEmployeeScreen = ({currentPage}) => {
-  const {data, loading, reload} = useAPI('/allmrequest/', {});
+  const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  console.log(data);
+  const {filteredData, loading, reload} = useTableSearch({
+    searchVal,
+    retrieve: retrieveEmployeeMrs,
+  });
 
   const columns = [
     ...materialEmployeecolumns,
@@ -49,7 +55,6 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
             Pending
           </Button>
         );
-        return 'Pending';
       },
     },
     {
@@ -67,7 +72,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
     {
       name: 'All Material Requests',
       key: 'allMaterialRequests',
-      data,
+      data: filteredData,
       columns,
       loading,
     },
@@ -76,19 +81,27 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
   const cancelEditing = () => setEditingId(null);
 
   return (
-    <TableWithTabHOC
-      rowKey={(record) => record.id}
-      refresh={reload}
-      tabs={tabs}
-      size="middle"
-      title="Material Requests"
-      editingId={editingId}
-      cancelEditing={cancelEditing}
-      ExpandBody={MaterialRequestsTable}
-      expandHandleKey="flows"
-      hideRightButton
-      expandParams={{loading}}
-    />
+    <>
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
+        </div>
+      </div>
+      <br />
+      <TableWithTabHOC
+        rowKey={(record) => record.id}
+        refresh={reload}
+        tabs={tabs}
+        size="middle"
+        title="Material Requests"
+        editingId={editingId}
+        cancelEditing={cancelEditing}
+        ExpandBody={MaterialRequestsTable}
+        expandHandleKey="flows"
+        hideRightButton
+        expandParams={{loading}}
+      />
+    </>
   );
 };
 

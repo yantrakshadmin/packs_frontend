@@ -476,13 +476,13 @@ export const editMr = (id, {delivery_required_on, flows}) =>
     secure: true,
   });
 
-export const retreiveMr = (id) =>
+export const retrieveMr = (id) =>
   loadAPI(`/edit-mrequets/${id}/`, {
     method: 'GET',
     secure: true,
   });
 
-export const retreiveMrs = () =>
+export const retrieveMrs = () =>
   loadAPI('/mrequets/', {
     method: 'GET',
     secure: true,
@@ -491,5 +491,11 @@ export const retreiveMrs = () =>
 export const deleteMr = (id) =>
   loadAPI(`/edit-mrequets/${id}/`, {
     method: 'DELETE',
+    secure: true,
+  });
+
+export const retrieveEmployeeMrs = () =>
+  loadAPI('/allmrequest/', {
+    method: 'GET',
     secure: true,
   });

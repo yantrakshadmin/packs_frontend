@@ -8,9 +8,8 @@ import {
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
 import {useControlledSelect} from '../hooks/useControlledSelect';
-import {createMr, editMr, retreiveMr} from 'common/api/auth';
+import {createMr, editMr, retrieveMr} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
-import {useEffect} from 'react';
 
 export const MaterialRequestForm = ({id, onCancel, onDone}) => {
   const [flowId, setFlowId] = useState(null);
@@ -21,7 +20,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
   const {form, submit, loading} = useHandleForm({
     create: createMr,
     edit: editMr,
-    retrieve: retreiveMr,
+    retrieve: retrieveMr,
     success: 'Material Request created/edited successfully.',
     failure: 'Error in creating/editing material request.',
     done: onDone,

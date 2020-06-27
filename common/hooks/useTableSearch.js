@@ -1,5 +1,4 @@
 import {useState, useEffect} from 'react';
-// import {retrieveProducts} from 'common/api/auth';
 
 export const useTableSearch = ({searchVal, retrieve}) => {
   const [filteredData, setFilteredData] = useState([]);
@@ -22,12 +21,13 @@ export const useTableSearch = ({searchVal, retrieve}) => {
       if (data) setLoading(false);
     };
     fetchData();
-  }, [refresh]);
+  }, [refresh, retrieve]);
 
   useEffect(() => {
     if (searchVal) {
       const reqData = searchData.map((d, index) => {
         if (d.allValues.toLowerCase().indexOf(searchVal.toLowerCase()) >= 0) return origData[index];
+        return null;
       });
       setFilteredData(
         reqData.filter((d) => {
@@ -36,7 +36,7 @@ export const useTableSearch = ({searchVal, retrieve}) => {
         }),
       );
     } else setFilteredData(origData);
-  }, [searchVal]);
+  }, [searchVal, origData, searchData]);
 
   const reload = () => {
     setRefresh(refresh + 1);
