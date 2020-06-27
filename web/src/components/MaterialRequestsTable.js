@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Table, Row, Col, Spin} from 'antd';
 import requestsTableColumns from 'common/columns/requestsTable.column';
-import Title from 'antd/lib/skeleton/Title';
 
 const MaterialRequestsTable = ({loading, flows}) => {
   const [data, setData] = useState([]);

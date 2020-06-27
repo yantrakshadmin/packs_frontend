@@ -7,15 +7,17 @@ import {
 } from 'common/formFields/materialRequest.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {useControlledSelect} from 'hooks/useControlledSelect';
+import {useControlledSelect} from '../hooks/useControlledSelect';
 import {createMr, editMr, retreiveMr} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
+import {useEffect} from 'react';
 
 export const MaterialRequestForm = ({id, onCancel, onDone}) => {
   const [flowId, setFlowId] = useState(null);
 
   const {data: flows} = useAPI('/myflows/', {});
   const {data: kits} = useControlledSelect(flowId);
+
   const {form, submit, loading} = useHandleForm({
     create: createMr,
     edit: editMr,
@@ -27,6 +29,10 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
     id,
     date: 'delivery_required_on',
   });
+
+  // useEffect(() => {
+  //   const fetchKit
+  // }, [id])
 
   const preProcess = (data) => {
     const {flows} = data;
@@ -40,10 +46,20 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
     submit(data);
   };
 
+  const handleFieldsChange = (data) => {
+    console.log(data);
+  };
+
   return (
     <Spin spinning={loading}>
       <Divider orientation="left">Material Request Details</Divider>
-      <Form onFinish={preProcess} form={form} layout="vertical" hideRequiredMark autoComplete="off">
+      <Form
+        onFinish={preProcess}
+        form={form}
+        layout="vertical"
+        hideRequiredMark
+        autoComplete="off"
+        onFieldsChange={handleFieldsChange}>
         <Row style={{justifyContent: 'left'}}>
           {materialRequestFormFields.slice(0, 1).map((item, idx) => (
             <Col span={24}>
@@ -70,7 +86,6 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
                             kwargs: {
                               onChange: (val) => {
                                 setFlowId(val);
-                                console.log('done');
                               },
                               placeholder: 'Select',
                               showSearch: true,
@@ -102,6 +117,13 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
                               showSearch: true,
                               filterOption: (input, option) =>
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                              onFocus: () => {
+                                const data = form.getFieldValue(['flows', field.name, 'flow']);
+                                if (data) {
+                                  console.log(data);
+                                  setFlowId(data);
+                                }
+                              },
                             },
                             others: {
                               selectOptions: kits || [],

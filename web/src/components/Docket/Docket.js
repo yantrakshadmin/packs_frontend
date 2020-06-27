@@ -1,9 +1,9 @@
 import React from 'react';
-import {Row, Col, Divider, Grid, Typography} from 'antd';
+import {Row, Col, Typography} from 'antd';
 
 import './docket.styles.scss';
 
-const {Text, Title} = Typography;
+const {Title} = Typography;
 
 const Docket = () => {
   return (
