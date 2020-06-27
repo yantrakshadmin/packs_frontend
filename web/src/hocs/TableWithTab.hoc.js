@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Typography, Button, Divider, Row, Col, Table, Modal, Tabs, Pagination} from 'antd';
+import {Typography, Button, Divider, Row, Col, Table, Modal, Tabs} from 'antd';
 import {connect} from 'react-redux';
 import {changePage} from 'common/actions/changePage';
 
@@ -31,7 +31,6 @@ const TableWithTabHOC = ({
 }) => {
   const [modalVisible, setModalVisible] = useState(!!editingId);
   const [activeTab, setActiveTab] = useState(tabs[0].key);
-  const [page, setPage] = useState(1);
 
   const callback = (key) => {
     if (reset) reset();

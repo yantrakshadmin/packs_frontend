@@ -12,4 +12,12 @@ export default [
       return date.slice(0, 10);
     },
   },
+  {
+    title: 'Status',
+    key: 'status',
+    render: (text, record) => {
+      if (record.is_allocated) return 'Allocated';
+      return 'Pending';
+    },
+  },
 ];

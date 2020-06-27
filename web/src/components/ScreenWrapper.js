@@ -1,7 +1,6 @@
 import React, {useState, Suspense} from 'react';
 import {Layout, Menu, Divider, Dropdown, Avatar, Typography} from 'antd';
 import {Link} from '@reach/router';
-import {UserOutlined} from '@ant-design/icons';
 import {useDispatch} from 'react-redux';
 import {signOutUser} from 'common/actions/signIn';
 import {connect} from 'react-redux';
@@ -54,8 +53,6 @@ const ScreenWrapper = ({routes, navigate, children, user, changePage}) => {
           />
         </div>
 
-        {/* eslint-disable-next-line max-len */}
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
         <Dropdown overlay={menu} trigger={['click']}>
           <div className="row align-center">
             <p className="m-2">{user.name}</p>

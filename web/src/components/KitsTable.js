@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Table, Row, Col, Spin} from 'antd';
 import expandedKitColumns from 'common/columns/expandedKit.column';
-import Title from 'antd/lib/skeleton/Title';
 
 const ProductTable = ({loading, kits}) => {
   const [data, setData] = useState([]);
