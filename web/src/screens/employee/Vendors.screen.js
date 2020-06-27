@@ -1,20 +1,22 @@
 import React, {useState} from 'react';
 import {VendorForm} from '../../forms/vendor.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import {useAPI} from 'common/hooks/api';
 import vendorColumns from 'common/columns/Vendors.column';
-import {Popconfirm, Button} from 'antd';
-import {deleteVendor} from 'common/api/auth';
+import {Popconfirm, Button, Input} from 'antd';
+import {deleteVendor, retrieveVendors} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import {connect} from 'react-redux';
+import {useTableSearch} from 'hooks/useTableSearch';
+
+const {Search} = Input;
 
 const VendorEmployeeScreen = ({currentPage}) => {
-  const {data, loading, reload} = useAPI('/vendors/', {});
+  const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  console.log(data);
+  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveVendors});
 
   const columns = [
     {
@@ -72,7 +74,7 @@ const VendorEmployeeScreen = ({currentPage}) => {
     {
       name: 'All Vendors',
       key: 'allVendors',
-      data,
+      data: filteredData,
       columns,
       loading,
     },
@@ -81,19 +83,27 @@ const VendorEmployeeScreen = ({currentPage}) => {
   const cancelEditing = () => setEditingId(null);
 
   return (
-    <TableWithTabHOC
-      rowKey={(record) => record.id}
-      refresh={reload}
-      tabs={tabs}
-      size="middle"
-      title="Vendors"
-      editingId={editingId}
-      cancelEditing={cancelEditing}
-      modalBody={VendorForm}
-      modalWidth={45}
-      scroll={{x: 2000}}
-      expandParams={{loading}}
-    />
+    <>
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
+        </div>
+      </div>
+      <br />
+      <TableWithTabHOC
+        rowKey={(record) => record.id}
+        refresh={reload}
+        tabs={tabs}
+        size="middle"
+        title="Vendors"
+        editingId={editingId}
+        cancelEditing={cancelEditing}
+        modalBody={VendorForm}
+        modalWidth={45}
+        scroll={{x: 2000}}
+        expandParams={{loading}}
+      />
+    </>
   );
 };
 

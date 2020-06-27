@@ -1,19 +1,25 @@
 import React, {useState} from 'react';
 import {ClientForm} from '../../forms/client.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import {useAPI} from 'common/hooks/api';
 import clientColumns from 'common/columns/Clients.column';
-import {Button} from 'antd';
+import {Button, Input} from 'antd';
 import Edit from '../../icons/Edit';
 import {connect} from 'react-redux';
+import {useTableSearch} from 'hooks/useTableSearch';
+import {retrieveClients} from 'common/api/auth';
 // import Upload from '../../icons/Upload';
 // import File from '../../icons/File';
 
+const {Search} = Input;
+
 const WarehouseEmployeeScreen = ({currentPage}) => {
-  const {data, loading, reload} = useAPI('/clients/', {});
+  const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  console.log(data);
+  const {filteredData, loading, reload} = useTableSearch({
+    searchVal,
+    retrieve: retrieveClients,
+  });
 
   const columns = [
     {
@@ -66,7 +72,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
     {
       name: 'All Clients',
       key: 'allClients',
-      data,
+      data: filteredData,
       columns,
       loading,
     },
@@ -75,20 +81,28 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
   const cancelEditing = () => setEditingId(null);
 
   return (
-    <TableWithTabHOC
-      rowKey={(record) => record.id}
-      refresh={reload}
-      tabs={tabs}
-      size="middle"
-      title="Clients"
-      editingId={editingId}
-      cancelEditing={cancelEditing}
-      modalBody={ClientForm}
-      modalWidth={60}
-      expandParams={{loading}}
-      hideRightButton
-      scroll={{x: 2000}}
-    />
+    <>
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
+        </div>
+      </div>
+      <br />
+      <TableWithTabHOC
+        rowKey={(record) => record.id}
+        refresh={reload}
+        tabs={tabs}
+        size="middle"
+        title="Clients"
+        editingId={editingId}
+        cancelEditing={cancelEditing}
+        modalBody={ClientForm}
+        modalWidth={60}
+        expandParams={{loading}}
+        hideRightButton
+        scroll={{x: 2000}}
+      />
+    </>
   );
 };
 

@@ -1,22 +1,27 @@
 import React, {useState} from 'react';
 import {ReceiverForm} from '../../forms/receiver.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import {useAPI} from 'common/hooks/api';
 import receiverColumns from 'common/columns/Receiver.column';
-import {Popconfirm, Button} from 'antd';
-import {deleteReceiverClient} from 'common/api/auth';
+import {Popconfirm, Button, Input} from 'antd';
+import {deleteReceiverClient, retieveReceiverClients} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import {connect} from 'react-redux';
+import {useTableSearch} from 'hooks/useTableSearch';
 // import Upload from '../../icons/Upload';
 // import File from '../../icons/File';
 
+const {Search} = Input;
+
 const ReceiverClientEmployeeScreen = ({currentPage}) => {
-  const {data, loading, reload} = useAPI('/receiverclients/', {});
+  const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  console.log(data);
+  const {filteredData, loading, reload} = useTableSearch({
+    searchVal,
+    retrieve: retieveReceiverClients,
+  });
 
   const columns = [
     {
@@ -88,7 +93,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
     {
       name: 'All Receiver Clients',
       key: 'allReceiverClients',
-      data,
+      data: filteredData,
       columns,
       loading,
     },
@@ -97,18 +102,26 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
   const cancelEditing = () => setEditingId(null);
 
   return (
-    <TableWithTabHOC
-      rowKey={(record) => record.id}
-      refresh={reload}
-      tabs={tabs}
-      size="middle"
-      title="Receiver Clients"
-      editingId={editingId}
-      cancelEditing={cancelEditing}
-      modalBody={ReceiverForm}
-      modalWidth={45}
-      expandParams={{loading}}
-    />
+    <>
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
+        </div>
+      </div>
+      <br />
+      <TableWithTabHOC
+        rowKey={(record) => record.id}
+        refresh={reload}
+        tabs={tabs}
+        size="middle"
+        title="Receiver Clients"
+        editingId={editingId}
+        cancelEditing={cancelEditing}
+        modalBody={ReceiverForm}
+        modalWidth={45}
+        expandParams={{loading}}
+      />
+    </>
   );
 };
 

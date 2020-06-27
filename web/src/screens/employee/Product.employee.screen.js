@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {ProductForm} from '../../forms/createProduct.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import productColumns from 'common/columns/Products.column';
-import {Popconfirm, Button, Input, Spin} from 'antd';
+import {Popconfirm, Button, Input} from 'antd';
 import {deleteProduct, retrieveProducts} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
@@ -17,12 +17,9 @@ const {Search} = Input;
 
 const ProductEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
-
   const [editingId, setEditingId] = useState(null);
 
   const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveProducts});
-
-  console.log(loading);
 
   const columns = [
     {
