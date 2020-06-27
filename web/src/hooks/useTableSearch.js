@@ -9,12 +9,20 @@ export const useTableSearch = ({searchVal, retrieve}) => {
 
   useEffect(() => {
     setLoading(true);
+    const crawl = (d, allValues) => {
+      if (!allValues) allValues = [];
+      for (var key in d) {
+        if (typeof d[key] === 'object') crawl(d[key], allValues);
+        else allValues.push(d[key]);
+      }
+      return allValues;
+    };
     const fetchData = async () => {
       const {data} = await retrieve();
       setOrigData(data);
       setFilteredData(data);
       const searchD = data.map((d) => {
-        const allValues = Object.values(d);
+        const allValues = crawl(d);
         return {allValues: allValues.toString()};
       });
       setSearchData(searchD);
