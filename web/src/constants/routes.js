@@ -45,6 +45,10 @@ export const extraRoutesEmployee = [
     path: '*',
     Component: lazy(() => import('screens/404.screen')),
   },
+  {
+    path: '/create-allotment/',
+    Component: lazy(() => import('forms/allotment.form')),
+  },
 ];
 export const employeeRoutes = [
   {

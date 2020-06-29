@@ -51,7 +51,7 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel, form}
           name={key}
           rules={rules}
           {...formOptions}>
-          {uppercase ? <Input {...kwargs} size="middle" /> : <Input {...kwargs} size="middle" />}
+          <Input {...kwargs} size="middle" />
         </Form.Item>
       );
     }

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import MaterialRequestsTable from '../../components/MaterialRequestsTable';
 import materialEmployeecolumns from 'common/columns/materialEmployee.column';
+import {Link} from '@reach/router';
 import {Button, Input} from 'antd';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
@@ -60,9 +61,12 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
     {
       title: 'Docket',
       key: 'docket',
+      width: '10vw',
       render: (text, record) => (
-        <Button type="primary" disabled={!record.is_allocated}>
-          View Docket
+        <Button type="primary" disabled={record.is_allocated} onClick={(e) => e.stopPropagation()}>
+          <Link to="../create-allotment/" state={{id: record.id}} key={record.id}>
+            Create Allotment Docket
+          </Link>
         </Button>
       ),
     },
