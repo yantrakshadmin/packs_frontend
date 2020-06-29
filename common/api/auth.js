@@ -499,3 +499,106 @@ export const retrieveEmployeeMrs = () =>
     method: 'GET',
     secure: true,
   });
+
+export const createAllotment = ({
+  transaction_no,
+  dispatch_date,
+  send_from_warehouse,
+  sales_order,
+  flows,
+  is_delivered,
+  model,
+  driver_name,
+  driver_number,
+  lr_number,
+  vehicle_number,
+  freight_charges,
+  vehicle_type,
+  transport_by,
+  expected_delivery,
+  remarks,
+}) =>
+  loadAPI('/create-allotment/', {
+    method: 'POST',
+    data: {
+      transaction_no,
+      dispatch_date,
+      send_from_warehouse,
+      sales_order,
+      flows,
+      is_delivered,
+      model,
+      driver_name,
+      driver_number,
+      lr_number,
+      vehicle_number,
+      freight_charges,
+      vehicle_type,
+      transport_by,
+      expected_delivery,
+      remarks,
+    },
+    secure: 'true',
+  });
+
+export const editAllotment = (
+  id,
+  {
+    transaction_no,
+    dispatch_date,
+    send_from_warehouse,
+    sales_order,
+    flows,
+    is_delivered,
+    model,
+    driver_name,
+    driver_number,
+    lr_number,
+    vehicle_number,
+    freight_charges,
+    vehicle_type,
+    transport_by,
+    expected_delivery,
+    remarks,
+  },
+) =>
+  loadAPI(`/edit-allotment/${id}/`, {
+    method: 'PATCH',
+    data: {
+      transaction_no,
+      dispatch_date,
+      send_from_warehouse,
+      sales_order,
+      flows,
+      is_delivered,
+      model,
+      driver_name,
+      driver_number,
+      lr_number,
+      vehicle_number,
+      freight_charges,
+      vehicle_type,
+      transport_by,
+      expected_delivery,
+      remarks,
+    },
+    secure: true,
+  });
+
+export const retrieveAllotment = (id) =>
+  loadAPI(`/edit-allotment/${id}/`, {
+    methood: 'GET',
+    secure: true,
+  });
+
+export const retrieveAllotments = () =>
+  loadAPI('/allotments/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteAllotment = (id) =>
+  loadAPI(`/edit-allotment/${id}/`, {
+    methood: 'DELETE',
+    secure: true,
+  });
