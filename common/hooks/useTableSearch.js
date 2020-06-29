@@ -13,7 +13,7 @@ export const useTableSearch = ({searchVal, retrieve}) => {
       if (!allValues) allValues = [];
       for (var key in d) {
         if (typeof d[key] === 'object') crawl(d[key], allValues);
-        else allValues.push(d[key]);
+        else allValues.push(d[key] + ' ');
       }
       return allValues;
     };

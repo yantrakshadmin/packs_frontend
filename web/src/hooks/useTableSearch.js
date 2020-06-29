@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 export const useTableSearch = ({searchVal, retrieve}) => {
   const [filteredData, setFilteredData] = useState([]);
   const [origData, setOrigData] = useState([]);
-  const [searchData, setSearchData] = useState([]);
+  const [searchIndex, setSearchIndex] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(0);
 
@@ -13,7 +13,7 @@ export const useTableSearch = ({searchVal, retrieve}) => {
       if (!allValues) allValues = [];
       for (var key in d) {
         if (typeof d[key] === 'object') crawl(d[key], allValues);
-        else allValues.push(d[key]);
+        else allValues.push(d[key] + ' ');
       }
       return allValues;
     };
@@ -21,11 +21,11 @@ export const useTableSearch = ({searchVal, retrieve}) => {
       const {data} = await retrieve();
       setOrigData(data);
       setFilteredData(data);
-      const searchD = data.map((d) => {
+      const searchInd = data.map((d) => {
         const allValues = crawl(d);
         return {allValues: allValues.toString()};
       });
-      setSearchData(searchD);
+      setSearchIndex(searchInd);
       if (data) setLoading(false);
     };
     fetchData();
@@ -33,7 +33,7 @@ export const useTableSearch = ({searchVal, retrieve}) => {
 
   useEffect(() => {
     if (searchVal) {
-      const reqData = searchData.map((d, index) => {
+      const reqData = searchIndex.map((d, index) => {
         if (d.allValues.toLowerCase().indexOf(searchVal.toLowerCase()) >= 0) return origData[index];
         return null;
       });
@@ -44,7 +44,7 @@ export const useTableSearch = ({searchVal, retrieve}) => {
         }),
       );
     } else setFilteredData(origData);
-  }, [searchVal, origData, searchData]);
+  }, [searchVal, origData, searchIndex]);
 
   const reload = () => {
     setRefresh(refresh + 1);
