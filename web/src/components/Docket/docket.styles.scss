@@ -1,5 +1,7 @@
 .container {
   margin: 5vh;
+  font-size: 18px;
+  color: black;
 
   .header {
     display: flex;
@@ -9,13 +11,11 @@
     .logo img {
       height: 55px;
       width: 200px;
-      // margin-top: 30px;
       margin-left: 30px;
     }
 
     .heading {
       margin-right: 10vh;
-      // margin-top: 4.5vh;
     }
   }
 
@@ -29,6 +29,10 @@
   }
 
   .table {
+    margin: 3vh;
+  }
+
+  .final {
     margin: 3vh;
   }
 }
