@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import allotmentColumns from 'common/columns/Allotment.column';
-import {Input} from 'antd';
+import {Input, Button} from 'antd';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
 import {useEffect} from 'react';
+import {Link} from '@reach/router';
 // import Upload from '../../icons/Upload';
 // import File from '../../icons/File';
 
@@ -45,6 +46,15 @@ const AllotmentDocketsScreen = ({currentPage}) => {
       render: (text, record, index) => (currentPage - 1) * 5 + index + 1,
     },
     ...allotmentColumns,
+    {
+      title: 'View Docket',
+      key: 'view_docket',
+      render: () => (
+        <Button>
+          <Link to="../docket">View Docket</Link>
+        </Button>
+      ),
+    },
   ];
 
   const tabs = [

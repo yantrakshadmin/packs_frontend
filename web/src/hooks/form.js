@@ -53,7 +53,10 @@ export const useHandleForm = ({
       if (isEdit) {
         const {data} = await retrieve(id);
         if (date) data[date] = moment(data[date]);
-        form.setFieldsValue(data);
+        if (data) {
+          console.log(data);
+          form.setFieldsValue(data);
+        }
         setApiData(data);
       }
     } catch (e) {
