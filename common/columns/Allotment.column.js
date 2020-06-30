@@ -19,7 +19,7 @@ export default [
   {
     title: 'Warehouse',
     key: 'warehouse_name',
-    dataIndex: 'name',
+    dataIndex: 'warehouse_name',
   },
   {
     title: 'Model',

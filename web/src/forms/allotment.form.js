@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Form, Col, Row, Button, Divider, Spin} from 'antd';
 import formItem from '../hocs/formItem.hoc';
 import {
@@ -9,10 +9,10 @@ import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
 import {
   createAllotment,
-  retrieveAllotment,
-  editAllotment,
-  retrieveMr,
-  retrieveMrs,
+  // retrieveAllotment,
+  // editAllotment,
+  // retrieveMr,
+  // retrieveMrs,
 } from 'common/api/auth';
 import {navigate} from '@reach/router';
 
