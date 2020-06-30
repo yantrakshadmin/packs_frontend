@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import allotmentColumns from 'common/columns/Allotment.column';
-import {Button, Input} from 'antd';
-import Edit from '../../icons/Edit';
+import {Input} from 'antd';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
@@ -21,8 +20,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
 
   const {filteredData, reload} = useTableSearch({
     searchVal,
-    retrieve: () => null,
-    reqData,
+    reqData: reqData,
   });
 
   useEffect(() => {

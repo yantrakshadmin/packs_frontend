@@ -25,6 +25,7 @@ export const useTableSearch = ({searchVal, retrieve, reqData}) => {
         setOrigData(data);
         setFilteredData(data);
       } else {
+        fullData = reqData;
         setOrigData(reqData);
         setFilteredData(reqData);
       }
