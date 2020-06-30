@@ -1,18 +1,34 @@
 .container {
   margin: 5vh;
 
-  .logo img {
-    height: 200px;
-    width: 350px;
-    margin-top: 20px;
-    margin-left: 20px;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4vh;
+
+    .logo img {
+      height: 55px;
+      width: 200px;
+      // margin-top: 30px;
+      margin-left: 30px;
+    }
+
+    .heading {
+      margin-right: 10vh;
+      // margin-top: 4.5vh;
+    }
   }
+
   .meta {
     display: flex;
     margin: 3vh;
+  }
 
-    .left {
-      align-items: center;
-    }
+  .main-data {
+    margin: 3vh;
+  }
+
+  .table {
+    margin: 3vh;
   }
 }
