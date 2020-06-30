@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-export const useTableSearch = ({searchVal, retrieve}) => {
+export const useTableSearch = ({searchVal, retrieve, reqData}) => {
   const [filteredData, setFilteredData] = useState([]);
   const [origData, setOrigData] = useState([]);
   const [searchData, setSearchData] = useState([]);
@@ -18,9 +18,14 @@ export const useTableSearch = ({searchVal, retrieve}) => {
       return allValues;
     };
     const fetchData = async () => {
-      const {data} = await retrieve();
-      setOrigData(data);
-      setFilteredData(data);
+      if (!reqData) {
+        const {data} = await retrieve();
+        setOrigData(data);
+        setFilteredData(data);
+      } else {
+        setOrigData(reqData);
+        setFilteredData(reqData);
+      }
       const searchD = data.map((d) => {
         const allValues = crawl(d);
         return {allValues: allValues.toString()};

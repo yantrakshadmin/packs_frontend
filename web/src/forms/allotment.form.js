@@ -20,6 +20,8 @@ const AllotmentForm = ({location}) => {
   const {data: mrs} = useAPI('/allmrequest/', {});
   const {data: warehouses} = useAPI('/warehouse/', {});
   const {data: vendors} = useAPI('/vendors/', {});
+  const {data: kits} = useAPI('/kits/', {});
+  const {data: flows} = useAPI('/flows/', {});
 
   const onDone = () => {
     navigate('./material-request/');
@@ -144,9 +146,43 @@ const AllotmentForm = ({location}) => {
               <div>
                 {fields.map((field) => (
                   <Row align="middle">
-                    {allotmentProductFormFields.slice(0, 4).map((item) => (
-                      <Col span={5}>
-                        <div className="p-2">
+                    <Col span={6}>
+                      <div className="p-2">
+                        {formItem({
+                          ...allotmentProductFormFields[0],
+                          others: {
+                            selectOptions: flows || [],
+                            customTitle: 'flow_name',
+                            key: 'id',
+                            formOptions: {
+                              ...field,
+                              name: [field.name, 'flow'],
+                              fieldKey: [field.fieldKey, 'flow'],
+                            },
+                          },
+                        })}
+                      </div>
+                    </Col>
+                    <Col span={6}>
+                      <div className="p-2">
+                        {formItem({
+                          ...allotmentProductFormFields[1],
+                          others: {
+                            selectOptions: kits || [],
+                            customTitle: 'kit_name',
+                            key: 'id',
+                            formOptions: {
+                              ...field,
+                              name: [field.name, 'kit'],
+                              fieldKey: [field.fieldKey, 'kit'],
+                            },
+                          },
+                        })}
+                      </div>
+                    </Col>
+                    {allotmentProductFormFields.slice(2, 4).map((item, idx) => (
+                      <Col span={6}>
+                        <div key={idx} className="p-2">
                           {formItem({
                             ...item,
                             others: {

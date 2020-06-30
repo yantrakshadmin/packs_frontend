@@ -1,0 +1,36 @@
+.container {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.container .image {
+  max-height: 50vh;
+}
+
+.container .content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.container .content button {
+  background-color: greenyellow;
+  border-radius: 10%;
+  color: white;
+  font-size: small;
+  border: none;
+  outline: none;
+  text-decoration: none;
+}
+/*# sourceMappingURL=404.styles.css.map */

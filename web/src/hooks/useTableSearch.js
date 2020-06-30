@@ -1,8 +1,8 @@
 import {useState, useEffect} from 'react';
 
-export const useTableSearch = ({searchVal, retrieve}) => {
+export const useTableSearch = ({searchVal, retrieve, reqData}) => {
   const [filteredData, setFilteredData] = useState([]);
-  const [origData, setOrigData] = useState([]);
+  const [origData, setOrigData] = useState(null);
   const [searchIndex, setSearchIndex] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(0);
@@ -18,18 +18,27 @@ export const useTableSearch = ({searchVal, retrieve}) => {
       return allValues;
     };
     const fetchData = async () => {
-      const {data} = await retrieve();
-      setOrigData(data);
-      setFilteredData(data);
-      const searchInd = data.map((d) => {
-        const allValues = crawl(d);
-        return {allValues: allValues.toString()};
-      });
-      setSearchIndex(searchInd);
-      if (data) setLoading(false);
+      let fullData = null;
+      if (!reqData) {
+        const {data} = await retrieve();
+        fullData = data;
+        setOrigData(data);
+        setFilteredData(data);
+      } else {
+        setOrigData(reqData);
+        setFilteredData(reqData);
+      }
+      if (fullData) {
+        const searchInd = fullData.map((d) => {
+          const allValues = crawl(d);
+          return {allValues: allValues.toString()};
+        });
+        setSearchIndex(searchInd);
+        setLoading(false);
+      }
     };
     fetchData();
-  }, [refresh, retrieve]);
+  }, [refresh, retrieve, reqData]);
 
   useEffect(() => {
     if (searchVal) {
