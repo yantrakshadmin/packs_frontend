@@ -2,8 +2,6 @@ import React from 'react';
 import {Form, Input, Upload, Select, Radio, DatePicker, Checkbox, InputNumber, message} from 'antd';
 import {Icon} from '@ant-design/compatible';
 import {FORM_ELEMENT_TYPES} from 'constants/formFields.constant';
-// import {useState, useEffect} from 'react';
-// import moment from 'moment';
 
 const {Option} = Select;
 const CheckboxGroup = Checkbox.Group;
@@ -27,11 +25,6 @@ const props = {
 
 const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel, form}) => {
   if (others) if (others.selectOptions) console.log(others.selectOptions);
-
-  let uppercase = false;
-  if (others)
-    if (others.uppercase) uppercase = true;
-    else uppercase = false;
 
   let formOptions = {};
   if (others) {

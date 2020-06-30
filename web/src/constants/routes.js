@@ -108,6 +108,12 @@ export const employeeRoutes = [
     Component: lazy(() => import('screens/employee/MaterialRequest.screen')),
   },
   {
+    name: 'Allotment Dockets',
+    icon: ['fas', 'layer-group'],
+    path: '/allotment-dockets/',
+    Component: lazy(() => import('screens/employee/AllotmentDockets.screen.js')),
+  },
+  {
     name: 'GRN',
     icon: ['fas', 'layer-group'],
     path: '/grn/',
