@@ -27,6 +27,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
   useEffect(() => {
     if (allotments) {
       const reqD = allotments.map((alt) => ({
+        id: alt.id,
         transaction_no: alt.transaction_no,
         parent_name: alt.sales_order.owner.first_name + ' ' + alt.sales_order.owner.last_name,
         dispatch_date: alt.dispatch_date,
@@ -49,11 +50,16 @@ const AllotmentDocketsScreen = ({currentPage}) => {
     {
       title: 'View Docket',
       key: 'view_docket',
-      render: () => (
-        <Button>
-          <Link to="../docket">View Docket</Link>
-        </Button>
-      ),
+      render: (text, record) => {
+        console.log(record);
+        return (
+          <Button>
+            <Link to="../docket" state={{id: record.id}} key={record.id}>
+              View Docket
+            </Link>
+          </Button>
+        );
+      },
     },
   ];
 
