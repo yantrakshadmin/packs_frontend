@@ -53,7 +53,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
       render: (text, record) => {
         console.log(record);
         return (
-          <Button>
+          <Button type="primary">
             <Link to="../docket" state={{id: record.id}} key={record.id}>
               View Docket
             </Link>
