@@ -2,38 +2,6 @@ import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
 
 export const allotmentFormFields = [
   {
-    key: 'transaction_no',
-    rules: [{required: true, message: 'Please enter transaction number!'}],
-    kwargs: {
-      placeholder: 'Enter',
-      type: 'number',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Transaction No.',
-  },
-
-  {
-    key: 'dispatch_date',
-    rules: [{required: true, message: 'Please enter dispatch date!'}],
-    kwargs: {
-      placeholder: 'Enter',
-    },
-    type: FORM_ELEMENT_TYPES.DATE,
-    others: null,
-    customLabel: 'Dispatch Date',
-  },
-  {
-    key: 'send_from_warehouse',
-    rules: [{required: true, message: 'Please select warehouse!'}],
-    kwargs: {
-      placeholder: 'Select',
-    },
-    type: FORM_ELEMENT_TYPES.SELECT,
-    others: null,
-    customLabel: 'Warehouse',
-  },
-  {
     key: 'sales_order',
     rules: [{required: true, message: 'Please select sales order ID!'}],
     kwargs: {
@@ -44,21 +12,7 @@ export const allotmentFormFields = [
     others: null,
     customLabel: 'Sales Order ID',
   },
-  {
-    key: 'is_delivered',
-    rules: [{required: true, message: 'Please select!'}],
-    kwargs: {
-      placeholder: 'Enter',
-    },
-    type: FORM_ELEMENT_TYPES.RADIO,
-    others: {
-      radioOptions: [
-        {value: true, label: 'Yes'},
-        {value: false, label: 'No'},
-      ],
-    },
-    customLabel: 'Delivered?',
-  },
+
   {
     key: 'model',
     rules: [{required: true, message: 'Please select model!'}],
@@ -137,6 +91,27 @@ export const allotmentFormFields = [
     },
     customLabel: 'Vehicle Type',
   },
+
+  {
+    key: 'remarks',
+    rules: [{required: true, message: 'Please enter remarks!'}],
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Remarks',
+  },
+  {
+    key: 'send_from_warehouse',
+    rules: [{required: true, message: 'Please select warehouse!'}],
+    kwargs: {
+      placeholder: 'Select',
+    },
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: null,
+    customLabel: 'Warehouse',
+  },
   {
     key: 'transport_by',
     rules: [{required: true, message: 'Please enter transport by!'}],
@@ -148,6 +123,16 @@ export const allotmentFormFields = [
     customLabel: 'Transport By',
   },
   {
+    key: 'dispatch_date',
+    rules: [{required: true, message: 'Please enter dispatch date!'}],
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.DATE,
+    others: null,
+    customLabel: 'Dispatch Date',
+  },
+  {
     key: 'expected_delivery',
     rules: [{required: true, message: 'Please select expected delivery!'}],
     kwargs: {
@@ -156,16 +141,6 @@ export const allotmentFormFields = [
     type: FORM_ELEMENT_TYPES.DATE,
     others: null,
     customLabel: 'Expected Delivery',
-  },
-  {
-    key: 'remarks',
-    rules: [{required: true, message: 'Please enter remarks!'}],
-    kwargs: {
-      placeholder: 'Enter',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Remarks',
   },
 ];
 

@@ -544,12 +544,10 @@ export const createAllotment = ({
 export const editAllotment = (
   id,
   {
-    transaction_no,
     dispatch_date,
     send_from_warehouse,
     sales_order,
     flows,
-    is_delivered,
     model,
     driver_name,
     driver_number,
@@ -565,12 +563,10 @@ export const editAllotment = (
   loadAPI(`/edit-allotment/${id}/`, {
     method: 'PATCH',
     data: {
-      transaction_no,
       dispatch_date,
       send_from_warehouse,
       sales_order,
       flows,
-      is_delivered,
       model,
       driver_name,
       driver_number,

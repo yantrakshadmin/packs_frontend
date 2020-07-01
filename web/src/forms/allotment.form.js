@@ -68,37 +68,15 @@ const AllotmentForm = ({location}) => {
       <Divider orientation="left">Allotment Details</Divider>
       <Form onFinish={preProcess} form={form} layout="vertical" hideRequiredMark autoComplete="off">
         <Row style={{justifyContent: 'left'}}>
-          {allotmentFormFields.slice(0, 2).map((item, idx) => (
+          {allotmentFormFields.slice(0, 4).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
           ))}
-          {allotmentFormFields.slice(2, 3).map((item, idx) => (
-            <Col span={6}>
-              <div key={idx} className="p-2">
-                {formItem({
-                  ...item,
-                  others: {
-                    selectOptions: warehouses || [],
-                    key: 'id',
-                    customTitle: 'name',
-                    dataKeys: ['address', 'email'],
-                  },
-                })}
-              </div>
-            </Col>
-          ))}
-          <Col span={6}>
-            <div key={4} className="p-2">
-              {formItem({
-                ...allotmentFormFields[3],
-              })}
-            </div>
-          </Col>
         </Row>
-        <Row>
+        <Row style={{justifyContent: 'left'}}>
           {allotmentFormFields.slice(4, 8).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className="p-2">
@@ -108,17 +86,23 @@ const AllotmentForm = ({location}) => {
           ))}
         </Row>
         <Row>
-          {allotmentFormFields.slice(8, 11).map((item, idx) => (
-            <Col span={6}>
-              <div key={idx} className="p-2">
-                {formItem(item)}
-              </div>
-            </Col>
-          ))}
+          <Col span={6}>
+            <div key={9} className="p-2">
+              {formItem({
+                ...allotmentFormFields[8],
+                others: {
+                  selectOptions: warehouses || [],
+                  key: 'id',
+                  customTitle: 'name',
+                  dataKeys: ['address', 'email'],
+                },
+              })}
+            </div>
+          </Col>
           <Col span={6}>
             <div className="p-2">
               {formItem({
-                ...allotmentFormFields[11],
+                ...allotmentFormFields[9],
                 others: {
                   selectOptions: vendors || [],
                   key: 'id',
@@ -128,9 +112,7 @@ const AllotmentForm = ({location}) => {
               })}
             </div>
           </Col>
-        </Row>
-        <Row>
-          {allotmentFormFields.slice(12, 14).map((item, idx) => (
+          {allotmentFormFields.slice(10, 12).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className="p-2">
                 {formItem(item)}
