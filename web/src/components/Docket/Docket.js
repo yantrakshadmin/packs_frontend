@@ -282,43 +282,43 @@ const Docket = ({location}) => {
         <Row className="final">
           <Col span={12}>
             <Row>
-              <Col span={8}>
+              <Col span={9}>
                 <p style={{fontWeight: 'bold'}}>Amount in Words :</p>
               </Col>
-              <Col span={14} style={{wordWrap: 'break-word', textTransform: 'capitalize'}}>
+              <Col span={13} style={{wordWrap: 'break-word', textTransform: 'capitalize'}}>
                 {String.fromCharCode(0x20b9) + ' ' + inWords(total) + 'Only.'}
               </Col>
             </Row>
             {/* <br /> */}
             <Row>
-              <Col span={8}>
+              <Col span={9}>
                 <p style={{fontWeight: 'bold'}}>SO No. :</p>
               </Col>
-              <Col span={14} style={{wordWrap: 'break-word'}}>
+              <Col span={13} style={{wordWrap: 'break-word'}}>
                 {allotment.sales_order.id}
               </Col>
             </Row>
             <Row>
-              <Col span={8}>
+              <Col span={9}>
                 <p style={{fontWeight: 'bold'}}>Transporter Name :</p>
               </Col>
-              <Col span={14} style={{wordWrap: 'break-word'}}>
+              <Col span={13} style={{wordWrap: 'break-word'}}>
                 {allotment.transport_by.name}
               </Col>
             </Row>
             <Row>
-              <Col span={8}>
+              <Col span={9}>
                 <p style={{fontWeight: 'bold'}}>Driver Name :</p>
               </Col>
-              <Col span={14} style={{wordWrap: 'break-word'}}>
+              <Col span={13} style={{wordWrap: 'break-word'}}>
                 {allotment.driver_name}
               </Col>
             </Row>
             <Row>
-              <Col span={8}>
+              <Col span={9}>
                 <p style={{fontWeight: 'bold'}}>Driver No. : </p>
               </Col>
-              <Col span={14} style={{wordWrap: 'break-word'}}>
+              <Col span={13} style={{wordWrap: 'break-word'}}>
                 {allotment.driver_number}
               </Col>
             </Row>
