@@ -98,46 +98,37 @@ const Docket = ({location}) => {
         <Row className="meta">
           <Col span={12} className="left">
             <Row>
-              <Col span={10}>
-                <p style={{fontWeight: 'bold'}}>Transaction No. :</p>
-              </Col>
-              <Col span={12} style={{wordWrap: 'break-word'}}>
-                {allotment.transaction_no}
+              <Col span={22}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Transaction No. : </p>
+                <p style={{display: 'inline'}}>{allotment.transaction_no}</p>
               </Col>
             </Row>
             <Row>
-              <Col span={10}>
-                <p style={{fontWeight: 'bold'}}>Transaction Date :</p>
-              </Col>
-              <Col span={12} style={{wordWrap: 'break-word'}}>
-                {allotment.dispatch_date.slice(0, 10).toString()}
+              <Col span={22}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Transaction Date : </p>
+                <p style={{display: 'inline'}}>{allotment.dispatch_date.slice(0, 10)}</p>
               </Col>
             </Row>
             <Row>
-              <Col span={10}>
-                <p style={{fontWeight: 'bold'}}>Dispatch Date :</p>
-              </Col>
-              <Col span={12} style={{wordWrap: 'break-word'}}>
-                {allotment.dispatch_date.slice(0, 10).toString()}
+              <Col span={22}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Dispatch Date : </p>
+                <p style={{display: 'inline'}}>{allotment.dispatch_date.slice(0, 10)}</p>
               </Col>
             </Row>
             <Row>
-              <Col span={10}>
-                <p style={{fontWeight: 'bold'}}>Transaction Type :</p>
-              </Col>
-              <Col span={12} style={{fontWeight: 'bold', wordWrap: 'break-word'}}>
-                {allotment.model}
+              <Col span={22}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Transaction Type : Allot</p>
               </Col>
             </Row>
             <Row>
-              <Col span={10}>
-                <p style={{fontWeight: 'bold'}}>KIT ID :</p>
-              </Col>
-              <Col span={12} style={{fontWeight: 'bold', wordWrap: 'break-word'}}>
-                {allotment.flows.map((flow, idx) => {
-                  if (idx === allotment.flows.length - 1) return flow.kit.kit_name.slice(3);
-                  return flow.kit.kit_name.slice(3) + '/';
-                })}
+              <Col span={22}>
+                <p style={{display: 'inline', fontWeight: 'bold'}}>
+                  KIT ID : &nbsp;
+                  {allotment.flows.map((flow, idx) => {
+                    if (idx === allotment.flows.length - 1) return flow.kit.kit_name.slice(3);
+                    return flow.kit.kit_name.slice(3) + '/';
+                  })}
+                </p>
               </Col>
             </Row>
           </Col>
@@ -154,63 +145,86 @@ const Docket = ({location}) => {
             </p>
           </Col>
         </Row>
-        <Row className="main-data">
-          <Col span={12}>
-            <Row>
-              <Col span={10}>
-                <p style={{fontWeight: 'bold'}}>Sender's Name :</p>
-              </Col>
-              <Col span={12} style={{wordWrap: 'break-word'}}>
-                {allotment.send_from_warehouse.name}
-              </Col>
-            </Row>
-            <Row>
-              <Col span={10}>
-                <p style={{fontWeight: 'bold'}}>Sender's Address :</p>
-              </Col>
-              <Col span={12} style={{wordWrap: 'break-word'}}>
-                {allotment.send_from_warehouse.address}
-              </Col>
-            </Row>
-            <Row>
-              <Col span={10}>
-                <p style={{fontWeight: 'bold'}}>GST :</p>
-              </Col>
-              <Col span={12} style={{wordWrap: 'break-word'}}>
-                {allotment.send_from_warehouse.gst}
-              </Col>
-            </Row>
-          </Col>
-
-          <Col span={12}>
-            <Row>
-              <Col span={10}>
-                <p style={{fontWeight: 'bold'}}>Receiver's Name :</p>
-              </Col>
-              <Col span={12} style={{wordWrap: 'break-word'}}>
-                {allotment.flows[0].flow.sender_client.client_name}
-              </Col>
-            </Row>
-            <Row>
-              <Col span={10}>
-                <p style={{fontWeight: 'bold'}}>Receiver's Address :</p>
-              </Col>
-              <Col span={12} style={{wordWrap: 'break-word'}}>
-                {allotment.flows[0].flow.sender_client.client_shipping_address +
-                  ',' +
-                  allotment.flows[0].flow.sender_client.client_shipping_address}
-              </Col>
-            </Row>
-            <Row>
-              <Col span={10}>
-                <p style={{fontWeight: 'bold'}}>GST :</p>
-              </Col>
-              <Col span={12} style={{wordWrap: 'break-word'}}>
-                {allotment.flows[0].flow.sender_client.client_gst}
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+        <div className="main-data">
+          <Row>
+            <Col span={12}>
+              <Row>
+                <Col span={10}>
+                  <p style={{fontWeight: 'bold'}}>Sender's Name : </p>
+                </Col>
+                <Col span={12} style={{wordWrap: 'break-word'}}>
+                  {allotment.send_from_warehouse.name}
+                </Col>
+              </Row>
+            </Col>
+            <Col span={12}>
+              <Row>
+                <Col span={10}>
+                  <p style={{fontWeight: 'bold'}}>Receiver's Name : </p>
+                </Col>
+                <Col span={12} style={{wordWrap: 'break-word'}}>
+                  {allotment.flows[0].flow.sender_client.client_name}
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
+              <Row>
+                <Col span={10}>
+                  <p style={{fontWeight: 'bold'}}>Sender's Address : </p>
+                </Col>
+                <Col span={12} style={{wordWrap: 'break-word'}}>
+                  {allotment.send_from_warehouse.address +
+                    ' ' +
+                    allotment.send_from_warehouse.city +
+                    ' ' +
+                    allotment.send_from_warehouse.state +
+                    ' ' +
+                    allotment.send_from_warehouse.pincode}
+                </Col>
+              </Row>
+            </Col>
+            <Col span={12}>
+              <Row>
+                <Col span={10}>
+                  <p style={{fontWeight: 'bold'}}>Receiver's Address : </p>
+                </Col>
+                <Col span={12} style={{wordWrap: 'break-word'}}>
+                  {allotment.flows[0].flow.sender_client.client_shipping_address +
+                    ' ' +
+                    allotment.flows[0].flow.sender_client.client_shipping_city +
+                    ' ' +
+                    allotment.flows[0].flow.sender_client.client_shipping_state +
+                    ' ' +
+                    allotment.flows[0].flow.sender_client.client_shipping_pincode}
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
+              <Row>
+                <Col span={10}>
+                  <p style={{fontWeight: 'bold'}}>GST : </p>
+                </Col>
+                <Col span={12} style={{wordWrap: 'break-word'}}>
+                  {allotment.send_from_warehouse.gst}
+                </Col>
+              </Row>
+            </Col>
+            <Col span={12}>
+              <Row>
+                <Col span={10}>
+                  <p style={{fontWeight: 'bold'}}>GST : </p>
+                </Col>
+                <Col span={12} style={{wordWrap: 'break-word'}}>
+                  {allotment.flows[0].flow.sender_client.client_gst}
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </div>
         <Row className="table">
           <Table bordered size="sm">
             <thead>
