@@ -176,11 +176,11 @@ const Docket = ({location}) => {
                 </Col>
                 <Col span={12} style={{wordWrap: 'break-word'}}>
                   {allotment.send_from_warehouse.address +
-                    ' ' +
+                    ', ' +
                     allotment.send_from_warehouse.city +
-                    ' ' +
+                    ', ' +
                     allotment.send_from_warehouse.state +
-                    ' ' +
+                    ', ' +
                     allotment.send_from_warehouse.pincode}
                 </Col>
               </Row>
@@ -192,11 +192,11 @@ const Docket = ({location}) => {
                 </Col>
                 <Col span={12} style={{wordWrap: 'break-word'}}>
                   {allotment.flows[0].flow.sender_client.client_shipping_address +
-                    ' ' +
+                    ', ' +
                     allotment.flows[0].flow.sender_client.client_shipping_city +
-                    ' ' +
+                    ', ' +
                     allotment.flows[0].flow.sender_client.client_shipping_state +
-                    ' ' +
+                    ', ' +
                     allotment.flows[0].flow.sender_client.client_shipping_pincode}
                 </Col>
               </Row>
@@ -289,7 +289,6 @@ const Docket = ({location}) => {
                 {String.fromCharCode(0x20b9) + ' ' + inWords(total) + 'Only.'}
               </Col>
             </Row>
-            {/* <br /> */}
             <Row>
               <Col span={9}>
                 <p style={{fontWeight: 'bold'}}>SO No. :</p>
@@ -356,66 +355,73 @@ const Docket = ({location}) => {
           </Col>
         </Row>
         <hr />
-        <div className="declaration">
-          <p style={{fontWeight: 'bold', display: 'inline'}}>Declaration : </p>
-          <p style={{display: 'inline'}}>
-            The packaging products given on hire shall always remain the property of Yantraksh
-            Logistics Private Limited and shall not be used for the purpose otherwise agreed upon.
-            The same shall be returned at the address notified by Yantraksh Logistics Private
-            Limited.
-          </p>
-          <br />
-          <p style={{fontWeight: 'bold', display: 'inline'}}>Note : </p>
-          <p style={{display: 'inline'}}>
-            {' '}
-            No E-Way Bill is required for Empty Cargo Containers. Refer, Rule 14 of Central Goods
-            and Services Tax (Second Amendment) Rules, 2018.
-          </p>
-        </div>
-        <hr />
-        <div className="footer">
-          <Row>
-            <Col span={1}></Col>
-            <Col span={11} style={{fontWeight: 'bold'}}>
-              For Sending Location :
-            </Col>
-            <Col span={6}></Col>
-            <Col span={6} style={{fontWeight: 'bold'}}>
-              For Receiving Location :
-            </Col>
-          </Row>
-          <br /> <br />
-          <br />
-          <Row>
-            <Col span={1}></Col>
-            <Col span={11} style={{fontWeight: 'bold'}}>
-              Authorized Signature
-            </Col>
-            <Col span={6}></Col>
-            <Col span={6} style={{fontWeight: 'bold'}}>
-              Authorized Signature
-            </Col>
-          </Row>
-          <Row>
-            <Col span={1}></Col>
-            <Col span={11}>(Company Seal & Signature)</Col>
-            <Col span={6}></Col>
-            <Col span={6}>(Company Seal & Signature)</Col>
-          </Row>
-          <br /> <br />
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'Center',
-              alignItems: 'center',
-              flexDirection: 'column',
-              padding: '0',
-              margin: '0',
-            }}>
-            <p style={{fontSize: '26px', color: '#034efc'}}>Yantraksh Logistics Private Limited</p>
-            <p>CIN No: U74999GJ2018PTC105552</p>
+        <table style={{pageBreakInside: 'avoid'}}>
+          <div className="declaration">
+            <p style={{fontWeight: 'bold', display: 'inline'}}>Declaration : </p>
+            <p style={{display: 'inline'}}>
+              The packaging products given on hire shall always remain the property of Yantraksh
+              Logistics Private Limited and shall not be used for the purpose otherwise agreed upon.
+              The same shall be returned at the address notified by Yantraksh Logistics Private
+              Limited.
+            </p>
+            <br />
+            <p style={{fontWeight: 'bold', display: 'inline'}}>Note : </p>
+            <p style={{display: 'inline'}}>
+              {' '}
+              No E-Way Bill is required for Empty Cargo Containers. Refer, Rule 14 of Central Goods
+              and Services Tax (Second Amendment) Rules, 2018.
+            </p>
           </div>
-        </div>
+        </table>
+
+        <hr />
+        <table style={{pageBreakInside: 'avoid', width: '95vw'}}>
+          <div className="footer">
+            <Row>
+              <Col span={1}></Col>
+              <Col span={11} style={{fontWeight: 'bold'}}>
+                For Sending Location :
+              </Col>
+              <Col span={6}></Col>
+              <Col span={6} style={{fontWeight: 'bold'}}>
+                For Receiving Location :
+              </Col>
+            </Row>
+            <br /> <br />
+            <br />
+            <Row>
+              <Col span={1}></Col>
+              <Col span={11} style={{fontWeight: 'bold'}}>
+                Authorized Signature
+              </Col>
+              <Col span={6}></Col>
+              <Col span={6} style={{fontWeight: 'bold'}}>
+                Authorized Signature
+              </Col>
+            </Row>
+            <Row>
+              <Col span={1}></Col>
+              <Col span={11}>(Company Seal & Signature)</Col>
+              <Col span={6}></Col>
+              <Col span={6}>(Company Seal & Signature)</Col>
+            </Row>
+            <br /> <br />
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'Center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                padding: '0',
+                margin: '0',
+              }}>
+              <p style={{fontSize: '26px', color: '#034efc'}}>
+                Yantraksh Logistics Private Limited
+              </p>
+              <p>CIN No: U74999GJ2018PTC105552</p>
+            </div>
+          </div>
+        </table>
       </div>
     );
   return (
