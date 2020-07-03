@@ -75,17 +75,13 @@ export const employeeRoutes = [
         Component: lazy(() => import('screens/employee/Kit.employee.screen')),
       },
       {
-        name: 'Vendors',
-        path: '/master/vendors/',
-        Component: lazy(() => import('screens/employee/Vendors.screen')),
+        name: 'Flows',
+        path: '/master/flows/',
+        Component: lazy(() => import('screens/employee/Flow.screen')),
       },
+
       {
-        name: 'Warehouses',
-        path: '/master/warehouses/',
-        Component: lazy(() => import('screens/employee/Warehouse.employee.screen')),
-      },
-      {
-        name: 'Clients',
+        name: 'Sender Clients',
         path: '/master/clients/',
         Component: lazy(() => import('screens/employee/Client.screen')),
       },
@@ -95,9 +91,14 @@ export const employeeRoutes = [
         Component: lazy(() => import('screens/employee/ReceiverClient.screen')),
       },
       {
-        name: 'Flows',
-        path: '/master/flows/',
-        Component: lazy(() => import('screens/employee/Flow.screen')),
+        name: 'Warehouses',
+        path: '/master/warehouses/',
+        Component: lazy(() => import('screens/employee/Warehouse.employee.screen')),
+      },
+      {
+        name: 'Vendors',
+        path: '/master/vendors/',
+        Component: lazy(() => import('screens/employee/Vendors.screen')),
       },
     ],
   },

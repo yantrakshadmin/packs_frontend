@@ -8,6 +8,7 @@ import {deleteProduct, retrieveProducts} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
+import Document from '../../icons/Document';
 import {useTableSearch} from 'hooks/useTableSearch';
 
 // import File from '../../icons/File';
@@ -31,8 +32,22 @@ const ProductEmployeeScreen = ({currentPage}) => {
     {
       title: 'Action',
       key: 'operation',
+      width: '7.5vw',
       render: (text, record) => (
         <div className="row align-center justify-between">
+          <a href={record.document} target="_blank">
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                boxShadow: 'none',
+                padding: '1px',
+              }}
+              disabled={!record.document}
+              onClick={(e) => e.stopPropagation()}>
+              <Document />
+            </Button>
+          </a>
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -46,21 +61,6 @@ const ProductEmployeeScreen = ({currentPage}) => {
             }}>
             <Edit />
           </Button>
-          {/* {record.document ? (
-            <File />
-          ) : (
-            <Button
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                boxShadow: 'none',
-                padding: '1px',
-              }}
-              // onClick={() => setEditingId(record.id)}>
-            >
-              <Upload />
-            </Button>
-          )} */}
           <Popconfirm
             title="Confirm Delete"
             onConfirm={deleteHOC({

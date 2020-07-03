@@ -7,8 +7,7 @@ import Edit from '../../icons/Edit';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {retrieveClients} from 'common/api/auth';
-// import Upload from '../../icons/Upload';
-// import File from '../../icons/File';
+import Document from 'icons/Document';
 
 const {Search} = Input;
 
@@ -35,6 +34,19 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
       width: '7vw',
       render: (text, record) => (
         <div className="row align-center justify-evenly">
+          <a href={record.document} target="_blank">
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                boxShadow: 'none',
+                padding: '1px',
+              }}
+              disabled={!record.document}
+              onClick={(e) => e.stopPropagation()}>
+              <Document />
+            </Button>
+          </a>
           <Button
             style={{
               backgroundColor: 'transparent',
