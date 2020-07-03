@@ -4,10 +4,15 @@ import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import GRNColumns from 'common/columns/GRN.column';
 import {ProductTable} from '../../components/GRNProductsTable';
 import {Popconfirm, Button, Input} from 'antd';
+import {deleteHOC} from '../../hocs/deleteHoc';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
+import Edit from 'icons/Edit';
+import Delete from 'icons/Delete';
 import Document from 'icons/Document';
+
+import {deleteGRN} from 'common/api/auth';
 
 const {Search} = Input;
 
@@ -63,10 +68,45 @@ const KitEmployeeScreen = ({currentPage}) => {
                 boxShadow: 'none',
                 padding: '1px',
               }}
+              disabled={!record.document}
               onClick={(e) => e.stopPropagation()}>
               <Document />
             </Button>
           </a>
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            onClick={(e) => {
+              setEditingId(record.id);
+              e.stopPropagation();
+            }}>
+            <Edit />
+          </Button>
+          <Popconfirm
+            title="Confirm Delete"
+            onCancel={(e) => e.stopPropagation()}
+            onConfirm={deleteHOC({
+              record,
+              reload,
+              api: deleteGRN,
+              success: 'Deleted GRN successfully',
+              failure: 'Error in deleting GRN',
+            })}>
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                boxShadow: 'none',
+                border: 'none',
+                padding: '1px',
+              }}
+              onClick={(e) => e.stopPropagation()}>
+              <Delete />
+            </Button>
+          </Popconfirm>
         </div>
       ),
     },

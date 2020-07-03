@@ -12,7 +12,7 @@ export const useHandleForm = ({
   failure,
   done,
   close,
-  date,
+  dates,
 }) => {
   const isEdit = !!id;
   const [form] = useForm();
@@ -39,7 +39,6 @@ export const useHandleForm = ({
       notification.success({message: successMessage});
       done();
     } catch (e) {
-      // console.log(e);
       notification.error({message: failureMessage, description: e.toString()});
       close();
     }
@@ -52,7 +51,7 @@ export const useHandleForm = ({
     try {
       if (isEdit) {
         const {data} = await retrieve(id);
-        if (date) data[date] = moment(data[date]);
+        if (dates) dates.map((date) => (data[date] = moment(data[date])));
         if (data) {
           console.log(data);
           form.setFieldsValue(data);

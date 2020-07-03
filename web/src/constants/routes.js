@@ -103,7 +103,7 @@ export const employeeRoutes = [
     ],
   },
   {
-    name: 'Material Request',
+    name: 'Material Requests',
     icon: ['fas', 'layer-group'],
     path: '/material-request/',
     Component: lazy(() => import('screens/employee/MaterialRequest.screen')),
@@ -136,7 +136,7 @@ export const clientRoutes = [
     Component: lazy(() => import('screens/404.screen')),
   },
   {
-    name: 'Material Request',
+    name: 'Material Requests',
     icon: ['fas', 'layer-group'],
     path: '/material-request/',
     Component: lazy(() => import('screens/client/MaterialRequest.screen')),

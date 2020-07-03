@@ -26,12 +26,8 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
     done: onDone,
     close: onCancel,
     id,
-    date: 'delivery_required_on',
+    dates: ['delivery_required_on'],
   });
-
-  // useEffect(() => {
-  //   const fetchKit
-  // }, [id])
 
   const preProcess = (data) => {
     const {flows} = data;
