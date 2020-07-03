@@ -147,7 +147,6 @@ export const GRNFormFields = [
   },
   {
     key: 'document',
-    rules: [{required: true, message: 'Please enter document!'}],
     kwargs: {
       placeholder: 'Enter',
     },

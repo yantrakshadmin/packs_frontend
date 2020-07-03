@@ -19,7 +19,7 @@ export const useTableSearch = ({searchVal, retrieve, reqData}) => {
     };
     const fetchData = async () => {
       let fullData = null;
-      if (!reqData) {
+      if (!reqData && retrieve) {
         const {data} = await retrieve();
         fullData = data;
         setOrigData(data);

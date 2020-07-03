@@ -1,13 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import {Table, Row, Col, Spin} from 'antd';
-import smallProductsColumns from 'common/columns/smallProduct.column';
+import GRNProductsColumns from 'common/columns/GRNProduct.column';
 
-const ProductTable = ({loading, products}) => {
+export const ProductTable = ({loading, products}) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     let temp = [];
-    temp = products.map((prod) => ({...prod.product, quantity: prod.quantity, price: prod.price}));
+    temp = products.map((prod) => ({
+      ...prod.item,
+      quantity: prod.item_quantity,
+      price: prod.item_price,
+    }));
     setData(temp);
   }, [products]);
 
@@ -15,11 +19,9 @@ const ProductTable = ({loading, products}) => {
     <Spin spinning={loading}>
       <Row align="center" style={{margin: '3vh'}}>
         <Col span={24}>
-          <Table dataSource={data} columns={smallProductsColumns} size="small" pagination={false} />
+          <Table dataSource={data} columns={GRNProductsColumns} size="small" pagination={false} />
         </Col>
       </Row>
     </Spin>
   );
 };
-
-export default ProductTable;

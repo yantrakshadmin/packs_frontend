@@ -37,11 +37,11 @@ export const useHandleForm = ({
       }
 
       notification.success({message: successMessage});
-      // done();
+      done();
     } catch (e) {
       // console.log(e);
       notification.error({message: failureMessage, description: e.toString()});
-      // close();
+      close();
     }
   };
 
@@ -61,7 +61,7 @@ export const useHandleForm = ({
       }
     } catch (e) {
       notification.error({message: 'Error in getting data', description: e.toString()});
-      // close();
+      close();
     }
 
     setLoading(false);
