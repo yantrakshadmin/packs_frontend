@@ -54,7 +54,7 @@ const KitEmployeeScreen = ({currentPage}) => {
       width: '7vw',
       render: (text, record) => (
         <div className="row justify-evenly">
-          <a href={reqData.document}>
+          <a href={record.document}>
             <Button>View Document</Button>
           </a>
         </div>
