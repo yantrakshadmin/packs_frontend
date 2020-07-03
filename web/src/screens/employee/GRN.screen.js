@@ -7,6 +7,7 @@ import {Popconfirm, Button, Input} from 'antd';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
+import Document from 'icons/Document';
 
 const {Search} = Input;
 
@@ -54,8 +55,17 @@ const KitEmployeeScreen = ({currentPage}) => {
       width: '7vw',
       render: (text, record) => (
         <div className="row justify-evenly">
-          <a href={record.document}>
-            <Button onClick={(e) => e.stopPropagation()}>View Document</Button>
+          <a href={record.document} target="_blank">
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                boxShadow: 'none',
+                padding: '1px',
+              }}
+              onClick={(e) => e.stopPropagation()}>
+              <Document />
+            </Button>
           </a>
         </div>
       ),
