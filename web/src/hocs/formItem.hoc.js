@@ -69,7 +69,7 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel, form}
           name={key}
           rules={rules}
           {...formOptions}>
-          <Upload.Dragger {...kwargs} {...props} style={{maxHeight: '70px'}}>
+          <Upload.Dragger {...kwargs} {...props} style={{maxHeight: '75px', width: '150px'}}>
             <p className="ant-upload-drag-icon">
               <Icon type="inbox" />
             </p>

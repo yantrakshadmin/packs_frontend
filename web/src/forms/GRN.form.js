@@ -21,22 +21,12 @@ export const GRNForm = ({id, onCancel, onDone}) => {
     done: onDone,
     close: onCancel,
     id,
+    dates: ['inward_date'],
   });
-
-  //   const preProcess = (data) => {
-  //     const {products} = data;
-  //     const newProducts = products.map((prod) => ({
-  //       product: Number(prod.product),
-  //       quantity: Number(prod.quantity),
-  //     }));
-  //     data['products'] = newProducts;
-  //     console.log(data);
-  //     submit(data);
-  //   };
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Kit Details</Divider>
+      <Divider orientation="left">GRN Details</Divider>
       <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
         <Row style={{justifyContent: 'left'}}>
           {GRNFormFields.slice(0, 1).map((item, idx) => (

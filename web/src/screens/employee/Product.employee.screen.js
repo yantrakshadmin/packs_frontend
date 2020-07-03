@@ -32,7 +32,7 @@ const ProductEmployeeScreen = ({currentPage}) => {
     {
       title: 'Action',
       key: 'operation',
-      width: '7.5vw',
+      width: '7vw',
       render: (text, record) => (
         <div className="row align-center justify-between">
           <a href={record.document} target="_blank">
@@ -63,6 +63,7 @@ const ProductEmployeeScreen = ({currentPage}) => {
           </Button>
           <Popconfirm
             title="Confirm Delete"
+            onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
               record,
               reload,

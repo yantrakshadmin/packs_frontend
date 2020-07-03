@@ -51,6 +51,7 @@ const KitEmployeeScreen = ({currentPage}) => {
           </Button>
           <Popconfirm
             title="Confirm Delete"
+            onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
               record,
               reload,
