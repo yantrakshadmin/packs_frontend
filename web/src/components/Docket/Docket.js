@@ -83,19 +83,19 @@ const Docket = ({location}) => {
 
   if (allotment)
     return (
-      <div className="container">
-        <div className="header">
-          <div className="logo">
+      <div className="container-docket">
+        <div className="header-docket">
+          <div className="logo-docket">
             <img src={process.env.PUBLIC_URL + '/home-logo.png'} alt="Yantraksh" />
           </div>
-          <div className="heading">
+          <div className="heading-docket">
             <Title level={2} style={{fontWeight: 'bold'}}>
               DELIVERY CHALLAN
             </Title>
           </div>
         </div>
         <hr />
-        <Row className="meta">
+        <Row className="meta-docket">
           <Col span={12} className="left">
             <Row>
               <Col span={22}>
@@ -145,7 +145,7 @@ const Docket = ({location}) => {
             </p>
           </Col>
         </Row>
-        <div className="main-data">
+        <div className="main-data-docket">
           <Row>
             <Col span={12}>
               <Row>
@@ -225,7 +225,7 @@ const Docket = ({location}) => {
             </Col>
           </Row>
         </div>
-        <Row className="table">
+        <Row className="table-docket">
           <Table bordered size="sm">
             <thead>
               <tr>
@@ -279,7 +279,7 @@ const Docket = ({location}) => {
             </tbody>
           </Table>
         </Row>
-        <Row className="final">
+        <Row className="final-docket">
           <Col span={12}>
             <Row>
               <Col span={9}>
@@ -375,7 +375,7 @@ const Docket = ({location}) => {
         </table>
 
         <hr />
-        <table style={{pageBreakInside: 'avoid', width: '95vw'}}>
+        <table style={{pageBreakInside: 'avoid', width: '90vw'}}>
           <div className="footer">
             <Row>
               <Col span={1}></Col>
