@@ -55,7 +55,7 @@ const KitEmployeeScreen = ({currentPage}) => {
       render: (text, record) => (
         <div className="row justify-evenly">
           <a href={record.document}>
-            <Button>View Document</Button>
+            <Button onClick={(e) => e.stopPropagation()}>View Document</Button>
           </a>
         </div>
       ),
@@ -89,7 +89,7 @@ const KitEmployeeScreen = ({currentPage}) => {
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={GRNForm}
-        modalWidth={45}
+        modalWidth={60}
         expandHandleKey="products"
         expandParams={{loading}}
         ExpandBody={ProductTable}

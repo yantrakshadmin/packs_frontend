@@ -143,7 +143,7 @@ export const GRNFormFields = [
     },
     type: FORM_ELEMENT_TYPES.DATE,
     others: null,
-    customLabel: 'inward_date',
+    customLabel: 'Inward Date',
   },
   {
     key: 'document',
