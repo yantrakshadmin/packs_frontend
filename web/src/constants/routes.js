@@ -117,7 +117,7 @@ export const employeeRoutes = [
     name: 'GRN',
     icon: ['fas', 'layer-group'],
     path: '/grn/',
-    Component: lazy(() => import('forms/GRN.form')),
+    Component: lazy(() => import('screens/employee/GRN.screen')),
   },
   {
     name: 'PFEP',

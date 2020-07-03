@@ -7,13 +7,7 @@ import {
 } from 'common/formFields/allotment.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {
-  createAllotment,
-  // retrieveAllotment,
-  // editAllotment,
-  // retrieveMr,
-  // retrieveMrs,
-} from 'common/api/auth';
+import {createAllotment} from 'common/api/auth';
 import {navigate} from '@reach/router';
 
 const AllotmentForm = ({location}) => {
@@ -29,8 +23,6 @@ const AllotmentForm = ({location}) => {
 
   const {form, submit, loading} = useHandleForm({
     create: createAllotment,
-    // edit: editAllotment,
-    // retrieve: retrieveAllotment,
     success: 'Allotment created/edited successfully.',
     failure: 'Error in creating/editing allotment.',
     done: onDone,
@@ -104,7 +96,9 @@ const AllotmentForm = ({location}) => {
               {formItem({
                 ...allotmentFormFields[9],
                 others: {
-                  selectOptions: vendors || [],
+                  selectOptions: vendors
+                    ? vendors.filter((vendor) => vendor.type === 'Transporter')
+                    : [],
                   key: 'id',
                   customTitle: 'name',
                   dataKeys: ['city', 'pincode'],

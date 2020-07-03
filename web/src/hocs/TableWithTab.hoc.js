@@ -69,7 +69,6 @@ const TableWithTabHOC = ({
         footer={null}>
         <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} />
       </Modal>
-      {/* ) : null} */}
       <Row justify="space-between" align="middle">
         <Col>
           <Title level={3}>{title}</Title>

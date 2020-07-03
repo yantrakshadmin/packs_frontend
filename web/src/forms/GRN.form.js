@@ -7,7 +7,7 @@ import {useHandleForm} from 'hooks/form';
 import {createGRN, editGRN, retrieveGRN} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 
-const GRNForm = ({id, onCancel, onDone}) => {
+export const GRNForm = ({id, onCancel, onDone}) => {
   const {data: vendors} = useAPI('/vendors/', {});
   const {data: warehouses} = useAPI('/warehouse/', {});
   const {data: products} = useAPI('/products/', {});
@@ -228,5 +228,3 @@ const GRNForm = ({id, onCancel, onDone}) => {
     </Spin>
   );
 };
-
-export default GRNForm;
