@@ -598,3 +598,98 @@ export const deleteAllotment = (id) =>
     methood: 'DELETE',
     secure: true,
   });
+
+export const createGRN = ({
+  warehouse,
+  material_vendor,
+  transport_vendor,
+  reference_no,
+  inward_date,
+  driver_number,
+  vehicle_number,
+  vehicle_type,
+  invoice_no,
+  invoice_amount,
+  freight_charges,
+  items,
+  remarks,
+  receiver,
+}) =>
+  loadAPI('/create-grn/', {
+    method: 'POST',
+    data: {
+      warehouse,
+      material_vendor,
+      transport_vendor,
+      reference_no,
+      inward_date,
+      driver_number,
+      vehicle_number,
+      vehicle_type,
+      invoice_no,
+      invoice_amount,
+      freight_charges,
+      items,
+      remarks,
+      receiver,
+    },
+    secure: true,
+  });
+
+export const editGRN = (
+  id,
+  {
+    warehouse,
+    material_vendor,
+    transport_vendor,
+    reference_no,
+    inward_date,
+    driver_number,
+    vehicle_number,
+    vehicle_type,
+    invoice_no,
+    invoice_amount,
+    freight_charges,
+    items,
+    remarks,
+    receiver,
+  },
+) =>
+  loadAPI(`/edit-grn/${id}/`, {
+    method: 'PATCH',
+    data: {
+      warehouse,
+      material_vendor,
+      transport_vendor,
+      reference_no,
+      inward_date,
+      driver_number,
+      vehicle_number,
+      vehicle_type,
+      invoice_no,
+      invoice_amount,
+      freight_charges,
+      items,
+      remarks,
+      receiver,
+    },
+    secure: true,
+  });
+
+export const retrieveGRN = (id) =>
+  loadAPI(`/edit-grn/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const retrieveGRNs = () =>
+  loadAPI('/grns/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteGRN = (id) =>
+  loadAPI(`/edit-grn/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });

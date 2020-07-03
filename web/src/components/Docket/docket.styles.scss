@@ -1,40 +1,40 @@
-.container {
+.container-docket {
   margin: 2vh 0vh;
   font-size: 18px;
   color: black;
 
-  .header {
+  .header-docket {
     display: flex;
     justify-content: space-between;
     margin-bottom: 4vh;
 
-    .logo img {
+    .logo-docket img {
       height: 55px;
       width: 200px;
       margin-left: 30px;
       margin-top: 2vh;
     }
 
-    .heading {
-      margin-right: 10vh;
+    .heading-docket {
+      margin-right: 5vh;
       margin-top: 2vh;
     }
   }
 
-  .meta {
+  .meta-docket {
     display: flex;
     margin: 3vh 0vh;
   }
 
-  .main-data {
+  .main-data-docket {
     margin: 3vh 0vh;
   }
 
-  .table {
+  .table-docket {
     margin: 1vh 0vh;
   }
 
-  .final {
+  .final-docket {
     margin: 3vh 0vh;
   }
 }
