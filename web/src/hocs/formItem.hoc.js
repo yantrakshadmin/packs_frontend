@@ -1,5 +1,16 @@
 import React from 'react';
-import {Form, Input, Upload, Select, Radio, DatePicker, Checkbox, InputNumber, message} from 'antd';
+import {
+  Form,
+  Input,
+  Upload,
+  Select,
+  Radio,
+  DatePicker,
+  Checkbox,
+  InputNumber,
+  message,
+  Switch,
+} from 'antd';
 import {Icon} from '@ant-design/compatible';
 import {FORM_ELEMENT_TYPES} from 'constants/formFields.constant';
 
@@ -158,6 +169,17 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel, form}
               <Checkbox value={i.value}>{i.label}</Checkbox>
             ))}
           </CheckboxGroup>
+        </Form.Item>
+      );
+    case FORM_ELEMENT_TYPES.SWITCH:
+      return (
+        <Form.Item
+          key={key}
+          {...formOptions}
+          label={noLabel ? null : customLabel || key.charAt(0).toUpperCase() + key.slice(1)}
+          name={key}
+          rules={rules}>
+          <Switch {...kwargs} />
         </Form.Item>
       );
     default:

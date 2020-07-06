@@ -1,4 +1,4 @@
-import {useForm} from 'antd/es/form/util';
+import {Form} from 'antd';
 import {useEffect, useState} from 'react';
 import {notification} from 'antd';
 import moment from 'moment';
@@ -15,7 +15,7 @@ export const useHandleForm = ({
   dates,
 }) => {
   const isEdit = !!id;
-  const [form] = useForm();
+  const [form] = Form.useForm();
   const [loading, setLoading] = useState(isEdit);
   const [apiData, setApiData] = useState(undefined);
 
