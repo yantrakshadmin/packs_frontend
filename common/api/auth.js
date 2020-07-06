@@ -693,3 +693,10 @@ export const deleteGRN = (id) =>
     method: 'DELETE',
     secure: true,
   });
+
+export const createDelivered = ({allotment, delivered, items, document}) =>
+  loadAPI('/create-delivered/', {
+    method: 'POST',
+    data: {allotment, delivered, items, document},
+    secure: true,
+  });

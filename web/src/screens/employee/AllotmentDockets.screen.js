@@ -1,12 +1,19 @@
 import React, {useState} from 'react';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import allotmentColumns from 'common/columns/Allotment.column';
-import {Input, Button} from 'antd';
+import {DeliveredForm} from 'forms/delivered.form';
+import AllotmentForm from 'forms/allotment.form';
+import {Popconfirm, Input, Button} from 'antd';
+import {deleteHOC} from '../../hocs/deleteHoc';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
+import {deleteAllotment} from 'common/api/auth';
 import {useAPI} from 'common/hooks/api';
 import {useEffect} from 'react';
 import {Link} from '@reach/router';
+import Delete from 'icons/Delete';
+import Edit from 'icons/Edit';
+import Delivery from 'icons/Delivery';
 // import Upload from '../../icons/Upload';
 // import File from '../../icons/File';
 
@@ -15,6 +22,7 @@ const {Search} = Input;
 const AllotmentDocketsScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [deliveryId, setDeliveryId] = useState(null);
   const [reqData, setReqData] = useState([]);
 
   const {data: allotments, loading} = useAPI('/allotments/', {});
@@ -65,6 +73,62 @@ const AllotmentDocketsScreen = ({currentPage}) => {
         );
       },
     },
+    {
+      title: 'Action',
+      key: 'operation',
+      width: '7vw',
+      render: (text, record) => (
+        <div className="row justify-evenly">
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            onClick={(e) => {
+              setDeliveryId(record.id);
+              e.stopPropagation();
+            }}>
+            <Delivery />
+          </Button>
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            onClick={(e) => {
+              setEditingId(record.id);
+              e.stopPropagation();
+            }}>
+            <Edit />
+          </Button>
+          <Popconfirm
+            title="Confirm Delete"
+            onCancel={(e) => e.stopPropagation()}
+            onConfirm={deleteHOC({
+              record,
+              reload,
+              api: deleteAllotment,
+              success: 'Deleted kit successfully',
+              failure: 'Error in deleting kit',
+            })}>
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                boxShadow: 'none',
+                border: 'none',
+                padding: '1px',
+              }}
+              onClick={(e) => e.stopPropagation()}>
+              <Delete />
+            </Button>
+          </Popconfirm>
+        </div>
+      ),
+    },
   ];
 
   const tabs = [
@@ -77,7 +141,10 @@ const AllotmentDocketsScreen = ({currentPage}) => {
     },
   ];
 
-  const cancelEditing = () => setEditingId(null);
+  const cancelEditing = () => {
+    setEditingId(null);
+    setDeliveryId(null);
+  };
 
   return (
     <>
@@ -93,11 +160,11 @@ const AllotmentDocketsScreen = ({currentPage}) => {
         tabs={tabs}
         size="middle"
         title="Allotment Dockets"
-        editingId={editingId}
+        modalBody={deliveryId ? DeliveredForm : AllotmentForm}
+        modalWidth={60}
+        editingId={editingId || deliveryId}
         cancelEditing={cancelEditing}
-        // expandParams={{loading}}
         hideRightButton
-        // scroll={{x: 2000}}
       />
     </>
   );
