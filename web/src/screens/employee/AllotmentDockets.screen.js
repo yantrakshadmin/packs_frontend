@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import allotmentColumns from 'common/columns/Allotment.column';
 import {DeliveredForm} from 'forms/delivered.form';
-import AllotmentForm from 'forms/allotment.form';
+import {AllotmentMainForm} from 'forms/allotmentMain.form';
 import {Popconfirm, Input, Button} from 'antd';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import {connect} from 'react-redux';
@@ -76,7 +76,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
     {
       title: 'Action',
       key: 'operation',
-      width: '7vw',
+      width: '9vw',
       render: (text, record) => (
         <div className="row justify-evenly">
           <Button
@@ -160,7 +160,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
         tabs={tabs}
         size="middle"
         title="Allotment Dockets"
-        modalBody={deliveryId ? DeliveredForm : AllotmentForm}
+        modalBody={deliveryId ? DeliveredForm : AllotmentMainForm}
         modalWidth={60}
         editingId={editingId || deliveryId}
         cancelEditing={cancelEditing}
