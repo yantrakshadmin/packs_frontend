@@ -1,31 +1,69 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import moment from 'moment';
 import formItem from '../hocs/formItem.hoc';
 import {
   allotmentFormFields,
   allotmentProductFormFields,
-} from 'common/formFields/allotment.formFields';
+} from 'common/formFields/allotmentMain.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {createAllotment, retrieveAllotment, editAllotment} from 'common/api/auth';
+import {createAllotment, editAllotment, retrieveAllotments} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 
 export const AllotmentMainForm = ({id, onCancel, onDone}) => {
+  const [loading, setLoading] = useState(true);
+
   const {data: warehouses} = useAPI('/warehouse/', {});
   const {data: vendors} = useAPI('/vendors/', {});
   const {data: kits} = useAPI('/kits/', {});
   const {data: flows} = useAPI('/flows/', {});
 
-  const {form, submit, loading} = useHandleForm({
+  const {form, submit} = useHandleForm({
     create: createAllotment,
     success: 'Allotment created/edited successfully.',
     failure: 'Error in creating/editing allotment.',
-    retrieve: retrieveAllotment,
     edit: editAllotment,
     done: onDone,
     close: onCancel,
     id,
   });
+  console.log(id);
+  useEffect(() => {
+    console.log(id);
+    const fetchAllotment = async () => {
+      setLoading(true);
+      const {data} = await retrieveAllotments();
+      if (data) {
+        const allotment = data.filter((allotment) => allotment.id === id)[0];
+        console.log(allotment);
+        const formData = {
+          flows: allotment.flows.map((flo) => ({
+            flow: flo.flow.id,
+            kit: flo.kit.id,
+            asked_quantity: flo.asked_quantity,
+            alloted_quantity: flo.alloted_quantity,
+          })),
+          sales_order: allotment.sales_order.id,
+          model: allotment.model,
+          driver_name: allotment.driver_name,
+          lr_number: allotment.lr_number,
+          vehicle_number: allotment.vehicle_number,
+          freight_charges: allotment.freight_charges,
+          vehicle_type: allotment.vehicle_type,
+          remarks: allotment.remarks,
+          transport_by: allotment.transport_by.id,
+          send_from_warehouse: allotment.send_from_warehouse.id,
+          dispatch_date: moment(allotment.dispatch_date),
+          expected_delivery: moment(allotment.expected_delivery),
+        };
+        console.log(formData);
+        form.setFieldsValue({...formData});
+        setLoading(false);
+      }
+    };
+    if (id && form && kits && warehouses && flows && vendors) fetchAllotment();
+  }, [id, form, kits, warehouses, flows, vendors]);
 
   const preProcess = (data) => {
     console.log(data);
@@ -59,6 +97,12 @@ export const AllotmentMainForm = ({id, onCancel, onDone}) => {
             <div key={9} className="p-2">
               {formItem({
                 ...allotmentFormFields[8],
+                kwargs: {
+                  showSearch: true,
+                  placeholder: 'Select',
+                  filterOption: (input, option) =>
+                    option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                },
                 others: {
                   selectOptions: warehouses || [],
                   key: 'id',
@@ -99,7 +143,7 @@ export const AllotmentMainForm = ({id, onCancel, onDone}) => {
               <div>
                 {fields.map((field) => (
                   <Row align="middle">
-                    <Col span={6}>
+                    <Col span={5}>
                       <div className="p-2">
                         {formItem({
                           ...allotmentProductFormFields[0],
@@ -116,7 +160,7 @@ export const AllotmentMainForm = ({id, onCancel, onDone}) => {
                         })}
                       </div>
                     </Col>
-                    <Col span={6}>
+                    <Col span={5}>
                       <div className="p-2">
                         {formItem({
                           ...allotmentProductFormFields[1],
@@ -134,7 +178,7 @@ export const AllotmentMainForm = ({id, onCancel, onDone}) => {
                       </div>
                     </Col>
                     {allotmentProductFormFields.slice(2, 4).map((item, idx) => (
-                      <Col span={6}>
+                      <Col span={5}>
                         <div key={idx} className="p-2">
                           {formItem({
                             ...item,

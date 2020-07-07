@@ -49,7 +49,7 @@ export const useHandleForm = ({
     form.resetFields();
 
     try {
-      if (isEdit) {
+      if (isEdit && retrieve) {
         const {data} = await retrieve(id);
         if (dates) dates.map((date) => (data[date] = moment(data[date])));
         if (data) {

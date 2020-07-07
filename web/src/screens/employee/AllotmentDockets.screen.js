@@ -43,6 +43,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
         model: alt.model,
         vehicle_number: alt.vehicle_number,
         transport_by: alt.transport_by.name,
+        is_delivered: alt.is_delivered,
       }));
       setReqData(reqD);
     }
@@ -90,7 +91,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
               setDeliveryId(record.id);
               e.stopPropagation();
             }}>
-            <Delivery />
+            <Delivery color={record.is_delivered ? '#7CFC00' : '#A52A2A'} />
           </Button>
           <Button
             style={{
