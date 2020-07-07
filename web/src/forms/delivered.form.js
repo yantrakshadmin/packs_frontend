@@ -29,26 +29,22 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
   });
 
   useEffect(() => {
-    setLoading(true);
     const fetchProducts = async () => {
       const {data} = await retrieveAllotments();
       if (data) {
         const allot = data.filter((d) => d.id === id);
         setAllotment(allot[0]);
-        setLoading(false);
       }
     };
     fetchProducts();
   }, []);
 
   useEffect(() => {
-    setLoading(true);
     const fetchDelivered = async () => {
       const {data} = await retrieveDelivered(id);
       if (data) {
         console.log(data);
         form.setFieldsValue(data);
-        setLoading(false);
       }
     };
     if (id && form) fetchDelivered();
