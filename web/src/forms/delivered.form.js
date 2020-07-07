@@ -55,9 +55,12 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
   }, [id, form]);
 
   useEffect(() => {
+    setLoading(true);
     if (allotment) {
       let reqProd = [];
+      console.log(allotment);
       form.setFieldsValue({transaction_no: allotment.transaction_no});
+      form.setFieldsValue({discrepancy: allotment.is_delivered});
       allotment.flows.map((flow) => {
         flow.kit.products.map((prod) => {
           reqProd.push(prod.product);
@@ -66,6 +69,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
         return null;
       });
       setProducts(reqProd);
+      setLoading(false);
     }
   }, [allotment]);
 
