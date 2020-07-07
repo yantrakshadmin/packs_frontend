@@ -14,7 +14,13 @@ export const DeliveredFormFields = [
     key: 'discrepancy',
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: null,
-    customLabel: 'Delivered Successfully?',
+    customLabel: 'Mark Delivered',
+  },
+  {
+    key: 'document',
+    type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
+    others: null,
+    customLabel: 'Document',
   },
 ];
 

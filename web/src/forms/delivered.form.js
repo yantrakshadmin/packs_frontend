@@ -77,7 +77,17 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
             </Col>
           ))}
         </Row>
-
+        <Row style={{justifyContent: 'left'}}>
+          {DeliveredFormFields.slice(2, 3).map((item, idx) => (
+            <Col span={24} style={{justifyContent: 'center'}}>
+              <div key={idx} className="p-2">
+                {formItem({
+                  ...item,
+                })}
+              </div>
+            </Col>
+          ))}
+        </Row>
         <Divider orientation="left">Discrepancy Details</Divider>
 
         <Form.List name="items">
