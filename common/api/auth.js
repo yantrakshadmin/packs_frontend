@@ -700,3 +700,16 @@ export const createDelivered = ({allotment, delivered, items, document}) =>
     data: {allotment, delivered, items, document},
     secure: true,
   });
+
+export const editDelivered = (id, {allotment, delivered, items, document}) =>
+  loadAPI(`/edit-delivered/${id}/`, {
+    method: 'PATCH',
+    data: {allotment, delivered, items, document},
+    secure: true,
+  });
+
+export const retrieveDelivered = (id) =>
+  loadAPI(`/edit-delivered/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });

@@ -4,32 +4,55 @@ import formItem from '../hocs/formItem.hoc';
 import {DeliveredFormFields, DeliveredProductFormFields} from 'common/formFields/delivered.form';
 // import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {createDelivered, retrieveAllotments} from 'common/api/auth';
+import {
+  createDelivered,
+  retrieveAllotments,
+  retrieveDelivered,
+  editDelivered,
+} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 
 export const DeliveredForm = ({id, onCancel, onDone}) => {
   const [discrepancy, setDiscrepancy] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [allotment, setAllotment] = useState(null);
   const [products, setProducts] = useState(null);
 
-  const {form, submit, loading} = useHandleForm({
+  const {form, submit} = useHandleForm({
     create: createDelivered,
     success: 'Request created/edited successfully.',
     failure: 'Error in creating/editing request.',
     done: onDone,
     close: onCancel,
+    edit: editDelivered,
+    id,
   });
 
   useEffect(() => {
+    setLoading(true);
     const fetchProducts = async () => {
       const {data} = await retrieveAllotments();
       if (data) {
         const allot = data.filter((d) => d.id === id);
         setAllotment(allot[0]);
+        setLoading(false);
       }
     };
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchDelivered = async () => {
+      const {data} = await retrieveDelivered(id);
+      if (data) {
+        console.log(data);
+        form.setFieldsValue(data);
+        setLoading(false);
+      }
+    };
+    if (id && form) fetchDelivered();
+  }, [id, form]);
 
   useEffect(() => {
     if (allotment) {
