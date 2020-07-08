@@ -119,6 +119,7 @@ const TableWithTabHOC = ({
                     bordered
                     rowKey={rowKey}
                     expandRowByClick
+                    expandIconColumnIndex={-1}
                     pagination={{
                       pageSize: pageSize || 5,
                       position: ['bottomRight'],

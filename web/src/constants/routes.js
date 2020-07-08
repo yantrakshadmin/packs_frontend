@@ -115,6 +115,12 @@ export const employeeRoutes = [
     Component: lazy(() => import('screens/employee/AllotmentDockets.screen.js')),
   },
   {
+    name: 'Return Dockets',
+    icon: ['fas', 'layer-group'],
+    path: '/return-dockets/',
+    Component: lazy(() => import('screens/employee/Return.screen')),
+  },
+  {
     name: 'GRN',
     icon: ['fas', 'layer-group'],
     path: '/grn/',

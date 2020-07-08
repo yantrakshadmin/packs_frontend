@@ -11,7 +11,7 @@ export const DeliveredFormFields = [
     customLabel: 'Transaction No.',
   },
   {
-    key: 'discrepancy',
+    key: 'delivered',
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: null,
     customLabel: 'Mark Delivered',

@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {Form, Col, Row, Button, Divider, Spin} from 'antd';
 import formItem from '../hocs/formItem.hoc';
-import {DeliveredFormFields, DeliveredProductFormFields} from 'common/formFields/delivered.form';
+import {
+  DeliveredFormFields,
+  DeliveredProductFormFields,
+} from 'common/formFields/delivered.formFields';
 // import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
 import {
@@ -13,7 +16,7 @@ import {
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 
 export const DeliveredForm = ({id, onCancel, onDone}) => {
-  const [discrepancy, setDiscrepancy] = useState(false);
+  const [delivered, setDelivered] = useState(false);
   const [loading, setLoading] = useState(true);
   const [allotment, setAllotment] = useState(null);
   const [products, setProducts] = useState(null);
@@ -56,7 +59,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
       let reqProd = [];
       console.log(allotment);
       form.setFieldsValue({transaction_no: allotment.transaction_no});
-      form.setFieldsValue({discrepancy: allotment.is_delivered});
+      form.setFieldsValue({delivered: allotment.is_delivered});
       allotment.flows.map((flow) => {
         flow.kit.products.map((prod) => {
           reqProd.push(prod.product);
@@ -71,7 +74,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
 
   const preProcess = (data) => {
     data['allotment'] = allotment.id;
-    data['delivered'] = discrepancy;
+    data['delivered'] = delivered;
     submit(data);
   };
 
@@ -93,7 +96,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
                 {formItem({
                   ...item,
                   kwargs: {
-                    onChange: (val) => setDiscrepancy(val),
+                    onChange: (val) => setDelivered(val),
                   },
                 })}
               </div>
@@ -127,7 +130,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
                             kwargs: {
                               placeholder: 'Select',
                               type: 'number',
-                              disabled: discrepancy,
+                              disabled: delivered,
                               showSearch: true,
                               filterOption: (input, option) =>
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
@@ -155,7 +158,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
                             kwargs: {
                               placeholder: 'Enter',
                               type: 'number',
-                              disabled: discrepancy,
+                              disabled: delivered,
                             },
                             others: {
                               formOptions: {
@@ -175,7 +178,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
                             ...item,
                             kwargs: {
                               placeholder: 'Select',
-                              disabled: discrepancy,
+                              disabled: delivered,
                             },
                             others: {
                               selectOptions: ['Repairable', 'Return', 'Damage', 'Swap Return'],
@@ -191,7 +194,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
                     ))}
                     <Button
                       type="danger"
-                      disabled={discrepancy}
+                      disabled={delivered}
                       onClick={() => {
                         remove(field.name);
                       }}>
@@ -202,7 +205,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
                 <Form.Item>
                   <Button
                     type="dashed"
-                    disabled={discrepancy}
+                    disabled={delivered}
                     onClick={() => {
                       add();
                     }}

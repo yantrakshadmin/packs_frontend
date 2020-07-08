@@ -613,7 +613,7 @@ export const createGRN = ({
   freight_charges,
   items,
   remarks,
-  receiver,
+  reciever,
 }) =>
   loadAPI('/create-grn/', {
     method: 'POST',
@@ -631,7 +631,7 @@ export const createGRN = ({
       freight_charges,
       items,
       remarks,
-      receiver,
+      reciever,
     },
     secure: true,
   });
@@ -652,7 +652,7 @@ export const editGRN = (
     freight_charges,
     items,
     remarks,
-    receiver,
+    reciever,
   },
 ) =>
   loadAPI(`/edit-grn/${id}/`, {
@@ -671,7 +671,7 @@ export const editGRN = (
       freight_charges,
       items,
       remarks,
-      receiver,
+      reciever,
     },
     secure: true,
   });
@@ -710,6 +710,103 @@ export const editDelivered = (id, {allotment, delivered, items, document}) =>
 
 export const retrieveDelivered = (id) =>
   loadAPI(`/edit-delivered/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const createReturn = ({
+  transaction_no,
+  transaction_date,
+  transaction_type,
+  flow,
+  items,
+  driver_name,
+  driver_number,
+  lr_number,
+  vehicle_number,
+  freight_charges,
+  vehicle_type,
+  transport_by,
+  remarks,
+}) =>
+  loadAPI('/create-return/', {
+    method: 'POST',
+    data: {
+      transaction_no,
+      transaction_date,
+      transaction_type,
+      flow,
+      items,
+      driver_name,
+      driver_number,
+      lr_number,
+      vehicle_number,
+      freight_charges,
+      vehicle_type,
+      transport_by,
+      remarks,
+    },
+    secure: 'true',
+  });
+
+export const editReturn = (
+  id,
+  {
+    transaction_no,
+    transaction_date,
+    transaction_type,
+    flow,
+    items,
+    driver_name,
+    driver_number,
+    lr_number,
+    vehicle_number,
+    freight_charges,
+    vehicle_type,
+    transport_by,
+    remarks,
+  },
+) =>
+  loadAPI(`/edit-return/${id}/`, {
+    method: 'PATCH',
+    data: {
+      transaction_no,
+      transaction_date,
+      transaction_type,
+      flow,
+      items,
+      driver_name,
+      driver_number,
+      lr_number,
+      vehicle_number,
+      freight_charges,
+      vehicle_type,
+      transport_by,
+      remarks,
+    },
+    secure: 'true',
+  });
+
+export const retrieveReturn = (id) =>
+  loadAPI(`/edit-return/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const retrieveReturns = () =>
+  loadAPI('/returndockets/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteReturn = (id) =>
+  loadAPI(`/edit-return/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const retrieveRFlows = () =>
+  loadAPI('/r-flows/', {
     method: 'GET',
     secure: true,
   });
