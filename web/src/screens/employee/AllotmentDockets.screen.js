@@ -56,8 +56,8 @@ const AllotmentDocketsScreen = ({currentPage}) => {
     },
     ...allotmentColumns,
     {
-      title: 'View Docket',
-      key: 'view_docket',
+      title: 'Docket',
+      key: 'docket',
       render: (text, record) => {
         console.log(record);
         return (
@@ -89,7 +89,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
               }}
               disabled={!record.document}
               onClick={(e) => e.stopPropagation()}>
-              <Document />
+              <Document color={record.document ? '#7CFC00' : null} />
             </Button>
           </a>
           <Button
@@ -103,7 +103,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
               setDeliveryId(record.id);
               e.stopPropagation();
             }}>
-            <Delivery color={record.is_delivered ? '#7CFC00' : '#A52A2A'} />
+            <Delivery color={record.is_delivered ? '#7CFC00' : null} />
           </Button>
           <Button
             style={{
