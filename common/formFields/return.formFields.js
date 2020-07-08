@@ -1,0 +1,164 @@
+import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
+
+export const returnFormFields = [
+  {
+    key: 'transaction_type',
+    rules: [{required: true, message: 'Please select transaction type!'}],
+    kwargs: {
+      placeholder: 'Select',
+    },
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: {
+      selectOptions: ['Return', 'Damage', 'Swap Return', 'Job Work', 'Sample Return'],
+    },
+    customLabel: 'Transaction Type',
+  },
+  {
+    key: 'transaction_date',
+    rules: [{required: true, message: 'Please select transaction date!'}],
+    kwargs: {
+      placeholder: 'Select',
+    },
+    type: FORM_ELEMENT_TYPES.DATE,
+    others: null,
+    customLabel: 'Transaction Date',
+  },
+  {
+    key: 'transaction_no',
+    rules: [{required: true, message: 'Please select transaction number!'}],
+    kwargs: {
+      placeholder: 'Select',
+      type: 'number',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Transaction Number',
+  },
+  {
+    key: 'flow',
+    rules: [{required: true, message: 'Please select flow!'}],
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: null,
+    customLabel: 'Flow',
+  },
+  {
+    key: 'driver_name',
+    rules: [{required: true, message: 'Please enter driver name!'}],
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Driver Name',
+  },
+  {
+    key: 'driver_number',
+    rules: [{required: true, message: 'Please enter driver number!'}],
+    kwargs: {
+      placeholder: 'Enter',
+      type: 'number',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Driver Number',
+  },
+  {
+    key: 'lr_number',
+    rules: [{required: true, message: 'Please enter LR number!'}],
+    kwargs: {
+      placeholder: 'Enter',
+      type: 'number',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'LR Number',
+  },
+  {
+    key: 'vehicle_number',
+    rules: [{required: true, message: 'Please enter vehicle number!'}],
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Vehicle Number',
+  },
+  {
+    key: 'freight_charges',
+    rules: [{required: true, message: 'Please enter freight charges!'}],
+    kwargs: {
+      placeholder: 'Enter',
+      type: 'number',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Freight Charges',
+  },
+  {
+    key: 'vehicle_type',
+    rules: [{required: true, message: 'Please select vehicle type!'}],
+    kwargs: {
+      placeholder: 'Select',
+    },
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: {
+      selectOptions: [
+        'Part Load',
+        'Tata ACE / Pick-Up',
+        'TATA-407',
+        '17ft Vehicle',
+        '19ft Vehicle',
+        '20ft Vehicle',
+        '22ft Vehicle',
+        '32ft SXL',
+        '32ft MXL',
+        'Any Other Type',
+      ],
+    },
+    customLabel: 'Vehicle Type',
+  },
+  {
+    key: 'transport_by',
+    rules: [{required: true, message: 'Please enter transport by!'}],
+    kwargs: {
+      placeholder: 'Select',
+    },
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: null,
+    customLabel: 'Transport By',
+  },
+  {
+    key: 'remarks',
+    rules: [{required: true, message: 'Please enter remarks!'}],
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Remarks',
+  },
+];
+
+export const returnProductFormFields = [
+  {
+    key: 'product',
+    rules: [{required: true, message: 'Please select product!'}],
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: null,
+    customLabel: 'Product',
+  },
+  {
+    key: 'quantity',
+    rules: [{required: true, message: 'Please enter quantity!'}],
+    kwargs: {
+      placeholder: 'Enter',
+      type: 'number',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Quantity',
+  },
+];

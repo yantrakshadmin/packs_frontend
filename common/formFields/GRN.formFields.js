@@ -125,7 +125,7 @@ export const GRNFormFields = [
     customLabel: 'Remarks',
   },
   {
-    key: 'receiver',
+    key: 'reciever',
     rules: [{required: true, message: 'Please enter receiver!'}],
     kwargs: {
       placeholder: 'Enter',

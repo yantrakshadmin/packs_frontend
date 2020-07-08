@@ -116,6 +116,12 @@ export const AllotmentMainForm = ({id, onCancel, onDone}) => {
             <div className="p-2">
               {formItem({
                 ...allotmentFormFields[9],
+                kwargs: {
+                  showSearch: true,
+                  placeholder: 'Select',
+                  filterOption: (input, option) =>
+                    option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                },
                 others: {
                   selectOptions: vendors
                     ? vendors.filter((vendor) => vendor.type === 'Transporter')
