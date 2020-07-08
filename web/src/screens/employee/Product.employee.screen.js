@@ -45,7 +45,7 @@ const ProductEmployeeScreen = ({currentPage}) => {
               }}
               disabled={!record.document}
               onClick={(e) => e.stopPropagation()}>
-              <Document />
+              <Document color={record.document ? '#7CFC00' : null} />
             </Button>
           </a>
           <Button
