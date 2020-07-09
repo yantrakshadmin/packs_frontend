@@ -1,0 +1,40 @@
+.container-docket {
+  margin: 2vh 0vh;
+  font-size: 18px;
+  color: black;
+
+  .header-docket {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4vh;
+
+    .logo-docket img {
+      height: 55px;
+      width: 200px;
+      margin-left: 30px;
+      margin-top: 2vh;
+    }
+
+    .heading-docket {
+      margin-right: 5vh;
+      margin-top: 2vh;
+    }
+  }
+
+  .meta-docket {
+    display: flex;
+    margin: 3vh 0vh;
+  }
+
+  .main-data-docket {
+    margin: 3vh 0vh;
+  }
+
+  .table-docket {
+    margin: 1vh 0vh;
+  }
+
+  .final-docket {
+    margin: 3vh 0vh;
+  }
+}

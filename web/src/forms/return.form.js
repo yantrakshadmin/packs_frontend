@@ -1,15 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import {Form, Col, Row, Button, Divider, Spin, Modal} from 'antd';
+import {Table} from 'react-bootstrap';
 import formItem from '../hocs/formItem.hoc';
 import {returnFormFields, returnProductFormFields} from 'common/formFields/return.formFields.js';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
 import {createReturn, retrieveReturn, editReturn, retrieveRFlows} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
+import Products from 'icons/Products';
+
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const ReturnForm = ({id, onCancel, onDone}) => {
   const [products, setProducts] = useState(null);
   const [flow, setFlow] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const {data: flows} = useAPI('/flows/', {});
   const {data: vendors} = useAPI('/vendors/', {});
@@ -63,6 +68,39 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
 
   return (
     <Spin spinning={loading}>
+      <Modal
+        visible={modalVisible}
+        onCancel={() => setModalVisible(false)}
+        style={{position: 'absolute', right: '2vw'}}
+        footer={
+          <Button type="primary" onClick={() => setModalVisible(false)}>
+            Ok
+          </Button>
+        }
+        width="18vw">
+        {products ? (
+          <Table bordered size="sm">
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Product Name</th>
+                <th>Product Code</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((prod, index) => {
+                return (
+                  <tr>
+                    <td>{index}</td>
+                    <td>{prod.name}</td>
+                    <td>{prod.short_code}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        ) : null}
+      </Modal>
       <Divider orientation="left">Return Docket Details</Divider>
       <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
         <Row style={{justifyContent: 'left'}}>
@@ -73,13 +111,14 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
               </div>
             </Col>
           ))}
-          <Col span={6}>
+          <Col span={5}>
             <div key={3} className="p-2">
               {formItem({
                 ...returnFormFields[3],
                 kwargs: {
                   onChange: (val) => {
                     setFlow(val);
+                    setModalVisible(true);
                   },
                   placeholder: 'Select',
                   showSearch: true,
@@ -93,6 +132,22 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
                   customTitle: 'flow_name',
                 },
               })}
+            </div>
+          </Col>
+          <Col span={1}>
+            <div key={1000} className="p-2">
+              <Button
+                style={{
+                  top: '28px',
+                  width: '4px',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  boxShadow: 'none',
+                  padding: '1px',
+                }}
+                onClick={() => setModalVisible(true)}>
+                <Products />
+              </Button>
             </div>
           </Col>
         </Row>
