@@ -17,6 +17,8 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
   const [rflow, setRFlow] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
+  const {data: receiverClients} = useAPI('/receiverclients/', {});
+  const {data: warehouses} = useAPI('/warehouse/', {});
   const {data: flows} = useAPI('/flows/', {});
   const {data: vendors} = useAPI('/vendors/', {});
 
@@ -114,17 +116,57 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
       <Divider orientation="left">Return Docket Details</Divider>
       <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
         <Row style={{justifyContent: 'left'}}>
-          {returnFormFields.slice(0, 3).map((item, idx) => (
-            <Col span={6}>
+          {returnFormFields.slice(0, 2).map((item, idx) => (
+            <Col span={8}>
               <div key={idx} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
           ))}
-          <Col span={5}>
+        </Row>
+        <Row style={{justifyContent: 'left'}}>
+          <Col span={8}>
+            <div key={3} className="p-2">
+              {formItem({
+                ...returnFormFields[2],
+                kwargs: {
+                  placeholder: 'Select',
+                  showSearch: true,
+                  filterOption: (input, option) =>
+                    option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                },
+                others: {
+                  selectOptions: warehouses || [],
+                  key: 'id',
+                  dataKeys: ['address', 'city'],
+                  customTitle: 'name',
+                },
+              })}
+            </div>
+          </Col>
+          <Col span={8}>
             <div key={3} className="p-2">
               {formItem({
                 ...returnFormFields[3],
+                kwargs: {
+                  placeholder: 'Select',
+                  showSearch: true,
+                  filterOption: (input, option) =>
+                    option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                },
+                others: {
+                  selectOptions: receiverClients || [],
+                  key: 'id',
+                  dataKeys: ['address', 'city'],
+                  customTitle: 'name',
+                },
+              })}
+            </div>
+          </Col>
+          <Col span={6}>
+            <div key={3} className="p-2">
+              {formItem({
+                ...returnFormFields[4],
                 kwargs: {
                   onChange: (val) => {
                     setFlow(val);
@@ -144,7 +186,7 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
               })}
             </div>
           </Col>
-          <Col span={1}>
+          <Col span={2}>
             <div key={1000} className="p-2">
               <Button
                 style={{
@@ -162,7 +204,7 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
           </Col>
         </Row>
         <Row style={{justifyContent: 'left'}}>
-          {returnFormFields.slice(4, 8).map((item, idx) => (
+          {returnFormFields.slice(5, 9).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className="p-2">
                 {formItem({...item})}
@@ -171,7 +213,7 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
           ))}
         </Row>
         <Row style={{justifyContent: 'left'}}>
-          {returnFormFields.slice(8, 10).map((item, idx) => (
+          {returnFormFields.slice(9, 11).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className="p-2">
                 {formItem({...item})}
@@ -181,7 +223,7 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
           <Col span={6}>
             <div key={4} className="p-2">
               {formItem({
-                ...returnFormFields[10],
+                ...returnFormFields[11],
                 kwargs: {
                   showSearch: true,
                   placeholder: 'Select',
@@ -202,7 +244,7 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
           <Col span={6}>
             <div key={4} className="p-2">
               {formItem({
-                ...returnFormFields[11],
+                ...returnFormFields[12],
               })}
             </div>
           </Col>
