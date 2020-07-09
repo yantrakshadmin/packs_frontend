@@ -24,15 +24,18 @@ export const returnFormFields = [
     customLabel: 'Transaction Date',
   },
   {
-    key: 'transaction_no',
-    rules: [{required: true, message: 'Please select transaction number!'}],
-    kwargs: {
-      placeholder: 'Select',
-      type: 'number',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
+    key: 'warehouse',
+    rules: [{required: true, message: 'Please select warehouse!'}],
+    type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
-    customLabel: 'Transaction Number',
+    customLabel: 'Warehouse',
+  },
+  {
+    key: 'receiver_client',
+    rules: [{required: true, message: 'Please select receiver client!'}],
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: null,
+    customLabel: 'Receiver Client',
   },
   {
     key: 'flow',

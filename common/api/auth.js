@@ -727,6 +727,8 @@ export const createReturn = ({
   freight_charges,
   vehicle_type,
   transport_by,
+  warehouse,
+  receiver_client,
   remarks,
 }) =>
   loadAPI('/create-return/', {
@@ -744,6 +746,8 @@ export const createReturn = ({
       freight_charges,
       vehicle_type,
       transport_by,
+      warehouse,
+      receiver_client,
       remarks,
     },
     secure: 'true',
@@ -764,6 +768,8 @@ export const editReturn = (
     freight_charges,
     vehicle_type,
     transport_by,
+    warehouse,
+    receiver_client,
     remarks,
   },
 ) =>
@@ -782,6 +788,8 @@ export const editReturn = (
       freight_charges,
       vehicle_type,
       transport_by,
+      warehouse,
+      receiver_client,
       remarks,
     },
     secure: 'true',
