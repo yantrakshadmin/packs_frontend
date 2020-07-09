@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {Form, Col, Row, Button, Divider, Spin, Modal} from 'antd';
-import {Table} from 'react-bootstrap';
 import formItem from '../hocs/formItem.hoc';
 import {returnFormFields, returnProductFormFields} from 'common/formFields/return.formFields.js';
 import {useAPI} from 'common/hooks/api';
@@ -15,6 +14,8 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
   const [products, setProducts] = useState(null);
   const [flow, setFlow] = useState(null);
   const [rflow, setRFlow] = useState(null);
+  const [reqFlows, setReqFlows] = useState(null);
+  const [receiverClient, setReceiverClient] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
   const {data: receiverClients} = useAPI('/receiverclients/', {});
@@ -39,9 +40,18 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
     const fetchFlow = async () => {
       const {data} = await retrieveReturn(id);
       setFlow(data.flow.id);
+      setReceiverClient(data.receiver_client.id);
     };
     if (id) fetchFlow();
   }, [id]);
+
+  useEffect(() => {
+    if (flows && receiverClient) {
+      const reqf = flows.filter((flo) => flo.receiver_client === receiverClient);
+      console.log(reqf);
+      setReqFlows(reqf);
+    }
+  }, [flows, receiverClient]);
 
   useEffect(() => {
     const fetchRFlow = async () => {
@@ -66,17 +76,6 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
       setProducts(prods);
     }
   }, [rflow]);
-
-  //   const preProcess = (data) => {
-  //     const {products} = data;
-  //     const newProducts = products.map((prod) => ({
-  //       product: Number(prod.product),
-  //       quantity: Number(prod.quantity),
-  //     }));
-  //     data['products'] = newProducts;
-  //     console.log(data);
-  //     submit(data);
-  //   };
 
   return (
     <Spin spinning={loading}>
@@ -159,6 +158,7 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
                 kwargs: {
                   placeholder: 'Select',
                   showSearch: true,
+                  onChange: (val) => setReceiverClient(val),
                   filterOption: (input, option) =>
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
@@ -186,7 +186,7 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
-                  selectOptions: flows || [],
+                  selectOptions: reqFlows || [],
                   key: 'id',
                   dataKeys: ['flow_name', 'flow_info', 'flow_type'],
                   customTitle: 'flow_name',
