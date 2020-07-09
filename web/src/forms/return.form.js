@@ -35,29 +35,37 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
   });
 
   useEffect(() => {
+    console.log(id);
     const fetchFlow = async () => {
       const {data} = await retrieveReturn(id);
-      setFlow(data.id);
+      setFlow(data.flow.id);
     };
     if (id) fetchFlow();
   }, [id]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchRFlow = async () => {
       const {data} = await retrieveRFlows();
       if (data) {
+        console.log(data);
         const flo = data.filter((d) => d.id === flow)[0];
         setRFlow(flo);
-        let prods = [];
-        flo.kits.map((k) => {
-          k.kit.products.map((prod) => prods.push(prod.product));
-          return null;
-        });
-        setProducts(prods);
       }
     };
-    if (flow) fetchProducts();
+    if (flow) fetchRFlow();
   }, [flow]);
+
+  useEffect(() => {
+    if (rflow) {
+      let prods = [];
+      rflow.kits.map((k) => {
+        k.kit.products.map((prod) => prods.push(prod.product));
+        return null;
+      });
+      console.log(prods);
+      setProducts(prods);
+    }
+  }, [rflow]);
 
   //   const preProcess = (data) => {
   //     const {products} = data;
