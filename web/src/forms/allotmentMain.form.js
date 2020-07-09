@@ -141,7 +141,7 @@ export const AllotmentMainForm = ({id, onCancel, onDone}) => {
             </Col>
           ))}
         </Row>
-        <Divider orientation="left">Product Details</Divider>
+        <Divider orientation="left">Kit Details</Divider>
 
         <Form.List name="flows">
           {(fields, {add, remove}) => {

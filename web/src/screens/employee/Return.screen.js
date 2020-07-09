@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import returnColumns from 'common/columns/Return.column';
 import {ReturnForm} from 'forms/return.form';
@@ -12,18 +12,32 @@ import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
 import Delivery from 'icons/Delivery';
 import Document from 'icons/Document';
+import {useAPI} from 'common/hooks/api';
 
 const {Search} = Input;
 
 const ReturnDocketsScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [reqData, setReqData] = useState(null);
   //   const [deliveryId, setDeliveryId] = useState(null);
 
-  const {filteredData, reload, loading} = useTableSearch({
+  const {data: returns, loading} = useAPI('/returndockets/', {});
+
+  const {filteredData, reload} = useTableSearch({
     searchVal,
-    retrieve: retrieveReturns,
+    reqData,
   });
+
+  useEffect(() => {
+    if (returns) {
+      const reqD = returns.map((ret) => ({
+        ...ret,
+        transport_by: ret.transport_by.name,
+      }));
+      setReqData(reqD);
+    }
+  }, [returns]);
 
   const columns = [
     {
@@ -39,14 +53,13 @@ const ReturnDocketsScreen = ({currentPage}) => {
         console.log(record);
         return (
           <Button type="primary">
-            {/* <Link
-              to="../docket"
+            <Link
+              to="../return-docket/"
               state={{id: record.id}}
               key={record.id}
               style={{textDecoration: 'none'}}>
               View Docket
-            </Link> */}
-            View Docket
+            </Link>
           </Button>
         );
       },

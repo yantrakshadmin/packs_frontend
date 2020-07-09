@@ -8,6 +8,7 @@ import {
   extraRoutesEmployee,
   extraRoutesClient,
   outerRoutesEmployee,
+  outerRoutesClient,
 } from 'web/src/constants/routes';
 
 import {PrivateRoutes} from 'components/PrivateRoutes';
@@ -36,7 +37,14 @@ const RootRouter = ({user}) => {
           />
         );
       case 'client':
-        return <PrivateRoutes routes={clientRoutes} extraRoutes={extraRoutesClient} user={user} />;
+        return (
+          <PrivateRoutes
+            routes={clientRoutes}
+            extraRoutes={extraRoutesClient}
+            outerRoutes={outerRoutesClient}
+            user={user}
+          />
+        );
 
       default:
         return null;

@@ -35,7 +35,12 @@ export const outerRoutesEmployee = [
     path: '/docket/',
     Component: lazy(() => import('components/Docket/Docket')),
   },
+  {
+    path: '/return-docket/',
+    Component: lazy(() => import('components/ReturnDocket/ReturnDocket')),
+  },
 ];
+export const outerRoutesClient = [];
 export const extraRoutesEmployee = [
   {
     path: '/edit-profile/',

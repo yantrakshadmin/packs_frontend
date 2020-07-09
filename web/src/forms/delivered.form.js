@@ -58,8 +58,10 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
     if (allotment) {
       let reqProd = [];
       console.log(allotment);
-      form.setFieldsValue({transaction_no: allotment.transaction_no});
-      form.setFieldsValue({delivered: allotment.is_delivered});
+      form.setFieldsValue({
+        transaction_no: allotment.transaction_no,
+        delivered: allotment.is_delivered,
+      });
       allotment.flows.map((flow) => {
         flow.kit.products.map((prod) => {
           reqProd.push(prod.product);
