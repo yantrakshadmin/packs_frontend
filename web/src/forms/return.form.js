@@ -9,11 +9,12 @@ import {createReturn, retrieveReturn, editReturn, retrieveRFlows} from 'common/a
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 import Products from 'icons/Products';
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import './returnform.styles.scss';
 
 export const ReturnForm = ({id, onCancel, onDone}) => {
   const [products, setProducts] = useState(null);
   const [flow, setFlow] = useState(null);
+  const [rflow, setRFlow] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
   const {data: flows} = useAPI('/flows/', {});
@@ -44,6 +45,7 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
       const {data} = await retrieveRFlows();
       if (data) {
         const flo = data.filter((d) => d.id === flow)[0];
+        setRFlow(flo);
         let prods = [];
         flo.kits.map((k) => {
           k.kit.products.map((prod) => prods.push(prod.product));
@@ -78,27 +80,35 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
           </Button>
         }
         width="18vw">
-        {products ? (
-          <Table bordered size="sm">
+        {rflow ? (
+          <table>
             <thead>
               <tr>
                 <th>Sr. No.</th>
-                <th>Product Name</th>
+                <th>Kit Name</th>
                 <th>Product Code</th>
               </tr>
             </thead>
             <tbody>
-              {products.map((prod, index) => {
+              {rflow.kits.map((k, index) => {
                 return (
                   <tr>
-                    <td>{index}</td>
-                    <td>{prod.name}</td>
-                    <td>{prod.short_code}</td>
+                    <td>{index + 1}</td>
+                    <td>{k.kit.kit_name}</td>
+                    <td>
+                      {
+                        <div style={{display: 'flex', flexDirection: 'column'}}>
+                          {k.kit.products.map((prod) => (
+                            <p>{prod.product.short_code}</p>
+                          ))}
+                        </div>
+                      }
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
-          </Table>
+          </table>
         ) : null}
       </Modal>
       <Divider orientation="left">Return Docket Details</Divider>
