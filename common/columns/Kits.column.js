@@ -17,6 +17,6 @@ export default [
   {
     title: 'Kit Client',
     key: 'kit_client',
-    dataIndex: 'kit_client',
+    render: (text, record) => record.kit_client.client_name,
   },
 ];
