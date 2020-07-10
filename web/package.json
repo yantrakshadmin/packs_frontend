@@ -30,7 +30,6 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "postbuild": "node deploycopy.js",
-    "predeploy": "yarn build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "predeploy": "yarn build",
