@@ -12,6 +12,7 @@ const {Title} = Typography;
 const ReturnDocket = ({location}) => {
   const [reqReturn, setReqReturn] = useState(null);
   const [total, setTotal] = useState(0);
+  const [weight, setWeight] = useState(0);
 
   useEffect(() => {
     const fetchReturn = async () => {
@@ -25,12 +26,15 @@ const ReturnDocket = ({location}) => {
 
   useEffect(() => {
     const calcTotal = () => {
-      let tot = 0;
+      let tot = 0,
+        wt = 0;
       if (reqReturn) {
         reqReturn.items.map((item) => {
           tot += item.quantity * item.product.priceperunit;
+          wt += item.product.volumetric_weight;
         });
       }
+      setWeight(wt);
       setTotal(tot);
     };
     calcTotal();
@@ -220,10 +224,10 @@ const ReturnDocket = ({location}) => {
               {reqReturn.items.map((item, index) => {
                 return (
                   <tr>
-                    <td>{index}</td>
+                    <td>{index + 1}</td>
                     <td>{item.product.hsn_code}</td>
                     <td>{item.product.name}</td>
-                    <td>{item.short_code}</td>
+                    <td>{item.product.short_code}</td>
                     <td>{item.quantity}</td>
                     <td>{item.product.priceperunit}</td>
                     <td>{item.quantity * item.product.priceperunit}</td>
@@ -249,7 +253,7 @@ const ReturnDocket = ({location}) => {
             <Row>
               <Col span={24}>
                 <p style={{fontWeight: 'bold', display: 'inline'}}>Charged Weight : </p>
-                <p style={{fontWeight: 'bold', display: 'inline'}}>Charged Weight</p>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>{weight} Kg</p>
               </Col>
             </Row>
             <Row>
@@ -285,7 +289,7 @@ const ReturnDocket = ({location}) => {
             </Row>
             <Row>
               <Col span={24}>
-                <p style={{fontWeight: 'bold', display: 'inline'}}>Creation Date :</p>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Creation Date : </p>
                 <p style={{display: 'inline', wordWrap: 'break-word'}}>
                   {new Date().getDate().toString() +
                     '/' +
@@ -297,7 +301,7 @@ const ReturnDocket = ({location}) => {
             </Row>
             <Row>
               <Col span={24}>
-                <p style={{fontWeight: 'bold', display: 'inline'}}>Vehicle No. :</p>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Vehicle No. : </p>
                 <p style={{display: 'inline', wordWrap: 'break-word'}}>
                   {reqReturn.vehicle_number}
                 </p>
