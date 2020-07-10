@@ -14,6 +14,7 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
   const [products, setProducts] = useState(null);
   const [flow, setFlow] = useState(null);
   const [rflow, setRFlow] = useState(null);
+  const [returnn, setReturn] = useState(null);
   const [reqFlows, setReqFlows] = useState(null);
   const [receiverClient, setReceiverClient] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -37,17 +38,27 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
 
   useEffect(() => {
     console.log(id);
-    const fetchFlow = async () => {
+    const fetchReturn = async () => {
       const {data} = await retrieveReturn(id);
-      setFlow(data.flow.id);
-      setReceiverClient(data.receiver_client.id);
+      if (data) {
+        setReturn(data);
+      }
     };
-    if (id) fetchFlow();
+    if (id) fetchReturn();
   }, [id]);
 
   useEffect(() => {
+    console.log(returnn);
+    const setVals = () => {
+      setReceiverClient(returnn.receiver_client);
+      setFlow(returnn.flow);
+    };
+    if (returnn) setVals();
+  }, [returnn]);
+
+  useEffect(() => {
     if (flows && receiverClient) {
-      const reqf = flows.filter((flo) => flo.receiver_client === receiverClient);
+      const reqf = flows.filter((flo) => flo.receiver_client.id === receiverClient);
       console.log(reqf);
       setReqFlows(reqf);
     }
@@ -158,7 +169,10 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
                 kwargs: {
                   placeholder: 'Select',
                   showSearch: true,
-                  onChange: (val) => setReceiverClient(val),
+                  onChange: (val) => {
+                    console.log(val);
+                    setReceiverClient(val);
+                  },
                   filterOption: (input, option) =>
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },

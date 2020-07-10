@@ -15,8 +15,18 @@ export default [
     dataIndex: 'address',
   },
   {
+    title: 'PAN',
+    key: 'pan',
+    dataIndex: 'pan',
+  },
+  {
+    title: 'GST',
+    key: 'gst',
+    dataIndex: 'gst',
+  },
+  {
     title: 'Emitter',
     key: 'emitter',
-    dataIndex: 'emitter',
+    render: (text, record) => record.emitter.client_name,
   },
 ];
