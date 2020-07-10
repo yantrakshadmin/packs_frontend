@@ -137,7 +137,7 @@ const ReturnDocket = ({location}) => {
                   <p style={{fontWeight: 'bold'}}>Sender's Name : </p>
                 </Col>
                 <Col span={12} style={{wordWrap: 'break-word'}}>
-                  {/* {reqReturn.send_from_warehouse.name} */}
+                  {reqReturn.receiver_client.name}
                 </Col>
               </Row>
             </Col>
@@ -147,7 +147,7 @@ const ReturnDocket = ({location}) => {
                   <p style={{fontWeight: 'bold'}}>Receiver's Name : </p>
                 </Col>
                 <Col span={12} style={{wordWrap: 'break-word'}}>
-                  {/* {reqReturn.flows[0].flow.sender_client.client_name} */}
+                  {reqReturn.warehouse.name}
                 </Col>
               </Row>
             </Col>
@@ -159,13 +159,7 @@ const ReturnDocket = ({location}) => {
                   <p style={{fontWeight: 'bold'}}>Sender's Address : </p>
                 </Col>
                 <Col span={12} style={{wordWrap: 'break-word'}}>
-                  {/* {reqReturn.send_from_warehouse.address +
-                    ', ' +
-                    reqReturn.send_from_warehouse.city +
-                    ', ' +
-                    reqReturn.send_from_warehouse.state +
-                    ', ' +
-                    reqReturn.send_from_warehouse.pincode} */}
+                  {reqReturn.receiver_client.address + ', ' + reqReturn.receiver_client.city}
                 </Col>
               </Row>
             </Col>
@@ -175,13 +169,13 @@ const ReturnDocket = ({location}) => {
                   <p style={{fontWeight: 'bold'}}>Receiver's Address : </p>
                 </Col>
                 <Col span={12} style={{wordWrap: 'break-word'}}>
-                  {/* {reqReturn.flows[0].flow.sender_client.client_shipping_address +
+                  {reqReturn.warehouse.address +
                     ', ' +
-                    reqReturn.flows[0].flow.sender_client.client_shipping_city +
+                    reqReturn.warehouse.city +
                     ', ' +
-                    reqReturn.flows[0].flow.sender_client.client_shipping_state +
+                    reqReturn.warehouse.state +
                     ', ' +
-                    reqReturn.flows[0].flow.sender_client.client_shipping_pincode} */}
+                    reqReturn.warehouse.pincode}
                 </Col>
               </Row>
             </Col>
@@ -193,7 +187,7 @@ const ReturnDocket = ({location}) => {
                   <p style={{fontWeight: 'bold'}}>GST : </p>
                 </Col>
                 <Col span={12} style={{wordWrap: 'break-word'}}>
-                  {/* {reqReturn.send_from_warehouse.gst} */}
+                  {reqReturn.receiver_client.gst}
                 </Col>
               </Row>
             </Col>
@@ -203,7 +197,7 @@ const ReturnDocket = ({location}) => {
                   <p style={{fontWeight: 'bold'}}>GST : </p>
                 </Col>
                 <Col span={12} style={{wordWrap: 'break-word'}}>
-                  {/* {reqReturn.flows[0].flow.sender_client.client_gst} */}
+                  {reqReturn.warehouse.gst}
                 </Col>
               </Row>
             </Col>

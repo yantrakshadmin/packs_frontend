@@ -35,8 +35,6 @@ const props = {
 };
 
 const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel, form}) => {
-  if (others) if (others.selectOptions) console.log(others.selectOptions);
-
   let formOptions = {};
   if (others) {
     if (others.formOptions) {
@@ -46,8 +44,6 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel, form}
 
   switch (type) {
     case FORM_ELEMENT_TYPES.INPUT: {
-      console.log('again');
-
       return (
         <Form.Item
           key={key}

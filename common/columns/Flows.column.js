@@ -27,11 +27,11 @@ export default [
   {
     title: 'Sender Client',
     key: 'sender_client',
-    dataIndex: 'sender_client',
+    render: (text, record) => record.sender_client.client_name,
   },
   {
     title: 'Receiver Client',
     key: 'receiver_client',
-    dataIndex: 'receiver_client',
+    render: (text, record) => record.receiver_client.name,
   },
 ];
