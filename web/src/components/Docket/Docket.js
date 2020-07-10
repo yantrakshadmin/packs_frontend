@@ -282,74 +282,71 @@ const Docket = ({location}) => {
         <Row className="final-docket">
           <Col span={12}>
             <Row>
-              <Col span={9}>
-                <p style={{fontWeight: 'bold'}}>Amount in Words :</p>
+              <Col span={8}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Amount in Words : </p>
               </Col>
-              <Col span={13} style={{wordWrap: 'break-word', textTransform: 'capitalize'}}>
-                {String.fromCharCode(0x20b9) + ' ' + inWords(total) + 'Only.'}
+              <Col span={16}>
+                <p style={{display: 'inline', wordWrap: 'break-word', textTransform: 'capitalize'}}>
+                  {String.fromCharCode(0x20b9) + ' ' + inWords(total) + 'Only.'}
+                </p>
+              </Col>
+              <br />
+            </Row>
+            <Row>
+              <Col span={24}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>SO No. : </p>
+                <p style={{display: 'inline'}}>{allotment.sales_order.id}</p>
               </Col>
             </Row>
             <Row>
-              <Col span={9}>
-                <p style={{fontWeight: 'bold'}}>SO No. :</p>
-              </Col>
-              <Col span={13} style={{wordWrap: 'break-word'}}>
-                {allotment.sales_order.id}
-              </Col>
-            </Row>
-            <Row>
-              <Col span={9}>
-                <p style={{fontWeight: 'bold'}}>Transporter Name :</p>
-              </Col>
-              <Col span={13} style={{wordWrap: 'break-word'}}>
-                {allotment.transport_by.name}
+              <Col span={24}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Transporter Name : </p>
+                <p style={{display: 'inline', wordWrap: 'break-word'}}>
+                  {allotment.transport_by.name}
+                </p>
               </Col>
             </Row>
             <Row>
-              <Col span={9}>
-                <p style={{fontWeight: 'bold'}}>Driver Name :</p>
-              </Col>
-              <Col span={13} style={{wordWrap: 'break-word'}}>
-                {allotment.driver_name}
+              <Col span={24}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Driver Name : </p>
+                <p style={{display: 'inline', wordWrap: 'break-word'}}>{allotment.driver_name}</p>
               </Col>
             </Row>
             <Row>
-              <Col span={9}>
-                <p style={{fontWeight: 'bold'}}>Driver No. : </p>
-              </Col>
-              <Col span={13} style={{wordWrap: 'break-word'}}>
-                {allotment.driver_number}
+              <Col span={24}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Driver No. : </p>
+                <p style={{display: 'inline', wordWrap: 'break-word'}}>{allotment.driver_number}</p>
               </Col>
             </Row>
           </Col>
 
           <Col span={12}>
             <Row>
-              <Col span={8}>
-                <p style={{fontWeight: 'bold'}}>Grand Total :</p>
-              </Col>
-              <Col span={14} style={{fontWeight: 'bold', wordWrap: 'break-word'}}>
-                {String.fromCharCode(0x20b9) + ' ' + total}
-              </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                <p style={{fontWeight: 'bold'}}>Creation Date :</p>
-              </Col>
-              <Col span={14} style={{wordWrap: 'break-word'}}>
-                {new Date().getDate().toString() +
-                  '/' +
-                  new Date().getMonth().toString() +
-                  '/' +
-                  new Date().getFullYear().toString()}
+              <Col span={24}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Grand Total : </p>
+                <p style={{fontWeight: 'bold', display: 'inline', wordWrap: 'break-word'}}>
+                  {String.fromCharCode(0x20b9) + ' ' + total}
+                </p>
               </Col>
             </Row>
             <Row>
-              <Col span={8}>
-                <p style={{fontWeight: 'bold'}}>Vehicle No. :</p>
+              <Col span={24}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Creation Date : </p>
+                <p style={{display: 'inline', wordWrap: 'break-word'}}>
+                  {new Date().getDate().toString() +
+                    '/' +
+                    new Date().getMonth().toString() +
+                    '/' +
+                    new Date().getFullYear().toString()}
+                </p>
               </Col>
-              <Col span={14} style={{wordWrap: 'break-word'}}>
-                {allotment.vehicle_number}
+            </Row>
+            <Row>
+              <Col span={24}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Vehicle No. : </p>
+                <p style={{display: 'inline', wordWrap: 'break-word'}}>
+                  {allotment.vehicle_number}
+                </p>
               </Col>
             </Row>
           </Col>
