@@ -2,11 +2,12 @@ import React, {useState, useEffect} from 'react';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import returnColumns from 'common/columns/Return.column';
 import {ReturnForm} from 'forms/return.form';
+import {ReceivedForm} from 'forms/received.form';
 import {Popconfirm, Input, Button} from 'antd';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
-import {retrieveReturns, deleteReturn} from 'common/api/auth';
+import {deleteReturn} from 'common/api/auth';
 import {Link} from '@reach/router';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
@@ -20,7 +21,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [reqData, setReqData] = useState(null);
-  //   const [deliveryId, setDeliveryId] = useState(null);
+  const [deliveryId, setDeliveryId] = useState(null);
 
   const {data: returns, loading} = useAPI('/returndockets/', {});
 
@@ -83,7 +84,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
               <Document color={record.document ? '#7CFC00' : null} />
             </Button>
           </a>
-          {/* <Button
+          <Button
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -95,7 +96,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
               e.stopPropagation();
             }}>
             <Delivery color={record.is_delivered ? '#7CFC00' : null} />
-          </Button> */}
+          </Button>
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -147,7 +148,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
 
   const cancelEditing = () => {
     setEditingId(null);
-    // setDeliveryId(null);
+    setDeliveryId(null);
   };
 
   return (
@@ -164,9 +165,9 @@ const ReturnDocketsScreen = ({currentPage}) => {
         tabs={tabs}
         size="middle"
         title="Return Dockets"
-        modalBody={ReturnForm}
+        modalBody={deliveryId ? ReceivedForm : ReturnForm}
         modalWidth={60}
-        editingId={editingId}
+        editingId={editingId || deliveryId}
         cancelEditing={cancelEditing}
       />
     </>

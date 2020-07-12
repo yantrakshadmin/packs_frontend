@@ -818,3 +818,33 @@ export const retrieveRFlows = () =>
     method: 'GET',
     secure: true,
   });
+
+export const createReceived = ({returndocket, delivered, items}) =>
+  loadAPI('/create-received/', {
+    method: 'POST',
+    data: {returndocket, delivered, items},
+    secure: true,
+  });
+
+export const editReceived = (id, {returndocket, delivered, items}) =>
+  loadAPI(`/edit-received/${id}/`, {
+    method: 'PATCH',
+    data: {returndocket, delivered, items},
+    secure: true,
+  });
+
+export const retrieveReceived = (id) =>
+  loadAPI(`/edit-received/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteReceived = (id) =>
+  loadAPI(`/edit-received/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const allDelivered = () => loadAPI('/delivered/', {});
+
+export const allReceived = () => loadAPI('/received/', {});
