@@ -1,86 +1,80 @@
 import React, {useState, useEffect} from 'react';
 import {Form, Col, Row, Button, Divider, Spin} from 'antd';
 import formItem from '../hocs/formItem.hoc';
-import {
-  DeliveredFormFields,
-  DeliveredProductFormFields,
-} from 'common/formFields/delivered.formFields';
-// import {useAPI} from 'common/hooks/api';
+import {ReceivedFormFields, ReceivedProductFormFields} from 'common/formFields/received.formFields';
+import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
 import {
-  createDelivered,
-  retrieveAllotments,
-  retrieveDelivered,
-  editDelivered,
-  allDelivered,
+  createReceived,
+  editReceived,
+  retrieveReceived,
+  allReceived,
+  retrieveReturns,
 } from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 
-export const DeliveredForm = ({id, onCancel, onDone}) => {
-  const [delivered, setDelivered] = useState(false);
-  const [deliveryId, setDeliveryId] = useState(null);
+export const ReceivedForm = ({id, onCancel, onDone}) => {
   const [loading, setLoading] = useState(true);
-  const [allotment, setAllotment] = useState(null);
+  const [received, setReceived] = useState(false);
+  const [returnn, setReturn] = useState(null);
   const [products, setProducts] = useState(null);
+  const [receivedId, setReceivedId] = useState(null);
 
   const {form, submit} = useHandleForm({
-    create: createDelivered,
+    create: createReceived,
     success: 'Request created/edited successfully.',
     failure: 'Error in creating/editing request.',
     done: onDone,
     close: onCancel,
-    edit: editDelivered,
-    id: deliveryId,
-    retrieve: retrieveDelivered,
+    edit: editReceived,
+    retrieve: retrieveReceived,
+    id: receivedId,
   });
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const {data} = await retrieveAllotments();
+    const fetchReturn = async () => {
+      const {data} = await retrieveReturns();
       if (data) {
-        const allot = data.filter((d) => d.id === id);
-        setAllotment(allot[0]);
+        const reqReturn = data.filter((d) => d.id === id)[0];
+        setReturn(reqReturn);
       }
     };
-    fetchProducts();
+    if (id) fetchReturn();
   }, [id]);
 
   useEffect(() => {
-    const fetchDelivered = async () => {
-      const {data} = await allDelivered();
+    const fetchReceived = async () => {
+      const {data} = await allReceived();
+      console.log(id);
       if (data) {
-        const reqdlvd = data.filter((dlvd) => dlvd.allotment === id)[0];
-        if (reqdlvd) {
-          setDeliveryId(reqdlvd.id);
-          setDelivered(reqdlvd.delivered);
+        const reqrcvd = data.filter((rcvd) => rcvd.returndocket === id)[0];
+        if (reqrcvd) {
+          setReceivedId(reqrcvd.id);
+          setReceived(reqrcvd.delivered);
         }
       }
     };
-    if (id) fetchDelivered();
+    if (id) fetchReceived();
   }, [id]);
 
   useEffect(() => {
-    setLoading(true);
-    if (allotment) {
-      let reqProd = [];
-      console.log(allotment);
+    if (form && returnn) {
       form.setFieldsValue({
-        transaction_no: allotment.transaction_no,
+        transaction_no: returnn.transaction_no,
       });
-      allotment.flows.map((flow) => {
-        flow.kit.products.map((prod) => {
-          reqProd.push(prod.product);
-          return null;
-        });
-        return null;
-      });
-      setProducts(reqProd);
       setLoading(false);
     }
-  }, [allotment, form]);
+  }, [returnn, form]);
+
+  useEffect(() => {
+    if (returnn) {
+      const reqProds = returnn.items.map((item) => item.product);
+      setProducts(reqProds);
+    }
+  }, [returnn]);
 
   const preProcess = (data) => {
-    data['allotment'] = allotment.id;
+    data['returndocket'] = returnn.id;
     submit(data);
   };
 
@@ -89,20 +83,20 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
       <Divider orientation="left">Delivery Details</Divider>
       <Form onFinish={preProcess} form={form} layout="vertical" hideRequiredMark autoComplete="off">
         <Row style={{justifyContent: 'left'}}>
-          {DeliveredFormFields.slice(0, 1).map((item, idx) => (
+          {ReceivedFormFields.slice(0, 1).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
           ))}
-          {DeliveredFormFields.slice(1, 2).map((item, idx) => (
+          {ReceivedFormFields.slice(1, 2).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className="p-2">
                 {formItem({
                   ...item,
                   kwargs: {
-                    onChange: (val) => setDelivered(val),
+                    onChange: (val) => setReceived(val),
                   },
                 })}
               </div>
@@ -110,7 +104,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
           ))}
         </Row>
         <Row style={{justifyContent: 'left'}}>
-          {DeliveredFormFields.slice(2, 3).map((item, idx) => (
+          {ReceivedFormFields.slice(2, 3).map((item, idx) => (
             <Col span={24} style={{justifyContent: 'center'}}>
               <div key={idx} className="p-2">
                 {formItem({
@@ -128,7 +122,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
               <div>
                 {fields.map((field) => (
                   <Row align="middle">
-                    {DeliveredProductFormFields.slice(0, 1).map((item) => (
+                    {ReceivedProductFormFields.slice(0, 1).map((item) => (
                       <Col span={7}>
                         <div className="p-2">
                           {formItem({
@@ -136,7 +130,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
                             kwargs: {
                               placeholder: 'Select',
                               type: 'number',
-                              disabled: delivered,
+                              disabled: received,
                               showSearch: true,
                               filterOption: (input, option) =>
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
@@ -156,7 +150,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
                         </div>
                       </Col>
                     ))}
-                    {DeliveredProductFormFields.slice(1, 2).map((item) => (
+                    {ReceivedProductFormFields.slice(1, 2).map((item) => (
                       <Col span={7}>
                         <div className="p-2">
                           {formItem({
@@ -164,7 +158,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
                             kwargs: {
                               placeholder: 'Enter',
                               type: 'number',
-                              disabled: delivered,
+                              disabled: received,
                             },
                             others: {
                               formOptions: {
@@ -177,14 +171,14 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
                         </div>
                       </Col>
                     ))}
-                    {DeliveredProductFormFields.slice(2, 3).map((item) => (
+                    {ReceivedProductFormFields.slice(2, 3).map((item) => (
                       <Col span={7}>
                         <div className="p-2">
                           {formItem({
                             ...item,
                             kwargs: {
                               placeholder: 'Select',
-                              disabled: delivered,
+                              disabled: received,
                             },
                             others: {
                               selectOptions: ['Repairable', 'Return', 'Damage', 'Swap Return'],
@@ -200,7 +194,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
                     ))}
                     <Button
                       type="danger"
-                      disabled={delivered}
+                      disabled={received}
                       onClick={() => {
                         remove(field.name);
                       }}>
@@ -211,7 +205,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
                 <Form.Item>
                   <Button
                     type="dashed"
-                    disabled={delivered}
+                    disabled={received}
                     onClick={() => {
                       add();
                     }}

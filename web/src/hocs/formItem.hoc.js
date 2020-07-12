@@ -171,6 +171,7 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel, form}
       return (
         <Form.Item
           key={key}
+          valuePropName="checked"
           {...formOptions}
           label={noLabel ? null : customLabel || key.charAt(0).toUpperCase() + key.slice(1)}
           name={key}
