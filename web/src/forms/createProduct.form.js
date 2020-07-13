@@ -17,6 +17,7 @@ export const ProductForm = ({id, onCancel, onDone}) => {
     done: onDone,
     close: onCancel,
     id,
+    document: true,
   });
 
   const others = {selectOptions: categoryOptions};
