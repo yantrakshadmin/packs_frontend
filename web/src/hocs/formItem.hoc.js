@@ -17,10 +17,42 @@ import {FORM_ELEMENT_TYPES} from 'constants/formFields.constant';
 const {Option} = Select;
 const CheckboxGroup = Checkbox.Group;
 
+// const handleUplaod = (file) => {
+//   return new Promise(async (resolve, reject) => {
+//     const fileName = `nameThatIwant.type`;
+//     const url = await S3Fetcher.getPresignedUrl(fileName);
+//     resolve(url);
+//   });
+
+const onCustomRequest = (file) => {
+  return new Promise((resolve, reject) => {
+    const ajaxResponseWasFine = true;
+
+    setTimeout(() => {
+      if (ajaxResponseWasFine) {
+        const reader = new FileReader();
+
+        reader.addEventListener(
+          'load',
+          () => {
+            resolve(reader.result);
+          },
+          false,
+        );
+
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+      } else {
+        reject('error');
+      }
+    }, 1000);
+  });
+};
+
 const props = {
   name: 'file',
-  multiple: true,
-  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+  action: onCustomRequest,
   onChange(info) {
     const {status} = info.file;
     if (status !== 'uploading') {
@@ -34,7 +66,7 @@ const props = {
   },
 };
 
-const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel, form}) => {
+const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
   let formOptions = {};
   if (others) {
     if (others.formOptions) {

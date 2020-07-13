@@ -56,7 +56,7 @@ export const createProduct = ({
   cavity_length,
   cavity_width,
   hsn_code,
-  document,
+  document: {file: document},
 }) =>
   loadAPI('/create-product/', {
     method: 'POST',
@@ -74,6 +74,7 @@ export const createProduct = ({
       cavity_length,
       cavity_width,
       hsn_code,
+      document,
     },
     secure: true,
   });
@@ -100,6 +101,7 @@ export const editProduct = (
     cavity_length,
     cavity_width,
     hsn_code,
+    document: {file: doc},
   },
 ) =>
   loadAPI(`/edit-product/${id}/`, {
@@ -119,6 +121,7 @@ export const editProduct = (
       cavity_length,
       cavity_width,
       hsn_code,
+      document: doc,
     },
   });
 

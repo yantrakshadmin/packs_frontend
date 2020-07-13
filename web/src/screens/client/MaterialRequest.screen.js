@@ -24,12 +24,42 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
   };
 
   const columns = [
-    // {
-    //   title: 'Sr. No.',
-    //   key: 'srno',
-    //   render: (text, record, index) => (currentPage - 1) * 5 + index + 1,
-    // },
     ...materialRequestColumns,
+    {
+      title: 'Status',
+      key: 'status',
+      className: 'align-center',
+      render: (text, record) => {
+        if (record.is_allocated)
+          return (
+            <Button
+              type="primary"
+              style={{
+                backgroundColor: '#00FF00',
+                outline: 'none',
+                border: 'none',
+                borderRadius: '7%',
+              }}
+              onClick={(e) => e.stopPropagation()}>
+              Allocated
+            </Button>
+          );
+        return (
+          <Button
+            type="primary"
+            style={{
+              backgroundColor: 'red',
+              outline: 'none',
+              border: 'none',
+              borderRadius: '7%',
+              color: 'rgba(255,255,255,0.9)',
+            }}
+            onClick={(e) => e.stopPropagation()}>
+            Pending
+          </Button>
+        );
+      },
+    },
     {
       title: 'Action',
       key: 'operation',
