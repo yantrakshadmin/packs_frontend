@@ -56,7 +56,7 @@ export const createProduct = ({
   cavity_length,
   cavity_width,
   hsn_code,
-  document: {file: document},
+  document,
 }) =>
   loadAPI('/create-product/', {
     method: 'POST',
@@ -74,7 +74,6 @@ export const createProduct = ({
       cavity_length,
       cavity_width,
       hsn_code,
-      document,
     },
     secure: true,
   });
@@ -101,7 +100,7 @@ export const editProduct = (
     cavity_length,
     cavity_width,
     hsn_code,
-    document: {file: doc},
+    document,
   },
 ) =>
   loadAPI(`/edit-product/${id}/`, {
@@ -121,7 +120,6 @@ export const editProduct = (
       cavity_length,
       cavity_width,
       hsn_code,
-      document: doc,
     },
   });
 
@@ -700,14 +698,14 @@ export const deleteGRN = (id) =>
 export const createDelivered = ({allotment, delivered, items, document}) =>
   loadAPI('/create-delivered/', {
     method: 'POST',
-    data: {allotment, delivered, items, document},
+    data: {allotment, delivered, items},
     secure: true,
   });
 
 export const editDelivered = (id, {allotment, delivered, items, document}) =>
   loadAPI(`/edit-delivered/${id}/`, {
     method: 'PATCH',
-    data: {allotment, delivered, items, document},
+    data: {allotment, delivered, items},
     secure: true,
   });
 
@@ -822,7 +820,7 @@ export const retrieveRFlows = () =>
     secure: true,
   });
 
-export const createReceived = ({returndocket, delivered, items}) =>
+export const createReceived = ({returndocket, delivered, items, document}) =>
   loadAPI('/create-received/', {
     method: 'POST',
     data: {returndocket, delivered, items},
