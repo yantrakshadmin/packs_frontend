@@ -124,6 +124,9 @@ export const editProduct = (
       hsn_code,
       document: document,
     },
+    headers: {
+      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+    },
   });
 };
 
