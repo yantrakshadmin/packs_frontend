@@ -74,6 +74,7 @@ export const createProduct = ({
       cavity_length,
       cavity_width,
       hsn_code,
+      document,
     },
     secure: true,
   });
@@ -102,8 +103,9 @@ export const editProduct = (
     hsn_code,
     document,
   },
-) =>
-  loadAPI(`/edit-product/${id}/`, {
+) => {
+  console.log(document);
+  return loadAPI(`/edit-product/${id}/`, {
     method: 'PATCH',
     secure: true,
     data: {
@@ -120,8 +122,10 @@ export const editProduct = (
       cavity_length,
       cavity_width,
       hsn_code,
+      document: document,
     },
   });
+};
 
 export const retrieveProduct = (id) =>
   loadAPI(`/edit-product/${id}`, {
