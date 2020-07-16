@@ -28,11 +28,11 @@ export const ProductForm = ({id, onCancel, onDone}) => {
     let reader = new FileReader();
     let file = e.target.files[0];
     reader.onloadend = () => {
-      // console.log(file);
-      setFile(reader.result);
-      // console.log(reqFile);
+      console.log(file);
+      setFile(file);
+      console.log(reqFile);
     };
-    reader.readAsText(file);
+    reader.readAsDataURL(file);
   };
 
   const preProcess = (data) => {
