@@ -123,13 +123,13 @@ export const productFormFields = [
     },
     customLabel: 'Cavity Width',
   },
-  {
-    key: 'document',
-    rules: [{required: false, message: 'Please attach document!'}],
-    type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
-    kwargs: {
-      placeholder: 'Attach',
-    },
-    label: 'Document',
-  },
+  // {
+  //   key: 'document',
+  //   rules: [{required: false, message: 'Please attach document!'}],
+  //   type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
+  //   kwargs: {
+  //     placeholder: 'Attach',
+  //   },
+  //   label: 'Document',
+  // },
 ];
