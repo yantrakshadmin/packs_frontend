@@ -98,8 +98,8 @@ export const KitForm = ({id, onCancel, onDone}) => {
                             others: {
                               selectOptions: products || [],
                               key: 'id',
-                              dataKeys: ['short_code', 'description', 'category'],
-                              customTitle: 'name',
+                              dataKeys: ['name', 'description', 'category'],
+                              customTitle: 'short_code',
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],
