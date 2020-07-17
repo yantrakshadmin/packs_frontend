@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import {Form, Col, Row, Button, Divider, Spin, message} from 'antd';
 import {Icon} from '@ant-design/compatible';
 import formItem from '../hocs/formItem.hoc';
 import {productFormFields} from 'common/formFields/product.formFields';
@@ -38,12 +38,17 @@ export const ProductForm = ({id, onCancel, onDone}) => {
   const preProcess = (data) => {
     if (reqFile) {
       console.log(reqFile);
-      data.document = reqFile;
+      data.document = reqFile.originFileObj;
     }
+    console.log(data);
     const req = new FormData();
     console.log(data);
-    // req.append()
-    submit(data);
+    req.append('file', reqFile);
+    for (var key in data) {
+      req.append(key.toString(), data[key]);
+    }
+    console.log(req);
+    submit(req);
   };
 
   const others = {selectOptions: categoryOptions};
@@ -90,7 +95,28 @@ export const ProductForm = ({id, onCancel, onDone}) => {
           <Col span={6}></Col>
         </Row>
         <Row justify="center">
-          <div>
+          <Col span={24} style={{justifyContent: 'center', display: 'flex'}}>
+            <div key={13} className="p-2">
+              {formItem({
+                ...productFormFields[13],
+                kwargs: {
+                  onChange(info) {
+                    const {status} = info.file;
+                    if (status !== 'uploading') {
+                      console.log(info.file, info.fileList);
+                    }
+                    if (status === 'done') {
+                      setFile(info.file);
+                      message.success(`${info.file.name} file uploaded successfully.`);
+                    } else if (status === 'error') {
+                      message.error(`${info.file.name} file upload failed.`);
+                    }
+                  },
+                },
+              })}
+            </div>
+          </Col>
+          {/* <div>
             <label for="fileToUpload">
               <p className="ant-upload-drag-icon">
                 <Icon type="inbox" style={{fontSize: '10vh'}} />
@@ -103,7 +129,7 @@ export const ProductForm = ({id, onCancel, onDone}) => {
               id="fileToUpload"
               onChange={handleFileChange}
             />
-          </div>
+          </div> */}
         </Row>
 
         <Row>
