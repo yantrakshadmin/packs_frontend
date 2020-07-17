@@ -389,17 +389,17 @@ export const retrieveClientProfile = (id) =>
     secure: true,
   });
 
-export const createReceiverClient = ({name, city, address, emitter}) =>
+export const createReceiverClient = ({name, city, address, emitter, pan, gst}) =>
   loadAPI('/create-receiverclient/', {
     method: 'POST',
-    data: {name, city, address, emitter},
+    data: {name, city, address, emitter, pan, gst},
     secure: true,
   });
 
-export const editReceiverClient = (id, {name, city, address, emitter}) =>
+export const editReceiverClient = (id, {name, city, address, emitter, pan, gst}) =>
   loadAPI(`/edit-receiverclient/${id}/`, {
     method: 'PATCH',
-    data: {name, city, address, emitter},
+    data: {name, city, address, emitter, pan, gst},
     secure: true,
   });
 

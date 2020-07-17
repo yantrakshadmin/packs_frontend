@@ -64,6 +64,15 @@ export const ReceiverForm = ({id, onCancel, onDone}) => {
             </Col>
           ))}
         </Row>
+        <Row style={{justifyContent: 'left'}}>
+          {receiverFormFields.slice(4, 6).map((item, idx) => (
+            <Col span={12}>
+              <div key={idx} className="p-2">
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
         <Row>
           <Button type="primary" htmlType="submit">
             Save

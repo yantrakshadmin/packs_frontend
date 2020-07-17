@@ -40,7 +40,9 @@ export const ProductForm = ({id, onCancel, onDone}) => {
       console.log(reqFile);
       data.document = reqFile;
     }
+    const req = new FormData();
     console.log(data);
+    // req.append()
     submit(data);
   };
 
