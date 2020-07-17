@@ -22,7 +22,7 @@ const VendorEmployeeScreen = ({currentPage}) => {
     {
       title: 'Sr. No.',
       key: 'srno',
-      render: (text, record, index) => (currentPage - 1) * 5 + index + 1,
+      render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
     },
     ...vendorColumns,
     {
