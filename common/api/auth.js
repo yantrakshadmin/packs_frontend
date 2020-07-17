@@ -42,40 +42,10 @@ export const retrieveClients = () =>
     secure: true,
   });
 
-export const createProduct = ({
-  name,
-  short_code,
-  description,
-  category,
-  priceperunit,
-  height,
-  width,
-  length,
-  actual_weight,
-  volumetric_weight,
-  cavity_length,
-  cavity_width,
-  hsn_code,
-  document,
-}) =>
+export const createProduct = (req) =>
   loadAPI('/create-product/', {
     method: 'POST',
-    data: {
-      name,
-      short_code,
-      description,
-      category,
-      priceperunit,
-      height,
-      width,
-      length,
-      actual_weight,
-      volumetric_weight,
-      cavity_length,
-      cavity_width,
-      hsn_code,
-      document,
-    },
+    data: req,
     secure: true,
   });
 
@@ -85,45 +55,12 @@ export const retrieveProducts = () =>
     secure: true,
   });
 
-export const editProduct = (
-  id,
-  {
-    name,
-    short_code,
-    description,
-    category,
-    priceperunit,
-    height,
-    width,
-    length,
-    actual_weight,
-    volumetric_weight,
-    cavity_length,
-    cavity_width,
-    hsn_code,
-    document,
-  },
-) => {
+export const editProduct = (id, req) => {
   console.log(document);
   return loadAPI(`/edit-product/${id}/`, {
     method: 'PATCH',
     secure: true,
-    data: {
-      name,
-      short_code,
-      description,
-      category,
-      priceperunit,
-      height,
-      width,
-      length,
-      actual_weight,
-      volumetric_weight,
-      cavity_length,
-      cavity_width,
-      hsn_code,
-      document: document,
-    },
+    data: req,
     headers: {
       'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
     },

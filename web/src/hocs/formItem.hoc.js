@@ -53,17 +53,17 @@ const onCustomRequest = (file) => {
 const props = {
   name: 'file',
   action: onCustomRequest,
-  onChange(info) {
-    const {status} = info.file;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
+  // onChange(info) {
+  //   const {status} = info.file;
+  //   if (status !== 'uploading') {
+  //     console.log(info.file, info.fileList);
+  //   }
+  //   if (status === 'done') {
+  //     message.success(`${info.file.name} file uploaded successfully.`);
+  //   } else if (status === 'error') {
+  //     message.error(`${info.file.name} file upload failed.`);
+  //   }
+  // },
 };
 
 const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
