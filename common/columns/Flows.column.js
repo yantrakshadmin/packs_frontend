@@ -1,10 +1,5 @@
 export default [
   {
-    title: 'Sr. No.',
-    key: 'no.',
-    render: (record, text, index) => index + 1,
-  },
-  {
     title: 'Flow Name',
     key: 'flow_name',
     dataIndex: 'flow_name',

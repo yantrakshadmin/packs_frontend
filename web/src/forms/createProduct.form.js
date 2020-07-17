@@ -23,31 +23,14 @@ export const ProductForm = ({id, onCancel, onDone}) => {
     document: true,
   });
 
-  const handleFileChange = (e) => {
-    e.preventDefault();
-    let reader = new FileReader();
-    let file = e.target.files[0];
-    reader.onloadend = () => {
-      console.log(file);
-      setFile(file);
-      console.log(reqFile);
-    };
-    reader.readAsDataURL(file);
-  };
-
   const preProcess = (data) => {
     if (reqFile) {
-      console.log(reqFile);
       data.document = reqFile.originFileObj;
     }
-    console.log(data);
     const req = new FormData();
-    console.log(data);
-    req.append('file', reqFile);
     for (var key in data) {
       req.append(key.toString(), data[key]);
     }
-    console.log(req);
     submit(req);
   };
 
@@ -116,20 +99,6 @@ export const ProductForm = ({id, onCancel, onDone}) => {
               })}
             </div>
           </Col>
-          {/* <div>
-            <label for="fileToUpload">
-              <p className="ant-upload-drag-icon">
-                <Icon type="inbox" style={{fontSize: '10vh'}} />
-              </p>
-            </label>
-            <input
-              style={{display: 'none'}}
-              type="file"
-              name="fileToUpload"
-              id="fileToUpload"
-              onChange={handleFileChange}
-            />
-          </div> */}
         </Row>
 
         <Row>

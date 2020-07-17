@@ -24,6 +24,11 @@ const FlowEmployeeScreen = ({currentPage}) => {
   };
 
   const columns = [
+    {
+      title: 'Sr. No.',
+      key: 'srno',
+      render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
+    },
     ...flowsColumns,
     {
       title: 'Action',
