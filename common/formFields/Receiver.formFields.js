@@ -41,4 +41,24 @@ export const receiverFormFields = [
     others: null,
     customLabel: 'Emitter',
   },
+  {
+    key: 'pan',
+    rules: [{required: true, message: 'Please enter receiver PAN!'}],
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'PAN',
+  },
+  {
+    key: 'gst',
+    rules: [{required: true, message: 'Please enter receiver GST!'}],
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'GST',
+  },
 ];
