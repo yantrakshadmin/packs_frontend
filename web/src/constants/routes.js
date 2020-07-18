@@ -137,6 +137,12 @@ export const employeeRoutes = [
     path: '/pfep/',
     Component: lazy(() => import('screens/404.screen')),
   },
+  {
+    name: 'Reports',
+    icon: ['fas', 'layer-group'],
+    path: '/reports/',
+    Component: lazy(() => import('../components/Report')),
+  },
 ];
 
 export const clientRoutes = [
