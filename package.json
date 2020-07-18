@@ -57,11 +57,13 @@
   "dependencies": {
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
+    "flexmonster": "^2.8.11-1",
     "jquery": "^3.5.1",
     "moment": "^2.27.0",
     "node-sass": "^4.14.1",
     "popper": "^1.0.1",
     "react-bootstrap": "^1.0.1",
+    "react-flexmonster": "^2.8.11-1",
     "react-router-dom": "^5.2.0",
     "redux-persist": "^6.0.0",
     "semantic-ui-react": "^0.88.2",
