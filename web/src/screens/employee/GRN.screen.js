@@ -11,8 +11,9 @@ import {useAPI} from 'common/hooks/api';
 import Edit from 'icons/Edit';
 import Delete from 'icons/Delete';
 import Document from 'icons/Document';
+import Download from 'icons/Download';
 
-import {deleteGRN} from 'common/api/auth';
+import {deleteGRN, retrieveGRNBars} from 'common/api/auth';
 
 const {Search} = Input;
 
@@ -20,6 +21,8 @@ const KitEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [reqData, setReqData] = useState(null);
+  const [barLoading, setBarLoading] = useState(false);
+  const [barID, setBarID] = useState(null);
 
   const {data: grns, loading} = useAPI('/grns/', {});
 
@@ -48,6 +51,21 @@ const KitEmployeeScreen = ({currentPage}) => {
     }
   }, [grns]);
 
+  const download = (filename, data) => {
+    var blob = new Blob([data], {type: 'text/csv'});
+    if (window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveBlob(blob, filename);
+    } else {
+      var elem = window.document.createElement('a');
+      elem.href = window.URL.createObjectURL(blob);
+      elem.download = filename;
+      document.body.appendChild(elem);
+      elem.click();
+      document.body.removeChild(elem);
+    }
+    // window.URL.revokeObjectURL();
+  };
+
   const cancelEditing = () => {
     setEditingId(null);
   };
@@ -60,7 +78,7 @@ const KitEmployeeScreen = ({currentPage}) => {
       width: '7vw',
       render: (text, record) => (
         <div className="row justify-evenly">
-          <a href={record.document} target="_blank">
+          <a href={record.document} target="_blank" rel="noopener noreferrer">
             <Button
               style={{
                 backgroundColor: 'transparent',
@@ -73,6 +91,26 @@ const KitEmployeeScreen = ({currentPage}) => {
               <Document />
             </Button>
           </a>
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            loading={record.id === barID ? barLoading : false}
+            onClick={async (e) => {
+              e.stopPropagation();
+              setBarLoading(true);
+              setBarID(record.id);
+              const {data} = await retrieveGRNBars(record.id);
+              if (data) {
+                download(record.id + '.txt', data.join('\n \n'));
+                setBarLoading(false);
+              }
+            }}>
+            <Download />
+          </Button>
           <Button
             style={{
               backgroundColor: 'transparent',
