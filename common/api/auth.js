@@ -793,3 +793,9 @@ export const deleteReceived = (id) =>
 export const allDelivered = () => loadAPI('/delivered/', {});
 
 export const allReceived = () => loadAPI('/received/', {});
+
+export const retrieveGRNBars = (id) =>
+  loadAPI(`/grn-barcodes/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
