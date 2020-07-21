@@ -1,5 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import moment from 'moment';
 import formItem from '../hocs/formItem.hoc';
 import {
   allotmentFormFields,
@@ -11,6 +12,8 @@ import {createAllotment} from 'common/api/auth';
 import {navigate} from '@reach/router';
 
 const AllotmentForm = ({location}) => {
+  const [dat, setDat] = useState(null);
+
   const {data: mrs} = useAPI('/allmrequest/', {});
   const {data: warehouses} = useAPI('/warehouse/', {});
   const {data: vendors} = useAPI('/vendors/', {});
@@ -35,6 +38,7 @@ const AllotmentForm = ({location}) => {
         console.log('id', location.state.id);
         const reqData = mrs.filter((d) => d.id === location.state.id);
         console.log(reqData);
+        setDat(reqData[0].delivery_required_on);
         const {flows: flos} = reqData[0];
         const reqFlows = flos.map((flo) => ({
           flow: flo.flow.id,
@@ -49,6 +53,12 @@ const AllotmentForm = ({location}) => {
     };
     fetchFlows();
   }, [location.state.id, mrs, form]);
+
+  useEffect(() => {
+    if (dat) {
+      form.setFieldsValue({dispatch_date: moment(dat), expected_delivery: moment(dat)});
+    }
+  }, [dat]);
 
   const preProcess = (data) => {
     console.log(data);
@@ -106,8 +116,15 @@ const AllotmentForm = ({location}) => {
               })}
             </div>
           </Col>
-          {allotmentFormFields.slice(10, 12).map((item, idx) => (
-            <Col span={6}>
+          <Col span={6}>
+            <div key={10} className="p-2">
+              {formItem(allotmentFormFields[10])}
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          {allotmentFormFields.slice(11, 13).map((item, idx) => (
+            <Col span={4}>
               <div key={idx} className="p-2">
                 {formItem(item)}
               </div>

@@ -5,6 +5,7 @@ export const allotmentFormFields = [
     key: 'sales_order',
     rules: [{required: true, message: 'Please select sales order ID!'}],
     kwargs: {
+      disabled: true,
       placeholder: 'Enter',
       type: 'number',
     },
@@ -25,10 +26,8 @@ export const allotmentFormFields = [
     },
     customLabel: 'Model',
   },
-
   {
     key: 'driver_name',
-    rules: [{required: true, message: 'Please enter driver name!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -37,8 +36,16 @@ export const allotmentFormFields = [
     customLabel: 'Driver Name',
   },
   {
+    key: 'driver_number',
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Driver Number',
+  },
+  {
     key: 'lr_number',
-    rules: [{required: true, message: 'Please enter LR number!'}],
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
@@ -49,7 +56,6 @@ export const allotmentFormFields = [
   },
   {
     key: 'vehicle_number',
-    rules: [{required: true, message: 'Please enter vehicle number!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -59,7 +65,6 @@ export const allotmentFormFields = [
   },
   {
     key: 'freight_charges',
-    rules: [{required: true, message: 'Please enter freight charges!'}],
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
@@ -91,17 +96,6 @@ export const allotmentFormFields = [
     },
     customLabel: 'Vehicle Type',
   },
-
-  {
-    key: 'remarks',
-    rules: [{required: true, message: 'Please enter remarks!'}],
-    kwargs: {
-      placeholder: 'Enter',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Remarks',
-  },
   {
     key: 'send_from_warehouse',
     rules: [{required: true, message: 'Please select warehouse!'}],
@@ -121,6 +115,15 @@ export const allotmentFormFields = [
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
     customLabel: 'Transport By',
+  },
+  {
+    key: 'remarks',
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Remarks',
   },
   {
     key: 'dispatch_date',
