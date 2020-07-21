@@ -35,6 +35,7 @@ const AllotmentForm = ({location}) => {
   useEffect(() => {
     const fetchFlows = async () => {
       if (location.state.id && mrs && form) {
+        form.setFieldsValue({model: 'Rent', vehicle_type: 'Part Load'});
         console.log('id', location.state.id);
         const reqData = mrs.filter((d) => d.id === location.state.id);
         console.log(reqData);
