@@ -287,7 +287,7 @@ const Docket = ({location}) => {
               </Col>
               <Col span={16}>
                 <p style={{display: 'inline', wordWrap: 'break-word', textTransform: 'capitalize'}}>
-                  {String.fromCharCode(0x20b9) + ' ' + inWords(total) + 'Only.'}
+                  {String.fromCharCode(0x20b9) + ' ' + inWords(total)}
                 </p>
               </Col>
               <br />
