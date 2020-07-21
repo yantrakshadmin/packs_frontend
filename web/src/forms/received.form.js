@@ -120,13 +120,14 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
           {(fields, {add, remove}) => {
             return (
               <div>
-                {fields.map((field) => (
+                {fields.map((field, index) => (
                   <Row align="middle">
                     {ReceivedProductFormFields.slice(0, 1).map((item) => (
                       <Col span={7}>
                         <div className="p-2">
                           {formItem({
                             ...item,
+                            noLabel: index != 0,
                             kwargs: {
                               placeholder: 'Select',
                               type: 'number',
@@ -155,6 +156,7 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
                         <div className="p-2">
                           {formItem({
                             ...item,
+                            noLabel: index != 0,
                             kwargs: {
                               placeholder: 'Enter',
                               type: 'number',
@@ -176,6 +178,7 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
                         <div className="p-2">
                           {formItem({
                             ...item,
+                            noLabel: index != 0,
                             kwargs: {
                               placeholder: 'Select',
                               disabled: received,

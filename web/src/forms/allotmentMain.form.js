@@ -147,12 +147,13 @@ export const AllotmentMainForm = ({id, onCancel, onDone}) => {
           {(fields, {add, remove}) => {
             return (
               <div>
-                {fields.map((field) => (
+                {fields.map((field, index) => (
                   <Row align="middle">
                     <Col span={5}>
                       <div className="p-2">
                         {formItem({
                           ...allotmentProductFormFields[0],
+                          noLabel: index != 0,
                           others: {
                             selectOptions: flows || [],
                             customTitle: 'flow_name',
@@ -170,6 +171,7 @@ export const AllotmentMainForm = ({id, onCancel, onDone}) => {
                       <div className="p-2">
                         {formItem({
                           ...allotmentProductFormFields[1],
+                          noLabel: index != 0,
                           others: {
                             selectOptions: kits || [],
                             customTitle: 'kit_name',
@@ -188,6 +190,7 @@ export const AllotmentMainForm = ({id, onCancel, onDone}) => {
                         <div key={idx} className="p-2">
                           {formItem({
                             ...item,
+                            noLabel: index != 0,
                             others: {
                               formOptions: {
                                 ...field,

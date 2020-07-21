@@ -71,13 +71,14 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
           {(fields, {add, remove}) => {
             return (
               <div>
-                {fields.map((field) => (
+                {fields.map((field, index) => (
                   <Row align="middle">
                     {materialRequestFlowFormFields.slice(0, 1).map((item) => (
                       <Col span={6}>
                         <div className="p-2">
                           {formItem({
                             ...item,
+                            noLabel: index != 0,
                             kwargs: {
                               onChange: (val) => {
                                 setFlowId(val);
@@ -107,6 +108,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
                         <div className="p-2">
                           {formItem({
                             ...item,
+                            noLabel: index != 0,
                             kwargs: {
                               placeholder: 'Select',
                               showSearch: true,
@@ -140,6 +142,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
                         <div className="p-2">
                           {formItem({
                             ...item,
+                            noLabel: index != 0,
                             others: {
                               formOptions: {
                                 ...field,
