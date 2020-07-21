@@ -137,13 +137,14 @@ export const GRNForm = ({id, onCancel, onDone}) => {
           {(fields, {add, remove}) => {
             return (
               <div>
-                {fields.map((field) => (
+                {fields.map((field, index) => (
                   <Row align="middle">
                     {GRNItemFormFields.slice(0, 1).map((item) => (
                       <Col span={7}>
                         <div className="p-2">
                           {formItem({
                             ...item,
+                            noLabel: index != 0,
                             kwargs: {
                               placeholder: 'Select',
                               type: 'number',
@@ -171,6 +172,7 @@ export const GRNForm = ({id, onCancel, onDone}) => {
                         <div className="p-2">
                           {formItem({
                             ...item,
+                            noLabel: index != 0,
                             others: {
                               formOptions: {
                                 ...field,

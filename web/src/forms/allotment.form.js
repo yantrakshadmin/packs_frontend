@@ -138,12 +138,13 @@ const AllotmentForm = ({location}) => {
           {(fields, {add, remove}) => {
             return (
               <div>
-                {fields.map((field) => (
+                {fields.map((field, index) => (
                   <Row align="middle">
                     <Col span={6}>
                       <div className="p-2">
                         {formItem({
                           ...allotmentProductFormFields[0],
+                          noLabel: index != 0,
                           others: {
                             selectOptions: flows || [],
                             customTitle: 'flow_name',
@@ -161,6 +162,7 @@ const AllotmentForm = ({location}) => {
                       <div className="p-2">
                         {formItem({
                           ...allotmentProductFormFields[1],
+                          noLabel: index != 0,
                           others: {
                             selectOptions: kits || [],
                             customTitle: 'kit_name',
@@ -179,6 +181,7 @@ const AllotmentForm = ({location}) => {
                         <div key={idx} className="p-2">
                           {formItem({
                             ...item,
+                            noLabel: index != 0,
                             others: {
                               formOptions: {
                                 ...field,
