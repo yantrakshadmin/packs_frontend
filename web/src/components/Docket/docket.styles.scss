@@ -1,3 +1,8 @@
+@page {
+  size: auto;
+  margin: 0 1vw;
+}
+
 .container-docket {
   margin: 2vh 0vh;
   font-size: 18px;
@@ -6,7 +11,7 @@
   .header-docket {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 4vh;
+    margin-bottom: 2vh;
 
     .logo-docket img {
       height: 55px;
@@ -17,7 +22,7 @@
 
     .heading-docket {
       margin-right: 5vh;
-      margin-top: 2vh;
+      margin-top: 1.5vh;
     }
   }
 
