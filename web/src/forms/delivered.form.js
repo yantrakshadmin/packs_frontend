@@ -203,6 +203,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
                     ))}
                     <Button
                       type="danger"
+                      style={index != 0 ? {top: '-2vh'} : null}
                       disabled={delivered}
                       onClick={() => {
                         remove(field.name);

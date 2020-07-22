@@ -121,7 +121,7 @@ const TableWithTabHOC = ({
                     expandRowByClick
                     expandIconColumnIndex={-1}
                     pagination={{
-                      pageSize: pageSize || 10,
+                      // pageSize: pageSize || 10,
                       position: ['bottomRight'],
                       onChange(current) {
                         changePage(current);
