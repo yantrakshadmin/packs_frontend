@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {Row, Col, Typography, Spin} from 'antd';
 import {Table} from 'react-bootstrap';
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import './docket.styles.scss';
 import {useEffect} from 'react';
 import {retrieveAllotments} from 'common/api/auth';
