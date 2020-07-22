@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Row, Col, Typography, Spin} from 'antd';
 import {Table} from 'react-bootstrap';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import './docket.styles.scss';
 import {useEffect} from 'react';
 import {retrieveAllotments} from 'common/api/auth';
@@ -226,7 +226,7 @@ const Docket = ({location}) => {
           </Row>
         </div>
         <Row className="table-docket">
-          <Table bordered size="sm">
+          <table bordered size="sm">
             <thead>
               <tr>
                 <th>Kit ID</th>
@@ -277,7 +277,7 @@ const Docket = ({location}) => {
                 );
               })}
             </tbody>
-          </Table>
+          </table>
         </Row>
         <Row className="final-docket">
           <Col span={12}>

@@ -36,7 +36,21 @@
   }
 
   .table-docket {
-    margin: 1vh 0vh;
+    margin: 1vh 0.7vh 1vh 0;
+    display: flex;
+    flex-direction: column;
+
+    table,
+    th,
+    td {
+      border: 1px solid grey;
+    }
+
+    th,
+    td {
+      padding: 2px;
+      padding-left: 20px;
+    }
   }
 
   .final-docket {
