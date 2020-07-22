@@ -228,6 +228,7 @@ export const FlowForm = ({id, onCancel, onDone}) => {
                     ))}
                     <Button
                       type="danger"
+                      style={index != 0 ? {top: '-2vh'} : null}
                       onClick={() => {
                         remove(field.name);
                       }}>

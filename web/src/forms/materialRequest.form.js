@@ -157,6 +157,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
                     <Col span={6}>
                       <Button
                         style={{width: '9vw'}}
+                        style={index != 0 ? {top: '-2vh'} : null}
                         type="danger"
                         onClick={() => {
                           remove(field.name);

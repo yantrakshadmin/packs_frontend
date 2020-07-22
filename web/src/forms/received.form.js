@@ -197,6 +197,7 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
                     ))}
                     <Button
                       type="danger"
+                      style={index != 0 ? {top: '-2vh'} : null}
                       disabled={received}
                       onClick={() => {
                         remove(field.name);
