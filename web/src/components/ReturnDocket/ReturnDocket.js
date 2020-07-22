@@ -240,7 +240,7 @@ const ReturnDocket = ({location}) => {
         <Row className="final-docket">
           <Col span={12}>
             <Row>
-              <Col span={8}>
+              <Col span={7}>
                 <p style={{fontWeight: 'bold', display: 'inline'}}>Amount in Words : </p>
               </Col>
               <Col span={16}>
