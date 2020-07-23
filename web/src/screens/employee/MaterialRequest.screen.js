@@ -27,6 +27,17 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
       title: 'Status',
       key: 'status',
       className: 'align-center',
+      filters: [
+        {
+          text: 'Allocated',
+          value: true,
+        },
+        {
+          text: 'Pending',
+          value: false,
+        },
+      ],
+      onFilter: (value, record) => record.is_allocated === value,
       render: (text, record) => {
         if (record.is_allocated)
           return (
