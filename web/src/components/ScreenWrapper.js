@@ -64,6 +64,7 @@ const ScreenWrapper = ({routes, navigate, children, user, changePage}) => {
       <Layout>
         <Sider
           // trigger={null}
+          style={{zoom: '90%'}}
           collapsible
           width={200}
           collapsedWidth={collapsedWidth}

@@ -1,5 +1,5 @@
-import React from 'react';
-import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import React, {useState} from 'react';
+import {Form, Col, Row, Button, Divider, Spin, message} from 'antd';
 import formItem from '../hocs/formItem.hoc';
 import {GRNFormFields, GRNItemFormFields} from 'common/formFields/GRN.formFields';
 import {useAPI} from 'common/hooks/api';
@@ -8,6 +8,8 @@ import {createGRN, editGRN, retrieveGRN} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 
 export const GRNForm = ({id, onCancel, onDone}) => {
+  const [reqFile, setFile] = useState(null);
+
   const {data: vendors} = useAPI('/vendors/', {});
   const {data: warehouses} = useAPI('/warehouse/', {});
   const {data: products} = useAPI('/products/', {});
@@ -124,10 +126,33 @@ export const GRNForm = ({id, onCancel, onDone}) => {
           ))}
         </Row>
         <Row style={{justifyContent: 'left'}}>
-          {GRNFormFields.slice(12, 14).map((item, idx) => (
+          {GRNFormFields.slice(12, 13).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className="p-2">
                 {formItem({...item})}
+              </div>
+            </Col>
+          ))}
+          {GRNFormFields.slice(13, 14).map((item, idx) => (
+            <Col span={6}>
+              <div key={idx} className="p-2">
+                {formItem({
+                  ...item,
+                  kwargs: {
+                    onChange(info) {
+                      const {status} = info.file;
+                      if (status !== 'uploading') {
+                        console.log(info.file, info.fileList);
+                      }
+                      if (status === 'done') {
+                        setFile(info.file);
+                        message.success(`${info.file.name} file uploaded successfully.`);
+                      } else if (status === 'error') {
+                        message.error(`${info.file.name} file upload failed.`);
+                      }
+                    },
+                  },
+                })}
               </div>
             </Col>
           ))}
