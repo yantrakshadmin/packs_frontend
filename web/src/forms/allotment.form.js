@@ -132,6 +132,7 @@ const AllotmentForm = ({location}) => {
             </Col>
           ))}
         </Row>
+
         <Divider orientation="left">Kit Details</Divider>
 
         <Form.List name="flows">

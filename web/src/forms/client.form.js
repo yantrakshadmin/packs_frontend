@@ -32,11 +32,22 @@ export const ClientForm = ({id, onCancel, onDone}) => {
             }
   };
 
+  const preProcess = (data) => {
+    if (reqFile) {
+      data.document = reqFile.originFileObj;
+    }
+    const req = new FormData();
+    for (var key in data) {
+      req.append(key.toString(), data[key]);
+    }
+    submit(req);
+  };
+
   return (
     <Spin spinning={loading}>
       <Divider orientation="left">Client Details</Divider>
       <Form
-        onFinish={submit}
+        onFinish={preProcess}
         form={form}
         layout="vertical"
         hideRequiredMark
