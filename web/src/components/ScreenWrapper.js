@@ -119,7 +119,7 @@ const ScreenWrapper = ({routes, navigate, children, user, changePage}) => {
           <Suspense fallback={<Loading />}>
             <Content
               className="site-layout-background content-style"
-              style={{minHeight: `calc( 100vh - 184px )`}}>
+              style={{minHeight: `calc( 100vh - 184px )`, zoom: '90%'}}>
               {children}
             </Content>
           </Suspense>
