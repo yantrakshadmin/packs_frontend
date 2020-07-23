@@ -208,7 +208,7 @@ const ReturnDocket = ({location}) => {
           </Row>
         </div>
         <Row className="table-docket">
-          <Table bordered size="sm">
+          <table className="table table-sm">
             <thead>
               <tr>
                 <th>Sr. No.</th>
@@ -235,7 +235,7 @@ const ReturnDocket = ({location}) => {
                 );
               })}
             </tbody>
-          </Table>
+          </table>
         </Row>
         <Row className="final-docket">
           <Col span={12}>

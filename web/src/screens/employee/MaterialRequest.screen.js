@@ -7,8 +7,6 @@ import {Button, Input} from 'antd';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {retrieveEmployeeMrs} from 'common/api/auth';
-// import Upload from '../../icons/Upload';
-// import File from '../../icons/File';
 
 const {Search} = Input;
 

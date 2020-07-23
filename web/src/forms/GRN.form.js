@@ -26,10 +26,21 @@ export const GRNForm = ({id, onCancel, onDone}) => {
     dates: ['inward_date'],
   });
 
+  const preProcess = (data) => {
+    if (reqFile) {
+      data.document = reqFile.originFileObj;
+    }
+    const req = new FormData();
+    for (var key in data) {
+      req.append(key.toString(), data[key]);
+    }
+    submit(req);
+  };
+
   return (
     <Spin spinning={loading}>
       <Divider orientation="left">GRN Details</Divider>
-      <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
+      <Form onFinish={preProcess} form={form} layout="vertical" hideRequiredMark autoComplete="off">
         <Row style={{justifyContent: 'left'}}>
           {GRNFormFields.slice(0, 1).map((item, idx) => (
             <Col span={6}>
