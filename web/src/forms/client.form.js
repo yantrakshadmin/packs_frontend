@@ -1,11 +1,13 @@
-import React from 'react';
-import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import React, {useState} from 'react';
+import {Form, Col, Row, Button, Divider, Spin, message} from 'antd';
 import formItem from '../hocs/formItem.hoc';
 import {clientFormFields} from 'common/formFields/clientProfile.formFields';
 import {useHandleForm} from 'hooks/form';
 import {editClientProfile, retrieveClientProfile} from 'common/api/auth';
 
 export const ClientForm = ({id, onCancel, onDone}) => {
+  const [reqFile, setFile] = useState(null);
+
   const {form, submit, loading} = useHandleForm({
     create: null,
     edit: editClientProfile,
@@ -88,7 +90,25 @@ export const ClientForm = ({id, onCancel, onDone}) => {
             </Col>
           ))}
         </Row>
-        <Row align="center">{formItem(clientFormFields[20])}</Row>
+        <Row align="center">
+          {formItem({
+            ...clientFormFields[20],
+            kwargs: {
+              onChange(info) {
+                const {status} = info.file;
+                if (status !== 'uploading') {
+                  console.log(info.file, info.fileList);
+                }
+                if (status === 'done') {
+                  setFile(info.file);
+                  message.success(`${info.file.name} file uploaded successfully.`);
+                } else if (status === 'error') {
+                  message.error(`${info.file.name} file upload failed.`);
+                }
+              },
+            },
+          })}
+        </Row>
 
         <Row>
           <Button type="primary" htmlType="submit">
