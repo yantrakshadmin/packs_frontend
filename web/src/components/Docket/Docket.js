@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {Row, Col, Typography, Spin} from 'antd';
 import {Table} from 'react-bootstrap';
-
-import './docket.styles.scss';
 import {useEffect} from 'react';
 import {retrieveAllotments} from 'common/api/auth';
+
+import './docket.styles.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const {Title} = Typography;
 
@@ -225,7 +226,7 @@ const Docket = ({location}) => {
           </Row>
         </div>
         <Row className="table-docket">
-          <table bordered size="sm">
+          <Table bordered size="sm">
             <thead>
               <tr>
                 <th>Kit ID</th>
@@ -276,7 +277,7 @@ const Docket = ({location}) => {
                 );
               })}
             </tbody>
-          </table>
+          </Table>
         </Row>
         <Row className="final-docket">
           <Col span={12}>

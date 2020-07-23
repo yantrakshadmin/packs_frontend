@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {Row, Col, Typography, Spin} from 'antd';
 import {Table} from 'react-bootstrap';
-
-import './returndocket.styles.scss';
 import {useEffect} from 'react';
 import {retrieveReturns} from 'common/api/auth';
+
+import './returndocket.styles.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const {Title} = Typography;
 
@@ -207,7 +208,7 @@ const ReturnDocket = ({location}) => {
           </Row>
         </div>
         <Row className="table-docket">
-          <table bordered size="sm">
+          <Table bordered size="sm">
             <thead>
               <tr>
                 <th>Sr. No.</th>
@@ -234,7 +235,7 @@ const ReturnDocket = ({location}) => {
                 );
               })}
             </tbody>
-          </table>
+          </Table>
         </Row>
         <Row className="final-docket">
           <Col span={12}>
