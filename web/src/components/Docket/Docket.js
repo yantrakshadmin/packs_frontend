@@ -5,6 +5,7 @@ import {useEffect} from 'react';
 import {retrieveAllotments} from 'common/api/auth';
 
 import './docket.styles.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const {Title} = Typography;
 
@@ -225,7 +226,7 @@ const Docket = ({location}) => {
           </Row>
         </div>
         <Row className="table-docket">
-          <table className="table table-sm">
+          <Table bordered>
             <thead>
               <tr>
                 <th>Kit ID</th>
@@ -276,12 +277,12 @@ const Docket = ({location}) => {
                 );
               })}
             </tbody>
-          </table>
+          </Table>
         </Row>
         <Row className="final-docket">
           <Col span={12}>
             <Row>
-              <Col span={7}>
+              <Col span={8}>
                 <p style={{fontWeight: 'bold', display: 'inline'}}>Amount in Words : </p>
               </Col>
               <Col span={16}>

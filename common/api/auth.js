@@ -47,6 +47,9 @@ export const createProduct = (req) =>
     method: 'POST',
     data: req,
     secure: true,
+    headers: {
+      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+    },
   });
 
 export const retrieveProducts = () =>
@@ -222,32 +225,24 @@ export const retrieveVendors = () =>
     secure: true,
   });
 
-export const createWarehouse = ({
-  name,
-  email,
-  contact,
-  address,
-  city,
-  pincode,
-  state,
-  pan,
-  gst,
-  document,
-}) =>
+export const createWarehouse = (req) =>
   loadAPI('/create-warehouse/', {
     method: 'POST',
-    data: {name, email, contact, address, city, pincode, state, pan, gst},
     secure: true,
+    data: req,
+    headers: {
+      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+    },
   });
 
-export const editWarehouse = (
-  id,
-  {name, email, contact, address, city, pincode, state, pan, gst, document},
-) =>
+export const editWarehouse = (id, req) =>
   loadAPI(`/edit-warehouse/${id}/`, {
     method: 'PATCH',
-    data: {name, email, contact, address, city, pincode, state, pan, gst},
     secure: true,
+    data: req,
+    headers: {
+      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+    },
   });
 
 export const deleteWarehouse = (id) =>
@@ -268,56 +263,14 @@ export const retrieveWarehouses = () =>
     secure: true,
   });
 
-export const editClientProfile = (
-  id,
-  {
-    client_name,
-    client_shipping_address,
-    client_shipping_city,
-    client_shipping_pincode,
-    client_shipping_state,
-    client_email,
-    client_contact_no,
-    client_contact_person,
-    client_billing_address,
-    client_city,
-    client_pincode,
-    client_state,
-    client_region,
-    client_payment_terms,
-    client_category,
-    client_product_user_type,
-    client_pan,
-    client_code,
-    client_is_gst_registered,
-    client_gst,
-  },
-) =>
+export const editClientProfile = (id, req) =>
   loadAPI(`/client-profile/${id}/`, {
     method: 'PATCH',
-    data: {
-      client_name,
-      client_shipping_address,
-      client_shipping_city,
-      client_shipping_pincode,
-      client_shipping_state,
-      client_email,
-      client_contact_no,
-      client_contact_person,
-      client_billing_address,
-      client_city,
-      client_pincode,
-      client_state,
-      client_region,
-      client_payment_terms,
-      client_category,
-      client_product_user_type,
-      client_pan,
-      client_code,
-      client_is_gst_registered,
-      client_gst,
-    },
     secure: true,
+    data: req,
+    headers: {
+      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+    },
   });
 
 export const retrieveClientProfile = (id) =>
@@ -544,81 +497,24 @@ export const deleteAllotment = (id) =>
     secure: true,
   });
 
-export const createGRN = ({
-  warehouse,
-  material_vendor,
-  transport_vendor,
-  reference_no,
-  inward_date,
-  driver_number,
-  vehicle_number,
-  vehicle_type,
-  invoice_no,
-  invoice_amount,
-  freight_charges,
-  items,
-  remarks,
-  reciever,
-}) =>
+export const createGRN = (req) =>
   loadAPI('/create-grn/', {
     method: 'POST',
-    data: {
-      warehouse,
-      material_vendor,
-      transport_vendor,
-      reference_no,
-      inward_date,
-      driver_number,
-      vehicle_number,
-      vehicle_type,
-      invoice_no,
-      invoice_amount,
-      freight_charges,
-      items,
-      remarks,
-      reciever,
-    },
     secure: true,
+    data: req,
+    headers: {
+      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+    },
   });
 
-export const editGRN = (
-  id,
-  {
-    warehouse,
-    material_vendor,
-    transport_vendor,
-    reference_no,
-    inward_date,
-    driver_number,
-    vehicle_number,
-    vehicle_type,
-    invoice_no,
-    invoice_amount,
-    freight_charges,
-    items,
-    remarks,
-    reciever,
-  },
-) =>
+export const editGRN = (id, req) =>
   loadAPI(`/edit-grn/${id}/`, {
     method: 'PATCH',
-    data: {
-      warehouse,
-      material_vendor,
-      transport_vendor,
-      reference_no,
-      inward_date,
-      driver_number,
-      vehicle_number,
-      vehicle_type,
-      invoice_no,
-      invoice_amount,
-      freight_charges,
-      items,
-      remarks,
-      reciever,
-    },
     secure: true,
+    data: req,
+    headers: {
+      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+    },
   });
 
 export const retrieveGRN = (id) =>
