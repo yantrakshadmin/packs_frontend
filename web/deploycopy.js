@@ -15,3 +15,4 @@ fs.copyFile(cnameOriginal, cnameBuild, (err) => {
   if (err) throw err;
   console.log('CNAME was copied to build/CNAME');
 });
+// push
