@@ -226,7 +226,7 @@ const Docket = ({location}) => {
           </Row>
         </div>
         <Row className="table-docket">
-          <Table bordered>
+          <Table bordered size="sm">
             <thead>
               <tr>
                 <th>Kit ID</th>

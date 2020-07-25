@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {Typography, Button, Divider, Row, Col, Table, Modal, Tabs} from 'antd';
 import {connect} from 'react-redux';
 import {changePage} from 'common/actions/changePage';
+import {CSVLink} from 'react-csv';
+import CsvDownload from 'react-json-to-csv';
 
 import './table.styles.scss';
 
@@ -72,6 +74,12 @@ const TableWithTabHOC = ({
       <Row justify="space-between" align="middle">
         <Col>
           <Title level={3}>{title}</Title>
+          {/* <CsvDownload data={tabs[0].data} /> */}
+          {tabs[0].data ? (
+            <CSVLink data={tabs[0].data} filename={'TableContent.csv'} className="btn btn-primary">
+              Download CSV
+            </CSVLink>
+          ) : null}
         </Col>
         <Col>
           {
@@ -116,6 +124,7 @@ const TableWithTabHOC = ({
               {tabs.map((tab) => (
                 <TabPane tab={tab.name} key={tab.key}>
                   <Table
+                    id="mastertable"
                     bordered
                     rowKey={rowKey}
                     expandRowByClick
