@@ -18,6 +18,7 @@ const TableWithTabHOC = ({
   rowSelection,
   modalWidth,
   rowKey,
+  csvdata,
   scroll,
   size,
   reset,
@@ -74,9 +75,8 @@ const TableWithTabHOC = ({
       <Row justify="space-between" align="middle">
         <Col>
           <Title level={3}>{title}</Title>
-          {/* <CsvDownload data={tabs[0].data} /> */}
-          {tabs[0].data ? (
-            <CSVLink data={tabs[0].data} filename={'TableContent.csv'} className="btn btn-primary">
+          {csvdata ? (
+            <CSVLink data={csvdata} filename={'TableContent.csv'} className="btn btn-primary">
               Download CSV
             </CSVLink>
           ) : null}

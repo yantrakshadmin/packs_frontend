@@ -22,6 +22,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
+  const [csvData, setCsvData] = useState(null);
   const [reqData, setReqData] = useState([]);
 
   const {data: allotments, loading} = useAPI('/allotments/', {});

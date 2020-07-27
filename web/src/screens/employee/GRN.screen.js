@@ -21,6 +21,7 @@ const KitEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [reqData, setReqData] = useState(null);
+  const [csvData, setCsvData] = useState(null);
   const [barLoading, setBarLoading] = useState(false);
   const [barID, setBarID] = useState(null);
 
@@ -50,6 +51,27 @@ const KitEmployeeScreen = ({currentPage}) => {
       fetchData();
     }
   }, [grns]);
+
+  useEffect(() => {
+    if (filteredData) {
+      let csvd = [];
+      console.log(filteredData);
+      filteredData.forEach((d) => {
+        let temp = {...d};
+        delete temp['products'];
+        csvd.push(temp);
+        d['products'].forEach((prod) => {
+          csvd.push({
+            ShortCode: prod.item.short_code,
+            Name: prod.item.name,
+            Quantity: prod.item_quantity,
+            Price: prod.item_price,
+          });
+        });
+      });
+      setCsvData(csvd);
+    }
+  }, [filteredData]);
 
   const download = (filename, data) => {
     var blob = new Blob([data], {type: 'text/csv'});
@@ -181,6 +203,7 @@ const KitEmployeeScreen = ({currentPage}) => {
         expandHandleKey="products"
         expandParams={{loading}}
         ExpandBody={ProductTable}
+        csvdata={csvData}
       />
     </>
   );

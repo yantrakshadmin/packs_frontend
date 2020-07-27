@@ -204,6 +204,7 @@ export const clientFormFields = [
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
+
     customLabel: 'Client GST',
   },
   {

@@ -64,7 +64,7 @@ const ScreenWrapper = ({routes, navigate, children, user, changePage}) => {
       <Layout>
         <Sider
           // trigger={null}
-          style={{zoom: '90%'}}
+          // style={{zoom: '90%'}}
           collapsible
           width={200}
           collapsedWidth={collapsedWidth}
@@ -120,7 +120,7 @@ const ScreenWrapper = ({routes, navigate, children, user, changePage}) => {
           <Suspense fallback={<Loading />}>
             <Content
               className="site-layout-background content-style"
-              style={{minHeight: `calc( 100vh - 184px )`, zoom: '90%'}}>
+              style={{minHeight: `calc( 100vh - 184px )`}}>
               {children}
             </Content>
           </Suspense>
