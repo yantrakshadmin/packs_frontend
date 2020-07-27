@@ -34,7 +34,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
       width: '7vw',
       render: (text, record) => (
         <div className="row align-center justify-evenly">
-          <a href={record.document} target="_blank">
+          <a href={record.annexure} target="_blank">
             <Button
               style={{
                 backgroundColor: 'transparent',
@@ -42,9 +42,9 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
                 boxShadow: 'none',
                 padding: '1px',
               }}
-              disabled={!record.document}
+              disabled={!record.annexure}
               onClick={(e) => e.stopPropagation()}>
-              <Document color={record.document ? '#7CFC00' : null} />
+              <Document color={record.annexure ? '#7CFC00' : null} />
             </Button>
           </a>
           <Button
