@@ -141,7 +141,7 @@ export const employeeRoutes = [
     name: 'Reports',
     icon: ['fas', 'layer-group'],
     path: '/reports/',
-    Component: lazy(() => import('../components/Report')),
+    Component: lazy(() => import('../screens/404.screen')),
   },
 ];
 

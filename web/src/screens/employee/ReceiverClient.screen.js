@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {ReceiverForm} from '../../forms/receiver.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import receiverColumns from 'common/columns/Receiver.column';
@@ -9,19 +9,29 @@ import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
-// import Upload from '../../icons/Upload';
-// import File from '../../icons/File';
 
 const {Search} = Input;
 
 const ReceiverClientEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [csvData, setCsvData] = useState(null);
 
   const {filteredData, loading, reload} = useTableSearch({
     searchVal,
     retrieve: retieveReceiverClients,
   });
+
+  useEffect(() => {
+    if (filteredData) {
+      let csvd = [];
+      filteredData.forEach((d) => {
+        delete d['owner'];
+        csvd.push({...d, ['emitter']: d.emitter.client_name});
+      });
+      setCsvData(csvd);
+    }
+  }, [filteredData]);
 
   const columns = [
     {
@@ -49,21 +59,6 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
             }}>
             <Edit />
           </Button>
-          {/* {record.document ? (
-            <File />
-          ) : (
-            <Button
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                boxShadow: 'none',
-                padding: '1px',
-              }}
-              // onClick={() => setEditingId(record.id)}>
-            >
-              <Upload />
-            </Button>
-          )} */}
           <Popconfirm
             title="Confirm Delete"
             onConfirm={deleteHOC({
@@ -120,6 +115,8 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         modalBody={ReceiverForm}
         modalWidth={45}
         expandParams={{loading}}
+        csvdata={csvData}
+        csvname="ReceiverClients.csv"
       />
     </>
   );

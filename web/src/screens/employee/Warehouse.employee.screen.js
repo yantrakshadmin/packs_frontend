@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {WareHouseForm} from '../../forms/warehouse.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import warehouseColumns from 'common/columns/Warehouse.column';
@@ -10,16 +10,26 @@ import Edit from '../../icons/Edit';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import Document from '../../icons/Document';
-// import Upload from '../../icons/Upload';
-// import File from '../../icons/File';
 
 const {Search} = Input;
 
 const WarehouseEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [csvData, setCsvData] = useState(null);
 
   const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveWarehouses});
+
+  useEffect(() => {
+    if (filteredData) {
+      let csvd = [];
+      filteredData.forEach((d) => {
+        delete d['owner'];
+        csvd.push(d);
+      });
+      setCsvData(csvd);
+    }
+  }, [filteredData]);
 
   const columns = [
     {
@@ -61,21 +71,6 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
             }}>
             <Edit />
           </Button>
-          {/* {record.document ? (
-            <File />
-          ) : (
-            <Button
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                boxShadow: 'none',
-                padding: '1px',
-              }}
-              // onClick={() => setEditingId(record.id)}>
-            >
-              <Upload />
-            </Button>
-          )} */}
           <Popconfirm
             title="Confirm Delete"
             onConfirm={deleteHOC({
@@ -132,6 +127,8 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
         modalBody={WareHouseForm}
         modalWidth={45}
         expandParams={{loading}}
+        csvdata={csvData}
+        csvname="Warehouses.csv"
       />
     </>
   );

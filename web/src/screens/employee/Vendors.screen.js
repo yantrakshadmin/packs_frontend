@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {VendorForm} from '../../forms/vendor.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import vendorColumns from 'common/columns/Vendors.column';
@@ -15,8 +15,20 @@ const {Search} = Input;
 const VendorEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [csvData, setCsvData] = useState(null);
 
   const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveVendors});
+
+  useEffect(() => {
+    if (filteredData) {
+      let csvd = [];
+      filteredData.forEach((d) => {
+        delete d['owner'];
+        csvd.push(d);
+      });
+      setCsvData(csvd);
+    }
+  }, [filteredData]);
 
   const columns = [
     {
@@ -102,6 +114,8 @@ const VendorEmployeeScreen = ({currentPage}) => {
         modalWidth={45}
         scroll={{x: 2000}}
         expandParams={{loading}}
+        csvdata={csvData}
+        csvname="Vendors.csv"
       />
     </>
   );

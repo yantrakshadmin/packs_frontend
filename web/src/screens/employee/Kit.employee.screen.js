@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {KitForm} from '../../forms/createKit.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import kitsColumns from 'common/columns/Kits.column';
@@ -16,8 +16,32 @@ const {Search} = Input;
 const KitEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [csvData, setCsvData] = useState(null);
 
   const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveKits});
+
+  useEffect(() => {
+    if (filteredData) {
+      let csvd = [];
+      console.log(filteredData);
+      filteredData.forEach((d) => {
+        let temp = {...d, ['kit_client']: d.kit_client.client_name};
+        delete temp['products'];
+        delete temp['owner'];
+        csvd.push(temp);
+        d['products'].forEach((prod) => {
+          csvd.push({
+            ShortCode: prod.product.short_code,
+            Name: prod.product.name,
+            Quantity: prod.product.quantity,
+            Category: prod.product.category,
+            PricePerUnit: prod.product.priceperunit,
+          });
+        });
+      });
+      setCsvData(csvd);
+    }
+  }, [filteredData]);
 
   const cancelEditing = () => {
     setEditingId(null);
@@ -106,6 +130,8 @@ const KitEmployeeScreen = ({currentPage}) => {
         expandHandleKey="products"
         expandParams={{loading}}
         ExpandBody={ProductTable}
+        csvdata={csvData}
+        csvname="Kits.csv"
       />
     </>
   );

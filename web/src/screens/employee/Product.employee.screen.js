@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {ProductForm} from '../../forms/createProduct.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
@@ -11,16 +11,25 @@ import Edit from '../../icons/Edit';
 import Document from '../../icons/Document';
 import {useTableSearch} from 'hooks/useTableSearch';
 
-// import File from '../../icons/File';
-// import Upload from '../../icons/Upload';
-
 const {Search} = Input;
 
 const ProductEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [csvData, setCsvData] = useState(null);
 
   const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveProducts});
+
+  useEffect(() => {
+    if (filteredData) {
+      let csvd = [];
+      filteredData.forEach((d) => {
+        delete d['owner'];
+        csvd.push(d);
+      });
+      setCsvData(csvd);
+    }
+  }, [filteredData]);
 
   const columns = [
     {
@@ -118,6 +127,8 @@ const ProductEmployeeScreen = ({currentPage}) => {
         modalBody={ProductForm}
         modalWidth={45}
         expandParams={{loading}}
+        csvdata={csvData}
+        csvname="Products.csv"
       />
     </>
   );
