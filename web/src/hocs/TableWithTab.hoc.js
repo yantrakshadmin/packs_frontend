@@ -77,8 +77,8 @@ const TableWithTabHOC = ({
         <Col>
           <Title level={3}>{title}</Title>
           {csvdata ? (
-            <CSVLink data={csvdata} filename={csvname} className="btn btn-primary">
-              Download CSV ({csvname.replace('null', '')})
+            <CSVLink data={csvdata} filename={csvname.replace(' ', '')} className="btn btn-primary">
+              Download CSV ({csvname.replace('null', '').replace(' ', '')})
             </CSVLink>
           ) : null}
         </Col>
