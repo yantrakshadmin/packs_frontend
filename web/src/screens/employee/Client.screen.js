@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {ClientForm} from '../../forms/client.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import clientColumns from 'common/columns/Clients.column';
@@ -14,11 +14,23 @@ const {Search} = Input;
 const WarehouseEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [csvData, setCsvData] = useState(null);
 
   const {filteredData, loading, reload} = useTableSearch({
     searchVal,
     retrieve: retrieveClients,
   });
+
+  useEffect(() => {
+    if (filteredData) {
+      let csvd = [];
+      filteredData.forEach((d) => {
+        delete d['owner'];
+        csvd.push(d);
+      });
+      setCsvData(csvd);
+    }
+  }, [filteredData]);
 
   const columns = [
     {
@@ -60,21 +72,6 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
             }}>
             <Edit />
           </Button>
-          {/* {row.document ? (
-            <File />
-          ) : (
-            <Button
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                boxShadow: 'none',
-                padding: '1px',
-              }}
-              // onClick={() => setEditingId(row.id)}>
-            >
-              <Upload />
-            </Button>
-          )} */}
         </div>
       ),
     },
@@ -82,8 +79,8 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
 
   const tabs = [
     {
-      name: 'All Clients',
-      key: 'allClients',
+      name: 'All Sender Clients',
+      key: 'allSenderClients',
       data: filteredData,
       columns,
       loading,
@@ -105,7 +102,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
         refresh={reload}
         tabs={tabs}
         size="middle"
-        title="Clients"
+        title="Sender Clients"
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={ClientForm}
@@ -113,6 +110,8 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
         expandParams={{loading}}
         hideRightButton
         scroll={{x: 2000}}
+        csvdata={csvData}
+        csvname="SenderClients.csv"
       />
     </>
   );

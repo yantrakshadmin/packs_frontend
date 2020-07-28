@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {FlowForm} from '../../forms/flow.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import flowsColumns from 'common/columns/Flows.column';
@@ -16,8 +16,35 @@ const {Search} = Input;
 const FlowEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [csvData, setCsvData] = useState(null);
 
   const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retreiveFlows});
+
+  useEffect(() => {
+    if (filteredData) {
+      console.log(filteredData);
+      let csvd = [];
+      filteredData.forEach((d) => {
+        let temp = {
+          ...d,
+          ['sender_client']: d.sender_client.client_name,
+          ['receiver_client']: d.receiver_client.name,
+        };
+        delete temp['kits'];
+        delete temp['owner'];
+        csvd.push(temp);
+        d['kits'].forEach((k) => {
+          csvd.push({
+            KitName: k.kit.kit_name,
+            Quantity: k.quantity,
+            ComponentPM: k.component_pm,
+            TripCost: k.trip_cost,
+          });
+        });
+      });
+      setCsvData(csvd);
+    }
+  }, [filteredData]);
 
   const cancelEditing = () => {
     setEditingId(null);
@@ -34,7 +61,6 @@ const FlowEmployeeScreen = ({currentPage}) => {
       title: 'Action',
       key: 'operation',
       width: '7vw',
-      // fixed: 'right',
       render: (text, record) => (
         <div className="row justify-evenly">
           <Button
@@ -106,6 +132,8 @@ const FlowEmployeeScreen = ({currentPage}) => {
         expandHandleKey="kits"
         expandParams={{loading}}
         ExpandBody={KitsTable}
+        csvdata={csvData}
+        csvname="Flows.csv"
       />
     </>
   );

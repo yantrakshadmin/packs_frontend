@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import MaterialRequestsTable from '../../components/MaterialRequestsTable';
 import materialEmployeecolumns from 'common/columns/materialEmployee.column';
@@ -13,11 +13,36 @@ const {Search} = Input;
 const ReceiverClientEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [csvData, setCsvData] = useState(null);
 
   const {filteredData, loading, reload} = useTableSearch({
     searchVal,
     retrieve: retrieveEmployeeMrs,
   });
+
+  useEffect(() => {
+    if (filteredData) {
+      console.log(filteredData);
+      let csvd = [];
+      filteredData.forEach((d) => {
+        let temp = {
+          ...d,
+          ['owner']: d.owner.first_name + d.owner.last_name,
+          ['delivery_required_on']: d.delivery_required_on.slice(0, 10),
+        };
+        delete temp['flows'];
+        csvd.push(temp);
+        d['flows'].forEach((flo) => {
+          csvd.push({
+            FlowName: flo.flow.flow_name,
+            KitName: flo.kit.kit_name,
+            Quantity: flo.quantity,
+          });
+        });
+      });
+      setCsvData(csvd);
+    }
+  }, [filteredData]);
 
   const columns = [
     ...materialEmployeecolumns,
@@ -113,6 +138,8 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         expandHandleKey="flows"
         hideRightButton
         expandParams={{loading}}
+        csvdata={csvData}
+        csvname="MRs.csv"
       />
     </>
   );

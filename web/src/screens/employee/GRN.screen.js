@@ -55,7 +55,6 @@ const KitEmployeeScreen = ({currentPage}) => {
   useEffect(() => {
     if (filteredData) {
       let csvd = [];
-      console.log(filteredData);
       filteredData.forEach((d) => {
         let temp = {...d};
         delete temp['products'];
@@ -204,6 +203,7 @@ const KitEmployeeScreen = ({currentPage}) => {
         expandParams={{loading}}
         ExpandBody={ProductTable}
         csvdata={csvData}
+        csvname="GRNs.csv"
       />
     </>
   );
