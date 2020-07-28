@@ -116,7 +116,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         modalWidth={45}
         expandParams={{loading}}
         csvdata={csvData}
-        csvname="ReceiverClients.csv"
+        csvname={'ReceiverClients' + searchVal + '.csv'}
       />
     </>
   );
