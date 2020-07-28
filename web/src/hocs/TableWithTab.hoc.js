@@ -78,31 +78,28 @@ const TableWithTabHOC = ({
           <Title level={3}>{title}</Title>
           {csvdata ? (
             <CSVLink data={csvdata} filename={csvname} className="btn btn-primary">
-              Download CSV
+              Download CSV ({csvname.replace('null', '')})
             </CSVLink>
           ) : null}
         </Col>
         <Col>
-          {
-            // eslint-disable-next-line no-nested-ternary
-            tabs[getIndex()] ? (
-              tabs[getIndex()].menu ? (
-                <Row>
-                  <Col span={24}>
-                    {tabs[getIndex()].menu.map((i) => (
-                      <Button
-                        className="m-2 "
-                        type={i.type || 'primary'}
-                        key={i.title}
-                        onClick={i.onClick}>
-                        {i.title}
-                      </Button>
-                    ))}
-                  </Col>
-                </Row>
-              ) : null
+          {tabs[getIndex()] ? (
+            tabs[getIndex()].menu ? (
+              <Row>
+                <Col span={24}>
+                  {tabs[getIndex()].menu.map((i) => (
+                    <Button
+                      className="m-2 "
+                      type={i.type || 'primary'}
+                      key={i.title}
+                      onClick={i.onClick}>
+                      {i.title}
+                    </Button>
+                  ))}
+                </Col>
+              </Row>
             ) : null
-          }
+          ) : null}
         </Col>
         <Col>
           {hideRightButton ? null : (
