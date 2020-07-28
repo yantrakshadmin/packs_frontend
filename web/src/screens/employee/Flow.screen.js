@@ -133,7 +133,7 @@ const FlowEmployeeScreen = ({currentPage}) => {
         expandParams={{loading}}
         ExpandBody={KitsTable}
         csvdata={csvData}
-        csvname="Flows.csv"
+        csvname={'Flows' + searchVal + '.csv'}
       />
     </>
   );

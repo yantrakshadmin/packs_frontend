@@ -131,7 +131,7 @@ const KitEmployeeScreen = ({currentPage}) => {
         expandParams={{loading}}
         ExpandBody={ProductTable}
         csvdata={csvData}
-        csvname="Kits.csv"
+        csvname={'Kits' + searchVal + '.csv'}
       />
     </>
   );

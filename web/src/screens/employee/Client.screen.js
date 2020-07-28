@@ -111,7 +111,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
         hideRightButton
         scroll={{x: 2000}}
         csvdata={csvData}
-        csvname="SenderClients.csv"
+        csvname={'SenderClients' + searchVal + '.csv'}
       />
     </>
   );

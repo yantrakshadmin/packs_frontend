@@ -128,7 +128,7 @@ const ProductEmployeeScreen = ({currentPage}) => {
         modalWidth={45}
         expandParams={{loading}}
         csvdata={csvData}
-        csvname="Products.csv"
+        csvname={'Products' + searchVal + '.csv'}
       />
     </>
   );

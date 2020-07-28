@@ -139,7 +139,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         hideRightButton
         expandParams={{loading}}
         csvdata={csvData}
-        csvname="MRs.csv"
+        csvname={'MRs' + searchVal + '.csv'}
       />
     </>
   );

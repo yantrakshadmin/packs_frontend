@@ -115,7 +115,7 @@ const VendorEmployeeScreen = ({currentPage}) => {
         scroll={{x: 2000}}
         expandParams={{loading}}
         csvdata={csvData}
-        csvname="Vendors.csv"
+        csvname={'Vendors' + searchVal + '.csv'}
       />
     </>
   );
