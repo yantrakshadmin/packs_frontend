@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import {Form, Col, Row, Button, Divider, Spin, message} from 'antd';
 import formItem from '../hocs/formItem.hoc';
 import {
   DeliveredFormFields,
   DeliveredProductFormFields,
 } from 'common/formFields/delivered.formFields';
-// import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
 import {
   createDelivered,
@@ -22,6 +21,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
   const [loading, setLoading] = useState(true);
   const [allotment, setAllotment] = useState(null);
   const [products, setProducts] = useState(null);
+  const [reqFile, setFile] = useState(null);
 
   const {form, submit} = useHandleForm({
     create: createDelivered,
@@ -81,7 +81,14 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
 
   const preProcess = (data) => {
     data['allotment'] = allotment.id;
-    submit(data);
+    if (reqFile) {
+      data.document = reqFile.originFileObj;
+    }
+    const req = new FormData();
+    for (var key in data) {
+      req.append(key.toString(), data[key]);
+    }
+    submit(req);
   };
 
   return (
@@ -115,6 +122,20 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
               <div key={idx} className="p-2">
                 {formItem({
                   ...item,
+                  kwargs: {
+                    onChange(info) {
+                      const {status} = info.file;
+                      if (status !== 'uploading') {
+                        console.log(info.file, info.fileList);
+                      }
+                      if (status === 'done') {
+                        setFile(info.file);
+                        message.success(`${info.file.name} file uploaded successfully.`);
+                      } else if (status === 'error') {
+                        message.error(`${info.file.name} file upload failed.`);
+                      }
+                    },
+                  },
                 })}
               </div>
             </Col>

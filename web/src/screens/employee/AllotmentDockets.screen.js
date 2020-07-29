@@ -114,6 +114,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
               padding: '1px',
             }}
             onClick={(e) => {
+              console.log(record.id);
               setEditingId(record.id);
               e.stopPropagation();
             }}>
