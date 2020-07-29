@@ -1,4 +1,4 @@
-import React from 'react';
+import moment from 'moment';
 
 export default [
   {
@@ -16,9 +16,9 @@ export default [
   {
     title: 'Delivery Required On',
     key: 'delivery_required_on',
+    sorter: (a, b) => moment(a.delivery_required_on).unix() - moment(b.delivery_required_on).unix(),
     render: (text, record) => {
-      const date = record.delivery_required_on;
-      return date.slice(0, 10);
+      return moment(record.delivery_required_on).format('DD/MM/YYYY');
     },
   },
 ];

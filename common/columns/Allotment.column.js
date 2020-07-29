@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export default [
   {
     title: 'Transaction No.',
@@ -12,8 +14,9 @@ export default [
   {
     title: 'Transaction Date',
     key: 'dispatch_date',
+    sorter: (a, b) => moment(a.dispatch_date).unix() - moment(b.dispatch_date).unix(),
     render: (text, record) => {
-      return record.dispatch_date.slice(0, 10).toString();
+      return moment(record.dispatch_date).format('DD/MM/YYYY');
     },
   },
   {
