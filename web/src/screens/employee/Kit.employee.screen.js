@@ -33,7 +33,7 @@ const KitEmployeeScreen = ({currentPage}) => {
           csvd.push({
             ShortCode: prod.product.short_code,
             Name: prod.product.name,
-            Quantity: prod.product.quantity,
+            Quantity: prod.quantity,
             Category: prod.product.category,
             PricePerUnit: prod.product.priceperunit,
           });

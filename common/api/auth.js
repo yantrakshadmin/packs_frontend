@@ -535,18 +535,24 @@ export const deleteGRN = (id) =>
     secure: true,
   });
 
-export const createDelivered = ({allotment, delivered, items, document}) =>
+export const createDelivered = (req) =>
   loadAPI('/create-delivered/', {
     method: 'POST',
-    data: {allotment, delivered, items},
+    data: req,
     secure: true,
+    headers: {
+      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+    },
   });
 
-export const editDelivered = (id, {allotment, delivered, items, document}) =>
+export const editDelivered = (id, req) =>
   loadAPI(`/edit-delivered/${id}/`, {
     method: 'PATCH',
-    data: {allotment, delivered, items},
+    data: req,
     secure: true,
+    headers: {
+      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+    },
   });
 
 export const retrieveDelivered = (id) =>
