@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export default [
   {
     title: 'GRN ID',
@@ -32,6 +34,9 @@ export default [
   {
     title: 'Inward Date',
     key: 'inward_date',
-    render: (text, record) => record.inward_date.slice(0, 10),
+    sorter: (a, b) => moment(a.inward_date).unix() - moment(b.inward_date).unix(),
+    render: (text, record) => {
+      return moment(record.inward_date).format('DD/MM/YYYY');
+    },
   },
 ];
