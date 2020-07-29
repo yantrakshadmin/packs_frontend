@@ -497,24 +497,24 @@ export const deleteAllotment = (id) =>
     secure: true,
   });
 
-export const createGRN = (req) =>
+export const createGRN = (data) =>
   loadAPI('/create-grn/', {
     method: 'POST',
     secure: true,
-    data: req,
-    headers: {
-      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
-    },
+    data,
+    // headers: {
+    //   'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+    // },
   });
 
-export const editGRN = (id, req) =>
+export const editGRN = (id, data) =>
   loadAPI(`/edit-grn/${id}/`, {
     method: 'PATCH',
     secure: true,
-    data: req,
-    headers: {
-      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
-    },
+    data,
+    // headers: {
+    //   'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+    // },
   });
 
 export const retrieveGRN = (id) =>

@@ -48,7 +48,7 @@ export const GRNForm = ({id, onCancel, onDone}) => {
   return (
     <Spin spinning={loading}>
       <Divider orientation="left">GRN Details</Divider>
-      <Form onFinish={preProcess} form={form} layout="vertical" hideRequiredMark autoComplete="off">
+      <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
         <Row style={{justifyContent: 'left'}}>
           {GRNFormFields.slice(0, 1).map((item, idx) => (
             <Col span={6}>

@@ -25,9 +25,9 @@ const KitEmployeeScreen = ({currentPage}) => {
   const [barLoading, setBarLoading] = useState(false);
   const [barID, setBarID] = useState(null);
 
-  const {data: grns, loading} = useAPI('/grns/', {});
+  const {data: grns, loading, reload} = useAPI('/grns/', {});
 
-  const {filteredData, reload} = useTableSearch({
+  const {filteredData} = useTableSearch({
     searchVal,
     reqData: reqData,
   });
