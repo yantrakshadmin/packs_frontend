@@ -71,7 +71,7 @@ export const GRNFormFields = [
     others: {
       selectOptions: [
         'Part Load',
-        'Tata ACE / Pickup',
+        'Tata ACE / Pick-Up',
         'TATA-407',
         '17ft Vehicle',
         '19ft Vehicle',

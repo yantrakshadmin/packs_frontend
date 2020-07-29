@@ -26,7 +26,7 @@ export const ProductForm = ({id, onCancel, onDone}) => {
   const preProcess = (data) => {
     if (reqFile) {
       data.document = reqFile.originFileObj;
-    }
+    } else delete data['document'];
     const req = new FormData();
     for (var key in data) {
       req.append(key.toString(), data[key]);
