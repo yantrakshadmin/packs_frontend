@@ -6,6 +6,7 @@ import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
 import {createGRN, editGRN, retrieveGRN} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
+import moment from 'moment';
 
 export const GRNForm = ({id, onCancel, onDone}) => {
   const [reqFile, setFile] = useState(null);
@@ -29,10 +30,17 @@ export const GRNForm = ({id, onCancel, onDone}) => {
   const preProcess = (data) => {
     if (reqFile) {
       data.document = reqFile.originFileObj;
-    }
+    } else delete data['document'];
     const req = new FormData();
     for (var key in data) {
-      req.append(key.toString(), data[key]);
+      console.log(key, typeof data[key]);
+      if (key === 'inward_date') {
+        let value = moment(data[key]).format('YYYY-MM-DD HH:mm');
+        req.append(key.toString(), value.toString());
+      } else if (typeof data[key] === 'object' && key != 'document') {
+        // let value = new Blob([JSON.stringify(data[key])], {type: 'application/json'});
+        req.append(key.toString(), JSON.stringify(data[key]));
+      } else req.append(key.toString(), data[key]);
     }
     submit(req);
   };

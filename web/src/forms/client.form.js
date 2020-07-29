@@ -35,7 +35,7 @@ export const ClientForm = ({id, onCancel, onDone}) => {
   const preProcess = (data) => {
     if (reqFile) {
       data.annexure = reqFile.originFileObj;
-    }
+    } else delete data['annexure'];
     const req = new FormData();
     for (var key in data) {
       req.append(key.toString(), data[key]);
