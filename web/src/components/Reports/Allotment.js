@@ -23,7 +23,7 @@ const AllotmentReport = ({currentPage}) => {
     setLoading(true);
     data['to'] = moment(data['to']).format('DD-MM-yyyy');
     data['from'] = moment(data['from']).format('DD-MM-yyyy');
-    const report = await retrieveAllotmentReport(data);
+    const {data: report} = await retrieveAllotmentReport(data);
     if (report) {
       console.log(report);
       setLoading(false);
