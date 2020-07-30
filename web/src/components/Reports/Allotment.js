@@ -5,7 +5,7 @@ import moment from 'moment';
 import {useAPI} from 'common/hooks/api';
 import {Row, Col, Form, Button} from 'antd';
 import {FORM_ELEMENT_TYPES} from '../../constants/formFields.constant';
-import {retrieveAllotmentReport} from 'common/api/auth';
+import {retrieveAllotmentReport, retrieveClients} from 'common/api/auth';
 import allotmentColumns from 'common/columns/AllotmentReport.column';
 import {AllotFlowTable} from 'components/AllotFlowExp';
 import TableWithTabHoc from 'hocs/TableWithTab.hoc';
@@ -17,6 +17,7 @@ const AllotmentReport = ({currentPage}) => {
   const [csvData, setCsvData] = useState(null);
   const [reportData, setReportData] = useState(null);
   const [reqAllotments, setReqAllotments] = useState(null);
+  const [clientName, setClientName] = useState(null);
   const [form] = Form.useForm();
 
   const {data: clients} = useAPI('/clients/', {});
@@ -24,6 +25,14 @@ const AllotmentReport = ({currentPage}) => {
   const onSubmit = async (data) => {
     setLoading(true);
     if (!data['cname']) data['cname'] = '';
+    else {
+      let reqC = null;
+      const {data: clients} = await retrieveClients();
+      clients.forEach((c) => {
+        if (c.user === data['cname']) reqC = c.client_name;
+      });
+      setClientName(reqC);
+    }
     data['to'] = moment(data['to']).format('YYYY-MM-DD HH:MM');
     data['from'] = moment(data['from']).format('YYYY-MM-DD HH:MM');
     const {data: report} = await retrieveAllotmentReport(data);
@@ -160,7 +169,7 @@ const AllotmentReport = ({currentPage}) => {
         ExpandBody={AllotFlowTable}
         expandParams={{loading}}
         csvdata={csvData}
-        csvname="Allotments.csv"
+        csvname={'Allotments' + clientName + '.csv'}
       />
     </>
   );
