@@ -92,6 +92,7 @@ const AllotmentReport = ({currentPage}) => {
           <Col span={3}>
             {formItem({
               key: 'from',
+              rules: [{required: true, message: 'Please select From date!'}],
               kwargs: {
                 placeholder: 'Select',
                 type: 'number',
@@ -105,6 +106,7 @@ const AllotmentReport = ({currentPage}) => {
           <Col span={3}>
             {formItem({
               key: 'to',
+              rules: [{required: true, message: 'Please select To date!'}],
               kwargs: {
                 placeholder: 'Select',
                 type: 'number',
