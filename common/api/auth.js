@@ -701,3 +701,14 @@ export const retrieveGRNBars = (id) =>
     method: 'GET',
     secure: true,
   });
+
+export const retrieveAllotmentReport = ({cname, to, from}) =>
+  loadAPI(`/allotment-reports/`, {
+    method: 'GET',
+    secure: true,
+    params: {
+      cname,
+      to,
+      from,
+    },
+  });

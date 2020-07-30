@@ -141,7 +141,14 @@ export const employeeRoutes = [
     name: 'Reports',
     icon: ['fas', 'layer-group'],
     path: '/reports/',
-    Component: lazy(() => import('../screens/404.screen')),
+    isSubMenu: true,
+    subMenu: [
+      {
+        name: 'Allotments',
+        path: '/reports/allotments/',
+        Component: lazy(() => import('components/Reports/Allotment.js')),
+      },
+    ],
   },
 ];
 
