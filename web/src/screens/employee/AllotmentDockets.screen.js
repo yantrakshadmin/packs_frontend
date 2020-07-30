@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import allotmentColumns from 'common/columns/Allotment.column';
 import {DeliveredForm} from 'forms/delivered.form';
@@ -9,7 +9,6 @@ import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {deleteAllotment} from 'common/api/auth';
 import {useAPI} from 'common/hooks/api';
-import {useEffect} from 'react';
 import {Link} from '@reach/router';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
