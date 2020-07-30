@@ -6,13 +6,15 @@ import {useAPI} from 'common/hooks/api';
 import {Row, Col, Form, Button} from 'antd';
 import {FORM_ELEMENT_TYPES} from '../../constants/formFields.constant';
 import {retrieveAllotmentReport} from 'common/api/auth';
-import allotmentColumns from 'common/columns/Allotment.column';
+import allotmentColumns from 'common/columns/AllotmentReport.column';
+import {AllotFlowTable} from 'components/AllotFlowExp';
 import TableWithTabHoc from 'hocs/TableWithTab.hoc';
 import {useEffect} from 'react';
 
 const AllotmentReport = ({currentPage}) => {
   const [all, setAll] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [csvData, setCsvData] = useState(null);
   const [reportData, setReportData] = useState(null);
   const [reqAllotments, setReqAllotments] = useState(null);
   const [form] = Form.useForm();
@@ -36,18 +38,41 @@ const AllotmentReport = ({currentPage}) => {
     if (reportData) {
       const reqD = reportData.map((alt) => ({
         id: alt.id,
+        owner: alt.owner,
+        vehicle_type: alt.vehicle_type,
         transaction_no: alt.transaction_no,
-        parent_name: alt.sales_order.owner.first_name + ' ' + alt.sales_order.owner.last_name,
         dispatch_date: alt.dispatch_date,
-        warehouse_name: alt.send_from_warehouse.name,
-        model: alt.model,
+        material_request_id: alt.sales_order,
+        warehouse_name: alt.send_from_warehouse,
+        flows: alt.flows,
         vehicle_number: alt.vehicle_number,
-        transport_by: alt.transport_by.name,
+        transport_by: alt.transport_by,
         is_delivered: alt.is_delivered,
       }));
       setReqAllotments(reqD);
     }
   }, [reportData]);
+
+  useEffect(() => {
+    if (reqAllotments) {
+      let csvd = [];
+      reqAllotments.forEach((d) => {
+        let temp = {...d, ['is_delivered']: [d['is_delivered'] ? 'Yes' : 'No']};
+        delete temp['flows'];
+        csvd.push(temp);
+        d.flows.forEach((f) => {
+          let temp1 = {...f, ['kit']: f['kit'].kit_name};
+          let allotedq = f.alloted_quantity;
+          csvd.push(temp1);
+          f.kit.products.forEach((p) => {
+            let temp2 = {...p, ['quantity']: p['quantity'] * allotedq};
+            csvd.push(temp2);
+          });
+        });
+      });
+      setCsvData(csvd);
+    }
+  }, [reqAllotments]);
 
   const columns = [
     {
@@ -130,7 +155,11 @@ const AllotmentReport = ({currentPage}) => {
         size="middle"
         title="Allotment Dockets"
         hideRightButton
-        csvdata={reqAllotments}
+        rowKey="id"
+        expandHandleKey="flows"
+        ExpandBody={AllotFlowTable}
+        expandParams={{loading}}
+        csvdata={csvData}
         csvname="Allotments.csv"
       />
     </>
