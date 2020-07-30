@@ -21,6 +21,7 @@ const AllotmentReport = ({currentPage}) => {
 
   const onSubmit = async (data) => {
     setLoading(true);
+    if (!data['cname']) data['cname'] = '';
     data['to'] = moment(data['to']).format('YYYY-MM-DD HH:MM');
     data['from'] = moment(data['from']).format('YYYY-MM-DD HH:MM');
     const {data: report} = await retrieveAllotmentReport(data);
