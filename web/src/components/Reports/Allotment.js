@@ -89,7 +89,7 @@ const AllotmentReport = ({currentPage}) => {
           </Col>
         </Row>
         <Row>
-          <Col span={5}>
+          <Col span={3}>
             {formItem({
               key: 'from',
               kwargs: {
@@ -101,7 +101,8 @@ const AllotmentReport = ({currentPage}) => {
               customLabel: 'From',
             })}
           </Col>
-          <Col span={5}>
+          <Col span={4} />
+          <Col span={3}>
             {formItem({
               key: 'to',
               kwargs: {
