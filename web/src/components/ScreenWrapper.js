@@ -127,7 +127,7 @@ const ScreenWrapper = ({routes, navigate, children, user, changePage}) => {
           <Footer className="row justify-end ">
             <span>
               <a target="_blank" rel="noopener noreferrer" href="https://yantraksh.com">
-                Yantraksh Logistics Pvt. Ltd
+                Yantraksh Logistics Pvt. Ltd.
               </a>{' '}
               &copy; All rights reserved
             </span>
