@@ -135,17 +135,6 @@ export const GRNFormFields = [
     customLabel: 'Receiver',
   },
   {
-    key: 'label_name',
-    rules: [{required: true, message: 'Please enter Label Name!'}],
-    kwargs: {
-      placeholder: 'Enter',
-      maxLength: 20,
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Label Name',
-  },
-  {
     key: 'inward_date',
     rules: [{required: true, message: 'Please select inward date!'}],
     kwargs: {
@@ -199,5 +188,16 @@ export const GRNItemFormFields = [
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     customLabel: 'Item Price',
+  },
+  {
+    key: 'label_name',
+    rules: [{required: true, message: 'Please enter Label Name!'}],
+    kwargs: {
+      placeholder: 'Enter',
+      maxLength: 20,
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Label Name',
   },
 ];

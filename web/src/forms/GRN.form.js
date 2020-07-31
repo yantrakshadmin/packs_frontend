@@ -191,7 +191,7 @@ export const GRNForm = ({id, onCancel, onDone}) => {
                 {fields.map((field, index) => (
                   <Row align="middle">
                     {GRNItemFormFields.slice(0, 1).map((item) => (
-                      <Col span={7}>
+                      <Col span={5}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -218,8 +218,8 @@ export const GRNForm = ({id, onCancel, onDone}) => {
                         </div>
                       </Col>
                     ))}
-                    {GRNItemFormFields.slice(1, 3).map((item) => (
-                      <Col span={7}>
+                    {GRNItemFormFields.slice(1, 4).map((item) => (
+                      <Col span={5}>
                         <div className="p-2">
                           {formItem({
                             ...item,
