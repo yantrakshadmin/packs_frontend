@@ -702,6 +702,12 @@ export const retrieveGRNBars = (id) =>
     secure: true,
   });
 
+export const retrieveGRNBarCodes = (id) =>
+  loadAPI(`/print-barcodes/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
 export const retrieveAllotmentReport = ({cname, to, from}) =>
   loadAPI(`/allotment-reports/`, {
     method: 'GET',
