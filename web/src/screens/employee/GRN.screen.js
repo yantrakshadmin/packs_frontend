@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {GRNForm} from '../../forms/GRN.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import GRNColumns from 'common/columns/GRN.column';
 import {ProductTable} from '../../components/GRNProductsTable';
 import {Popconfirm, Button, Input} from 'antd';
+import {Link} from '@reach/router';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
@@ -12,9 +14,9 @@ import Edit from 'icons/Edit';
 import Delete from 'icons/Delete';
 import Document from 'icons/Document';
 import Download from 'icons/Download';
-import DownArrow from 'icons/DownArrow';
+import Print from 'icons/Print';
 
-import {deleteGRN, retrieveGRNBars, retrieveGRNBarCodes} from 'common/api/auth';
+import {deleteGRN, retrieveGRNBars} from 'common/api/auth';
 
 const {Search} = Input;
 
@@ -25,7 +27,6 @@ const KitEmployeeScreen = ({currentPage}) => {
   const [csvData, setCsvData] = useState(null);
   const [barLoading, setBarLoading] = useState(false);
   const [barID, setBarID] = useState(null);
-  const [codeID, setCodeID] = useState(null);
 
   const {data: grns, loading, reload} = useAPI('/grns/', {});
 
@@ -134,26 +135,21 @@ const KitEmployeeScreen = ({currentPage}) => {
             }}>
             <Download />
           </Button>
-          <Button
-            style={{
-              backgroundColor: 'transparent',
-              border: 'none',
-              boxShadow: 'none',
-              padding: '1px',
-            }}
-            loading={record.id === codeID ? barLoading : false}
-            onClick={async (e) => {
-              e.stopPropagation();
-              setBarLoading(true);
-              setCodeID(record.id);
-              const {data} = await retrieveGRNBarCodes(record.id);
-              if (data) {
-                window.open(data.toString());
-                setBarLoading(false);
-              }
-            }}>
-            <DownArrow />
-          </Button>
+          <a
+            href={`${DEFAULT_BASE_URL}/print-barcodes/${record.id}/`}
+            target="_blank"
+            rel="noopener noreferrer">
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                boxShadow: 'none',
+                padding: '1px',
+              }}
+              onClick={(e) => e.stopPropagation()}>
+              <Print />
+            </Button>
+          </a>
           <Button
             style={{
               backgroundColor: 'transparent',
