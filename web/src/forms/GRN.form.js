@@ -155,6 +155,13 @@ export const GRNForm = ({id, onCancel, onDone}) => {
           {GRNFormFields.slice(13, 14).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className="p-2">
+                {formItem({...item})}
+              </div>
+            </Col>
+          ))}
+          {GRNFormFields.slice(14, 15).map((item, idx) => (
+            <Col span={6}>
+              <div key={idx} className="p-2">
                 {formItem({
                   ...item,
                   kwargs: {

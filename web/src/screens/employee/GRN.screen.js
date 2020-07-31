@@ -12,8 +12,9 @@ import Edit from 'icons/Edit';
 import Delete from 'icons/Delete';
 import Document from 'icons/Document';
 import Download from 'icons/Download';
+import DownArrow from 'icons/DownArrow';
 
-import {deleteGRN, retrieveGRNBars} from 'common/api/auth';
+import {deleteGRN, retrieveGRNBars, retrieveGRNBarCodes} from 'common/api/auth';
 
 const {Search} = Input;
 
@@ -24,6 +25,7 @@ const KitEmployeeScreen = ({currentPage}) => {
   const [csvData, setCsvData] = useState(null);
   const [barLoading, setBarLoading] = useState(false);
   const [barID, setBarID] = useState(null);
+  const [codeID, setCodeID] = useState(null);
 
   const {data: grns, loading, reload} = useAPI('/grns/', {});
 
@@ -131,6 +133,26 @@ const KitEmployeeScreen = ({currentPage}) => {
               }
             }}>
             <Download />
+          </Button>
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            loading={record.id === codeID ? barLoading : false}
+            onClick={async (e) => {
+              e.stopPropagation();
+              setBarLoading(true);
+              setCodeID(record.id);
+              const {data} = await retrieveGRNBarCodes(record.id);
+              if (data) {
+                window.open(data.toString());
+                setBarLoading(false);
+              }
+            }}>
+            <DownArrow />
           </Button>
           <Button
             style={{
