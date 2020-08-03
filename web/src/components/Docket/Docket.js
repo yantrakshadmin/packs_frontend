@@ -96,7 +96,7 @@ const Docket = ({location}) => {
         </div>
         <hr />
         <Row className="meta-docket">
-          <Col span={12} className="left">
+          <Col span={17} className="left">
             <Row>
               <Col span={22}>
                 <p style={{fontWeight: 'bold', display: 'inline'}}>Transaction No. : </p>
@@ -132,7 +132,6 @@ const Docket = ({location}) => {
               </Col>
             </Row>
           </Col>
-          <Col span={5}></Col>
           <Col
             span={7}
             className="right"
@@ -235,7 +234,7 @@ const Docket = ({location}) => {
                 <th>HSN/SAC</th>
                 <th>Product Code</th>
                 <th>Product Name</th>
-                <th>Product Use Qty</th>
+                <th>Product Qty</th>
               </tr>
             </thead>
             <tbody>
