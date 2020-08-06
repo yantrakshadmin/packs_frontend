@@ -16,6 +16,7 @@ import Products from 'icons/Products';
 import './returnform.styles.scss';
 
 const ReturnForm = ({id, onCancel, onDone}) => {
+  const [products, setProducts] = useState(null);
   const [kits, setKits] = useState(null);
   const [flow, setFlow] = useState(null);
   const [rflow, setRFlow] = useState(null);

@@ -24,7 +24,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
   const [csvData, setCsvData] = useState(null);
   const [reqData, setReqData] = useState([]);
 
-  const {data: allotments, loading} = useAPI('/allotments/', {});
+  const {data: allotments, loading} = useAPI('/allotments-table/', {});
 
   const {filteredData, reload} = useTableSearch({
     searchVal,
@@ -36,12 +36,12 @@ const AllotmentDocketsScreen = ({currentPage}) => {
       const reqD = allotments.map((alt) => ({
         id: alt.id,
         transaction_no: alt.transaction_no,
-        parent_name: alt.sales_order.owner.first_name + ' ' + alt.sales_order.owner.last_name,
+        parent_name: alt.sales_order.owner,
         dispatch_date: alt.dispatch_date,
-        warehouse_name: alt.send_from_warehouse.name,
+        warehouse_name: alt.send_from_warehouse,
         model: alt.model,
         vehicle_number: alt.vehicle_number,
-        transport_by: alt.transport_by.name,
+        transport_by: alt.transport_by,
         is_delivered: alt.is_delivered,
       }));
       setReqData(reqD);
