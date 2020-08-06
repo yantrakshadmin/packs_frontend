@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Link} from '@reach/router';
 import {Typography, Button, Divider, Row, Col, Table, Modal, Tabs} from 'antd';
 import {connect} from 'react-redux';
 import {changePage} from 'common/actions/changePage';
@@ -12,6 +13,7 @@ const {TabPane} = Tabs;
 
 const TableWithTabHOC = ({
   title,
+  newPage,
   tabs,
   modalBody: ModalBody = () => null,
   refresh,
@@ -64,15 +66,18 @@ const TableWithTabHOC = ({
 
   return (
     <div>
-      <Modal
-        visible={modalVisible || !!editingId}
-        destroyOnClose
-        style={{minWidth: `${modalWidth}vw`}}
-        title={`Add ${title.slice(0, -1)}`}
-        onCancel={onCancel}
-        footer={null}>
-        <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} />
-      </Modal>
+      {newPage ? null : (
+        <Modal
+          visible={modalVisible || !!editingId}
+          destroyOnClose
+          style={{minWidth: `${modalWidth}vw`}}
+          title={`Add ${title.slice(0, -1)}`}
+          onCancel={onCancel}
+          footer={null}>
+          <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} />
+        </Modal>
+      )}
+
       <Row justify="space-between" align="middle">
         <Col>
           <Title level={3}>{title}</Title>
@@ -105,7 +110,11 @@ const TableWithTabHOC = ({
           ) : null}
         </Col>
         <Col>
-          {hideRightButton ? null : (
+          {hideRightButton ? null : newPage ? (
+            <Link to={newPage}>
+              <Button type="primary">Add {title}</Button>
+            </Link>
+          ) : (
             <Button
               type="primary"
               onClick={() => {

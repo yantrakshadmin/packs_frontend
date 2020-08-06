@@ -36,6 +36,10 @@ export const outerRoutesEmployee = [
     Component: lazy(() => import('components/Docket/Docket')),
   },
   {
+    path: '/return-dockets/return/',
+    Component: lazy(() => import('forms/return.form')),
+  },
+  {
     path: '/return-docket/',
     Component: lazy(() => import('components/ReturnDocket/ReturnDocket')),
   },

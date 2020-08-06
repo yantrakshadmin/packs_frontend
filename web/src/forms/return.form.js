@@ -1,17 +1,22 @@
 import React, {useState, useEffect} from 'react';
 import {Form, Col, Row, Button, Divider, Spin, Modal} from 'antd';
 import formItem from '../hocs/formItem.hoc';
-import {returnFormFields, returnProductFormFields} from 'common/formFields/return.formFields.js';
+import {
+  returnFormFields,
+  returnProductFormFields,
+  returnKitFormFields,
+} from 'common/formFields/return.formFields.js';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
+import {navigate} from '@reach/router';
 import {createReturn, retrieveReturn, editReturn, retrieveRFlows} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 import Products from 'icons/Products';
 
 import './returnform.styles.scss';
 
-export const ReturnForm = ({id, onCancel, onDone}) => {
-  const [products, setProducts] = useState(null);
+const ReturnForm = ({id, onCancel, onDone}) => {
+  const [kits, setKits] = useState(null);
   const [flow, setFlow] = useState(null);
   const [rflow, setRFlow] = useState(null);
   const [returnn, setReturn] = useState(null);
@@ -78,61 +83,25 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
 
   useEffect(() => {
     if (rflow) {
-      let prods = [];
-      rflow.kits.map((k) => {
-        k.kit.products.map((prod) => prods.push(prod.product));
-        return null;
+      let kitss = [];
+      rflow.kits.forEach((k) => {
+        kitss.push({...k.kit, quantity: k.quantity});
       });
-      console.log(prods);
-      setProducts(prods);
+      console.log(kitss);
+      setKits(kitss);
     }
   }, [rflow]);
 
   return (
     <Spin spinning={loading}>
-      <Modal
-        visible={modalVisible}
-        onCancel={() => setModalVisible(false)}
-        style={{position: 'absolute', right: '2vw'}}
-        footer={
-          <Button type="primary" onClick={() => setModalVisible(false)}>
-            Ok
-          </Button>
-        }
-        width="18vw">
-        {rflow ? (
-          <table>
-            <thead>
-              <tr>
-                <th>Sr. No.</th>
-                <th>Kit Name</th>
-                <th>Product Code</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rflow.kits.map((k, index) => {
-                return (
-                  <tr>
-                    <td>{index + 1}</td>
-                    <td>{k.kit.kit_name}</td>
-                    <td>
-                      {
-                        <div style={{display: 'flex', flexDirection: 'column'}}>
-                          {k.kit.products.map((prod) => (
-                            <p>{prod.product.short_code}</p>
-                          ))}
-                        </div>
-                      }
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        ) : null}
-      </Modal>
       <Divider orientation="left">Return Docket Details</Divider>
-      <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
+      <Form
+        onFinish={submit}
+        form={form}
+        layout="vertical"
+        hideRequiredMark
+        autoComplete="off"
+        style={{margin: '2vw'}}>
         <Row style={{justifyContent: 'left'}}>
           {returnFormFields.slice(0, 2).map((item, idx) => (
             <Col span={8}>
@@ -185,7 +154,7 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
               })}
             </div>
           </Col>
-          <Col span={6}>
+          <Col span={8}>
             <div key={3} className="p-2">
               {formItem({
                 ...returnFormFields[4],
@@ -206,22 +175,6 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
                   customTitle: 'flow_name',
                 },
               })}
-            </div>
-          </Col>
-          <Col span={2}>
-            <div key={1000} className="p-2">
-              <Button
-                style={{
-                  top: '28px',
-                  width: '4px',
-                  backgroundColor: 'transparent',
-                  border: 'none',
-                  boxShadow: 'none',
-                  padding: '1px',
-                }}
-                onClick={() => setModalVisible(true)}>
-                <Products />
-              </Button>
             </div>
           </Col>
         </Row>
@@ -279,8 +232,8 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
               <div>
                 {fields.map((field, index) => (
                   <Row align="middle">
-                    {returnProductFormFields.slice(0, 1).map((item) => (
-                      <Col span={10}>
+                    {returnKitFormFields.slice(0, 1).map((item) => (
+                      <Col span={6}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -293,10 +246,10 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                             },
                             others: {
-                              selectOptions: products || [],
+                              selectOptions: kits || [],
                               key: 'id',
-                              dataKeys: ['name', 'description', 'category'],
-                              customTitle: 'short_code',
+                              dataKeys: ['kit_info', 'components_per_kit'],
+                              customTitle: 'kit_name',
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],
@@ -307,8 +260,8 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
                         </div>
                       </Col>
                     ))}
-                    {returnProductFormFields.slice(1, 2).map((item) => (
-                      <Col span={10}>
+                    {returnKitFormFields.slice(1, 2).map((item) => (
+                      <Col span={6}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -324,14 +277,74 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
                         </div>
                       </Col>
                     ))}
-                    <Button
-                      type="danger"
-                      style={index != 0 ? {top: '-2vh'} : null}
-                      onClick={() => {
-                        remove(field.name);
-                      }}>
-                      <MinusCircleOutlined /> Delete
-                    </Button>
+                    <Col span={10}>
+                      <Form.List name="products">
+                        {(prodFields, {add, remove}) => {
+                          return (
+                            <div>
+                              {prodFields.map((pfield, ind) => (
+                                <Row align="middle">
+                                  {returnProductFormFields.slice(0, 1).map((item) => (
+                                    <Col span={12}>
+                                      <div className="p-2">
+                                        {formItem({
+                                          ...item,
+                                          noLabel: ind != 0,
+                                          others: {
+                                            formOptions: {
+                                              ...field,
+                                              name: [pfield.name, item.key],
+                                              fieldKey: [pfield.fieldKey, item.key],
+                                            },
+                                          },
+                                        })}
+                                      </div>
+                                    </Col>
+                                  ))}
+                                  {returnProductFormFields.slice(1, 2).map((item) => (
+                                    <Col span={12}>
+                                      <div className="p-2">
+                                        {formItem({
+                                          ...item,
+                                          noLabel: ind != 0,
+                                          others: {
+                                            formOptions: {
+                                              ...field,
+                                              name: [pfield.name, item.key],
+                                              fieldKey: [pfield.fieldKey, item.key],
+                                            },
+                                          },
+                                        })}
+                                      </div>
+                                    </Col>
+                                  ))}
+                                </Row>
+                              ))}
+                              <Form.Item>
+                                <Button
+                                  type="dashed"
+                                  onClick={() => {
+                                    add();
+                                  }}
+                                  block>
+                                  <PlusOutlined /> Add Item
+                                </Button>
+                              </Form.Item>
+                            </div>
+                          );
+                        }}
+                      </Form.List>
+                    </Col>
+                    <Col span={2}>
+                      <Button
+                        type="danger"
+                        style={index != 0 ? {top: '-2vh'} : null}
+                        onClick={() => {
+                          remove(field.name);
+                        }}>
+                        <MinusCircleOutlined /> Delete
+                      </Button>
+                    </Col>
                   </Row>
                 ))}
                 <Form.Item>
@@ -353,7 +366,7 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
             Save
           </Button>
           <div className="p-2" />
-          <Button type="primary" onClick={onCancel}>
+          <Button type="primary" onClick={() => navigate('../')}>
             Cancel
           </Button>
         </Row>
@@ -361,3 +374,5 @@ export const ReturnForm = ({id, onCancel, onDone}) => {
     </Spin>
   );
 };
+
+export default ReturnForm;

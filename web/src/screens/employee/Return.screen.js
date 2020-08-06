@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import returnColumns from 'common/columns/Return.column';
-import {ReturnForm} from 'forms/return.form';
+import ReturnForm from 'forms/return.form';
 import {ReceivedForm} from 'forms/received.form';
 import {Popconfirm, Input, Button} from 'antd';
 import {deleteHOC} from '../../hocs/deleteHoc';
@@ -166,6 +166,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
         size="middle"
         title="Return Dockets"
         modalBody={deliveryId ? ReceivedForm : ReturnForm}
+        newPage="./return/"
         modalWidth={60}
         editingId={editingId || deliveryId}
         cancelEditing={cancelEditing}
