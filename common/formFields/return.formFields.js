@@ -142,20 +142,42 @@ export const returnFormFields = [
   },
 ];
 
-export const returnProductFormFields = [
+export const returnKitFormFields = [
   {
-    key: 'product',
-    rules: [{required: true, message: 'Please select product!'}],
+    key: 'kit',
+    rules: [{required: true, message: 'Please select kit!'}],
     kwargs: {
       placeholder: 'Enter',
     },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
-    customLabel: 'Product',
+    customLabel: 'Kit',
   },
   {
     key: 'quantity',
     rules: [{required: true, message: 'Please enter quantity!'}],
+    kwargs: {
+      placeholder: 'Enter',
+      type: 'number',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Quantity',
+  },
+];
+
+export const returnProductFormFields = [
+  {
+    key: 'product',
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Product',
+  },
+  {
+    key: 'product_quantity',
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
