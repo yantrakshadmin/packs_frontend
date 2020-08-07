@@ -3,7 +3,7 @@ import {Table, Row, Col, Spin} from 'antd';
 import TableWithoutTabHoc from 'hocs/TableWithoutTab.hoc';
 import {AllotProdsTable} from 'components/AllotProdsTable';
 
-export const AllotFlowTable = ({loading, flows}) => {
+export const AllotFlowTable = ({loading, flows, transaction_no}) => {
   const [data, setData] = useState([]);
 
   const columns = [
@@ -26,6 +26,20 @@ export const AllotFlowTable = ({loading, flows}) => {
       title: 'Flow Name',
       key: 'flow',
       dataIndex: 'flow',
+    },
+    {
+      title: 'Kits Assigned',
+      key: 'kits',
+      render: (text, record) => {
+        let kit = record.kit_name,
+          aq = record.alloted_quantity;
+        let s = '';
+        for (let i = 1; i <= aq; i++) {
+          s += `${transaction_no}-${kit}-${i}, `;
+        }
+        s = s.slice(0, -2);
+        return s;
+      },
     },
   ];
 
