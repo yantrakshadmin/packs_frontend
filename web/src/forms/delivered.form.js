@@ -12,47 +12,59 @@ import {
   retrieveDelivered,
   editDelivered,
   allDelivered,
+  retrieveAllotmentsDelivered,
 } from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 
-export const DeliveredForm = ({id, onCancel, onDone}) => {
+export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
   const [delivered, setDelivered] = useState(false);
+  const [reqDlvd, setReqDlvd] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [allotment, setAllotment] = useState(null);
   const [products, setProducts] = useState(null);
   const [reqFile, setFile] = useState(null);
 
   const {form, submit} = useHandleForm({
     create: createDelivered,
+    retrieve: retrieveDelivered,
     success: 'Request created/edited successfully.',
     failure: 'Error in creating/editing request.',
     done: onDone,
     close: onCancel,
     edit: editDelivered,
     id: deliveryId,
-    retrieve: retrieveDelivered,
   });
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const {data} = await retrieveAllotments();
-      if (data) {
-        const allot = data.filter((d) => d.id === id);
-        setAllotment(allot[0]);
-      }
-    };
-    fetchProducts();
-  }, [id]);
+    form.setFieldsValue({transaction_no});
+  }, [form]);
 
   useEffect(() => {
     const fetchDelivered = async () => {
       const {data} = await allDelivered();
       if (data) {
-        const reqdlvd = data.filter((dlvd) => dlvd.allotment === id)[0];
+        console.log(data);
+        console.log(id);
+        const dlvd = data.filter((d) => d.allotment === id)[0];
+        if (dlvd) {
+          setDeliveryId(dlvd.id);
+          console.log(dlvd.id);
+        }
+      }
+    };
+    fetchDelivered();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchDelivered = async () => {
+      setLoading(true);
+      const {data} = await retrieveAllotmentsDelivered();
+      if (data) {
+        setLoading(false);
+        const reqdlvd = data.filter((dlvd) => dlvd.id === id)[0];
         if (reqdlvd) {
-          setDeliveryId(reqdlvd.id);
-          setDelivered(reqdlvd.delivered);
+          setReqDlvd(reqdlvd);
         }
       }
     };
@@ -60,24 +72,20 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
   }, [id]);
 
   useEffect(() => {
-    setLoading(true);
-    if (allotment) {
+    if (reqDlvd) {
+      console.log('yes');
       let reqProd = [];
-      console.log(allotment);
-      form.setFieldsValue({
-        transaction_no: allotment.transaction_no,
-      });
-      allotment.flows.map((flow) => {
-        flow.kit.products.map((prod) => {
+      console.log(reqDlvd);
+      reqDlvd.flows.forEach((flow) => {
+        flow.kit.products.forEach((prod) => {
           reqProd.push(prod.product);
-          return null;
         });
-        return null;
       });
+      console.log(reqProd);
       setProducts(reqProd);
       setLoading(false);
     }
-  }, [allotment, form]);
+  }, [reqDlvd]);
 
   const preProcess = (data) => {
     data['allotment'] = allotment.id;
@@ -166,8 +174,7 @@ export const DeliveredForm = ({id, onCancel, onDone}) => {
                             others: {
                               selectOptions: products || [],
                               key: 'id',
-                              dataKeys: ['short_code', 'description', 'category'],
-                              customTitle: 'name',
+                              customTitle: 'short_code',
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],

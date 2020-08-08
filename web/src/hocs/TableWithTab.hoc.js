@@ -22,6 +22,7 @@ const TableWithTabHOC = ({
   rowKey,
   csvdata,
   csvname,
+  formParams,
   scroll,
   size,
   reset,
@@ -74,7 +75,7 @@ const TableWithTabHOC = ({
           title={`Add ${title.slice(0, -1)}`}
           onCancel={onCancel}
           footer={null}>
-          <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} />
+          <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} {...formParams} />
         </Modal>
       )}
 

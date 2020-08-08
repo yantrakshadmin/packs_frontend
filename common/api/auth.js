@@ -718,3 +718,9 @@ export const retrieveAllotmentReport = ({cname, to, from}) =>
       from,
     },
   });
+
+export const retrieveAllotmentsDelivered = () =>
+  loadAPI('/allotments-delivered/', {
+    method: 'GET',
+    secure: true,
+  });
