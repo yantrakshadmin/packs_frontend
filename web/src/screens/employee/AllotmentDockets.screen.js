@@ -23,6 +23,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
   const [deliveryId, setDeliveryId] = useState(null);
   const [csvData, setCsvData] = useState(null);
   const [reqData, setReqData] = useState([]);
+  const [TN, setTN] = useState(null);
 
   const {data: allotments, loading} = useAPI('/allotments-table/', {});
 
@@ -100,6 +101,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
               padding: '1px',
             }}
             onClick={(e) => {
+              setTN(record.transaction_no);
               setDeliveryId(record.id);
               e.stopPropagation();
             }}>
@@ -177,6 +179,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
         modalBody={deliveryId ? DeliveredForm : AllotmentMainForm}
         modalWidth={60}
         editingId={editingId || deliveryId}
+        formParams={{transaction_no: TN}}
         cancelEditing={cancelEditing}
         hideRightButton
       />

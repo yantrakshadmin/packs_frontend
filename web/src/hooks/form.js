@@ -47,7 +47,7 @@ export const useHandleForm = ({
 
   const loader = async () => {
     setLoading(true);
-    form.resetFields();
+    // form.resetFields();
 
     try {
       if (isEdit && retrieve) {
