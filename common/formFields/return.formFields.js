@@ -169,12 +169,12 @@ export const returnKitFormFields = [
 export const returnProductFormFields = [
   {
     key: 'product',
-    kwargs: {
-      placeholder: 'Enter',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
+    type: FORM_ELEMENT_TYPES.SELECT,
     customLabel: 'Product',
+    kwargs: {
+      showArrow: false,
+      disabled: true,
+    },
   },
   {
     key: 'product_quantity',

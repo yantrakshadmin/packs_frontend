@@ -17,6 +17,7 @@ import './returnform.styles.scss';
 
 const ReturnForm = ({id, onCancel, onDone}) => {
   const [products, setProducts] = useState(null);
+  const [pcc, setPcc] = useState([]);
   const [kits, setKits] = useState(null);
   const [flow, setFlow] = useState(null);
   const [rflow, setRFlow] = useState(null);
@@ -84,20 +85,57 @@ const ReturnForm = ({id, onCancel, onDone}) => {
 
   useEffect(() => {
     if (rflow) {
-      let kitss = [];
+      let kitss = [],
+        prods = [];
       rflow.kits.forEach((k) => {
         kitss.push({...k.kit, quantity: k.quantity});
+        k.kit.products.forEach((p) => prods.push(p.product));
       });
+      setProducts(prods);
       console.log(kitss);
       setKits(kitss);
     }
   }, [rflow]);
 
+  const handleFieldsChange = async (data) => {
+    console.log(data);
+    if (data)
+      if (data[0])
+        if (data[0].name)
+          if (data[0].name[2]) {
+            if (data[0].name[2] === 'kit') {
+              const rk = kits.filter((k) => k.id === data[0].value)[0];
+              let produces = [];
+              rk.products.forEach((p) => {
+                produces.push({product: p.product.id, product_quantity: p.quantity});
+              });
+              form.setFields([
+                {
+                  name: [`products${data[0].name[1]}`],
+                  value: produces,
+                },
+              ]);
+              console.log(
+                form.getFieldValue([
+                  data[0].name[0],
+                  data[0].name[1],
+                  `products${data[0].name[1]}`,
+                ]),
+              );
+            }
+          }
+  };
+
+  const handleSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <Spin spinning={loading}>
       <Divider orientation="left">Return Docket Details</Divider>
       <Form
-        onFinish={submit}
+        onFieldsChange={handleFieldsChange}
+        onFinish={handleSubmit}
         form={form}
         layout="vertical"
         hideRequiredMark
@@ -226,142 +264,154 @@ const ReturnForm = ({id, onCancel, onDone}) => {
           </Col>
         </Row>
         <Divider orientation="left">Product Details</Divider>
-
-        <Form.List name="items">
-          {(fields, {add, remove}) => {
-            return (
-              <div>
-                {fields.map((field, index) => (
-                  <Row align="middle">
-                    {returnKitFormFields.slice(0, 1).map((item) => (
-                      <Col span={6}>
-                        <div className="p-2">
-                          {formItem({
-                            ...item,
-                            noLabel: index != 0,
-                            kwargs: {
-                              placeholder: 'Select',
-                              type: 'number',
-                              showSearch: true,
-                              filterOption: (input, option) =>
-                                option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-                            },
-                            others: {
-                              selectOptions: kits || [],
-                              key: 'id',
-                              dataKeys: ['kit_info', 'components_per_kit'],
-                              customTitle: 'kit_name',
-                              formOptions: {
-                                ...field,
-                                name: [field.name, item.key],
-                                fieldKey: [field.fieldKey, item.key],
-                              },
-                            },
-                          })}
-                        </div>
-                      </Col>
-                    ))}
-                    {returnKitFormFields.slice(1, 2).map((item) => (
-                      <Col span={6}>
-                        <div className="p-2">
-                          {formItem({
-                            ...item,
-                            noLabel: index != 0,
-                            others: {
-                              formOptions: {
-                                ...field,
-                                name: [field.name, item.key],
-                                fieldKey: [field.fieldKey, item.key],
-                              },
-                            },
-                          })}
-                        </div>
-                      </Col>
-                    ))}
-                    <Col span={10}>
-                      <Form.List name="products">
-                        {(prodFields, {add, remove}) => {
-                          return (
-                            <div>
-                              {prodFields.map((pfield, ind) => (
-                                <Row align="middle">
-                                  {returnProductFormFields.slice(0, 1).map((item) => (
-                                    <Col span={12}>
-                                      <div className="p-2">
-                                        {formItem({
-                                          ...item,
-                                          noLabel: ind != 0,
-                                          others: {
-                                            formOptions: {
-                                              ...field,
-                                              name: [pfield.name, item.key],
-                                              fieldKey: [pfield.fieldKey, item.key],
-                                            },
-                                          },
-                                        })}
-                                      </div>
-                                    </Col>
-                                  ))}
-                                  {returnProductFormFields.slice(1, 2).map((item) => (
-                                    <Col span={12}>
-                                      <div className="p-2">
-                                        {formItem({
-                                          ...item,
-                                          noLabel: ind != 0,
-                                          others: {
-                                            formOptions: {
-                                              ...field,
-                                              name: [pfield.name, item.key],
-                                              fieldKey: [pfield.fieldKey, item.key],
-                                            },
-                                          },
-                                        })}
-                                      </div>
-                                    </Col>
-                                  ))}
-                                </Row>
-                              ))}
-                              <Form.Item>
-                                <Button
-                                  type="dashed"
-                                  onClick={() => {
-                                    add();
-                                  }}
-                                  block>
-                                  <PlusOutlined /> Add Item
-                                </Button>
-                              </Form.Item>
+        <Row>
+          <Col span={12}>
+            <Form.List name="items">
+              {(fields, {add, remove}) => {
+                console.log(fields);
+                return (
+                  <div>
+                    {fields.map((field, index) => (
+                      <Row align="middle">
+                        {returnKitFormFields.slice(0, 1).map((item) => (
+                          <Col span={10}>
+                            <div className="p-2">
+                              {formItem({
+                                ...item,
+                                noLabel: index != 0,
+                                kwargs: {
+                                  placeholder: 'Select',
+                                  type: 'number',
+                                  showSearch: true,
+                                  filterOption: (input, option) =>
+                                    option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                                },
+                                others: {
+                                  selectOptions: kits || [],
+                                  key: 'id',
+                                  dataKeys: ['kit_info', 'components_per_kit'],
+                                  customTitle: 'kit_name',
+                                  formOptions: {
+                                    ...field,
+                                    name: [field.name, item.key],
+                                    fieldKey: [field.fieldKey, item.key],
+                                  },
+                                },
+                              })}
                             </div>
-                          );
-                        }}
-                      </Form.List>
-                    </Col>
-                    <Col span={2}>
+                          </Col>
+                        ))}
+                        {returnKitFormFields.slice(1, 2).map((item) => (
+                          <Col span={10}>
+                            <div className="p-2">
+                              {formItem({
+                                ...item,
+                                noLabel: index != 0,
+                                others: {
+                                  formOptions: {
+                                    ...field,
+                                    name: [field.name, item.key],
+                                    fieldKey: [field.fieldKey, item.key],
+                                  },
+                                },
+                              })}
+                            </div>
+                          </Col>
+                        ))}
+                        <Col span={4}>
+                          <Button
+                            type="danger"
+                            style={index != 0 ? {top: '-2vh'} : null}
+                            onClick={() => {
+                              console.log(field.name);
+                              let temp = pcc.filter((p, idx) => idx != field.name);
+                              let temp1 = temp.map((t) => {
+                                if (t > field.name) return --t;
+                                else return t;
+                              });
+                              setPcc(temp1);
+                              console.log(pcc);
+                              form.resetFields([`products${field.name}`]);
+                              remove(field.name);
+                            }}>
+                            <MinusCircleOutlined /> Delete
+                          </Button>
+                        </Col>
+                      </Row>
+                    ))}
+                    <Form.Item>
                       <Button
-                        type="danger"
-                        style={index != 0 ? {top: '-2vh'} : null}
+                        type="dashed"
                         onClick={() => {
-                          remove(field.name);
-                        }}>
-                        <MinusCircleOutlined /> Delete
+                          let temp = pcc;
+                          setPcc([...pcc, pcc.length]);
+                          console.log(pcc);
+                          add();
+                        }}
+                        block>
+                        <PlusOutlined /> Add Item
                       </Button>
-                    </Col>
-                  </Row>
-                ))}
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => {
-                      add();
-                    }}
-                    block>
-                    <PlusOutlined /> Add Item
-                  </Button>
-                </Form.Item>
-              </div>
-            );
-          }}
-        </Form.List>
+                    </Form.Item>
+                  </div>
+                );
+              }}
+            </Form.List>
+          </Col>
+          <Col span={1}></Col>
+          <Col span={11}>
+            {pcc.map((p, idx) => (
+              <Form.List name={`products${p}`}>
+                {(fields, {add, remove}) => {
+                  return (
+                    <div>
+                      {fields.map((field, ind) => (
+                        <Row align="middle">
+                          {returnProductFormFields.slice(0, 1).map((item) => (
+                            <Col span={12}>
+                              <div className="p-2">
+                                {formItem({
+                                  ...item,
+                                  noLabel: ind != 0,
+                                  others: {
+                                    selectOptions: products || [],
+                                    key: 'id',
+                                    customTitle: 'short_code',
+                                    formOptions: {
+                                      ...field,
+                                      name: [field.name, item.key],
+                                      fieldKey: [field.fieldKey, item.key],
+                                    },
+                                  },
+                                })}
+                              </div>
+                            </Col>
+                          ))}
+                          {returnProductFormFields.slice(1, 2).map((item) => (
+                            <Col span={12}>
+                              <div className="p-2">
+                                {formItem({
+                                  ...item,
+                                  noLabel: ind != 0,
+                                  others: {
+                                    formOptions: {
+                                      ...field,
+                                      name: [field.name, item.key],
+                                      fieldKey: [field.fieldKey, item.key],
+                                    },
+                                  },
+                                })}
+                              </div>
+                            </Col>
+                          ))}
+                        </Row>
+                      ))}
+                    </div>
+                  );
+                }}
+              </Form.List>
+            ))}
+          </Col>
+        </Row>
         <Row>
           <Button type="primary" htmlType="submit">
             Save
