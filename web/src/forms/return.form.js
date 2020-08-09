@@ -15,8 +15,9 @@ import Products from 'icons/Products';
 
 import './returnform.styles.scss';
 
-const ReturnForm = ({id, onCancel, onDone}) => {
+const ReturnForm = ({location}) => {
   const [products, setProducts] = useState(null);
+  const [kitID, setKitID] = useState(null);
   const [pcc, setPcc] = useState([]);
   const [kits, setKits] = useState(null);
   const [flow, setFlow] = useState(null);
@@ -37,22 +38,29 @@ const ReturnForm = ({id, onCancel, onDone}) => {
     retrieve: retrieveReturn,
     success: 'Return created/edited successfully.',
     failure: 'Error in creating/editing return.',
-    done: onDone,
-    close: onCancel,
-    id,
+    // done: location.state ? location.state.onDone : null,
+    // close: location.state ? location.state.onCancel : null,
+    // id: location.state ? location.state.id : null,
+    done: () => navigate('../'),
+    close: () => navigate('../'),
+    id: null,
     dates: ['transaction_date'],
   });
 
   useEffect(() => {
-    console.log(id);
+    console.log(location);
+  }, [location]);
+
+  useEffect(() => {
+    if (form) form.setFields([{name: ['transaction_type'], value: 'Return'}]);
     const fetchReturn = async () => {
-      const {data} = await retrieveReturn(id);
+      const {data} = await retrieveReturn(location.state.id);
       if (data) {
         setReturn(data);
       }
     };
-    if (id) fetchReturn();
-  }, [id]);
+    if (location.state) fetchReturn();
+  }, [location.state]);
 
   useEffect(() => {
     console.log(returnn);
@@ -98,36 +106,66 @@ const ReturnForm = ({id, onCancel, onDone}) => {
   }, [rflow]);
 
   const handleFieldsChange = async (data) => {
-    console.log(data);
+    console.log(data, kitID);
     if (data)
       if (data[0])
         if (data[0].name)
           if (data[0].name[2]) {
-            if (data[0].name[2] === 'kit') {
-              const rk = kits.filter((k) => k.id === data[0].value)[0];
-              let produces = [];
-              rk.products.forEach((p) => {
-                produces.push({product: p.product.id, product_quantity: p.quantity});
-              });
+            if (
+              data[0].name[2] === 'kit' ||
+              (data[0].name[2] === 'quantity' &&
+                data[0].errors[0] === 'Please enter quantity!' &&
+                kitID)
+            ) {
+              if (data[0].name[2] === 'kit') setKitID(data[0].value);
+              console.log(data[0].name);
+              if (kitID) {
+                const rk = kits.filter((k) => k.id === kitID)[0];
+                let produces = [];
+                rk.products.forEach((p) => {
+                  produces.push({product: p.product.id, product_quantity: p.quantity});
+                });
+                form.setFields([
+                  {
+                    name: [`items${data[0].name[1]}`],
+                    value: produces,
+                  },
+                ]);
+                console.log(
+                  form.getFieldValue([data[0].name[0], data[0].name[1], `items${data[0].name[1]}`]),
+                );
+              }
+            }
+            if (data[0].name[2] === 'quantity' && kitID) {
+              let q = data[0].value;
+              let temp = form.getFieldValue(`items${data[0].name[1]}`);
               form.setFields([
                 {
-                  name: [`products${data[0].name[1]}`],
-                  value: produces,
+                  name: [`items${data[0].name[1]}`],
+                  value: temp.map((t) => {
+                    return {...t, ['product_quantity']: t.product_quantity * q};
+                  }),
                 },
               ]);
-              console.log(
-                form.getFieldValue([
-                  data[0].name[0],
-                  data[0].name[1],
-                  `products${data[0].name[1]}`,
-                ]),
-              );
+              console.log(temp);
             }
           }
   };
 
   const handleSubmit = (data) => {
-    console.log(data);
+    const tempkits = data['kits'].map((k, idx) => {
+      let items = data[`items${idx}`];
+      delete data[`items${idx}`];
+      return {
+        ...k,
+        items: items.map((i) => {
+          return {product: i.product, quantity: i.product_quantity};
+        }),
+      };
+    });
+    const reqD = {...data, ['kits']: tempkits};
+    console.log(reqD);
+    submit(reqD);
   };
 
   return (
@@ -266,7 +304,7 @@ const ReturnForm = ({id, onCancel, onDone}) => {
         <Divider orientation="left">Product Details</Divider>
         <Row>
           <Col span={12}>
-            <Form.List name="items">
+            <Form.List name="kits">
               {(fields, {add, remove}) => {
                 console.log(fields);
                 return (
@@ -331,7 +369,7 @@ const ReturnForm = ({id, onCancel, onDone}) => {
                               });
                               setPcc(temp1);
                               console.log(pcc);
-                              form.resetFields([`products${field.name}`]);
+                              form.resetFields([`items${field.name}`]);
                               remove(field.name);
                             }}>
                             <MinusCircleOutlined /> Delete
@@ -360,7 +398,7 @@ const ReturnForm = ({id, onCancel, onDone}) => {
           <Col span={1}></Col>
           <Col span={11}>
             {pcc.map((p, idx) => (
-              <Form.List name={`products${p}`}>
+              <Form.List name={`items${p}`}>
                 {(fields, {add, remove}) => {
                   return (
                     <div>
