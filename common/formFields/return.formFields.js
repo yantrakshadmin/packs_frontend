@@ -46,7 +46,6 @@ export const returnFormFields = [
   },
   {
     key: 'driver_name',
-    rules: [{required: true, message: 'Please enter driver name!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -56,7 +55,6 @@ export const returnFormFields = [
   },
   {
     key: 'driver_number',
-    rules: [{required: true, message: 'Please enter driver number!'}],
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
@@ -67,7 +65,6 @@ export const returnFormFields = [
   },
   {
     key: 'lr_number',
-    rules: [{required: true, message: 'Please enter LR number!'}],
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
@@ -78,7 +75,6 @@ export const returnFormFields = [
   },
   {
     key: 'vehicle_number',
-    rules: [{required: true, message: 'Please enter vehicle number!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -88,7 +84,6 @@ export const returnFormFields = [
   },
   {
     key: 'freight_charges',
-    rules: [{required: true, message: 'Please enter freight charges!'}],
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
@@ -132,7 +127,6 @@ export const returnFormFields = [
   },
   {
     key: 'remarks',
-    rules: [{required: true, message: 'Please enter remarks!'}],
     kwargs: {
       placeholder: 'Enter',
     },

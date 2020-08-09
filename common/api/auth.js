@@ -561,42 +561,10 @@ export const retrieveDelivered = (id) =>
     secure: true,
   });
 
-export const createReturn = ({
-  transaction_no,
-  transaction_date,
-  transaction_type,
-  flow,
-  items,
-  driver_name,
-  driver_number,
-  lr_number,
-  vehicle_number,
-  freight_charges,
-  vehicle_type,
-  transport_by,
-  warehouse,
-  receiver_client,
-  remarks,
-}) =>
+export const createReturn = (data) =>
   loadAPI('/create-return/', {
     method: 'POST',
-    data: {
-      transaction_no,
-      transaction_date,
-      transaction_type,
-      flow,
-      items,
-      driver_name,
-      driver_number,
-      lr_number,
-      vehicle_number,
-      freight_charges,
-      vehicle_type,
-      transport_by,
-      warehouse,
-      receiver_client,
-      remarks,
-    },
+    data,
     secure: 'true',
   });
 
@@ -607,7 +575,7 @@ export const editReturn = (
     transaction_date,
     transaction_type,
     flow,
-    items,
+    kits,
     driver_name,
     driver_number,
     lr_number,
@@ -627,7 +595,7 @@ export const editReturn = (
       transaction_date,
       transaction_type,
       flow,
-      items,
+      kits,
       driver_name,
       driver_number,
       lr_number,

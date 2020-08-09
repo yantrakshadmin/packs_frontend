@@ -112,7 +112,7 @@ const TableWithTabHOC = ({
         </Col>
         <Col>
           {hideRightButton ? null : newPage ? (
-            <Link to={newPage}>
+            <Link to={newPage} state={{onCancel, onDone, id: editingId}}>
               <Button type="primary">Add {title}</Button>
             </Link>
           ) : (
