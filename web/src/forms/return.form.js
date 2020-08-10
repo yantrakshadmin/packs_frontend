@@ -147,23 +147,28 @@ const ReturnForm = ({location}) => {
                     value: produces,
                   },
                 ]);
-                console.log(
-                  form.getFieldValue([data[0].name[0], data[0].name[1], `items${data[0].name[1]}`]),
-                );
               }
             }
-            if (data[0].name[2] === 'quantity' && kitID) {
-              let q = data[0].value;
-              let temp = form.getFieldValue(`items${data[0].name[1]}`);
-              form.setFields([
-                {
-                  name: [`items${data[0].name[1]}`],
-                  value: temp.map((t) => {
-                    return {...t, ['product_quantity']: t.product_quantity * q};
-                  }),
-                },
-              ]);
-              console.log(temp);
+            if (data[0].name[2] === 'quantity') {
+              if (!kitID) {
+                let kitd = form.getFieldValue([data[0].name[0], data[0].name[1], 'kit']);
+                if (kitd) {
+                  setKitID(kitd);
+                }
+              }
+              if (kitID) {
+                let q = data[0].value;
+                let temp = form.getFieldValue(`items${data[0].name[1]}`);
+                form.setFields([
+                  {
+                    name: [`items${data[0].name[1]}`],
+                    value: temp.map((t) => {
+                      return {...t, ['product_quantity']: t.product_quantity * q};
+                    }),
+                  },
+                ]);
+                console.log(temp);
+              }
             }
           }
   };
