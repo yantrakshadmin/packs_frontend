@@ -44,6 +44,10 @@ const ReturnForm = ({location}) => {
   });
 
   useEffect(() => {
+    console.log(pcc);
+  }, [pcc]);
+
+  useEffect(() => {
     if (form) form.setFields([{name: ['transaction_type'], value: 'Return'}]);
     const fetchReturn = async () => {
       const {data} = await retrieveReturn(location.state.id);
@@ -376,12 +380,19 @@ const ReturnForm = ({location}) => {
                               console.log(field.name);
                               let temp = pcc.filter((p, idx) => idx != field.name);
                               let temp1 = temp.map((t) => {
-                                if (t > field.name) return --t;
-                                else return t;
+                                if (t > field.name) {
+                                  let tdata = form.getFieldValue([`items${t}`]);
+                                  form.setFields([
+                                    {
+                                      name: [`items${t - 1}`],
+                                      value: tdata,
+                                    },
+                                  ]);
+                                  return --t;
+                                } else return t;
                               });
-                              setPcc(temp1);
-                              console.log(pcc);
-                              form.resetFields([`items${field.name}`]);
+                              form.resetFields([`items${pcc.length - 1}`]);
+                              setPcc([...temp1]);
                               remove(field.name);
                             }}>
                             <MinusCircleOutlined /> Delete
@@ -395,7 +406,6 @@ const ReturnForm = ({location}) => {
                         onClick={() => {
                           let temp = pcc;
                           setPcc([...pcc, pcc.length]);
-                          console.log(pcc);
                           add();
                         }}
                         block>
