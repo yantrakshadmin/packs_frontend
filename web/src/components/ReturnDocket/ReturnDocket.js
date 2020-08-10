@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Row, Col, Typography, Spin} from 'antd';
 import {Table} from 'react-bootstrap';
 import {useEffect} from 'react';
-import {retrieveReturns} from 'common/api/auth';
+import {retrieveReturnDocket} from 'common/api/auth';
 
 import './returndocket.styles.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,10 +16,9 @@ const ReturnDocket = ({location}) => {
 
   useEffect(() => {
     const fetchReturn = async () => {
-      const {data} = await retrieveReturns();
-      const reqData = data.filter((d) => d.id === location.state.id);
-      if (reqData) setReqReturn(reqData[0]);
-      console.log(reqData[0]);
+      const {data} = await retrieveReturnDocket(location.state.id);
+      if (data) setReqReturn(data);
+      console.log(data);
     };
     fetchReturn();
   }, [location]);
@@ -29,9 +28,11 @@ const ReturnDocket = ({location}) => {
       let tot = 0,
         wt = 0;
       if (reqReturn) {
-        reqReturn.items.map((item) => {
-          tot += item.quantity * item.product.priceperunit;
-          wt += item.product.volumetric_weight;
+        reqReturn.kits.map((k) => {
+          k.items.map((item) => {
+            tot += item.quantity * item.product.priceperunit;
+            wt += item.product.volumetric_weight;
+          });
         });
       }
       setWeight(wt);
@@ -211,26 +212,48 @@ const ReturnDocket = ({location}) => {
           <Table bordered>
             <thead>
               <tr>
-                <th>Sr. No.</th>
-                <th>HSN/SAC</th>
-                <th>Product Name</th>
+                <th>Kit ID</th>
+                <th>Quantity</th>
+                {/* <th>HSN/SAC</th> */}
                 <th>Product Code</th>
-                <th>QTY</th>
-                <th>Rate/Unit</th>
-                <th>Taxable Value</th>
+                <th>Product Name</th>
+                <th>Product Qty</th>
               </tr>
             </thead>
             <tbody>
-              {reqReturn.items.map((item, index) => {
+              {reqReturn.kits.map((kit) => {
                 return (
                   <tr>
-                    <td>{index + 1}</td>
-                    <td>{item.product.hsn_code}</td>
-                    <td>{item.product.name}</td>
-                    <td>{item.product.short_code}</td>
-                    <td>{item.quantity}</td>
-                    <td>{item.product.priceperunit}</td>
-                    <td>{item.quantity * item.product.priceperunit}</td>
+                    <td>{kit.kit}</td>
+                    <td>{kit.quantity}</td>
+                    {/* <td>
+                      {kit.items.map((prod) => (
+                        <div style={{display: 'flex', flexDirection: 'column'}}>
+                          <p>{prod.product.hsn_code}</p>
+                        </div>
+                      ))}
+                    </td> */}
+                    <td>
+                      {kit.items.map((prod) => (
+                        <div style={{display: 'flex', flexDirection: 'column'}}>
+                          <p>{prod.product.short_code}</p>
+                        </div>
+                      ))}
+                    </td>
+                    <td>
+                      {kit.items.map((prod) => (
+                        <div style={{display: 'flex', flexDirection: 'column'}}>
+                          <p>{prod.product.name}</p>
+                        </div>
+                      ))}
+                    </td>
+                    <td>
+                      {kit.items.map((prod) => (
+                        <div style={{display: 'flex', flexDirection: 'column'}}>
+                          <p>{prod.quantity * kit.quantity}</p>
+                        </div>
+                      ))}
+                    </td>
                   </tr>
                 );
               })}
@@ -259,9 +282,7 @@ const ReturnDocket = ({location}) => {
             <Row>
               <Col span={24}>
                 <p style={{fontWeight: 'bold', display: 'inline'}}>Transporter Name : </p>
-                <p style={{display: 'inline', wordWrap: 'break-word'}}>
-                  {reqReturn.transport_by.name}
-                </p>
+                <p style={{display: 'inline', wordWrap: 'break-word'}}>{reqReturn.transport_by}</p>
               </Col>
             </Row>
             <Row>

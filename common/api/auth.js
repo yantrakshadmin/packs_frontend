@@ -692,3 +692,12 @@ export const retrieveAllotmentsDelivered = () =>
     method: 'GET',
     secure: true,
   });
+
+export const retrieveReturnDocket = (id) =>
+  loadAPI('/return-docket/', {
+    method: 'GET',
+    secure: true,
+    params: {
+      id,
+    },
+  });
