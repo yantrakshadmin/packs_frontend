@@ -36,10 +36,6 @@ export const outerRoutesEmployee = [
     Component: lazy(() => import('components/Docket/Docket')),
   },
   {
-    path: '/return-dockets/return/',
-    Component: lazy(() => import('forms/return.form')),
-  },
-  {
     path: '/return-docket/',
     Component: lazy(() => import('components/ReturnDocket/ReturnDocket')),
   },
@@ -49,6 +45,10 @@ export const extraRoutesEmployee = [
   {
     path: '/edit-profile/',
     Component: lazy(() => import('screens/404.screen')),
+  },
+  {
+    path: '/return-dockets/return/',
+    Component: lazy(() => import('forms/return.form')),
   },
   {
     path: '*',

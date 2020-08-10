@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Form, Col, Row, Button, Divider, Spin, Modal} from 'antd';
+import moment from 'moment';
 import formItem from '../hocs/formItem.hoc';
 import {
   returnFormFields,
@@ -23,6 +24,7 @@ const ReturnForm = ({location}) => {
   const [flow, setFlow] = useState(null);
   const [rflow, setRFlow] = useState(null);
   const [returnn, setReturn] = useState(null);
+  const [loading, setLoading] = useState(location.state ? !!location.state.id : false);
   const [reqFlows, setReqFlows] = useState(null);
   const [receiverClient, setReceiverClient] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -32,24 +34,14 @@ const ReturnForm = ({location}) => {
   const {data: flows} = useAPI('/flows/', {});
   const {data: vendors} = useAPI('/vendors/', {});
 
-  const {form, submit, loading} = useHandleForm({
+  const {form, submit} = useHandleForm({
     create: createReturn,
     edit: editReturn,
-    retrieve: retrieveReturn,
     success: 'Return created/edited successfully.',
     failure: 'Error in creating/editing return.',
-    // done: location.state ? location.state.onDone : null,
-    // close: location.state ? location.state.onCancel : null,
-    // id: location.state ? location.state.id : null,
     done: () => navigate('../'),
     close: () => navigate('../'),
-    id: null,
-    dates: ['transaction_date'],
   });
-
-  useEffect(() => {
-    console.log(location);
-  }, [location]);
 
   useEffect(() => {
     if (form) form.setFields([{name: ['transaction_type'], value: 'Return'}]);
@@ -67,9 +59,27 @@ const ReturnForm = ({location}) => {
     const setVals = () => {
       setReceiverClient(returnn.receiver_client);
       setFlow(returnn.flow);
+      let temp = [],
+        returnKits = returnn.kits;
+      for (let i = 0; i < returnKits.length; i++) {
+        temp = [...temp, i];
+      }
+      setPcc(temp);
+      returnn['transaction_date'] = moment(returnn.transaction_date);
+      form.setFieldsValue(returnn);
+      if (returnKits.length > 0)
+        returnKits.map((k, idx) => {
+          form.setFields([
+            {
+              name: [`items${idx}`],
+              value: k.items,
+            },
+          ]);
+        });
+      setLoading(false);
     };
-    if (returnn) setVals();
-  }, [returnn]);
+    if (returnn && form) setVals();
+  }, [returnn, form]);
 
   useEffect(() => {
     if (flows && receiverClient) {

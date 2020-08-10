@@ -8,7 +8,7 @@ import {deleteHOC} from '../../hocs/deleteHoc';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {deleteReturn} from 'common/api/auth';
-import {Link} from '@reach/router';
+import {Link, navigate} from '@reach/router';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
 import Delivery from 'icons/Delivery';
@@ -23,7 +23,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
   const [reqData, setReqData] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
 
-  const {data: returns, loading} = useAPI('/returndockets/', {});
+  const {data: returns, loading} = useAPI('/return-table/', {});
 
   const {filteredData, reload} = useTableSearch({
     searchVal,
@@ -34,7 +34,6 @@ const ReturnDocketsScreen = ({currentPage}) => {
     if (returns) {
       const reqD = returns.map((ret) => ({
         ...ret,
-        transport_by: ret.transport_by.name,
       }));
       setReqData(reqD);
     }
@@ -105,7 +104,13 @@ const ReturnDocketsScreen = ({currentPage}) => {
               padding: '1px',
             }}
             onClick={(e) => {
-              setEditingId(record.id);
+              navigate('./return/', {
+                state: {
+                  id: record.id,
+                  // onCancel: cancelEditing,
+                  // onDone: handleDone,
+                },
+              });
               e.stopPropagation();
             }}>
             <Edit />
@@ -151,6 +156,11 @@ const ReturnDocketsScreen = ({currentPage}) => {
     setDeliveryId(null);
   };
 
+  const handleDone = () => {
+    cancelEditing();
+    reload();
+  };
+
   return (
     <>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
@@ -167,6 +177,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
         title="Return Dockets"
         modalBody={deliveryId ? ReceivedForm : ReturnForm}
         newPage="./return/"
+        separate={deliveryId ? false : true}
         modalWidth={60}
         editingId={editingId || deliveryId}
         cancelEditing={cancelEditing}

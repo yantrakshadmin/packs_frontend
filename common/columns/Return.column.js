@@ -5,9 +5,19 @@ export default [
     dataIndex: 'transaction_no',
   },
   {
-    title: 'Transaction Type',
-    key: 'transaction_type',
-    dataIndex: 'transaction_type',
+    title: 'Receiver Client',
+    key: 'receiver_client',
+    dataIndex: 'receiver_client',
+  },
+  {
+    title: 'Warehouse',
+    key: 'warehouse',
+    dataIndex: 'warehouse',
+  },
+  {
+    title: 'Flow',
+    key: 'flow',
+    dataIndex: 'flow',
   },
   {
     title: 'Transaction Date',
@@ -15,11 +25,6 @@ export default [
     render: (text, record) => {
       return record.transaction_date.slice(0, 10).toString();
     },
-  },
-  {
-    title: 'Vehicle Number',
-    key: 'vehicle_number',
-    dataIndex: 'vehicle_number',
   },
   {
     title: 'Transport By',
