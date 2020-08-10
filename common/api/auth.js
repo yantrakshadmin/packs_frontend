@@ -617,7 +617,7 @@ export const retrieveReturn = (id) =>
   });
 
 export const retrieveReturns = () =>
-  loadAPI('/returndockets/', {
+  loadAPI('/return-table/', {
     method: 'GET',
     secure: true,
   });

@@ -26,6 +26,7 @@ const TableWithTabHOC = ({
   scroll,
   size,
   reset,
+  separate,
   editingId,
   pageSize,
   cancelEditing,
@@ -67,17 +68,15 @@ const TableWithTabHOC = ({
 
   return (
     <div>
-      {newPage ? null : (
-        <Modal
-          visible={modalVisible || !!editingId}
-          destroyOnClose
-          style={{minWidth: `${modalWidth}vw`}}
-          title={`Add ${title.slice(0, -1)}`}
-          onCancel={onCancel}
-          footer={null}>
-          <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} {...formParams} />
-        </Modal>
-      )}
+      <Modal
+        visible={(modalVisible || !!editingId) && !separate}
+        destroyOnClose
+        style={{minWidth: `${modalWidth}vw`}}
+        title={`Add ${title.slice(0, -1)}`}
+        onCancel={onCancel}
+        footer={null}>
+        <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} {...formParams} />
+      </Modal>
 
       <Row justify="space-between" align="middle">
         <Col>
@@ -112,14 +111,14 @@ const TableWithTabHOC = ({
         </Col>
         <Col>
           {hideRightButton ? null : newPage ? (
-            <Link to={newPage} state={{onCancel, onDone, id: editingId}}>
+            <Link to={newPage}>
               <Button type="primary">Add {title}</Button>
             </Link>
           ) : (
             <Button
               type="primary"
               onClick={() => {
-                setModalVisible(true);
+                if (!newPage) setModalVisible(true);
               }}>
               Add {title}
             </Button>
@@ -150,14 +149,7 @@ const TableWithTabHOC = ({
                     size={size}
                     scroll={scroll}
                     rowClassName="no-vertical"
-                    expandIcon={
-                      ({expanded, onExpand, record}) => null
-                      // expanded ? (
-                      //   <div onClick={(e) => onExpand(record, e)} />
-                      // ) : (
-                      //   <div onClick={(e) => onExpand(record, e)} />
-                      // )
-                    }
+                    expandIcon={({expanded, onExpand, record}) => null}
                     rowSelection={
                       customRowSelectionType
                         ? {...rowSelection, type: customRowSelectionType[tab.key]}
