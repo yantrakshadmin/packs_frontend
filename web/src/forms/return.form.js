@@ -72,7 +72,9 @@ const ReturnForm = ({location}) => {
           form.setFields([
             {
               name: [`items${idx}`],
-              value: k.items,
+              value: k.items.map((i) => {
+                return {product: i.product, product_quantity: i.quantity};
+              }),
             },
           ]);
         });
