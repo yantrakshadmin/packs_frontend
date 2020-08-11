@@ -8,7 +8,6 @@ import {
 import {useHandleForm} from 'hooks/form';
 import {
   createDelivered,
-  retrieveAllotments,
   retrieveDelivered,
   editDelivered,
   allDelivered,
@@ -42,11 +41,11 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
 
   useEffect(() => {
     const fetchDelivered = async () => {
-      const {data} = await allDelivered();
+      const {data} = await allDelivered(id);
       if (data) {
         console.log(data);
         console.log(id);
-        const dlvd = data.filter((d) => d.allotment === id)[0];
+        const dlvd = data[0];
         if (dlvd) {
           setDeliveryId(dlvd.id);
           console.log(dlvd.id);
