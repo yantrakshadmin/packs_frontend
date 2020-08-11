@@ -489,11 +489,7 @@ export const retrieveAllotments = (id) =>
   loadAPI('/allotments/', {
     method: 'GET',
     secure: true,
-    params: id
-      ? {
-          id,
-        }
-      : null,
+    params: {id},
   });
 
 export const deleteAllotment = (id) =>
@@ -669,11 +665,7 @@ export const allDelivered = (id) =>
   loadAPI('/delivered/', {
     method: 'GET',
     secure: true,
-    params: id
-      ? {
-          id,
-        }
-      : null,
+    params: {id},
   });
 
 export const allReceived = () => loadAPI('/received/', {});
