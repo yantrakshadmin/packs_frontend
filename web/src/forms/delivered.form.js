@@ -52,16 +52,16 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
         }
       }
     };
-    fetchDelivered();
+    if (id) fetchDelivered();
   }, [id]);
 
   useEffect(() => {
     const fetchDelivered = async () => {
       setLoading(true);
-      const {data} = await retrieveAllotmentsDelivered();
+      const {data} = await retrieveAllotmentsDelivered(id);
       if (data) {
         setLoading(false);
-        const reqdlvd = data.filter((dlvd) => dlvd.id === id)[0];
+        const reqdlvd = data;
         if (reqdlvd) {
           setReqDlvd(reqdlvd);
         }
