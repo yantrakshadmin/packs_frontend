@@ -16,8 +16,8 @@ const Docket = ({location}) => {
   useEffect(() => {
     const fetchAllotment = async () => {
       const {data} = await retrieveAllotments(location.state.id);
-      if (data) setAllotment(data[0]);
-      console.log(data[0]);
+      if (data) setAllotment(data);
+      console.log(data);
     };
     fetchAllotment();
   }, [location]);

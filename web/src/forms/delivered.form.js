@@ -45,7 +45,7 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
       if (data) {
         console.log(data);
         console.log(id);
-        const dlvd = data[0];
+        const dlvd = data;
         if (dlvd) {
           setDeliveryId(dlvd.id);
           console.log(dlvd.id);
