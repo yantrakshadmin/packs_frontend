@@ -485,10 +485,15 @@ export const retrieveAllotment = (id) =>
     secure: true,
   });
 
-export const retrieveAllotments = () =>
+export const retrieveAllotments = (id) =>
   loadAPI('/allotments/', {
     method: 'GET',
     secure: true,
+    params: id
+      ? {
+          id,
+        }
+      : null,
   });
 
 export const deleteAllotment = (id) =>
@@ -660,7 +665,16 @@ export const deleteReceived = (id) =>
     secure: true,
   });
 
-export const allDelivered = () => loadAPI('/delivered/', {});
+export const allDelivered = (id) =>
+  loadAPI('/delivered/', {
+    method: 'GET',
+    secure: true,
+    params: id
+      ? {
+          id,
+        }
+      : null,
+  });
 
 export const allReceived = () => loadAPI('/received/', {});
 
