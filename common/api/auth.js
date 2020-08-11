@@ -665,7 +665,6 @@ export const allDelivered = (id) =>
   loadAPI('/delivered/', {
     method: 'GET',
     secure: true,
-    params: {id},
   });
 
 export const allReceived = () => loadAPI('/received/', {});
@@ -693,10 +692,11 @@ export const retrieveAllotmentReport = ({cname, to, from}) =>
     },
   });
 
-export const retrieveAllotmentsDelivered = () =>
+export const retrieveAllotmentsDelivered = (id) =>
   loadAPI('/allotments-delivered/', {
     method: 'GET',
     secure: true,
+    params: {id},
   });
 
 export const retrieveReturnDocket = (id) =>
