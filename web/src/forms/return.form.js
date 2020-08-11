@@ -44,7 +44,7 @@ const ReturnForm = ({location}) => {
   });
 
   useEffect(() => {
-    console.log(pcc);
+    // console.log(pcc);
   }, [pcc]);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const ReturnForm = ({location}) => {
   }, [location.state]);
 
   useEffect(() => {
-    console.log(returnn);
+    // console.log(returnn);
     const setVals = () => {
       setReceiverClient(returnn.receiver_client);
       setFlow(returnn.flow);
@@ -90,7 +90,7 @@ const ReturnForm = ({location}) => {
   useEffect(() => {
     if (flows && receiverClient) {
       const reqf = flows.filter((flo) => flo.receiver_client.id === receiverClient);
-      console.log(reqf);
+      // console.log(reqf);
       setReqFlows(reqf);
     }
   }, [flows, receiverClient]);
@@ -99,7 +99,7 @@ const ReturnForm = ({location}) => {
     const fetchRFlow = async () => {
       const {data} = await retrieveRFlows();
       if (data) {
-        console.log(data);
+        // console.log(data);
         const flo = data.filter((d) => d.id === flow)[0];
         setRFlow(flo);
       }
@@ -116,13 +116,13 @@ const ReturnForm = ({location}) => {
         k.kit.products.forEach((p) => prods.push(p.product));
       });
       setProducts(prods);
-      console.log(kitss);
+      // console.log(kitss);
       setKits(kitss);
     }
   }, [rflow]);
 
   const handleFieldsChange = async (data) => {
-    console.log(data, kitID);
+    // console.log(data, kitID);
     if (data)
       if (data[0])
         if (data[0].name)
@@ -134,7 +134,7 @@ const ReturnForm = ({location}) => {
                 kitID)
             ) {
               if (data[0].name[2] === 'kit') setKitID(data[0].value);
-              console.log(data[0].name);
+              // console.log(data[0].name);
               if (kitID) {
                 const rk = kits.filter((k) => k.id === kitID)[0];
                 let produces = [];
@@ -158,16 +158,18 @@ const ReturnForm = ({location}) => {
               }
               if (kitID) {
                 let q = data[0].value;
-                let temp = form.getFieldValue(`items${data[0].name[1]}`);
+                // let temp = form.getFieldValue(`items${data[0].name[1]}`);
+                const rk = kits.filter((k) => k.id === kitID)[0];
                 form.setFields([
                   {
                     name: [`items${data[0].name[1]}`],
-                    value: temp.map((t) => {
-                      return {...t, ['product_quantity']: t.product_quantity * q};
+                    value: rk.products.map((p) => {
+                      // console.log(p.product_quantity, q);
+                      return {product: p.product.id, product_quantity: p.quantity * q};
                     }),
                   },
                 ]);
-                console.log(temp);
+                // console.log(rk);
               }
             }
           }
@@ -185,7 +187,7 @@ const ReturnForm = ({location}) => {
       };
     });
     const reqD = {...data, ['kits']: tempkits};
-    console.log(reqD);
+    // console.log(reqD);
     submit(reqD);
   };
 
@@ -237,7 +239,7 @@ const ReturnForm = ({location}) => {
                   placeholder: 'Select',
                   showSearch: true,
                   onChange: (val) => {
-                    console.log(val);
+                    // console.log(val);
                     setReceiverClient(val);
                   },
                   filterOption: (input, option) =>
@@ -327,7 +329,7 @@ const ReturnForm = ({location}) => {
           <Col span={12}>
             <Form.List name="kits">
               {(fields, {add, remove}) => {
-                console.log(fields);
+                // console.log(fields);
                 return (
                   <div>
                     {fields.map((field, index) => (
@@ -382,7 +384,7 @@ const ReturnForm = ({location}) => {
                             type="danger"
                             style={index != 0 ? {top: '-2vh'} : null}
                             onClick={() => {
-                              console.log(field.name);
+                              // console.log(field.name);
                               let temp = pcc.filter((p, idx) => idx != field.name);
                               let temp1 = temp.map((t) => {
                                 if (t > field.name) {
