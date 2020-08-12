@@ -33,9 +33,9 @@ export const AllotmentMainForm = ({id, onCancel, onDone}) => {
     console.log(id);
     const fetchAllotment = async () => {
       setLoading(true);
-      const {data} = await retrieveAllotments();
+      const {data} = await retrieveAllotments(id);
       if (data) {
-        const allotment = data.filter((allotment) => allotment.id === id)[0];
+        const allotment = data;
         console.log(allotment);
         const formData = {
           flows: allotment.flows.map((flo) => ({
