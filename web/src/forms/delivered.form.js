@@ -41,18 +41,21 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
 
   useEffect(() => {
     const fetchDelivered = async () => {
-      const {data} = await allDelivered(id);
+      const {data} = await allDelivered();
       if (data) {
         console.log(data);
         console.log(id);
-        const dlvd = data;
+        const dlvd = data.filter((d) => d.allotment === id)[0];
         if (dlvd) {
           setDeliveryId(dlvd.id);
           console.log(dlvd.id);
         }
       }
     };
-    if (id) fetchDelivered();
+    if (id) {
+      fetchDelivered();
+      setAllotment(id);
+    }
   }, [id]);
 
   useEffect(() => {
@@ -87,15 +90,16 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
   }, [reqDlvd]);
 
   const preProcess = (data) => {
-    data['allotment'] = allotment.id;
+    data['allotment'] = allotment;
+    data['delivered'] = delivered;
     if (reqFile) {
       data.document = reqFile.originFileObj;
-    }
-    const req = new FormData();
-    for (var key in data) {
-      req.append(key.toString(), data[key]);
-    }
-    submit(req);
+    } else delete data['document'];
+    // const req = new FormData();
+    // for (var key in data) {
+    //   req.append(key.toString(), data[key]);
+    // }
+    submit(data);
   };
 
   return (
