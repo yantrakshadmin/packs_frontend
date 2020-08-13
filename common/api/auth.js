@@ -541,9 +541,9 @@ export const createDelivered = (req) =>
     method: 'POST',
     data: req,
     secure: true,
-    headers: {
-      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
-    },
+    // headers: {
+    //   'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+    // },
   });
 
 export const editDelivered = (id, req) =>
@@ -551,9 +551,9 @@ export const editDelivered = (id, req) =>
     method: 'PATCH',
     data: req,
     secure: true,
-    headers: {
-      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
-    },
+    // headers: {
+    //   'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+    // },
   });
 
 export const retrieveDelivered = (id) =>
