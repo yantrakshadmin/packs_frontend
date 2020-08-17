@@ -5,6 +5,11 @@ export default [
     dataIndex: 'kit_name',
   },
   {
+    title: 'Kit Type',
+    key: 'kit_type',
+    dataIndex: 'kit_type',
+  },
+  {
     title: 'Kit Info',
     key: 'kit_info',
     dataIndex: 'kit_info',
