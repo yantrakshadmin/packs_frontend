@@ -82,18 +82,28 @@ export const deleteProduct = (id) =>
     secure: true,
   });
 
-export const createKit = ({kit_name, kit_info, components_per_kit, kit_client, products}) =>
+export const createKit = ({
+  kit_name,
+  kit_info,
+  components_per_kit,
+  kit_client,
+  kit_type,
+  products,
+}) =>
   loadAPI('/create-kit/', {
     method: 'POST',
     secure: true,
-    data: {kit_name, kit_info, components_per_kit, kit_client, products},
+    data: {kit_name, kit_info, components_per_kit, kit_client, kit_type, products},
   });
 
-export const editKit = (id, {kit_name, kit_info, components_per_kit, kit_client, products}) =>
+export const editKit = (
+  id,
+  {kit_name, kit_info, components_per_kit, kit_client, kit_type, products},
+) =>
   loadAPI(`/edit-kit/${id}/`, {
     method: 'PATCH',
     secure: true,
-    data: {kit_name, kit_info, components_per_kit, kit_client, products},
+    data: {kit_name, kit_info, components_per_kit, kit_client, kit_type, products},
   });
 
 export const retrieveKits = () =>
