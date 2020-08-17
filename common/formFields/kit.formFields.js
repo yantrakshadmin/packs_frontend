@@ -43,4 +43,16 @@ export const kitFormFields = [
     others: null,
     customLabel: 'Kit Client',
   },
+  {
+    key: 'kit_type',
+    rules: [{required: true, message: 'Please select kit kit type!'}],
+    kwargs: {
+      placeholder: 'Select',
+    },
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: {
+      selectOptions: ['FLC', 'FSC', 'Crate'],
+    },
+    customLabel: 'Kit Type',
+  },
 ];

@@ -75,6 +75,15 @@ export const KitForm = ({id, onCancel, onDone}) => {
             </div>
           </Col>
         </Row>
+        <Row style={{justifyContent: 'left'}}>
+          {kitFormFields.slice(4, 5).map((item, idx) => (
+            <Col span={12}>
+              <div key={idx} className="p-2">
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
         <Divider orientation="left">Product Details</Divider>
 
         <Form.List name="products">
