@@ -27,20 +27,20 @@ export const AllotFlowTable = ({loading, flows, transaction_no}) => {
       key: 'flow',
       dataIndex: 'flow',
     },
-    {
-      title: 'Kits Assigned',
-      key: 'kits',
-      render: (text, record) => {
-        let kit = record.kit_name,
-          aq = record.alloted_quantity;
-        let s = '';
-        for (let i = 1; i <= aq; i++) {
-          s += `${transaction_no}-${kit}-${i}, `;
-        }
-        s = s.slice(0, -2);
-        return s;
-      },
-    },
+    // {
+    //   title: 'Kits Assigned',
+    //   key: 'kits',
+    //   render: (text, record) => {
+    //     let kit = record.kit_name,
+    //       aq = record.alloted_quantity;
+    //     let s = '';
+    //     for (let i = 1; i <= aq; i++) {
+    //       s += `${transaction_no}-${kit}-${i}, `;
+    //     }
+    //     s = s.slice(0, -2);
+    //     return s;
+    //   },
+    // },
   ];
 
   useEffect(() => {
