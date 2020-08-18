@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import formItem from '../../hocs/formItem.hoc';
 import {connect} from 'react-redux';
 import moment from 'moment';
+import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import {useAPI} from 'common/hooks/api';
 import {Row, Col, Form, Button} from 'antd';
 import {FORM_ELEMENT_TYPES} from '../../constants/formFields.constant';
@@ -17,15 +18,21 @@ const AllotmentReport = ({currentPage}) => {
   const [csvData, setCsvData] = useState(null);
   const [reportData, setReportData] = useState(null);
   const [reqAllotments, setReqAllotments] = useState(null);
+  const [client, setClient] = useState('');
   const [clientName, setClientName] = useState(null);
+  const [to, setTo] = useState(null);
+  const [from, setFrom] = useState(null);
   const [form] = Form.useForm();
 
   const {data: clients} = useAPI('/clients/', {});
 
   const onSubmit = async (data) => {
     setLoading(true);
-    if (!data['cname']) data['cname'] = '';
-    else {
+    if (!data['cname']) {
+      data['cname'] = '';
+      setClient(data['cname']);
+    } else {
+      setClient(data['cname']);
       let reqC = null;
       const {data: clients} = await retrieveClients();
       clients.forEach((c) => {
@@ -35,6 +42,8 @@ const AllotmentReport = ({currentPage}) => {
     }
     data['to'] = moment(data['to']).format('YYYY-MM-DD HH:MM');
     data['from'] = moment(data['from']).format('YYYY-MM-DD HH:MM');
+    setTo(data['to']);
+    setFrom(data['from']);
     const {data: report} = await retrieveAllotmentReport(data);
     if (report) {
       console.log(report);
@@ -174,12 +183,13 @@ const AllotmentReport = ({currentPage}) => {
         size="middle"
         title="Allotment Dockets"
         hideRightButton
+        downloadLink={`${DEFAULT_BASE_URL}/allotment-reportsdownload/?cname=${client}&to=${to}&from=${from}`}
         rowKey="id"
         expandHandleKey="flows"
         ExpandBody={AllotFlowTable}
         expandParams={{loading}}
-        csvdata={csvData}
-        csvname={'Allotments' + clientName + '.csv'}
+        // csvdata={csvData}
+        // csvname={'Allotments' + clientName + '.csv'}
       />
     </>
   );

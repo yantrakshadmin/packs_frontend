@@ -25,6 +25,7 @@ const TableWithTabHOC = ({
   formParams,
   scroll,
   size,
+  downloadLink,
   reset,
   separate,
   editingId,
@@ -88,6 +89,14 @@ const TableWithTabHOC = ({
               className="btn btn-primary">
               Download CSV ({csvname.replace('null', '').replace(' ', '')})
             </CSVLink>
+          ) : null}
+          {downloadLink ? (
+            <>
+              <Button href={downloadLink} rel="noopener noreferrer" target="blank">
+                Download CSV
+              </Button>
+              <br /> <br />
+            </>
           ) : null}
         </Col>
         <Col>
