@@ -51,7 +51,7 @@ export const kitFormFields = [
     },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: {
-      selectOptions: ['FLC', 'FSC', 'Crate'],
+      selectOptions: ['FLC', 'FSC', 'Crate', 'PP Box'],
     },
     customLabel: 'Kit Type',
   },

@@ -72,12 +72,16 @@ const AllotmentReport = ({currentPage}) => {
         d.flows.forEach((f) => {
           let kit = f['kit'].kit_name,
             aq = f.alloted_quantity;
-          let s = '';
-          for (let i = 1; i <= aq; i++) {
-            s += `${d.transaction_no}-${kit}-${i}, `;
-          }
-          s = s.slice(0, -2);
-          let temp1 = {...f, ['kit']: f['kit'].kit_name, 'kits assigned': s};
+          // let s = '';
+          // for (let i = 1; i <= aq; i++) {
+          //   s += `${d.transaction_no}-${kit}-${i}, `;
+          // }
+          // s = s.slice(0, -2);
+          let temp1 = {
+            ...f,
+            ['kit']: f['kit'].kit_name,
+            // 'kits assigned': s
+          };
           csvd.push(temp1);
           f.kit.products.forEach((p) => {
             let temp2 = {...p, ['quantity']: p['quantity'] * aq};
