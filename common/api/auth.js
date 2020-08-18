@@ -702,6 +702,17 @@ export const retrieveAllotmentReport = ({cname, to, from}) =>
     },
   });
 
+export const retrieveReturnReport = ({cname, to, from}) =>
+  loadAPI(`/return-reports/`, {
+    method: 'GET',
+    secure: true,
+    params: {
+      cname,
+      to,
+      from,
+    },
+  });
+
 export const retrieveAllotmentsDelivered = (id) =>
   loadAPI('/allotments-delivered/', {
     method: 'GET',
