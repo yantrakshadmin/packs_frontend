@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import formItem from '../../hocs/formItem.hoc';
 import {connect} from 'react-redux';
+import {RetKitTable} from '../RetKitExp';
 import moment from 'moment';
 import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import {useAPI} from 'common/hooks/api';
@@ -140,8 +141,8 @@ const AllotmentReport = ({currentPage}) => {
         hideRightButton
         downloadLink={`${DEFAULT_BASE_URL}/return-reportsdownload/?to=${to}&from=${from}`}
         rowKey="id"
-        // expandHandleKey="flows"
-        // ExpandBody={AllotFlowTable}
+        expandHandleKey="kits"
+        ExpandBody={RetKitTable}
         expandParams={{loading}}
         // csvdata={csvData}
         // csvname={'Allotments' + clientName + '.csv'}
