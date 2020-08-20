@@ -250,7 +250,7 @@ const ReturnDocket = ({location}) => {
                     <td>
                       {kit.items.map((prod) => (
                         <div style={{display: 'flex', flexDirection: 'column'}}>
-                          <p>{prod.quantity * kit.quantity}</p>
+                          <p>{prod.quantity}</p>
                         </div>
                       ))}
                     </td>

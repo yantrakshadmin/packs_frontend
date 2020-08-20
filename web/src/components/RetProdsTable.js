@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Table, Row, Col, Spin} from 'antd';
 import smallProductsColumns from 'common/columns/smallProduct.column';
 
-export const RetProdsTable = ({loading, products, quantity}) => {
+export const RetProdsTable = ({loading, products}) => {
   const [data, setData] = useState([]);
 
   const columns = [
@@ -20,7 +20,7 @@ export const RetProdsTable = ({loading, products, quantity}) => {
 
   useEffect(() => {
     let temp = [];
-    temp = products.map((p) => ({...p.product, ['quantity']: p['quantity'] * quantity}));
+    temp = products.map((p) => ({...p.product, ['quantity']: p['quantity']}));
     setData(temp);
   }, [products]);
 
