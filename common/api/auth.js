@@ -112,6 +112,13 @@ export const retrieveKits = () =>
     secure: true,
   });
 
+export const retrieveKitsClients = () =>
+  loadAPI('/client-kits/', {
+    method: 'GET',
+    secure: true,
+  });
+
+
 export const retrieveKit = (id) =>
   loadAPI(`/edit-kit/${id}/`, {
     method: 'GET',
@@ -352,7 +359,13 @@ export const retreiveFlow = (id) =>
     secure: true,
   });
 
-export const retreiveFlows = (id) =>
+export const retreiveFlows = ( ) =>
+  loadAPI(`/flows/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const retreiveFlowsClient = () =>
   loadAPI(`/flows/`, {
     method: 'GET',
     secure: true,

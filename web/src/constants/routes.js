@@ -40,7 +40,12 @@ export const outerRoutesEmployee = [
     Component: lazy(() => import('components/ReturnDocket/ReturnDocket')),
   },
 ];
-export const outerRoutesClient = [];
+export const outerRoutesClient = [
+  {
+    path: '/return-docket/',
+    Component: lazy(() => import('components/ReturnDocket/ReturnDocket')),
+  },
+];
 export const extraRoutesEmployee = [
   {
     path: '/edit-profile/',
@@ -180,6 +185,25 @@ export const clientRoutes = [
     path: '/allotments/',
     Component: lazy(() => import('screens/client/Allotments.screen')),
   },
+  {
+    name: 'Return Reports',
+    icon: ['fas', 'layer-group'],
+    path: '/return-reports/',
+    Component: lazy(() => import('screens/client/returnReports.screen')),
+  },
+  {
+    name: 'Kits',
+    icon: ['fas', 'layer-group'],
+    path: '/kits/',
+    Component: lazy(() => import('screens/client/kits.screen')),
+  },
+  {
+    name: 'Client Flows',
+    icon: ['fas', 'layer-group'],
+    path: '/client-flows/',
+    Component: lazy(() => import('screens/client/clientFlows.screen')),
+  },
+
   {
     name: 'Client Inventory',
     icon: ['fas', 'layer-group'],
