@@ -366,7 +366,7 @@ export const retreiveFlows = ( ) =>
   });
 
 export const retreiveFlowsClient = () =>
-  loadAPI(`/flows/`, {
+  loadAPI(`/client-flows/`, {
     method: 'GET',
     secure: true,
   });

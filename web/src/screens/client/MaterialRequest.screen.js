@@ -1,23 +1,23 @@
-import React, {useState} from 'react';
-import {MaterialRequestForm} from '../../forms/materialRequest.form';
-import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import React, { useState } from 'react';
 import materialRequestColumns from 'common/columns/materialRequest.column.js';
+import { Popconfirm, Button, Input } from 'antd';
+import { deleteMr, retrieveMrs } from 'common/api/auth';
+import { connect } from 'react-redux';
+import { useTableSearch } from 'hooks/useTableSearch';
+import { MaterialRequestForm } from '../../forms/materialRequest.form';
+import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import MaterialRequestsTable from '../../components/MaterialRequestsTable';
-import {Popconfirm, Button, Input} from 'antd';
-import {deleteMr, retrieveMrs} from 'common/api/auth';
-import {deleteHOC} from '../../hocs/deleteHoc';
+import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
-import {connect} from 'react-redux';
-import {useTableSearch} from 'hooks/useTableSearch';
 
-const {Search} = Input;
+const { Search } = Input;
 
-const MaterialRequestEmployeeScreen = ({currentPage}) => {
+const MaterialRequestEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveMrs});
+  const { filteredData, loading, reload } = useTableSearch({ searchVal, retrieve: retrieveMrs });
 
   const cancelEditing = () => {
     setEditingId(null);
@@ -33,9 +33,9 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
         if (record.is_allocated)
           return (
             <Button
-              type="primary"
+              type='primary'
               style={{
-                backgroundColor: '#00FF00',
+                backgroundColor: '#48BB78',
                 outline: 'none',
                 border: 'none',
                 borderRadius: '7%',
@@ -46,7 +46,7 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
           );
         return (
           <Button
-            type="primary"
+            type='primary'
             style={{
               backgroundColor: 'red',
               outline: 'none',
@@ -65,7 +65,7 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
       key: 'operation',
       width: '7vw',
       render: (text, record) => (
-        <div className="row justify-evenly">
+        <div className='row justify-evenly'>
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -80,7 +80,7 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
             <Edit />
           </Button>
           <Popconfirm
-            title="Confirm Delete"
+            title='Confirm Delete'
             onConfirm={deleteHOC({
               record,
               reload,
@@ -116,9 +116,9 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
 
   return (
     <>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
         </div>
       </div>
       <br />
@@ -126,14 +126,14 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size="middle"
-        title="Material Requests"
+        size='middle'
+        title='Material Requests'
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={MaterialRequestForm}
         modalWidth={50}
-        expandHandleKey="flows"
-        expandParams={{loading}}
+        expandHandleKey='flows'
+        expandParams={{ loading }}
         ExpandBody={MaterialRequestsTable}
       />
     </>
@@ -141,7 +141,7 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
 };
 
 const mapStateToProps = (state) => {
-  return {currentPage: state.page.currentPage};
+  return { currentPage: state.page.currentPage };
 };
 
 export default connect(mapStateToProps)(MaterialRequestEmployeeScreen);

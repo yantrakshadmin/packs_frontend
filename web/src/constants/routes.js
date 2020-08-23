@@ -168,10 +168,25 @@ export const employeeRoutes = [
 
 export const clientRoutes = [
   {
-    name: 'Inventory',
+    name: 'Masters',
     icon: ['fas', 'layer-group'],
-    path: '/inventory/',
-    Component: lazy(() => import('screens/404.screen')),
+    path: '/masters/',
+    Component: lazy(() => import('screens/client/kits.screen')),
+    isSubMenu: true,
+    subMenu: [
+      {
+        name: 'Kits',
+        icon: ['fas', 'layer-group'],
+        path: '/kits/',
+        Component: lazy(() => import('screens/client/kits.screen')),
+      },
+      {
+        name: 'Client Flows',
+        icon: ['fas', 'layer-group'],
+        path: '/client-flows/',
+        Component: lazy(() => import('screens/client/clientFlows.screen')),
+      },
+    ],
   },
   {
     name: 'Material Requests',
@@ -191,23 +206,16 @@ export const clientRoutes = [
     path: '/return-reports/',
     Component: lazy(() => import('screens/client/returnReports.screen')),
   },
-  {
-    name: 'Kits',
-    icon: ['fas', 'layer-group'],
-    path: '/kits/',
-    Component: lazy(() => import('screens/client/kits.screen')),
-  },
-  {
-    name: 'Client Flows',
-    icon: ['fas', 'layer-group'],
-    path: '/client-flows/',
-    Component: lazy(() => import('screens/client/clientFlows.screen')),
-  },
-
-  {
-    name: 'Client Inventory',
-    icon: ['fas', 'layer-group'],
-    path: '/client-inventory/',
-    Component: lazy(() => import('screens/404.screen')),
-  },
+  // {
+  //   name: 'Client Inventory',
+  //   icon: ['fas', 'layer-group'],
+  //   path: '/client-inventory/',
+  //   Component: lazy(() => import('screens/404.screen')),
+  // },
+  // {
+  //   name: 'Inventory',
+  //   icon: ['fas', 'layer-group'],
+  //   path: '/inventory/',
+  //   Component: lazy(() => import('screens/404.screen')),
+  // },
 ];
