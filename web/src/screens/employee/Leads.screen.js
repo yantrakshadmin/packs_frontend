@@ -115,7 +115,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
         expandParams={{loading}}
         scroll={{x: 2000}}
         csvdata={csvData}
-        csvname={'SenderClients' + searchVal + '.csv'}
+        csvname={'Leads' + searchVal + '.csv'}
       />
     </>
   );

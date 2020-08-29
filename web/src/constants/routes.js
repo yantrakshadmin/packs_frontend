@@ -143,14 +143,15 @@ export const employeeRoutes = [
   {
     name: 'PFEP',
     icon: ['fas', 'layer-group'],
-    path: '/pfep/',
-    Component: lazy(() => import('screens/404.screen')),
-  },
-  {
-    name: 'Leads Master',
-    icon: ['fas', 'layer-group'],
-    path: '/leads/',
-    Component: lazy(() => import('screens/employee/Leads.screen')),
+    path: '/reports/',
+    isSubMenu: true,
+    subMenu: [
+      {
+        name: 'Leads Master',
+        path: '/pfep/leads/',
+        Component: lazy(() => import('screens/employee/Leads.screen')),
+      },
+    ],
   },
   {
     name: 'Reports',
