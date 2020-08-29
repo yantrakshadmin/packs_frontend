@@ -53,12 +53,28 @@ export const leadsFormFields = [
   },
   {
     key: 'pipeline_status',
-    rules: [{required: true, message: 'Please enter Pipeline Status!'}],
+    rules: [{required: true, message: 'Please select Pipeline Status!'}],
     kwargs: {
       placeholder: 'Enter',
     },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: {
+      selectOptions: [
+        'Introduction Mail',
+        'Initial Meeting',
+        'PFEP Study Done',
+        'TP/CP Submitted',
+        'Solution Accepted',
+        'Trial Done',
+        'CCF form received',
+        'Agreement Draft Approved',
+        'Agreement Signed',
+        'Client On Hold',
+        'Lead Dropped',
+        'Not Qualified',
+        'Won',
+      ],
+    },
     customLabel: 'Pipeline Status',
   },
   {

@@ -6,7 +6,7 @@ import {Popconfirm, Button, Input} from 'antd';
 import Edit from '../../icons/Edit';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
-import {retrieveClients} from 'common/api/auth';
+import {retrieveLeads} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Document from 'icons/Document';
 import Delete from 'icons/Delete';
@@ -20,7 +20,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
 
   const {filteredData, loading, reload} = useTableSearch({
     searchVal,
-    retrieve: retrieveClients,
+    retrieve: retrieveLeads,
   });
 
   useEffect(() => {
@@ -35,11 +35,6 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
   }, [filteredData]);
 
   const columns = [
-    {
-      title: 'Sr. No.',
-      key: 'srno',
-      render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
-    },
     ...leadColumns,
     {
       title: 'Action',

@@ -4,34 +4,21 @@ import formItem from '../hocs/formItem.hoc';
 import {leadsFormFields, leadsContactFormFields} from 'common/formFields/leads.formFields';
 import {useHandleForm} from 'hooks/form';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
-import {editClientProfile, retrieveClientProfile} from 'common/api/auth';
+import {editLead, retrieveLead, createLead} from 'common/api/auth';
 
 export const LeadsForm = ({id, onCancel, onDone}) => {
   //   const [reqFile, setFile] = useState(null);
 
   const {form, submit, loading} = useHandleForm({
-    create: null,
-    edit: editClientProfile,
-    retrieve: retrieveClientProfile,
+    create: createLead,
+    edit: editLead,
+    retrieve: retrieveLead,
     success: 'Client created/edited successfully.',
     failure: 'Error in creating/editing client.',
     done: onDone,
     close: onCancel,
     id,
   });
-
-  //   const handleFieldsChange = (data = null) => {
-  //     console.log(data);
-
-  //     if (data)
-  //       if (data[0])
-  //         if (data[0].name)
-  //           if (data[0].name[0])
-  //             if (data[0].name[0] === 'client_gst' || data[0].name[0] === 'client_pan') {
-  //               let val = data[0].value.toUpperCase();
-  //               form.setFieldsValue({[data[0].name[0]]: val});
-  //             }
-  //   };
 
   //   const preProcess = (data) => {
   //     if (reqFile) {
