@@ -147,6 +147,12 @@ export const employeeRoutes = [
     Component: lazy(() => import('screens/404.screen')),
   },
   {
+    name: 'Leads Master',
+    icon: ['fas', 'layer-group'],
+    path: '/leads/',
+    Component: lazy(() => import('screens/employee/Leads.screen')),
+  },
+  {
     name: 'Reports',
     icon: ['fas', 'layer-group'],
     path: '/reports/',

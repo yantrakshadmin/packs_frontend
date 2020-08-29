@@ -3,6 +3,7 @@ import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import allotmentColumns from 'common/columns/Allotment.column';
 import {DeliveredForm} from 'forms/delivered.form';
 import {Popconfirm, Input, Button} from 'antd';
+import moment from 'moment';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import {AllotFlowTable} from 'components/AllotFlowExp';
 import {connect} from 'react-redux';
@@ -44,6 +45,42 @@ const AllotmentDocketsScreen = ({currentPage}) => {
       setReqData(reqD);
     }
   }, [allotments]);
+
+  useEffect(() => {
+    if (reqData) {
+      let csvd = [];
+      reqData.forEach((d) => {
+        let temp = {
+          ...d,
+          ['is_delivered']: [d['is_delivered'] ? 'Yes' : 'No'],
+          ['dispatch_date']: moment(d['dispatch_date']).format('DD-MM-YYYY'),
+        };
+        delete temp['flows'];
+        csvd.push(temp);
+        d.flows.forEach((f) => {
+          let kit = f['kit'].kit_name,
+            aq = f.alloted_quantity;
+          // let s = '';
+          // for (let i = 1; i <= aq; i++) {
+          //   s += `${d.transaction_no}-${kit}-${i}, `;
+          // }
+          // s = s.slice(0, -2);
+          let temp1 = {
+            ...f,
+            ['kit']: f['kit'].kit_name,
+            ['flow']: f['flow'].flow_name,
+            // 'kits assigned': s
+          };
+          csvd.push(temp1);
+          f.kit.products.forEach((p) => {
+            let temp2 = {...p, ['quantity']: p['quantity'] * aq};
+            csvd.push(temp2);
+          });
+        });
+      });
+      setCsvData(csvd);
+    }
+  }, [reqData]);
 
   const columns = [
     {
@@ -99,6 +136,8 @@ const AllotmentDocketsScreen = ({currentPage}) => {
         hideRightButton
         expandHandleKey="flows"
         ExpandBody={AllotFlowTable}
+        csvdata={csvData}
+        csvname="MyAllotments.csv"
         expandParams={{loading}}
       />
     </>

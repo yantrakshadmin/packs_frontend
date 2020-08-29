@@ -118,7 +118,6 @@ export const retrieveKitsClients = () =>
     secure: true,
   });
 
-
 export const retrieveKit = (id) =>
   loadAPI(`/edit-kit/${id}/`, {
     method: 'GET',
@@ -359,7 +358,7 @@ export const retreiveFlow = (id) =>
     secure: true,
   });
 
-export const retreiveFlows = ( ) =>
+export const retreiveFlows = () =>
   loadAPI(`/flows/`, {
     method: 'GET',
     secure: true,
@@ -740,4 +739,37 @@ export const retrieveReturnDocket = (id) =>
     params: {
       id,
     },
+  });
+
+export const createLead = (data) =>
+  loadAPI('/create-lead/', {
+    method: 'POST',
+    secure: true,
+    data,
+  });
+
+export const retrieveLeads = () =>
+  loadAPI('/leads/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const editLead = (id, data) =>
+  loadAPI(`/edit-lead/${id}/`, {
+    method: 'PATCH',
+    secure: true,
+    data,
+  });
+
+export const retrieveLead = (id) =>
+  loadAPI(`/edit-lead/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteLead = (id) =>
+  loadAPI(`/edit-lead/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+    data,
   });

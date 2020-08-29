@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import {ClientForm} from '../../forms/client.form';
+import {LeadsForm} from '../../forms/leads.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import clientColumns from 'common/columns/Clients.column';
-import {Button, Input} from 'antd';
+import leadColumns from 'common/columns/Leads.colums';
+import {Popconfirm, Button, Input} from 'antd';
 import Edit from '../../icons/Edit';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
-import {retrieveClients} from 'common/api/auth';
+import {retrieveLeads} from 'common/api/auth';
+import {deleteHOC} from '../../hocs/deleteHoc';
 import Document from 'icons/Document';
+import Delete from 'icons/Delete';
 
 const {Search} = Input;
 
@@ -18,7 +20,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
 
   const {filteredData, loading, reload} = useTableSearch({
     searchVal,
-    retrieve: retrieveClients,
+    retrieve: retrieveLeads,
   });
 
   useEffect(() => {
@@ -33,12 +35,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
   }, [filteredData]);
 
   const columns = [
-    {
-      title: 'Sr. No.',
-      key: 'srno',
-      render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
-    },
-    ...clientColumns,
+    ...leadColumns,
     {
       title: 'Action',
       key: 'operation',
@@ -46,19 +43,6 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
       width: '7vw',
       render: (text, record) => (
         <div className="row align-center justify-evenly">
-          <a href={record.annexure} target="_blank">
-            <Button
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                boxShadow: 'none',
-                padding: '1px',
-              }}
-              disabled={!record.annexure}
-              onClick={(e) => e.stopPropagation()}>
-              <Document color={record.annexure ? '#7CFC00' : null} />
-            </Button>
-          </a>
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -72,6 +56,27 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
             }}>
             <Edit />
           </Button>
+          <Popconfirm
+            title="Confirm Delete"
+            onCancel={(e) => e.stopPropagation()}
+            onConfirm={deleteHOC({
+              record,
+              reload,
+              // api: deleteKit,
+              success: 'Deleted kit successfully',
+              failure: 'Error in deleting kit',
+            })}>
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                boxShadow: 'none',
+                border: 'none',
+                padding: '1px',
+              }}
+              onClick={(e) => e.stopPropagation()}>
+              <Delete />
+            </Button>
+          </Popconfirm>
         </div>
       ),
     },
@@ -79,8 +84,8 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
 
   const tabs = [
     {
-      name: 'All Sender Clients',
-      key: 'allSenderClients',
+      name: 'All Leads',
+      key: 'allLeads',
       data: filteredData,
       columns,
       loading,
@@ -102,13 +107,12 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
         refresh={reload}
         tabs={tabs}
         size="middle"
-        title="Sender Clients"
+        title="Leads"
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={ClientForm}
+        modalBody={LeadsForm}
         modalWidth={60}
         expandParams={{loading}}
-        hideRightButton
         scroll={{x: 2000}}
         csvdata={csvData}
         csvname={'SenderClients' + searchVal + '.csv'}
