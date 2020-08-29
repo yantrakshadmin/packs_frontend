@@ -106,7 +106,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
     //     );
     //   },
     // },
-    ...allotmentColumns,
+    ...allotmentColumns.filter((a) => a.title != 'Parent Company'),
   ];
 
   const tabs = [
