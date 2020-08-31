@@ -18,6 +18,7 @@ export const LeadsForm = ({id, onCancel, onDone}) => {
     done: onDone,
     close: onCancel,
     id,
+    dates: ['most_recent_visit'],
   });
 
   //   const preProcess = (data) => {
@@ -99,8 +100,8 @@ export const LeadsForm = ({id, onCancel, onDone}) => {
               <div>
                 {fields.map((field, index) => (
                   <Row align="middle">
-                    {leadsContactFormFields.slice(0, 2).map((item) => (
-                      <Col span={10}>
+                    {leadsContactFormFields.slice(0, 4).map((item) => (
+                      <Col span={5}>
                         <div className="p-2">
                           {formItem({
                             ...item,
