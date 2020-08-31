@@ -47,8 +47,8 @@ export const leadsFormFields = [
     kwargs: {
       placeholder: 'Enter',
     },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: {selectOptions: ['East', 'West', 'North', 'South', 'Central']},
     customLabel: 'Region',
   },
   {
@@ -78,16 +78,6 @@ export const leadsFormFields = [
     customLabel: 'Pipeline Status',
   },
   {
-    key: 'most_recent_visit',
-    rules: [{required: true, message: 'Please enter Most Recent Visit!'}],
-    kwargs: {
-      placeholder: 'Enter',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Most Recent Visit',
-  },
-  {
     key: 'lead_owner',
     rules: [{required: true, message: 'Please enter Lead Owner!'}],
     kwargs: {
@@ -113,9 +103,19 @@ export const leadsFormFields = [
     kwargs: {
       placeholder: 'Enter',
     },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: {selectOptions: ['Automotive', 'F.M.C.G.', 'Pharmaceuticals', 'Ecommerce', 'Others']},
     customLabel: 'Industry',
+  },
+  {
+    key: 'most_recent_visit',
+    rules: [{required: true, message: 'Please enter Most Recent Visit!'}],
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.DATE,
+    others: null,
+    customLabel: 'Most Recent Visit',
   },
 ];
 
@@ -135,10 +135,29 @@ export const leadsContactFormFields = [
     rules: [{required: true, message: 'Please enter Phone!'}],
     kwargs: {
       placeholder: 'Enter',
-      type: 'number',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     customLabel: 'Phone',
+  },
+  {
+    key: 'designation',
+    rules: [{required: true, message: 'Please enter Designation!'}],
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Designation',
+  },
+  {
+    key: 'email',
+    rules: [{required: true, message: 'Please enter email!'}],
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Email',
   },
 ];
