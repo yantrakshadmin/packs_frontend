@@ -39,6 +39,7 @@ const ReturnForm = ({location}) => {
     edit: editReturn,
     success: 'Return created/edited successfully.',
     failure: 'Error in creating/editing return.',
+    id: location.state.id,
     done: () => navigate('../'),
     close: () => navigate('../'),
   });

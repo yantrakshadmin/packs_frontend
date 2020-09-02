@@ -92,9 +92,9 @@ export const LeadsForm = ({id, onCancel, onDone}) => {
             },
           })}
         </Row> */}
-        <Divider orientation="left">Contact Details</Divider>
+        <Divider orientation="left">Contact Person Details</Divider>
 
-        <Form.List name="contact">
+        <Form.List name="person">
           {(fields, {add, remove}) => {
             return (
               <div>
