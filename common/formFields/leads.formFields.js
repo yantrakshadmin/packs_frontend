@@ -22,7 +22,7 @@ export const leadsFormFields = [
     customLabel: 'Email',
   },
   {
-    key: 'company_address',
+    key: 'address',
     rules: [{required: true, message: 'Please enter Company Adress!'}],
     kwargs: {
       placeholder: 'Enter',
@@ -52,7 +52,7 @@ export const leadsFormFields = [
     customLabel: 'Region',
   },
   {
-    key: 'pipeline_status',
+    key: 'status',
     rules: [{required: true, message: 'Please select Pipeline Status!'}],
     kwargs: {
       placeholder: 'Enter',
@@ -108,7 +108,7 @@ export const leadsFormFields = [
     customLabel: 'Industry',
   },
   {
-    key: 'most_recent_visit',
+    key: 'recent_visit',
     rules: [{required: true, message: 'Please enter Most Recent Visit!'}],
     kwargs: {
       placeholder: 'Enter',
@@ -121,14 +121,14 @@ export const leadsFormFields = [
 
 export const leadsContactFormFields = [
   {
-    key: 'contact_person_name',
+    key: 'name',
     rules: [{required: true, message: 'Please enter Contact Person Name!'}],
     kwargs: {
       placeholder: 'Enter',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
-    customLabel: 'Contact Person Name',
+    customLabel: 'Name',
   },
   {
     key: 'phone',

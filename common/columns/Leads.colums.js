@@ -1,13 +1,18 @@
 export default [
   {
-    title: 'Lead ID',
-    key: 'lead_id',
-    dataIndex: 'lead_id',
+    title: 'Lead No.',
+    key: 'lead_no',
+    dataIndex: 'lead_no',
   },
   {
     title: 'Company Name',
     key: 'company_name',
     dataIndex: 'company_name',
+  },
+  {
+    title: 'Region',
+    key: 'region',
+    dataIndex: 'region',
   },
   {
     title: 'Phone',
@@ -21,13 +26,13 @@ export default [
   },
   {
     title: 'Company Address',
-    key: 'company_address',
-    dataIndex: 'company_address',
+    key: 'address',
+    dataIndex: 'address',
   },
   {
     title: 'Pipeline Status',
-    key: 'pipeline_status',
-    dataIndex: 'pipeline_status',
+    key: 'status',
+    dataIndex: 'status',
   },
   {
     title: 'Lead Owner',
