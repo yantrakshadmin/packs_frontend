@@ -6,7 +6,7 @@ import {Popconfirm, Button, Input} from 'antd';
 import Edit from '../../icons/Edit';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
-import {retrieveLeads} from 'common/api/auth';
+import {retrieveLeads, deleteLead} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Document from 'icons/Document';
 import Delete from 'icons/Delete';
@@ -62,7 +62,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
             onConfirm={deleteHOC({
               record,
               reload,
-              // api: deleteKit,
+              api: deleteLead,
               success: 'Deleted kit successfully',
               failure: 'Error in deleting kit',
             })}>
