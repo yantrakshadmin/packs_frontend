@@ -742,7 +742,7 @@ export const retrieveReturnDocket = (id) =>
   });
 
 export const createLead = (data) =>
-  loadAPI('/create-lead/', {
+  loadAPI('/create-leads/', {
     method: 'POST',
     secure: true,
     data,
@@ -755,20 +755,20 @@ export const retrieveLeads = () =>
   });
 
 export const editLead = (id, data) =>
-  loadAPI(`/edit-lead/${id}/`, {
+  loadAPI(`/edit-leads/${id}/`, {
     method: 'PATCH',
     secure: true,
     data,
   });
 
 export const retrieveLead = (id) =>
-  loadAPI(`/edit-lead/${id}/`, {
+  loadAPI(`/edit-leads/${id}/`, {
     method: 'GET',
     secure: true,
   });
 
 export const deleteLead = (id) =>
-  loadAPI(`/edit-lead/${id}/`, {
+  loadAPI(`/edit-leads/${id}/`, {
     method: 'DELETE',
     secure: true,
     data,
