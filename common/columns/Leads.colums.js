@@ -15,11 +15,6 @@ export default [
     dataIndex: 'region',
   },
   {
-    title: 'Phone',
-    key: 'phone',
-    dataIndex: 'phone',
-  },
-  {
     title: 'Email',
     key: 'email',
     dataIndex: 'email',

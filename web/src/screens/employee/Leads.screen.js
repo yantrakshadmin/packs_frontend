@@ -10,6 +10,7 @@ import {retrieveLeads, deleteLead} from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Document from 'icons/Document';
 import Delete from 'icons/Delete';
+import PersonTable from 'components/PersonTable';
 
 const {Search} = Input;
 
@@ -112,6 +113,8 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
         cancelEditing={cancelEditing}
         modalBody={LeadsForm}
         modalWidth={60}
+        expandHandleKey="person"
+        ExpandBody={PersonTable}
         expandParams={{loading}}
         scroll={{x: 2000}}
         csvdata={csvData}
