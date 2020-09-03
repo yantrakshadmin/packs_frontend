@@ -52,7 +52,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
               padding: '1px',
             }}
             onClick={(e) => {
-              setEditingId(record.user);
+              setEditingId(record.id);
               e.stopPropagation();
             }}>
             <Edit />

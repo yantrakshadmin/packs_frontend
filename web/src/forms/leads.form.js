@@ -18,7 +18,7 @@ export const LeadsForm = ({id, onCancel, onDone}) => {
     done: onDone,
     close: onCancel,
     id,
-    dates: ['most_recent_visit'],
+    dates: ['recent_visit'],
   });
 
   //   const preProcess = (data) => {
