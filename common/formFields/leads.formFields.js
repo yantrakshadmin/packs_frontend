@@ -13,7 +13,6 @@ export const leadsFormFields = [
   },
   {
     key: 'email',
-    rules: [{required: true, message: 'Please enter Email!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -109,7 +108,6 @@ export const leadsFormFields = [
   },
   {
     key: 'recent_visit',
-    rules: [{required: true, message: 'Please enter Most Recent Visit!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -142,7 +140,6 @@ export const leadsContactFormFields = [
   },
   {
     key: 'designation',
-    rules: [{required: true, message: 'Please enter Designation!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -152,7 +149,6 @@ export const leadsContactFormFields = [
   },
   {
     key: 'email',
-    rules: [{required: true, message: 'Please enter email!'}],
     kwargs: {
       placeholder: 'Enter',
     },
