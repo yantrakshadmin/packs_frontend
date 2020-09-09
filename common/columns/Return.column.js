@@ -1,8 +1,11 @@
+import moment from 'moment';
+
 export default [
   {
     title: 'Transaction No.',
     key: 'transaction_no',
     dataIndex: 'transaction_no',
+    sorter: (a, b) => a.transaction_no - b.transaction_no,
   },
   {
     title: 'Receiver Client',
@@ -22,8 +25,9 @@ export default [
   {
     title: 'Transaction Date',
     key: 'transaction_date',
+    sorter: (a, b) => moment(a.transaction_date).unix() - moment(b.transaction_date).unix(),
     render: (text, record) => {
-      return record.transaction_date.slice(0, 10).toString();
+      return moment(record.transaction_date).format('DD/MM/YYYY');
     },
   },
   {
