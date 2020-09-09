@@ -100,9 +100,10 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
         } else {
           formKey = property;
         }
-
+        //nested
+        if (property === 'items') fd.append('items', JSON.stringify(obj['items']));
         // if the property is an object, but not a File, use recursivity.
-        if (obj[property] instanceof Date) {
+        else if (obj[property] instanceof Date) {
           fd.append(formKey, obj[property].toISOString());
         } else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
           toFormData(obj[property], fd, formKey);
