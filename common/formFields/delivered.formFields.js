@@ -14,7 +14,8 @@ export const DeliveredFormFields = [
     key: 'delivered',
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: null,
-    customLabel: 'Mark Delivered',
+    defaultValue: true,
+    customLabel: 'Mark Successfully Delivered',
   },
   {
     key: 'document',
