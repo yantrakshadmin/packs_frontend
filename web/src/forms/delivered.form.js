@@ -49,6 +49,8 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
         if (dlvd) {
           setDeliveryId(dlvd.id);
           console.log(dlvd.id);
+        } else {
+          form.setFieldsValue({delivered: true});
         }
       }
     };
@@ -86,6 +88,7 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
       console.log(reqProd);
       setProducts(reqProd);
       setLoading(false);
+      form.setFieldsValue({delivered: true});
     }
   }, [reqDlvd]);
 
@@ -123,7 +126,7 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
       data.document = reqFile.originFileObj;
     } else delete data['document'];
     // const req = toFormData(data);
-    conts req = new FormData();
+    const req = new FormData();
     for (var key in data) {
       req.append(key.toString(), data[key]);
     }
