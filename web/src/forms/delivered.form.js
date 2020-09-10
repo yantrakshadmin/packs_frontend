@@ -122,11 +122,11 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
     if (reqFile) {
       data.document = reqFile.originFileObj;
     } else delete data['document'];
-    const req = toFormData(data);
-    // conts req = new FormData();
-    // for (var key in data) {
-    //   req.append(key.toString(), data[key]);
-    // }
+    // const req = toFormData(data);
+    conts req = new FormData();
+    for (var key in data) {
+      req.append(key.toString(), data[key]);
+    }
     submit(req);
   };
 
