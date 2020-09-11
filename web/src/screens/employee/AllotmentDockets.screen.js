@@ -8,12 +8,15 @@ import {deleteHOC} from '../../hocs/deleteHoc';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {deleteAllotment} from 'common/api/auth';
+import {loadAPI} from 'common/helpers/api';
+import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import {useAPI} from 'common/hooks/api';
-import {Link} from '@reach/router';
+import {Link, useNavigate} from '@reach/router';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
 import Delivery from 'icons/Delivery';
 import Document from 'icons/Document';
+import {data} from 'jquery';
 
 const {Search} = Input;
 
@@ -24,6 +27,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
   const [csvData, setCsvData] = useState(null);
   const [reqData, setReqData] = useState([]);
   const [TN, setTN] = useState(null);
+  const navigate = useNavigate();
 
   const {data: allotments, loading} = useAPI('/allotments-table/', {});
 
@@ -80,7 +84,10 @@ const AllotmentDocketsScreen = ({currentPage}) => {
       width: '9vw',
       render: (text, record) => (
         <div className="row justify-evenly">
-          <a href={record.document} target="_blank" rel="noopener noreferrer">
+          <a
+            // href={DEFAULT_BASE_URL + `/delivered-docket/?pk=${record.id}`}
+            target="_blank"
+            rel="noopener noreferrer">
             <Button
               style={{
                 backgroundColor: 'transparent',
@@ -88,8 +95,15 @@ const AllotmentDocketsScreen = ({currentPage}) => {
                 boxShadow: 'none',
                 padding: '1px',
               }}
-              disabled={!record.document}
-              onClick={(e) => e.stopPropagation()}>
+              // disabled={!record.document}
+              onClick={async (e) => {
+                const {data: req} = await loadAPI(
+                  DEFAULT_BASE_URL + `/delivered-docket/?pk=${record.id}`,
+                  {},
+                );
+                if (req) if (req.document) navigate(req['document']);
+                e.stopPropagation();
+              }}>
               <Document color={record.document ? '#7CFC00' : null} />
             </Button>
           </a>
