@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import {Form, Col, Row, Button, Divider, Spin, message} from 'antd';
 import formItem from '../hocs/formItem.hoc';
 import {ReceivedFormFields, ReceivedProductFormFields} from 'common/formFields/received.formFields';
 import {useAPI} from 'common/hooks/api';
@@ -16,6 +16,7 @@ import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 export const ReceivedForm = ({id, onCancel, onDone}) => {
   const [loading, setLoading] = useState(true);
   const [received, setReceived] = useState(false);
+  const [reqFile, setFile] = useState(null);
   const [returnn, setReturn] = useState(null);
   const [products, setProducts] = useState(null);
   const [receivedId, setReceivedId] = useState(null);
@@ -36,7 +37,7 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
       const {data} = await retrieveReturns();
       if (data) {
         const reqReturn = data.filter((d) => d.id === id)[0];
-        setReturn(reqReturn);
+        if (reqReturn) setReturn(reqReturn);
       }
     };
     if (id) fetchReturn();
@@ -75,6 +76,10 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
 
   const preProcess = (data) => {
     data['returndocket'] = returnn.id;
+    data['received'] = received;
+    if (reqFile) {
+      data.document = reqFile.originFileObj;
+    } else delete data['document'];
     submit(data);
   };
 
@@ -109,6 +114,20 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
               <div key={idx} className="p-2">
                 {formItem({
                   ...item,
+                  kwargs: {
+                    onChange(info) {
+                      const {status} = info.file;
+                      if (status !== 'uploading') {
+                        console.log(info.file, info.fileList);
+                      }
+                      if (status === 'done') {
+                        setFile(info.file);
+                        message.success(`${info.file.name} file uploaded successfully.`);
+                      } else if (status === 'error') {
+                        message.error(`${info.file.name} file upload failed.`);
+                      }
+                    },
+                  },
                 })}
               </div>
             </Col>
