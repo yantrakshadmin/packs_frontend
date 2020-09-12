@@ -12,7 +12,7 @@ import {AllotFlowTable} from 'components/AllotFlowExp';
 import TableWithTabHoc from 'hocs/TableWithTab.hoc';
 import {useEffect} from 'react';
 
-const StockingsReport = ({currentPage}) => {
+const StockingReport = ({currentPage}) => {
   const [all, setAll] = useState(false);
   const [loading, setLoading] = useState(false);
   const [csvData, setCsvData] = useState(null);
@@ -199,4 +199,4 @@ const mapStateToProps = (state) => {
   return {currentPage: state.page.currentPage};
 };
 
-export default connect(mapStateToProps)(StockingsReport);
+export default connect(mapStateToProps)(StockingReport);
