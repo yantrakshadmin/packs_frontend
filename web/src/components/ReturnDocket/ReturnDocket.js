@@ -363,7 +363,6 @@ const ReturnDocket = ({location}) => {
                 For Receiving Location :
               </Col>
             </Row>
-            <br /> <br />
             <br />
             <Row>
               <Col span={1}></Col>
