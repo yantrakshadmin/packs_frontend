@@ -169,6 +169,11 @@ export const employeeRoutes = [
         path: '/reports/returns/',
         Component: lazy(() => import('components/Reports/Return.js')),
       },
+      {
+        name: 'Stockings',
+        path: '/reports/stockings/',
+        Component: lazy(() => import('components/Reports/Stocking.js')),
+      },
     ],
   },
 ];
