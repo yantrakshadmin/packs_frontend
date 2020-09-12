@@ -113,8 +113,8 @@ const StockingReport = ({currentPage}) => {
 
   const tabs = [
     {
-      name: 'Allotment Dockets',
-      key: 'Allotment Dockets',
+      name: 'Floating Report',
+      key: 'Floating Report',
       data: reqAllotments || [],
       columns,
       loading,
