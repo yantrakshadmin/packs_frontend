@@ -88,25 +88,25 @@ const ReturnForm = ({location}) => {
     if (returnn && form) setVals();
   }, [returnn, form]);
 
-  useEffect(() => {
-    if (flows && receiverClient) {
-      const reqf = flows.filter((flo) => flo.receiver_client.id === receiverClient);
-      // console.log(reqf);
-      setReqFlows(reqf);
-    }
-  }, [flows, receiverClient]);
+  // useEffect(() => {
+  //   if (flows && receiverClient) {
+  //     const reqf = flows.filter((flo) => flo.receiver_client.id === receiverClient);
+  //     // console.log(reqf);
+  //     setReqFlows(reqf);
+  //   }
+  // }, [flows, receiverClient]);
 
   useEffect(() => {
     const fetchRFlow = async () => {
+      console.log('yes');
       const {data} = await retrieveRFlows();
       if (data) {
-        // console.log(data);
-        const flo = data.filter((d) => d.id === flow)[0];
+        const flo = data.filter((d) => d.receiver_client === receiverClient)[0];
         setRFlow(flo);
       }
     };
-    if (flow) fetchRFlow();
-  }, [flow]);
+    if (receiverClient) fetchRFlow();
+  }, [receiverClient]);
 
   useEffect(() => {
     if (rflow) {
@@ -213,7 +213,7 @@ const ReturnForm = ({location}) => {
           ))}
         </Row>
         <Row style={{justifyContent: 'left'}}>
-          <Col span={8}>
+          <Col span={12}>
             <div key={3} className="p-2">
               {formItem({
                 ...returnFormFields[2],
@@ -232,7 +232,7 @@ const ReturnForm = ({location}) => {
               })}
             </div>
           </Col>
-          <Col span={8}>
+          <Col span={12}>
             <div key={3} className="p-2">
               {formItem({
                 ...returnFormFields[3],
@@ -240,7 +240,7 @@ const ReturnForm = ({location}) => {
                   placeholder: 'Select',
                   showSearch: true,
                   onChange: (val) => {
-                    // console.log(val);
+                    console.log(val);
                     setReceiverClient(val);
                   },
                   filterOption: (input, option) =>
@@ -251,29 +251,6 @@ const ReturnForm = ({location}) => {
                   key: 'id',
                   dataKeys: ['address', 'city'],
                   customTitle: 'name',
-                },
-              })}
-            </div>
-          </Col>
-          <Col span={8}>
-            <div key={3} className="p-2">
-              {formItem({
-                ...returnFormFields[4],
-                kwargs: {
-                  onChange: (val) => {
-                    setFlow(val);
-                    setModalVisible(true);
-                  },
-                  placeholder: 'Select',
-                  showSearch: true,
-                  filterOption: (input, option) =>
-                    option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-                },
-                others: {
-                  selectOptions: reqFlows || [],
-                  key: 'id',
-                  dataKeys: ['flow_name', 'flow_info', 'flow_type'],
-                  customTitle: 'flow_name',
                 },
               })}
             </div>
