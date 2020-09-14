@@ -8,9 +8,10 @@ import {
   returnKitFormFields,
 } from 'common/formFields/return.formFields.js';
 import {useAPI} from 'common/hooks/api';
+import {loadAPI} from 'common/helpers/api'
 import {useHandleForm} from 'hooks/form';
 import {navigate} from '@reach/router';
-import {createReturn, retrieveReturn, editReturn, retrieveRFlows} from 'common/api/auth';
+import {createReturn, retrieveReturn, editReturn} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 import Products from 'icons/Products';
 
@@ -22,7 +23,6 @@ const ReturnForm = ({location}) => {
   const [pcc, setPcc] = useState([]);
   const [kits, setKits] = useState(null);
   const [flow, setFlow] = useState(null);
-  const [rflow, setRFlow] = useState(null);
   const [returnn, setReturn] = useState(null);
   const [loading, setLoading] = useState(location.state ? !!location.state.id : false);
   const [reqFlows, setReqFlows] = useState(null);
@@ -88,39 +88,31 @@ const ReturnForm = ({location}) => {
     if (returnn && form) setVals();
   }, [returnn, form]);
 
-  // useEffect(() => {
-  //   if (flows && receiverClient) {
-  //     const reqf = flows.filter((flo) => flo.receiver_client.id === receiverClient);
-  //     // console.log(reqf);
-  //     setReqFlows(reqf);
-  //   }
-  // }, [flows, receiverClient]);
+  useEffect(() => {
+    if (flows && receiverClient) {
+      const reqf = flows.filter((flo) => flo.receiver_client.id === receiverClient);
+      // console.log(reqf);
+      setReqFlows(reqf);
+    }
+  }, [flows, receiverClient]);
 
   useEffect(() => {
-    const fetchRFlow = async () => {
-      console.log('yes');
-      const {data} = await retrieveRFlows();
-      if (data) {
-        const flo = data.filter((d) => d.receiver_client === receiverClient)[0];
-        setRFlow(flo);
-      }
-    };
-    if (receiverClient) fetchRFlow();
-  }, [receiverClient]);
-
-  useEffect(() => {
-    if (rflow) {
+    const fetchKits = async () => {
       let kitss = [],
         prods = [];
-      rflow.kits.forEach((k) => {
-        kitss.push({...k.kit, quantity: k.quantity});
-        k.kit.products.forEach((p) => prods.push(p.product));
-      });
+      const {data} = await loadAPI(`/r-flows/?id=${receiverClient}`)
+      data.forEach(d => {
+          d.kits.forEach((k) => {
+            kitss.push({...k.kit});
+            k.kit.products.forEach((p) => prods.push(p.product));
+      })
+      })
       setProducts(prods);
-      // console.log(kitss);
+      console.log(kitss);
       setKits(kitss);
     }
-  }, [rflow]);
+    if(receiverClient) fetchKits();
+  }, [receiverClient]);
 
   const handleFieldsChange = async (data) => {
     // console.log(data, kitID);
@@ -137,6 +129,7 @@ const ReturnForm = ({location}) => {
               if (data[0].name[2] === 'kit') setKitID(data[0].value);
               // console.log(data[0].name);
               if (kitID) {
+                console.log(kitID)
                 const rk = kits.filter((k) => k.id === kitID)[0];
                 let produces = [];
                 rk.products.forEach((p) => {
@@ -213,7 +206,7 @@ const ReturnForm = ({location}) => {
           ))}
         </Row>
         <Row style={{justifyContent: 'left'}}>
-          <Col span={12}>
+          <Col span={8}>
             <div key={3} className="p-2">
               {formItem({
                 ...returnFormFields[2],
@@ -232,7 +225,7 @@ const ReturnForm = ({location}) => {
               })}
             </div>
           </Col>
-          <Col span={12}>
+          <Col span={8}>
             <div key={3} className="p-2">
               {formItem({
                 ...returnFormFields[3],
@@ -251,6 +244,25 @@ const ReturnForm = ({location}) => {
                   key: 'id',
                   dataKeys: ['address', 'city'],
                   customTitle: 'name',
+                },
+              })}
+            </div>
+          </Col>
+          <Col span={8}>
+            <div key={3} className="p-2">
+              {formItem({
+                ...returnFormFields[4],
+                kwargs: {
+                  placeholder: 'Select',
+                  showSearch: true,
+                  filterOption: (input, option) =>
+                    option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                },
+                others: {
+                  selectOptions: reqFlows || [],
+                  key: 'id',
+                  dataKeys: ['flow_name', 'flow_info', 'flow_type'],
+                  customTitle: 'flow_name',
                 },
               })}
             </div>
