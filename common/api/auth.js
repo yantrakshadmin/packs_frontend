@@ -714,6 +714,16 @@ export const retrieveAllotmentReport = ({cname, to, from}) =>
     },
   });
 
+export const retrieveStockingReport = ({to, from}) =>
+  loadAPI(`/floating-report/`, {
+    method: 'GET',
+    secure: true,
+    params: {
+      to,
+      from,
+    },
+  });
+
 export const retrieveReturnReport = ({cname, to, from}) =>
   loadAPI(`/return-reports/`, {
     method: 'GET',
