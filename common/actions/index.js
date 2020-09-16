@@ -5,3 +5,4 @@ export const USER_AUTHENTICATED = 'USER_AUTHENTICATED';
 export const SIGN_OUT_USER = 'SIGN_OUT_USER';
 export const FETCH_PRODUCTS = 'FETCH_PRODUCTS';
 export const CHANGE_PAGE = 'CHANGE_PAGE';
+export const ADD_PFEP_DATA = 'ADD_PFEP_DATA';

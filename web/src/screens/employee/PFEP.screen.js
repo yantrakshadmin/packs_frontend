@@ -10,10 +10,11 @@ import { deleteHOC } from '../../hocs/deleteHoc';
 import Edit from '../../icons/Edit';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { LeadsForm } from '../../forms/leads.form';
+import { PFEPMainForm } from '../../forms/PFEP/PFEPMain.form';
 
 const { Search } = Input;
 
-const WarehouseEmployeeScreen = ({ currentPage }) => {
+const PFEPEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
@@ -84,8 +85,8 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
 
   const tabs = [
     {
-      name: 'All Leads',
-      key: 'allLeads',
+      name: 'ALL PFEP',
+      key: 'allPFEP',
       data: filteredData,
       columns,
       loading,
@@ -107,11 +108,11 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
         refresh={reload}
         tabs={tabs}
         size='middle'
-        title='Leads'
+        title='PFEP Creation'
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={LeadsForm}
-        modalWidth={60}
+        modalBody={PFEPMainForm}
+        modalWidth={80}
         expandHandleKey='person'
         ExpandBody={PersonTable}
         expandParams={{ loading }}
@@ -127,4 +128,4 @@ const mapStateToProps = (state) => {
   return { currentPage: state.page.currentPage };
 };
 
-export default connect(mapStateToProps)(WarehouseEmployeeScreen);
+export default connect(mapStateToProps)(PFEPEmployeeScreen);

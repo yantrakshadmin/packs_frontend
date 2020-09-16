@@ -38,6 +38,7 @@ export const MasterHOC = ({
         <Modal
           visible={modalVisible}
           onCancel={onCancel}
+          maskClosable={false}
           style={{ minWidth: '80vw' }}
           title={customModalTitle || customRightButtonLabel || `Add ${title}`}
           footer={null}>

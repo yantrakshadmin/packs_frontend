@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
-import {Form, Col, Row, Button, Divider, Spin, message} from 'antd';
+import React, { useState } from 'react';
+import { Form, Col, Row, Button, Divider, Spin, message } from 'antd';
+import { clientFormFields } from 'common/formFields/clientProfile.formFields';
+import { useHandleForm } from 'hooks/form';
+import { editClientProfile, retrieveClientProfile } from 'common/api/auth';
 import formItem from '../hocs/formItem.hoc';
-import {clientFormFields} from 'common/formFields/clientProfile.formFields';
-import {useHandleForm} from 'hooks/form';
-import {editClientProfile, retrieveClientProfile} from 'common/api/auth';
 
-export const ClientForm = ({id, onCancel, onDone}) => {
+export const ClientForm = ({ id, onCancel, onDone }) => {
   const [reqFile, setFile] = useState(null);
 
-  const {form, submit, loading} = useHandleForm({
+  const { form, submit, loading } = useHandleForm({
     create: null,
     edit: editClientProfile,
     retrieve: retrieveClientProfile,
@@ -27,17 +27,17 @@ export const ClientForm = ({id, onCancel, onDone}) => {
         if (data[0].name)
           if (data[0].name[0])
             if (data[0].name[0] === 'client_gst' || data[0].name[0] === 'client_pan') {
-              let val = data[0].value.toUpperCase();
-              form.setFieldsValue({[data[0].name[0]]: val});
+              const val = data[0].value.toUpperCase();
+              form.setFieldsValue({ [data[0].name[0]]: val });
             }
   };
 
   const preProcess = (data) => {
     if (reqFile) {
       data.annexure = reqFile.originFileObj;
-    } else delete data['annexure'];
+    } else delete data.annexure;
     const req = new FormData();
-    for (var key in data) {
+    for (const key in data) {
       req.append(key.toString(), data[key]);
     }
     submit(req);
@@ -45,68 +45,68 @@ export const ClientForm = ({id, onCancel, onDone}) => {
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Client Details</Divider>
+      <Divider orientation='left'>Client Details</Divider>
       <Form
         onFinish={preProcess}
         form={form}
-        layout="vertical"
+        layout='vertical'
         hideRequiredMark
-        autoComplete="off"
+        autoComplete='off'
         onFieldsChange={handleFieldsChange}>
-        <Row align="center">
+        <Row align='center'>
           <Col span={24}>{formItem(clientFormFields[0])}</Col>
         </Row>
-        <Row style={{justifyContent: 'left'}}>
+        <Row style={{ justifyContent: 'left' }}>
           {clientFormFields.slice(1, 5).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
-        <Row style={{justifyContent: 'left'}}>
+        <Row style={{ justifyContent: 'left' }}>
           {clientFormFields.slice(5, 8).map((item, idx) => (
             <Col span={8}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
-        <Row style={{justifyContent: 'space-between'}}>
+        <Row style={{ justifyContent: 'space-between' }}>
           {clientFormFields.slice(8, 12).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
-        <Row style={{justifyContent: 'space-between'}}>
+        <Row style={{ justifyContent: 'space-between' }}>
           {clientFormFields.slice(12, 16).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
-        <Row style={{justifyContent: 'space-between'}}>
+        <Row style={{ justifyContent: 'space-between' }}>
           {clientFormFields.slice(16, 20).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
-        <Row align="center">
+        <Row align='center'>
           {formItem({
             ...clientFormFields[20],
             kwargs: {
               onChange(info) {
-                const {status} = info.file;
+                const { status } = info.file;
                 if (status !== 'uploading') {
                   console.log(info.file, info.fileList);
                 }
@@ -122,11 +122,11 @@ export const ClientForm = ({id, onCancel, onDone}) => {
         </Row>
 
         <Row>
-          <Button type="primary" htmlType="submit">
+          <Button type='primary' htmlType='submit'>
             Save
           </Button>
-          <div className="p-2" />
-          <Button type="primary" onClick={onDone}>
+          <div className='p-2' />
+          <Button type='primary' onClick={onDone}>
             Cancel
           </Button>
         </Row>
