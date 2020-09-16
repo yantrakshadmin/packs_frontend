@@ -6,7 +6,7 @@ import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import {useAPI} from 'common/hooks/api';
 import {Row, Col, Form, Button} from 'antd';
 import {FORM_ELEMENT_TYPES} from '../../constants/formFields.constant';
-import {retrieveAllotmentReport, retrieveClients} from 'common/api/auth';
+import {retrieveStockingReport, retrieveClients} from 'common/api/auth';
 import allotmentColumns from 'common/columns/AllotmentReport.column';
 import {AllotFlowTable} from 'components/AllotFlowExp';
 import TableWithTabHoc from 'hocs/TableWithTab.hoc';
@@ -18,33 +18,21 @@ const StockingReport = ({currentPage}) => {
   const [csvData, setCsvData] = useState(null);
   const [reportData, setReportData] = useState(null);
   const [reqAllotments, setReqAllotments] = useState(null);
-  const [client, setClient] = useState('');
-  const [clientName, setClientName] = useState(null);
+  // const [client, setClient] = useState('');
+  // const [clientName, setClientName] = useState(null);
   const [to, setTo] = useState(null);
   const [from, setFrom] = useState(null);
   const [form] = Form.useForm();
 
-  const {data: clients} = useAPI('/clients/', {});
+  // const {data: clients} = useAPI('/clients/', {});
 
   const onSubmit = async (data) => {
     setLoading(true);
-    if (!data['cname']) {
-      data['cname'] = '';
-      setClient(data['cname']);
-    } else {
-      setClient(data['cname']);
-      let reqC = null;
-      const {data: clients} = await retrieveClients();
-      clients.forEach((c) => {
-        if (c.user === data['cname']) reqC = c.client_name;
-      });
-      setClientName(reqC);
-    }
     data['to'] = moment(data['to']).format('YYYY-MM-DD HH:MM');
     data['from'] = moment(data['from']).format('YYYY-MM-DD HH:MM');
     setTo(data['to']);
     setFrom(data['from']);
-    const {data: report} = await retrieveAllotmentReport(data);
+    const {data: report} = await retrieveStockingReport(data);
     if (report) {
       console.log(report);
       setLoading(false);
@@ -124,7 +112,7 @@ const StockingReport = ({currentPage}) => {
   return (
     <>
       <Form onFinish={onSubmit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
-        <Row>
+        {/* <Row>
           <Col span={10}>
             {formItem({
               key: 'cname',
@@ -141,7 +129,7 @@ const StockingReport = ({currentPage}) => {
               customLabel: 'Client',
             })}
           </Col>
-        </Row>
+        </Row> */}
         <Row>
           <Col span={3}>
             {formItem({
@@ -181,9 +169,9 @@ const StockingReport = ({currentPage}) => {
       <TableWithTabHoc
         tabs={tabs}
         size="middle"
-        title="Allotment Dockets"
+        title="Floating Report"
         hideRightButton
-        downloadLink={`${DEFAULT_BASE_URL}/allotment-reportsdownload/?cname=${client}&to=${to}&from=${from}`}
+        // downloadLink={`${DEFAULT_BASE_URL}/allotment-reportsdownload/?cname=${client}&to=${to}&from=${from}`}
         rowKey="id"
         expandHandleKey="flows"
         ExpandBody={AllotFlowTable}
