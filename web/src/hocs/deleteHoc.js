@@ -1,8 +1,8 @@
-import {notification} from 'antd';
+import { notification } from 'antd';
 
-export const deleteHOC = ({record, api, success, failure, reload}) => async () => {
+export const deleteHOC = ({ record, api, success, failure, reload }) => async () => {
   try {
-    const {id} = record;
+    const { id } = record;
     await api(id);
     notification.success({
       message: success,

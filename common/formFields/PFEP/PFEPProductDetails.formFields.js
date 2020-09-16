@@ -13,7 +13,6 @@ export const PREPProductDetailsFormFields = [
   },
   {
     key: 'part_number',
-    rules: [{ required: true, message: 'Please enter Part Number!' }],
     kwargs: {
       type: 'number',
       placeholder: 'Part Number',
@@ -33,7 +32,6 @@ export const PREPProductDetailsFormFields = [
   },
   {
     key: 'dispatch_frequency',
-    rules: [{ required: true, message: 'Please enter Dispatch Frequency!' }],
     kwargs: {
       placeholder: 'Dispatch Frequency',
     },
@@ -51,7 +49,6 @@ export const PREPProductDetailsFormFields = [
   },
   {
     key: 'length',
-    rules: [{ required: true, message: 'Please enter Lenght!' }],
     kwargs: {
       type: 'number',
       placeholder: 'Length',
@@ -61,7 +58,6 @@ export const PREPProductDetailsFormFields = [
   },
   {
     key: 'breadth',
-    rules: [{ required: true, message: 'Please enter Breadth!' }],
     kwargs: {
       type: 'number',
       placeholder: 'Breadth',
@@ -70,7 +66,6 @@ export const PREPProductDetailsFormFields = [
     customLabel: 'Breadth',
   },{
     key: 'height',
-    rules: [{ required: true, message: 'Please enter Height!' }],
     kwargs: {
       type: 'number',
       placeholder: 'Height',

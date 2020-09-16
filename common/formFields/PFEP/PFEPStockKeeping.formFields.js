@@ -3,7 +3,6 @@ import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 export const PREPStockKeepingFormFields = [
   {
     key: 'emitter_inventory',
-    rules: [{ required: true, message: 'Please enter Emitter Inventory!' }],
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     kwargs: {
@@ -12,7 +11,6 @@ export const PREPStockKeepingFormFields = [
   },
   {
     key: 'transit_time',
-    rules: [{ required: true, message: 'Please enter Transit time!' }],
     kwargs: {
       placeholder: 'Transit time',
     },
@@ -21,7 +19,6 @@ export const PREPStockKeepingFormFields = [
   },
   {
     key: 'emitter_location',
-    rules: [{ required: true, message: 'Please enter  Emitter location!' }],
     kwargs: {
       placeholder: 'Emitter location',
     },
@@ -29,7 +26,6 @@ export const PREPStockKeepingFormFields = [
     customLabel: 'Emitter location',
   },{
     key: 'receiver_location',
-    rules: [{ required: true, message: 'Please enter  Receiver location!' }],
     kwargs: {
       placeholder: 'Receiver location',
     },
@@ -38,7 +34,6 @@ export const PREPStockKeepingFormFields = [
   },
   {
     key: 'other_storage',
-    rules: [{ required: true, message: 'Please enter Other Storage!' }],
     kwargs: {
       placeholder: 'Other Storage',
     },
@@ -47,7 +42,6 @@ export const PREPStockKeepingFormFields = [
   },
   {
     key: 'receiver_inventory',
-    rules: [{ required: true, message: 'Please enter Receiver Inventory!' }],
     kwargs: {
       placeholder: 'Receiver Inventory',
     },

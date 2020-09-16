@@ -4,7 +4,6 @@ export const PREPCreationFormFields = [
   {
     key: 'proposal_for_client',
     customLabel: 'Proposal For Client',
-    rules: [{ required: true, message: 'Please enter Proposal for Client!' }],
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     kwargs: {
@@ -14,7 +13,6 @@ export const PREPCreationFormFields = [
 
   {
     key: 'sender_client',
-    rules: [{ required: true, message: 'Please enter Sender Client!' }],
     kwargs: {
       placeholder: 'Sender Client',
     },
@@ -23,7 +21,6 @@ export const PREPCreationFormFields = [
   },
   {
     key: 'sender_location',
-    rules: [{ required: true, message: 'Please enter Sender Location!' }],
     kwargs: {
       placeholder: 'Sender Location',
     },
@@ -33,7 +30,6 @@ export const PREPCreationFormFields = [
   },
   {
     key: 'receiver_client',
-    rules: [{ required: true, message: 'Please enter Receiver Client!' }],
     kwargs: {
       placeholder: 'Receiver Client',
     },
@@ -42,7 +38,6 @@ export const PREPCreationFormFields = [
     customLabel: 'Receiver Client',
   },{
     key: 'receiver_location',
-    rules: [{ required: true, message: 'Please enter Receiver Location!' }],
     kwargs: {
       placeholder: 'Receiver Location',
     },

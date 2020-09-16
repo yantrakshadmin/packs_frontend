@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { ADD_PFEP_DATA } from 'common/actions';
 import { PREPTouchPointsFormFields } from 'common/formFields/PFEP/PFEPTouchPoints.formFields';
 import { flowKitsFormFields } from 'common/formFields/flowKit.formFields';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { ArrowRightOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 export const PfepTouchPointsForm = ({ id, onCancel,onDone,onNext }) => {
   const [loading,setLoading] = useState(false);
@@ -81,13 +81,18 @@ export const PfepTouchPointsForm = ({ id, onCancel,onDone,onNext }) => {
             );
           }}
         </Form.List>
-        <Row>
-          <Button type='primary' htmlType='submit'>
-            Next
-          </Button>
-          <div className='p-2' />
-          <Button type='primary' onClick={onDone}>
-            Cancel
+        <Row justify='space-between'>
+          <div className='row'>
+            <Button type='primary' htmlType='submit' disabled>
+              Submit
+            </Button>
+            <div className='p-2' />
+            <Button type='primary' onClick={onDone}>
+              Cancel
+            </Button>
+          </div>
+          <Button type='link' htmlType='submit'>
+            <ArrowRightOutlined style={{ fontSize:30 }}  />
           </Button>
         </Row>
       </Form>

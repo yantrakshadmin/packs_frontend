@@ -3,7 +3,6 @@ import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 export const PREPExistingPMFormFields = [
   {
     key: 'type',
-    rules: [{ required: true, message: 'Please enter Type!' }],
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     kwargs: {
@@ -12,7 +11,6 @@ export const PREPExistingPMFormFields = [
   },
   {
     key: 'packaging_length',
-    rules: [{ required: true, message: 'Please enter Packaging Length!' }],
     kwargs: {
       type: 'number',
       placeholder: 'Packaging Length',
@@ -22,7 +20,6 @@ export const PREPExistingPMFormFields = [
   },
   {
     key: 'packaging_breadth',
-    rules: [{ required: true, message: 'Please enter Packaging Breadth!' }],
     kwargs: {
       type: 'number',
       placeholder: 'Packaging Breadth',
@@ -32,7 +29,6 @@ export const PREPExistingPMFormFields = [
   },
   {
     key: 'packaging_height',
-    rules: [{ required: true, message: 'Please enter Packaging Height!' }],
     kwargs: {
       type: 'number',
       placeholder: 'Packaging Height',
@@ -42,7 +38,6 @@ export const PREPExistingPMFormFields = [
   },
   {
     key: 'pocket_length',
-    rules: [{ required: true, message: 'Please enter Pocket Length!' }],
     kwargs: {
       type: 'number',
       placeholder: 'Pocket Length',
@@ -52,7 +47,6 @@ export const PREPExistingPMFormFields = [
   },
   {
     key: 'pocket_breadth',
-    rules: [{ required: true, message: 'Please enter Pocket Breadth!' }],
     kwargs: {
       type: 'number',
       placeholder: 'Pocket Breadth',
@@ -62,7 +56,6 @@ export const PREPExistingPMFormFields = [
   },
   {
     key: 'pocket_height',
-    rules: [{ required: true, message: 'Please enter Pocket Height!' }],
     kwargs: {
       type: 'number',
       placeholder: 'Pocket Height',
@@ -72,7 +65,6 @@ export const PREPExistingPMFormFields = [
   },
   {
     key: 'inserts_per_pm',
-    rules: [{ required: true, message: 'Please enter Insert Per Packaging Material!' }],
     kwargs: {
       type: 'number',
       placeholder: 'Inserts Per Packaging Material',
@@ -83,7 +75,6 @@ export const PREPExistingPMFormFields = [
   },
   {
     key: 'part_per_layer',
-    rules: [{ required: true, message: 'Please enter Part Per Layer!' }],
     kwargs: {
       type: 'number',
       placeholder: 'Part Per Layer',
@@ -93,7 +84,6 @@ export const PREPExistingPMFormFields = [
     customLabel: 'Part Per Layer',
   }, {
     key: 'total_part_per_pm',
-    rules: [{ required: true, message: 'Please enter Total Part Per PM!' }],
     kwargs: {
       type: 'number',
       placeholder: 'Total Part Per PM',
@@ -103,7 +93,6 @@ export const PREPExistingPMFormFields = [
     customLabel: 'Total Part Per PM',
   },{
     key: 'pm_loaded_weight',
-    rules: [{ required: true, message: 'Please enter PM Loaded Weight(Kgs)!' }],
     kwargs: {
       type: 'number',
       placeholder: 'PM Loaded Weight(Kgs)',
@@ -114,7 +103,6 @@ export const PREPExistingPMFormFields = [
   },
   {
     key: 'price_per_unit',
-    rules: [{ required: true, message: 'Please enter Price per unit!' }],
     kwargs: {
       type:'number',
       placeholder: 'Price Per Unit',
@@ -123,7 +111,6 @@ export const PREPExistingPMFormFields = [
     others: null,
     customLabel: 'Price Per Unit',
   },
-
   {
     key: 'remark',
     kwargs: {

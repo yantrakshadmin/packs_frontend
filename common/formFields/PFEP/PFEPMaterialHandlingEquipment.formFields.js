@@ -3,7 +3,6 @@ import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 export const PREPMaterialHandlingEquipmentFormFields = [
   {
     key: 'hopt',
-    rules: [{ required: true, message: 'Please enter HOPT!' }],
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     kwargs: {
@@ -13,7 +12,6 @@ export const PREPMaterialHandlingEquipmentFormFields = [
   },
   {
     key: 'dock_leveler',
-    rules: [{ required: true, message: 'Please enter Dock Leveler!' }],
     kwargs: {
       placeholder: 'Packaging Length',
     },
@@ -22,7 +20,6 @@ export const PREPMaterialHandlingEquipmentFormFields = [
   },
   {
     key: 'fork_lift',
-    rules: [{ required: true, message: 'Please enter Fork Lift!' }],
     kwargs: {
       placeholder: 'Packaging Breadth',
     },

@@ -4,6 +4,7 @@ import formItem from 'hocs/formItem.hoc';
 import { useDispatch } from 'react-redux';
 import { ADD_PFEP_DATA } from 'common/actions';
 import { PREPCycleTimeFormFields } from 'common/formFields/PFEP/PFEPCycleTIme.formFields';
+import { ArrowRightOutlined } from '@ant-design/icons';
 
 export const PFEPCycleTImeForm = ({ id, onCancel,onDone,onNext }) => {
   const [loading,setLoading] = useState(false);
@@ -36,13 +37,18 @@ export const PFEPCycleTImeForm = ({ id, onCancel,onDone,onNext }) => {
             </Col>
           ))}
         </Row>
-        <Row>
-          <Button type='primary' htmlType='submit'>
-            Next
-          </Button>
-          <div className='p-2' />
-          <Button type='primary' onClick={onDone}>
-            Cancel
+        <Row justify='space-between'>
+          <div className='row'>
+            <Button type='primary' htmlType='submit' disabled>
+              Submit
+            </Button>
+            <div className='p-2' />
+            <Button type='primary' onClick={onDone}>
+              Cancel
+            </Button>
+          </div>
+          <Button type='link' htmlType='submit'>
+            <ArrowRightOutlined style={{ fontSize:30 }}  />
           </Button>
         </Row>
       </Form>

@@ -13,7 +13,10 @@ export const PFEPMainForm = ({ id, onCancel,onDone }) => {
 
   return (
     <div>
-      <Steps size='small' current={active} labelPlacement='vertical'>
+      <Steps size='small'
+             current={active}
+             onChange={(e)=>{setActive(e)}}
+             labelPlacement='vertical'>
         {PFEPSteps.map((step)=>(<Step title={step.title} />))}
       </Steps>
       <br />

@@ -41,7 +41,7 @@ export const PFEPSolutionRequiredForm = ({ id, onCancel,onDone,onNext }) => {
         </Row>
         <Row>
           <Button type='primary' htmlType='submit'>
-            Next
+            Submit
           </Button>
           <div className='p-2' />
           <Button type='primary' onClick={onDone}>

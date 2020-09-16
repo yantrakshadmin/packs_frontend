@@ -4,7 +4,6 @@ export const PREPCycleTimeFormFields = [
   {
     key: 'minimum',
     customLabel: 'Minimum Days',
-    rules: [{ required: true, message: 'Please enter minimum days!' }],
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     kwargs: {
@@ -14,7 +13,6 @@ export const PREPCycleTimeFormFields = [
   },{
     key: 'maximum',
     customLabel: 'Maximum Days',
-    rules: [{ required: true, message: 'Please enter maximum days!' }],
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     kwargs: {

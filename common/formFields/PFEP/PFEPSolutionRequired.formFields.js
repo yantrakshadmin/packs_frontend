@@ -3,7 +3,6 @@ import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 export const PREPSolutionRequiredFormFields = [
   {
     key: 'container',
-    rules: [{ required: true, message: 'Please select container!' }],
     kwargs: {
       placeholder: 'Select',
     },
@@ -14,7 +13,6 @@ export const PREPSolutionRequiredFormFields = [
   },
   {
     key: 'part_orientation',
-    rules: [{ required: true, message: 'Please enter Part Orientation!' }],
     kwargs: {
       placeholder: 'Part Orientation',
     },
@@ -23,7 +21,6 @@ export const PREPSolutionRequiredFormFields = [
   },
   {
     key: 'parts',
-    rules: [{ required: true, message: 'Please enter Parts/PM!' }],
     kwargs: {
       placeholder: 'Parts/PM',
     },
@@ -32,7 +29,6 @@ export const PREPSolutionRequiredFormFields = [
   },
   {
     key: 'status',
-    rules: [{ required: true, message: 'Please select status!' }],
     kwargs: {
       placeholder: 'Select',
     },

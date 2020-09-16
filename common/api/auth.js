@@ -516,7 +516,7 @@ export const retrieveAllotments = (id) =>
 
 export const deleteAllotment = (id) =>
   loadAPI(`/edit-allotment/${id}/`, {
-    methood: 'DELETE',
+    method: 'DELETE',
     secure: true,
   });
 

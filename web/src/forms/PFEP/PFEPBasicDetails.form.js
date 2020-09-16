@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Col, Row, Button, Divider, Spin } from 'antd';
+import { ArrowRightOutlined } from '@ant-design/icons'
 import { PREPBasicDetailsFormFields } from 'common/formFields/PFEP/PFEPBasicDetails.formFields';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,7 +23,6 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,onDone,onNext }) => {
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation='left'>Basic Details</Divider>
       <Form
         onFinish={submit}
         form={form}
@@ -39,13 +39,18 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,onDone,onNext }) => {
             </Col>
           ))}
         </Row>
-        <Row>
-          <Button type='primary' htmlType='submit'>
-            Next
-          </Button>
-          <div className='p-2' />
-          <Button type='primary' onClick={onDone}>
-            Cancel
+        <Row justify='space-between'>
+          <div className='row'>
+            <Button type='primary' htmlType='submit' disabled>
+              Submit
+            </Button>
+            <div className='p-2' />
+            <Button type='primary' onClick={onDone}>
+              Cancel
+            </Button>
+          </div>
+          <Button type='link' htmlType='submit'>
+            <ArrowRightOutlined style={{ fontSize:30 }}  />
           </Button>
         </Row>
       </Form>

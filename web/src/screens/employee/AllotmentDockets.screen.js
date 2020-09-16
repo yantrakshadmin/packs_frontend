@@ -1,26 +1,26 @@
-import React, {useState, useEffect} from 'react';
-import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import React, { useState, useEffect } from 'react';
 import allotmentColumns from 'common/columns/Allotment.column';
-import {DeliveredForm} from 'forms/delivered.form';
-import {AllotmentMainForm} from 'forms/allotmentMain.form';
-import {Popconfirm, Input, Button} from 'antd';
-import {deleteHOC} from '../../hocs/deleteHoc';
-import {connect} from 'react-redux';
-import {useTableSearch} from 'hooks/useTableSearch';
-import {deleteAllotment} from 'common/api/auth';
-import {loadAPI} from 'common/helpers/api';
-import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
-import {useAPI} from 'common/hooks/api';
-import {Link, useNavigate} from '@reach/router';
+import { DeliveredForm } from 'forms/delivered.form';
+import { AllotmentMainForm } from 'forms/allotmentMain.form';
+import { Popconfirm, Input, Button } from 'antd';
+import { connect } from 'react-redux';
+import { useTableSearch } from 'hooks/useTableSearch';
+import { deleteAllotment } from 'common/api/auth';
+import { loadAPI } from 'common/helpers/api';
+import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
+import { useAPI } from 'common/hooks/api';
+import { Link, useNavigate } from '@reach/router';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
 import Delivery from 'icons/Delivery';
 import Document from 'icons/Document';
-import {data} from 'jquery';
+import { data } from 'jquery';
+import { deleteHOC } from '../../hocs/deleteHoc';
+import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 
-const {Search} = Input;
+const { Search } = Input;
 
-const AllotmentDocketsScreen = ({currentPage}) => {
+const AllotmentDocketsScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
@@ -29,11 +29,11 @@ const AllotmentDocketsScreen = ({currentPage}) => {
   const [TN, setTN] = useState(null);
   const navigate = useNavigate();
 
-  const {data: allotments, loading} = useAPI('/allotments-table/', {});
+  const { data: allotments, loading } = useAPI('/allotments-table/', {});
 
-  const {filteredData, reload} = useTableSearch({
+  const { filteredData, reload } = useTableSearch({
     searchVal,
-    reqData: reqData,
+    reqData,
   });
 
   useEffect(() => {
@@ -66,12 +66,12 @@ const AllotmentDocketsScreen = ({currentPage}) => {
       render: (text, record) => {
         console.log(record);
         return (
-          <Button type="primary">
+          <Button type='primary'>
             <Link
-              to="../docket"
-              state={{id: record.id}}
+              to='../docket'
+              state={{ id: record.id }}
               key={record.id}
-              style={{textDecoration: 'none'}}>
+              style={{ textDecoration: 'none' }}>
               View Docket
             </Link>
           </Button>
@@ -83,11 +83,11 @@ const AllotmentDocketsScreen = ({currentPage}) => {
       key: 'operation',
       width: '9vw',
       render: (text, record) => (
-        <div className="row justify-evenly">
+        <div className='row justify-evenly'>
           <a
             // href={DEFAULT_BASE_URL + `/delivered-docket/?pk=${record.id}`}
-            target="_blank"
-            rel="noopener noreferrer">
+            target='_blank'
+            rel='noopener noreferrer'>
             <Button
               style={{
                 backgroundColor: 'transparent',
@@ -97,11 +97,11 @@ const AllotmentDocketsScreen = ({currentPage}) => {
               }}
               // disabled={!record.document}
               onClick={async (e) => {
-                const {data: req} = await loadAPI(
-                  DEFAULT_BASE_URL + `/delivered-docket/?pk=${record.id}`,
+                const { data: req } = await loadAPI(
+                  `${DEFAULT_BASE_URL  }/delivered-docket/?pk=${record.id}`,
                   {},
                 );
-                if (req) if (req.document) navigate(req['document']);
+                if (req) if (req.document) navigate(req.document);
                 e.stopPropagation();
               }}>
               <Document color={record.document ? '#7CFC00' : null} />
@@ -136,7 +136,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
             <Edit />
           </Button>
           <Popconfirm
-            title="Confirm Delete"
+            title='Confirm Delete'
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
               record,
@@ -178,9 +178,9 @@ const AllotmentDocketsScreen = ({currentPage}) => {
 
   return (
     <>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
         </div>
       </div>
       <br />
@@ -188,12 +188,12 @@ const AllotmentDocketsScreen = ({currentPage}) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size="middle"
-        title="Allotment Dockets"
+        size='middle'
+        title='Allotment Dockets'
         modalBody={deliveryId ? DeliveredForm : AllotmentMainForm}
         modalWidth={60}
         editingId={editingId || deliveryId}
-        formParams={{transaction_no: TN}}
+        formParams={{ transaction_no: TN }}
         cancelEditing={cancelEditing}
         hideRightButton
       />
@@ -202,7 +202,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
 };
 
 const mapStateToProps = (state) => {
-  return {currentPage: state.page.currentPage};
+  return { currentPage: state.page.currentPage };
 };
 
 export default connect(mapStateToProps)(AllotmentDocketsScreen);

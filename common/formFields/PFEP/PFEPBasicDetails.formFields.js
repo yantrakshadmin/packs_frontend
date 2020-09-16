@@ -3,14 +3,12 @@ import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 export const PREPBasicDetailsFormFields = [
   {
     key: 'date',
-    rules: [{ required: true, message: 'Please select date!' }],
     type: FORM_ELEMENT_TYPES.DATE,
     others: null,
   },
 
   {
     key: 'contact_person_name',
-    rules: [{ required: true, message: 'Please select Contact person Name!' }],
     kwargs: {
       placeholder: 'Contact person Name',
     },
