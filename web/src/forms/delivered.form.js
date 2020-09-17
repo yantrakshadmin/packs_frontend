@@ -1,21 +1,20 @@
-import React, {useState, useEffect} from 'react';
-import {Form, Col, Row, Button, Divider, Spin, message} from 'antd';
-import formItem from '../hocs/formItem.hoc';
+import React, { useState, useEffect } from 'react';
+import { Form, Col, Row, Button, Divider, Spin, message } from 'antd';
 import {
   DeliveredFormFields,
   DeliveredProductFormFields,
 } from 'common/formFields/delivered.formFields';
-import {useHandleForm} from 'hooks/form';
+import { useHandleForm } from 'hooks/form';
 import {
   createDelivered,
   retrieveDelivered,
   editDelivered,
-  allDelivered,
   retrieveAllotmentsDelivered,
 } from 'common/api/auth';
-import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
+import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import formItem from '../hocs/formItem.hoc';
 
-export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
+export const DeliveredForm = ({ id, onCancel, onDone, transaction_no }) => {
   const [delivered, setDelivered] = useState(false);
   const [reqDlvd, setReqDlvd] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
@@ -24,7 +23,7 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
   const [products, setProducts] = useState(null);
   const [reqFile, setFile] = useState(null);
 
-  const {form, submit} = useHandleForm({
+  const { form, submit } = useHandleForm({
     create: createDelivered,
     retrieve: retrieveDelivered,
     success: 'Request created/edited successfully.',
@@ -36,21 +35,20 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
   });
 
   useEffect(() => {
-    form.setFieldsValue({transaction_no});
+    form.setFieldsValue({ transaction_no });
   }, [form]);
 
   useEffect(() => {
     const fetchDelivered = async () => {
-      const {data} = await allDelivered();
+      setLoading(true);
+      const { data } = await retrieveAllotmentsDelivered(id);
       if (data) {
-        console.log(data);
-        console.log(id);
-        const dlvd = data.filter((d) => d.allotment === id)[0];
-        if (dlvd) {
-          setDeliveryId(dlvd.id);
-          console.log(dlvd.id);
+        setLoading(false);
+        const reqdlvd = data;
+        if (reqdlvd) {
+          setReqDlvd(reqdlvd);
         } else {
-          form.setFieldsValue({delivered: true});
+          form.setFieldsValue({ delivered: true });
         }
       }
     };
@@ -61,24 +59,9 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
   }, [id]);
 
   useEffect(() => {
-    const fetchDelivered = async () => {
-      setLoading(true);
-      const {data} = await retrieveAllotmentsDelivered(id);
-      if (data) {
-        setLoading(false);
-        const reqdlvd = data;
-        if (reqdlvd) {
-          setReqDlvd(reqdlvd);
-        }
-      }
-    };
-    if (id) fetchDelivered();
-  }, [id]);
-
-  useEffect(() => {
     if (reqDlvd) {
       console.log('yes');
-      let reqProd = [];
+      const reqProd = [];
       console.log(reqDlvd);
       reqDlvd.flows.forEach((flow) => {
         flow.kit.products.forEach((prod) => {
@@ -88,23 +71,23 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
       console.log(reqProd);
       setProducts(reqProd);
       setLoading(false);
-      form.setFieldsValue({delivered: true});
+      form.setFieldsValue({ delivered: true });
     }
   }, [reqDlvd]);
 
   function toFormData(obj, form, namespace) {
-    let fd = form || new FormData();
+    const fd = form || new FormData();
     let formKey;
 
-    for (let property in obj) {
+    for (const property in obj) {
       if (obj.hasOwnProperty(property) && obj[property]) {
         if (namespace) {
-          formKey = namespace + '[' + property + ']';
+          formKey = `${namespace  }[${  property  }]`;
         } else {
           formKey = property;
         }
-        //nested
-        if (property === 'items') fd.append('items', JSON.stringify(obj['items']));
+        // nested
+        if (property === 'items') fd.append('items', JSON.stringify(obj.items));
         // if the property is an object, but not a File, use recursivity.
         else if (obj[property] instanceof Date) {
           fd.append(formKey, obj[property].toISOString());
@@ -120,11 +103,11 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
   }
 
   const preProcess = (data) => {
-    data['allotment'] = allotment;
-    data['delivered'] = delivered;
+    data.allotment = allotment;
+    data.delivered = delivered;
     if (reqFile) {
       data.document = reqFile.originFileObj;
-    } else delete data['document'];
+    } else delete data.document;
     const req = toFormData(data);
     // const req = new FormData();
     // for (var key in data) {
@@ -135,19 +118,19 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Delivery Details</Divider>
-      <Form onFinish={preProcess} form={form} layout="vertical" hideRequiredMark autoComplete="off">
-        <Row style={{justifyContent: 'left'}}>
+      <Divider orientation='left'>Delivery Details</Divider>
+      <Form onFinish={preProcess} form={form} layout='vertical' hideRequiredMark autoComplete='off'>
+        <Row style={{ justifyContent: 'left' }}>
           {DeliveredFormFields.slice(0, 1).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
           {DeliveredFormFields.slice(1, 2).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem({
                   ...item,
                   kwargs: {
@@ -158,15 +141,15 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
             </Col>
           ))}
         </Row>
-        <Row style={{justifyContent: 'left'}}>
+        <Row style={{ justifyContent: 'left' }}>
           {DeliveredFormFields.slice(2, 3).map((item, idx) => (
-            <Col span={24} style={{justifyContent: 'center'}}>
-              <div key={idx} className="p-2">
+            <Col span={24} style={{ justifyContent: 'center' }}>
+              <div key={idx} className='p-2'>
                 {formItem({
                   ...item,
                   kwargs: {
                     onChange(info) {
-                      const {status} = info.file;
+                      const { status } = info.file;
                       if (status !== 'uploading') {
                         console.log(info.file, info.fileList);
                       }
@@ -183,17 +166,17 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
             </Col>
           ))}
         </Row>
-        <Divider orientation="left">Discrepancy Details</Divider>
+        <Divider orientation='left'>Discrepancy Details</Divider>
 
-        <Form.List name="items">
-          {(fields, {add, remove}) => {
+        <Form.List name='items'>
+          {(fields, { add, remove }) => {
             return (
               <div>
                 {fields.map((field, index) => (
-                  <Row align="middle">
+                  <Row align='middle'>
                     {DeliveredProductFormFields.slice(0, 1).map((item) => (
                       <Col span={7}>
-                        <div className="p-2">
+                        <div className='p-2'>
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -221,7 +204,7 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
                     ))}
                     {DeliveredProductFormFields.slice(1, 2).map((item) => (
                       <Col span={7}>
-                        <div className="p-2">
+                        <div className='p-2'>
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -243,7 +226,7 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
                     ))}
                     {DeliveredProductFormFields.slice(2, 3).map((item) => (
                       <Col span={7}>
-                        <div className="p-2">
+                        <div className='p-2'>
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -264,25 +247,29 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
                       </Col>
                     ))}
                     <Button
-                      type="danger"
-                      style={index != 0 ? {top: '-2vh'} : null}
+                      type='danger'
+                      style={index != 0 ? { top: '-2vh' } : null}
                       disabled={delivered}
                       onClick={() => {
                         remove(field.name);
                       }}>
-                      <MinusCircleOutlined /> Delete
+                      <MinusCircleOutlined />
+                      {' '}
+                      Delete
                     </Button>
                   </Row>
                 ))}
                 <Form.Item>
                   <Button
-                    type="dashed"
+                    type='dashed'
                     disabled={delivered}
                     onClick={() => {
                       add();
                     }}
                     block>
-                    <PlusOutlined /> Add Item
+                    <PlusOutlined />
+                    {' '}
+                    Add Item
                   </Button>
                 </Form.Item>
               </div>
@@ -290,11 +277,11 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
           }}
         </Form.List>
         <Row>
-          <Button type="primary" htmlType="submit">
+          <Button type='primary' htmlType='submit'>
             Save
           </Button>
-          <div className="p-2" />
-          <Button type="primary" onClick={onCancel}>
+          <div className='p-2' />
+          <Button type='primary' onClick={onCancel}>
             Cancel
           </Button>
         </Row>

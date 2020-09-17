@@ -1,31 +1,31 @@
-import React, {useState, useEffect} from 'react';
-import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import React, { useState, useEffect } from 'react';
 import returnColumns from 'common/columns/Return.column';
 import ReturnForm from 'forms/return.form';
-import {ReceivedForm} from 'forms/received.form';
-import {Popconfirm, Input, Button} from 'antd';
-import {deleteHOC} from '../../hocs/deleteHoc';
-import {connect} from 'react-redux';
-import {useTableSearch} from 'hooks/useTableSearch';
-import {deleteReturn} from 'common/api/auth';
-import {Link, navigate} from '@reach/router';
+import { ReceivedForm } from 'forms/received.form';
+import { Popconfirm, Input, Button } from 'antd';
+import { connect } from 'react-redux';
+import { useTableSearch } from 'hooks/useTableSearch';
+import { deleteReturn } from 'common/api/auth';
+import { Link, navigate } from '@reach/router';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
 import Delivery from 'icons/Delivery';
 import Document from 'icons/Document';
-import {useAPI} from 'common/hooks/api';
+import { useAPI } from 'common/hooks/api';
+import { deleteHOC } from '../../hocs/deleteHoc';
+import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 
-const {Search} = Input;
+const { Search } = Input;
 
-const ReturnDocketsScreen = ({currentPage}) => {
+const ReturnDocketsScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [reqData, setReqData] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
 
-  const {data: returns, loading} = useAPI('/return-table/', {});
+  const { data: returns, loading } = useAPI('/return-table/', {});
 
-  const {filteredData, reload} = useTableSearch({
+  const { filteredData, reload } = useTableSearch({
     searchVal,
     reqData,
   });
@@ -52,12 +52,12 @@ const ReturnDocketsScreen = ({currentPage}) => {
       render: (text, record) => {
         console.log(record);
         return (
-          <Button type="primary">
+          <Button type='primary'>
             <Link
-              to="../return-docket/"
-              state={{id: record.id}}
+              to='../return-docket/'
+              state={{ id: record.id }}
               key={record.id}
-              style={{textDecoration: 'none'}}>
+              style={{ textDecoration: 'none' }}>
               View Docket
             </Link>
           </Button>
@@ -69,8 +69,8 @@ const ReturnDocketsScreen = ({currentPage}) => {
       key: 'operation',
       width: '9vw',
       render: (text, record) => (
-        <div className="row justify-evenly">
-          <a href={record.document} target="_blank" rel="noopener noreferrer">
+        <div className='row justify-evenly'>
+          <a href={record.document} target='_blank' rel='noopener noreferrer'>
             <Button
               style={{
                 backgroundColor: 'transparent',
@@ -116,7 +116,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
             <Edit />
           </Button>
           <Popconfirm
-            title="Confirm Delete"
+            title='Confirm Delete'
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
               record,
@@ -163,9 +163,9 @@ const ReturnDocketsScreen = ({currentPage}) => {
 
   return (
     <>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
         </div>
       </div>
       <br />
@@ -173,11 +173,11 @@ const ReturnDocketsScreen = ({currentPage}) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size="middle"
-        title="Return Dockets"
+        size='middle'
+        title='Return Dockets'
         modalBody={deliveryId ? ReceivedForm : ReturnForm}
-        newPage="./return/"
-        separate={deliveryId ? false : true}
+        newPage='./return/'
+        separate={!deliveryId}
         modalWidth={60}
         editingId={editingId || deliveryId}
         cancelEditing={cancelEditing}
@@ -187,7 +187,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
 };
 
 const mapStateToProps = (state) => {
-  return {currentPage: state.page.currentPage};
+  return { currentPage: state.page.currentPage };
 };
 
 export default connect(mapStateToProps)(ReturnDocketsScreen);

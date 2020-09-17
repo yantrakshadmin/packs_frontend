@@ -31,7 +31,7 @@ const ReturnDocket = ({location}) => {
         reqReturn.kits.map((k) => {
           k.items.map((item) => {
             tot += item.quantity * item.product.priceperunit;
-            wt += item.product.volumetric_weight;
+            wt += item.product.volumetric_weight * item.quantity;
           });
         });
       }

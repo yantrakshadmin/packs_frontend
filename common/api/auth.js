@@ -1,38 +1,38 @@
-import {loadAPI} from '../helpers/api';
+import { loadAPI } from '../helpers/api';
 
-export const getJWTTokens = ({username, password}) =>
+export const getJWTTokens = ({ username, password }) =>
   loadAPI(`/api/token/`, {
     method: 'POST',
-    data: {username, password},
+    data: { username, password },
     secure: false,
   });
 
-export const isUserVerified = ({username}) =>
+export const isUserVerified = ({ username }) =>
   loadAPI(`/verification/`, {
-    params: {username},
+    params: { username },
     secure: false,
   });
 
-export const verifyUser = ({username, otp}) =>
+export const verifyUser = ({ username, otp }) =>
   loadAPI('/verifyOTP/', {
     method: 'POST',
-    data: {username, otp},
+    data: { username, otp },
     secure: false,
   });
 
 export const getUserMeta = () => loadAPI(`/user/meta/`);
 
-export const createEmployee = ({username, email, password, first_name, last_name}) =>
+export const createEmployee = ({ username, email, password, first_name, last_name }) =>
   loadAPI('/create-employee/', {
     method: 'POST',
-    data: {username, email, password, first_name, last_name},
+    data: { username, email, password, first_name, last_name },
     secure: false,
   });
 
-export const createClient = ({username, email, password, first_name, last_name}) =>
+export const createClient = ({ username, email, password, first_name, last_name }) =>
   loadAPI('/create-client/', {
     method: 'POST',
-    data: {username, email, password, first_name, last_name},
+    data: { username, email, password, first_name, last_name },
     secure: false,
   });
 
@@ -48,7 +48,7 @@ export const createProduct = (req) =>
     data: req,
     secure: true,
     headers: {
-      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
     },
   });
 
@@ -65,7 +65,7 @@ export const editProduct = (id, req) => {
     secure: true,
     data: req,
     headers: {
-      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
     },
   });
 };
@@ -93,17 +93,17 @@ export const createKit = ({
   loadAPI('/create-kit/', {
     method: 'POST',
     secure: true,
-    data: {kit_name, kit_info, components_per_kit, kit_client, kit_type, products},
+    data: { kit_name, kit_info, components_per_kit, kit_client, kit_type, products },
   });
 
 export const editKit = (
   id,
-  {kit_name, kit_info, components_per_kit, kit_client, kit_type, products},
+  { kit_name, kit_info, components_per_kit, kit_client, kit_type, products },
 ) =>
   loadAPI(`/edit-kit/${id}/`, {
     method: 'PATCH',
     secure: true,
-    data: {kit_name, kit_info, components_per_kit, kit_client, kit_type, products},
+    data: { kit_name, kit_info, components_per_kit, kit_client, kit_type, products },
   });
 
 export const retrieveKits = () =>
@@ -247,7 +247,7 @@ export const createWarehouse = (req) =>
     secure: true,
     data: req,
     headers: {
-      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
     },
   });
 
@@ -257,7 +257,7 @@ export const editWarehouse = (id, req) =>
     secure: true,
     data: req,
     headers: {
-      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
     },
   });
 
@@ -285,7 +285,7 @@ export const editClientProfile = (id, req) =>
     secure: true,
     data: req,
     headers: {
-      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
     },
   });
 
@@ -295,17 +295,17 @@ export const retrieveClientProfile = (id) =>
     secure: true,
   });
 
-export const createReceiverClient = ({name, city, address, emitter, pan, gst}) =>
+export const createReceiverClient = ({ name, city, address, emitter, pan, gst }) =>
   loadAPI('/create-receiverclient/', {
     method: 'POST',
-    data: {name, city, address, emitter, pan, gst},
+    data: { name, city, address, emitter, pan, gst },
     secure: true,
   });
 
-export const editReceiverClient = (id, {name, city, address, emitter, pan, gst}) =>
+export const editReceiverClient = (id, { name, city, address, emitter, pan, gst }) =>
   loadAPI(`/edit-receiverclient/${id}/`, {
     method: 'PATCH',
-    data: {name, city, address, emitter, pan, gst},
+    data: { name, city, address, emitter, pan, gst },
     secure: true,
   });
 
@@ -339,17 +339,17 @@ export const createFlow = ({
   loadAPI('/create-flow/', {
     method: 'POST',
     secure: true,
-    data: {flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits},
+    data: { flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits },
   });
 
 export const editFlow = (
   id,
-  {flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits},
+  { flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits },
 ) =>
   loadAPI(`/edit-flow/${id}/`, {
     method: 'PATCH',
     secure: true,
-    data: {flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits},
+    data: { flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits },
   });
 
 export const retreiveFlow = (id) =>
@@ -382,17 +382,17 @@ export const deleteFlow = (id) =>
     secure: true,
   });
 
-export const createMr = ({delivery_required_on, flows}) =>
+export const createMr = ({ delivery_required_on, flows }) =>
   loadAPI('/create-mrequets/', {
     method: 'POST',
-    data: {delivery_required_on, flows},
+    data: { delivery_required_on, flows },
     secure: true,
   });
 
-export const editMr = (id, {delivery_required_on, flows}) =>
+export const editMr = (id, { delivery_required_on, flows }) =>
   loadAPI(`/edit-mrequets/${id}/`, {
     method: 'PATCH',
-    data: {delivery_required_on, flows},
+    data: { delivery_required_on, flows },
     secure: true,
   });
 
@@ -511,7 +511,7 @@ export const retrieveAllotments = (id) =>
   loadAPI('/allotments/', {
     method: 'GET',
     secure: true,
-    params: {id},
+    params: { id },
   });
 
 export const deleteAllotment = (id) =>
@@ -564,7 +564,7 @@ export const createDelivered = (req) =>
     data: req,
     secure: true,
     headers: {
-      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
     },
   });
 
@@ -574,7 +574,7 @@ export const editDelivered = (id, req) =>
     data: req,
     secure: true,
     headers: {
-      'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
+      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
     },
   });
 
@@ -638,12 +638,25 @@ export const retrieveReturn = (id) =>
     method: 'GET',
     secure: true,
   });
+//
+// export const retrieveReturns = () =>
+//   loadAPI('/return-table/', {
+//     method: 'GET',
+//     secure: true,
+//   });
 
-export const retrieveReturns = () =>
-  loadAPI('/return-table/', {
+export const retrieveReturns = (id) =>
+  loadAPI('/return-received/', {
     method: 'GET',
     secure: true,
+    params: { id },
   });
+//
+// export const retrieveReturns = () =>
+//   loadAPI('/return-table/', {
+//     method: 'GET',
+//     secure: true,
+//   });
 
 export const deleteReturn = (id) =>
   loadAPI(`/edit-return/${id}/`, {
@@ -657,17 +670,17 @@ export const retrieveRFlows = () =>
     secure: true,
   });
 
-export const createReceived = ({returndocket, delivered, items, document}) =>
+export const createReceived = ({ returndocket, delivered, items, document }) =>
   loadAPI('/create-received/', {
     method: 'POST',
-    data: {returndocket, delivered, items},
+    data: { returndocket, delivered, items },
     secure: true,
   });
 
-export const editReceived = (id, {returndocket, delivered, items}) =>
+export const editReceived = (id, { returndocket, delivered, items }) =>
   loadAPI(`/edit-received/${id}/`, {
     method: 'PATCH',
-    data: {returndocket, delivered, items},
+    data: { returndocket, delivered, items },
     secure: true,
   });
 
@@ -703,7 +716,7 @@ export const retrieveGRNBarCodes = (id) =>
     secure: true,
   });
 
-export const retrieveAllotmentReport = ({cname, to, from}) =>
+export const retrieveAllotmentReport = ({ cname, to, from }) =>
   loadAPI(`/allotment-reports/`, {
     method: 'GET',
     secure: true,
@@ -714,7 +727,7 @@ export const retrieveAllotmentReport = ({cname, to, from}) =>
     },
   });
 
-export const retrieveStockingReport = ({to, from}) =>
+export const retrieveStockingReport = ({ to, from }) =>
   loadAPI(`/floating-report/`, {
     method: 'GET',
     secure: true,
@@ -724,7 +737,7 @@ export const retrieveStockingReport = ({to, from}) =>
     },
   });
 
-export const retrieveReturnReport = ({cname, to, from}) =>
+export const retrieveReturnReport = ({ cname, to, from }) =>
   loadAPI(`/return-reports/`, {
     method: 'GET',
     secure: true,
@@ -739,7 +752,7 @@ export const retrieveAllotmentsDelivered = (id) =>
   loadAPI('/allotments-delivered/', {
     method: 'GET',
     secure: true,
-    params: {id},
+    params: { id },
   });
 
 export const retrieveReturnDocket = (id) =>
