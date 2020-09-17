@@ -247,7 +247,8 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
                               disabled: received,
                             },
                             others: {
-                              selectOptions: ['Repairable', 'Return', 'Damage', 'Swap Return'],
+                              selectOptions: ['Repairable', 'Return', 'Damage',
+                                'Swap Return','Others'],
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],

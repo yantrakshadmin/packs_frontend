@@ -179,7 +179,7 @@ export const DeliveredForm = ({ id, onCancel, onDone, transaction_no }) => {
                         <div className='p-2'>
                           {formItem({
                             ...item,
-                            noLabel: index != 0,
+                            noLabel: index !== 0,
                             kwargs: {
                               placeholder: 'Select',
                               type: 'number',
@@ -207,7 +207,7 @@ export const DeliveredForm = ({ id, onCancel, onDone, transaction_no }) => {
                         <div className='p-2'>
                           {formItem({
                             ...item,
-                            noLabel: index != 0,
+                            noLabel: index !== 0,
                             kwargs: {
                               placeholder: 'Enter',
                               type: 'number',
@@ -229,13 +229,14 @@ export const DeliveredForm = ({ id, onCancel, onDone, transaction_no }) => {
                         <div className='p-2'>
                           {formItem({
                             ...item,
-                            noLabel: index != 0,
+                            noLabel: index !== 0,
                             kwargs: {
                               placeholder: 'Select',
                               disabled: delivered,
                             },
                             others: {
-                              selectOptions: ['Repairable', 'Return', 'Damage', 'Swap Return'],
+                              selectOptions: ['Repairable',
+                                'Return', 'Damage', 'Swap Return','Others'],
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],
@@ -248,7 +249,7 @@ export const DeliveredForm = ({ id, onCancel, onDone, transaction_no }) => {
                     ))}
                     <Button
                       type='danger'
-                      style={index != 0 ? { top: '-2vh' } : null}
+                      style={index !== 0 ? { top: '-2vh' } : null}
                       disabled={delivered}
                       onClick={() => {
                         remove(field.name);

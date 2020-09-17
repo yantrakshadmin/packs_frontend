@@ -675,6 +675,9 @@ export const createReceived = ({ returndocket, delivered, items, document }) =>
     method: 'POST',
     data: { returndocket, delivered, items },
     secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+    },
   });
 
 export const editReceived = (id, { returndocket, delivered, items }) =>
@@ -682,6 +685,9 @@ export const editReceived = (id, { returndocket, delivered, items }) =>
     method: 'PATCH',
     data: { returndocket, delivered, items },
     secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+    },
   });
 
 export const retrieveReceived = (id) =>
