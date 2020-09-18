@@ -670,20 +670,20 @@ export const retrieveRFlows = () =>
     secure: true,
   });
 
-export const createReceived = ({ returndocket, delivered, items, document }) =>
+export const createReceived = (req) =>
   loadAPI('/create-received/', {
     method: 'POST',
-    data: { returndocket, delivered, items },
+    data: req,
     secure: true,
     headers: {
       'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
     },
   });
 
-export const editReceived = (id, { returndocket, delivered, items }) =>
+export const editReceived = (id, req) =>
   loadAPI(`/edit-received/${id}/`, {
     method: 'PATCH',
-    data: { returndocket, delivered, items },
+    data: req,
     secure: true,
     headers: {
       'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
