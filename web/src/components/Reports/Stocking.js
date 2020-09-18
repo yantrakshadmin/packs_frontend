@@ -1,39 +1,51 @@
-import React, {useState} from 'react';
-import formItem from '../../hocs/formItem.hoc';
-import {connect} from 'react-redux';
+import React, { useState ,useEffect } from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
-import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
-import {useAPI} from 'common/hooks/api';
-import {Row, Col, Form, Button} from 'antd';
-import {FORM_ELEMENT_TYPES} from '../../constants/formFields.constant';
-import {retrieveStockingReport, retrieveClients} from 'common/api/auth';
+import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
+import { useAPI } from 'common/hooks/api';
+import { Row, Col, Form, Button } from 'antd';
+import { retrieveStockingReport, retrieveClients } from 'common/api/auth';
 import allotmentColumns from 'common/columns/AllotmentReport.column';
-import {AllotFlowTable} from 'components/AllotFlowExp';
+import { AllotFlowTable } from 'components/AllotFlowExp';
 import TableWithTabHoc from 'hocs/TableWithTab.hoc';
-import {useEffect} from 'react';
+import { FORM_ELEMENT_TYPES } from '../../constants/formFields.constant';
 
-const StockingReport = ({currentPage}) => {
+import formItem from '../../hocs/formItem.hoc';
+
+const StockingReport = ({ currentPage }) => {
   const [all, setAll] = useState(false);
   const [loading, setLoading] = useState(false);
   const [csvData, setCsvData] = useState(null);
   const [reportData, setReportData] = useState(null);
   const [reqAllotments, setReqAllotments] = useState(null);
-  // const [client, setClient] = useState('');
-  // const [clientName, setClientName] = useState(null);
+  const [client, setClient] = useState('');
+  const [clientName, setClientName] = useState(null);
   const [to, setTo] = useState(null);
   const [from, setFrom] = useState(null);
   const [form] = Form.useForm();
 
-  // const {data: clients} = useAPI('/clients/', {});
+  const { data: clients } = useAPI('/clients/', {});
 
   const onSubmit = async (data) => {
     setLoading(true);
-    data['to'] = moment(data['to']).format('YYYY-MM-DD HH:MM');
-    data['from'] = moment(data['from']).format('YYYY-MM-DD HH:MM');
-    setTo(data['to']);
-    setFrom(data['from']);
-    const {data: report} = await retrieveStockingReport(data);
-    if (report) {
+    // if (!data.cname) {
+    //   data.cname = '';
+    //   setClient(data.cname);
+    // } else {
+    //   setClient(data.cname);
+    //   let reqC = null;
+    //   clients.forEach((c) => {
+    //     if (c.user === data.cname) reqC = c.client_name;
+    //   });
+    //   setClientName(reqC);
+    // }
+    data.to = moment(data.to).format('YYYY-MM-DD HH:MM');
+    data.from = moment(data.from).format('YYYY-MM-DD HH:MM');
+    setTo(data.to);
+    setFrom(data.from);
+    const { data: report } = await retrieveStockingReport(data);
+      console.log(report,'waping')
+    if (report.length>0) {
       console.log(report);
       setLoading(false);
       setReportData(report);
@@ -61,27 +73,27 @@ const StockingReport = ({currentPage}) => {
 
   useEffect(() => {
     if (reqAllotments) {
-      let csvd = [];
+      const csvd = [];
       reqAllotments.forEach((d) => {
-        let temp = {...d, ['is_delivered']: [d['is_delivered'] ? 'Yes' : 'No']};
-        delete temp['flows'];
+        const temp = { ...d, 'is_delivered': [d.is_delivered ? 'Yes' : 'No'] };
+        delete temp.flows;
         csvd.push(temp);
         d.flows.forEach((f) => {
-          let kit = f['kit'].kit_name,
-            aq = f.alloted_quantity;
+          const kit = f.kit.kit_name;
+          const aq = f.alloted_quantity;
           // let s = '';
           // for (let i = 1; i <= aq; i++) {
           //   s += `${d.transaction_no}-${kit}-${i}, `;
           // }
           // s = s.slice(0, -2);
-          let temp1 = {
+          const temp1 = {
             ...f,
-            ['kit']: f['kit'].kit_name,
+            'kit': f.kit.kit_name,
             // 'kits assigned': s
           };
           csvd.push(temp1);
           f.kit.products.forEach((p) => {
-            let temp2 = {...p, ['quantity']: p['quantity'] * aq};
+            const temp2 = { ...p, 'quantity': p.quantity * aq };
             csvd.push(temp2);
           });
         });
@@ -111,8 +123,13 @@ const StockingReport = ({currentPage}) => {
 
   return (
     <>
-      <Form onFinish={onSubmit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
-        {/* <Row>
+      <Form
+        onFinish={onSubmit}
+        form={form}
+        layout='vertical'
+        hideRequiredMark
+        autoComplete='off'>
+        <Row>
           <Col span={10}>
             {formItem({
               key: 'cname',
@@ -129,12 +146,12 @@ const StockingReport = ({currentPage}) => {
               customLabel: 'Client',
             })}
           </Col>
-        </Row> */}
+        </Row>
         <Row>
           <Col span={3}>
             {formItem({
               key: 'from',
-              rules: [{required: true, message: 'Please select From date!'}],
+              rules: [{ required: true, message: 'Please select From date!' }],
               kwargs: {
                 placeholder: 'Select',
                 type: 'number',
@@ -148,7 +165,7 @@ const StockingReport = ({currentPage}) => {
           <Col span={3}>
             {formItem({
               key: 'to',
-              rules: [{required: true, message: 'Please select To date!'}],
+              rules: [{ required: true, message: 'Please select To date!' }],
               kwargs: {
                 placeholder: 'Select',
                 type: 'number',
@@ -160,7 +177,7 @@ const StockingReport = ({currentPage}) => {
           </Col>
         </Row>
         <Row>
-          <Button type="primary" htmlType="submit">
+          <Button type='primary' htmlType='submit'>
             Submit
           </Button>
         </Row>
@@ -168,14 +185,14 @@ const StockingReport = ({currentPage}) => {
       <br />
       <TableWithTabHoc
         tabs={tabs}
-        size="middle"
-        title="Floating Report"
+        size='middle'
+        title='Floating Report'
         hideRightButton
-        // downloadLink={`${DEFAULT_BASE_URL}/allotment-reportsdownload/?cname=${client}&to=${to}&from=${from}`}
-        rowKey="id"
-        expandHandleKey="flows"
+        downloadLink={`${DEFAULT_BASE_URL}/allotment-reportsdownload/?cname=${client}&to=${to}&from=${from}`}
+        rowKey='id'
+        expandHandleKey='flows'
         ExpandBody={AllotFlowTable}
-        expandParams={{loading}}
+        expandParams={{ loading }}
         // csvdata={csvData}
         // csvname={'Allotments' + clientName + '.csv'}
       />
@@ -184,7 +201,7 @@ const StockingReport = ({currentPage}) => {
 };
 
 const mapStateToProps = (state) => {
-  return {currentPage: state.page.currentPage};
+  return { currentPage: state.page.currentPage };
 };
 
 export default connect(mapStateToProps)(StockingReport);

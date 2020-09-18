@@ -8,6 +8,7 @@ import { useHandleForm } from 'hooks/form';
 import {
   createDelivered,
   retrieveDelivered,
+  allDelivered,
   editDelivered,
   retrieveAllotmentsDelivered,
 } from 'common/api/auth';
@@ -38,10 +39,30 @@ export const DeliveredForm = ({ id, onCancel, onDone, transaction_no }) => {
     form.setFieldsValue({ transaction_no });
   }, [form]);
 
+
+  useEffect(() => {
+    const fetchDelivered = async () => {
+      const { data } = await allDelivered();
+      if (data) {
+        const dlvd = data.filter((d) => d.allotment === id)[0];
+        if (dlvd) {
+          setDeliveryId(dlvd.id);
+        } else {
+          form.setFieldsValue({ delivered: true });
+        }
+      }
+    };
+    if (id) {
+      fetchDelivered();
+      setAllotment(id);
+    }
+  }, [id]);
+
   useEffect(() => {
     const fetchDelivered = async () => {
       setLoading(true);
       const { data } = await retrieveAllotmentsDelivered(id);
+      console.log(data,'ye wala')
       if (data) {
         setLoading(false);
         const reqdlvd = data;
@@ -60,9 +81,8 @@ export const DeliveredForm = ({ id, onCancel, onDone, transaction_no }) => {
 
   useEffect(() => {
     if (reqDlvd) {
-      console.log('yes');
       const reqProd = [];
-      console.log(reqDlvd);
+      console.log(reqDlvd,'req');
       reqDlvd.flows.forEach((flow) => {
         flow.kit.products.forEach((prod) => {
           reqProd.push(prod.product);

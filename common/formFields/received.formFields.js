@@ -1,4 +1,4 @@
-import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
+import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 
 export const ReceivedFormFields = [
   {

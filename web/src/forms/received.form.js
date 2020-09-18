@@ -5,7 +5,13 @@ import {
   ReceivedProductFormFields,
 } from 'common/formFields/received.formFields';
 import { useHandleForm } from 'hooks/form';
-import { createReceived, editReceived, retrieveReceived, retrieveReturns } from 'common/api/auth';
+import {
+  createReceived,
+  editReceived,
+  allReceived,
+  retrieveReceived,
+  retrieveReturns,
+} from 'common/api/auth';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import formItem from '../hocs/formItem.hoc';
 
@@ -27,6 +33,26 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
     retrieve: retrieveReceived,
     id: receivedId,
   });
+
+
+  useEffect(() => {
+    const fetchDelivered = async () => {
+      const { data } = await allReceived();
+      console.log(data,'ye wala data')
+      if (data) {
+        const dlvd = data.filter((d) => d.returndocket === id)[0];
+        if (dlvd) {
+          setReceivedId(dlvd.id);
+        } else {
+          form.setFieldsValue({ delivered: true });
+        }
+      }
+    };
+    if (id) {
+      fetchDelivered();
+    }
+  }, [id]);
+
 
   useEffect(() => {
     const fetchReturn = async () => {
