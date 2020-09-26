@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
 import { useAPI } from 'common/hooks/api';
-import { Row, Col, Form, Button } from 'antd';
+import { Row, Col, Form, Button,Typography } from 'antd';
 import { retrieveStockingReport, retrieveClients } from 'common/api/auth';
 import allotmentColumns from 'common/columns/AllotmentReport.column';
 import { AllotFlowTable } from 'components/AllotFlowExp';
@@ -12,119 +12,32 @@ import { FORM_ELEMENT_TYPES } from '../../constants/formFields.constant';
 
 import formItem from '../../hocs/formItem.hoc';
 
+const { Title } =Typography;
 const StockingReport = ({ currentPage }) => {
-  const [all, setAll] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [csvData, setCsvData] = useState(null);
-  const [reportData, setReportData] = useState(null);
-  const [reqAllotments, setReqAllotments] = useState(null);
   const [client, setClient] = useState('');
-  const [clientName, setClientName] = useState(null);
   const [to, setTo] = useState(null);
   const [from, setFrom] = useState(null);
   const [form] = Form.useForm();
 
   const { data: clients } = useAPI('/clients/', {});
 
-  const onSubmit = async (data) => {
-    setLoading(true);
-    // if (!data.cname) {
-    //   data.cname = '';
-    //   setClient(data.cname);
-    // } else {
-    //   setClient(data.cname);
-    //   let reqC = null;
-    //   clients.forEach((c) => {
-    //     if (c.user === data.cname) reqC = c.client_name;
-    //   });
-    //   setClientName(reqC);
-    // }
+  const onChange = async (data) => {
     data.to = moment(data.to).format('YYYY-MM-DD HH:MM');
     data.from = moment(data.from).format('YYYY-MM-DD HH:MM');
     setTo(data.to);
     setFrom(data.from);
-    const { data: report } = await retrieveStockingReport(data);
-      console.log(report,'waping')
-    if (report.length>0) {
-      console.log(report);
-      setLoading(false);
-      setReportData(report);
-    }
+    setClient(form.getFieldValue('cname'))
   };
 
-  useEffect(() => {
-    if (reportData) {
-      const reqD = reportData.map((alt) => ({
-        id: alt.id,
-        owner: alt.owner,
-        vehicle_type: alt.vehicle_type,
-        transaction_no: alt.transaction_no,
-        dispatch_date: alt.dispatch_date,
-        material_request_id: alt.sales_order,
-        warehouse_name: alt.send_from_warehouse,
-        flows: alt.flows,
-        vehicle_number: alt.vehicle_number,
-        transport_by: alt.transport_by,
-        is_delivered: alt.is_delivered,
-      }));
-      setReqAllotments(reqD);
-    }
-  }, [reportData]);
 
-  useEffect(() => {
-    if (reqAllotments) {
-      const csvd = [];
-      reqAllotments.forEach((d) => {
-        const temp = { ...d, 'is_delivered': [d.is_delivered ? 'Yes' : 'No'] };
-        delete temp.flows;
-        csvd.push(temp);
-        d.flows.forEach((f) => {
-          const kit = f.kit.kit_name;
-          const aq = f.alloted_quantity;
-          // let s = '';
-          // for (let i = 1; i <= aq; i++) {
-          //   s += `${d.transaction_no}-${kit}-${i}, `;
-          // }
-          // s = s.slice(0, -2);
-          const temp1 = {
-            ...f,
-            'kit': f.kit.kit_name,
-            // 'kits assigned': s
-          };
-          csvd.push(temp1);
-          f.kit.products.forEach((p) => {
-            const temp2 = { ...p, 'quantity': p.quantity * aq };
-            csvd.push(temp2);
-          });
-        });
-      });
-      setCsvData(csvd);
-    }
-  }, [reqAllotments]);
 
-  const columns = [
-    {
-      title: 'Sr. No.',
-      key: 'srno',
-      render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
-    },
-    ...allotmentColumns,
-  ];
 
-  const tabs = [
-    {
-      name: 'Floating Report',
-      key: 'Floating Report',
-      data: reqAllotments || [],
-      columns,
-      loading,
-    },
-  ];
 
   return (
     <>
+      <Title level={3}>Floating Reports</Title>
       <Form
-        onFinish={onSubmit}
+        onFieldsChange={onChange}
         form={form}
         layout='vertical'
         hideRequiredMark
@@ -177,25 +90,15 @@ const StockingReport = ({ currentPage }) => {
           </Col>
         </Row>
         <Row>
-          <Button type='primary' htmlType='submit'>
-            Submit
+          <Button
+            href={`${DEFAULT_BASE_URL}/floating-report/?cname=${client}&to=${to}&from=${from}`}
+            rel='noopener noreferrer'
+            target='blank'>
+            Download CSV
           </Button>
         </Row>
       </Form>
       <br />
-      <TableWithTabHoc
-        tabs={tabs}
-        size='middle'
-        title='Floating Report'
-        hideRightButton
-        downloadLink={`${DEFAULT_BASE_URL}/allotment-reportsdownload/?cname=${client}&to=${to}&from=${from}`}
-        rowKey='id'
-        expandHandleKey='flows'
-        ExpandBody={AllotFlowTable}
-        expandParams={{ loading }}
-        // csvdata={csvData}
-        // csvname={'Allotments' + clientName + '.csv'}
-      />
     </>
   );
 };
