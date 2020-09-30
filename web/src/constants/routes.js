@@ -1,7 +1,7 @@
-import {lazy} from 'react';
+import { lazy } from 'react';
 
 export const publicRoutes = [
-  {Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')), path: '/'},
+  { Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')), path: '/' },
   {
     Component: lazy(() => import('../components/SignUp/sign-up-client.component')),
     path: '/sign-up/client/',
@@ -69,7 +69,7 @@ export const employeeRoutes = [
     name: 'Dashboard',
     icon: ['fas', 'home'],
     path: '/dashboard/',
-    Component: lazy(() => import('screens/404.screen')),
+    Component: lazy(() => import('screens/employee/dashboard.screen')),
   },
   {
     name: 'Masters',
