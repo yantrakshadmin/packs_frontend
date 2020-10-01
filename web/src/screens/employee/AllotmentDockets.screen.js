@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {Modal} from 'antd'
 import allotmentColumns from 'common/columns/Allotment.column';
 import { DeliveredForm } from 'forms/delivered.form';
 import { AllotmentMainForm } from 'forms/allotmentMain.form';
@@ -17,6 +18,7 @@ import Document from 'icons/Document';
 import { data } from 'jquery';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import { BarcodeAllotmentDocket } from 'components/barcodeAllotmentDocket';
 
 const { Search } = Input;
 
@@ -28,6 +30,8 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
   const [reqData, setReqData] = useState([]);
   const [TN, setTN] = useState(null);
   const navigate = useNavigate();
+  const  [visible,setVisible ] = useState(false)
+
 
   const { data: allotments, loading } = useAPI('/allotments-table/', {});
 
@@ -66,7 +70,8 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
       render: (text, record) => {
         console.log(record);
         return (
-          <Button type='primary'>
+          <div className='row justify-evenly'>
+          <Button type='primary m-2'>
             <Link
               to='../docket'
               state={{ id: record.id }}
@@ -75,6 +80,10 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
               View Docket
             </Link>
           </Button>
+          <Button type='primary m-2' onClick={()=>{setVisible(true)}}>    
+            Enter Barcode
+          </Button>
+          </div>
         );
       },
     },
@@ -184,6 +193,16 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
         </div>
       </div>
       <br />
+      <Modal
+        maskClosable={false}
+        visible={visible}
+        destroyOnClose
+        style={{ minWidth: `80vw` }}
+        title={`Barcode Menu`}
+        onCancel={()=>{setVisible(false)}}
+        footer={null}>
+        <BarcodeAllotmentDocket/>
+      </Modal>
       <TableWithTabHOC
         rowKey={(record) => record.id}
         refresh={reload}

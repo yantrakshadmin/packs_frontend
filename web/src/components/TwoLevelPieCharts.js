@@ -57,7 +57,7 @@ const renderActiveShape = ({
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         textAnchor={textAnchor}
-        fill='#333'
+        fill='#000'
       >
         {`Value ${value}`}
       </text>
@@ -66,7 +66,7 @@ const renderActiveShape = ({
         y={ey}
         dy={18}
         textAnchor={textAnchor}
-        fill='#999'
+        fill='#20a8d4'
       >
         {`(Rate ${(percent * 100).toFixed(2)}%)`}
       </text>
@@ -109,7 +109,7 @@ export default class PieChartTwoLevel extends Component {
           cy={200}
           innerRadius={70}
           outerRadius={100}
-          fill='#82ca9d'
+          fill='#20a8d4'
           onMouseEnter={this.onPieEnter}
           />
         <Tooltip />
