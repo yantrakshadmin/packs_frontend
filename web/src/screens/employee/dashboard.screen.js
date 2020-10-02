@@ -55,6 +55,7 @@ export const DashboardScreen = () => {
         <TwoLevelPieCharts data={data} />
       </Col>
       <Col span={12}>
+        <TwoLevelPieCharts data={filteredData} />
         <div className='row justify-end'>
           <Select
             showSearch
@@ -64,11 +65,10 @@ export const DashboardScreen = () => {
             onChange={(value)=>{console.log(value);setFilterKey(value)}}
             filterOption={(input, option) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-        >
+          >
             {Object.keys(dummy).map((key)=>(<Option value={key}>{key}</Option>))}
           </Select>
         </div>
-        <TwoLevelPieCharts data={filteredData} />
       </Col>
     </Row>
   );

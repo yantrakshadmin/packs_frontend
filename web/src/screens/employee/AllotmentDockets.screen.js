@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {Modal} from 'antd'
+import { Modal , Popconfirm, Input, Button } from 'antd'
 import allotmentColumns from 'common/columns/Allotment.column';
 import { DeliveredForm } from 'forms/delivered.form';
 import { AllotmentMainForm } from 'forms/allotmentMain.form';
-import { Popconfirm, Input, Button } from 'antd';
+import { faTruckLoading ,faMoneyCheck } from  '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { deleteAllotment } from 'common/api/auth';
@@ -15,10 +16,9 @@ import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
 import Delivery from 'icons/Delivery';
 import Document from 'icons/Document';
-import { data } from 'jquery';
+import { BarcodeAllotmentDocket } from 'components/barcodeAllotmentDocket';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import { BarcodeAllotmentDocket } from 'components/barcodeAllotmentDocket';
 
 const { Search } = Input;
 
@@ -68,21 +68,23 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
       title: 'Docket',
       key: 'docket',
       render: (text, record) => {
-        console.log(record);
         return (
-          <div className='row justify-evenly'>
-          <Button type='primary m-2'>
+          <div className='row align-center justify-evenly'>
+
             <Link
               to='../docket'
               state={{ id: record.id }}
               key={record.id}
+              className='mx-2'
               style={{ textDecoration: 'none' }}>
-              View Docket
+              <FontAwesomeIcon icon={faMoneyCheck} onClick={()=>{setVisible(true)}} style={{ fontSize:20 }} />
             </Link>
-          </Button>
-          <Button type='primary m-2' onClick={()=>{setVisible(true)}}>    
-            Enter Barcode
-          </Button>
+
+            <FontAwesomeIcon
+              className='mx-2'
+              icon={faTruckLoading}
+              onClick={()=>{setVisible(true)}}
+              style={{ fontSize:20 }} />
           </div>
         );
       },
@@ -138,7 +140,6 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
               padding: '1px',
             }}
             onClick={(e) => {
-              console.log(record.id);
               setEditingId(record.id);
               e.stopPropagation();
             }}>
@@ -198,10 +199,10 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
         visible={visible}
         destroyOnClose
         style={{ minWidth: `80vw` }}
-        title={`Barcode Menu`}
+        title='Barcode Menu'
         onCancel={()=>{setVisible(false)}}
         footer={null}>
-        <BarcodeAllotmentDocket/>
+        <BarcodeAllotmentDocket />
       </Modal>
       <TableWithTabHOC
         rowKey={(record) => record.id}
