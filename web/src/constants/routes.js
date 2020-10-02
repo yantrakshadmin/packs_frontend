@@ -181,6 +181,12 @@ export const employeeRoutes = [
       },
     ],
   },
+  {
+    name: 'Events',
+    icon: ['fas', 'home'],
+    path: '/events/',
+    Component: lazy(() => import('screens/employee/events.screen')),
+  },
 ];
 
 export const clientRoutes = [
