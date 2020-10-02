@@ -9,14 +9,19 @@ const { Title } = Typography;
 
 export const BarcodeAllotmentDocket = () =>{
   const [barcodes,setBarcodes] = useState([]);
+  const [productDetails,setProductDetails] = useState({
+  });
   const [inputValue,setInputValue] = useState('')
   const [useScanner,setUseScanner] = useState(true)
 
   const addItem= async (value)=>{
-    const filtered = barcodes.filter((i)=>(i.barcode === inputValue));
-    const { data } = await loadAPI('check-bar/?code=YNT929924262');
-    if(filtered.length===0){
+    const filtered = barcodes.filter((i)=>(i.barcode === (value || inputValue)));
+    const { data ,error } = await loadAPI(`check-bar/?code=${value || inputValue}`);
+    console.log('da',data);
+    if(filtered.length===0 && data === 0){
       setBarcodes([...barcodes,{ barcode:value || inputValue,name:data }])
+      setProductDetails({ ...productDetails,
+        [data]:((productDetails[data]?productDetails[data]:0)+1) })
     }
     else{
       notification.warning({
@@ -24,7 +29,6 @@ export const BarcodeAllotmentDocket = () =>{
         description:
                   'The item you are trying to add is already',
       });
-
     }
     setInputValue('');
   }
@@ -36,13 +40,17 @@ export const BarcodeAllotmentDocket = () =>{
       addItem(value);
     }
   };
-  const removeItem=(value)=>{
+  const removeItem=(value,name)=>{
     if(barcodes.length){
       setBarcodes([...barcodes.filter(i=>(i.barcode !== value))])
+      if(productDetails[name] === 1){
+        delete productDetails[name];
+      }else{
+        setProductDetails({ ...productDetails,[name]:productDetails[name]-1 })
+      }
     }
-
-
   }
+
   return (
     <div>
       <Row align='middle'>
@@ -79,7 +87,7 @@ export const BarcodeAllotmentDocket = () =>{
         </Col>
         <Col span={10}>
           <Title level={4}>
-            Product Name
+            Product Details
           </Title>
         </Col>
       </Row>
@@ -90,7 +98,7 @@ export const BarcodeAllotmentDocket = () =>{
               <Col className='my-1' span={23} key={index.toString()}>
                 <Tag
                   closable
-                  onClose={(e)=>{ e.preventDefault();removeItem(item.barcode)}}
+                  onClose={(e)=>{ e.preventDefault();removeItem(item.barcode,item.name)}}
                 >
                   {item.barcode}
                 </Tag>
@@ -102,10 +110,16 @@ export const BarcodeAllotmentDocket = () =>{
           </div>
         </Col>
         <Col span={14} className='row justify-between h-100'>
-          {barcodes.length > 0?barcodes.map((item,index)=>(
+          {Object.keys(productDetails).length > 0?Object.keys(productDetails).map((item,index)=>(
             <Col span={24} className='my-2'>
               <text>
-                {item.name}
+                {item}
+                {' '}
+                *
+                {' '}
+              </text>
+              <text>
+                {productDetails[item]}
               </text>
             </Col>
           )):null}

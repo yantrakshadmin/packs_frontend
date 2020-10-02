@@ -3,7 +3,8 @@ import { Modal , Popconfirm, Input, Button } from 'antd'
 import allotmentColumns from 'common/columns/Allotment.column';
 import { DeliveredForm } from 'forms/delivered.form';
 import { AllotmentMainForm } from 'forms/allotmentMain.form';
-
+import { faTruckLoading ,faMoneyCheck } from  '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { deleteAllotment } from 'common/api/auth';
@@ -68,19 +69,22 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
       key: 'docket',
       render: (text, record) => {
         return (
-          <div className='column align-center'>
-            <Button type='primary m-2'>
-              <Link
-                to='../docket'
-                state={{ id: record.id }}
-                key={record.id}
-                style={{ textDecoration: 'none' }}>
-                View Docket
-              </Link>
-            </Button>
-            <Button type='primary m-2' onClick={()=>{setVisible(true)}}>
-              Enter Barcode
-            </Button>
+          <div className='row align-center justify-evenly'>
+
+            <Link
+              to='../docket'
+              state={{ id: record.id }}
+              key={record.id}
+              className='mx-2'
+              style={{ textDecoration: 'none' }}>
+              <FontAwesomeIcon icon={faMoneyCheck} onClick={()=>{setVisible(true)}} style={{ fontSize:20 }} />
+            </Link>
+
+            <FontAwesomeIcon
+              className='mx-2'
+              icon={faTruckLoading}
+              onClick={()=>{setVisible(true)}}
+              style={{ fontSize:20 }} />
           </div>
         );
       },
