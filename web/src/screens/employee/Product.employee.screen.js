@@ -1,30 +1,30 @@
-import React, {useState, useEffect} from 'react';
-import {connect} from 'react-redux';
-import {ProductForm} from '../../forms/createProduct.form';
-import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import productColumns from 'common/columns/Products.column';
-import {Popconfirm, Button, Input} from 'antd';
-import {deleteProduct, retrieveProducts} from 'common/api/auth';
-import {deleteHOC} from '../../hocs/deleteHoc';
+import { Popconfirm, Button, Input } from 'antd';
+import { deleteProduct, retrieveProducts } from 'common/api/auth';
+import { useTableSearch } from 'hooks/useTableSearch';
+import { ProductForm } from '../../forms/createProduct.form';
+import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import Document from '../../icons/Document';
-import {useTableSearch} from 'hooks/useTableSearch';
 
-const {Search} = Input;
+const { Search } = Input;
 
-const ProductEmployeeScreen = ({currentPage}) => {
+const ProductEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveProducts});
+  const { filteredData, loading, reload } = useTableSearch({ searchVal, retrieve: retrieveProducts });
 
   useEffect(() => {
     if (filteredData) {
-      let csvd = [];
+      const csvd = [];
       filteredData.forEach((d) => {
-        delete d['owner'];
+        delete d.owner;
         csvd.push(d);
       });
       setCsvData(csvd);
@@ -43,8 +43,9 @@ const ProductEmployeeScreen = ({currentPage}) => {
       key: 'operation',
       width: '7vw',
       render: (text, record) => (
-        <div className="row align-center justify-between">
-          <a href={record.document} target="_blank">
+        <div className='row align-center justify-between'>
+          {/* eslint-disable-next-line react/jsx-no-target-blank */}
+          <a href={record.document} target='_blank'>
             <Button
               style={{
                 backgroundColor: 'transparent',
@@ -71,7 +72,7 @@ const ProductEmployeeScreen = ({currentPage}) => {
             <Edit />
           </Button>
           <Popconfirm
-            title="Confirm Delete"
+            title='Confirm Delete'
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
               record,
@@ -110,9 +111,9 @@ const ProductEmployeeScreen = ({currentPage}) => {
 
   return (
     <>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
         </div>
       </div>
       <br />
@@ -120,22 +121,22 @@ const ProductEmployeeScreen = ({currentPage}) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size="small"
-        title="Products"
+        size='small'
+        title='Products'
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={ProductForm}
         modalWidth={45}
-        expandParams={{loading}}
+        expandParams={{ loading }}
         csvdata={csvData}
-        csvname={'Products' + searchVal + '.csv'}
+        csvname={`Products${  searchVal  }.csv`}
       />
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  return {currentPage: state.page.currentPage};
+  return { currentPage: state.page.currentPage };
 };
 
 export default connect(mapStateToProps)(ProductEmployeeScreen);

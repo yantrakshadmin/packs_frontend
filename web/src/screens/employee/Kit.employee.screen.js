@@ -1,35 +1,35 @@
-import React, {useState, useEffect} from 'react';
-import {KitForm} from '../../forms/createKit.form';
-import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import React, { useState, useEffect } from 'react';
 import kitsColumns from 'common/columns/Kits.column';
+import { Popconfirm, Button, Input } from 'antd';
+import { deleteKit, retrieveKits } from 'common/api/auth';
+import { connect } from 'react-redux';
+import { useTableSearch } from 'hooks/useTableSearch';
+import { KitForm } from '../../forms/createKit.form';
+import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import ProductTable from '../../components/ProductsTable';
-import {Popconfirm, Button, Input} from 'antd';
-import {deleteKit, retrieveKits} from 'common/api/auth';
-import {deleteHOC} from '../../hocs/deleteHoc';
+import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
-import {connect} from 'react-redux';
-import {useTableSearch} from 'hooks/useTableSearch';
 
-const {Search} = Input;
+const { Search } = Input;
 
-const KitEmployeeScreen = ({currentPage}) => {
+const KitEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveKits});
+  const { filteredData, loading, reload } = useTableSearch({ searchVal, retrieve: retrieveKits });
 
   useEffect(() => {
     if (filteredData) {
-      let csvd = [];
+      const csvd = [];
       console.log(filteredData);
       filteredData.forEach((d) => {
-        let temp = {...d, ['kit_client']: d.kit_client.client_name};
-        delete temp['products'];
-        delete temp['owner'];
+        const temp = { ...d, 'kit_client': d.kit_client.client_name };
+        delete temp.products;
+        delete temp.owner;
         csvd.push(temp);
-        d['products'].forEach((prod) => {
+        d.products.forEach((prod) => {
           csvd.push({
             ShortCode: prod.product.short_code,
             Name: prod.product.name,
@@ -59,7 +59,7 @@ const KitEmployeeScreen = ({currentPage}) => {
       key: 'operation',
       width: '7vw',
       render: (text, record) => (
-        <div className="row justify-evenly">
+        <div className='row justify-evenly'>
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -74,7 +74,7 @@ const KitEmployeeScreen = ({currentPage}) => {
             <Edit />
           </Button>
           <Popconfirm
-            title="Confirm Delete"
+            title='Confirm Delete'
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
               record,
@@ -111,9 +111,9 @@ const KitEmployeeScreen = ({currentPage}) => {
 
   return (
     <>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
         </div>
       </div>
       <br />
@@ -121,24 +121,24 @@ const KitEmployeeScreen = ({currentPage}) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size="middle"
-        title="Kits"
+        size='middle'
+        title='Kits'
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={KitForm}
         modalWidth={45}
-        expandHandleKey="products"
-        expandParams={{loading}}
+        expandHandleKey='products'
+        expandParams={{ loading }}
         ExpandBody={ProductTable}
         csvdata={csvData}
-        csvname={'Kits' + searchVal + '.csv'}
+        csvname={`Kits${  searchVal  }.csv`}
       />
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  return {currentPage: state.page.currentPage};
+  return { currentPage: state.page.currentPage };
 };
 
 export default connect(mapStateToProps)(KitEmployeeScreen);
