@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {Modal} from 'antd'
+import { Col, Modal, Row , Popconfirm, Input, Button } from 'antd';
 import allotmentColumns from 'common/columns/Allotment.column';
 import { DeliveredForm } from 'forms/delivered.form';
 import { AllotmentMainForm } from 'forms/allotmentMain.form';
-import { Popconfirm, Input, Button } from 'antd';
+
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { deleteAllotment } from 'common/api/auth';
@@ -16,9 +16,13 @@ import Edit from 'icons/Edit';
 import Delivery from 'icons/Delivery';
 import Document from 'icons/Document';
 import { data } from 'jquery';
+import { BarcodeAllotmentDocket } from 'components/barcodeAllotmentDocket';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import { BarcodeAllotmentDocket } from 'components/barcodeAllotmentDocket';
+import { LineGraph } from '../../components/graphComponent/lineGraph';
+import { LineGraph2 } from '../../components/graphComponent/lineGraph2';
+import { BarGraph } from '../../components/graphComponent/barGraph';
+import { PointGraph } from '../../components/graphComponent/pointGraph';
 
 const { Search } = Input;
 
@@ -30,8 +34,7 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
   const [reqData, setReqData] = useState([]);
   const [TN, setTN] = useState(null);
   const navigate = useNavigate();
-  const  [visible,setVisible ] = useState(false)
-
+  const [visible, setVisible] = useState(false);
 
   const { data: allotments, loading } = useAPI('/allotments-table/', {});
 
@@ -71,18 +74,22 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
         console.log(record);
         return (
           <div className='row justify-evenly'>
-          <Button type='primary m-2'>
-            <Link
-              to='../docket'
-              state={{ id: record.id }}
-              key={record.id}
-              style={{ textDecoration: 'none' }}>
-              View Docket
-            </Link>
-          </Button>
-          <Button type='primary m-2' onClick={()=>{setVisible(true)}}>    
-            Enter Barcode
-          </Button>
+            <Button type='primary m-2'>
+              <Link
+                to='../docket'
+                state={{ id: record.id }}
+                key={record.id}
+                style={{ textDecoration: 'none' }}>
+                View Docket
+              </Link>
+            </Button>
+            <Button
+              type='primary m-2'
+              onClick={() => {
+                setVisible(true);
+              }}>
+              Enter Barcode
+            </Button>
           </div>
         );
       },
@@ -94,7 +101,7 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
       render: (text, record) => (
         <div className='row justify-evenly'>
           <a
-            // href={DEFAULT_BASE_URL + `/delivered-docket/?pk=${record.id}`}
+            href={`${DEFAULT_BASE_URL  }/delivered-docket/?pk=${record.id}`}
             target='_blank'
             rel='noopener noreferrer'>
             <Button
@@ -107,7 +114,7 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
               // disabled={!record.document}
               onClick={async (e) => {
                 const { data: req } = await loadAPI(
-                  `${DEFAULT_BASE_URL  }/delivered-docket/?pk=${record.id}`,
+                  `${DEFAULT_BASE_URL}/delivered-docket/?pk=${record.id}`,
                   {},
                 );
                 if (req) if (req.document) navigate(req.document);
@@ -185,6 +192,17 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
     setDeliveryId(null);
   };
 
+  const total = 'Total Orders';
+  const deliverd = 'Delivered Orders';
+  const pending = 'Pending Orders';
+
+  let deliveredCount = 0;
+  // eslint-disable-next-line array-callback-return
+  reqData.map((alt) => {
+    if (alt.is_delivered) deliveredCount += 1;
+  });
+  const pendingCount = reqData.length - deliveredCount;
+  console.log({ deliveredCount, pendingCount });
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -192,16 +210,32 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
         </div>
       </div>
+      <Row className='mr-auto ml-auto'>
+        <Col>
+          <LineGraph {...{ tagName: total, count: reqData.length }} />
+        </Col>
+        <Col>
+          <LineGraph2 {...{ tagName: deliverd, count: deliveredCount }} />
+        </Col>
+        <Col>
+          <BarGraph {...{ tagName: pending, count: pendingCount }} />
+        </Col>
+        <Col>
+          <PointGraph {...{ tagName: total, count: deliveredCount }} />
+        </Col>
+      </Row>
       <br />
       <Modal
         maskClosable={false}
         visible={visible}
         destroyOnClose
         style={{ minWidth: `80vw` }}
-        title={`Barcode Menu`}
-        onCancel={()=>{setVisible(false)}}
+        title='Barcode Menu'
+        onCancel={() => {
+          setVisible(false);
+        }}
         footer={null}>
-        <BarcodeAllotmentDocket/>
+        <BarcodeAllotmentDocket />
       </Modal>
       <TableWithTabHOC
         rowKey={(record) => record.id}
