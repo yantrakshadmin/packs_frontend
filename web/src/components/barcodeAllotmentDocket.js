@@ -18,16 +18,16 @@ export const BarcodeAllotmentDocket = () =>{
     const filtered = barcodes.filter((i)=>(i.barcode === (value || inputValue)));
     const { data ,error } = await loadAPI(`check-bar/?code=${value || inputValue}`);
     console.log('da',data);
-    if(filtered.length===0 && data === 0){
+    if(filtered.length===0 && data !== 0){
       setBarcodes([...barcodes,{ barcode:value || inputValue,name:data }])
       setProductDetails({ ...productDetails,
         [data]:((productDetails[data]?productDetails[data]:0)+1) })
     }
     else{
       notification.warning({
-        message: 'Barcode Already Exist',
+        message: 'Barcode Already Exist or Invalid',
         description:
-                  'The item you are trying to add is already',
+                  'The item you are trying to add is already exist or it is invalid',
       });
     }
     setInputValue('');
