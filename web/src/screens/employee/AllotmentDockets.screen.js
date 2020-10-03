@@ -36,6 +36,7 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const { data: allotments, loading } = useAPI('/allotments-table/', {});
+  const { data: count } = useAPI('/mr-count/', {});
   const [altId,setAltId] = useState(null);
   const { filteredData, reload } = useTableSearch({
     searchVal,
@@ -208,7 +209,7 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
 
       <Row className='mr-auto ml-auto' gutter={24}>
         <Col span={6}>
-          <LineGraph {...{ tagName: materialRequest, count: reqData.length ,width:230 }} />
+          <LineGraph {...{ tagName: materialRequest,count,width:230 }} />
         </Col>
         <Col span={6}>
           <LineGraph {...{ tagName: total, count:  reqData.length ,width:230 }} />

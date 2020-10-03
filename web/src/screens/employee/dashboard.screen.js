@@ -1,11 +1,12 @@
 import React,{ useState,useEffect } from 'react';
 import { Row, Col ,Select, TimePicker } from 'antd'
 import TwoLevelPieCharts from 'components/TwoLevelPieCharts';
-import {useAPI} from 'common/hooks/api';
+import { useAPI } from 'common/hooks/api';
 import TwoLevelBarCharts from 'components/TwoLevelBarCharts';
 import { useFilterPieChartData } from 'hooks/filterPieChart';
-import {Cal} from './events.screen';
-import {Map} from './map.screen';
+import { Cal } from './events.screen';
+import { Map } from './map.screen';
+
 const { Option } = Select;
 
 
@@ -50,9 +51,9 @@ export const DashboardScreen = () => {
   const [ filterKey,setFilterKey ] = useState(null);
   const[transactionHistory,settransactionHistory]=useState([])
   const { data,filteredData } = useFilterPieChartData(dummy,filterKey)
-  const {data: allotments} = useAPI('/cal/', {});
-  const {data: returns} = useAPI('/cal-r/', {});
-  
+  const { data: allotments } = useAPI('/cal/', {});
+  const { data: returns } = useAPI('/cal-r/', {});
+
   useEffect(() => {
     if(returns&&allotments){
       //settransactionHistory(parseDataMonthly(parseCalData(allotments,returns)))
@@ -60,7 +61,7 @@ export const DashboardScreen = () => {
     
 },[allotments,returns])
   return (
-    <React.Fragment>
+    <>
       <Row>
         <Col span={12}>
           <TwoLevelBarCharts data={allotments} type="allotment" />
@@ -68,7 +69,7 @@ export const DashboardScreen = () => {
         <Col span={12}>
           <TwoLevelBarCharts data={returns} type="return" />
         </Col>
-        
+
       </Row>
       <Row>
         <Col span={12}>
@@ -78,7 +79,7 @@ export const DashboardScreen = () => {
           <Map  />
         </Col>
       </Row>
-    </React.Fragment>
+    </>
   );
 };
 
