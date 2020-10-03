@@ -52,7 +52,7 @@ const jsfiddleUrl = 'https://jsfiddle.net/alidingling/9hjfkp73/';
 
 export const BarGraph = ({ tagName, count }) => {
   return (
-    <div className='bg-chart3 chart-container'>
+    <div className='bg-chart2 chart-container'>
       <div className='chart-content'>
         <Text style={{ color: '#fff', fontSize: 20 }}>
           {tagName}
@@ -61,8 +61,8 @@ export const BarGraph = ({ tagName, count }) => {
         </Text>
       </div>
       <BarChart
-        width={370}
-        height={150}
+        width={200}
+        height={120}
         data={data}
         margin={{
           top: 10,
@@ -70,8 +70,8 @@ export const BarGraph = ({ tagName, count }) => {
           left: 20,
           bottom: 15,
         }}>
-        <Bar dataKey='pv' stackId='a' fill='#442810' />
-        <Bar dataKey='amt' stackId='a' fill='#998345' />
+        <Bar dataKey='pv' stackId='a' fill='#a8ddec' />
+        <Bar dataKey='amt' stackId='a' fill='#82ca9d' />
       </BarChart>
     </div>
   );
