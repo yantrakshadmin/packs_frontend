@@ -142,8 +142,8 @@
 .chart-container {
   margin: 10px;
   border-radius: 5px;
-  width: 370px;
-  height: 200px;
+  width: 200px;
+  height: 150px;
   position: relative;
 }
 
@@ -179,7 +179,9 @@
   margin-top: 5px;
   margin-bottom:5px;
 }
-
+.icon-bg:hover{
+  color:#20a8d8
+}
 .barcode-tag-container{
   border: #acacaa solid 1px;
   padding:5px;

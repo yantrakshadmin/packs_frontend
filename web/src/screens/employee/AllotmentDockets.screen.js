@@ -35,9 +35,8 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
   const [TN, setTN] = useState(null);
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
-
   const { data: allotments, loading } = useAPI('/allotments-table/', {});
-
+  const [altId,setAltId] = useState(null);
   const { filteredData, reload } = useTableSearch({
     searchVal,
     reqData,
@@ -79,14 +78,20 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
               key={record.id}
               className='mx-2'
               style={{ textDecoration: 'none' }}>
-              <FontAwesomeIcon icon={faMoneyCheck} onClick={()=>{setVisible(true)}} style={{ fontSize:20 }} />
+              <FontAwesomeIcon
+                icon={faMoneyCheck}
+                onClick={()=>{setVisible(true)}}
+                style={{ fontSize:20 }} />
             </Link>
-
             <FontAwesomeIcon
-              className='mx-2'
+              className='mx-2 icon-bg'
               icon={faTruckLoading}
-              onClick={()=>{setVisible(true)}}
-              style={{ fontSize:20 }} />
+              onClick={()=>{
+                setTN(record.transaction_no);
+                setAltId(record.id);
+                setVisible(true);}}
+              style={{ fontSize:20 }}
+              />
           </div>
         );
       },
@@ -198,7 +203,6 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
     if (alt.is_delivered) deliveredCount += 1;
   });
   const pendingCount = reqData.length - deliveredCount;
-  console.log({ deliveredCount, pendingCount });
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -207,16 +211,16 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
         </div>
       </div>
       <Row className='mr-auto ml-auto'>
-        <Col>
+        <Col span={6}>
           <LineGraph {...{ tagName: total, count: reqData.length }} />
         </Col>
-        <Col>
+        <Col span={6}>
           <LineGraph2 {...{ tagName: deliverd, count: deliveredCount }} />
         </Col>
-        <Col>
+        <Col span={6}>
           <BarGraph {...{ tagName: pending, count: pendingCount }} />
         </Col>
-        <Col>
+        <Col span={6}>
           <PointGraph {...{ tagName: total, count: deliveredCount }} />
         </Col>
       </Row>
@@ -226,12 +230,12 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
         visible={visible}
         destroyOnClose
         style={{ minWidth: `80vw` }}
-        title='Barcode Menu'
+        title={TN}
         onCancel={() => {
           setVisible(false);
         }}
         footer={null}>
-        <BarcodeAllotmentDocket />
+        <BarcodeAllotmentDocket transaction={TN} allot={altId} />
       </Modal>
       <TableWithTabHOC
         rowKey={(record) => record.id}

@@ -28,7 +28,7 @@ export const LineGraph = ({ tagName, count }) => {
           {count}
         </Text>
       </div>
-      <LineChart width={370} height={250} data={graphdata}>
+      <LineChart width={200} height={150} data={graphdata}>
         <Line type='monotone' dataKey='uv' stroke='#a8ddec' strokeWidth={4} />
       </LineChart>
     </div>

@@ -45,7 +45,7 @@ const jsfiddleUrl = 'https://jsfiddle.net/alidingling/q5atk5jr/';
 const { Text } = Typography;
 export const PointGraph = ({ tagName, count }) => {
   return (
-    <div className='bg-chart4 chart-container'>
+    <div className='bg-chart1 chart-container'>
       <div className='chart-content'>
         <Text style={{ color: '#fff', fontSize: 20 }}>
           {tagName}
@@ -54,8 +54,8 @@ export const PointGraph = ({ tagName, count }) => {
         </Text>
       </div>
       <ComposedChart
-        width={440}
-        height={160}
+        width={280}
+        height={120}
         data={data}
         margin={{
           top: 10,
@@ -63,7 +63,7 @@ export const PointGraph = ({ tagName, count }) => {
           bottom: 20,
         }}>
         <Area type='monotone' dataKey='amt' fill='#fff' stroke='#8884d8' />
-        <Bar dataKey='pv' barSize={20} fill='#413ea0' />
+        {/*<Bar dataKey='pv' barSize={20} fill='#fff' />*/}
       </ComposedChart>
     </div>
   );

@@ -28,7 +28,7 @@ export const LineGraph2 = ({ tagName, count }) => {
           {count}
         </Text>
       </div>
-      <AreaChart width={370} height={150} data={graphdata}>
+      <AreaChart width={200} height={120} data={graphdata}>
         <defs>
           <linearGradient id='colorUv' x1='0' y1='0' x2='0' y2='1'>
             <stop offset='5%' stopColor='#8884d8' stopOpacity={0.8} />
