@@ -53,18 +53,20 @@ export const PointGraph = ({ tagName, count }) => {
           {count}
         </Text>
       </div>
-      <ComposedChart
-        width={280}
-        height={120}
-        data={data}
-        margin={{
-          top: 10,
-          right: 80,
-          bottom: 20,
-        }}>
-        <Area type='monotone' dataKey='amt' fill='#fff' stroke='#8884d8' />
-        {/*<Bar dataKey='pv' barSize={20} fill='#fff' />*/}
-      </ComposedChart>
+      <div className='chart-position'>
+        <ComposedChart
+          width={280}
+          height={120}
+          data={data}
+          margin={{
+            top: 10,
+            right: 80,
+            bottom: 10,
+          }}>
+          <Area type='monotone' dataKey='amt' fill='#fff' stroke='#8884d8' />
+          {/* <Bar dataKey='pv' barSize={20} fill='#fff' /> */}
+        </ComposedChart>
+      </div>
     </div>
   );
 };

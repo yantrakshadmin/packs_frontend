@@ -1,41 +1,10 @@
 import React, { useState } from 'react';
-import { Row, Col, Select, Typography } from 'antd';
+import { Row, Col, Select} from 'antd';
 import TwoLevelPieCharts from 'components/TwoLevelPieCharts';
 import { useFilterPieChartData } from 'hooks/filterPieChart';
-import { LineChart, Line, AreaChart, XAxis, YAxis, CartesianGrid, Tooltip, Area } from 'recharts';
-import { LineGraph } from '../../components/graphComponent/lineGraph';
-import { LineGraph2 } from '../../components/graphComponent/lineGraph2';
-import { BarGraph } from '../../components/graphComponent/barGraph';
-import { PointGraph } from '../../components/graphComponent/pointGraph';
+
 
 const { Option } = Select;
-
-const graphdata2 = [
-  { name: 'Page A', uv: 300, pv: 2400, amt: 2400 },
-  { name: 'Page B', uv: 450, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 400, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 350, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 450, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 400, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 300, pv: 2400, amt: 2400 },
-  { name: 'Page C', uv: 400, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 300, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 325, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 450, pv: 2400, amt: 2400 },
-];
-const graphdata3 = [
-  { name: 'Page A', uv: 300, pv: 2400, amt: 2400 },
-  { name: 'Page B', uv: 450, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 400, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 300, pv: 2400, amt: 2400 },
-  { name: 'Page C', uv: 400, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 300, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 400, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 350, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 450, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 325, pv: 2400, amt: 2400 },
-  { name: 'Page D', uv: 500, pv: 2400, amt: 2400 },
-];
 
 const dummy = {
   FSS001: 1936,
@@ -78,8 +47,8 @@ const dummy = {
 export const DashboardScreen = () => {
   const [filterKey, setFilterKey] = useState(null);
   const { data, filteredData } = useFilterPieChartData(dummy, filterKey);
-  const tagName = 'Total Order';
-  const count = '12';
+  // const tagName = 'Total Order';
+  // const count = '12';
   return (
     <div>
       <Row>
@@ -105,20 +74,6 @@ export const DashboardScreen = () => {
             </Select>
           </div>
           <TwoLevelPieCharts data={filteredData} />
-        </Col>
-      </Row>
-      <Row className='mr-auto ml-auto'>
-        <Col>
-          <LineGraph {...{ tagName, count }} />
-        </Col>
-        <Col>
-          <LineGraph2 {...{ tagName, count }} />
-        </Col>
-        <Col>
-          <BarGraph {...{ tagName, count }} />
-        </Col>
-        <Col>
-          <PointGraph {...{ tagName, count }} />
         </Col>
       </Row>
     </div>
