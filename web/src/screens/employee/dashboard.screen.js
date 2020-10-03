@@ -101,13 +101,13 @@ const countfromdata = (data,key) =>{
   return count;
 }
 
-const parseData = (data) => {
+const parseData = (data,type) => {
   const tmp=[];
   for (const key in data) {
     // for (var key2 in data[key]) {
     tmp.push(
       {
-        name: key, Return: countfromdata(data[key],'return'), Allotments: countfromdata(data[key],'allotment'),
+        name: key, [type]: countfromdata(data[key],type),
       }
     )
     // }
@@ -117,6 +117,10 @@ const parseData = (data) => {
   window.data=data
   return tmp;
 }
+//   window.tmp=tmp
+//   window.data=data
+//   return tmp;
+// }
 
 const parseDataMonthly = (data) => {
   // console.log(data);
@@ -149,9 +153,13 @@ export const DashboardScreen = () => {
   return (
     <>
       <Row>
-        <Col span={24}>
+        <Col span={12}>
           {/* <TwoLevelPieCharts data={data} /> */}
-          <TwoLevelBarCharts data={parseData(transactionHistory)} />
+          <TwoLevelBarCharts data={parseData(transactionHistory,'allotment')} type='allotment' />
+        </Col>
+        <Col span={12}>
+          {/* <TwoLevelPieCharts data={data} /> */}
+          <TwoLevelBarCharts data={parseData(transactionHistory,'return')} type='return' />
         </Col>
 
       </Row>
