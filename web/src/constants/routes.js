@@ -180,13 +180,7 @@ export const employeeRoutes = [
         Component: lazy(() => import('components/Reports/Stocking.js')),
       },
     ],
-  },
-  {
-    name: 'Events',
-    icon: ['fas', 'home'],
-    path: '/events/',
-    Component: lazy(() => import('screens/employee/events.screen')),
-  },
+  }
 ];
 
 export const clientRoutes = [

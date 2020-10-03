@@ -18,7 +18,7 @@ const graphdata = [
   { name: 'Page D', uv: 500, pv: 2400, amt: 2400 },
 ];
 
-export const LineGraph = ({ tagName, count }) => {
+export const LineGraph = ({ tagName, count,width,height }) => {
   return (
     <div className='chart-container bg-chart1'>
       <div className='chart-content'>
@@ -29,7 +29,7 @@ export const LineGraph = ({ tagName, count }) => {
         </Text>
       </div>
       <div className='chart-position'>
-        <LineChart width={200} height={80} data={graphdata}>
+        <LineChart width={width || 200} height={height || 80} data={graphdata}>
           <Line type='monotone' dataKey='uv' stroke='#a8ddec' strokeWidth={4} />
         </LineChart>
       </div>
