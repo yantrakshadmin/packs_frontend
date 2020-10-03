@@ -1,16 +1,18 @@
-import React,{ useState } from 'react';
+import React,{ useState,useEffect } from 'react';
 import { Row,Col,Input,Typography,notification,Table,Tag,Button } from 'antd';
 import { loadAPI } from 'common/helpers/api';
 import { postAltBarcodes } from 'common/api/auth';
+import { useAPI } from 'common/hooks/api';
 
 const { Title } = Typography;
 
-export const BarcodeAllotmentDocket = ({ transaction,allot }) =>{
+export const BarcodeAllotmentDocket = ({ transaction,allot,setVisible }) =>{
   const [barcodes,setBarcodes] = useState([]);
   const [productDetails,setProductDetails] = useState({
   });
+  const { data:allotments ,error:altError,loading:altLoading } = useAPI(`dispatch-allotment-upd/${allot}/`)
   const [inputValue,setInputValue] = useState('');
-
+  console.log(allotments,altError,altLoading,"Allotment")
   const addItem= async (value)=>{
     const filtered = barcodes.filter((i)=>(i.barcode === (value || inputValue)));
     const { data ,error } = await loadAPI(`check-bar/?code=${value || inputValue}`);
@@ -70,11 +72,21 @@ export const BarcodeAllotmentDocket = ({ transaction,allot }) =>{
     return barcodes.map(i=>(i.barcode));
   }
   const reqSubmit = async ()=>{
-    const data= await postAltBarcodes({
+    const { error }= await postAltBarcodes({
       barcodes:getReqBarcodeArray(),
       transaction,
       allot })
-    console.log(data,"ye wlal")
+    if(error !== undefined){
+      notification.warning({
+        message: 'Unknown Error in Submission.',
+      });
+    }
+    else{
+      notification.success({
+        message: 'Successfully Submitted.',
+      });
+      setVisible(false);
+    }
   }
 
   return (

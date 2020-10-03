@@ -60,19 +60,22 @@ export const BarGraph = ({ tagName, count }) => {
           {count}
         </Text>
       </div>
-      <BarChart
-        width={200}
-        height={120}
-        data={data}
-        margin={{
-          top: 10,
-          right: 30,
-          left: 20,
-          bottom: 15,
-        }}>
-        <Bar dataKey='pv' stackId='a' fill='#a8ddec' />
-        <Bar dataKey='amt' stackId='a' fill='#82ca9d' />
-      </BarChart>
+      <div className='chart-position'>
+
+        <BarChart
+          width={200}
+          height={120}
+          data={data}
+          margin={{
+            top: 10,
+            right: 30,
+            left: 20,
+            bottom: 10,
+          }}>
+          <Bar dataKey='pv' stackId='a' fill='#a8ddec' />
+          <Bar dataKey='amt' stackId='a' fill='#82ca9d' />
+        </BarChart>
+      </div>
     </div>
   );
 };

@@ -146,10 +146,20 @@
   height: 150px;
   position: relative;
 }
+.chart-position{
+  position: absolute;
+  bottom:0;
+  flex-direction: column;
+  justify-content: flex-end;
 
+}
 .chart-content {
+  position: absolute;
+  top:0;
+  left: 0;
   padding-top: 15px;
   padding-left: 15px;
+  z-index: 1000;
 }
 
 .bg-chart1 {
@@ -180,7 +190,8 @@
   margin-bottom:5px;
 }
 .icon-bg:hover{
-  color:#20a8d8
+  color:#20a8d8;
+  cursor:pointer;
 }
 .barcode-tag-container{
   border: #acacaa solid 1px;

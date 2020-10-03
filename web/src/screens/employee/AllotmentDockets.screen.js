@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Col,Row,Modal , Popconfirm, Input, Button } from 'antd'
+import { Col,Row,Modal , Popconfirm, Input,Typography ,Button } from 'antd'
 import { faTruckLoading ,faMoneyCheck } from  '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import allotmentColumns from 'common/columns/Allotment.column';
@@ -25,7 +25,7 @@ import { BarGraph } from '../../components/graphComponent/barGraph';
 import { PointGraph } from '../../components/graphComponent/pointGraph';
 
 const { Search } = Input;
-
+const { Title } = Typography;
 const AllotmentDocketsScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
@@ -196,7 +196,7 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
   const total = 'Total Orders';
   const deliverd = 'Delivered Orders';
   const pending = 'Pending Orders';
-
+  const materialRequest = 'Material Request'
   let deliveredCount = 0;
   // eslint-disable-next-line array-callback-return
   reqData.map((alt) => {
@@ -205,23 +205,19 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
   const pendingCount = reqData.length - deliveredCount;
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
-        </div>
-      </div>
+
       <Row className='mr-auto ml-auto'>
         <Col span={6}>
-          <LineGraph {...{ tagName: total, count: reqData.length }} />
+          <LineGraph {...{ tagName: materialRequest, count: reqData.length }} />
         </Col>
         <Col span={6}>
-          <LineGraph2 {...{ tagName: deliverd, count: deliveredCount }} />
+          <LineGraph2 {...{ tagName: total, count:  reqData.length }} />
         </Col>
         <Col span={6}>
-          <BarGraph {...{ tagName: pending, count: pendingCount }} />
+          <BarGraph {...{ tagName: deliverd, count:deliveredCount }} />
         </Col>
         <Col span={6}>
-          <PointGraph {...{ tagName: total, count: deliveredCount }} />
+          <PointGraph {...{ tagName: pending, count: pendingCount }} />
         </Col>
       </Row>
       <br />
@@ -235,14 +231,27 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
           setVisible(false);
         }}
         footer={null}>
-        <BarcodeAllotmentDocket transaction={TN} allot={altId} />
+        <BarcodeAllotmentDocket transaction={TN} allot={altId} setVisible={setVisible} />
       </Modal>
+      <Row>
+        <Col span={19}>
+          <Title level={3}>Allotment Dockets</Title>
+        </Col>
+        <Col span={5}>
+          <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
+            <Search
+              onChange={(e) => setSearchVal(e.target.value)}
+              placeholder='Search'
+              enterButton />
+          </div>
+        </Col>
+      </Row>
       <TableWithTabHOC
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
         size='middle'
-        title='Allotment Dockets'
+        title=''
         modalBody={deliveryId ? DeliveredForm : AllotmentMainForm}
         modalWidth={60}
         editingId={editingId || deliveryId}
