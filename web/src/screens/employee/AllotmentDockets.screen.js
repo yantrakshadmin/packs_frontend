@@ -206,18 +206,18 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
   return (
     <>
 
-      <Row className='mr-auto ml-auto'>
+      <Row className='mr-auto ml-auto' gutter={24}>
         <Col span={6}>
-          <LineGraph {...{ tagName: materialRequest, count: reqData.length }} />
+          <LineGraph {...{ tagName: materialRequest, count: reqData.length ,width:230 }} />
         </Col>
         <Col span={6}>
-          <LineGraph2 {...{ tagName: total, count:  reqData.length }} />
+          <LineGraph {...{ tagName: total, count:  reqData.length ,width:230 }} />
         </Col>
         <Col span={6}>
-          <BarGraph {...{ tagName: deliverd, count:deliveredCount }} />
+          <LineGraph {...{ tagName: deliverd, count:deliveredCount, width:230 }} />
         </Col>
         <Col span={6}>
-          <PointGraph {...{ tagName: pending, count: pendingCount }} />
+          <LineGraph {...{ tagName: pending, count: pendingCount ,width:230 }} />
         </Col>
       </Row>
       <br />

@@ -175,20 +175,24 @@ const ReturnDocketsScreen = ({ currentPage }) => {
 
   return (
     <>
-      <Row className='mr-auto ml-auto'>
+      <Row className='mr-auto ml-auto' gutter={24}>
         <Col span={6}>
-          <LineGraph {...{ tagName: 'Material Request', count: (reqData || []).length }} />
+          <LineGraph {...{ tagName: 'Total Return', count:  (reqData || []).length,width:230 }} />
         </Col>
         <Col span={6}>
-          <LineGraph2 {...{ tagName: 'Total Return', count:  (reqData || []).length }} />
+          <LineGraph {...{ tagName: 'Total Received', count:deliveredCount,width:230 }}  />
         </Col>
         <Col span={6}>
-          <BarGraph {...{ tagName: 'Total Received', count:deliveredCount }} />
+          <LineGraph {...{ tagName: 'Intransit', count: pendingCount,width:230  }} />
         </Col>
         <Col span={6}>
-          <PointGraph {...{ tagName: 'Intransit', count: pendingCount }} />
+          <LineGraph {...{
+            tagName: 'Material Request',
+            count: (reqData || []).length,
+            width:230 }} />
         </Col>
       </Row>
+      <br />
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
