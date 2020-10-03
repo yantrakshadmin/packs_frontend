@@ -30,6 +30,7 @@ const TableWithTabHOC = ({
   separate,
   editingId,
   pageSize,
+  RightBody,
   cancelEditing,
   hideRightButton,
   customRowSelectionType,
@@ -124,6 +125,7 @@ const TableWithTabHOC = ({
           ) : null}
         </Col>
         <Col>
+          {hideRightButton && RightBody ?<RightBody />:null}
           {hideRightButton ? null : newPage ? (
             <Link to={newPage}>
               <Button type='primary'>

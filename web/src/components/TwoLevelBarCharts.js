@@ -60,7 +60,7 @@ export default class TwoLevelBarCharts extends PureComponent {
 console.log(data)
     return (
       <LineChart
-        width={500}
+        width={800}
         height={300}
         data={data}
         margin={{

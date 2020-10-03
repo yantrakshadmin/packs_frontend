@@ -1,23 +1,22 @@
-import React,{ useState } from 'react';
-import { Row,Col,Input,Typography,notification,Switch,Tag } from 'antd';
-import { useAPI } from 'common/hooks/api';
+import React,{ useState,useEffect } from 'react';
+import { Row,Col,Input,Typography,notification,Table,Tag,Button } from 'antd';
 import { loadAPI } from 'common/helpers/api';
+import { postAltBarcodes } from 'common/api/auth';
+import { useAPI } from 'common/hooks/api';
 
 const { Title } = Typography;
 
-
-
-export const BarcodeAllotmentDocket = () =>{
+export const BarcodeAllotmentDocket = ({ transaction,allot,setVisible }) =>{
   const [barcodes,setBarcodes] = useState([]);
   const [productDetails,setProductDetails] = useState({
   });
-  const [inputValue,setInputValue] = useState('')
-  const [useScanner,setUseScanner] = useState(true)
-
+  const { data:allotments ,error:altError,loading:altLoading } = useAPI(`dispatch-allotment-upd/${allot}/`)
+  const [inputValue,setInputValue] = useState('');
+  console.log(allotments,altError,altLoading,"Allotment")
   const addItem= async (value)=>{
     const filtered = barcodes.filter((i)=>(i.barcode === (value || inputValue)));
     const { data ,error } = await loadAPI(`check-bar/?code=${value || inputValue}`);
-    console.log('da',data);
+
     if(filtered.length===0 && data !== 0){
       setBarcodes([...barcodes,{ barcode:value || inputValue,name:data }])
       setProductDetails({ ...productDetails,
@@ -32,14 +31,33 @@ export const BarcodeAllotmentDocket = () =>{
     }
     setInputValue('');
   }
-
   const onChange =async e => {
     const { value } = e.target;
     setInputValue(value);
-    if(useScanner){
-      addItem(value);
-    }
   };
+  const getTableArray = () =>{
+    const newArr = [];
+    Object.keys(productDetails).map(key=>(newArr.push({
+      product:key,
+      quantity:productDetails[key]
+    })));
+    return newArr;
+  }
+
+  const tableFields = [
+
+    {
+      title: 'Product Name',
+      dataIndex: 'product',
+      key: 'product',
+    },
+    {
+      title: 'Quantity',
+      dataIndex: 'quantity',
+      key: 'quantity',
+    }
+  ]
+
   const removeItem=(value,name)=>{
     if(barcodes.length){
       setBarcodes([...barcodes.filter(i=>(i.barcode !== value))])
@@ -48,6 +66,26 @@ export const BarcodeAllotmentDocket = () =>{
       }else{
         setProductDetails({ ...productDetails,[name]:productDetails[name]-1 })
       }
+    }
+  }
+  const getReqBarcodeArray=()=>{
+    return barcodes.map(i=>(i.barcode));
+  }
+  const reqSubmit = async ()=>{
+    const { error }= await postAltBarcodes({
+      barcodes:getReqBarcodeArray(),
+      transaction,
+      allot })
+    if(error !== undefined){
+      notification.warning({
+        message: 'Unknown Error in Submission.',
+      });
+    }
+    else{
+      notification.success({
+        message: 'Successfully Submitted.',
+      });
+      setVisible(false);
     }
   }
 
@@ -65,17 +103,6 @@ export const BarcodeAllotmentDocket = () =>{
             }}
             placeholder='Enter Barcode'
                  />
-        </Col>
-        <Col span={4}>
-          <div className='mx-2'>
-            <Switch
-              checkedChildren='Scanner'
-              unCheckedChildren='Manual'
-              value={useScanner}
-              defaultChecked
-              onChange={()=>{setUseScanner(!useScanner)}}
-            />
-          </div>
         </Col>
       </Row>
       <br />
@@ -110,19 +137,19 @@ export const BarcodeAllotmentDocket = () =>{
           </div>
         </Col>
         <Col span={14} className='row justify-between h-100'>
-          {Object.keys(productDetails).length > 0?Object.keys(productDetails).map((item,index)=>(
-            <Col span={24} className='my-2'>
-              <text>
-                {item}
-                {' '}
-                *
-                {' '}
-              </text>
-              <text>
-                {productDetails[item]}
-              </text>
-            </Col>
-          )):null}
+          {Object.keys(productDetails).length>0?
+            <Table bordered size='small' dataSource={getTableArray()} columns={tableFields} />:null}
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Button
+            type='primary'
+            disabled={Object.keys(productDetails).length===0}
+            onClick={reqSubmit}
+          >
+            Submit
+          </Button>
         </Col>
       </Row>
     </div>

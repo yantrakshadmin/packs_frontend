@@ -148,26 +148,11 @@ export const DashboardScreen = () => {
   return (
     <React.Fragment>
       <Row>
-        <Col span={12}>
+        <Col span={24}>
           {/* <TwoLevelPieCharts data={data} /> */}
           <TwoLevelBarCharts data={parseData(transactionHistory)} />
         </Col>
-        <Col span={12}>
-          {/* <TwoLevelPieCharts data={filteredData} /> */}
-          <div className='row justify-end'>
-            <Select
-              showSearch
-              style={{ width: 200 }}
-              placeholder='Select'
-              optionFilterProp='Select'
-              onChange={(value)=>{console.log(value);setFilterKey(value)}}
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-            >
-              {Object.keys(dummy).map((key)=>(<Option value={key}>{key}</Option>))}
-            </Select>
-          </div>
-        </Col>
+        
       </Row>
       <Row>
         <Col span={12}>

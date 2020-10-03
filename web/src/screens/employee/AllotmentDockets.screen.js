@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Modal , Popconfirm, Input, Button } from 'antd'
+import { Col,Row,Modal , Popconfirm, Input,Typography ,Button } from 'antd'
+import { faTruckLoading ,faMoneyCheck } from  '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import allotmentColumns from 'common/columns/Allotment.column';
 import { DeliveredForm } from 'forms/delivered.form';
 import { AllotmentMainForm } from 'forms/allotmentMain.form';
-import { faTruckLoading ,faMoneyCheck } from  '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { deleteAllotment } from 'common/api/auth';
@@ -19,9 +19,13 @@ import Document from 'icons/Document';
 import { BarcodeAllotmentDocket } from 'components/barcodeAllotmentDocket';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import { LineGraph } from '../../components/graphComponent/lineGraph';
+import { LineGraph2 } from '../../components/graphComponent/lineGraph2';
+import { BarGraph } from '../../components/graphComponent/barGraph';
+import { PointGraph } from '../../components/graphComponent/pointGraph';
 
 const { Search } = Input;
-
+const { Title } = Typography;
 const AllotmentDocketsScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
@@ -30,11 +34,9 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
   const [reqData, setReqData] = useState([]);
   const [TN, setTN] = useState(null);
   const navigate = useNavigate();
-  const  [visible,setVisible ] = useState(false)
-
-
+  const [visible, setVisible] = useState(false);
   const { data: allotments, loading } = useAPI('/allotments-table/', {});
-
+  const [altId,setAltId] = useState(null);
   const { filteredData, reload } = useTableSearch({
     searchVal,
     reqData,
@@ -70,21 +72,26 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
       render: (text, record) => {
         return (
           <div className='row align-center justify-evenly'>
-
             <Link
               to='../docket'
               state={{ id: record.id }}
               key={record.id}
               className='mx-2'
               style={{ textDecoration: 'none' }}>
-              <FontAwesomeIcon icon={faMoneyCheck} onClick={()=>{setVisible(true)}} style={{ fontSize:20 }} />
+              <FontAwesomeIcon
+                icon={faMoneyCheck}
+                onClick={()=>{setVisible(true)}}
+                style={{ fontSize:20 }} />
             </Link>
-
             <FontAwesomeIcon
-              className='mx-2'
+              className='mx-2 icon-bg'
               icon={faTruckLoading}
-              onClick={()=>{setVisible(true)}}
-              style={{ fontSize:20 }} />
+              onClick={()=>{
+                setTN(record.transaction_no);
+                setAltId(record.id);
+                setVisible(true);}}
+              style={{ fontSize:20 }}
+              />
           </div>
         );
       },
@@ -96,7 +103,7 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
       render: (text, record) => (
         <div className='row justify-evenly'>
           <a
-            // href={DEFAULT_BASE_URL + `/delivered-docket/?pk=${record.id}`}
+            href={`${DEFAULT_BASE_URL  }/delivered-docket/?pk=${record.id}`}
             target='_blank'
             rel='noopener noreferrer'>
             <Button
@@ -109,7 +116,7 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
               // disabled={!record.document}
               onClick={async (e) => {
                 const { data: req } = await loadAPI(
-                  `${DEFAULT_BASE_URL  }/delivered-docket/?pk=${record.id}`,
+                  `${DEFAULT_BASE_URL}/delivered-docket/?pk=${record.id}`,
                   {},
                 );
                 if (req) if (req.document) navigate(req.document);
@@ -186,30 +193,65 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
     setDeliveryId(null);
   };
 
+  const total = 'Total Orders';
+  const deliverd = 'Delivered Orders';
+  const pending = 'Pending Orders';
+  const materialRequest = 'Material Request'
+  let deliveredCount = 0;
+  // eslint-disable-next-line array-callback-return
+  reqData.map((alt) => {
+    if (alt.is_delivered) deliveredCount += 1;
+  });
+  const pendingCount = reqData.length - deliveredCount;
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
-        </div>
-      </div>
+
+      <Row className='mr-auto ml-auto' gutter={24}>
+        <Col span={6}>
+          <LineGraph {...{ tagName: materialRequest, count: reqData.length ,width:230 }} />
+        </Col>
+        <Col span={6}>
+          <LineGraph {...{ tagName: total, count:  reqData.length ,width:230 }} />
+        </Col>
+        <Col span={6}>
+          <LineGraph {...{ tagName: deliverd, count:deliveredCount, width:230 }} />
+        </Col>
+        <Col span={6}>
+          <LineGraph {...{ tagName: pending, count: pendingCount ,width:230 }} />
+        </Col>
+      </Row>
       <br />
       <Modal
         maskClosable={false}
         visible={visible}
         destroyOnClose
         style={{ minWidth: `80vw` }}
-        title='Barcode Menu'
-        onCancel={()=>{setVisible(false)}}
+        title={TN}
+        onCancel={() => {
+          setVisible(false);
+        }}
         footer={null}>
-        <BarcodeAllotmentDocket />
+        <BarcodeAllotmentDocket transaction={TN} allot={altId} setVisible={setVisible} />
       </Modal>
+      <Row>
+        <Col span={19}>
+          <Title level={3}>Allotment Dockets</Title>
+        </Col>
+        <Col span={5}>
+          <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
+            <Search
+              onChange={(e) => setSearchVal(e.target.value)}
+              placeholder='Search'
+              enterButton />
+          </div>
+        </Col>
+      </Row>
       <TableWithTabHOC
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
         size='middle'
-        title='Allotment Dockets'
+        title=''
         modalBody={deliveryId ? DeliveredForm : AllotmentMainForm}
         modalWidth={60}
         editingId={editingId || deliveryId}

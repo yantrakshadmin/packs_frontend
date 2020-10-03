@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import returnColumns from 'common/columns/Return.column';
 import ReturnForm from 'forms/return.form';
 import { ReceivedForm } from 'forms/received.form';
-import { Popconfirm, Input, Button } from 'antd';
+import { Popconfirm, Input, Button, Row, Col } from 'antd';
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { deleteReturn } from 'common/api/auth';
@@ -14,6 +14,10 @@ import Document from 'icons/Document';
 import { useAPI } from 'common/hooks/api';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import { LineGraph } from '../../components/graphComponent/lineGraph';
+import { LineGraph2 } from '../../components/graphComponent/lineGraph2';
+import { BarGraph } from '../../components/graphComponent/barGraph';
+import { PointGraph } from '../../components/graphComponent/pointGraph';
 
 const { Search } = Input;
 
@@ -161,8 +165,34 @@ const ReturnDocketsScreen = ({ currentPage }) => {
     reload();
   };
 
+  let deliveredCount = 0;
+  // eslint-disable-next-line array-callback-return
+  (reqData || []).map((alt) => {
+    console.log(alt,'alt')
+    if (alt.is_delivered) deliveredCount += 1;
+  });
+  const pendingCount = (reqData||[]).length - deliveredCount;
+
   return (
     <>
+      <Row className='mr-auto ml-auto' gutter={24}>
+        <Col span={6}>
+          <LineGraph {...{ tagName: 'Total Return', count:  (reqData || []).length,width:230 }} />
+        </Col>
+        <Col span={6}>
+          <LineGraph {...{ tagName: 'Total Received', count:deliveredCount,width:230 }}  />
+        </Col>
+        <Col span={6}>
+          <LineGraph {...{ tagName: 'Intransit', count: pendingCount,width:230  }} />
+        </Col>
+        <Col span={6}>
+          <LineGraph {...{
+            tagName: 'Material Request',
+            count: (reqData || []).length,
+            width:230 }} />
+        </Col>
+      </Row>
+      <br />
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
