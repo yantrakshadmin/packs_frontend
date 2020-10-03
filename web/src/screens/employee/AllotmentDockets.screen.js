@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Col,Modal , Popconfirm, Input, Button } from 'antd'
+import { Col,Row,Modal , Popconfirm, Input, Button } from 'antd'
 import { faTruckLoading ,faMoneyCheck } from  '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import allotmentColumns from 'common/columns/Allotment.column';
