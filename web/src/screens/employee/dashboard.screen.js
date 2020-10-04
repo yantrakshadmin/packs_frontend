@@ -145,22 +145,19 @@ export const DashboardScreen = () => {
 
   useEffect(() => {
     if(returns&&allotments){
-      // alert(1)
-      // alert(returns)                                                                                                                                                                                                                                                                                                                                                                                                                                                   a
-      settransactionHistory(parseDataMonthly(parseCalData(allotments,returns)))
+      // settransactionHistory(parseDataMonthly(parseCalData(allotments,returns)))
     }
+
   },[allotments,returns])
   return (
     <>
       <Card type='inner' title='Allotment and Return Stats'>
         <Row>
           <Col span={12}>
-            {/* <TwoLevelPieCharts data={data} /> */}
-            <TwoLevelBarCharts data={parseData(transactionHistory,'Allotment')} type='Allotment' />
+            <TwoLevelBarCharts data={allotments} type='Allotment' />
           </Col>
           <Col span={12}>
-            {/* <TwoLevelPieCharts data={data} /> */}
-            <TwoLevelBarCharts data={parseData(transactionHistory,'Return')} type='Return' />
+            <TwoLevelBarCharts data={returns} type='Return' />
           </Col>
         </Row>
       </Card>
