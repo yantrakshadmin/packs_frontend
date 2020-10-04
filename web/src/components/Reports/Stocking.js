@@ -23,12 +23,14 @@ const StockingReport = ({ currentPage }) => {
 
   const onChange = async (data) => {
     console.log(data,'ye wala pejjkjhks')
-    data.to = moment(data.to).format('YYYY-MM-DD+HH:MM');
-    data.from = moment(data.from).format('YYYY-MM-DD+HH:MM');
-    console.log(data,'ye wala')
-    setToDate(data.to);
-    setFromDate(data.from);
+    const tempFrom = moment(form.getFieldValue('dateFrom')).format('YYYY-MM-DD+HH:MM');
+    const tempTo = moment(form.getFieldValue('dateTo')).format('YYYY-MM-DD+HH:MM')
+    setToDate(tempTo);
+    setFromDate(tempFrom);
     setClient(form.getFieldValue('cname'))
+    console.log(tempFrom,tempTo,'y wala')
+
+
   };
 
 
@@ -65,7 +67,7 @@ const StockingReport = ({ currentPage }) => {
         <Row>
           <Col span={3}>
             {formItem({
-              key: 'from',
+              key: 'dateFrom',
               rules: [{ required: true, message: 'Please select From date!' }],
               kwargs: {
                 placeholder: 'Select',
@@ -79,7 +81,7 @@ const StockingReport = ({ currentPage }) => {
           <Col span={4} />
           <Col span={3}>
             {formItem({
-              key: 'to',
+              key: 'dateTo',
               rules: [{ required: true, message: 'Please select To date!' }],
               kwargs: {
                 placeholder: 'Select',
@@ -93,7 +95,7 @@ const StockingReport = ({ currentPage }) => {
         </Row>
         <Row>
           <Button
-            href={`${DEFAULT_BASE_URL}/floating-report/?cname=${client}&to=${toDate}&from=${fromDate}`}
+            href={`${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}`}
             rel='noopener noreferrer'
             target='blank'
           >
