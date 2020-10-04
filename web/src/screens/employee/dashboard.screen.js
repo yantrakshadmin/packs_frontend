@@ -1,5 +1,5 @@
 import React,{ useState,useEffect } from 'react';
-import { Row, Col ,Select, TimePicker } from 'antd'
+import { Row, Col ,Select, Card } from 'antd'
 import TwoLevelPieCharts from 'components/TwoLevelPieCharts';
 import { useAPI } from 'common/hooks/api';
 import TwoLevelBarCharts from 'components/TwoLevelBarCharts';
@@ -47,6 +47,95 @@ const dummy = {
   'PS002': 140,
   'PP001': 220 };
 
+const dateAsKey = (p) => {
+  const tmp={};
+  for (const key in p) {
+    if (p.hasOwnProperty(key)) {
+      // console.log(key + " -> " + p[key]);
+      if(tmp[p[key].substr(0,10)]==undefined)
+        tmp[p[key].substr(0,10)]=[]
+      tmp[p[key].substr(0,10)].push(key)
+    }
+  }
+  return tmp;
+}
+const parseCalData = (allotements,returns) => {
+  // alert(allotements)
+  const tmpallotements=dateAsKey(allotements);
+  const tmpreturns=dateAsKey(returns);
+  const data=[];
+  for (var key in tmpallotements) {
+    data.push(
+      { // this object will be "parsed" into an Event Object
+        title: `${tmpallotements[key].length} Allotment${(tmpallotements[key].length>1)?"s":""}`, // a property!
+        start: key, // a property!
+        data:tmpallotements[key],
+        type:'Allotment',
+        color:"#CB4335"
+      }
+    )
+  }
+  for (var key in tmpreturns) {
+    data.push(
+      { // this object will be "parsed" into an Event Object
+        title: `${tmpreturns[key].length} Return`, // a property!
+        start: key, // a property!
+        data:tmpreturns[key],
+        color:"#27AE60",
+        type:'Return'
+      }
+    )
+  }
+  // callback(data)
+  window.k=data;
+  return data
+}
+
+const countfromdata = (data,key) =>{
+  let count=0;
+  for(const i in data){
+    if(data[i].type==key){
+      count++;
+    }
+  }
+  return count;
+}
+
+const parseData = (data,type) => {
+  const tmp=[];
+  for (const key in data) {
+    // for (var key2 in data[key]) {
+    tmp.push(
+      {
+        name: key, [type]: countfromdata(data[key],type),
+      }
+    )
+    // }
+
+  }
+  window.tmp=tmp
+  window.data=data
+  return tmp;
+}
+//   window.tmp=tmp
+//   window.data=data
+//   return tmp;
+// }
+
+const parseDataMonthly = (data) => {
+  // console.log(data);
+  window.x=data
+  const tmp=[]
+  for(const key in data){
+    if(tmp[data[key].start.substr(0,7)]===undefined)
+      tmp[data[key].start.substr(0,7)]=[]
+    tmp[data[key].start.substr(0,7)].push(
+      data[key]
+    )
+  }
+  return tmp;
+}
+
 export const DashboardScreen = () => {
   const [ filterKey,setFilterKey ] = useState(null);
   const[transactionHistory,settransactionHistory]=useState([])
@@ -56,29 +145,34 @@ export const DashboardScreen = () => {
 
   useEffect(() => {
     if(returns&&allotments){
-      //settransactionHistory(parseDataMonthly(parseCalData(allotments,returns)))
+      // settransactionHistory(parseDataMonthly(parseCalData(allotments,returns)))
     }
-    
-},[allotments,returns])
+
+  },[allotments,returns])
   return (
     <>
-      <Row>
-        <Col span={12}>
-          <TwoLevelBarCharts data={allotments} type="allotment" />
-        </Col>
-        <Col span={12}>
-          <TwoLevelBarCharts data={returns} type="return" />
-        </Col>
-
-      </Row>
-      <Row>
-        <Col span={12}>
-          <Cal allotements={allotments} returns={returns} />
-        </Col>
-        <Col span={12}>
-          <Map  />
-        </Col>
-      </Row>
+      <Card type='inner' title='Allotment and Return Stats'>
+        <Row>
+          <Col span={12}>
+            <TwoLevelBarCharts data={allotments} type='Allotment' />
+          </Col>
+          <Col span={12}>
+            <TwoLevelBarCharts data={returns} type='Return' />
+          </Col>
+        </Row>
+      </Card>
+      <br />
+      <br />
+      <Card type='inner' title='Location and Planning'>
+        <Row>
+          <Col span={12}>
+            <Cal allotements={allotments} returns={returns} />
+          </Col>
+          <Col span={12}>
+            <Map  />
+          </Col>
+        </Row>
+      </Card>
     </>
   );
 };

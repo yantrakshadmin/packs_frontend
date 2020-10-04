@@ -37,7 +37,7 @@ export const PFEPSteps = [
     component: lazy(() => import('web/src/forms/PFEP/PFEPTouchPoints.form')),
   },
   {
-    title: 'Materail Handling Equipments',
+    title: 'Material Handling Equipments',
     icon: 'user-add',
     component: lazy(() => import('web/src/forms/PFEP/PFEPMaterialHandlingEquipment.form')),
   },

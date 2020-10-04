@@ -1,39 +1,39 @@
-import React, {useState, useEffect} from 'react';
-import {FlowForm} from '../../forms/flow.form';
-import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import React, { useState, useEffect } from 'react';
 import flowsColumns from 'common/columns/Flows.column';
+import { Popconfirm, Button, Input } from 'antd';
+import { deleteFlow, retreiveFlows } from 'common/api/auth';
+import { connect } from 'react-redux';
+import { useTableSearch } from 'hooks/useTableSearch';
+import { FlowForm } from '../../forms/flow.form';
+import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import KitsTable from '../../components/KitsTable';
-import {Popconfirm, Button, Input} from 'antd';
-import {deleteFlow, retreiveFlows} from 'common/api/auth';
-import {deleteHOC} from '../../hocs/deleteHoc';
+import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
-import {connect} from 'react-redux';
-import {useTableSearch} from 'hooks/useTableSearch';
 
-const {Search} = Input;
+const { Search } = Input;
 
-const FlowEmployeeScreen = ({currentPage}) => {
+const FlowEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retreiveFlows});
+  const { filteredData, loading, reload } = useTableSearch({ searchVal, retrieve: retreiveFlows });
 
   useEffect(() => {
     if (filteredData) {
       console.log(filteredData);
-      let csvd = [];
+      const csvd = [];
       filteredData.forEach((d) => {
-        let temp = {
+        const temp = {
           ...d,
-          ['sender_client']: d.sender_client.client_name,
-          ['receiver_client']: d.receiver_client.name,
+          'sender_client': d.sender_client.client_name,
+          'receiver_client': d.receiver_client.name,
         };
-        delete temp['kits'];
-        delete temp['owner'];
+        delete temp.kits;
+        delete temp.owner;
         csvd.push(temp);
-        d['kits'].forEach((k) => {
+        d.kits.forEach((k) => {
           csvd.push({
             KitName: k.kit.kit_name,
             Quantity: k.quantity,
@@ -62,7 +62,7 @@ const FlowEmployeeScreen = ({currentPage}) => {
       key: 'operation',
       width: '7vw',
       render: (text, record) => (
-        <div className="row justify-evenly">
+        <div className='row justify-evenly'>
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -77,7 +77,7 @@ const FlowEmployeeScreen = ({currentPage}) => {
             <Edit />
           </Button>
           <Popconfirm
-            title="Confirm Delete"
+            title='Confirm Delete'
             onConfirm={deleteHOC({
               record,
               reload,
@@ -113,9 +113,9 @@ const FlowEmployeeScreen = ({currentPage}) => {
 
   return (
     <>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
         </div>
       </div>
       <br />
@@ -123,24 +123,24 @@ const FlowEmployeeScreen = ({currentPage}) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size="middle"
-        title="Flows"
+        size='middle'
+        title='Flows'
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={FlowForm}
         modalWidth={50}
-        expandHandleKey="kits"
-        expandParams={{loading}}
+        expandHandleKey='kits'
+        expandParams={{ loading }}
         ExpandBody={KitsTable}
         csvdata={csvData}
-        csvname={'Flows' + searchVal + '.csv'}
+        csvname={`Flows${  searchVal  }.csv`}
       />
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  return {currentPage: state.page.currentPage};
+  return { currentPage: state.page.currentPage };
 };
 
 export default connect(mapStateToProps)(FlowEmployeeScreen);
