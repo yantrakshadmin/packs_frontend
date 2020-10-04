@@ -1,13 +1,9 @@
-import React, { useState ,useEffect } from 'react';
+import React, { useState  } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
 import { useAPI } from 'common/hooks/api';
 import { Row, Col, Form, Button,Typography } from 'antd';
-import { retrieveStockingReport, retrieveClients } from 'common/api/auth';
-import allotmentColumns from 'common/columns/AllotmentReport.column';
-import { AllotFlowTable } from 'components/AllotFlowExp';
-import TableWithTabHoc from 'hocs/TableWithTab.hoc';
 import { FORM_ELEMENT_TYPES } from '../../constants/formFields.constant';
 
 import formItem from '../../hocs/formItem.hoc';
@@ -21,21 +17,13 @@ const StockingReport = ({ currentPage }) => {
 
   const { data: clients } = useAPI('/clients/', {});
 
-  const onChange = async (data) => {
-    console.log(data,'ye wala pejjkjhks')
+  const onChange = async () => {
     const tempFrom = moment(form.getFieldValue('dateFrom')).format('YYYY-MM-DD+HH:MM');
     const tempTo = moment(form.getFieldValue('dateTo')).format('YYYY-MM-DD+HH:MM')
     setToDate(tempTo);
     setFromDate(tempFrom);
     setClient(form.getFieldValue('cname'))
-    console.log(tempFrom,tempTo,'y wala')
-
-
   };
-
-
-
-
 
   return (
     <>
