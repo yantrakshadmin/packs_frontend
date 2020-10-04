@@ -108,7 +108,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
         refresh={reload}
         tabs={tabs}
         size='middle'
-        title='PFEP Creation'
+        title='PFEP Creation '
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={PFEPMainForm}

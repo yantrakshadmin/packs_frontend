@@ -18,6 +18,8 @@
     "antd": "^4.3.4",
     "common": "0.0.1",
     "customize-cra": "^1.0.0",
+    "dompurify": "^2.1.1",
+    "jsdom": "^16.4.0",
     "jwt-decode": "^2.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
