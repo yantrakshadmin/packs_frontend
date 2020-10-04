@@ -1,11 +1,12 @@
 import React,{ useState,useEffect } from 'react';
 import { Row, Col ,Select, TimePicker } from 'antd'
 import TwoLevelPieCharts from 'components/TwoLevelPieCharts';
-import {useAPI} from 'common/hooks/api';
+import { useAPI } from 'common/hooks/api';
 import TwoLevelBarCharts from 'components/TwoLevelBarCharts';
 import { useFilterPieChartData } from 'hooks/filterPieChart';
-import {Cal} from './events.screen';
-import {Map} from './map.screen';
+import { Cal } from './events.screen';
+import { Map } from './map.screen';
+
 const { Option } = Select;
 
 
@@ -46,117 +47,29 @@ const dummy = {
   'PS002': 140,
   'PP001': 220 };
 
-  const dateAsKey = (p) => {
-    let tmp={};
-    for (var key in p) {
-        if (p.hasOwnProperty(key)) {
-           // console.log(key + " -> " + p[key]);
-           if(tmp[p[key].substr(0,10)]==undefined)
-              tmp[p[key].substr(0,10)]=[]
-            tmp[p[key].substr(0,10)].push(key)
-        }
-    }
-    return tmp;
-}
-const parseCalData = (allotements,returns) => {
-  // alert(allotements)
-    let tmpallotements=dateAsKey(allotements);
-    let tmpreturns=dateAsKey(returns);
-    let data=[];
-    for (var key in tmpallotements) {
-        data.push(
-            { // this object will be "parsed" into an Event Object
-                title: `${tmpallotements[key].length} Allotment${(tmpallotements[key].length>1)?"s":""}`, // a property!
-                start: key, // a property!
-                data:tmpallotements[key],
-                type:'allotment',
-                color:"#CB4335"
-            }
-        )
-    }
-    for (var key in tmpreturns) {
-        data.push(
-            { // this object will be "parsed" into an Event Object
-                title: `${tmpreturns[key].length} Return`, // a property!
-                start: key, // a property!
-                data:tmpreturns[key],
-                color:"#27AE60",
-                type:'return'
-            }
-        )
-    }
-    // callback(data)
-    window.k=data;
-    return data
-}
-
-const countfromdata = (data,key) =>{
-  let count=0;
-  for(let i in data){
-    if(data[i]['type']==key){
-      count++;
-    }
-  }
-  return count;
-}
-
-  const parseData = (data,type) => {
-    let tmp=[];
-    for (var key in data) {
-      // for (var key2 in data[key]) {
-        tmp.push(
-          {
-                name: key, [type]: countfromdata(data[key],type),
-          }
-        )
-      // }
-      
-    }
-    window.tmp=tmp
-    window.data=data
-    return tmp;
-  }
-
-  const parseDataMonthly = (data) => {
-    // console.log(data);
-    window.x=data
-    let tmp=[]
-    for(let key in data){
-      if(tmp[data[key]["start"].substr(0,7)]===undefined)
-        tmp[data[key]["start"].substr(0,7)]=[]
-        tmp[data[key]["start"].substr(0,7)].push(
-        data[key]
-      )
-    }
-    return tmp;
-  }
-
 export const DashboardScreen = () => {
   const [ filterKey,setFilterKey ] = useState(null);
   const[transactionHistory,settransactionHistory]=useState([])
   const { data,filteredData } = useFilterPieChartData(dummy,filterKey)
-  const {data: allotments} = useAPI('/cal/', {});
-  const {data: returns} = useAPI('/cal-r/', {});
-  
+  const { data: allotments } = useAPI('/cal/', {});
+  const { data: returns } = useAPI('/cal-r/', {});
+
   useEffect(() => {
     if(returns&&allotments){
-      // alert(1)
-      // alert(returns)
-      settransactionHistory(parseDataMonthly(parseCalData(allotments,returns)))
+      //settransactionHistory(parseDataMonthly(parseCalData(allotments,returns)))
     }
+    
 },[allotments,returns])
   return (
-    <React.Fragment>
+    <>
       <Row>
         <Col span={12}>
-          {/* <TwoLevelPieCharts data={data} /> */}
-          <TwoLevelBarCharts data={parseData(transactionHistory,'allotment')} type="allotment" />
+          <TwoLevelBarCharts data={allotments} type="allotment" />
         </Col>
         <Col span={12}>
-          {/* <TwoLevelPieCharts data={data} /> */}
-          <TwoLevelBarCharts data={parseData(transactionHistory,'return')} type="return" />
+          <TwoLevelBarCharts data={returns} type="return" />
         </Col>
-        
+
       </Row>
       <Row>
         <Col span={12}>
@@ -166,7 +79,7 @@ export const DashboardScreen = () => {
           <Map  />
         </Col>
       </Row>
-    </React.Fragment>
+    </>
   );
 };
 

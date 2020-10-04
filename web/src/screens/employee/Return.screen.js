@@ -187,8 +187,8 @@ const ReturnDocketsScreen = ({ currentPage }) => {
         </Col>
         <Col span={6}>
           <LineGraph {...{
-            tagName: 'Material Request',
-            count: (reqData || []).length,
+            tagName: 'DEPS Reported',
+            count: 5,
             width:230 }} />
         </Col>
       </Row>

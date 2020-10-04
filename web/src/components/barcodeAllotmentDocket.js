@@ -10,12 +10,23 @@ export const BarcodeAllotmentDocket = ({ transaction,allot,setVisible }) =>{
   const [barcodes,setBarcodes] = useState([]);
   const [productDetails,setProductDetails] = useState({
   });
-  const { data:allotments ,error:altError,loading:altLoading } = useAPI(`dispatch-allotment-upd/${allot}/`)
+  const { data:allotments ,error:altError,loading:altLoading } =
+    useAPI(`dispatch-allotment-fetch/?allot=${allot}`)
   const [inputValue,setInputValue] = useState('');
   console.log(allotments,altError,altLoading,"Allotment")
+
+  useEffect(()=>{
+    const newArr = [];
+    if(allotments){
+      if(allotments.barcodes){
+        // barcodes.map((item)=>{newArr.push({barcode:item.slice(2,item.length-2)})})
+      }
+    }
+  },[allot])
+
   const addItem= async (value)=>{
     const filtered = barcodes.filter((i)=>(i.barcode === (value || inputValue)));
-    const { data ,error } = await loadAPI(`check-bar/?code=${value || inputValue}`);
+    const { data } = await loadAPI(`check-bar/?code=${value || inputValue}`);
 
     if(filtered.length===0 && data !== 0){
       setBarcodes([...barcodes,{ barcode:value || inputValue,name:data }])

@@ -1,47 +1,96 @@
 // TwoLevelBarCharts| const { data,title } = this.props;
 import React, { PureComponent } from 'react';
 import {
-  BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  BarChart, Bar, Cell, XAxis,ResponsiveContainer, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
 
-// const data = [
-//   {
-//     name: 'Page A', uv: 4000, pv: 2400, amt: 2400,
-//   },
-//   {
-//     name: 'Page B', uv: 3000, pv: 1398, amt: 2210,
-//   },
-//   {
-//     name: 'Page C', uv: 2000, pv: 9800, amt: 2290,
-//   },
-//   {
-//     name: 'Page D', uv: 2780, pv: 3908, amt: 2000,
-//   },
-//   {
-//     name: 'Page E', uv: 1890, pv: 4800, amt: 2181,
-//   },
-//   {
-//     name: 'Page F', uv: 2390, pv: 3800, amt: 2500,
-//   },
-//   {
-//     name: 'Page G', uv: 3490, pv: 4300, amt: 2100,
-//   },
-// ];
+const dateAsKey = (p) => {
+  let tmp={};
+  for (var key in p) {
+      if (p.hasOwnProperty(key)) {
+         // console.log(key + " -> " + p[key]);
+         if(tmp[p[key].substr(0,10)]==undefined)
+            tmp[p[key].substr(0,10)]=[]
+          tmp[p[key].substr(0,10)].push(key)
+      }
+  }
+  return tmp;
+}
+const parseCalData = (_data,type) => {
+// alert(allotements)
+  let tmpdata=dateAsKey(_data);
+  let data=[];
+  for (var key in tmpdata) {
+      data.push(
+          { // this object will be "parsed" into an Event Object
+              title: `${tmpdata[key].length} Allotment${(tmpdata[key].length>1)?"s":""}`, // a property!
+              start: key, // a property!
+              data:tmpdata[key],
+              type:type,
+              color:"#CB4335"
+          }
+      )
+  }
+  // callback(data)
+  window.k=data;
+  return data
+}
+
+const countfromdata = (data,key) =>{
+let count=0;
+for(let i in data){
+  if(data[i]['type']==key){
+    count++;
+  }
+}
+return count;
+}
+
+const parseData = (data,type) => {
+  let tmp=[];
+  for (var key in data) {
+    // for (var key2 in data[key]) {
+      tmp.push(
+        {
+              name: key, [type]: countfromdata(data[key],type),
+        }
+      )
+    // }
+    
+  }
+  window.tmp=tmp
+  window.data=data
+  return tmp;
+}
+
+const parseDataMonthly = (data) => {
+  // console.log(data);
+  window.x=data
+  let tmp=[]
+  for(let key in data){
+    if(tmp[data[key]["start"].substr(0,7)]===undefined)
+      tmp[data[key]["start"].substr(0,7)]=[]
+      tmp[data[key]["start"].substr(0,7)].push(
+      data[key]
+    )
+  }
+  return tmp;
+}
 
 export default class TwoLevelBarCharts extends PureComponent {
   static jsfiddleUrl = 'https://jsfiddle.net/alidingling/30763kr7/';
 
   render() {
     const { data,type } = this.props;
-
-    console.log(this.props)
+   console.log()
+    // console.log(this.props)
     return (
+      <ResponsiveContainer width='100%' aspect={4.0/3.0}>
       <BarChart
-        width={500}
         height={300}
-        data={data}
+        data={parseData(parseDataMonthly(parseCalData(data,type)),type)}
         margin={{
-          top: 5, right: 30, left: 20, bottom: 5,
+          top: 5, right: 30, left: 0, bottom: 5,
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
@@ -49,8 +98,9 @@ export default class TwoLevelBarCharts extends PureComponent {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey={type} fill="#8884d8" />
+        <Bar dataKey={type} fill="#20a8d8" />
       </BarChart>
+      </ResponsiveContainer>
     );
   }
 }
