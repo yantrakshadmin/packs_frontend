@@ -15,17 +15,19 @@ import formItem from '../../hocs/formItem.hoc';
 const { Title } =Typography;
 const StockingReport = ({ currentPage }) => {
   const [client, setClient] = useState('');
-  const [to, setTo] = useState(null);
-  const [from, setFrom] = useState(null);
+  const [toDate, setToDate] = useState(null);
+  const [fromDate, setFromDate] = useState(null);
   const [form] = Form.useForm();
 
   const { data: clients } = useAPI('/clients/', {});
 
   const onChange = async (data) => {
-    data.to = moment(data.to).format('YYYY-MM-DD HH:MM');
-    data.from = moment(data.from).format('YYYY-MM-DD HH:MM');
-    setTo(data.to);
-    setFrom(data.from);
+    console.log(data,'ye wala pejjkjhks')
+    data.to = moment(data.to).format('YYYY-MM-DD+HH:MM');
+    data.from = moment(data.from).format('YYYY-MM-DD+HH:MM');
+    console.log(data,'ye wala')
+    setToDate(data.to);
+    setFromDate(data.from);
     setClient(form.getFieldValue('cname'))
   };
 
@@ -91,9 +93,10 @@ const StockingReport = ({ currentPage }) => {
         </Row>
         <Row>
           <Button
-            href={`${DEFAULT_BASE_URL}/floating-report/?cname=${client}&to=${to}&from=${from}`}
+            href={`${DEFAULT_BASE_URL}/floating-report/?cname=${client}&to=${toDate}&from=${fromDate}`}
             rel='noopener noreferrer'
-            target='blank'>
+            target='blank'
+          >
             Download CSV
           </Button>
         </Row>
