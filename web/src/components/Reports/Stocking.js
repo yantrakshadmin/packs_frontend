@@ -1,13 +1,9 @@
-import React, { useState ,useEffect } from 'react';
+import React, { useState  } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
 import { useAPI } from 'common/hooks/api';
 import { Row, Col, Form, Button,Typography } from 'antd';
-import { retrieveStockingReport, retrieveClients } from 'common/api/auth';
-import allotmentColumns from 'common/columns/AllotmentReport.column';
-import { AllotFlowTable } from 'components/AllotFlowExp';
-import TableWithTabHoc from 'hocs/TableWithTab.hoc';
 import { FORM_ELEMENT_TYPES } from '../../constants/formFields.constant';
 
 import formItem from '../../hocs/formItem.hoc';
@@ -21,19 +17,13 @@ const StockingReport = ({ currentPage }) => {
 
   const { data: clients } = useAPI('/clients/', {});
 
-  const onChange = async (data) => {
-    console.log(data,'ye wala pejjkjhks')
-    data.to = moment(data.to).format('YYYY-MM-DD+HH:MM');
-    data.from = moment(data.from).format('YYYY-MM-DD+HH:MM');
-    console.log(data,'ye wala')
-    setToDate(data.to);
-    setFromDate(data.from);
+  const onChange = async () => {
+    const tempFrom = moment(form.getFieldValue('dateFrom')).format('YYYY-MM-DD+HH:MM');
+    const tempTo = moment(form.getFieldValue('dateTo')).format('YYYY-MM-DD+HH:MM')
+    setToDate(tempTo);
+    setFromDate(tempFrom);
     setClient(form.getFieldValue('cname'))
   };
-
-
-
-
 
   return (
     <>
@@ -65,7 +55,7 @@ const StockingReport = ({ currentPage }) => {
         <Row>
           <Col span={3}>
             {formItem({
-              key: 'from',
+              key: 'dateFrom',
               rules: [{ required: true, message: 'Please select From date!' }],
               kwargs: {
                 placeholder: 'Select',
@@ -79,7 +69,7 @@ const StockingReport = ({ currentPage }) => {
           <Col span={4} />
           <Col span={3}>
             {formItem({
-              key: 'to',
+              key: 'dateTo',
               rules: [{ required: true, message: 'Please select To date!' }],
               kwargs: {
                 placeholder: 'Select',
@@ -93,7 +83,7 @@ const StockingReport = ({ currentPage }) => {
         </Row>
         <Row>
           <Button
-            href={`${DEFAULT_BASE_URL}/floating-report/?cname=${client}&to=${toDate}&from=${fromDate}`}
+            href={`${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}`}
             rel='noopener noreferrer'
             target='blank'
           >
