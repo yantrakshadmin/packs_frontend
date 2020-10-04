@@ -34,7 +34,6 @@ export default class TwoLevelBarCharts extends PureComponent {
   render() {
     const { data,type } = this.props;
 
-    console.log(this.props)
     return (
       <BarChart
         width={500}
@@ -44,12 +43,12 @@ export default class TwoLevelBarCharts extends PureComponent {
           top: 5, right: 30, left: 20, bottom: 5,
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <CartesianGrid strokeDasharray='3 3' />
+        <XAxis dataKey='name' />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey={type} fill="#8884d8" />
+        <Bar dataKey={type} fill='#20a8d8' />
       </BarChart>
     );
   }

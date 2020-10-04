@@ -1,5 +1,5 @@
 import React,{ useState,useEffect } from 'react';
-import { Row, Col ,Select, TimePicker } from 'antd'
+import { Row, Col ,Select, Card } from 'antd'
 import TwoLevelPieCharts from 'components/TwoLevelPieCharts';
 import { useAPI } from 'common/hooks/api';
 import TwoLevelBarCharts from 'components/TwoLevelBarCharts';
@@ -70,7 +70,7 @@ const parseCalData = (allotements,returns) => {
         title: `${tmpallotements[key].length} Allotment${(tmpallotements[key].length>1)?"s":""}`, // a property!
         start: key, // a property!
         data:tmpallotements[key],
-        type:'allotment',
+        type:'Allotment',
         color:"#CB4335"
       }
     )
@@ -82,7 +82,7 @@ const parseCalData = (allotements,returns) => {
         start: key, // a property!
         data:tmpreturns[key],
         color:"#27AE60",
-        type:'return'
+        type:'Return'
       }
     )
   }
@@ -146,31 +146,36 @@ export const DashboardScreen = () => {
   useEffect(() => {
     if(returns&&allotments){
       // alert(1)
-      // alert(returns)
+      // alert(returns)                                                                                                                                                                                                                                                                                                                                                                                                                                                   a
       settransactionHistory(parseDataMonthly(parseCalData(allotments,returns)))
     }
   },[allotments,returns])
   return (
     <>
-      <Row>
-        <Col span={12}>
-          {/* <TwoLevelPieCharts data={data} /> */}
-          <TwoLevelBarCharts data={parseData(transactionHistory,'allotment')} type='allotment' />
-        </Col>
-        <Col span={12}>
-          {/* <TwoLevelPieCharts data={data} /> */}
-          <TwoLevelBarCharts data={parseData(transactionHistory,'return')} type='return' />
-        </Col>
-
-      </Row>
-      <Row>
-        <Col span={12}>
-          <Cal allotements={allotments} returns={returns} />
-        </Col>
-        <Col span={12}>
-          <Map  />
-        </Col>
-      </Row>
+      <Card type='inner' title='Allotment and Return Stats'>
+        <Row>
+          <Col span={12}>
+            {/* <TwoLevelPieCharts data={data} /> */}
+            <TwoLevelBarCharts data={parseData(transactionHistory,'Allotment')} type='Allotment' />
+          </Col>
+          <Col span={12}>
+            {/* <TwoLevelPieCharts data={data} /> */}
+            <TwoLevelBarCharts data={parseData(transactionHistory,'Return')} type='Return' />
+          </Col>
+        </Row>
+      </Card>
+      <br />
+      <br />
+      <Card type='inner' title='Location and Planning'>
+        <Row>
+          <Col span={12}>
+            <Cal allotements={allotments} returns={returns} />
+          </Col>
+          <Col span={12}>
+            <Map  />
+          </Col>
+        </Row>
+      </Card>
     </>
   );
 };
