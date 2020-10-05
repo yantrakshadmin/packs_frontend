@@ -68,6 +68,22 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
     },
     ...allotmentColumns,
     {
+      title: 'Parent Company',
+      key: 'parent_name',
+      dataIndex: 'parent_name',
+      filters: [
+        {
+          text: 'Allocated',
+          value: false,
+        },
+        {
+          text: 'Pending',
+          value: false,
+        },
+      ],
+      onFilter: (value, record) => record.is_allocated === value,
+    },
+    {
       title: 'Docket',
       key: 'docket',
       render: (text, record) => {

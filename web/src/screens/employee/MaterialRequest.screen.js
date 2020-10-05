@@ -1,21 +1,22 @@
-import React, {useState, useEffect} from 'react';
-import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import MaterialRequestsTable from '../../components/MaterialRequestsTable';
+import React, { useState, useEffect } from 'react';
 import materialEmployeecolumns from 'common/columns/materialEmployee.column';
-import {Link} from '@reach/router';
-import {Button, Input} from 'antd';
-import {connect} from 'react-redux';
-import {useTableSearch} from 'hooks/useTableSearch';
-import {retrieveEmployeeMrs} from 'common/api/auth';
+import { Link } from '@reach/router';
+import { Button, Input } from 'antd';
+import { connect } from 'react-redux';
+import { useTableSearch } from 'hooks/useTableSearch';
+import { retrieveEmployeeMrs } from 'common/api/auth';
+import MaterialRequestsTable from '../../components/MaterialRequestsTable';
+import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import moment from 'moment';
 
-const {Search} = Input;
+const { Search } = Input;
 
-const ReceiverClientEmployeeScreen = ({currentPage}) => {
+const ReceiverClientEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({
+  const { filteredData, loading, reload } = useTableSearch({
     searchVal,
     retrieve: retrieveEmployeeMrs,
   });
@@ -23,16 +24,16 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
   useEffect(() => {
     if (filteredData) {
       console.log(filteredData);
-      let csvd = [];
+      const csvd = [];
       filteredData.forEach((d) => {
-        let temp = {
+        const temp = {
           ...d,
-          ['owner']: d.owner.first_name + d.owner.last_name,
-          ['delivery_required_on']: d.delivery_required_on.slice(0, 10),
+          'owner': d.owner.first_name + d.owner.last_name,
+          'delivery_required_on': d.delivery_required_on.slice(0, 10),
         };
-        delete temp['flows'];
+        delete temp.flows;
         csvd.push(temp);
-        d['flows'].forEach((flo) => {
+        d.flows.forEach((flo) => {
           csvd.push({
             FlowName: flo.flow.flow_name,
             KitName: flo.kit.kit_name,
@@ -47,6 +48,31 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
   const columns = [
     ...materialEmployeecolumns,
     {
+      title: 'Owner Name',
+      key: 'owner_name',
+      filters: [
+        {
+          text: 'Allocated',
+          value: false,
+        },
+        {
+          text: 'Pending',
+          value: false,
+        },
+      ],
+      onFilter: (value, record) => record.is_allocated === value,
+      render: (text, record) => {
+        return record.owner.first_name + ' ' + record.owner.last_name;
+      },
+    },
+    {
+      title: 'Delivery Required On',
+      key: 'delivery_required_on',
+      sorter: (a, b) => moment(a.delivery_required_on).unix() - moment(b.delivery_required_on).unix(),
+      render: (text, record) => {
+        return moment(record.delivery_required_on).format('DD/MM/YYYY');
+      },
+    },{
       title: 'Status',
       key: 'status',
       className: 'align-center',
@@ -65,7 +91,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         if (record.is_allocated)
           return (
             <Button
-              type="primary"
+              type='primary'
               style={{
                 backgroundColor: '#00FF00',
                 outline: 'none',
@@ -78,7 +104,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
           );
         return (
           <Button
-            type="primary"
+            type='primary'
             style={{
               backgroundColor: 'red',
               outline: 'none',
@@ -97,8 +123,8 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
       key: 'docket',
       width: '10vw',
       render: (text, record) => (
-        <Button type="primary" disabled={record.is_allocated} onClick={(e) => e.stopPropagation()}>
-          <Link to="../create-allotment/" state={{id: record.id}} key={record.id}>
+        <Button type='primary' disabled={record.is_allocated} onClick={(e) => e.stopPropagation()}>
+          <Link to='../create-allotment/' state={{ id: record.id }} key={record.id}>
             Create Allotment Docket
           </Link>
         </Button>
@@ -120,9 +146,9 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
 
   return (
     <>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
         </div>
       </div>
       <br />
@@ -130,23 +156,23 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size="middle"
-        title="Material Requests"
+        size='middle'
+        title='Material Requests'
         editingId={editingId}
         cancelEditing={cancelEditing}
         ExpandBody={MaterialRequestsTable}
-        expandHandleKey="flows"
+        expandHandleKey='flows'
         hideRightButton
-        expandParams={{loading}}
+        expandParams={{ loading }}
         csvdata={csvData}
-        csvname={'MRs' + searchVal + '.csv'}
+        csvname={`MRs${  searchVal  }.csv`}
       />
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  return {currentPage: state.page.currentPage};
+  return { currentPage: state.page.currentPage };
 };
 
 export default connect(mapStateToProps)(ReceiverClientEmployeeScreen);
