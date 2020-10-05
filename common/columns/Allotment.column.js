@@ -7,11 +7,6 @@ export default [
     dataIndex: 'transaction_no',
   },
   {
-    title: 'Parent Company',
-    key: 'parent_name',
-    dataIndex: 'parent_name',
-  },
-  {
     title: 'Transaction Date',
     key: 'dispatch_date',
     sorter: (a, b) => moment(a.dispatch_date).unix() - moment(b.dispatch_date).unix(),

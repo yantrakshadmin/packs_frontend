@@ -6,6 +6,7 @@ const { Title } = Typography;
 export const MasterHOC = ({
   title,
   data,
+  size,
   columns,
   modalParams,
   modalBody: ModalBody,
@@ -69,8 +70,15 @@ export const MasterHOC = ({
       <Divider style={{ margin: 0, padding: 0 }} />
       <Row>
         <Col span={24}>
-          <Table bordered dataSource={data} columns={columns} loading={loading} {...tableOptions} />
+          <Table
+            bordered
+            dataSource={data}
+            columns={columns}
+            loading={loading}
+            {...tableOptions}
+            size={size} />
         </Col>
+
       </Row>
     </div>
   );
