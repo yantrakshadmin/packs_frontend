@@ -20,16 +20,16 @@ export const chartOptions = {
     }]
   }
 };
-export const initialChart ={
+export const initialChart = (label)=>({
   labels: ['January',
     'February', 'March',
     'April', 'May', 'June', 'July', 'Aug',
     'Sept', 'Oct', 'Nov', 'Dec'],
   datasets: [
     {
-      label: 'Allotments by Months',
+      label:label ,
       ...chartConfigs,
       data:  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     },
   ],
-}
+})

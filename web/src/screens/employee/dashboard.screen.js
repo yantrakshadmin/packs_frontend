@@ -12,8 +12,8 @@ import { MasterHOC } from '../../hocs/Master.hoc';
 const { Paragraph } = Typography;
 
 export const DashboardScreen = () => {
-  const [allotmentChartData,setAllotmentChartData] = useState(initialChart);
-  const [returnChartData,setReturnChartData] = useState(initialChart);
+  const [allotmentChartData,setAllotmentChartData] = useState(initialChart('Allotments by Months'));
+  const [returnChartData,setReturnChartData] = useState(initialChart('Return by Months'));
   const [clientStatIndex,setClientStatIndex] = useState(0);
   const { data: allotments } = useAPI('/cal/', {});
   const { data: returns } = useAPI('/cal-r/', {});
@@ -87,7 +87,7 @@ export const DashboardScreen = () => {
           'Sept', 'Oct', 'Nov', 'Dec'],
         datasets: [
           {
-            label: 'Reurns by Months',
+            label: 'Returns by Months',
             ...chartConfigs,
             data: chartReturnData,
           },
