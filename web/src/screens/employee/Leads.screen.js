@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import leadColumns from 'common/columns/Leads.colums';
-import { Popconfirm, Button, Input } from 'antd';
+import { Popconfirm, Button, Input, Modal } from 'antd';
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { retrieveLeads, deleteLead } from 'common/api/auth';
 import Delete from 'icons/Delete';
 import PersonTable from 'components/PersonTable';
+import { DiffOutlined } from '@ant-design/icons'
 import { deleteHOC } from '../../hocs/deleteHoc';
 import Edit from '../../icons/Edit';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { LeadsForm } from '../../forms/leads.form';
+import { BarcodeAllotmentDocket } from '../../components/barcodeAllotmentDocket';
+import { PFEPMainForm } from '../../forms/PFEP/PFEPMain.form';
 
 const { Search } = Input;
 
@@ -17,7 +20,8 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
-
+  const [visible, setVisible] = useState(false);
+  const [lead,setLead] = useState(null);
   const { filteredData, loading, reload } = useTableSearch({
     searchVal,
     retrieve: retrieveLeads,
@@ -43,6 +47,22 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
       width: '7vw',
       render: (text, record) => (
         <div className='row align-center justify-evenly'>
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            onClick={(e) => {
+              setLead(record.lead_no);
+              setVisible(true)
+              e.stopPropagation();
+            }}>
+            <DiffOutlined
+              style={{ fontSize:20 }}
+              className='icon-bg' />
+          </Button>
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -102,6 +122,21 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
         </div>
       </div>
       <br />
+      <Modal
+        maskClosable={false}
+        visible={visible}
+        destroyOnClose
+        style={{ minWidth: `80vw` }}
+        title=''
+        onCancel={() => {
+          setVisible(false);
+        }}
+        footer={null}>
+        <PFEPMainForm
+          onCancel={()=>{setVisible(false)}}
+          onDone={()=>{setVisible(false)}}
+          lead={lead} />
+      </Modal>
       <TableWithTabHOC
         rowKey={(record) => record.id}
         refresh={reload}

@@ -23,5 +23,12 @@ export const PREPTouchPointsFormFields = [
       placeholder: 'Email',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-  }
+  },
+  {
+    key: 'designation',
+    kwargs: {
+      placeholder: 'Designation',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+  },
 ]

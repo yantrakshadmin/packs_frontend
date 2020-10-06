@@ -31,7 +31,7 @@ export const PFEPMaterialHandlingEquipmentForm = ({ id, onCancel,onDone,onNext }
       >
         <Row style={{ justifyContent: 'left' }}>
           {PREPMaterialHandlingEquipmentFormFields.slice(0, 3).map((item, idx) => (
-            <Col span={8}>
+            <Col span={4}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
               </div>

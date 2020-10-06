@@ -2,7 +2,7 @@ import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 
 export const PREPCycleTimeFormFields = [
   {
-    key: 'minimum',
+    key: 'min_cycle_days',
     customLabel: 'Minimum Days',
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -11,7 +11,7 @@ export const PREPCycleTimeFormFields = [
       placeholder: 'Minimum Days',
     },
   },{
-    key: 'maximum',
+    key: 'max_cycle_days',
     customLabel: 'Maximum Days',
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,

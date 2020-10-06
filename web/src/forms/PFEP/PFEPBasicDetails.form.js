@@ -4,21 +4,25 @@ import { ArrowRightOutlined } from '@ant-design/icons'
 import { PREPBasicDetailsFormFields } from 'common/formFields/PFEP/PFEPBasicDetails.formFields';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_PFEP_DATA } from 'common/actions';
+import { ADD_PFEP_DATA, CLEAN_PFEP_DATA } from 'common/actions';
 
-export const PFEPBasicDetailsForm = ({ id, onCancel,onDone,onNext }) => {
+export const PFEPBasicDetailsForm = ({ id, onCancel,lead ,onDone,onNext }) => {
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const state =  useSelector(e=>(e.data.pfepData))
 
+  useEffect(()=>{
+    dispatch({ type:CLEAN_PFEP_DATA });
+    console.log('Cleared : ' ,state)
+  },[lead])
+
   const submit = async (data) =>{
     console.log(data);
     setLoading(true)
-    await dispatch({ type:ADD_PFEP_DATA,data });
+    await dispatch({ type:ADD_PFEP_DATA,data:{ ...data,lead_no:lead } });
     setLoading(false)
     onNext();
-    console.log(state,'ye wala')
   }
 
   return (

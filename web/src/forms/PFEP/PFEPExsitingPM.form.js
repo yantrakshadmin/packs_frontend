@@ -39,7 +39,7 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {PREPCreationFormFields.slice(4, 8).map((item, idx) => (
+          {PREPExistingPMFormFields.slice(4, 8).map((item, idx) => (
             <Col span={6}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
@@ -48,7 +48,7 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {PREPCreationFormFields.slice(8, 11).map((item, idx) => (
+          {PREPExistingPMFormFields.slice(8, 11).map((item, idx) => (
             <Col span={8}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
@@ -57,7 +57,7 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {PREPCreationFormFields.slice(11, 13).map((item, idx) => (
+          {PREPExistingPMFormFields.slice(11, 13).map((item, idx) => (
             <Col span={8}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}

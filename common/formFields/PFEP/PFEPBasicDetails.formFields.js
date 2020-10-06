@@ -6,14 +6,13 @@ export const PREPBasicDetailsFormFields = [
     type: FORM_ELEMENT_TYPES.DATE,
     others: null,
   },
-
   {
-    key: 'contact_person_name',
+    key: 'contact_person',
     kwargs: {
-      placeholder: 'Contact person Name',
+      placeholder: 'Contact Person Name',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Contact person Name',
+    customLabel: 'Contact Person Name',
   },
   {
     key: 'designation',
@@ -31,5 +30,15 @@ export const PREPBasicDetailsFormFields = [
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     customLabel: 'Email',
+  },
+  {
+    key: 'contact_no',
+    kwargs: {
+      placeholder: 'Contact Number',
+      type:'number',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Contact Number',
   },
 ]

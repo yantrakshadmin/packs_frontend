@@ -1,4 +1,4 @@
-import { ADD_PFEP_DATA, FETCH_PRODUCTS } from '../actions/index';
+import { ADD_PFEP_DATA, CLEAN_PFEP_DATA, FETCH_PRODUCTS } from '../actions/index';
 
 const initialState = {
   products: [],
@@ -17,6 +17,12 @@ export const fetchData = (state = initialState, action) => {
       return{
         ...state,
         pfepData:{ ...action.data }
+      }
+    }
+    case CLEAN_PFEP_DATA:{
+      return{
+        ...state,
+        pfepData:{ }
       }
     }
     default:

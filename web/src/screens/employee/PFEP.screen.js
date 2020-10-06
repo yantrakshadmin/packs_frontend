@@ -111,7 +111,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
         title='PFEP Creation '
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={PFEPMainForm}
+        hideRightButton
         modalWidth={80}
         expandHandleKey='person'
         ExpandBody={PersonTable}
