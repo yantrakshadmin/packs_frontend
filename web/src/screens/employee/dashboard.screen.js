@@ -13,39 +13,42 @@ const { Paragraph } = Typography;
 
 export const DashboardScreen = () => {
   const [allotmentChartData,setAllotmentChartData] = useState(initialChart);
+  const [returnChartData,setReturnChartData] = useState(initialChart);
   const [clientStatIndex,setClientStatIndex] = useState(0);
   const { data: allotments } = useAPI('/cal/', {});
   const { data: returns } = useAPI('/cal-r/', {});
   const { data: clients } = useAPI('/clients/', {})
   const { data: chartAllot } = useAPI('/allot-graph/', {});
+  const { data: chartReturn } = useAPI('/return-graph/', {});
   const { data: clientStats,loading } = useAPI('/cycledays-graph/', {});
   const [clientStatsFiltered,setClientStatsFiltered ]
   = useState([]);
-  const plainOptions = ['Apple', 'Pear', 'Orange'];
-  const defaultCheckedList = ['Apple', 'Orange'];
-  const [checkBox,setCheckBox] =
-    useState({ checkedList:defaultCheckedList,indeterminate:true,checkAll:false })
-
-  const onChange = checkedList => {
-    setCheckBox({
-      checkedList,
-      indeterminate: !!checkedList.length && checkedList.length < plainOptions.length,
-      checkAll: checkedList.length === plainOptions.length,
-    });
-  };
-
-  const onCheckAllChange = e => {
-    setCheckBox({
-      checkedList: e.target.checked ? plainOptions : [],
-      indeterminate: false,
-      checkAll: e.target.checked,
-    });
-  };
+  // const plainOptions = ['Apple', 'Pear', 'Orange'];
+  // const defaultCheckedList = ['Apple', 'Orange'];
+  // const [checkBox,setCheckBox] =
+  //   useState({ checkedList:defaultCheckedList,indeterminate:true,checkAll:false })
+  //
+  // const onChange = checkedList => {
+  //   setCheckBox({
+  //     checkedList,
+  //     indeterminate: !!checkedList.length && checkedList.length < plainOptions.length,
+  //     checkAll: checkedList.length === plainOptions.length,
+  //   });
+  // };
+  //
+  // const onCheckAllChange = e => {
+  //   setCheckBox({
+  //     checkedList: e.target.checked ? plainOptions : [],
+  //     indeterminate: false,
+  //     checkAll: e.target.checked,
+  //   });
+  // };
 
 
 
   useEffect(()=>{
     const chartAllotData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const chartReturnData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     if(chartAllot){
       if(chartAllot.series){
         chartAllot.series[0].data.map(item => {
@@ -53,6 +56,14 @@ export const DashboardScreen = () => {
           chartAllotData[d.getMonth()] = chartAllotData[d.getMonth()] + item.y
           return null
         });}}
+    if(chartReturn){
+      if(chartReturn.series){
+        chartReturn.series[0].data.map(item => {
+          const d = new Date(item.name);
+          chartReturnData[d.getMonth()] = chartReturnData[d.getMonth()] + item.y
+          return null
+        });}}
+
     setAllotmentChartData(
       {
         labels: ['January',
@@ -68,7 +79,22 @@ export const DashboardScreen = () => {
         ],
       }
     );
-  },[chartAllot])
+    setReturnChartData(
+      {
+        labels: ['January',
+          'February', 'March',
+          'April', 'May', 'June', 'July', 'Aug',
+          'Sept', 'Oct', 'Nov', 'Dec'],
+        datasets: [
+          {
+            label: 'Reurns by Months',
+            ...chartConfigs,
+            data: chartReturnData,
+          },
+        ],
+      }
+    );
+  },[chartAllot,chartReturn])
 
   const getFilteredArray = () =>{
     const newArr = []
@@ -93,7 +119,7 @@ export const DashboardScreen = () => {
       <Dropdown overlay={menu}>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a className='ant-dropdown-link' onClick={e => e.preventDefault()}>
-          <FilterOutlined style={{fontSize:25}} />
+          <FilterOutlined style={{ fontSize:25 }} />
         </a>
       </Dropdown>
     )
@@ -118,30 +144,18 @@ export const DashboardScreen = () => {
       <Card type='inner' title='Allotment and Return Stats'>
         <Row justify='center' gutter={32}>
           <Col span={12}>
-            {/* <div className='site-checkbox-all-wrapper'> */}
-            {/*  <Checkbox */}
-            {/*    indeterminate={checkBox.indeterminate} */}
-            {/*    onChange={onCheckAllChange} */}
-            {/*    checked={checkBox.checkAll} */}
-            {/*  > */}
-            {/*    Check all */}
-            {/*  </Checkbox> */}
-            {/* </div> */}
-            {/* <br /> */}
-            {/* <CheckboxGroup */}
-            {/*  options={plainOptions} */}
-            {/*  value={checkBox.checkedList} */}
-            {/*  onChange={onChange} */}
-            {/* /> */}
             <Bar
               data={allotmentChartData}
               height={125}
               options={chartOptions}
             />
-            {/* <TwoLevelBarCharts data={allotments} type='Allotment' /> */}
           </Col>
           <Col span={12}>
-            {/* <TwoLevelBarCharts data={returns} type='Return' /> */}
+            <Bar
+              data={returnChartData}
+              height={125}
+              options={chartOptions}
+            />
           </Col>
         </Row>
       </Card>
