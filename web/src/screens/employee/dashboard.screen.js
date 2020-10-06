@@ -12,8 +12,21 @@ import { MasterHOC } from '../../hocs/Master.hoc';
 const { Paragraph } = Typography;
 
 export const DashboardScreen = () => {
-  const [allotmentChartData,setAllotmentChartData] = useState(initialChart);
-  const [returnChartData,setReturnChartData] = useState(initialChart);
+  const [allotmentChartData,setAllotmentChartData] = useState(initialChart('Allotments by Months'));
+  const [returnChartData,setReturnChartData] = useState({
+    labels: ['January',
+      'February', 'March',
+      'April', 'May', 'June', 'July', 'Aug',
+      'Sept', 'Oct', 'Nov', 'Dec'],
+    datasets: [
+      {
+        label:'Return by Months' ,
+        ...chartConfigs,
+        data:  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      },
+    ],
+  }
+  );
   const [clientStatIndex,setClientStatIndex] = useState(0);
   const { data: allotments } = useAPI('/cal/', {});
   const { data: returns } = useAPI('/cal-r/', {});
@@ -45,10 +58,8 @@ export const DashboardScreen = () => {
   // };
 
 
-
   useEffect(()=>{
     const chartAllotData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    const chartReturnData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     if(chartAllot){
       if(chartAllot.series){
         chartAllot.series[0].data.map(item => {
@@ -56,14 +67,6 @@ export const DashboardScreen = () => {
           chartAllotData[d.getMonth()] = chartAllotData[d.getMonth()] + item.y
           return null
         });}}
-    if(chartReturn){
-      if(chartReturn.series){
-        chartReturn.series[0].data.map(item => {
-          const d = new Date(item.name);
-          chartReturnData[d.getMonth()] = chartReturnData[d.getMonth()] + item.y
-          return null
-        });}}
-
     setAllotmentChartData(
       {
         labels: ['January',
@@ -79,6 +82,19 @@ export const DashboardScreen = () => {
         ],
       }
     );
+  },[chartAllot])
+
+  useEffect(()=>{
+    const chartReturnData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    if(chartReturn){
+      if(chartReturn.series){
+        chartReturn.series[0].data.map(item => {
+          const d = new Date(item.name);
+          chartReturnData[d.getMonth()] = chartReturnData[d.getMonth()] + item.y
+          return null
+        });}}
+
+
     setReturnChartData(
       {
         labels: ['January',
@@ -87,14 +103,14 @@ export const DashboardScreen = () => {
           'Sept', 'Oct', 'Nov', 'Dec'],
         datasets: [
           {
-            label: 'Reurns by Months',
+            label: 'Returns by Months',
             ...chartConfigs,
             data: chartReturnData,
           },
         ],
       }
     );
-  },[chartAllot,chartReturn])
+  },[chartReturn])
 
   const getFilteredArray = () =>{
     const newArr = []
