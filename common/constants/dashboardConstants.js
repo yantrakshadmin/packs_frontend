@@ -27,7 +27,7 @@ export const initialChart = (label)=>({
     'Sept', 'Oct', 'Nov', 'Dec'],
   datasets: [
     {
-      label:label ,
+      label ,
       ...chartConfigs,
       data:  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     },
