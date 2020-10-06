@@ -2,14 +2,28 @@ import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 
 export const PREPSolutionRequiredFormFields = [
   {
-    key: 'container',
-    kwargs: {
-      placeholder: 'Select',
-    },
-    type: FORM_ELEMENT_TYPES.SELECT,
-    others: {
-      selectOptions: ['FLC', 'FSC', 'Crate', 'PP Box'],
-    },
+    key: 'solution_flc',
+    type: FORM_ELEMENT_TYPES.SWITCH,
+    others: null,
+    customLabel: 'FLC',
+  },
+  {
+    key: 'solution_fsc',
+    type: FORM_ELEMENT_TYPES.SWITCH,
+    others: null,
+    customLabel: 'FSC',
+  },
+  {
+    key: 'solution_crate',
+    type: FORM_ELEMENT_TYPES.SWITCH,
+    others: null,
+    customLabel: 'Crate',
+  },
+  {
+    key: 'solution_ppbox',
+    type: FORM_ELEMENT_TYPES.SWITCH,
+    others: null,
+    customLabel: 'PP Box',
   },
   {
     key: 'part_orientation',
@@ -20,7 +34,7 @@ export const PREPSolutionRequiredFormFields = [
     customLabel: 'Part Orientation',
   },
   {
-    key: 'parts',
+    key: 'parts_pm',
     kwargs: {
       placeholder: 'Parts/PM',
     },

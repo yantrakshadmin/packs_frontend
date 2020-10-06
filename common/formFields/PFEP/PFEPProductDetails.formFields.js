@@ -21,14 +21,14 @@ export const PREPProductDetailsFormFields = [
     customLabel: 'Part Number',
   },
   {
-    key: 'volume_month',
-    rules: [{ required: true, message: 'Please enter Volume Month!' }],
+    key: 'volume_pm',
+    rules: [{ required: true, message: 'Please enter Volume Per Month!' }],
     kwargs: {
       type: 'number',
-      placeholder: 'Volume Month',
+      placeholder: 'Volume Per Month',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Volume Month',
+    customLabel: 'Volume Per Month',
   },
   {
     key: 'dispatch_frequency',

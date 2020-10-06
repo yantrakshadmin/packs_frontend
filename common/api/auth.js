@@ -811,3 +811,10 @@ export const postAltBarcodes = (data) =>{
     data
   })
 }
+export const createPFEP = (data) =>{
+  return loadAPI('create-pfep/',{
+    method:'POST',
+    secure:true,
+    data
+  })
+}

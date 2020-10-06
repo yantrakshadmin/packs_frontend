@@ -1,29 +1,22 @@
 import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 
+//boolean checkbox
+
 export const PREPMaterialHandlingEquipmentFormFields = [
   {
     key: 'hopt',
-    type: FORM_ELEMENT_TYPES.INPUT,
+    type: FORM_ELEMENT_TYPES.SWITCH,
     others: null,
-    kwargs: {
-      placeholder: 'HOPT',
-    },
     customLabel: 'HOPT',
   },
   {
     key: 'dock_leveler',
-    kwargs: {
-      placeholder: 'Packaging Length',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
+    type: FORM_ELEMENT_TYPES.SWITCH,
     customLabel: 'Dock Leveler',
   },
   {
     key: 'fork_lift',
-    kwargs: {
-      placeholder: 'Packaging Breadth',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
+    type: FORM_ELEMENT_TYPES.SWITCH,
     customLabel: 'Fork Lift',
   },
 ]

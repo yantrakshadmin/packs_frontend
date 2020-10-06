@@ -2,12 +2,13 @@ import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 
 export const PREPStockKeepingFormFields = [
   {
-    key: 'emitter_inventory',
+    key: 'emitter_inv',
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     kwargs: {
       placeholder: 'Emitter Inventory',
     },
+    customLabel: 'Emitter Inventory',
   },
   {
     key: 'transit_time',
@@ -18,19 +19,20 @@ export const PREPStockKeepingFormFields = [
     customLabel: 'Transit time',
   },
   {
-    key: 'emitter_location',
+    key: 'wh_emitter',
     kwargs: {
-      placeholder: 'Emitter location',
+      placeholder: 'Warehouse Emitter',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Emitter location',
-  },{
-    key: 'receiver_location',
+    customLabel: 'Warehouse Emitter',
+  },
+  {
+    key: 'wh_receiver',
     kwargs: {
-      placeholder: 'Receiver location',
+      placeholder: 'Warehouse Receiver',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Receiver location',
+    customLabel: 'Warehouse Receiver',
   },
   {
     key: 'other_storage',
@@ -41,7 +43,7 @@ export const PREPStockKeepingFormFields = [
     customLabel: 'Other Storage',
   },
   {
-    key: 'receiver_inventory',
+    key: 'receiver_inv',
     kwargs: {
       placeholder: 'Receiver Inventory',
     },

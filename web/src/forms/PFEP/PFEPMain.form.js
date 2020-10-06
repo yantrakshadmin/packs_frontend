@@ -6,7 +6,7 @@ import { Loading } from '../../components/Loading';
 const { Step } = Steps;
 
 
-export const PFEPMainForm = ({ id, onCancel,onDone }) => {
+export const PFEPMainForm = ({ id, onCancel,onDone,lead }) => {
   const [active,setActive] = useState(0)
 
   const CurrentComponent = (PFEPSteps[active].component);
@@ -23,6 +23,7 @@ export const PFEPMainForm = ({ id, onCancel,onDone }) => {
       <br />
       <Suspense fallback={Loading}>
         <CurrentComponent
+          lead={lead}
           onNext={()=>{setActive(active+1)}}
           onDone={onDone}
           onCancel={onCancel}

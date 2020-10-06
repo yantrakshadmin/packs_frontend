@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Col, Row, Button, Divider, Spin} from 'antd';
+import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_DATA } from 'common/actions';
-import { PREPSolutionRequiredFormFields } from 'common/formFields/PFEP/PFEPSolutionRequired.formFields';
+import { PREPSolutionRequiredFormFields }
+  from 'common/formFields/PFEP/PFEPSolutionRequired.formFields';
+import { createPFEP } from 'common/api/auth';
 
 export const PFEPSolutionRequiredForm = ({ id, onCancel,onDone,onNext }) => {
   const [loading,setLoading] = useState(false);
@@ -16,10 +18,9 @@ export const PFEPSolutionRequiredForm = ({ id, onCancel,onDone,onNext }) => {
     setLoading(true)
     await dispatch({ type:ADD_PFEP_DATA,data });
     setLoading(false)
-
+    const postResults = await createPFEP(data);
+    console.log(postResults,"data");
   }
-
-
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Solution Required</Divider>
@@ -31,8 +32,17 @@ export const PFEPSolutionRequiredForm = ({ id, onCancel,onDone,onNext }) => {
         autoComplete='off'
       >
         <Row style={{ justifyContent: 'left' }}>
-          {PREPSolutionRequiredFormFields.slice(0, 4).map((item, idx) => (
+          {PREPSolutionRequiredFormFields.slice(4, 7).map((item, idx) => (
             <Col span={6}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {PREPSolutionRequiredFormFields.slice(0, 4).map((item, idx) => (
+            <Col span={2}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
               </div>
