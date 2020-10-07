@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import leadColumns from 'common/columns/Leads.colums';
-import { Popconfirm, Button, Input } from 'antd';
-import { connect } from 'react-redux';
+import { Popconfirm,Tag, Button, Input } from 'antd';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
-import { retrieveLeads, deleteLead } from 'common/api/auth';
+import { retrievePFEP, deleteLead, deletePFEP } from 'common/api/auth';
 import Delete from 'icons/Delete';
 import PersonTable from 'components/PersonTable';
+import { PFEPColumn } from 'common/columns/PFEP.column';
+import { dateFormatter } from 'common/helpers/dateFomatter';
+import { ADD_PFEP_BASIC_DATA, ADD_PFEP_DATA, CLEAN_PFEP_DATA } from 'common/actions';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import Edit from '../../icons/Edit';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import { LeadsForm } from '../../forms/leads.form';
 import { PFEPMainForm } from '../../forms/PFEP/PFEPMain.form';
 
 const { Search } = Input;
@@ -17,13 +19,14 @@ const { Search } = Input;
 const PFEPEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [lead, setLead] = useState(null);
   const [csvData, setCsvData] = useState(null);
+  const dispatch = useDispatch();
 
   const { filteredData, loading, reload } = useTableSearch({
     searchVal,
-    retrieve: retrieveLeads,
+    retrieve: retrievePFEP,
   });
-
   useEffect(() => {
     if (filteredData) {
       const csvd = [];
@@ -36,7 +39,73 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
   }, [filteredData]);
 
   const columns = [
-    ...leadColumns,
+    ...PFEPColumn,
+    {
+      title: 'Created Date',
+      key: 'date',
+      dataIndex: 'date',
+      render:(text)=>(<div>{dateFormatter(text)}</div>)
+    },
+    {
+      title: 'Emitter',
+      key:'emitter',
+      render:(record)=>(
+        <div>
+          {record.emitter_inv}
+          {' - '}
+          {
+            record.wh_emitter
+}
+        </div>
+      )
+    },
+    {
+      title: 'Receiver',
+      key:'receiver',
+      render:(record)=>(
+        <div>
+          {record.receiver_inv}
+          {' - '}
+          {
+            record.wh_receiver
+          }
+        </div>
+      )
+    },{
+      title: 'Contact Person',
+      key:'contact_person',
+      render:(record)=>(
+        <div>
+          {record.contact_person}
+          <br />
+          {
+            record.contact_no
+          }
+          <br />
+          {record.email}
+        </div>
+      )
+    },
+    {
+      title:'Solution Required',
+      key:'solution_required',
+      render:(record)=>(
+        <div className='column'>
+          {record.solution_flc?<Tag>FLC</Tag>:null}
+          {record.solution_fsc?<Tag>FSC</Tag>:null}
+          {record.solution_crate?<Tag>Crate</Tag>:null}
+          {record.solution_ppbox?<Tag>PP Box</Tag>:null}
+        </div>
+      )
+    },{
+      title:'Status',
+      key:'status',
+      render:(record)=>(
+        <div className='column'>
+          {record.status?<Tag>{record.status}</Tag>:null}
+        </div>
+      )
+    },
     {
       title: 'Action',
       key: 'operation',
@@ -53,6 +122,9 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
             }}
             onClick={(e) => {
               setEditingId(record.id);
+              setLead(record.lead_no);
+              console.log(record,'Record');
+              dispatch({ type:ADD_PFEP_DATA,data:record })
               e.stopPropagation();
             }}>
             <Edit />
@@ -63,9 +135,9 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
             onConfirm={deleteHOC({
               record,
               reload,
-              api: deleteLead,
-              success: 'Deleted kit successfully',
-              failure: 'Error in deleting kit',
+              api: deletePFEP,
+              success: 'Deleted PFEP Successfully',
+              failure: 'Error in deleting PFEP',
             })}>
             <Button
               style={{
@@ -110,12 +182,17 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
         size='middle'
         title='PFEP Creation '
         editingId={editingId}
-        cancelEditing={cancelEditing}
+        cancelEditing={()=>{cancelEditing();}}
+        onCancelButton={()=>{
+          dispatch({ type:CLEAN_PFEP_DATA })}}
         hideRightButton
         modalWidth={80}
-        expandHandleKey='person'
-        ExpandBody={PersonTable}
-        expandParams={{ loading }}
+        modalBody={PFEPMainForm}
+        formParams={{ lead }}
+
+        // expandHandleKey='person'
+        // ExpandBody={PersonTable}
+        // expandParams={{ loading }}
         scroll={{ x: 2000 }}
         csvdata={csvData}
         csvname={`Leads${  searchVal  }.csv`}

@@ -4,7 +4,7 @@ import { ArrowRightOutlined } from '@ant-design/icons'
 import { PREPBasicDetailsFormFields } from 'common/formFields/PFEP/PFEPBasicDetails.formFields';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_PFEP_DATA, CLEAN_PFEP_DATA } from 'common/actions';
+import { ADD_PFEP_BASIC_DATA, ADD_PFEP_DATA, CLEAN_PFEP_DATA } from 'common/actions';
 
 export const PFEPBasicDetailsForm = ({ id, onCancel,lead ,onDone,onNext }) => {
   const [loading,setLoading] = useState(false);
@@ -13,14 +13,33 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead ,onDone,onNext }) => {
   const state =  useSelector(e=>(e.data.pfepData))
 
   useEffect(()=>{
-    dispatch({ type:CLEAN_PFEP_DATA });
-    console.log('Cleared : ' ,state)
-  },[lead])
+    // const initialData = {
+    //   date:state.date?state.date:null,
+    //   contact_person:state.contact_person?state.contact_person:null,
+    //   designation:state.designation?state.designation:null,
+    //   email:state.email?state.email:null,
+    //   contact_no:state.contact_no?state.contact_no:null
+    // };
+    // console.log({
+    //   date:state.date?state.date:null,
+    //   contact_person:state.contact_person?state.contact_person:null,
+    //   designation:state.designation?state.designation:null,
+    //   email:state.email?state.email:null,
+    //   contact_no:state.contact_no?state.contact_no:null
+    // },"state")
+    // form.setFieldsValue(initialData);
+    // form.setFieldsValue({
+    //   date:state.date?state.date:null,
+    //   contact_person:state.contact_person?state.contact_person:null,
+    //   designation:state.designation?state.designation:null,
+    //   email:state.email?state.email:null,
+    //   contact_no:state.contact_no?state.contact_no:null
+    // })
+  },[state])
 
   const submit = async (data) =>{
-    console.log(data);
     setLoading(true)
-    await dispatch({ type:ADD_PFEP_DATA,data:{ ...data,lead_no:lead } });
+    await dispatch({ type:ADD_PFEP_BASIC_DATA,data:{ ...data,lead_no:lead } });
     setLoading(false)
     onNext();
   }
@@ -28,6 +47,14 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead ,onDone,onNext }) => {
   return (
     <Spin spinning={loading}>
       <Form
+        // initialValues={{
+        //   date:state.date?state.date:null,
+        //   contact_person:state.contact_person?state.contact_person:null,
+        //   designation:state.designation?state.designation:null,
+        //   email:state.email?state.email:null,
+        //   contact_no:state.contact_no?state.contact_no:null
+        // }}
+        // initialValues={{ ...state }}
         onFinish={submit}
         form={form}
         layout='vertical'
@@ -49,7 +76,7 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead ,onDone,onNext }) => {
               Submit
             </Button>
             <div className='p-2' />
-            <Button type='primary' onClick={onDone}>
+            <Button type='primary' onClick={onCancel}>
               Cancel
             </Button>
           </div>

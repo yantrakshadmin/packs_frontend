@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import { PREPExistingPMFormFields } from 'common/formFields/PFEP/PFEPExsitingPM.formFields';
 import formItem from 'hocs/formItem.hoc';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_DATA } from 'common/actions';
 import { PREPCreationFormFields } from 'common/formFields/PFEP/PFEPCreation.formFields';
 import { ArrowRightOutlined } from '@ant-design/icons';
@@ -11,6 +11,25 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const state =  useSelector(e=>(e.data.pfepData))
+
+  useEffect(()=>{
+    // form.setFieldsValue({
+    //     packaging_type:state.packaging_type?state.packaging_type:null,
+    //     packaging_length:state.packaging_length?state.packaging_length:null,
+    //     packaging_breadth:state.packaging_breadth?state.packaging_breadth:null,
+    //     packaging_height:state.packaging_height?state.packaging_height:null,
+    //     pocket_length:state.pocket_length?state.pocket_length:null,
+    //     pocket_breadth:state.pocket_breadth?state.pocket_breadth:null,
+    //     pocket_height:state.pocket_height?state.pocket_height:null,
+    //     inserts_pm:state.inserts_pm?state.inserts_pm:null,
+    //     paerts_per_layer:state.paerts_per_layer?state.paerts_per_layer:null,
+    //     total_parts_per_pm:state.total_parts_per_pm?state.total_parts_per_pm:null,
+    //     pm_loaded_weight:state.pm_loaded_weight?state.pm_loaded_weight:null,
+    //     price_per_unit:state.price_per_unit?state.price_per_unit:null,
+    //     remarks:state.remarks?state.remarks:null,
+    //   })
+  },[state])
 
   const submit = async (data) =>{
     setLoading(true)
@@ -25,6 +44,21 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
       <Form
         onFinish={submit}
         form={form}
+        // initialValues={{
+        //   packaging_type:state.packaging_type?state.packaging_type:null,
+        //   packaging_length:state.packaging_length?state.packaging_length:null,
+        //   packaging_breadth:state.packaging_breadth?state.packaging_breadth:null,
+        //   packaging_height:state.packaging_height?state.packaging_height:null,
+        //   pocket_length:state.pocket_length?state.pocket_length:null,
+        //   pocket_breadth:state.pocket_breadth?state.pocket_breadth:null,
+        //   pocket_height:state.pocket_height?state.pocket_height:null,
+        //   inserts_pm:state.inserts_pm?state.inserts_pm:null,
+        //   paerts_per_layer:state.paerts_per_layer?state.paerts_per_layer:null,
+        //   total_parts_per_pm:state.total_parts_per_pm?state.total_parts_per_pm:null,
+        //   pm_loaded_weight:state.pm_loaded_weight?state.pm_loaded_weight:null,
+        //   price_per_unit:state.price_per_unit?state.price_per_unit:null,
+        //   remarks:state.remarks?state.remarks:null,
+        // }}
         layout='vertical'
         hideRequiredMark
         autoComplete='off'
@@ -71,7 +105,7 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
               Submit
             </Button>
             <div className='p-2' />
-            <Button type='primary' onClick={onDone}>
+            <Button type='primary' onClick={onCancel}>
               Cancel
             </Button>
           </div>

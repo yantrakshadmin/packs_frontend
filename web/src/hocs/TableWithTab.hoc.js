@@ -18,6 +18,7 @@ const TableWithTabHOC = ({
   modalBody: ModalBody = () => null,
   refresh,
   rowSelection,
+  onCancelButton,
   modalWidth,
   rowKey,
   csvdata,
@@ -48,8 +49,12 @@ const TableWithTabHOC = ({
   };
 
   const onCancel = () => {
+    console.log('ye wala')
     setModalVisible(false);
     cancelEditing();
+    if(onCancelButton){
+      onCancelButton();
+    }
   };
 
   const onDone = () => {

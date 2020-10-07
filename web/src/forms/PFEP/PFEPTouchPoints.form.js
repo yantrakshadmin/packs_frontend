@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { Form, Col, Row, Button, Divider, Spin} from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import formItem from 'hocs/formItem.hoc';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_DATA } from 'common/actions';
 import { PREPTouchPointsFormFields } from 'common/formFields/PFEP/PFEPTouchPoints.formFields';
-import { flowKitsFormFields } from 'common/formFields/flowKit.formFields';
 import { ArrowRightOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 export const PfepTouchPointsForm = ({ id, onCancel,onDone,onNext }) => {
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const state =  useSelector(e=>(e.data.pfepData))
 
   const submit = async (data) =>{
     setLoading(true)
@@ -18,24 +18,31 @@ export const PfepTouchPointsForm = ({ id, onCancel,onDone,onNext }) => {
     setLoading(false)
     onNext();
   }
-
+  useEffect(()=>{
+    // form.setFieldsValue({
+    //   tp:state.tp?state.tp:[]
+    // })
+  },[state])
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Basic Details</Divider>
       <Form
         onFinish={submit}
+        // initialValues={{
+        //   tp:state.tp?state.tp:[]
+        // }}
         form={form}
         layout='vertical'
         hideRequiredMark
         autoComplete='off'
       >
-        <Form.List name='touch_points'>
+        <Form.List name='tp'>
           {(fields, { add, remove }) => {
             return (
               <div>
                 {fields.map((field, index) => (
                   <Row align='middle'>
-                    {PREPTouchPointsFormFields.slice(0, 3).map((item) => (
+                    {PREPTouchPointsFormFields.slice(0, 4).map((item) => (
                       <Col span={5}>
                         <div className='p-2'>
                           {formItem({
@@ -87,7 +94,7 @@ export const PfepTouchPointsForm = ({ id, onCancel,onDone,onNext }) => {
               Submit
             </Button>
             <div className='p-2' />
-            <Button type='primary' onClick={onDone}>
+            <Button type='primary' onClick={onCancel}>
               Cancel
             </Button>
           </div>

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import formItem from 'hocs/formItem.hoc';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_DATA } from 'common/actions';
 import { PREPProductDetailsFormFields } from 'common/formFields/PFEP/PFEPProductDetails.formFields';
 import { ArrowRightOutlined } from '@ant-design/icons';
@@ -10,6 +10,7 @@ export const PFEPProductDetailsForm = ({ id, onCancel,onDone,onNext }) => {
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const state =  useSelector(e=>(e.data.pfepData))
 
   const submit = async (data) =>{
     setLoading(true)
@@ -17,12 +18,33 @@ export const PFEPProductDetailsForm = ({ id, onCancel,onDone,onNext }) => {
     setLoading(false)
     onNext();
   }
-
+  useEffect(()=>{
+    // form.setFieldsValue({
+    //     part_name:state.part_name?state.part_name:null,
+    //     part_number:state.part_number?state.part_number:null,
+    //     volume_pm:state.volume_pm?state.volume_pm:null,
+    //     dispatch_frequency:state.dispatch_frequency?state.dispatch_frequency:null,
+    //     weight:state.weight?state.weight:null,
+    //     length:state.length?state.length:null,
+    //     breadth:state.breadth?state.breadth:null,
+    //     height:state.height?state.height:null,
+    //   })
+  },[state])
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Product Details Form</Divider>
       <Form
         onFinish={submit}
+        // initialValues={{
+        //   part_name:state.part_name?state.part_name:null,
+        //   part_number:state.part_number?state.part_number:null,
+        //   volume_pm:state.volume_pm?state.volume_pm:null,
+        //   dispatch_frequency:state.dispatch_frequency?state.dispatch_frequency:null,
+        //   weight:state.weight?state.weight:null,
+        //   length:state.length?state.length:null,
+        //   breadth:state.breadth?state.breadth:null,
+        //   height:state.height?state.height:null,
+        // }}
         form={form}
         layout='vertical'
         hideRequiredMark
@@ -52,7 +74,7 @@ export const PFEPProductDetailsForm = ({ id, onCancel,onDone,onNext }) => {
               Submit
             </Button>
             <div className='p-2' />
-            <Button type='primary' onClick={onDone}>
+            <Button type='primary' onClick={onCancel}>
               Cancel
             </Button>
           </div>

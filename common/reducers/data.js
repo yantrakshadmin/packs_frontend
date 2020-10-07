@@ -1,4 +1,9 @@
-import { ADD_PFEP_DATA, CLEAN_PFEP_DATA, FETCH_PRODUCTS } from '../actions/index';
+import {
+  ADD_PFEP_BASIC_DATA,
+  ADD_PFEP_DATA,
+  CLEAN_PFEP_DATA,
+  FETCH_PRODUCTS,
+} from '../actions/index';
 
 const initialState = {
   products: [],
@@ -6,6 +11,7 @@ const initialState = {
 };
 
 export const fetchData = (state = initialState, action) => {
+  console.log(state,action,'ye')
   switch (action.type) {
     case FETCH_PRODUCTS: {
       return {
@@ -16,13 +22,19 @@ export const fetchData = (state = initialState, action) => {
     case ADD_PFEP_DATA:{
       return{
         ...state,
-        pfepData:{ ...action.data }
+        pfepData:{ ...state.pfepData,...action.data, }
+      }
+    }
+    case ADD_PFEP_BASIC_DATA:{
+      return{
+        ...state,
+        pfepData:action.data
       }
     }
     case CLEAN_PFEP_DATA:{
       return{
         ...state,
-        pfepData:{ }
+        pfepData:{}
       }
     }
     default:

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Form, Col, Row, Button, Divider, Spin} from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import formItem from 'hocs/formItem.hoc';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_DATA } from 'common/actions';
 import { PREPStockKeepingFormFields } from 'common/formFields/PFEP/PFEPStockKeeping.formFields';
 import { ArrowRightOutlined } from '@ant-design/icons';
@@ -10,6 +10,7 @@ export const PFEPStockKeepingForm = ({ id, onCancel,onDone,onNext }) => {
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const state =  useSelector(e=>(e.data.pfepData))
 
   const submit = async (data) =>{
     setLoading(true)
@@ -17,12 +18,30 @@ export const PFEPStockKeepingForm = ({ id, onCancel,onDone,onNext }) => {
     setLoading(false)
     onNext();
   }
+  useEffect(()=>{
+    // form.setFieldsValue({
+    //   emitter_inv:state.emitter_inv?state.emitter_inv:null,
+    //   transit_time:state.transit_time?state.transit_time:null,
+    //   wh_emitter:state.wh_emitter?state.wh_emitter:null,
+    //   wh_receiver:state.wh_receiver?state.wh_receiver:null,
+    //   other_storage:state.other_storage?state.other_storage:null,
+    //   receiver_inv:state.receiver_inv?state.receiver_inv:null,
+    // })
+  },[state])
 
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Stock Keeping</Divider>
       <Form
         onFinish={submit}
+        // initialValues={{
+        //   emitter_inv:state.emitter_inv?state.emitter_inv:null,
+        //   transit_time:state.transit_time?state.transit_time:null,
+        //   wh_emitter:state.wh_emitter?state.wh_emitter:null,
+        //   wh_receiver:state.wh_receiver?state.wh_receiver:null,
+        //   other_storage:state.other_storage?state.other_storage:null,
+        //   receiver_inv:state.receiver_inv?state.receiver_inv:null,
+        // }}
         form={form}
         layout='vertical'
         hideRequiredMark
@@ -52,7 +71,7 @@ export const PFEPStockKeepingForm = ({ id, onCancel,onDone,onNext }) => {
               Submit
             </Button>
             <div className='p-2' />
-            <Button type='primary' onClick={onDone}>
+            <Button type='primary' onClick={onCancel}>
               Cancel
             </Button>
           </div>
