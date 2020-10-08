@@ -8,7 +8,7 @@ import { MasterHOC } from '../../hocs/Master.hoc';
 
 export const InventoryScreen = () => {
   const { data: warehouses } = useAPI('/warehouse/', {});
-  const { reqObj,setObj } = useState({ warehouse:undefined,date:undefined })
+  const [ reqObj,setObj ] = useState({ warehouse:null,date:null })
   const { data: inventory,loading:invLoading } =
     useAPI(reqObj.warehouse && reqObj.date?`/inventory/?wh=${reqObj.warehouse}&date=${reqObj.date}`:'/inventory/', {});
   const [form] = Form.useForm();
