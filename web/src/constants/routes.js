@@ -194,7 +194,13 @@ export const employeeRoutes = [
         Component: lazy(() => import('components/Reports/returnCount')),
       },
     ],
-  }
+  },
+  {
+    name: 'Inventory',
+    icon: ['fas', 'layer-group'],
+    path: '/inventory/',
+    Component: lazy(() => import('screens/employee/inventory.screen')),
+  },
 ];
 
 export const clientRoutes = [
@@ -243,10 +249,5 @@ export const clientRoutes = [
   //   path: '/client-inventory/',
   //   Component: lazy(() => import('screens/404.screen')),
   // },
-  // {
-  //   name: 'Inventory',
-  //   icon: ['fas', 'layer-group'],
-  //   path: '/inventory/',
-  //   Component: lazy(() => import('screens/404.screen')),
-  // },
+
 ];
