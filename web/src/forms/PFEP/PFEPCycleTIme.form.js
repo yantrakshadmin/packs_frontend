@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Form, Col, Row, Button, Divider, Spin} from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import formItem from 'hocs/formItem.hoc';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_DATA } from 'common/actions';
 import { PREPCycleTimeFormFields } from 'common/formFields/PFEP/PFEPCycleTIme.formFields';
 import { ArrowRightOutlined } from '@ant-design/icons';
@@ -10,7 +10,14 @@ export const PFEPCycleTImeForm = ({ id, onCancel,onDone,onNext }) => {
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const state =  useSelector(e=>(e.data.pfepData))
 
+  useEffect(()=>{
+    // form.setFieldsValue({
+    //     min_cycle_days:state.min_cycle_days?state.min_cycle_days:null,
+    //     max_cycle_days:state.max_cycle_days?state.max_cycle_days:null,
+    //   })
+  },[state])
   const submit = async (data) =>{
     setLoading(true)
     await dispatch({ type:ADD_PFEP_DATA,data });
@@ -24,6 +31,10 @@ export const PFEPCycleTImeForm = ({ id, onCancel,onDone,onNext }) => {
       <Form
         onFinish={submit}
         form={form}
+        // initialValues={{
+        //   min_cycle_days:state.min_cycle_days?state.min_cycle_days:null,
+        //   max_cycle_days:state.max_cycle_days?state.max_cycle_days:null,
+        // }}
         layout='vertical'
         hideRequiredMark
         autoComplete='off'
@@ -43,7 +54,7 @@ export const PFEPCycleTImeForm = ({ id, onCancel,onDone,onNext }) => {
               Submit
             </Button>
             <div className='p-2' />
-            <Button type='primary' onClick={onDone}>
+            <Button type='primary' onClick={onCancel}>
               Cancel
             </Button>
           </div>

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import leadColumns from 'common/columns/Leads.colums';
 import { Popconfirm, Button, Input, Modal } from 'antd';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { retrieveLeads, deleteLead } from 'common/api/auth';
 import Delete from 'icons/Delete';
 import PersonTable from 'components/PersonTable';
 import { DiffOutlined } from '@ant-design/icons'
+import { CLEAN_PFEP_DATA } from 'common/actions';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import Edit from '../../icons/Edit';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
@@ -26,6 +27,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
     searchVal,
     retrieve: retrieveLeads,
   });
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (filteredData) {
@@ -129,6 +131,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
         style={{ minWidth: `80vw` }}
         title=''
         onCancel={() => {
+          dispatch({ type:CLEAN_PFEP_DATA })
           setVisible(false);
         }}
         footer={null}>

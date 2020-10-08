@@ -54,11 +54,10 @@ const ReturnDocketsScreen = ({ currentPage }) => {
       title: 'Docket',
       key: 'docket',
       render: (text, record) => {
-        console.log(record);
         return (
           <Button type='primary'>
             <Link
-              to='../return-docket/'
+              to={`../return-docket/${record.transaction_no}`}
               state={{ id: record.id }}
               key={record.id}
               style={{ textDecoration: 'none' }}>
@@ -168,7 +167,6 @@ const ReturnDocketsScreen = ({ currentPage }) => {
   let deliveredCount = 0;
   // eslint-disable-next-line array-callback-return
   (reqData || []).map((alt) => {
-    console.log(alt,'alt')
     if (alt.is_delivered) deliveredCount += 1;
   });
   const pendingCount = (reqData||[]).length - deliveredCount;

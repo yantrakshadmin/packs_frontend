@@ -32,11 +32,11 @@ export const extraRoutesClient = [
 ];
 export const outerRoutesEmployee = [
   {
-    path: '/docket/',
+    path: '/docket/:id',
     Component: lazy(() => import('components/Docket/Docket')),
   },
   {
-    path: '/return-docket/',
+    path: '/return-docket/:id',
     Component: lazy(() => import('components/ReturnDocket/ReturnDocket')),
   },
 ];

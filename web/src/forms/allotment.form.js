@@ -1,30 +1,30 @@
-import React, {useEffect, useState} from 'react';
-import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import moment from 'moment';
-import formItem from '../hocs/formItem.hoc';
 import {
   allotmentFormFields,
   allotmentProductFormFields,
 } from 'common/formFields/allotment.formFields';
-import {useAPI} from 'common/hooks/api';
-import {useHandleForm} from 'hooks/form';
-import {createAllotment} from 'common/api/auth';
-import {navigate} from '@reach/router';
+import { useAPI } from 'common/hooks/api';
+import { useHandleForm } from 'hooks/form';
+import { createAllotment } from 'common/api/auth';
+import { navigate } from '@reach/router';
+import formItem from '../hocs/formItem.hoc';
 
-const AllotmentForm = ({location}) => {
+const AllotmentForm = ({ location }) => {
   const [dat, setDat] = useState(null);
 
-  const {data: mrs} = useAPI('/allmrequest/', {});
-  const {data: warehouses} = useAPI('/warehouse/', {});
-  const {data: vendors} = useAPI('/vendors/', {});
-  const {data: kits} = useAPI('/kits/', {});
-  const {data: flows} = useAPI('/flows/', {});
+  const { data: mrs } = useAPI('/allmrequest/', {});
+  const { data: warehouses } = useAPI('/warehouse/', {});
+  const { data: vendors } = useAPI('/vendors/', {});
+  const { data: kits } = useAPI('/kits/', {});
+  const { data: flows } = useAPI('/flows/', {});
 
   const onDone = () => {
     navigate('./material-request/');
   };
 
-  const {form, submit, loading} = useHandleForm({
+  const { form, submit, loading } = useHandleForm({
     create: createAllotment,
     success: 'Allotment created/edited successfully.',
     failure: 'Error in creating/editing allotment.',
@@ -35,12 +35,12 @@ const AllotmentForm = ({location}) => {
   useEffect(() => {
     const fetchFlows = async () => {
       if (location.state.id && mrs && form) {
-        form.setFieldsValue({model: 'Rent', vehicle_type: 'Part Load'});
+        form.setFieldsValue({ model: 'Rent', vehicle_type: 'Part Load' });
         console.log('id', location.state.id);
         const reqData = mrs.filter((d) => d.id === location.state.id);
         console.log(reqData);
         setDat(reqData[0].delivery_required_on);
-        const {flows: flos} = reqData[0];
+        const { flows: flos } = reqData[0];
         const reqFlows = flos.map((flo) => ({
           flow: flo.flow.id,
           kit: flo.kit.id,
@@ -49,7 +49,7 @@ const AllotmentForm = ({location}) => {
         const finalFlows = {
           flows: reqFlows,
         };
-        form.setFieldsValue({...finalFlows, sales_order: location.state.id});
+        form.setFieldsValue({ ...finalFlows, sales_order: location.state.id });
       }
     };
     fetchFlows();
@@ -57,7 +57,7 @@ const AllotmentForm = ({location}) => {
 
   useEffect(() => {
     if (dat) {
-      form.setFieldsValue({dispatch_date: moment(dat), expected_delivery: moment(dat)});
+      form.setFieldsValue({ dispatch_date: moment(dat), expected_delivery: moment(dat) });
     }
   }, [dat]);
 
@@ -68,21 +68,21 @@ const AllotmentForm = ({location}) => {
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Allotment Details</Divider>
-      <Form onFinish={preProcess} form={form} layout="vertical" hideRequiredMark autoComplete="off">
-        <Row style={{justifyContent: 'left'}}>
+      <Divider orientation='left'>Allotment Details</Divider>
+      <Form onFinish={preProcess} form={form} layout='vertical' hideRequiredMark autoComplete='off'>
+        <Row style={{ justifyContent: 'left' }}>
           {allotmentFormFields.slice(0, 4).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
-        <Row style={{justifyContent: 'left'}}>
+        <Row style={{ justifyContent: 'left' }}>
           {allotmentFormFields.slice(4, 8).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
@@ -90,7 +90,7 @@ const AllotmentForm = ({location}) => {
         </Row>
         <Row>
           <Col span={6}>
-            <div key={9} className="p-2">
+            <div key={9} className='p-2'>
               {formItem({
                 ...allotmentFormFields[8],
                 others: {
@@ -103,7 +103,7 @@ const AllotmentForm = ({location}) => {
             </div>
           </Col>
           <Col span={6}>
-            <div className="p-2">
+            <div className='p-2'>
               {formItem({
                 ...allotmentFormFields[9],
                 others: {
@@ -118,7 +118,7 @@ const AllotmentForm = ({location}) => {
             </div>
           </Col>
           <Col span={6}>
-            <div key={10} className="p-2">
+            <div key={10} className='p-2'>
               {formItem(allotmentFormFields[10])}
             </div>
           </Col>
@@ -126,23 +126,23 @@ const AllotmentForm = ({location}) => {
         <Row>
           {allotmentFormFields.slice(11, 13).map((item, idx) => (
             <Col span={4}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
 
-        <Divider orientation="left">Kit Details</Divider>
+        <Divider orientation='left'>Kit Details</Divider>
 
-        <Form.List name="flows">
-          {(fields, {add, remove}) => {
+        <Form.List name='flows'>
+          {(fields, { add, remove }) => {
             return (
               <div>
                 {fields.map((field, index) => (
-                  <Row align="middle">
+                  <Row align='middle'>
                     <Col span={6}>
-                      <div className="p-2">
+                      <div className='p-2'>
                         {formItem({
                           ...allotmentProductFormFields[0],
                           noLabel: index != 0,
@@ -160,7 +160,7 @@ const AllotmentForm = ({location}) => {
                       </div>
                     </Col>
                     <Col span={6}>
-                      <div className="p-2">
+                      <div className='p-2'>
                         {formItem({
                           ...allotmentProductFormFields[1],
                           noLabel: index != 0,
@@ -179,7 +179,7 @@ const AllotmentForm = ({location}) => {
                     </Col>
                     {allotmentProductFormFields.slice(2, 4).map((item, idx) => (
                       <Col span={6}>
-                        <div key={idx} className="p-2">
+                        <div key={idx} className='p-2'>
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -201,11 +201,11 @@ const AllotmentForm = ({location}) => {
           }}
         </Form.List>
         <Row>
-          <Button type="primary" htmlType="submit">
+          <Button type='primary' htmlType='submit'>
             Save
           </Button>
-          <div className="p-2" />
-          <Button type="primary" onClick={onDone}>
+          <div className='p-2' />
+          <Button type='primary' onClick={onDone}>
             Cancel
           </Button>
         </Row>

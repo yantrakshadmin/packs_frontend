@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import { PREPMaterialHandlingEquipmentFormFields } from
   'common/formFields/PFEP/PFEPMaterialHandlingEquipment.formFields';
 import formItem from 'hocs/formItem.hoc';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_DATA } from 'common/actions';
 import { ArrowRightOutlined } from '@ant-design/icons';
 
@@ -11,6 +11,7 @@ export const PFEPMaterialHandlingEquipmentForm = ({ id, onCancel,onDone,onNext }
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const state =  useSelector(e=>(e.data.pfepData))
 
   const submit = async (data) =>{
     setLoading(true)
@@ -18,6 +19,13 @@ export const PFEPMaterialHandlingEquipmentForm = ({ id, onCancel,onDone,onNext }
     setLoading(false)
     onNext();
   }
+  useEffect(()=>{
+    // form.setFieldsValue({
+    //     hopt:state.hopt?state.hopt:null,
+    //     dock_leveler:state.dock_leveler?state.dock_leveler:null,
+    //     fork_lift:state.fork_lift?state.fork_lift:null,
+    //   })
+  },[state])
 
   return (
     <Spin spinning={loading}>
@@ -25,6 +33,11 @@ export const PFEPMaterialHandlingEquipmentForm = ({ id, onCancel,onDone,onNext }
       <Form
         onFinish={submit}
         form={form}
+        // initialValues={{
+        //   hopt:state.hopt?state.hopt:null,
+        //   dock_leveler:state.dock_leveler?state.dock_leveler:null,
+        //   fork_lift:state.fork_lift?state.fork_lift:null,
+        // }}
         layout='vertical'
         hideRequiredMark
         autoComplete='off'
@@ -44,7 +57,7 @@ export const PFEPMaterialHandlingEquipmentForm = ({ id, onCancel,onDone,onNext }
               Submit
             </Button>
             <div className='p-2' />
-            <Button type='primary' onClick={onDone}>
+            <Button type='primary' onClick={onCancel}>
               Cancel
             </Button>
           </div>

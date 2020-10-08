@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Form, Col, Row, Button, Divider, Spin } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Col, Row, Button, Divider, Spin, notification } from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_DATA } from 'common/actions';
@@ -18,15 +18,44 @@ export const PFEPSolutionRequiredForm = ({ id, onCancel,onDone,onNext }) => {
     setLoading(true)
     await dispatch({ type:ADD_PFEP_DATA,data });
     setLoading(false)
-    const postResults = await createPFEP(data);
-    console.log(postResults,"data");
+    const { error } = await createPFEP(state);
+    if(error){
+      notification.warning({
+        message: 'Unable To Create.',
+        description:
+          'Something went wrong PFEP creation failed.',
+      });
+      onCancel();
+    } else{
+      onDone();
+    }
   }
+  useEffect(()=>{
+    // form.setFieldsValue({
+    //     solution_flc:state.solution_flc?state.solution_flc:null,
+    //     solution_fsc:state.solution_fsc?state.solution_fsc:null,
+    //     solution_crate:state.solution_crate?state.solution_crate:null,
+    //     solution_ppbox:state.solution_ppbox?state.solution_ppbox:null,
+    //     part_orientation:state.part_orientation?state.part_orientation:null,
+    //     parts_pm:state.parts_pm?state.parts_pm:null,
+    //     status:state.status?state.status:null,
+    //   })
+  },[state])
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Solution Required</Divider>
       <Form
         onFinish={submit}
         form={form}
+        // initialValues={{
+        //   solution_flc:state.solution_flc?state.solution_flc:null,
+        //   solution_fsc:state.solution_fsc?state.solution_fsc:null,
+        //   solution_crate:state.solution_crate?state.solution_crate:null,
+        //   solution_ppbox:state.solution_ppbox?state.solution_ppbox:null,
+        //   part_orientation:state.part_orientation?state.part_orientation:null,
+        //   parts_pm:state.parts_pm?state.parts_pm:null,
+        //   status:state.status?state.status:null,
+        // }}
         layout='vertical'
         hideRequiredMark
         autoComplete='off'
@@ -54,7 +83,7 @@ export const PFEPSolutionRequiredForm = ({ id, onCancel,onDone,onNext }) => {
             Submit
           </Button>
           <div className='p-2' />
-          <Button type='primary' onClick={onDone}>
+          <Button type='primary' onClick={onCancel}>
             Cancel
           </Button>
         </Row>

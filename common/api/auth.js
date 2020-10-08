@@ -514,6 +514,12 @@ export const retrieveAllotments = (id) =>
     params: { id },
   });
 
+export const retrieveAllotmentsCalender = (tno) =>
+  loadAPI(`/allotments-cal/?tno=${tno}`, {
+    method: 'GET',
+    secure: true,
+  });
+
 export const deleteAllotment = (id) =>
   loadAPI(`/edit-allotment/${id}/`, {
     method: 'DELETE',
@@ -771,6 +777,12 @@ export const retrieveReturnDocket = (id) =>
     },
   });
 
+export const retrieveReturnDocketCaleder = (id) =>
+  loadAPI(`/returns-cal/?tno=${id}`, {
+    method: 'GET',
+    secure: true,
+  });
+
 export const createLead = (data) =>
   loadAPI('/create-leads/', {
     method: 'POST',
@@ -780,6 +792,12 @@ export const createLead = (data) =>
 
 export const retrieveLeads = () =>
   loadAPI('/leads/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const retrievePFEP = () =>
+  loadAPI('/pfep/', {
     method: 'GET',
     secure: true,
   });
@@ -818,3 +836,16 @@ export const createPFEP = (data) =>{
     data
   })
 }
+
+export const deletePFEP = (id) =>
+  loadAPI(`/edit-pfep/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const editPFEP = (id,data) =>
+  loadAPI(`/edit-pfep/${id}/`, {
+    method: 'PATCH',
+    secure: true,
+    data
+  });

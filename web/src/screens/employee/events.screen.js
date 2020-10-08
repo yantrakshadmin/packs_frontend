@@ -3,6 +3,8 @@ import React,{ useState ,useEffect } from 'react';
 import { Row, Col ,Select,Modal, List, Spin } from 'antd'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import { Link } from '@reach/router';
+import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
 
 
 const dateAsKey = (p) => {
@@ -100,7 +102,13 @@ export const Cal = (allotments,returns) => {
                 size='small'
                 bordered
                 dataSource={currentAllotmentEvent}
-                renderItem={item => <List.Item>{item}</List.Item>}
+                renderItem={item => (
+                  <List.Item>
+                    <a href={`../docket/${item}`} target='_blank' rel='noreferrer'>
+                      {item}
+                    </a>
+                  </List.Item>
+                )}
             />
             </Col>
             <Col span={12}>
@@ -109,13 +117,17 @@ export const Cal = (allotments,returns) => {
                 size='small'
                 bordered
                 dataSource={currentReturnEvent}
-                renderItem={item => <List.Item>{item}</List.Item>}
+                renderItem={item => (
+                  <a
+                    href={`../return-docket/${item}`}
+                    target='_blank'
+                    rel='noreferrer'>
+                    {item}
+                  </a>
+                )}
             />
             </Col>
           </Row>
-
-
-
         </Modal>
       </Col>
     </Row>

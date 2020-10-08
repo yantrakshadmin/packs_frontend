@@ -1,17 +1,18 @@
-import {combineReducers, createStore, applyMiddleware, compose} from 'redux';
+import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import {persistStore, persistReducer} from 'redux-persist';
+import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import {auth} from './auth';
-import {fetchData} from './data';
-import {Page} from './page';
+import { auth } from './auth';
+import { fetchData } from './data';
+import { Page } from './page';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const persistConfig = {
   key: 'root',
   storage,
+  blacklist:['fetchData']
 };
 
 const reducers = combineReducers({
