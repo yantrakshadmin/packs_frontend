@@ -28,34 +28,19 @@ export const DashboardScreen = () => {
   }
   );
   const [clientStatIndex,setClientStatIndex] = useState(0);
+  const [rClientSelected,setRClientSelected] = useState('All Clients');
+  const [sClientSelected,setSClientSelected] = useState('All Clients');
   const { data: allotments } = useAPI('/cal/', {});
   const { data: returns } = useAPI('/cal-r/', {});
-  const { data: clients } = useAPI('/clients/', {})
-  const { data: chartAllot } = useAPI('/allot-graph/', {});
-  const { data: chartReturn } = useAPI('/return-graph/', {});
+  const { data: chartAllot } = useAPI(sClientSelected !== 'All Clients'?
+    `/allot-graph/?sc=${sClientSelected}`:'/allot-graph/', {});
+  const { data: chartReturn } = useAPI(rClientSelected !== 'All Clients'
+    ?`/return-graph/?rc=${rClientSelected}`:'/return-graph/', {});
+  const { data: rClients } = useAPI('/names-rc/', {});
+  const { data: sClients } = useAPI('/names-sc/', {});
   const { data: clientStats,loading } = useAPI('/cycledays-graph/', {});
   const [clientStatsFiltered,setClientStatsFiltered ]
   = useState([]);
-  // const plainOptions = ['Apple', 'Pear', 'Orange'];
-  // const defaultCheckedList = ['Apple', 'Orange'];
-  // const [checkBox,setCheckBox] =
-  //   useState({ checkedList:defaultCheckedList,indeterminate:true,checkAll:false })
-  //
-  // const onChange = checkedList => {
-  //   setCheckBox({
-  //     checkedList,
-  //     indeterminate: !!checkedList.length && checkedList.length < plainOptions.length,
-  //     checkAll: checkedList.length === plainOptions.length,
-  //   });
-  // };
-  //
-  // const onCheckAllChange = e => {
-  //   setCheckBox({
-  //     checkedList: e.target.checked ? plainOptions : [],
-  //     indeterminate: false,
-  //     checkAll: e.target.checked,
-  //   });
-  // };
 
 
   useEffect(()=>{
@@ -140,6 +125,47 @@ export const DashboardScreen = () => {
       </Dropdown>
     )
   }
+  const menuRClients = rClients?(
+    <Menu>
+      <Menu.Item>
+        <Button type='link' onClick={()=>{setRClientSelected('All Clients')}}>
+          All Clients
+        </Button>
+      </Menu.Item>
+      {rClients.map((key)=>(
+        <Menu.Item>
+          <Button type='link' onClick={()=>{setRClientSelected(key)}}>
+            {key}
+          </Button>
+        </Menu.Item>
+      ))}
+    </Menu>
+  ):(
+    <Menu>
+      <Menu.Item danger>No Data</Menu.Item>
+    </Menu>
+  )
+  const menuSClients = sClients?(
+    <Menu>
+      <Menu.Item>
+        <Button type='link' onClick={()=>{setSClientSelected('All Clients')}}>
+          All Clients
+        </Button>
+      </Menu.Item>
+      {sClients.map((key)=>(
+        <Menu.Item>
+          <Button type='link' onClick={()=>{setSClientSelected(key)}}>
+            {key}
+          </Button>
+        </Menu.Item>
+      ))}
+    </Menu>
+  ):(
+    <Menu>
+      <Menu.Item danger>No Data</Menu.Item>
+    </Menu>
+  )
+
   const menuClientStats = clientStats?(
     <Menu>
       {Object.keys(clientStats.Clients).map((key)=>(
@@ -160,18 +186,30 @@ export const DashboardScreen = () => {
       <Card type='inner' title='Allotment and Return Stats'>
         <Row justify='center' gutter={32}>
           <Col span={12}>
+            <FilterDropdown menu={menuSClients} />
             <Bar
               data={allotmentChartData}
               height={125}
               options={chartOptions}
             />
+            <div className='row justify-center'>
+              <Paragraph>
+                {sClientSelected}
+              </Paragraph>
+            </div>
           </Col>
           <Col span={12}>
+            <FilterDropdown menu={menuRClients} />
             <Bar
               data={returnChartData}
               height={125}
               options={chartOptions}
             />
+            <div className='row justify-center'>
+              <Paragraph>
+                {rClientSelected}
+              </Paragraph>
+            </div>
           </Col>
         </Row>
       </Card>
