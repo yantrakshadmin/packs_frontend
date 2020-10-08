@@ -5,56 +5,30 @@ import { PREPBasicDetailsFormFields } from 'common/formFields/PFEP/PFEPBasicDeta
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_BASIC_DATA, ADD_PFEP_DATA, CLEAN_PFEP_DATA } from 'common/actions';
+import moment from 'moment';
 
-export const PFEPBasicDetailsForm = ({ id, onCancel,lead ,onDone,onNext }) => {
+export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onDone,onNext }) => {
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const state =  useSelector(e=>(e.data.pfepData))
 
-  useEffect(()=>{
-    // const initialData = {
-    //   date:state.date?state.date:null,
-    //   contact_person:state.contact_person?state.contact_person:null,
-    //   designation:state.designation?state.designation:null,
-    //   email:state.email?state.email:null,
-    //   contact_no:state.contact_no?state.contact_no:null
-    // };
-    // console.log({
-    //   date:state.date?state.date:null,
-    //   contact_person:state.contact_person?state.contact_person:null,
-    //   designation:state.designation?state.designation:null,
-    //   email:state.email?state.email:null,
-    //   contact_no:state.contact_no?state.contact_no:null
-    // },"state")
-    // form.setFieldsValue(initialData);
-    // form.setFieldsValue({
-    //   date:state.date?state.date:null,
-    //   contact_person:state.contact_person?state.contact_person:null,
-    //   designation:state.designation?state.designation:null,
-    //   email:state.email?state.email:null,
-    //   contact_no:state.contact_no?state.contact_no:null
-    // })
-  },[state])
-
   const submit = async (data) =>{
     setLoading(true)
-    await dispatch({ type:ADD_PFEP_BASIC_DATA,data:{ ...data,lead_no:lead } });
+    await dispatch({ type:id?ADD_PFEP_DATA:ADD_PFEP_BASIC_DATA,data:{ ...data,lead_no:lead } });
     setLoading(false)
     onNext();
   }
-
   return (
     <Spin spinning={loading}>
       <Form
-        // initialValues={{
-        //   date:state.date?state.date:null,
-        //   contact_person:state.contact_person?state.contact_person:null,
-        //   designation:state.designation?state.designation:null,
-        //   email:state.email?state.email:null,
-        //   contact_no:state.contact_no?state.contact_no:null
-        // }}
-        // initialValues={{ ...state }}
+        initialValues={{
+          date:state.date?moment(state.date):null,
+          contact_person:state.contact_person?state.contact_person:null,
+          designation:state.designation?state.designation:null,
+          email:state.email?state.email:null,
+          contact_no:state.contact_no?state.contact_no:null
+        }}
         onFinish={submit}
         form={form}
         layout='vertical'

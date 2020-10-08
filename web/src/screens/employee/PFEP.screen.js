@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import leadColumns from 'common/columns/Leads.colums';
 import { Popconfirm,Tag, Button, Input } from 'antd';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
-import { retrievePFEP, deleteLead, deletePFEP } from 'common/api/auth';
+import { retrievePFEP,  deletePFEP } from 'common/api/auth';
 import Delete from 'icons/Delete';
-import PersonTable from 'components/PersonTable';
 import { PFEPColumn } from 'common/columns/PFEP.column';
-import { dateFormatter } from 'common/helpers/dateFomatter';
-import { ADD_PFEP_BASIC_DATA, ADD_PFEP_DATA, CLEAN_PFEP_DATA } from 'common/actions';
+import {  utcDateFormatter } from 'common/helpers/dateFomatter';
+import {  ADD_PFEP_DATA, CLEAN_PFEP_DATA } from 'common/actions';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import Edit from '../../icons/Edit';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
@@ -44,7 +42,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
       title: 'Created Date',
       key: 'date',
       dataIndex: 'date',
-      render:(text)=>(<div>{dateFormatter(text)}</div>)
+      render:(text)=>(<div>{utcDateFormatter(text)}</div>)
     },
     {
       title: 'Emitter',
@@ -123,7 +121,6 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
             onClick={(e) => {
               setEditingId(record.id);
               setLead(record.lead_no);
-              console.log(record,'Record');
               dispatch({ type:ADD_PFEP_DATA,data:record })
               e.stopPropagation();
             }}>

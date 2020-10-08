@@ -19,13 +19,13 @@ export const PFEPMaterialHandlingEquipmentForm = ({ id, onCancel,onDone,onNext }
     setLoading(false)
     onNext();
   }
-  useEffect(()=>{
+  // useEffect(()=>{
     // form.setFieldsValue({
     //     hopt:state.hopt?state.hopt:null,
     //     dock_leveler:state.dock_leveler?state.dock_leveler:null,
     //     fork_lift:state.fork_lift?state.fork_lift:null,
     //   })
-  },[state])
+  // },[state])
 
   return (
     <Spin spinning={loading}>
@@ -33,11 +33,11 @@ export const PFEPMaterialHandlingEquipmentForm = ({ id, onCancel,onDone,onNext }
       <Form
         onFinish={submit}
         form={form}
-        // initialValues={{
-        //   hopt:state.hopt?state.hopt:null,
-        //   dock_leveler:state.dock_leveler?state.dock_leveler:null,
-        //   fork_lift:state.fork_lift?state.fork_lift:null,
-        // }}
+        initialValues={{
+          hopt:state.hopt?state.hopt:false,
+          dock_leveler:state.dock_leveler?state.dock_leveler:false,
+          fork_lift:state.fork_lift?state.fork_lift:false,
+        }}
         layout='vertical'
         hideRequiredMark
         autoComplete='off'

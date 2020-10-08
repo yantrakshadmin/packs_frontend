@@ -13,24 +13,6 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
   const dispatch = useDispatch();
   const state =  useSelector(e=>(e.data.pfepData))
 
-  useEffect(()=>{
-    // form.setFieldsValue({
-    //     packaging_type:state.packaging_type?state.packaging_type:null,
-    //     packaging_length:state.packaging_length?state.packaging_length:null,
-    //     packaging_breadth:state.packaging_breadth?state.packaging_breadth:null,
-    //     packaging_height:state.packaging_height?state.packaging_height:null,
-    //     pocket_length:state.pocket_length?state.pocket_length:null,
-    //     pocket_breadth:state.pocket_breadth?state.pocket_breadth:null,
-    //     pocket_height:state.pocket_height?state.pocket_height:null,
-    //     inserts_pm:state.inserts_pm?state.inserts_pm:null,
-    //     paerts_per_layer:state.paerts_per_layer?state.paerts_per_layer:null,
-    //     total_parts_per_pm:state.total_parts_per_pm?state.total_parts_per_pm:null,
-    //     pm_loaded_weight:state.pm_loaded_weight?state.pm_loaded_weight:null,
-    //     price_per_unit:state.price_per_unit?state.price_per_unit:null,
-    //     remarks:state.remarks?state.remarks:null,
-    //   })
-  },[state])
-
   const submit = async (data) =>{
     setLoading(true)
     await dispatch({ type:ADD_PFEP_DATA,data });
@@ -44,21 +26,21 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
       <Form
         onFinish={submit}
         form={form}
-        // initialValues={{
-        //   packaging_type:state.packaging_type?state.packaging_type:null,
-        //   packaging_length:state.packaging_length?state.packaging_length:null,
-        //   packaging_breadth:state.packaging_breadth?state.packaging_breadth:null,
-        //   packaging_height:state.packaging_height?state.packaging_height:null,
-        //   pocket_length:state.pocket_length?state.pocket_length:null,
-        //   pocket_breadth:state.pocket_breadth?state.pocket_breadth:null,
-        //   pocket_height:state.pocket_height?state.pocket_height:null,
-        //   inserts_pm:state.inserts_pm?state.inserts_pm:null,
-        //   paerts_per_layer:state.paerts_per_layer?state.paerts_per_layer:null,
-        //   total_parts_per_pm:state.total_parts_per_pm?state.total_parts_per_pm:null,
-        //   pm_loaded_weight:state.pm_loaded_weight?state.pm_loaded_weight:null,
-        //   price_per_unit:state.price_per_unit?state.price_per_unit:null,
-        //   remarks:state.remarks?state.remarks:null,
-        // }}
+        initialValues={{
+          packaging_type:state.packaging_type?state.packaging_type:null,
+          packaging_length:state.packaging_length?state.packaging_length:null,
+          packaging_breadth:state.packaging_breadth?state.packaging_breadth:null,
+          packaging_height:state.packaging_height?state.packaging_height:null,
+          pocket_length:state.pocket_length?state.pocket_length:null,
+          pocket_breadth:state.pocket_breadth?state.pocket_breadth:null,
+          pocket_height:state.pocket_height?state.pocket_height:null,
+          inserts_pm:state.inserts_pm?state.inserts_pm:null,
+          paerts_per_layer:state.paerts_per_layer?state.paerts_per_layer:null,
+          total_parts_per_pm:state.total_parts_per_pm?state.total_parts_per_pm:null,
+          pm_loaded_weight:state.pm_loaded_weight?state.pm_loaded_weight:null,
+          price_per_unit:state.price_per_unit?state.price_per_unit:null,
+          remarks:state.remarks?state.remarks:null,
+        }}
         layout='vertical'
         hideRequiredMark
         autoComplete='off'

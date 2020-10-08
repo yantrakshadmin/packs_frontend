@@ -12,12 +12,12 @@ export const PFEPCycleTImeForm = ({ id, onCancel,onDone,onNext }) => {
   const dispatch = useDispatch();
   const state =  useSelector(e=>(e.data.pfepData))
 
-  useEffect(()=>{
-    // form.setFieldsValue({
-    //     min_cycle_days:state.min_cycle_days?state.min_cycle_days:null,
-    //     max_cycle_days:state.max_cycle_days?state.max_cycle_days:null,
-    //   })
-  },[state])
+  // useEffect(()=>{
+  //   form.setFieldsValue({
+  //     min_cycle_days:state.min_cycle_days?state.min_cycle_days:null,
+  //     max_cycle_days:state.max_cycle_days?state.max_cycle_days:null,
+  //   })
+  // },[state])
   const submit = async (data) =>{
     setLoading(true)
     await dispatch({ type:ADD_PFEP_DATA,data });
@@ -31,10 +31,10 @@ export const PFEPCycleTImeForm = ({ id, onCancel,onDone,onNext }) => {
       <Form
         onFinish={submit}
         form={form}
-        // initialValues={{
-        //   min_cycle_days:state.min_cycle_days?state.min_cycle_days:null,
-        //   max_cycle_days:state.max_cycle_days?state.max_cycle_days:null,
-        // }}
+        initialValues={{
+          min_cycle_days:state.min_cycle_days?state.min_cycle_days:null,
+          max_cycle_days:state.max_cycle_days?state.max_cycle_days:null,
+        }}
         layout='vertical'
         hideRequiredMark
         autoComplete='off'

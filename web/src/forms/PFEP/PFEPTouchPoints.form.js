@@ -18,19 +18,19 @@ export const PfepTouchPointsForm = ({ id, onCancel,onDone,onNext }) => {
     setLoading(false)
     onNext();
   }
-  useEffect(()=>{
+  // useEffect(()=>{
     // form.setFieldsValue({
     //   tp:state.tp?state.tp:[]
     // })
-  },[state])
+  // },[state])
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Basic Details</Divider>
       <Form
         onFinish={submit}
-        // initialValues={{
-        //   tp:state.tp?state.tp:[]
-        // }}
+        initialValues={{
+          tp:state.tp?state.tp:[]
+        }}
         form={form}
         layout='vertical'
         hideRequiredMark

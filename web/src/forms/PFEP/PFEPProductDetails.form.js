@@ -18,7 +18,7 @@ export const PFEPProductDetailsForm = ({ id, onCancel,onDone,onNext }) => {
     setLoading(false)
     onNext();
   }
-  useEffect(()=>{
+  // useEffect(()=>{
     // form.setFieldsValue({
     //     part_name:state.part_name?state.part_name:null,
     //     part_number:state.part_number?state.part_number:null,
@@ -29,22 +29,22 @@ export const PFEPProductDetailsForm = ({ id, onCancel,onDone,onNext }) => {
     //     breadth:state.breadth?state.breadth:null,
     //     height:state.height?state.height:null,
     //   })
-  },[state])
+  // },[state])
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Product Details Form</Divider>
       <Form
         onFinish={submit}
-        // initialValues={{
-        //   part_name:state.part_name?state.part_name:null,
-        //   part_number:state.part_number?state.part_number:null,
-        //   volume_pm:state.volume_pm?state.volume_pm:null,
-        //   dispatch_frequency:state.dispatch_frequency?state.dispatch_frequency:null,
-        //   weight:state.weight?state.weight:null,
-        //   length:state.length?state.length:null,
-        //   breadth:state.breadth?state.breadth:null,
-        //   height:state.height?state.height:null,
-        // }}
+        initialValues={{
+          part_name:state.part_name?state.part_name:null,
+          part_number:state.part_number?state.part_number:null,
+          volume_pm:state.volume_pm?state.volume_pm:null,
+          dispatch_frequency:state.dispatch_frequency?state.dispatch_frequency:null,
+          weight:state.weight?state.weight:null,
+          length:state.length?state.length:null,
+          breadth:state.breadth?state.breadth:null,
+          height:state.height?state.height:null,
+        }}
         form={form}
         layout='vertical'
         hideRequiredMark

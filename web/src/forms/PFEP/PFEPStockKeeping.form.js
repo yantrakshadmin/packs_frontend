@@ -18,7 +18,7 @@ export const PFEPStockKeepingForm = ({ id, onCancel,onDone,onNext }) => {
     setLoading(false)
     onNext();
   }
-  useEffect(()=>{
+  // useEffect(()=>{
     // form.setFieldsValue({
     //   emitter_inv:state.emitter_inv?state.emitter_inv:null,
     //   transit_time:state.transit_time?state.transit_time:null,
@@ -27,21 +27,21 @@ export const PFEPStockKeepingForm = ({ id, onCancel,onDone,onNext }) => {
     //   other_storage:state.other_storage?state.other_storage:null,
     //   receiver_inv:state.receiver_inv?state.receiver_inv:null,
     // })
-  },[state])
+  // },[state])
 
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Stock Keeping</Divider>
       <Form
         onFinish={submit}
-        // initialValues={{
-        //   emitter_inv:state.emitter_inv?state.emitter_inv:null,
-        //   transit_time:state.transit_time?state.transit_time:null,
-        //   wh_emitter:state.wh_emitter?state.wh_emitter:null,
-        //   wh_receiver:state.wh_receiver?state.wh_receiver:null,
-        //   other_storage:state.other_storage?state.other_storage:null,
-        //   receiver_inv:state.receiver_inv?state.receiver_inv:null,
-        // }}
+        initialValues={{
+          emitter_inv:state.emitter_inv?state.emitter_inv:null,
+          transit_time:state.transit_time?state.transit_time:null,
+          wh_emitter:state.wh_emitter?state.wh_emitter:null,
+          wh_receiver:state.wh_receiver?state.wh_receiver:null,
+          other_storage:state.other_storage?state.other_storage:null,
+          receiver_inv:state.receiver_inv?state.receiver_inv:null,
+        }}
         form={form}
         layout='vertical'
         hideRequiredMark
