@@ -1,9 +1,5 @@
 export default [
-  {
-    title: 'Name',
-    key: 'name',
-    dataIndex: 'name',
-  },
+
   {
     title: 'Short Code',
     key: 'short_code',
@@ -23,6 +19,7 @@ export default [
     title: 'Price Per Unit',
     key: 'priceperunit',
     dataIndex: 'priceperunit',
+    sorter: (a, b) => a.priceperunit - b.priceperunit,
   },
   {
     title: 'Height',

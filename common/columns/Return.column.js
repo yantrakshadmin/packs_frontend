@@ -2,17 +2,6 @@ import moment from 'moment';
 
 export default [
   {
-    title: 'Transaction No.',
-    key: 'transaction_no',
-    dataIndex: 'transaction_no',
-    sorter: (a, b) => a.transaction_no - b.transaction_no,
-  },
-  {
-    title: 'Receiver Client',
-    key: 'receiver_client',
-    dataIndex: 'receiver_client',
-  },
-  {
     title: 'Warehouse',
     key: 'warehouse',
     dataIndex: 'warehouse',

@@ -1,37 +1,43 @@
-import React, {useState, useEffect} from 'react';
-import {ReceiverForm} from '../../forms/receiver.form';
-import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import React, { useState, useEffect } from 'react';
 import receiverColumns from 'common/columns/Receiver.column';
-import {Popconfirm, Button, Input} from 'antd';
-import {deleteReceiverClient, retieveReceiverClients} from 'common/api/auth';
-import {deleteHOC} from '../../hocs/deleteHoc';
+import { Popconfirm, Button, Input } from 'antd';
+import { deleteReceiverClient, retieveReceiverClients } from 'common/api/auth';
+import { connect } from 'react-redux';
+import { useTableSearch } from 'hooks/useTableSearch';
+import { GetUniqueValue } from 'common/helpers/getUniqueValues';
+import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
-import {connect} from 'react-redux';
-import {useTableSearch} from 'hooks/useTableSearch';
+import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import { ReceiverForm } from '../../forms/receiver.form';
 
-const {Search} = Input;
+const { Search } = Input;
 
-const ReceiverClientEmployeeScreen = ({currentPage}) => {
+const ReceiverClientEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({
+  const { filteredData, loading, reload } = useTableSearch({
     searchVal,
     retrieve: retieveReceiverClients,
   });
 
   useEffect(() => {
     if (filteredData) {
-      let csvd = [];
+      const csvd = [];
       filteredData.forEach((d) => {
-        delete d['owner'];
-        csvd.push({...d, ['emitter']: d.emitter.client_name});
+        delete d.owner;
+        csvd.push({ ...d, 'emitter': d.emitter.client_name });
       });
       setCsvData(csvd);
     }
   }, [filteredData]);
+
+  const getFilterOptions=()=>{
+    const newArr = [...new Set(filteredData.map(item => item.emitter.client_name))]
+    return newArr.map(item =>({ text:item,value:item }))
+  }
 
   const columns = [
     {
@@ -39,13 +45,32 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
       key: 'srno',
       render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
     },
+    {
+      title: 'Name',
+      key: 'name',
+      dataIndex: 'name',
+    },
+    {
+      title: 'City',
+      key: 'city',
+      dataIndex: 'city',
+      filters: GetUniqueValue(filteredData || [],'city'),
+      onFilter: (value, record) => record.city === value,
+    },
     ...receiverColumns,
+    {
+      title: 'Emitter',
+      key: 'emitter',
+      filters: getFilterOptions()||[],
+      onFilter: (value, record) => record.emitter.client_name === value,
+      render: (text, record) => record.emitter.client_name,
+    },
     {
       title: 'Action',
       key: 'operation',
       width: '7vw',
       render: (text, record) => (
-        <div className="row align-center justify-evenly">
+        <div className='row align-center justify-evenly'>
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -60,7 +85,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
             <Edit />
           </Button>
           <Popconfirm
-            title="Confirm Delete"
+            title='Confirm Delete'
             onConfirm={deleteHOC({
               record,
               reload,
@@ -98,9 +123,9 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
 
   return (
     <>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
         </div>
       </div>
       <br />
@@ -108,22 +133,22 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size="middle"
-        title="Receiver Clients"
+        size='middle'
+        title='Receiver Clients'
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={ReceiverForm}
         modalWidth={45}
-        expandParams={{loading}}
+        expandParams={{ loading }}
         csvdata={csvData}
-        csvname={'ReceiverClients' + searchVal + '.csv'}
+        csvname={`ReceiverClients${  searchVal  }.csv`}
       />
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  return {currentPage: state.page.currentPage};
+  return { currentPage: state.page.currentPage };
 };
 
 export default connect(mapStateToProps)(ReceiverClientEmployeeScreen);

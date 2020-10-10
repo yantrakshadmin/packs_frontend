@@ -4,10 +4,10 @@ import { ArrowRightOutlined } from '@ant-design/icons'
 import { PREPBasicDetailsFormFields } from 'common/formFields/PFEP/PFEPBasicDetails.formFields';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_PFEP_BASIC_DATA, ADD_PFEP_DATA, CLEAN_PFEP_DATA } from 'common/actions';
+import { ADD_PFEP_BASIC_DATA, ADD_PFEP_DATA,} from 'common/actions';
 import moment from 'moment';
 
-export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onDone,onNext }) => {
+export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext }) => {
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();

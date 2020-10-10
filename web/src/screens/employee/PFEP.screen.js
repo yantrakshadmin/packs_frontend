@@ -177,7 +177,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
         refresh={reload}
         tabs={tabs}
         size='middle'
-        title='PFEP Creation '
+        title='PFEP Creation'
         editingId={editingId}
         cancelEditing={()=>{cancelEditing();}}
         onCancelButton={()=>{
@@ -186,13 +186,12 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
         modalWidth={80}
         modalBody={PFEPMainForm}
         formParams={{ lead }}
-
         // expandHandleKey='person'
         // ExpandBody={PersonTable}
         // expandParams={{ loading }}
         scroll={{ x: 2000 }}
         csvdata={csvData}
-        csvname={`Leads${  searchVal  }.csv`}
+        csvname={`PFEP${  searchVal  }.csv`}
       />
     </>
   );

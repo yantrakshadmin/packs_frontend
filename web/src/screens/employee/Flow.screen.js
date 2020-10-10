@@ -10,6 +10,7 @@ import KitsTable from '../../components/KitsTable';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
+import { GetUniqueValue, GetUniqueValueNested } from 'common/helpers/getUniqueValues';
 
 const { Search } = Input;
 
@@ -22,7 +23,6 @@ const FlowEmployeeScreen = ({ currentPage }) => {
 
   useEffect(() => {
     if (filteredData) {
-      console.log(filteredData);
       const csvd = [];
       filteredData.forEach((d) => {
         const temp = {
@@ -57,6 +57,27 @@ const FlowEmployeeScreen = ({ currentPage }) => {
       render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
     },
     ...flowsColumns,
+    {
+      title: 'Flow Days',
+      key: 'flow_days',
+      dataIndex: 'flow_days',
+      sorter: (a, b) => a.flow_days - b.flow_days,
+
+    },
+    {
+      title: 'Sender Client',
+      key: 'sender_client',
+      filters: GetUniqueValueNested(filteredData || [],'sender_client','client_name'),
+      onFilter: (value, record) => record.sender_client.client_name === value,
+      render: (text, record) => record.sender_client.client_name,
+    },
+    {
+      title: 'Receiver Client',
+      key: 'receiver_client',
+      filters: GetUniqueValueNested(filteredData || [],'receiver_client','name'),
+      onFilter: (value, record) => record.receiver_client.name === value,
+      render: (text, record) => record.receiver_client.name,
+    },
     {
       title: 'Action',
       key: 'operation',

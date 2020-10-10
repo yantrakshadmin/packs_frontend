@@ -10,6 +10,7 @@ import ProductTable from '../../components/ProductsTable';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
+import { GetUniqueValueNested } from 'common/helpers/getUniqueValues';
 
 const { Search } = Input;
 
@@ -54,6 +55,19 @@ const KitEmployeeScreen = ({ currentPage }) => {
       render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
     },
     ...kitsColumns,
+    {
+      title: 'Components Per Kit',
+      key: 'components_per_kit',
+      dataIndex: 'components_per_kit',
+      sorter: (a, b) => a.components_per_kit - b.components_per_kit,
+    },
+    {
+      title: 'Kit Client',
+      key: 'kit_client',
+      filters: GetUniqueValueNested(filteredData || [],'kit_client','client_name'),
+      onFilter: (value, record) => record.kit_client.client_name === value,
+      render: (text, record) => record.kit_client.client_name,
+    },
     {
       title: 'Action',
       key: 'operation',

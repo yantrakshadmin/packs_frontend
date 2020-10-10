@@ -20,9 +20,7 @@ import { BarcodeAllotmentDocket } from 'components/barcodeAllotmentDocket';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { LineGraph } from '../../components/graphComponent/lineGraph';
-import { LineGraph2 } from '../../components/graphComponent/lineGraph2';
-import { BarGraph } from '../../components/graphComponent/barGraph';
-import { PointGraph } from '../../components/graphComponent/pointGraph';
+import { GetUniqueValue } from 'common/helpers/getUniqueValues';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -30,7 +28,6 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
-  const [csvData, setCsvData] = useState(null);
   const [reqData, setReqData] = useState([]);
   const [TN, setTN] = useState(null);
   const navigate = useNavigate();
@@ -66,22 +63,19 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
       key: 'srno',
       render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
     },
+    {
+      title: 'Transaction No.',
+      key: 'transaction_no',
+      dataIndex: 'transaction_no',
+      sorter: (a, b) => a.transaction_no - b.transaction_no,
+    },
     ...allotmentColumns,
     {
       title: 'Parent Company',
       key: 'parent_name',
       dataIndex: 'parent_name',
-      filters: [
-        {
-          text: 'Allocated',
-          value: false,
-        },
-        {
-          text: 'Pending',
-          value: false,
-        },
-      ],
-      onFilter: (value, record) => record.is_allocated === value,
+      filters: GetUniqueValue(filteredData || [],'parent_name'),
+      onFilter: (value, record) => record.parent_name === value,
     },
     {
       title: 'Docket',

@@ -2,16 +2,6 @@ import moment from 'moment';
 
 export default [
   {
-    title: 'GRN ID',
-    key: 'id',
-    dataIndex: 'id',
-  },
-  {
-    title: 'Warehouse',
-    key: 'warehouse',
-    dataIndex: 'warehouse',
-  },
-  {
     title: 'Material Vendor',
     key: 'material_vendor',
     dataIndex: 'material_vendor',

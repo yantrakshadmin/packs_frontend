@@ -10,6 +10,7 @@ import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import Document from '../../icons/Document';
+import { GetUniqueValue } from 'common/helpers/getUniqueValues';
 
 const { Search } = Input;
 
@@ -18,7 +19,8 @@ const ProductEmployeeScreen = ({ currentPage }) => {
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const { filteredData, loading, reload } = useTableSearch({ searchVal, retrieve: retrieveProducts });
+  const { filteredData, loading, reload } =
+    useTableSearch({ searchVal, retrieve: retrieveProducts });
 
   useEffect(() => {
     if (filteredData) {
@@ -36,6 +38,12 @@ const ProductEmployeeScreen = ({ currentPage }) => {
       title: 'Sr. No.',
       key: 'srno',
       render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
+    },{
+      title: 'Name',
+      key: 'name',
+      dataIndex: 'name',
+      filters: GetUniqueValue(filteredData || [],'name'),
+      onFilter: (value, record) => record.name === value,
     },
     ...productColumns,
     {
