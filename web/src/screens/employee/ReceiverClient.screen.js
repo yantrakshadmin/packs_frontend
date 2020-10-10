@@ -4,7 +4,7 @@ import { Popconfirm, Button, Input } from 'antd';
 import { deleteReceiverClient, retieveReceiverClients } from 'common/api/auth';
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
-import { GetUniqueValue } from 'common/helpers/getUniqueValues';
+import { GetUniqueValue, GetUniqueValueNested } from 'common/helpers/getUniqueValues';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
@@ -34,11 +34,6 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
     }
   }, [filteredData]);
 
-  const getFilterOptions=()=>{
-    const newArr = [...new Set(filteredData.map(item => item.emitter.client_name))]
-    return newArr.map(item =>({ text:item,value:item }))
-  }
-
   const columns = [
     {
       title: 'Sr. No.',
@@ -61,7 +56,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
     {
       title: 'Emitter',
       key: 'emitter',
-      filters: getFilterOptions()||[],
+      filters: GetUniqueValueNested(filteredData||[],'emitter','client_name')||[],
       onFilter: (value, record) => record.emitter.client_name === value,
       render: (text, record) => record.emitter.client_name,
     },
