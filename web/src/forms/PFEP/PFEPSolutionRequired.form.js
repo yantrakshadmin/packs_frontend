@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_DATA } from 'common/actions';
 import { PREPSolutionRequiredFormFields }
   from 'common/formFields/PFEP/PFEPSolutionRequired.formFields';
-import { createPFEP } from 'common/api/auth';
+import { createPFEP, editPFEP } from 'common/api/auth';
 
 export const PFEPSolutionRequiredForm = ({ id, onCancel,onDone,onNext }) => {
   const [loading,setLoading] = useState(false);
@@ -18,19 +18,34 @@ export const PFEPSolutionRequiredForm = ({ id, onCancel,onDone,onNext }) => {
     setLoading(true)
     await dispatch({ type:ADD_PFEP_DATA,data });
     setLoading(false)
-    const { error } = await createPFEP(state);
-    if(error){
-      notification.warning({
-        message: 'Unable To Create.',
-        description:
-          'Something went wrong PFEP creation failed.',
-      });
-      onCancel();
-    } else{
-      onDone();
+    if(id){
+      const { error } = await editPFEP(id,{...state,...data});
+      if (error) {
+        notification.warning({
+          message: 'Unable To Edit.',
+          description:
+            'Something went wrong PFEP editing failed.',
+        });
+        onCancel();
+      } else {
+        onDone();
+      }
+    }
+    else{
+      const { error } = await createPFEP({...state,...data});
+      if (error) {
+        notification.warning({
+          message: 'Unable To Create.',
+          description:
+            'Something went wrong PFEP creation failed.',
+        });
+        onCancel();
+      } else {
+        onDone();
+      }
     }
   }
-  useEffect(()=>{
+  // useEffect(()=>{
     // form.setFieldsValue({
     //     solution_flc:state.solution_flc?state.solution_flc:null,
     //     solution_fsc:state.solution_fsc?state.solution_fsc:null,
@@ -40,22 +55,22 @@ export const PFEPSolutionRequiredForm = ({ id, onCancel,onDone,onNext }) => {
     //     parts_pm:state.parts_pm?state.parts_pm:null,
     //     status:state.status?state.status:null,
     //   })
-  },[state])
+  // },[state])
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Solution Required</Divider>
       <Form
         onFinish={submit}
         form={form}
-        // initialValues={{
-        //   solution_flc:state.solution_flc?state.solution_flc:null,
-        //   solution_fsc:state.solution_fsc?state.solution_fsc:null,
-        //   solution_crate:state.solution_crate?state.solution_crate:null,
-        //   solution_ppbox:state.solution_ppbox?state.solution_ppbox:null,
-        //   part_orientation:state.part_orientation?state.part_orientation:null,
-        //   parts_pm:state.parts_pm?state.parts_pm:null,
-        //   status:state.status?state.status:null,
-        // }}
+        initialValues={{
+          solution_flc:state.solution_flc?state.solution_flc:false,
+          solution_fsc:state.solution_fsc?state.solution_fsc:false,
+          solution_crate:state.solution_crate?state.solution_crate:false,
+          solution_ppbox:state.solution_ppbox?state.solution_ppbox:false,
+          part_orientation:state.part_orientation?state.part_orientation:null,
+          parts_pm:state.parts_pm?state.parts_pm:null,
+          status:state.status?state.status:null,
+        }}
         layout='vertical'
         hideRequiredMark
         autoComplete='off'

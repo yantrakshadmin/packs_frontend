@@ -4,25 +4,34 @@ export const PREPSolutionRequiredFormFields = [
   {
     key: 'solution_flc',
     type: FORM_ELEMENT_TYPES.SWITCH,
-    others: null,
+    others: {
+      defaultValue:false,
+    },
     customLabel: 'FLC',
   },
   {
     key: 'solution_fsc',
     type: FORM_ELEMENT_TYPES.SWITCH,
-    others: null,
+    others: {
+      defaultValue:false,
+
+    },
     customLabel: 'FSC',
   },
   {
     key: 'solution_crate',
     type: FORM_ELEMENT_TYPES.SWITCH,
-    others: null,
+    others: {
+      defaultValue:false,
+    },
     customLabel: 'Crate',
   },
   {
     key: 'solution_ppbox',
     type: FORM_ELEMENT_TYPES.SWITCH,
-    others: null,
+    others: {
+      defaultValue:false,
+    },
     customLabel: 'PP Box',
   },
   {

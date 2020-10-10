@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Col, Row, Button, Divider, Spin} from 'antd';
+import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import { PREPBasicDetailsFormFields } from 'common/formFields/PFEP/PFEPBasicDetails.formFields';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,29 +19,29 @@ export const PFEPCreationForm = ({ id, onCancel,onDone,onNext }) => {
     onNext();
   }
   const state =  useSelector(e=>(e.data.pfepData))
-
-  useEffect(()=>{
-    // form.setFieldsValue({
-    //     proposal_for_client:state.proposal_for_client?state.proposal_for_client:null,
-    //     sender_client:state.sender_client?state.sender_client:null,
-    //     sender_location:state.sender_location?state.sender_location:null,
-    //     receiver_client:state.receiver_client?state.receiver_client:null,
-    //     receiver_location:state.receiver_location?state.receiver_location:null
-    //   })
-  },[state])
+  //
+  // useEffect(()=>{
+  //   form.setFieldsValue({
+  //     proposal_for_client:state.proposal_for_client?state.proposal_for_client:null,
+  //     sender_client:state.sender_client?state.sender_client:null,
+  //     sender_location:state.sender_location?state.sender_location:null,
+  //     receiver_client:state.receiver_client?state.receiver_client:null,
+  //     receiver_location:state.receiver_location?state.receiver_location:null
+  //   })
+  // },[state])
 
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>PFEP Creation</Divider>
       <Form
         // initialValues={state}
-        // initialValues={{
-        //   proposal_for_client:state.proposal_for_client?state.proposal_for_client:null,
-        //   sender_client:state.sender_client?state.sender_client:null,
-        //   sender_location:state.sender_location?state.sender_location:null,
-        //   receiver_client:state.receiver_client?state.receiver_client:null,
-        //   receiver_location:state.receiver_location?state.receiver_location:null
-        // }}
+        initialValues={{
+          proposal_for_client:state.proposal_for_client?state.proposal_for_client:null,
+          sender_client:state.sender_client?state.sender_client:null,
+          sender_location:state.sender_location?state.sender_location:null,
+          receiver_client:state.receiver_client?state.receiver_client:null,
+          receiver_location:state.receiver_location?state.receiver_location:null
+        }}
         onFinish={submit}
         form={form}
         layout='vertical'

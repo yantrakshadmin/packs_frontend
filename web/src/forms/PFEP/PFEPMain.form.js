@@ -12,7 +12,6 @@ export const PFEPMainForm = ({ id, onCancel,onDone,lead }) => {
   const [active,setActive] = useState(0)
   const CurrentComponent = (PFEPSteps[active].component);
   const dispatch = useDispatch();
-  // const state =  useSelector(e=>(e.data.pfepData))
   return (
     <div>
       <Steps
