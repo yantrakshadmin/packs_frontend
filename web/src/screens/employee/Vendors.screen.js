@@ -9,6 +9,7 @@ import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
+import { GetUniqueValue } from 'common/helpers/getUniqueValues';
 
 const {Search} = Input;
 
@@ -35,6 +36,20 @@ const VendorEmployeeScreen = ({currentPage}) => {
       title: 'Sr. No.',
       key: 'srno',
       render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
+    },
+    {
+      title: 'City',
+      key: 'city',
+      dataIndex: 'city',
+      filters: GetUniqueValue(filteredData || [],'city'),
+      onFilter: (value, record) => record.city === value,
+    },
+    {
+      title: 'Type',
+      key: 'type',
+      dataIndex: 'type',
+      filters: GetUniqueValue(filteredData || [],'type'),
+      onFilter: (value, record) => record.type === value,
     },
     ...vendorColumns,
     {

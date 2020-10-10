@@ -5,9 +5,10 @@ import { Button, Input } from 'antd';
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { retrieveEmployeeMrs } from 'common/api/auth';
+import moment from 'moment';
+import { GetUniqueValue } from 'common/helpers/getUniqueValues';
 import MaterialRequestsTable from '../../components/MaterialRequestsTable';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import moment from 'moment';
 
 const { Search } = Input;
 
@@ -15,15 +16,20 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
+  const [filterOptions, setFilterOptions] = useState([]);
 
   const { filteredData, loading, reload } = useTableSearch({
     searchVal,
     retrieve: retrieveEmployeeMrs,
   });
-
+  const getFilterOptions=()=>{
+    const arr=  [...new Set(
+      (filteredData|| []).map(item =>
+        (( `${item.owner.first_name  } ${  item.owner.last_name}`))))]
+    return arr.map(item=>({ text:item,value:item }))
+  }
   useEffect(() => {
     if (filteredData) {
-      console.log(filteredData);
       const csvd = [];
       filteredData.forEach((d) => {
         const temp = {
@@ -41,28 +47,24 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
           });
         });
       });
+      setFilterOptions(getFilterOptions());
       setCsvData(csvd);
     }
   }, [filteredData]);
+
+
+
 
   const columns = [
     ...materialEmployeecolumns,
     {
       title: 'Owner Name',
       key: 'owner_name',
-      filters: [
-        {
-          text: 'Allocated',
-          value: false,
-        },
-        {
-          text: 'Pending',
-          value: false,
-        },
-      ],
-      onFilter: (value, record) => record.is_allocated === value,
+      filters:filterOptions ||[],
+      onFilter: (value, record) =>
+        `${record.owner.first_name  } ${  record.owner.last_name}` === value,
       render: (text, record) => {
-        return record.owner.first_name + ' ' + record.owner.last_name;
+        return `${record.owner.first_name  } ${  record.owner.last_name}`;
       },
     },
     {

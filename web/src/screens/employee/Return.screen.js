@@ -18,6 +18,7 @@ import { LineGraph } from '../../components/graphComponent/lineGraph';
 import { LineGraph2 } from '../../components/graphComponent/lineGraph2';
 import { BarGraph } from '../../components/graphComponent/barGraph';
 import { PointGraph } from '../../components/graphComponent/pointGraph';
+import { GetUniqueValue } from 'common/helpers/getUniqueValues';
 
 const { Search } = Input;
 
@@ -48,6 +49,19 @@ const ReturnDocketsScreen = ({ currentPage }) => {
       title: 'Sr. No.',
       key: 'srno',
       render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
+    },
+    {
+      title: 'Transaction No.',
+      key: 'transaction_no',
+      dataIndex: 'transaction_no',
+      sorter: (a, b) => a.transaction_no - b.transaction_no,
+    },
+    {
+      title: 'Receiver Client',
+      key: 'receiver_client',
+      dataIndex: 'receiver_client',
+      filters: GetUniqueValue(filteredData || [],'receiver_client'),
+      onFilter: (value, record) => record.receiver_client === value,
     },
     ...returnColumns,
     {

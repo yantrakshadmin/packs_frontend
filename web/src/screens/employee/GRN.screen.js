@@ -1,26 +1,26 @@
-import React, {useState, useEffect} from 'react';
-import {GRNForm} from '../../forms/GRN.form';
-import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
+import React, { useState, useEffect } from 'react';
+import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
 import GRNColumns from 'common/columns/GRN.column';
-import {ProductTable} from '../../components/GRNProductsTable';
-import {Popconfirm, Button, Input} from 'antd';
-import {Link} from '@reach/router';
-import {deleteHOC} from '../../hocs/deleteHoc';
-import {connect} from 'react-redux';
-import {useTableSearch} from 'hooks/useTableSearch';
-import {useAPI} from 'common/hooks/api';
+import { Popconfirm, Button, Input } from 'antd';
+import { connect } from 'react-redux';
+import { useTableSearch } from 'hooks/useTableSearch';
+import { useAPI } from 'common/hooks/api';
 import Edit from 'icons/Edit';
 import Delete from 'icons/Delete';
 import Document from 'icons/Document';
 import Download from 'icons/Download';
 import Print from 'icons/Print';
 
-import {deleteGRN, retrieveGRNBars} from 'common/api/auth';
+import { deleteGRN, retrieveGRNBars } from 'common/api/auth';
+import { deleteHOC } from '../../hocs/deleteHoc';
+import { ProductTable } from '../../components/GRNProductsTable';
+import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import { GRNForm } from '../../forms/GRN.form';
+import { GetUniqueValue } from 'common/helpers/getUniqueValues';
 
-const {Search} = Input;
+const { Search } = Input;
 
-const KitEmployeeScreen = ({currentPage}) => {
+const KitEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [reqData, setReqData] = useState(null);
@@ -28,11 +28,11 @@ const KitEmployeeScreen = ({currentPage}) => {
   const [barLoading, setBarLoading] = useState(false);
   const [barID, setBarID] = useState(null);
 
-  const {data: grns, loading, reload} = useAPI('/grns/', {});
+  const { data: grns, loading, reload } = useAPI('/grns/', {});
 
-  const {filteredData} = useTableSearch({
+  const { filteredData } = useTableSearch({
     searchVal,
-    reqData: reqData,
+    reqData,
   });
 
   useEffect(() => {
@@ -57,12 +57,12 @@ const KitEmployeeScreen = ({currentPage}) => {
 
   useEffect(() => {
     if (filteredData) {
-      let csvd = [];
+      const csvd = [];
       filteredData.forEach((d) => {
-        let temp = {...d};
-        delete temp['products'];
+        const temp = { ...d };
+        delete temp.products;
         csvd.push(temp);
-        d['products'].forEach((prod) => {
+        d.products.forEach((prod) => {
           csvd.push({
             ShortCode: prod.item.short_code,
             Name: prod.item.name,
@@ -76,11 +76,11 @@ const KitEmployeeScreen = ({currentPage}) => {
   }, [filteredData]);
 
   const download = (filename, data) => {
-    var blob = new Blob([data], {type: 'text/csv'});
+    const blob = new Blob([data], { type: 'text/csv' });
     if (window.navigator.msSaveOrOpenBlob) {
       window.navigator.msSaveBlob(blob, filename);
     } else {
-      var elem = window.document.createElement('a');
+      const elem = window.document.createElement('a');
       elem.href = window.URL.createObjectURL(blob);
       elem.download = filename;
       document.body.appendChild(elem);
@@ -95,14 +95,27 @@ const KitEmployeeScreen = ({currentPage}) => {
   };
 
   const columns = [
+    {
+      title: 'GRN ID',
+      key: 'id',
+      dataIndex: 'id',
+      sorter: (a, b) => a.id - b.id,
+    },
+    {
+      title: 'Warehouse',
+      key: 'warehouse',
+      dataIndex: 'warehouse',
+      filters: GetUniqueValue(filteredData || [],'warehouse'),
+      onFilter: (value, record) => record.warehouse === value,
+    },
     ...GRNColumns,
     {
       title: 'Action',
       key: 'operation',
       width: '7vw',
       render: (text, record) => (
-        <div className="row justify-evenly">
-          <a href={record.document} target="_blank" rel="noopener noreferrer">
+        <div className='row justify-evenly'>
+          <a href={record.document} target='_blank' rel='noopener noreferrer'>
             <Button
               style={{
                 backgroundColor: 'transparent',
@@ -127,9 +140,9 @@ const KitEmployeeScreen = ({currentPage}) => {
               e.stopPropagation();
               setBarLoading(true);
               setBarID(record.id);
-              const {data} = await retrieveGRNBars(record.id);
+              const { data } = await retrieveGRNBars(record.id);
               if (data) {
-                download(record.id + '.txt', data.join('\n \n'));
+                download(`${record.id  }.txt`, data.join('\n \n'));
                 setBarLoading(false);
               }
             }}>
@@ -137,8 +150,8 @@ const KitEmployeeScreen = ({currentPage}) => {
           </Button>
           <a
             href={`${DEFAULT_BASE_URL}/print-barcodes/${record.id}/`}
-            target="_blank"
-            rel="noopener noreferrer">
+            target='_blank'
+            rel='noopener noreferrer'>
             <Button
               style={{
                 backgroundColor: 'transparent',
@@ -164,7 +177,7 @@ const KitEmployeeScreen = ({currentPage}) => {
             <Edit />
           </Button>
           <Popconfirm
-            title="Confirm Delete"
+            title='Confirm Delete'
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
               record,
@@ -201,9 +214,9 @@ const KitEmployeeScreen = ({currentPage}) => {
 
   return (
     <>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
         </div>
       </div>
       <br />
@@ -211,24 +224,24 @@ const KitEmployeeScreen = ({currentPage}) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size="middle"
-        title="GRNs"
+        size='middle'
+        title='GRNs'
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={GRNForm}
         modalWidth={60}
-        expandHandleKey="products"
-        expandParams={{loading}}
+        expandHandleKey='products'
+        expandParams={{ loading }}
         ExpandBody={ProductTable}
         csvdata={csvData}
-        csvname={'GRNs' + searchVal + ' .csv'}
+        csvname={`GRNs${  searchVal  } .csv`}
       />
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  return {currentPage: state.page.currentPage};
+  return { currentPage: state.page.currentPage };
 };
 
 export default connect(mapStateToProps)(KitEmployeeScreen);

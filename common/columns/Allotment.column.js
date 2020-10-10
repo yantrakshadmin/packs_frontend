@@ -2,11 +2,6 @@ import moment from 'moment';
 
 export default [
   {
-    title: 'Transaction No.',
-    key: 'transaction_no',
-    dataIndex: 'transaction_no',
-  },
-  {
     title: 'Transaction Date',
     key: 'dispatch_date',
     sorter: (a, b) => moment(a.dispatch_date).unix() - moment(b.dispatch_date).unix(),
