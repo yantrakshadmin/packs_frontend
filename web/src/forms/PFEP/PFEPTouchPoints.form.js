@@ -33,7 +33,7 @@ export const PfepTouchPointsForm = ({ id, onCancel,onDone,onNext }) => {
         }}
         form={form}
         layout='vertical'
-        hideRequiredMark
+        // hideRequiredMark
         autoComplete='off'
       >
         <Form.List name='tp'>

@@ -73,7 +73,7 @@ const AllotmentForm = ({ location }) => {
         <Row style={{ justifyContent: 'left' }}>
           {allotmentFormFields.slice(0, 4).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className='p-2'>
+              <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
@@ -82,7 +82,7 @@ const AllotmentForm = ({ location }) => {
         <Row style={{ justifyContent: 'left' }}>
           {allotmentFormFields.slice(4, 8).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className='p-2'>
+              <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>

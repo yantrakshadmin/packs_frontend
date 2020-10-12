@@ -130,6 +130,23 @@ export const deleteKit = (id) =>
     secure: true,
   });
 
+export const createOutward = (data) => (loadAPI('create-outward/',{
+  method:'POST',
+  secure:true,
+  data
+}))
+
+export const editOutward = (id,data) => (loadAPI(`edit-outward/${id}`,{
+  method:'PATCH',
+  secure:true,
+  data
+}))
+
+export const retrieveOutward = (id) => (loadAPI(`edit-outward/${id}`,{
+  method:'GET',
+  secure:true,
+}))
+
 export const createVendor = ({
   name,
   street,
