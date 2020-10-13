@@ -27,7 +27,7 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
 
   useEffect(()=>{
     if(flows){
-      setReceiverClients(flows.map((item)=>({ ...item.receiver_client })))
+      setReceiverClients(flows.map((item,ind)=>({ ...item.receiver_client,ind })))
     }
   },[flows])
   useEffect(()=>{
@@ -58,7 +58,7 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
       if (data[0].name[0] === 'sending_location' ) {
         // console.log(receiverClients.map((ele,ind)=>(ele.id === data[0].value?ind:null)),"ye")
         // form.setFieldsValue({ [data[0].name[0]]: });
-        setRClientIndex(0)
+        // setRClientIndex(0)
       }}
   };
 
