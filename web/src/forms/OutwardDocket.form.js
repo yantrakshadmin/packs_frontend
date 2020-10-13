@@ -16,7 +16,7 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
   const [receiverClients,setReceiverClients] = useState([])
   const [kits,setKits] = useState([])
   const [rClientIndex,setRClientIndex] = useState(0)
-
+  const [isIndex,setIsIndex] = useState(true);
   // kits: Array(3)
   // 0:
   // component_pm: 4800
@@ -27,17 +27,22 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
 
   useEffect(()=>{
     if(flows){
-      setReceiverClients(flows.map((item,ind)=>({ ...item.receiver_client,ind })))
+      setReceiverClients(flows.map((item,ind)=>({
+        ...item.receiver_client,
+        value:ind.toString() })))
     }
   },[flows])
   useEffect(()=>{
     if(flows){
-      setKits(flows[rClientIndex].kits.map(item=>({
-        id:item.id,
-        kit_name:item.kit.kit_name,
-        kit_info:item.kit.kit_info,
-        kit_type:item.kit.kit_type
-      })))
+      if(flows[rClientIndex]){
+        // console.log(flows,'ye wala')
+        setKits(flows[rClientIndex].kits.map(item=>({
+          id:item.id,
+          kit_name:item.kit.kit_name,
+          kit_info:item.kit.kit_info,
+          kit_type:item.kit.kit_type
+        })))
+      }
     }
   },[rClientIndex,flows])
 
@@ -53,12 +58,15 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
   });
 
   const handleFieldsChange = (data) => {
-    console.log(data,"her")
     if(data[0]){
       if (data[0].name[0] === 'sending_location' ) {
-        // console.log(receiverClients.map((ele,ind)=>(ele.id === data[0].value?ind:null)),"ye")
-        // form.setFieldsValue({ [data[0].name[0]]: });
-        // setRClientIndex(0)
+        if(isIndex){
+          const ind =parseInt(data[0].value,0);
+          setRClientIndex(ind);
+          const { id:rId } = receiverClients[ind];
+          form.setFieldsValue({ [data[0].name[0]]:rId });
+        }
+        setIsIndex(!isIndex);
       }}
   };
 
@@ -81,13 +89,12 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
               </div>
             </Col>
           ))}
-          {console.log(receiverClients)}
           {outwardDocketFormFields.slice(3, 4).map((item, idx) => (
             <Col span={6}>
               <div key={idx.toString()} className='p-2'>
                 {formItem({ ...item,others: {
                   selectOptions:receiverClients,
-                  key: 'id',
+                  key: 'value',
                   customTitle: 'name',
                   dataKeys: ['address',],
                 }, })}
