@@ -62,7 +62,6 @@ export const DeliveredForm = ({ id, onCancel, onDone, transaction_no }) => {
     const fetchDelivered = async () => {
       setLoading(true);
       const { data } = await retrieveAllotmentsDelivered(id);
-      console.log(data,'ye wala')
       if (data) {
         setLoading(false);
         const reqdlvd = data;
@@ -168,6 +167,7 @@ export const DeliveredForm = ({ id, onCancel, onDone, transaction_no }) => {
                 {formItem({
                   ...item,
                   kwargs: {
+                    multiple:true,
                     onChange(info) {
                       const { status } = info.file;
                       if (status !== 'uploading') {

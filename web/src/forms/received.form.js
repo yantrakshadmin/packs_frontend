@@ -100,7 +100,6 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
   }, [returnn, form]);
 
   useEffect(() => {
-    console.log(returnn,'console returnn')
     const reqProds = [];
     if (returnn){
       setReceived(returnn.id);
@@ -185,6 +184,7 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
                 {formItem({
                   ...item,
                   kwargs: {
+                    multiple:true,
                     onChange(info) {
                       const { status } = info.file;
                       if (status !== 'uploading') {
