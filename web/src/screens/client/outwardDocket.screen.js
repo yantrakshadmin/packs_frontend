@@ -6,16 +6,17 @@ import { useTableSearch } from 'hooks/useTableSearch';
 import { Link } from '@reach/router';
 import { useAPI } from 'common/hooks/api';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import { OutwardDocketForm } from '../../forms/OutwardDocket.form';
 
 const { Search } = Input;
 
-const ReturnReportsScreen = ({ currentPage }) => {
+const OutwardDocketScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [reqData, setReqData] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
 
-  const { data: returns, loading } = useAPI('/client-return/', {});
+  const { data: returns, loading } = useAPI('/outwards/', {});
 
   const { filteredData, reload } = useTableSearch({
     searchVal,
@@ -91,12 +92,10 @@ const ReturnReportsScreen = ({ currentPage }) => {
         refresh={reload}
         tabs={tabs}
         size='middle'
-        title='Return Reports'
-        newPage='./return/'
-        separate={!deliveryId}
-        modalWidth={60}
+        title='Outward Docket'
+        modalBody={OutwardDocketForm}
+        modalWidth={80}
         cancelEditing={cancelEditing}
-        hideRightButton
       />
     </>
   );
@@ -106,4 +105,4 @@ const mapStateToProps = (state) => {
   return { currentPage: state.page.currentPage };
 };
 
-export default connect(mapStateToProps)(ReturnReportsScreen);
+export default connect(mapStateToProps)(OutwardDocketScreen);

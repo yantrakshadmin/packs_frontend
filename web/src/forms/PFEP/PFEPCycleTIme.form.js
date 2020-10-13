@@ -36,7 +36,7 @@ export const PFEPCycleTImeForm = ({ id, onCancel,onDone,onNext }) => {
           max_cycle_days:state.max_cycle_days?state.max_cycle_days:null,
         }}
         layout='vertical'
-        hideRequiredMark
+        // hideRequiredMark
         autoComplete='off'
       >
         <Row style={{ justifyContent: 'left' }}>

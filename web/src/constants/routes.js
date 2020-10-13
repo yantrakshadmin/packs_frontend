@@ -238,6 +238,12 @@ export const clientRoutes = [
     Component: lazy(() => import('screens/client/Allotments.screen')),
   },
   {
+    name: 'Outward Docket',
+    icon: ['fas', 'layer-group'],
+    path: '/outward-docket/',
+    Component: lazy(() => import('screens/client/outwardDocket.screen')),
+  },
+  {
     name: 'Return Reports',
     icon: ['fas', 'layer-group'],
     path: '/return-reports/',

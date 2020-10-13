@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_BASIC_DATA, ADD_PFEP_DATA,} from 'common/actions';
 import moment from 'moment';
 
-export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext }) => {
+export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext,active }) => {
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -19,6 +19,15 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext }) => {
     setLoading(false)
     onNext();
   }
+
+  useEffect( ()=>{
+    if(active!==0){
+      console.log(form.getFieldsValue(['date','contact_person','designation','email','contact_no'],"GGG"))
+
+      // await submit(form.getFieldsValue(['date','contact_person','designation','email','contact_no']))
+    }
+  },[active])
+
   return (
     <Spin spinning={loading}>
       <Form
@@ -32,7 +41,7 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext }) => {
         onFinish={submit}
         form={form}
         layout='vertical'
-        hideRequiredMark
+        // hideRequiredMark
         autoComplete='off'
       >
         <Row style={{ justifyContent: 'left' }}>

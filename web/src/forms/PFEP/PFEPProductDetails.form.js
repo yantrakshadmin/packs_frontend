@@ -47,7 +47,7 @@ export const PFEPProductDetailsForm = ({ id, onCancel,onDone,onNext }) => {
         }}
         form={form}
         layout='vertical'
-        hideRequiredMark
+        // hideRequiredMark
         autoComplete='off'
       >
         <Row style={{ justifyContent: 'left' }}>

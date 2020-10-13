@@ -45,7 +45,7 @@ export const PFEPCreationForm = ({ id, onCancel,onDone,onNext }) => {
         onFinish={submit}
         form={form}
         layout='vertical'
-        hideRequiredMark
+        // hideRequiredMark
         autoComplete='off'
       >
         <Row style={{ justifyContent: 'left' }}>

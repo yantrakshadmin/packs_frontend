@@ -39,7 +39,7 @@ export const PFEPMaterialHandlingEquipmentForm = ({ id, onCancel,onDone,onNext }
           fork_lift:state.fork_lift?state.fork_lift:false,
         }}
         layout='vertical'
-        hideRequiredMark
+        // hideRequiredMark
         autoComplete='off'
       >
         <Row style={{ justifyContent: 'left' }}>

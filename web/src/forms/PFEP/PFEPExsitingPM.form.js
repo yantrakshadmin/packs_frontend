@@ -42,7 +42,7 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
           remarks:state.remarks?state.remarks:null,
         }}
         layout='vertical'
-        hideRequiredMark
+        // hideRequiredMark
         autoComplete='off'
       >
         <Row style={{ justifyContent: 'left' }}>

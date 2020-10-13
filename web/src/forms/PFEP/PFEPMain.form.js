@@ -25,6 +25,7 @@ export const PFEPMainForm = ({ id, onCancel,onDone,lead }) => {
       <Suspense fallback={Loading}>
         <CurrentComponent
           lead={lead}
+          active={active}
           onNext={()=>{setActive(active+1);}}
           onDone={()=>{dispatch({ type:CLEAN_PFEP_DATA });  onDone()}}
           onCancel={()=>{dispatch({ type:CLEAN_PFEP_DATA });  onCancel()}}

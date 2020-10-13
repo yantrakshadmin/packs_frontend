@@ -72,7 +72,7 @@ export const PFEPSolutionRequiredForm = ({ id, onCancel,onDone,onNext }) => {
           status:state.status?state.status:null,
         }}
         layout='vertical'
-        hideRequiredMark
+        // hideRequiredMark
         autoComplete='off'
       >
         <Row style={{ justifyContent: 'left' }}>
