@@ -592,7 +592,7 @@ export const createDelivered = (req) =>
   });
 
 export const editDelivered = (id, req) =>
-  loadAPI(`/edit-delivered/${id}/`, {
+  loadAPI(`/e-delivered/${id}/`, {
     method: 'PATCH',
     data: req,
     secure: true,
