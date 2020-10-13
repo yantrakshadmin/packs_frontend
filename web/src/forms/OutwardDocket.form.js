@@ -13,8 +13,9 @@ import formItem from '../hocs/formItem.hoc';
 
 export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
   const { data:flows } = useAPI('/client-flows/');
+  const { data:kits } = useAPI('/client-kits/');
   const [receiverClients,setReceiverClients] = useState([])
-  const [kits,setKits] = useState([])
+  // const [kits,setKits] = useState([])
   const [rClientIndex,setRClientIndex] = useState(0)
   const [isIndex,setIsIndex] = useState(true);
   // kits: Array(3)
@@ -26,22 +27,23 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
   // trip_cost: 1250
 
   useEffect(()=>{
+    console.log(kits,'kits')
     if(flows){
-      setReceiverClients(flows.map((item,ind)=>({
+      setReceiverClients([ ...new Set(flows.map((item,ind)=>({
         ...item.receiver_client,
-        value:ind.toString() })))
+        value:ind.toString() })))])
     }
   },[flows])
   useEffect(()=>{
     if(flows){
       if(flows[rClientIndex]){
         // console.log(flows,'ye wala')
-        setKits(flows[rClientIndex].kits.map(item=>({
-          id:item.id,
-          kit_name:item.kit.kit_name,
-          kit_info:item.kit.kit_info,
-          kit_type:item.kit.kit_type
-        })))
+        // setKits(flows[rClientIndex].kits.map(item=>({
+        //   id:item.id,
+        //   kit_name:item.kit.kit_name,
+        //   kit_info:item.kit.kit_info,
+        //   kit_type:item.kit.kit_type
+        // })))
       }
     }
   },[rClientIndex,flows])
@@ -107,7 +109,7 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
             <Col span={6}>
               <div key={idx.toString()} className='p-2'>
                 {formItem({ ...item,others:{
-                  selectOptions:kits,
+                  selectOptions:[],
                   key: 'id',
                   customTitle: 'kit_name',
                   dataKeys: ['kit_info','kit_type'],
