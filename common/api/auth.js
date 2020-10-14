@@ -838,11 +838,18 @@ export const deleteLead = (id) =>
   loadAPI(`/edit-leads/${id}/`, {
     method: 'DELETE',
     secure: true,
-    data,
   });
 
 export const postAltBarcodes = (data) =>{
   return loadAPI('dispatch-allotment/',{
+    method:'POST',
+    secure:true,
+    data
+  })
+}
+
+export const postReturnBarcodes = (data) =>{
+  return loadAPI('dispatch-return/',{
     method:'POST',
     secure:true,
     data
