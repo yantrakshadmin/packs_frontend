@@ -125,6 +125,7 @@ export const DeliveredForm = ({ id, onCancel, onDone, transaction_no }) => {
     data.allotment = allotment;
     data.delivered = delivered;
     if (reqFile) {
+      console.log(reqFile,'reques')
       data.document = reqFile.originFileObj;
     } else delete data.document;
     const req = toFormData(data);
