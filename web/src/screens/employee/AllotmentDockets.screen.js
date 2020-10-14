@@ -131,7 +131,10 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
                 `${DEFAULT_BASE_URL}/delivered-docket/?pk=${record.id}`,
                 {},
               );
-              if (req) if (req.document) navigate(req.document);
+              if (req) if (req.document) {
+                window.open(req.document);
+                // navigate(req.document)
+              }
               e.stopPropagation();
             }}>
             <Document color={record.document ? '#7CFC00' : null} />
