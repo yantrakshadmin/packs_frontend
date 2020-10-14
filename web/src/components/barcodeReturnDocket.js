@@ -1,8 +1,7 @@
-import React,{ useState,useEffect } from 'react';
+import React,{ useState } from 'react';
 import { Row,Col,Input,Typography,notification,Table,Tag,Button } from 'antd';
 import { loadAPI } from 'common/helpers/api';
-import { postAltBarcodes } from 'common/api/auth';
-import { useAPI } from 'common/hooks/api';
+import { postReturnBarcodes } from 'common/api/auth';
 
 const { Title } = Typography;
 
@@ -10,8 +9,8 @@ export const BarcodeReturnDocket = ({ transaction,returnNo,setVisible }) =>{
   const [barcodes,setBarcodes] = useState([]);
   const [productDetails,setProductDetails] = useState({
   });
-  const { data:allotments ,error:altError,loading:altLoading } =
-    useAPI(`dispatch-allotment-fetch/?return_no=${returnNo}`)
+  // const { data:allotments ,error:altError,loading:altLoading } =
+  //   useAPI(`dispatch-allotment-fetch/?return_no=${returnNo}`)
   const [inputValue,setInputValue] = useState('');
 
   const addItem= async (value)=>{
@@ -73,10 +72,10 @@ export const BarcodeReturnDocket = ({ transaction,returnNo,setVisible }) =>{
     return barcodes.map(i=>(i.barcode));
   }
   const reqSubmit = async ()=>{
-    const { error }= await postAltBarcodes({
+    const { error }= await postReturnBarcodes({
       barcodes:getReqBarcodeArray(),
       transaction,
-      returnNo })
+      ret:returnNo })
     if(error !== undefined){
       notification.warning({
         message: 'Unknown Error in Submission.',
