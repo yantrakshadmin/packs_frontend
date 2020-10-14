@@ -9,11 +9,21 @@ import { MasterHOC } from '../../hocs/Master.hoc';
 export const InventoryScreen = () => {
   const { data: warehouses } = useAPI('/warehouse/', {});
   const [ reqObj,setObj ] = useState({ warehouse:null,date:null })
+  const [ cid,setCid ] = useState(8)
   const { data: inventory,loading:invLoading } =
-    useAPI(reqObj.warehouse && reqObj.date?`/inventory/?wh=${reqObj.warehouse}&date=${reqObj.date}`:'/inventory/', {});
+    useAPI(reqObj.warehouse && reqObj.date?
+      `/inventory/?wh=${reqObj.warehouse}&date=${reqObj.date}`:'/inventory/', {});
+  const { data: clients } = useAPI('/clients/', {});
+  const { data: transitData } = useAPI(`/client-inventory/?id=${cid}`, {});
   const [form] = Form.useForm();
   const [ reformattedInv,setReformattedInv] = useState([])
+  const [ reformattedTran,setReformattedTran] = useState([])
 
+  const onSubmitTransit = async (data) => {
+    setCid(data.cid);
+    console.log(data)
+  };
+  console.log(transitData,'transits',clients)
   const onSubmit = async (data) => {
     const date = moment(form.getFieldValue('date')).format('YYYY-MM-DD+HH:MM');
     setObj({ warehouse:data.warehouse,date })
@@ -26,6 +36,10 @@ export const InventoryScreen = () => {
   useEffect(()=>{
     setReformattedInv(reformatData(inventory))
   },[inventory])
+
+  useEffect(()=>{
+    setReformattedTran(reformatData(transitData))
+  },[transitData])
 
   const column  = [
     {
@@ -40,55 +54,96 @@ export const InventoryScreen = () => {
     }
   ];
 
-
   return (
     <div>
-      <Form
-        onFinish={onSubmit}
-        form={form}
-        layout='vertical'
-        hideRequiredMark
-        autoComplete='off'>
-        <Row align='middle' gutter={32}>
-          <Col span={10}>
-            {formItem({
-              key: 'warehouse',
-              kwargs: {
-                placeholder: 'Select',
-                showSearch: true,
-                filterOption: (input, option) =>
-                  option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-              },
-              others: {
-                selectOptions: warehouses || [],
-                key: 'id',
-                dataKeys: ['address', 'city'],
-                customTitle: 'Warehouse',
-              },
-              type: FORM_ELEMENT_TYPES.SELECT,
-              customLabel: 'Client',
-            })}
-          </Col>
-          <Col span={3}>
-            {formItem({
-              key: 'date',
-              rules: [{ required: true, message: 'Please select From date!' }],
-              kwargs: {
-                placeholder: 'Select',
-                type: 'number',
-              },
-              type: FORM_ELEMENT_TYPES.DATE,
-              others: null,
-              customLabel: 'From',
-            })}
-          </Col>
-          <Col span={3}>
-            <Button type='primary' htmlType='submit'>
-              Get Inventory
-            </Button>
-          </Col>
-        </Row>
-      </Form>
+      <Row gutter={32}>
+        <Col span={12}>
+          <Form
+            onFinish={onSubmit}
+            form={form}
+            layout='vertical'
+            hideRequiredMark
+            autoComplete='off'>
+            <Row align='middle' gutter={32}>
+              <Col span={16}>
+                {formItem({
+                  key: 'warehouse',
+                  kwargs: {
+                    placeholder: 'Select',
+                    showSearch: true,
+                    filterOption: (input, option) =>
+                      option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                  },
+                  others: {
+                    selectOptions: warehouses || [],
+                    key: 'id',
+                    dataKeys: ['address', 'city'],
+                    customTitle: 'name',
+                  },
+                  type: FORM_ELEMENT_TYPES.SELECT,
+                  customLabel: 'Client',
+                })}
+              </Col>
+              <Col span={8}>
+                {formItem({
+                  key: 'date',
+                  rules: [{ required: true, message: 'Please select From date!' }],
+                  kwargs: {
+                    placeholder: 'Select',
+                    type: 'number',
+                  },
+                  type: FORM_ELEMENT_TYPES.DATE,
+                  others: null,
+                  customLabel: 'From',
+                })}
+              </Col>
+            </Row>
+            <Row justify='center'>
+              <Col span={4}>
+                <Button type='primary' htmlType='submit'>
+                  Get Inventory
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Col>
+        <Col span={12}>
+          <Form
+            onFinish={onSubmitTransit}
+            layout='vertical'
+            hideRequiredMark
+            autoComplete='off'>
+            <Row align='middle' justify='center' gutter={32}>
+              <Col span={16}>
+                {formItem({
+                  key: 'cid',
+                  kwargs: {
+                    placeholder: 'Select',
+                    showSearch: true,
+                    filterOption: (input, option) =>
+                      option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                  },
+                  others: {
+                    selectOptions: clients || [],
+                    key: 'user',
+                    customTitle: 'client_name',
+                    dataKeys: ['client_shipping_address'],
+                  },
+                  type: FORM_ELEMENT_TYPES.SELECT,
+                  customLabel: 'Client',
+                })}
+              </Col>
+            </Row>
+            <Row justify='center'>
+              <Col span={4}>
+                <Button type='primary' htmlType='submit'>
+                  Get Transits
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Col>
+      </Row>
       <Row gutter={32}>
         <Col span={12}>
           <MasterHOC
@@ -102,7 +157,7 @@ export const InventoryScreen = () => {
         <Col span={12}>
           <MasterHOC
             size='small'
-            data={[]}
+            data={reformattedTran}
             title='In Transits'
             hideRightButton
             loading={invLoading}
