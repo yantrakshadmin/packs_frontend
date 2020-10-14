@@ -321,7 +321,7 @@ export const createReceiverClient = ({ name, city, address, emitter, pan, gst })
 
 export const editReceiverClient = (id, { name, city, address, emitter, pan, gst }) =>
   // loadAPI(`/edit-receiverclient/${id}/`, {
-  loadAPI(`/e-received/${id}/`, {
+  loadAPI(`/edit-receiverclient/${id}/`, {
     method: 'PATCH',
     data: { name, city, address, emitter, pan, gst },
     secure: true,
@@ -705,7 +705,8 @@ export const createReceived = (req) =>
   });
 
 export const editReceived = (id, req) =>
-  loadAPI(`/edit-received/${id}/`, {
+  // loadAPI(`/edit-received/${id}/`, {
+  loadAPI(`/e-received/${id}/`, {
     method: 'PATCH',
     data: req,
     secure: true,
