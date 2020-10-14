@@ -6,22 +6,13 @@ import { useAPI } from 'common/hooks/api';
 
 const { Title } = Typography;
 
-export const BarcodeAllotmentDocket = ({ transaction,allot,setVisible }) =>{
+export const BarcodeReturnDocket = ({ transaction,returnNo,setVisible }) =>{
   const [barcodes,setBarcodes] = useState([]);
   const [productDetails,setProductDetails] = useState({
   });
   const { data:allotments ,error:altError,loading:altLoading } =
-    useAPI(`dispatch-allotment-fetch/?allot=${allot}`)
+    useAPI(`dispatch-allotment-fetch/?return_no=${returnNo}`)
   const [inputValue,setInputValue] = useState('');
-
-  useEffect(()=>{
-    const newArr = [];
-    if(allotments){
-      if(allotments.barcodes){
-        // barcodes.map((item)=>{newArr.push({barcode:item.slice(2,item.length-2)})})
-      }
-    }
-  },[allot])
 
   const addItem= async (value)=>{
     const filtered = barcodes.filter((i)=>(i.barcode === (value || inputValue)));
@@ -36,7 +27,7 @@ export const BarcodeAllotmentDocket = ({ transaction,allot,setVisible }) =>{
       notification.warning({
         message: 'Barcode Already Exist or Invalid',
         description:
-                  'The item you are trying to add is already exist or it is invalid',
+          'The item you are trying to add is already exist or it is invalid',
       });
     }
     setInputValue('');
@@ -85,7 +76,7 @@ export const BarcodeAllotmentDocket = ({ transaction,allot,setVisible }) =>{
     const { error }= await postAltBarcodes({
       barcodes:getReqBarcodeArray(),
       transaction,
-      allot })
+      returnNo })
     if(error !== undefined){
       notification.warning({
         message: 'Unknown Error in Submission.',
@@ -112,7 +103,7 @@ export const BarcodeAllotmentDocket = ({ transaction,allot,setVisible }) =>{
               }
             }}
             placeholder='Enter Barcode'
-                 />
+          />
         </Col>
       </Row>
       <br />

@@ -2,23 +2,25 @@ import React, { useState, useEffect } from 'react';
 import returnColumns from 'common/columns/Return.column';
 import ReturnForm from 'forms/return.form';
 import { ReceivedForm } from 'forms/received.form';
-import { Popconfirm, Input, Button, Row, Col } from 'antd';
+import { Popconfirm, Input, Button, Row, Col, Modal } from 'antd';
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { deleteReturn } from 'common/api/auth';
-import { Link, navigate } from '@reach/router';
+import { Link,useNavigate } from '@reach/router';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
 import Delivery from 'icons/Delivery';
 import Document from 'icons/Document';
 import { useAPI } from 'common/hooks/api';
+import { GetUniqueValue } from 'common/helpers/getUniqueValues';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoneyCheck, faTruckLoading } from '@fortawesome/free-solid-svg-icons';
+import { BarcodeReturnDocket } from 'components/barcodeReturnDocket';
+import { loadAPI } from 'common/helpers/api';
+import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { LineGraph } from '../../components/graphComponent/lineGraph';
-import { LineGraph2 } from '../../components/graphComponent/lineGraph2';
-import { BarGraph } from '../../components/graphComponent/barGraph';
-import { PointGraph } from '../../components/graphComponent/pointGraph';
-import { GetUniqueValue } from 'common/helpers/getUniqueValues';
 
 const { Search } = Input;
 
@@ -27,6 +29,10 @@ const ReturnDocketsScreen = ({ currentPage }) => {
   const [editingId, setEditingId] = useState(null);
   const [reqData, setReqData] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const [returnNo,setReturnNo] = useState(null);
+  const [TN, setTN] = useState(null);
+  const navigate = useNavigate();
 
   const { data: returns, loading } = useAPI('/return-table/', {});
 
@@ -69,15 +75,27 @@ const ReturnDocketsScreen = ({ currentPage }) => {
       key: 'docket',
       render: (text, record) => {
         return (
-          <Button type='primary'>
+          <div className='row align-center justify-evenly'>
             <Link
               to={`../return-docket/${record.transaction_no}`}
               state={{ id: record.id }}
               key={record.id}
               style={{ textDecoration: 'none' }}>
-              View Docket
+              <FontAwesomeIcon
+                icon={faMoneyCheck}
+                onClick={()=>{setVisible(true)}}
+                style={{ fontSize:20 }} />
             </Link>
-          </Button>
+            <FontAwesomeIcon
+              className='mx-2 icon-bg'
+              icon={faTruckLoading}
+              onClick={()=>{
+                setTN(record.transaction_no);
+                setReturnNo(record.id);
+                setVisible(true);}}
+              style={{ fontSize:20 }}
+        />
+          </div>
         );
       },
     },
@@ -95,8 +113,16 @@ const ReturnDocketsScreen = ({ currentPage }) => {
                 boxShadow: 'none',
                 padding: '1px',
               }}
-              disabled={!record.document}
-              onClick={(e) => e.stopPropagation()}>
+              // disabled={!record.document}
+              onClick={async (e) => {
+                console.log(record,'record')
+                const { data: req } = await loadAPI(
+                  `${DEFAULT_BASE_URL}/received-docket/?pk=${record.id}`,
+                  {},
+                );
+                if (req) if (req.document) navigate(req.document);
+                e.stopPropagation();
+              }}>
               <Document color={record.document ? '#7CFC00' : null} />
             </Button>
           </a>
@@ -211,6 +237,19 @@ const ReturnDocketsScreen = ({ currentPage }) => {
         </div>
       </div>
       <br />
+      <br />
+      <Modal
+        maskClosable={false}
+        visible={visible}
+        destroyOnClose
+        style={{ minWidth: `80vw` }}
+        title={TN}
+        onCancel={() => {
+          setVisible(false);
+        }}
+        footer={null}>
+        <BarcodeReturnDocket transaction={TN} returnNo={returnNo} setVisible={setVisible} />
+      </Modal>
       <TableWithTabHOC
         rowKey={(record) => record.id}
         refresh={reload}

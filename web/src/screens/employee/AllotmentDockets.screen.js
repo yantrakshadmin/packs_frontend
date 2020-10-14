@@ -17,10 +17,10 @@ import Edit from 'icons/Edit';
 import Delivery from 'icons/Delivery';
 import Document from 'icons/Document';
 import { BarcodeAllotmentDocket } from 'components/barcodeAllotmentDocket';
+import { GetUniqueValue } from 'common/helpers/getUniqueValues';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { LineGraph } from '../../components/graphComponent/lineGraph';
-import { GetUniqueValue } from 'common/helpers/getUniqueValues';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -113,29 +113,30 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
       width: '9vw',
       render: (text, record) => (
         <div className='row justify-evenly'>
-          <a
-            href={`${DEFAULT_BASE_URL  }/delivered-docket/?pk=${record.id}`}
-            target='_blank'
-            rel='noopener noreferrer'>
-            <Button
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                boxShadow: 'none',
-                padding: '1px',
-              }}
+          {/* <a */}
+          {/*  href={`${DEFAULT_BASE_URL  }/delivered-docket/?pk=${record.id}`} */}
+          {/*  target='_blank' */}
+          {/*  rel='noopener noreferrer' */}
+          {/* > */}
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
               // disabled={!record.document}
-              onClick={async (e) => {
-                const { data: req } = await loadAPI(
-                  `${DEFAULT_BASE_URL}/delivered-docket/?pk=${record.id}`,
-                  {},
-                );
-                if (req) if (req.document) navigate(req.document);
-                e.stopPropagation();
-              }}>
-              <Document color={record.document ? '#7CFC00' : null} />
-            </Button>
-          </a>
+            onClick={async (e) => {
+              const { data: req } = await loadAPI(
+                `${DEFAULT_BASE_URL}/delivered-docket/?pk=${record.id}`,
+                {},
+              );
+              if (req) if (req.document) navigate(req.document);
+              e.stopPropagation();
+            }}>
+            <Document color={record.document ? '#7CFC00' : null} />
+          </Button>
+          {/* </a> */}
           <Button
             style={{
               backgroundColor: 'transparent',
