@@ -25,10 +25,10 @@ export const extraRoutesClient = [
     path: '*',
     Component: lazy(() => import('screens/404.screen')),
   },
-  // {
-  //   path: '/',
-  //   Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')),
-  // },
+  {
+    path: '/dashboard/',
+    Component: lazy(() => import('screens/client/dashboard.screen')),
+  },
 ];
 export const outerRoutesEmployee = [
   {
