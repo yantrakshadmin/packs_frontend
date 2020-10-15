@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import returnColumns from 'common/columns/Return.column';
-import { Input, Button } from 'antd';
+import { Input, Button, Popconfirm } from 'antd';
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { Link } from '@reach/router';
 import { useAPI } from 'common/hooks/api';
+import { deleteFlow, deleteOutward } from 'common/api/auth';
+import { outwardDocketColumn } from 'common/columns/outwardDocket.column';
+import { dateFormatter, utcDateFormatter } from 'common/helpers/dateFomatter';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { OutwardDocketForm } from '../../forms/OutwardDocket.form';
+import Edit from '../../icons/Edit';
+import { deleteHOC } from '../../hocs/deleteHoc';
+import Delete from '../../icons/Delete';
 
 const { Search } = Input;
 
@@ -16,30 +22,65 @@ const OutwardDocketScreen = ({ currentPage }) => {
   const [reqData, setReqData] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
 
-  const { data: returns, loading } = useAPI('/outwards/', {});
-
+  const { data: outwards, loading } = useAPI('/outwards/', {});
+  const { data } = useAPI('/edit-outward/1/');
+  console.log(data,"edit data");
   const { filteredData, reload } = useTableSearch({
     searchVal,
     reqData,
   });
 
   useEffect(() => {
-    if (returns) {
-      const reqD = returns.map((ret) => ({
+    if (outwards) {
+      const reqD = outwards.map((ret) => ({
         ...ret,
       }));
       setReqData(reqD);
     }
-  }, [returns]);
-
+  }, [outwards]);
+  console.log(outwards,"outwards")
   const columns = [
     {
       title: 'Sr. No.',
       key: 'srno',
       render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
     },
-    ...returnColumns,
     {
+      title:'Transaction Date',
+      dataIndex:'transaction_date',
+      key:'transaction_date',
+      render:(text)=>(
+        <div>
+          {dateFormatter(text)}
+        </div>
+      )
+    },
+   {
+      title:'Dispatch Date',
+      dataIndex:'dispatch_date',
+      key:'dispatch_date',
+      render:(text)=>(
+        <div>
+          {dateFormatter(text)}
+        </div>
+      )
+    },
+    ...outwardDocketColumn,
+    {
+      title:'kit',
+      dataIndex:'kit',
+      key:'kit',
+      render:(kit)=>(
+        <div>
+          {kit.kit_name}
+          {' '}
+          -
+          {' '}
+          {kit.kit_info}
+        </div>
+      )
+
+    },{
       title: 'Docket',
       key: 'docket',
       render: (text, record) => {
@@ -56,6 +97,48 @@ const OutwardDocketScreen = ({ currentPage }) => {
           </Button>
         );
       },
+    },
+    {
+      title: 'Action',
+      key: 'operation',
+      width: '7vw',
+      render: (text, record) => (
+        <div className='row justify-evenly'>
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            onClick={(e) => {
+              // setEditingId(record.id);
+              e.stopPropagation();
+            }}>
+            <Edit />
+          </Button>
+          <Popconfirm
+            title='Confirm Delete'
+            onConfirm={deleteHOC({
+              record,
+              reload,
+              api: deleteOutward,
+              success: 'Deleted Flow successfully',
+              failure: 'Error in deleting flow',
+            })}>
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                boxShadow: 'none',
+                border: 'none',
+                padding: '1px',
+              }}
+              onClick={(e) => e.stopPropagation()}>
+              <Delete />
+            </Button>
+          </Popconfirm>
+        </div>
+      ),
     },
   ];
 
@@ -92,6 +175,7 @@ const OutwardDocketScreen = ({ currentPage }) => {
         refresh={reload}
         tabs={tabs}
         size='middle'
+        editingId={editingId}
         title='Outward Docket'
         modalBody={OutwardDocketForm}
         modalWidth={80}

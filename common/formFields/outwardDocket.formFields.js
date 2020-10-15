@@ -24,12 +24,12 @@ export const outwardDocketFormFields = [
   },
   {
     key: 'sending_location',
-    rules: [{ required: true, message: 'Please select Sender Number!' }],
+    rules: [{ required: true, message: 'Please select Sender Client!' }],
     type: FORM_ELEMENT_TYPES.SELECT,
     kwargs: {
-      placeholder: 'Sender Number',
+      placeholder: 'Sender Client',
     },
-    customLabel: 'Sender Number',
+    customLabel: 'Sender Client',
   },
   {
     key: 'kit',

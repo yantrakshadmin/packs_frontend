@@ -1,23 +1,23 @@
-import React, {useState} from 'react';
-import {Form, Col, Row, Button, Divider, Spin} from 'antd';
-import formItem from '../hocs/formItem.hoc';
+import React, { useState } from 'react';
+import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import {
   materialRequestFormFields,
   materialRequestFlowFormFields,
 } from 'common/formFields/materialRequest.formFields';
-import {useAPI} from 'common/hooks/api';
-import {useHandleForm} from 'hooks/form';
-import {useControlledSelect} from '../hooks/useControlledSelect';
-import {createMr, editMr, retrieveMr} from 'common/api/auth';
-import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
+import { useAPI } from 'common/hooks/api';
+import { useHandleForm } from 'hooks/form';
+import { createMr, editMr, retrieveMr } from 'common/api/auth';
+import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import { useControlledSelect } from '../hooks/useControlledSelect';
+import formItem from '../hocs/formItem.hoc';
 
-export const MaterialRequestForm = ({id, onCancel, onDone}) => {
+export const MaterialRequestForm = ({ id, onCancel, onDone }) => {
   const [flowId, setFlowId] = useState(null);
 
-  const {data: flows} = useAPI('/myflows/', {});
-  const {data: kits} = useControlledSelect(flowId);
+  const { data: flows } = useAPI('/myflows/', {});
+  const { data: kits } = useControlledSelect(flowId);
 
-  const {form, submit, loading} = useHandleForm({
+  const { form, submit, loading } = useHandleForm({
     create: createMr,
     edit: editMr,
     retrieve: retrieveMr,
@@ -30,13 +30,13 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
   });
 
   const preProcess = (data) => {
-    const {flows} = data;
+    const { flows } = data;
     const newFlows = flows.map((flo) => ({
       flow: Number(flo.flow),
       kit: Number(flo.kit),
       quantity: Number(flo.quantity),
     }));
-    data['flows'] = newFlows;
+    data.flows = newFlows;
     console.log(data);
     submit(data);
   };
@@ -47,35 +47,35 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Material Request Details</Divider>
+      <Divider orientation='left'>Material Request Details</Divider>
       <Form
         onFinish={preProcess}
         form={form}
-        layout="vertical"
+        layout='vertical'
         hideRequiredMark
-        autoComplete="off"
+        autoComplete='off'
         onFieldsChange={handleFieldsChange}>
-        <Row style={{justifyContent: 'left'}}>
+        <Row style={{ justifyContent: 'left' }}>
           {materialRequestFormFields.slice(0, 1).map((item, idx) => (
             <Col span={24}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
 
-        <Divider orientation="left">Flow and Kit Details</Divider>
+        <Divider orientation='left'>Flow and Kit Details</Divider>
 
-        <Form.List name="flows">
-          {(fields, {add, remove}) => {
+        <Form.List name='flows'>
+          {(fields, { add, remove }) => {
             return (
               <div>
                 {fields.map((field, index) => (
-                  <Row align="middle">
+                  <Row align='middle'>
                     {materialRequestFlowFormFields.slice(0, 1).map((item) => (
                       <Col span={7}>
-                        <div className="p-2">
+                        <div className='p-2'>
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -105,7 +105,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
                     ))}
                     {materialRequestFlowFormFields.slice(1, 2).map((item) => (
                       <Col span={7}>
-                        <div className="p-2">
+                        <div className='p-2'>
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -139,7 +139,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
                     ))}
                     {materialRequestFlowFormFields.slice(2, 3).map((item) => (
                       <Col span={7}>
-                        <div className="p-2">
+                        <div className='p-2'>
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -156,25 +156,29 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
                     ))}
                     <Col span={3}>
                       <Button
-                        style={{width: '9vw'}}
-                        style={index != 0 ? {top: '-2vh'} : null}
-                        type="danger"
+                        style={{ width: '9vw' }}
+                        style={index != 0 ? { top: '-2vh' } : null}
+                        type='danger'
                         onClick={() => {
                           remove(field.name);
                         }}>
-                        <MinusCircleOutlined /> Delete
+                        <MinusCircleOutlined />
+                        {' '}
+                        Delete
                       </Button>
                     </Col>
                   </Row>
                 ))}
                 <Form.Item>
                   <Button
-                    type="dashed"
+                    type='dashed'
                     onClick={() => {
                       add();
                     }}
                     block>
-                    <PlusOutlined /> Add Item
+                    <PlusOutlined />
+                    {' '}
+                    Add Item
                   </Button>
                 </Form.Item>
               </div>
@@ -182,11 +186,11 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
           }}
         </Form.List>
         <Row>
-          <Button type="primary" htmlType="submit">
+          <Button type='primary' htmlType='submit'>
             Save
           </Button>
-          <div className="p-2" />
-          <Button type="primary" onClick={onCancel}>
+          <div className='p-2' />
+          <Button type='primary' onClick={onCancel}>
             Cancel
           </Button>
         </Row>

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useAPI } from 'common/hooks/api';
 import { Button, Col, Form, Row } from 'antd';
 import moment from 'moment';
-import formItem from '../../hocs/formItem.hoc';
-import { FORM_ELEMENT_TYPES } from '../../constants/formFields.constant';
-import { MasterHOC } from '../../hocs/Master.hoc';
+import formItem from 'hocs/formItem.hoc';
+import { FORM_ELEMENT_TYPES } from 'constants/formFields.constant';
+import { MasterHOC } from 'hocs/Master.hoc';
 
 export const InventoryScreen = () => {
   const { data: warehouses } = useAPI('/warehouse/', {});
