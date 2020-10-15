@@ -55,13 +55,28 @@ const OutwardDocketScreen = ({ currentPage }) => {
         </div>
       )
     },
-   {
+    {
       title:'Dispatch Date',
       dataIndex:'dispatch_date',
       key:'dispatch_date',
       render:(text)=>(
         <div>
           {dateFormatter(text)}
+        </div>
+      )
+    },
+    {
+      title:'Sending Location',
+      dataIndex:'sending_location',
+      key:'sending_location',
+      width: 400,
+      render:(location)=>(
+        <div>
+          {location.name}
+          {' '}
+          -
+          {' '}
+          {location.address}
         </div>
       )
     },

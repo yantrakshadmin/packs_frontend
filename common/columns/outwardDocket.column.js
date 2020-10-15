@@ -7,10 +7,6 @@ export const outwardDocketColumn = [
     dataIndex:'transaction_no',
     key:'transaction_no'
   },{
-    title:'Sending Location',
-    dataIndex:'sending_location',
-    key:'sending_location'
-  },{
     title:'Quantity Parts',
     dataIndex:'quantity_parts',
     key:'quantity_parts'
