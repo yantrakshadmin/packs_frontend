@@ -1,13 +1,8 @@
-export const OutwardDocketColumn = [
+import React from 'react';
+import { dateFormatter } from '../helpers/dateFomatter';
+
+export const outwardDocketColumn = [
   {
-    title:'Transaction Date',
-    dataIndex:'transaction_date',
-    key:'transaction_date'
-  },{
-    title:'Dispatch Date',
-    dataIndex:'dispatch_date',
-    key:'dispatch_date'
-  },{
     title:'Transaction Number',
     dataIndex:'transaction_no',
     key:'transaction_no'
@@ -15,14 +10,6 @@ export const OutwardDocketColumn = [
     title:'Sending Location',
     dataIndex:'sending_location',
     key:'sending_location'
-  },{
-    title:'Transaction Date',
-    dataIndex:'transaction_date',
-    key:'transaction_date'
-  },{
-    title:'kit',
-    dataIndex:'kit',
-    key:'kit'
   },{
     title:'Quantity Parts',
     dataIndex:'quantity_parts',
