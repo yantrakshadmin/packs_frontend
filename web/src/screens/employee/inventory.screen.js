@@ -137,7 +137,7 @@ export const InventoryScreen = () => {
             <Row justify='center'>
               <Col span={4}>
                 <Button type='primary' htmlType='submit'>
-                  Get Transits
+                  Submit
                 </Button>
               </Col>
             </Row>
@@ -158,7 +158,7 @@ export const InventoryScreen = () => {
           <MasterHOC
             size='small'
             data={reformattedTran}
-            title='In Transits'
+            title='Client Inventory'
             hideRightButton
             loading={invLoading}
             columns={column} />
