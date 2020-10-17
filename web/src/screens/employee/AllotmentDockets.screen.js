@@ -133,7 +133,6 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
               );
               if (req) if (req.document) {
                 window.open(req.document);
-                // navigate(req.document)
               }
               e.stopPropagation();
             }}>

@@ -8,18 +8,17 @@ const { Title } = Typography;
 
 export const BarcodeAllotmentDocket = ({ transaction,allot,setVisible }) =>{
   const [barcodes,setBarcodes] = useState([]);
+  const [limitsData,setLimitsData] = useState({  });
   const [productDetails,setProductDetails] = useState({
   });
   const { data:allotments ,error:altError,loading:altLoading } =
     useAPI(`dispatch-allotment-fetch/?allot=${allot}`)
   const [inputValue,setInputValue] = useState('');
 
-  useEffect(()=>{
-    const newArr = [];
-    if(allotments){
-      if(allotments.barcodes){
-        // barcodes.map((item)=>{newArr.push({barcode:item.slice(2,item.length-2)})})
-      }
+  useEffect(async ()=>{
+    if(allot){
+      const { data } = await loadAPI(`dispatch-allotment-validate/?id=${allot}`);
+      setLimitsData(data);
     }
   },[allot])
 
@@ -28,9 +27,18 @@ export const BarcodeAllotmentDocket = ({ transaction,allot,setVisible }) =>{
     const { data } = await loadAPI(`check-bar/?code=${value || inputValue}`);
 
     if(filtered.length===0 && data !== 0){
-      setBarcodes([...barcodes,{ barcode:value || inputValue,name:data }])
-      setProductDetails({ ...productDetails,
-        [data]:((productDetails[data]?productDetails[data]:0)+1) })
+      const shouldAdd = limitsData[data] >= 1+(productDetails[data]?productDetails[data]:0)
+      if(shouldAdd){
+        setBarcodes([...barcodes,{ barcode:value || inputValue,name:data }])
+        setProductDetails({ ...productDetails,
+          [data]:((productDetails[data]?productDetails[data]:0)+1) })
+      }else{
+        notification.warning({
+          message: `Limit Exceed`,
+          description:
+            `Sorry! No More ${data} can be added`,
+        });
+      }
     }
     else{
       notification.warning({
