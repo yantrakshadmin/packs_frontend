@@ -175,7 +175,7 @@ export const employeeRoutes = [
         Component: lazy(() => import('components/Reports/Return.js')),
       },
       {
-        name: 'Stocking',
+        name: 'Floating',
         path: '/reports/stocking/',
         Component: lazy(() => import('components/Reports/Stocking.js')),
       },  {
