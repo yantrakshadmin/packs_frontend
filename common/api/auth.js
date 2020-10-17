@@ -136,18 +136,18 @@ export const createOutward = (data) => (loadAPI('create-outward/',{
   data
 }))
 
-export const editOutward = (id,data) => (loadAPI(`edit-outward/${id}`,{
+export const editOutward = (id,data) => (loadAPI(`edit-outward/${id}/`,{
   method:'PATCH',
   secure:true,
   data
 }))
 
-export const deleteOutward = (id) => (loadAPI(`edit-outward/${id}`,{
+export const deleteOutward = (id) => (loadAPI(`edit-outward/${id}/`,{
   method:'Delete',
   secure:true,
 }))
 
-export const retrieveOutward = (id) => (loadAPI(`edit-outward/${id}`,{
+export const retrieveOutward = (id) => (loadAPI(`edit-outward/${id}/`,{
   method:'GET',
   secure:true,
 }))

@@ -127,7 +127,7 @@ const OutwardDocketScreen = ({ currentPage }) => {
               padding: '1px',
             }}
             onClick={(e) => {
-              // setEditingId(record.id);
+              setEditingId(record.id);
               e.stopPropagation();
             }}>
             <Edit />

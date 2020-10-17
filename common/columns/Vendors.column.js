@@ -3,11 +3,13 @@ export default [
     title: 'Name',
     key: 'name',
     dataIndex: 'name',
+    width:'16vw',
   },
 
   {
     title: 'Email',
     key: 'email',
+    width:'16vw',
     dataIndex: 'email',
   },
   // {

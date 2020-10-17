@@ -27,13 +27,20 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
 
   const { form, submit, loading } = useHandleForm({
     create: createOutward,
-    edit: editOutward,
-    retrieve: retrieveOutward,
+    edit:editOutward,
+    retrieve:
+      async (fetchId)=>{
+        const response = await retrieveOutward(fetchId);
+        const { data } = response;
+        console.log('Edit Ggg',data,'')
+        return { ...response, data:{ ...data,kit:data.kit.id,sending_location:data.sending_location.id } }
+      },
     success: 'Outward Docket created/edited successfully.',
     failure: 'Error in creating/editing Outward Docket.',
     done: onDone,
     close: onCancel,
     id,
+    dates: ['dispatch_date','transaction_date'],
   });
 
   return (
@@ -57,14 +64,14 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
           ))}
           {outwardDocketFormFields.slice(3, 4).map((item, idx) => (
             <Col span={6}>
-               <div key={idx.toString()} className='p-2'>
+              <div key={idx.toString()} className='p-2'>
                 {formItem({ ...item,others: {
                   selectOptions:receiverClients,
                   key: 'id',
                   customTitle: 'name',
                   dataKeys: ['address',],
                 }, })}
-               </div>
+              </div>
             </Col>
           ))}
         </Row>
@@ -72,12 +79,12 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
           {outwardDocketFormFields.slice(4, 5).map((item, idx) => (
             <Col span={6}>
               <div key={idx.toString()} className='p-2'>
-                 {formItem({ ...item,others:{
+                {formItem({ ...item,others:{
                   selectOptions:kits || [],
                   key: 'id',
                   customTitle: 'kit_name',
                   dataKeys: ['kit_info','kit_type'],
-                 } } )}
+                } } )}
               </div>
             </Col>
           ))}
