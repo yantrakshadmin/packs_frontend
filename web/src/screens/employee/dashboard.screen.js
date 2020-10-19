@@ -149,7 +149,7 @@ export const DashboardScreen = () => {
       </Menu.Item>
       {rClients.map((key)=>(
         <Menu.Item>
-          <Button type='link' onClick={()=>{setRClientSelected(key)}}>
+          <Button type='link' onClick={()=>{setRClientSelected(key.replaceAll('&','%26'))}}>
             {key}
           </Button>
         </Menu.Item>
@@ -176,7 +176,7 @@ export const DashboardScreen = () => {
           <Button
             type='link'
             disabled={key===sClientSelected}
-            onClick={()=>{setSClientSelected(key)}}>
+            onClick={()=>{setSClientSelected(key.replaceAll('&','%26'))}}>
             {key}
           </Button>
         </Menu.Item>
@@ -202,7 +202,7 @@ export const DashboardScreen = () => {
           <Button
             type='link'
             disabled={key===sKitType}
-            onClick={()=>{setSKitType(key)}}>
+            onClick={()=>{setSKitType(key.replaceAll('&','%26'))}}>
             {key}
           </Button>
         </Menu.Item>
