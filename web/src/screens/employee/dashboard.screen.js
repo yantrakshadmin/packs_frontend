@@ -163,38 +163,50 @@ export const DashboardScreen = () => {
   const menuSClients = sClients?(
     <Menu>
       <Menu.Item>
-        <Button type='link' onClick={()=>{setSClientSelected('All Clients')}}>
+        <Button
+          type='link'
+          onClick={()=>{
+            setSClientSelected(undefined);
+          }}>
           All Clients
         </Button>
       </Menu.Item>
-      <Menu.SubMenu title='Clients'>
-        {sClients.map((key)=>(
-          <Menu.Item>
-            <Button
-              type='link'
-              disabled={key===sClientSelected}
-              onClick={()=>{setSClientSelected(key)}}>
-              {key}
-            </Button>
-          </Menu.Item>
-        ))}
-      </Menu.SubMenu>
-      <Menu.SubMenu title='Kit Types'>
-        {kitTypes.map((key)=>(
-          <Menu.Item>
-            <Button
-              type='link'
-              disabled={key===sKitType}
-              onClick={()=>{setSKitType(key)}}>
-              {key}
-            </Button>
-          </Menu.Item>
-        ))}
-      </Menu.SubMenu>
+      {sClients.map((key)=>(
+        <Menu.Item>
+          <Button
+            type='link'
+            disabled={key===sClientSelected}
+            onClick={()=>{setSClientSelected(key)}}>
+            {key}
+          </Button>
+        </Menu.Item>
+      ))}
     </Menu>
   ):(
     <Menu>
       <Menu.Item danger>No Data</Menu.Item>
+    </Menu>
+  )
+  const menuSKits =(
+    <Menu>
+      <Menu.Item>
+        <Button
+          type='link'
+          onClick={()=>{
+            setSKitType(undefined)}}>
+          All Kits
+        </Button>
+      </Menu.Item>
+      {kitTypes.map((key)=>(
+        <Menu.Item>
+          <Button
+            type='link'
+            disabled={key===sKitType}
+            onClick={()=>{setSKitType(key)}}>
+            {key}
+          </Button>
+        </Menu.Item>
+      ))}
     </Menu>
   )
 
@@ -218,7 +230,10 @@ export const DashboardScreen = () => {
       <Card type='inner' title='Allotment and Return Stats'>
         <Row justify='center' gutter={32}>
           <Col span={12}>
-            <FilterDropdown menu={menuSClients} />
+            <div className='row'>
+              <FilterDropdown menu={menuSClients} />
+              <FilterDropdown menu={menuSKits} />
+            </div>
             <Bar
               data={allotmentChartData}
               height={125}
@@ -226,7 +241,8 @@ export const DashboardScreen = () => {
             />
             <div className='row justify-center'>
               <Paragraph>
-                {sClientSelected}
+                {sClientSelected || 'All Clients'}
+                {sKitType &&sClientSelected ?` - ${sKitType}`:(sKitType || ' - All Kits')  }
               </Paragraph>
             </div>
           </Col>
