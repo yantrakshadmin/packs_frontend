@@ -241,8 +241,10 @@ export const DashboardScreen = () => {
             />
             <div className='row justify-center'>
               <Paragraph>
-                {sClientSelected || 'All Clients'}
-                {sKitType &&sClientSelected ?` - ${sKitType}`:(sKitType || ' - All Kits')  }
+                {sClientSelected?sClientSelected.replaceAll('%26','&') : 'All Clients'}
+                {/* eslint-disable-next-line no-nested-ternary */}
+                {sKitType &&sClientSelected ?
+                  ` - ${sKitType}`:(sKitType?sKitType.replaceAll('%26','&') :' - All Kits')  }
               </Paragraph>
             </div>
           </Col>
@@ -255,7 +257,7 @@ export const DashboardScreen = () => {
             />
             <div className='row justify-center'>
               <Paragraph>
-                {rClientSelected}
+                {rClientSelected.replaceAll('%26','&')}
               </Paragraph>
             </div>
           </Col>
@@ -309,7 +311,8 @@ export const DashboardScreen = () => {
             />
             <div className='row justify-center'>
               <Paragraph>
-                {clientStatsFiltered.length>0?clientStatsFiltered[clientStatIndex].Clients:null}
+                {clientStatsFiltered.length>0?
+                  clientStatsFiltered[clientStatIndex].Clients:null}
               </Paragraph>
             </div>
           </Col>
