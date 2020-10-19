@@ -151,7 +151,7 @@ export const retrieveOutward = (id) => (loadAPI(`edit-outward/${id}/`,{
   method:'GET',
   secure:true,
 }))
-export const retrieveOutwardDocket = (id) => (loadAPI(`outwards/?id=${id}/`,{
+export const retrieveOutwardDocket = (id) => (loadAPI(`outwards/?id=${id}`,{
   method:'GET',
   secure:true,
 }))

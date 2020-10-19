@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import returnColumns from 'common/columns/Return.column';
 import { Input, Button, Popconfirm } from 'antd';
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
@@ -7,7 +6,6 @@ import { Link } from '@reach/router';
 import { useAPI } from 'common/hooks/api';
 import { deleteFlow, deleteOutward } from 'common/api/auth';
 import { outwardDocketColumn } from 'common/columns/outwardDocket.column';
-import { dateFormatter, utcDateFormatter } from 'common/helpers/dateFomatter';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { OutwardDocketForm } from '../../forms/OutwardDocket.form';
 import Edit from '../../icons/Edit';
@@ -38,7 +36,6 @@ const OutwardDocketScreen = ({ currentPage }) => {
       setReqData(reqD);
     }
   }, [outwards]);
-  console.log(outwards,"outwards")
   const columns = [
     {
       title: 'Sr. No.',
@@ -51,7 +48,7 @@ const OutwardDocketScreen = ({ currentPage }) => {
       key:'transaction_date',
       render:(text)=>(
         <div>
-          {dateFormatter(text)}
+          {text.slice(0, 10)}
         </div>
       )
     },
@@ -61,7 +58,7 @@ const OutwardDocketScreen = ({ currentPage }) => {
       key:'dispatch_date',
       render:(text)=>(
         <div>
-          {dateFormatter(text)}
+          {text.slice(0, 10)}
         </div>
       )
     },
