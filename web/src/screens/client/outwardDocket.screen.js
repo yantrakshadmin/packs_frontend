@@ -99,11 +99,10 @@ const OutwardDocketScreen = ({ currentPage }) => {
       title: 'Docket',
       key: 'docket',
       render: (text, record) => {
-        console.log(record);
         return (
           <Button type='primary'>
             <Link
-              to='../return-docket/'
+              to={`../outward-docket/${record.id}`}
               state={{ id: record.id }}
               key={record.id}
               style={{ textDecoration: 'none' }}>

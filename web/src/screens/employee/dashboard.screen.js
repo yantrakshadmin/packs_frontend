@@ -10,6 +10,7 @@ import { Map } from './map.screen';
 import { MasterHOC } from '../../hocs/Master.hoc';
 
 const { Paragraph } = Typography;
+const kitTypes = ['FLC', 'FSC', 'Crate','PP Box',]
 
 export const DashboardScreen = () => {
   const [allotmentChartData,setAllotmentChartData] = useState(initialChart('Allotments by Months'));
@@ -29,11 +30,12 @@ export const DashboardScreen = () => {
   );
   const [clientStatIndex,setClientStatIndex] = useState(0);
   const [rClientSelected,setRClientSelected] = useState('All Clients');
-  const [sClientSelected,setSClientSelected] = useState('All Clients');
+  const [sClientSelected,setSClientSelected] = useState(undefined);
+  const [sKitType,setSKitType] = useState(undefined)
   const { data: allotments } = useAPI('/cal/', {});
   const { data: returns } = useAPI('/cal-r/', {});
-  const { data: chartAllot } = useAPI(sClientSelected !== 'All Clients'?
-    `/allot-graph/?sc=${sClientSelected}`:'/allot-graph/', {});
+  const [allotCharUrl ,setAllotChartUrl ] = useState('/allot-graph/');
+  const { data: chartAllot } = useAPI(allotCharUrl, {});
   const { data: chartReturn } = useAPI(rClientSelected !== 'All Clients'
     ?`/return-graph/?rc=${rClientSelected}`:'/return-graph/', {});
   const { data: rClients } = useAPI('/names-rc/', {});
@@ -42,7 +44,20 @@ export const DashboardScreen = () => {
   const [clientStatsFiltered,setClientStatsFiltered ]
   = useState([]);
 
-
+  useEffect(()=>{
+    if(sClientSelected !== undefined && sKitType !==undefined ){
+      setAllotChartUrl(`/allot-graph/?sc=${sClientSelected}&type=${sKitType}`)
+    }
+    else if(sClientSelected === undefined && sKitType !==undefined ){
+      setAllotChartUrl(`/allot-graph/?type=${sKitType}`)
+    }
+    else if(sClientSelected !== undefined && sKitType ===undefined){
+      setAllotChartUrl(`/allot-graph/?sc=${sClientSelected}`)
+    }
+    else{
+      setAllotChartUrl(`/allot-graph/`)
+    }
+  },[sClientSelected,sKitType])
   useEffect(()=>{
     const chartAllotData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     if(chartAllot){
@@ -152,13 +167,30 @@ export const DashboardScreen = () => {
           All Clients
         </Button>
       </Menu.Item>
-      {sClients.map((key)=>(
-        <Menu.Item>
-          <Button type='link' onClick={()=>{setSClientSelected(key)}}>
-            {key}
-          </Button>
-        </Menu.Item>
-      ))}
+      <Menu.SubMenu title='Clients'>
+        {sClients.map((key)=>(
+          <Menu.Item>
+            <Button
+              type='link'
+              disabled={key===sClientSelected}
+              onClick={()=>{setSClientSelected(key)}}>
+              {key}
+            </Button>
+          </Menu.Item>
+        ))}
+      </Menu.SubMenu>
+      <Menu.SubMenu title='Kit Types'>
+        {kitTypes.map((key)=>(
+          <Menu.Item>
+            <Button
+              type='link'
+              disabled={key===sKitType}
+              onClick={()=>{setSKitType(key)}}>
+              {key}
+            </Button>
+          </Menu.Item>
+        ))}
+      </Menu.SubMenu>
     </Menu>
   ):(
     <Menu>
