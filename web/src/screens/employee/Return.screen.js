@@ -76,16 +76,14 @@ const ReturnDocketsScreen = ({ currentPage }) => {
       render: (text, record) => {
         return (
           <div className='row align-center justify-evenly'>
-            <Link
-              to={`../return-docket/${record.transaction_no}`}
-              state={{ id: record.id }}
-              key={record.id}
-              style={{ textDecoration: 'none' }}>
+            <a
+              href={`../return-docket/${record.transaction_no}`}
+              target='_blank'
+              rel='noreferrer'>
               <FontAwesomeIcon
                 icon={faMoneyCheck}
-                onClick={()=>{setVisible(true)}}
                 style={{ fontSize:20 }} />
-            </Link>
+            </a>
             <FontAwesomeIcon
               className='mx-2 icon-bg'
               icon={faTruckLoading}

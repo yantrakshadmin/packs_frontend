@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Col,Row,Modal , Popconfirm, Input,Typography ,Button } from 'antd'
+import { Col, Row, Modal, Popconfirm, Input, Typography, Button, List } from 'antd';
 import { faTruckLoading ,faMoneyCheck } from  '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import allotmentColumns from 'common/columns/Allotment.column';
@@ -83,18 +83,11 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
       render: (text, record) => {
         return (
           <div className='row align-center justify-evenly'>
-            <Link
-              to={`../docket/${record.transaction_no}`}
-              // state={{ id: record.id, }}
-              state={{ id: record.transaction_no, }}
-              key={record.id}
-              className='mx-2'
-              style={{ textDecoration: 'none' }}>
+            <a href={`../docket/${record.transaction_no}`} target='_blank' rel='noreferrer'>
               <FontAwesomeIcon
                 icon={faMoneyCheck}
-                onClick={()=>{setVisible(true)}}
                 style={{ fontSize:20 }} />
-            </Link>
+            </a>
             <FontAwesomeIcon
               className='mx-2 icon-bg'
               icon={faTruckLoading}

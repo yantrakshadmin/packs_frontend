@@ -16,18 +16,16 @@ const ReturnDocket = ({ location }) => {
 
   useEffect(() => {
     const fetchReturn = async () => {
-    if(location.state){
-      if(location.state.id){
-        const { data } = await retrieveReturnDocket(location.state.id);
-        if (data) setReqReturn(data);
-        console.log(data);
-      }}
+      if(location.state){
+        if(location.state.id){
+          const { data } = await retrieveReturnDocket(location.state.id);
+          if (data) setReqReturn(data);
+        }}
       else{
-      const len = location.pathname.length
-      const id = location.pathname.slice(24,len);
+        const len = location.pathname.length
+        const id = location.pathname.slice(24,len);
         const { data } = await retrieveReturnDocketCaleder(id);
         if (data) setReqReturn(data);
-        console.log(data);
       }
     };
     fetchReturn();
