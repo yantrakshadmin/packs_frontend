@@ -81,7 +81,7 @@ export const InventoryScreen = () => {
                     customTitle: 'name',
                   },
                   type: FORM_ELEMENT_TYPES.SELECT,
-                  customLabel: 'Client',
+                  customLabel: 'Warehouse',
                 })}
               </Col>
               <Col span={8}>
@@ -94,7 +94,7 @@ export const InventoryScreen = () => {
                   },
                   type: FORM_ELEMENT_TYPES.DATE,
                   others: null,
-                  customLabel: 'From',
+                  customLabel: 'Date',
                 })}
               </Col>
             </Row>
