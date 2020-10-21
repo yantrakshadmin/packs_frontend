@@ -38,7 +38,7 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
   useEffect(() => {
     const fetchDelivered = async () => {
       const { data } = await allReceived();
-      console.log(data,'ye wala data')
+      console.log(data,'REceived form')
       if (data) {
         const dlvd = data.filter((d) => d.returndocket === id)[0];
         if (dlvd) {
@@ -151,7 +151,7 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
 
     await submit(req);
   };
-
+  console.log("return form")
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Delivery Details</Divider>

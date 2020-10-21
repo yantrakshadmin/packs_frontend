@@ -40,8 +40,8 @@ const ReturnForm = ({ location }) => {
     success: 'Return created/edited successfully.',
     failure: 'Error in creating/editing return.',
     id: location.state.id,
-    done: () => navigate('../'),
-    close: () => navigate('../'),
+    done: () => navigate('../../employee/return-dockets/'),
+    close: () => navigate('../../employee/return-dockets/'),
   });
 
   useEffect(() => {
@@ -478,7 +478,7 @@ const ReturnForm = ({ location }) => {
             Save
           </Button>
           <div className='p-2' />
-          <Button type='primary' onClick={() => navigate('../')}>
+          <Button type='primary' onClick={() => navigate('../../employee/return-dockets/')}>
             Cancel
           </Button>
         </Row>

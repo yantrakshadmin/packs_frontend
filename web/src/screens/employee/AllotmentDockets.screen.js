@@ -85,7 +85,8 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
           <div className='row align-center justify-evenly'>
             <Link
               to={`../docket/${record.transaction_no}`}
-              state={{ id: record.id }}
+              // state={{ id: record.id, }}
+              state={{ id: record.transaction_no, }}
               key={record.id}
               className='mx-2'
               style={{ textDecoration: 'none' }}>

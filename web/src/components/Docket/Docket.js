@@ -13,18 +13,19 @@ const Docket = ({ location,match }) => {
   const [allotment, setAllotment] = useState(null);
   const [total, setTotal] = useState(0);
 
-  useEffect(() => {
+  useEffect(async () => {
     const fetchAllotment = async () => {
-      console.log(location,match,"asdfa")
       if(location.state){
         if(location.state.id){
-          const { data } = await retrieveAllotments(location.state.id);
+          const { data } = await retrieveAllotmentsCalender(location.state.id);
+          // const { data } = await retrieveAllotments(location.state.id);
           if (data) setAllotment(data);
         }}
       else{
         const len = location.pathname.length
         const id = location.pathname.slice(17,len);
         const { data } = await retrieveAllotmentsCalender(id)
+        console.log(data,id,"ye wala")
         if (data) setAllotment(data);
       }
     };
