@@ -14,7 +14,6 @@ export const PREPProductDetailsFormFields = [
   {
     key: 'part_number',
     kwargs: {
-      type: 'number',
       placeholder: 'Part Number',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
@@ -71,5 +70,85 @@ export const PREPProductDetailsFormFields = [
       placeholder: 'Height',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
+  },
+  {
+    key: 'hm_volume',
+    kwargs: {
+      placeholder: 'Highest Monthly Volume',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Highest Monthly Volume',
+  },{
+    key: 'lm_volume',
+    kwargs: {
+      placeholder: 'Lowest Monthly Volume',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Lowest Monthly Volume',
+  },
+  {
+    key: 'avg_dispatch_lot_size',
+    kwargs: {
+      placeholder: 'Average Dispatch Lot Size',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Average Dispatch Lot Size',
+  },
+  {
+    key: 'current_trans_mode',
+    kwargs: {
+      placeholder: 'Current Transportation Mode',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Current Transportation Mode',
+  },
+  {
+    key: 'critical_Area',
+    kwargs: {
+      placeholder: 'Critical Area, If Any?',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Critical Area, If Any?',
+  },
+  {
+    key: 'new_part_or_existing_flow',
+    kwargs: {
+      placeholder: 'New Part or Existing flow?',
+    },
+    type: FORM_ELEMENT_TYPES.SWITCH,
+    customLabel: 'New Part or Existing flow?',
+  },
+
+  {
+    key: 'greasy_or_oily',
+    kwargs: {
+      placeholder: 'Is Part Greasy or Oily?',
+    },
+    type: FORM_ELEMENT_TYPES.SWITCH,
+    customLabel: 'Is Part Greasy or Oily?',
+  },
+  {
+    key: 'part_cad_data',
+    kwargs: {
+      placeholder: 'Part CAD Data (2D, 3D drawing, if available)',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Part CAD Data',
+  },
+  {
+    key: 'precautions',
+    kwargs: {
+      placeholder: 'Precautions to be consider?',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Precautions or Special Measures?',
+  },
+  {
+    key: 'product_remark',
+    kwargs: {
+      placeholder: 'Remark',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Remark',
   },
 ]

@@ -19,5 +19,13 @@ export const PREPCycleTimeFormFields = [
       type:'number',
       placeholder: 'Maximum Days',
     },
+  },{
+    key: 'yantra_cycle',
+    customLabel: 'Yantra Cycle',
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    kwargs: {
+      placeholder: 'Yantra Cycle',
+    },
   },
 ]

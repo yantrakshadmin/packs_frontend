@@ -76,8 +76,15 @@ export const PFEPSolutionRequiredForm = ({ id, onCancel,onDone,onNext }) => {
         autoComplete='off'
       >
         <Row style={{ justifyContent: 'left' }}>
-          {PREPSolutionRequiredFormFields.slice(4, 7).map((item, idx) => (
-            <Col span={6}>
+          {PREPSolutionRequiredFormFields.slice(10,11).map((item, idx) => (
+            <Col span={4}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+          {PREPSolutionRequiredFormFields.slice(11,15).map((item, idx) => (
+            <Col span={5}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
               </div>
@@ -92,7 +99,39 @@ export const PFEPSolutionRequiredForm = ({ id, onCancel,onDone,onNext }) => {
               </div>
             </Col>
           ))}
+          {PREPSolutionRequiredFormFields.slice(4, 6).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+          {PREPSolutionRequiredFormFields.slice(6, 8).map((item, idx) => (
+            <Col span={5}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
         </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {PREPSolutionRequiredFormFields.slice(8, 10).map((item, idx) => (
+            <Col span={8}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        {/*<Row style={{ justifyContent: 'left' }}>*/}
+        {/*  {PREPSolutionRequiredFormFields.slice(5, 10).map((item, idx) => (*/}
+        {/*    <Col span={2}>*/}
+        {/*      <div key={idx.toString()} className='p-2'>*/}
+        {/*        {formItem(item)}*/}
+        {/*      </div>*/}
+        {/*    </Col>*/}
+        {/*  ))}*/}
+        {/*</Row>*/}
         <Row>
           <Button type='primary' htmlType='submit'>
             Submit

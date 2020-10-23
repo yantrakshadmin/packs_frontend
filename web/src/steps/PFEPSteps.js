@@ -6,11 +6,11 @@ export const PFEPSteps = [
     icon: 'user',
     component: lazy(() => import('web/src/forms/PFEP/PFEPBasicDetails.form')),
   },
-  {
-    title: 'PFEP Creation',
-    icon: 'solution',
-    component: lazy(() => import('web/src/forms/PFEP/PFEPCreation.form')),
-  },
+  // {
+  //   title: 'PFEP Creation',
+  //   icon: 'solution',
+  //   component: lazy(() => import('web/src/forms/PFEP/PFEPCreation.form')),
+  // },
   {
     title: 'Product Details',
     icon: 'file-protect',
@@ -21,11 +21,11 @@ export const PFEPSteps = [
     icon: 'user-add',
     component: lazy(() => import('web/src/forms/PFEP/PFEPExsitingPM.form')),
   },
-  {
-    title: 'Cycle Time',
-    icon: 'user',
-    component: lazy(() => import('web/src/forms/PFEP/PFEPCycleTIme.form')),
-  },
+  // {
+  //   title: 'Cycle Time',
+  //   icon: 'user',
+  //   component: lazy(() => import('web/src/forms/PFEP/PFEPCycleTIme.form')),
+  // },
   {
     title: 'Stock Keeping',
     icon: 'solution',
@@ -36,11 +36,11 @@ export const PFEPSteps = [
     icon: 'file-protect',
     component: lazy(() => import('web/src/forms/PFEP/PFEPTouchPoints.form')),
   },
-  {
-    title: 'Material Handling Equipments',
-    icon: 'user-add',
-    component: lazy(() => import('web/src/forms/PFEP/PFEPMaterialHandlingEquipment.form')),
-  },
+  // {
+  //   title: 'Material Handling Equipments',
+  //   icon: 'user-add',
+  //   component: lazy(() => import('web/src/forms/PFEP/PFEPMaterialHandlingEquipment.form')),
+  // },
   {
     title: 'Solution Required',
     icon: 'user-add',

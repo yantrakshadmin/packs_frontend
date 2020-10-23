@@ -64,8 +64,8 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {PREPExistingPMFormFields.slice(8, 11).map((item, idx) => (
-            <Col span={8}>
+          {PREPExistingPMFormFields.slice(8, 12).map((item, idx) => (
+            <Col span={6}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
               </div>
@@ -73,8 +73,24 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {PREPExistingPMFormFields.slice(11, 13).map((item, idx) => (
-            <Col span={8}>
+          {PREPExistingPMFormFields.slice(12, 16).map((item, idx) => (
+            <Col span={6}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {PREPExistingPMFormFields.slice(16, 17).map((item, idx) => (
+            <Col span={4}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+          {PREPExistingPMFormFields.slice(17, 21).map((item, idx) => (
+            <Col span={5}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
               </div>

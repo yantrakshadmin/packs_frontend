@@ -68,6 +68,33 @@ export const PFEPProductDetailsForm = ({ id, onCancel,onDone,onNext }) => {
             </Col>
           ))}
         </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {PREPProductDetailsFormFields.slice(8,12).map((item, idx) => (
+            <Col span={6}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {PREPProductDetailsFormFields.slice(12,15).map((item, idx) => (
+            <Col span={8}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {PREPProductDetailsFormFields.slice(15,18).map((item, idx) => (
+            <Col span={8}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
         <Row justify='space-between'>
           <div className='row'>
             <Button type='primary' htmlType='submit' disabled>

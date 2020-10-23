@@ -11,8 +11,8 @@ export const BarcodeAllotmentDocket = ({ transaction,allot,setVisible }) =>{
   const [limitsData,setLimitsData] = useState({  });
   const [productDetails,setProductDetails] = useState({
   });
-  const { data:allotments ,error:altError,loading:altLoading } =
-    useAPI(`dispatch-allotment-fetch/?allot=${allot}`)
+  // const { data:allotments ,error:altError,loading:altLoading } =
+  //   useAPI(`dispatch-allotment-fetch/?allot=${allot}`)
   const [inputValue,setInputValue] = useState('');
 
   useEffect(async ()=>{

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_DATA } from 'common/actions';
 import { PREPStockKeepingFormFields } from 'common/formFields/PFEP/PFEPStockKeeping.formFields';
 import { ArrowRightOutlined } from '@ant-design/icons';
+import { PREPCycleTimeFormFields } from 'common/formFields/PFEP/PFEPCycleTIme.formFields';
 
 export const PFEPStockKeepingForm = ({ id, onCancel,onDone,onNext }) => {
   const [loading,setLoading] = useState(false);
@@ -31,7 +32,6 @@ export const PFEPStockKeepingForm = ({ id, onCancel,onDone,onNext }) => {
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation='left'>Stock Keeping</Divider>
       <Form
         onFinish={submit}
         initialValues={{
@@ -47,6 +47,7 @@ export const PFEPStockKeepingForm = ({ id, onCancel,onDone,onNext }) => {
         // hideRequiredMark
         autoComplete='off'
       >
+        <Divider orientation='left'>Stock Keeping</Divider>
         <Row style={{ justifyContent: 'left' }}>
           {PREPStockKeepingFormFields.slice(0, 3).map((item, idx) => (
             <Col span={8}>
@@ -58,6 +59,16 @@ export const PFEPStockKeepingForm = ({ id, onCancel,onDone,onNext }) => {
         </Row>
         <Row style={{ justifyContent: 'left' }}>
           {PREPStockKeepingFormFields.slice(3, 6).map((item, idx) => (
+            <Col span={8}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Divider orientation='left'>Cycle Time</Divider>
+        <Row style={{ justifyContent: 'left' }}>
+          {PREPCycleTimeFormFields.slice(0, 3).map((item, idx) => (
             <Col span={8}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}

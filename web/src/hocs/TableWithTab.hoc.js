@@ -49,7 +49,6 @@ const TableWithTabHOC = ({
   };
 
   const onCancel = () => {
-    console.log('ye wala')
     setModalVisible(false);
     cancelEditing();
     if(onCancelButton){
