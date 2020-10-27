@@ -40,6 +40,7 @@ const ReturnDocket = ({ location }) => {
           k.items.map((item) => {
             tot += item.quantity * item.product.priceperunit;
             wt += item.product.volumetric_weight * item.quantity;
+            console.log(item.product)
           });
         });
       }
