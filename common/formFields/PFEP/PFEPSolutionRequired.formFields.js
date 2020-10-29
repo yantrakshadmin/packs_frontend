@@ -6,6 +6,7 @@ export const PREPSolutionRequiredFormFields = [
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
       defaultValue:false,
+      formOptions:{ noStyle:true }
     },
     customLabel: 'FLC',
   },
@@ -14,7 +15,7 @@ export const PREPSolutionRequiredFormFields = [
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
       defaultValue:false,
-
+      formOptions:{ noStyle:true }
     },
     customLabel: 'FSC',
   },
@@ -23,6 +24,7 @@ export const PREPSolutionRequiredFormFields = [
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
       defaultValue:false,
+      formOptions:{ noStyle:true }
     },
     customLabel: 'Crate',
   },
@@ -31,13 +33,16 @@ export const PREPSolutionRequiredFormFields = [
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
       defaultValue:false,
+      formOptions:{ noStyle:true }
     },
     customLabel: 'PP Box',
-  }, {
+  },
+  {
     key: 'plastic_pallet',
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
       defaultValue:false,
+      formOptions:{ noStyle:true }
     },
     customLabel: 'Plastic Pallet',
   },
@@ -47,6 +52,7 @@ export const PREPSolutionRequiredFormFields = [
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
       defaultValue:false,
+      formOptions:{ noStyle:true }
     },
     customLabel: 'Palletized Crate',
   },
@@ -55,36 +61,56 @@ export const PREPSolutionRequiredFormFields = [
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
       defaultValue:false,
+      formOptions:{ noStyle:true }
     },
     customLabel: 'Palletized Box Solution',
   },
-  {
-    key: 'multiple_parts_in_single_packet',
-    type: FORM_ELEMENT_TYPES.SWITCH,
-    customLabel: 'Multiple Parts in Single Packet',
-  },
+
   {
     key: 'parts_to_part_contact',
     type: FORM_ELEMENT_TYPES.SWITCH,
     customLabel: 'Part to Part Contact Permissible',
+    others: {
+      defaultValue:false,
+      formOptions:{ noStyle:true }
+    },
   },
   {
     key: 'stacking_or_nesting_of_parts',
     type: FORM_ELEMENT_TYPES.SWITCH,
     customLabel: 'Stacking or Nesting of parts',
+    others: {
+      formOptions:{ noStyle:true }
+    } },
+  {
+    key: 'multiple_parts_in_single_packet',
+    type: FORM_ELEMENT_TYPES.INPUT,
+    kwargs: {
+      placeholder: 'Multiple Parts in Single Packet',
+    },
+    customLabel: 'Multiple Parts in Single Packet',
+    others: {
+      formOptions:{ noStyle:true }
+    },
   },
   {
     key: 'min_max_margin',
     kwargs: {
-      placeholder: 'Minimum or Maximum Margin from Wall',
+      placeholder: 'Min/Max Margin from Wall',
+    },
+    others: {
+      formOptions:{ noStyle:true }
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Minimum or Maximum Margin from Wall',
+    customLabel: 'Min/Max Margin from Wall',
   },
   {
     key: 'other_specification',
     kwargs: {
       placeholder: 'Other Specification',
+    },
+    others: {
+      formOptions:{ noStyle:true }
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Other Specification',
@@ -94,6 +120,9 @@ export const PREPSolutionRequiredFormFields = [
     kwargs: {
       placeholder: 'Part Orientation',
     },
+    others: {
+      formOptions:{ noStyle:true }
+    },
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Part Orientation',
   },
@@ -102,18 +131,9 @@ export const PREPSolutionRequiredFormFields = [
     kwargs: {
       placeholder: 'Parts/PM',
     },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Parts/PM',
-  },
-  {
-    key: 'status',
-    kwargs: {
-      placeholder: 'Select',
-    },
-    type: FORM_ELEMENT_TYPES.SELECT,
     others: {
-      selectOptions: ['TP Shared', 'CP Shared', 'TP Approved',
-        'CP Approved','Trials Done','Trials Approved','ESA Signed','Flow started'],
-    },
+      formOptions:{ noStyle:true }
+    },  type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Parts/PM',
   },
 ]

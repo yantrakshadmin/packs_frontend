@@ -70,6 +70,7 @@ export const PFEPStockKeepingForm = ({ id, onCancel,onDone,onNext }) => {
             </Col>
           ))}
         </Row>
+        <Divider orientation='left'>Touch Points</Divider>
         <Form.List name='tp'>
           {(fields, { add, remove }) => {
             return (

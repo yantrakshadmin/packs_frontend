@@ -6,7 +6,7 @@ import { ADD_PFEP_DATA } from 'common/actions';
 import { PREPSolutionRequiredFormFields }
   from 'common/formFields/PFEP/PFEPSolutionRequired.formFields';
 import { createPFEP, editPFEP } from 'common/api/auth';
-import { DownOutlined } from '@ant-design/icons'
+import { ArrowRightOutlined, DownOutlined } from '@ant-design/icons';
 
 const { Item }  = Menu;
 
@@ -96,13 +96,18 @@ export const PFEPSolutionRequiredForm = ({  onCancel,onNext }) => {
             <br />
           </Col>
         </Row>
-        <Row>
-          <Button type='primary' htmlType='submit'>
-            Submit
-          </Button>
-          <div className='p-2' />
-          <Button type='primary' onClick={onCancel}>
-            Cancel
+        <Row justify='space-between'>
+          <div className='row'>
+            <Button type='primary' htmlType='submit'>
+              Submit
+            </Button>
+            <div className='p-2' />
+            <Button type='primary' onClick={onCancel}>
+              Cancel
+            </Button>
+          </div>
+          <Button type='link' htmlType='submit'>
+            <ArrowRightOutlined style={{ fontSize:30 }}  />
           </Button>
         </Row>
       </Form>

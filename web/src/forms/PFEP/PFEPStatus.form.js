@@ -109,9 +109,6 @@ export const PFEPStatusForm = ({ id, onCancel,onDone }) => {
               Cancel
             </Button>
           </div>
-          <Button type='link' htmlType='submit'>
-            <ArrowRightOutlined style={{ fontSize:30 }}  />
-          </Button>
         </Row>
       </Form>
     </Spin>

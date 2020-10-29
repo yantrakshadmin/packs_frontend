@@ -1,6 +1,61 @@
 import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 
 export const PREPExistingPMFormFields = [
+
+  {
+    key: 'packaging_length',
+    kwargs: {
+      type: 'number',
+      placeholder: 'Packaging Length',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Packaging Length(mm)',
+  },
+  {
+    key: 'packaging_breadth',
+    kwargs: {
+      type: 'number',
+      placeholder: 'Packaging Breadth',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Packaging Breadth(mm)',
+  },
+  {
+    key: 'packaging_height',
+    kwargs: {
+      type: 'number',
+      placeholder: 'Packaging Height',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Packaging Height(mm)',
+  },
+  {
+    key: 'pocket_length',
+    kwargs: {
+      type: 'number',
+      placeholder: 'Pocket Length',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Pocket Length(mm)',
+  },
+  {
+    key: 'pocket_breadth',
+    kwargs: {
+      type: 'number',
+      placeholder: 'Pocket Breadth',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Pocket Breadth(mm)',
+  },
+  {
+    key: 'pocket_height',
+    kwargs: {
+      type: 'number',
+      placeholder: 'Pocket Height',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Pocket Height(mm)',
+  },
   {
     key: 'packaging_type',
     kwargs: {
@@ -27,58 +82,13 @@ export const PREPExistingPMFormFields = [
     customLabel: 'Packaging Type',
   },
   {
-    key: 'packaging_length',
+    key: 'part_in_packet_details',
     kwargs: {
-      type: 'number',
-      placeholder: 'Packaging Length',
+      placeholder: 'Stacking, Nesting or Multiple parts in single Pocket. If any?',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Packaging Length',
-  },
-  {
-    key: 'packaging_breadth',
-    kwargs: {
-      type: 'number',
-      placeholder: 'Packaging Breadth',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Packaging Breadth',
-  },
-  {
-    key: 'packaging_height',
-    kwargs: {
-      type: 'number',
-      placeholder: 'Packaging Height',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Packaging Height',
-  },
-  {
-    key: 'pocket_length',
-    kwargs: {
-      type: 'number',
-      placeholder: 'Pocket Length',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Pocket Length',
-  },
-  {
-    key: 'pocket_breadth',
-    kwargs: {
-      type: 'number',
-      placeholder: 'Pocket Breadth',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Pocket Breadth',
-  },
-  {
-    key: 'pocket_height',
-    kwargs: {
-      type: 'number',
-      placeholder: 'Pocket Height',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Pocket Height',
+    others: null,
+    customLabel: 'Stacking, Nesting or Multiple parts in single Pocket.',
   },
   {
     key: 'inserts_pm',
@@ -119,16 +129,6 @@ export const PREPExistingPMFormFields = [
     customLabel: 'Parts per Pocket',
   },
   {
-    key: 'part_in_packet_details',
-    kwargs: {
-      placeholder: 'Stacking, Nesting or Multiple parts in single Pocket. If any?',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Stacking, Nesting or Multiple parts in single Pocket.',
-  },
-
-  {
     key: 'parts_per_layer',
     kwargs: {
       type: 'number',
@@ -161,7 +161,6 @@ export const PREPExistingPMFormFields = [
   {
     key: 'pallatized_sol_details',
     kwargs: {
-      type: 'number',
       placeholder: 'Pallatized Solution Details',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
