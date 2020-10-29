@@ -1,89 +1,78 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Col, Row, Button, Divider, Spin, notification } from 'antd';
+import { Form, Col, Row,Menu ,Dropdown,Button, Divider, Spin, notification } from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_DATA } from 'common/actions';
 import { PREPSolutionRequiredFormFields }
   from 'common/formFields/PFEP/PFEPSolutionRequired.formFields';
 import { createPFEP, editPFEP } from 'common/api/auth';
+import { DownOutlined } from '@ant-design/icons'
 
-export const PFEPSolutionRequiredForm = ({ id, onCancel,onDone,onNext }) => {
+const { Item }  = Menu;
+
+export const PFEPSolutionRequiredForm = ({  onCancel,onNext }) => {
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const state =  useSelector(e=>(e.data.pfepData))
 
-
   const submit = async (data) =>{
     setLoading(true)
     await dispatch({ type:ADD_PFEP_DATA,data });
     setLoading(false)
-    if(id){
-      const { error } = await editPFEP(id,{...state,...data});
-      if (error) {
-        notification.warning({
-          message: 'Unable To Edit.',
-          description:
-            'Something went wrong PFEP editing failed.',
-        });
-        onCancel();
-      } else {
-        onDone();
-      }
-    }
-    else{
-      const { error } = await createPFEP({...state,...data});
-      if (error) {
-        notification.warning({
-          message: 'Unable To Create.',
-          description:
-            'Something went wrong PFEP creation failed.',
-        });
-        onCancel();
-      } else {
-        onDone();
-      }
-    }
+    onNext();
   }
-  // useEffect(()=>{
-    // form.setFieldsValue({
-    //     solution_flc:state.solution_flc?state.solution_flc:null,
-    //     solution_fsc:state.solution_fsc?state.solution_fsc:null,
-    //     solution_crate:state.solution_crate?state.solution_crate:null,
-    //     solution_ppbox:state.solution_ppbox?state.solution_ppbox:null,
-    //     part_orientation:state.part_orientation?state.part_orientation:null,
-    //     parts_pm:state.parts_pm?state.parts_pm:null,
-    //     status:state.status?state.status:null,
-    //   })
-  // },[state])
+  const menu = (
+    <Menu>
+      {PREPSolutionRequiredFormFields.slice(0, 9).map((item, idx) => (
+        <Item key={idx.toString()}>
+          <div className='row justify-between'>
+            <div style={{ flexWrap:'wrap',marginRight:'5px' }}>
+              {item.customLabel}
+              {' '}
+            </div>
+            {formItem(item)}
+          </div>
+        </Item>
+      ))}
+    </Menu>
+  );
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Solution Required</Divider>
       <Form
         onFinish={submit}
         form={form}
-        initialValues={{
-          solution_flc:state.solution_flc?state.solution_flc:false,
-          solution_fsc:state.solution_fsc?state.solution_fsc:false,
-          solution_crate:state.solution_crate?state.solution_crate:false,
-          solution_ppbox:state.solution_ppbox?state.solution_ppbox:false,
-          part_orientation:state.part_orientation?state.part_orientation:null,
-          parts_pm:state.parts_pm?state.parts_pm:null,
-          status:state.status?state.status:null,
-        }}
+        initialValues={state}
         layout='vertical'
         // hideRequiredMark
         autoComplete='off'
       >
         <Row style={{ justifyContent: 'left' }}>
-          {PREPSolutionRequiredFormFields.slice(10,11).map((item, idx) => (
+          {PREPSolutionRequiredFormFields.slice(9,10).map((item, idx) => (
+            <Col span={4}>
+              <div key={idx.toString()} className='p-2'>
+                {item.customLabel}
+              </div>
+            </Col>
+          ))}
+          {PREPSolutionRequiredFormFields.slice(10,14).map((item, idx) => (
+            <Col span={5}>
+              <div key={idx.toString()} className='p-2'>
+                {item.customLabel}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {PREPSolutionRequiredFormFields.slice(9,10).map((item, idx) => (
             <Col span={4}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
-          {PREPSolutionRequiredFormFields.slice(11,15).map((item, idx) => (
+          {PREPSolutionRequiredFormFields.slice(10,14).map((item, idx) => (
             <Col span={5}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
@@ -92,46 +81,21 @@ export const PFEPSolutionRequiredForm = ({ id, onCancel,onDone,onNext }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {PREPSolutionRequiredFormFields.slice(0, 4).map((item, idx) => (
-            <Col span={2}>
-              <div key={idx.toString()} className='p-2'>
-                {formItem(item)}
-              </div>
-            </Col>
-          ))}
-          {PREPSolutionRequiredFormFields.slice(4, 6).map((item, idx) => (
-            <Col span={3}>
-              <div key={idx.toString()} className='p-2'>
-                {formItem(item)}
-              </div>
-            </Col>
-          ))}
-          {PREPSolutionRequiredFormFields.slice(6, 8).map((item, idx) => (
-            <Col span={5}>
-              <div key={idx.toString()} className='p-2'>
-                {formItem(item)}
-              </div>
-            </Col>
-          ))}
+          <Col>
+            <div className='p-2'>
+              <Dropdown overlay={menu} trigger={['click']}>
+                <Button className='ant-dropdown-link' onClick={e => e.preventDefault()}>
+                  Solution Required
+                  {' '}
+                  <DownOutlined />
+                </Button>
+              </Dropdown>
+            </div>
+            <br />
+            <br />
+            <br />
+          </Col>
         </Row>
-        <Row style={{ justifyContent: 'left' }}>
-          {PREPSolutionRequiredFormFields.slice(8, 10).map((item, idx) => (
-            <Col span={8}>
-              <div key={idx.toString()} className='p-2'>
-                {formItem(item)}
-              </div>
-            </Col>
-          ))}
-        </Row>
-        {/*<Row style={{ justifyContent: 'left' }}>*/}
-        {/*  {PREPSolutionRequiredFormFields.slice(5, 10).map((item, idx) => (*/}
-        {/*    <Col span={2}>*/}
-        {/*      <div key={idx.toString()} className='p-2'>*/}
-        {/*        {formItem(item)}*/}
-        {/*      </div>*/}
-        {/*    </Col>*/}
-        {/*  ))}*/}
-        {/*</Row>*/}
         <Row>
           <Button type='primary' htmlType='submit'>
             Submit

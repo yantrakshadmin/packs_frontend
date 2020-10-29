@@ -31,11 +31,11 @@ export const PFEPSteps = [
     icon: 'solution',
     component: lazy(() => import('web/src/forms/PFEP/PFEPStockKeeping.form')),
   },
-  {
-    title: 'Touch Points',
-    icon: 'file-protect',
-    component: lazy(() => import('web/src/forms/PFEP/PFEPTouchPoints.form')),
-  },
+  // {
+  //   title: 'Touch Points',
+  //   icon: 'file-protect',
+  //   component: lazy(() => import('web/src/forms/PFEP/PFEPTouchPoints.form')),
+  // },
   // {
   //   title: 'Material Handling Equipments',
   //   icon: 'user-add',
@@ -45,5 +45,10 @@ export const PFEPSteps = [
     title: 'Solution Required',
     icon: 'user-add',
     component: lazy(() => import('web/src/forms/PFEP/PFEPSolutionRequired.form')),
+  },
+  {
+    title: 'Status',
+    icon: 'file-protect',
+    component: lazy(() => import('web/src/forms/PFEP/PFEPStatus.form')),
   },
 ];

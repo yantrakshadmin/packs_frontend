@@ -33,13 +33,14 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext,active }) => {
   return (
     <Spin spinning={loading}>
       <Form
-        initialValues={{
-          date:state.date?moment(state.date):null,
-          contact_person:state.contact_person?state.contact_person:null,
-          designation:state.designation?state.designation:null,
-          email:state.email?state.email:null,
-          contact_no:state.contact_no?state.contact_no:null
-        }}
+        // initialValues={{
+        //   date:state.date?moment(state.date):null,
+        //   contact_person:state.contact_person?state.contact_person:null,
+        //   designation:state.designation?state.designation:null,
+        //   email:state.email?state.email:null,
+        //   contact_no:state.contact_no?state.contact_no:null
+        // }}
+        initialValues={state}
         onFinish={submit}
         form={form}
         layout='vertical'
@@ -118,7 +119,7 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext,active }) => {
                     block>
                     <PlusOutlined />
                     {' '}
-                    Add Item
+                    Add Receiver
                   </Button>
                 </Form.Item>
               </div>

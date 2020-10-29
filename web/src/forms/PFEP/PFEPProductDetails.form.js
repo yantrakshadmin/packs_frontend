@@ -35,16 +35,7 @@ export const PFEPProductDetailsForm = ({ id, onCancel,onDone,onNext }) => {
       <Divider orientation='left'>Product Details Form</Divider>
       <Form
         onFinish={submit}
-        initialValues={{
-          part_name:state.part_name?state.part_name:null,
-          part_number:state.part_number?state.part_number:null,
-          volume_pm:state.volume_pm?state.volume_pm:null,
-          dispatch_frequency:state.dispatch_frequency?state.dispatch_frequency:null,
-          weight:state.weight?state.weight:null,
-          length:state.length?state.length:null,
-          breadth:state.breadth?state.breadth:null,
-          height:state.height?state.height:null,
-        }}
+        initialValues={state}
         form={form}
         layout='vertical'
         // hideRequiredMark

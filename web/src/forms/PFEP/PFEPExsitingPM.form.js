@@ -26,28 +26,25 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
       <Form
         onFinish={submit}
         form={form}
-        initialValues={{
-          packaging_type:state.packaging_type?state.packaging_type:null,
-          packaging_length:state.packaging_length?state.packaging_length:null,
-          packaging_breadth:state.packaging_breadth?state.packaging_breadth:null,
-          packaging_height:state.packaging_height?state.packaging_height:null,
-          pocket_length:state.pocket_length?state.pocket_length:null,
-          pocket_breadth:state.pocket_breadth?state.pocket_breadth:null,
-          pocket_height:state.pocket_height?state.pocket_height:null,
-          inserts_pm:state.inserts_pm?state.inserts_pm:null,
-          paerts_per_layer:state.paerts_per_layer?state.paerts_per_layer:null,
-          total_parts_per_pm:state.total_parts_per_pm?state.total_parts_per_pm:null,
-          pm_loaded_weight:state.pm_loaded_weight?state.pm_loaded_weight:null,
-          price_per_unit:state.price_per_unit?state.price_per_unit:null,
-          remarks:state.remarks?state.remarks:null,
-        }}
+        initialValues={state}
         layout='vertical'
-        // hideRequiredMark
+        hideRequiredMark
         autoComplete='off'
       >
+        <Divider orientation='center'>Packaging Dimensions(OD)</Divider>
         <Row style={{ justifyContent: 'left' }}>
-          {PREPExistingPMFormFields.slice(0, 4).map((item, idx) => (
-            <Col span={6}>
+          {PREPExistingPMFormFields.slice(0, 3).map((item, idx) => (
+            <Col span={8}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Divider orientation='center'>Pocket Dimensions(ID)</Divider>
+        <Row style={{ justifyContent: 'left' }}>
+          {PREPExistingPMFormFields.slice(3, 6).map((item, idx) => (
+            <Col span={8}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
               </div>
@@ -55,8 +52,8 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {PREPExistingPMFormFields.slice(4, 8).map((item, idx) => (
-            <Col span={6}>
+          {PREPExistingPMFormFields.slice(6, 8).map((item, idx) => (
+            <Col span={12}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
               </div>
