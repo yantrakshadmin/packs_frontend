@@ -4,7 +4,7 @@ import { ArrowRightOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-desi
 import { PREPBasicDetailsFormFields } from 'common/formFields/PFEP/PFEPBasicDetails.formFields';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_PFEP_BASIC_DATA, ADD_PFEP_DATA, } from 'common/actions';
+import { ADD_PFEP_BASIC_DATA, ADD_PFEP_DATA, STOP_STEP_LOADING } from 'common/actions';
 import moment from 'moment';
 import { PREPCreationFormFields } from 'common/formFields/PFEP/PFEPCreation.formFields';
 import { PREPTouchPointsFormFields } from 'common/formFields/PFEP/PFEPTouchPoints.formFields';
@@ -19,14 +19,15 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext,active }) => {
     setLoading(true)
     await dispatch({ type:id?ADD_PFEP_DATA:ADD_PFEP_BASIC_DATA,data:{ ...data,lead_no:lead } });
     setLoading(false)
-    onNext();
+    if(active === 0){
+      onNext();
+    }
   }
 
   useEffect( ()=>{
     if(active!==0){
-      console.log(form.getFieldsValue(['date','contact_person','designation','email','contact_no'],"GGG"))
-
-      // await submit(form.getFieldsValue(['date','contact_person','designation','email','contact_no']))
+      form.submit()
+      dispatch({ type:STOP_STEP_LOADING })
     }
   },[active])
 
@@ -100,7 +101,7 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext,active }) => {
                     ))}
                     <Button
                       type='danger'
-                      style={index !== 0 ? { top: '-2vh'} : null}
+                      style={index !== 0 ? { top: '-2vh' } : null}
                       onClick={() => {
                         remove(field.name);
                       }}>
@@ -135,6 +136,9 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext,active }) => {
             <div className='p-2' />
             <Button type='primary' onClick={onCancel}>
               Cancel
+            </Button>
+            <Button type='primary' onClick={()=>{form.submit()}}>
+              console
             </Button>
           </div>
           <Button type='link' htmlType='submit'>

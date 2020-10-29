@@ -2,16 +2,17 @@ import {
   ADD_PFEP_BASIC_DATA,
   ADD_PFEP_DATA,
   CLEAN_PFEP_DATA,
-  FETCH_PRODUCTS,
+  FETCH_PRODUCTS, START_STEP_LOADING, STOP_STEP_LOADING,
 } from '../actions/index';
 
 const initialState = {
   products: [],
-  pfepData:{}
+  pfepData:{},
+  stepLoading:false,
 };
 
 export const fetchData = (state = initialState, action) => {
-  console.log(state,action,'ye')
+  console.log(state,action,'data reducer')
   switch (action.type) {
     case FETCH_PRODUCTS: {
       return {
@@ -36,6 +37,12 @@ export const fetchData = (state = initialState, action) => {
         ...state,
         pfepData:{}
       }
+    }
+    case START_STEP_LOADING:return {
+      ...state,stepLoading: true
+    }
+    case STOP_STEP_LOADING:return {
+      ...state,stepLoading: false
     }
     default:
       return state;

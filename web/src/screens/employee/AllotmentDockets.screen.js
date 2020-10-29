@@ -235,11 +235,15 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
         destroyOnClose
         style={{ minWidth: `80vw` }}
         title={TN}
-        onCancel={() => {
+        onCancel={(e) => {
+          setTN(null);
+          setDeliveryId(null);
           setVisible(false);
+          e.stopPropagation();
         }}
         footer={null}>
-        <BarcodeAllotmentDocket transaction={TN} allot={altId} setVisible={setVisible} />
+        {visible?<BarcodeAllotmentDocket transaction={TN} allot={altId} setVisible={setVisible} />
+          :null}
       </Modal>
       <Row>
         <Col span={19}>

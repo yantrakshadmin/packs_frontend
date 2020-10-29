@@ -3,11 +3,11 @@ import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import { PREPExistingPMFormFields } from 'common/formFields/PFEP/PFEPExsitingPM.formFields';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_PFEP_DATA } from 'common/actions';
+import { ADD_PFEP_DATA, STOP_STEP_LOADING } from 'common/actions';
 import { PREPCreationFormFields } from 'common/formFields/PFEP/PFEPCreation.formFields';
 import { ArrowRightOutlined } from '@ant-design/icons';
 
-export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
+export const PFEPExsitingPMForm = ({ id, onCancel,onDone,active,onNext }) => {
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -17,9 +17,16 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
     setLoading(true)
     await dispatch({ type:ADD_PFEP_DATA,data });
     setLoading(false)
-    onNext();
+    if(active===2){
+      onNext();
+    }
   }
-
+  useEffect( ()=>{
+    if(active!==2){
+      form.submit()
+      dispatch({ type:STOP_STEP_LOADING })
+    }
+  },[active])
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Existing Package Material</Divider>
@@ -28,7 +35,7 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,onNext }) => {
         form={form}
         initialValues={state}
         layout='vertical'
-        hideRequiredMark
+        // hideRequiredMark
         autoComplete='off'
       >
         <Divider orientation='center'>Packaging Dimensions(OD)</Divider>

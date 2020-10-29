@@ -115,8 +115,11 @@ export const PREPProductDetailsFormFields = [
     kwargs: {
       placeholder: 'New Part or Existing flow?',
     },
-    type: FORM_ELEMENT_TYPES.SWITCH,
-    customLabel: 'New Part or Existing flow?',
+    others: {
+      selectOptions:['New Part','Existing Flow']
+    },
+    type: FORM_ELEMENT_TYPES.SELECT,
+    customLabel: 'New Part/Existing flow',
   },
 
   {

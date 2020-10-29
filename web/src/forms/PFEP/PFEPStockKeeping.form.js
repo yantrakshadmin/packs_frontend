@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_PFEP_DATA } from 'common/actions';
+import { ADD_PFEP_DATA, STOP_STEP_LOADING } from 'common/actions';
 import { PREPStockKeepingFormFields } from 'common/formFields/PFEP/PFEPStockKeeping.formFields';
 import { ArrowRightOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { PREPCycleTimeFormFields } from 'common/formFields/PFEP/PFEPCycleTIme.formFields';
 import { PREPTouchPointsFormFields } from 'common/formFields/PFEP/PFEPTouchPoints.formFields';
 
-export const PFEPStockKeepingForm = ({ id, onCancel,onDone,onNext }) => {
+export const PFEPStockKeepingForm = ({ id, onCancel,onDone,onNext,active }) => {
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -18,18 +18,16 @@ export const PFEPStockKeepingForm = ({ id, onCancel,onDone,onNext }) => {
     setLoading(true)
     await dispatch({ type:ADD_PFEP_DATA,data });
     setLoading(false)
-    onNext();
+    if(active === 3){
+      onNext();
+    }
   }
-  // useEffect(()=>{
-    // form.setFieldsValue({
-    //   emitter_inv:state.emitter_inv?state.emitter_inv:null,
-    //   transit_time:state.transit_time?state.transit_time:null,
-    //   wh_emitter:state.wh_emitter?state.wh_emitter:null,
-    //   wh_receiver:state.wh_receiver?state.wh_receiver:null,
-    //   other_storage:state.other_storage?state.other_storage:null,
-    //   receiver_inv:state.receiver_inv?state.receiver_inv:null,
-    // })
-  // },[state])
+  useEffect( ()=>{
+    if(active!==3){
+      form.submit()
+      dispatch({ type:STOP_STEP_LOADING })
+    }
+  },[active])
 
   return (
     <Spin spinning={loading}>

@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_PFEP_DATA } from 'common/actions';
+import { ADD_PFEP_DATA, STOP_STEP_LOADING } from 'common/actions';
 import { PREPProductDetailsFormFields } from 'common/formFields/PFEP/PFEPProductDetails.formFields';
 import { ArrowRightOutlined } from '@ant-design/icons';
 
-export const PFEPProductDetailsForm = ({ id, onCancel,onDone,onNext }) => {
+export const PFEPProductDetailsForm = ({ id, onCancel,active,onNext }) => {
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -16,20 +16,16 @@ export const PFEPProductDetailsForm = ({ id, onCancel,onDone,onNext }) => {
     setLoading(true)
     await dispatch({ type:ADD_PFEP_DATA,data });
     setLoading(false)
-    onNext();
+    if(active===1){
+      onNext();
+    }
   }
-  // useEffect(()=>{
-    // form.setFieldsValue({
-    //     part_name:state.part_name?state.part_name:null,
-    //     part_number:state.part_number?state.part_number:null,
-    //     volume_pm:state.volume_pm?state.volume_pm:null,
-    //     dispatch_frequency:state.dispatch_frequency?state.dispatch_frequency:null,
-    //     weight:state.weight?state.weight:null,
-    //     length:state.length?state.length:null,
-    //     breadth:state.breadth?state.breadth:null,
-    //     height:state.height?state.height:null,
-    //   })
-  // },[state])
+  useEffect( ()=>{
+    if(active!==1){
+      form.submit()
+      dispatch({ type:STOP_STEP_LOADING })
+    }
+  },[active])
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Product Details Form</Divider>

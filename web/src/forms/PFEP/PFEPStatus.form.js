@@ -2,20 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Form, Col, Row, Button, Divider, Spin,Menu, notification, Dropdown } from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_PFEP_DATA } from 'common/actions';
+import { ADD_PFEP_DATA, STOP_STEP_LOADING } from 'common/actions';
 import {
-  ArrowRightOutlined,
+  ArrowRightOutlined, CloseOutlined,
   DownOutlined,
   MinusCircleOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
 import { createPFEP, editPFEP } from 'common/api/auth';
-import {PFEPStatusFormFields} from 'common/formFields/PFEP/PFEPStatus.formFields';
+import { PFEPStatusFormFields } from 'common/formFields/PFEP/PFEPStatus.formFields';
 
 const { Item }  = Menu;
 
-export const PFEPStatusForm = ({ id, onCancel,onDone }) => {
+export const PFEPStatusForm = ({ id, onCancel,active,onDone }) => {
   const [loading,setLoading] = useState(false);
+  const [dropdownVisible,setDropdownVisible] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const state =  useSelector(e=>(e.data.pfepData))
@@ -25,40 +26,48 @@ export const PFEPStatusForm = ({ id, onCancel,onDone }) => {
     setLoading(true)
     await dispatch({ type:ADD_PFEP_DATA,data });
     setLoading(false)
-    if(id){
-      const { error } = await editPFEP(id,{ ...state,...data });
-      if (error) {
-        notification.warning({
-          message: 'Unable To Edit.',
-          description:
+    if(active === 5){
+      if(id){
+        const { error } = await editPFEP(id,{ ...state,...data });
+        if (error) {
+          notification.warning({
+            message: 'Unable To Edit.',
+            description:
             'Something went wrong PFEP editing failed.',
-        });
-        onCancel();
-      } else {
-        onDone();
+          });
+          onCancel();
+        } else {
+          onDone();
+        }
       }
-    }
-    else{
-      const { error } = await createPFEP({ ...state,...data });
-      if (error) {
-        notification.warning({
-          message: 'Unable To Create.',
-          description:
+      else{
+        const { error } = await createPFEP({ ...state,...data });
+        if (error) {
+          notification.warning({
+            message: 'Unable To Create.',
+            description:
             'Something went wrong PFEP creation failed.',
-        });
-        onCancel();
-      } else {
-        onDone();
+          });
+          onCancel();
+        } else {
+          onDone();
+        }
       }
+    }}
+  useEffect( ()=>{
+    if(active!==5){
+      form.submit()
+      dispatch({ type:STOP_STEP_LOADING })
     }
-  }
-  // useEffect(()=>{
-    // form.setFieldsValue({
-    //   tp:state.tp?state.tp:[]
-    // })
-  // },[state])
+  },[active])
   const menu = (
-    <Menu>
+    <Menu onClick={(e)=>{if(e.key==='close'){setDropdownVisible(false)}}}>
+      <Item key='close'>
+        <div className='row justify-between align-center'>
+          Close
+          <CloseOutlined />
+        </div>
+      </Item>
       {PFEPStatusFormFields.map((item, idx) => (
         <Item key={idx.toString()}>
           <div className='row justify-between'>
@@ -86,7 +95,12 @@ export const PFEPStatusForm = ({ id, onCancel,onDone }) => {
         <Row style={{ justifyContent: 'left' }}>
           <Col>
             <div className='p-2'>
-              <Dropdown overlay={menu} trigger={['click']}>
+              <Dropdown
+                trigger={['click']}
+                overlay={menu}
+                onVisibleChange={(e)=>{setDropdownVisible(e)}}
+                visible={dropdownVisible}
+              >
                 <Button className='ant-dropdown-link' onClick={e => e.preventDefault()}>
                   Select Status
                   {' '}

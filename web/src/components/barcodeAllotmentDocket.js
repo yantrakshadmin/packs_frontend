@@ -15,11 +15,12 @@ export const BarcodeAllotmentDocket = ({ transaction,allot,setVisible }) =>{
   //   useAPI(`dispatch-allotment-fetch/?allot=${allot}`)
   const [inputValue,setInputValue] = useState('');
 
-  useEffect(async ()=>{
-    if(allot){
+  useEffect( ()=>{
+    const fetch = async ()=>{if(allot){
       const { data } = await loadAPI(`dispatch-allotment-validate/?id=${allot}`);
       setLimitsData(data);
-    }
+    }}
+    fetch()
   },[allot])
 
   const addItem= async (value)=>{

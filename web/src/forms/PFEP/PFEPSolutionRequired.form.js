@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Form, Col, Row,Menu ,Dropdown,Button, Divider, Spin, notification } from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_PFEP_DATA } from 'common/actions';
+import { ADD_PFEP_DATA, STOP_STEP_LOADING } from 'common/actions';
 import { PREPSolutionRequiredFormFields }
   from 'common/formFields/PFEP/PFEPSolutionRequired.formFields';
-import { createPFEP, editPFEP } from 'common/api/auth';
-import { ArrowRightOutlined, DownOutlined } from '@ant-design/icons';
+import { ArrowRightOutlined, DownOutlined,CloseOutlined } from '@ant-design/icons';
 
 const { Item }  = Menu;
 
-export const PFEPSolutionRequiredForm = ({  onCancel,onNext }) => {
+export const PFEPSolutionRequiredForm = ({  onCancel,active,onNext }) => {
   const [loading,setLoading] = useState(false);
+  const [dropdownVisible,setDropdownVisible] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const state =  useSelector(e=>(e.data.pfepData))
@@ -20,10 +20,23 @@ export const PFEPSolutionRequiredForm = ({  onCancel,onNext }) => {
     setLoading(true)
     await dispatch({ type:ADD_PFEP_DATA,data });
     setLoading(false)
-    onNext();
+    if(active ===4){onNext();}
   }
+
+  useEffect( ()=>{
+    if(active!==4){
+      form.submit()
+      dispatch({ type:STOP_STEP_LOADING })
+    }
+  },[active])
   const menu = (
-    <Menu>
+    <Menu onClick={(e)=>{if(e.key==='close'){setDropdownVisible(false)}}}>
+      <Item key='close'>
+        <div className='row justify-between align-center'>
+          Close
+          <CloseOutlined />
+        </div>
+      </Item>
       {PREPSolutionRequiredFormFields.slice(0, 9).map((item, idx) => (
         <Item key={idx.toString()}>
           <div className='row justify-between'>
@@ -83,7 +96,11 @@ export const PFEPSolutionRequiredForm = ({  onCancel,onNext }) => {
         <Row style={{ justifyContent: 'left' }}>
           <Col>
             <div className='p-2'>
-              <Dropdown overlay={menu} trigger={['click']}>
+              <Dropdown
+                trigger={['click']}
+                overlay={menu}
+                onVisibleChange={(e)=>{setDropdownVisible(e)}}
+                visible={dropdownVisible}>
                 <Button className='ant-dropdown-link' onClick={e => e.preventDefault()}>
                   Solution Required
                   {' '}
