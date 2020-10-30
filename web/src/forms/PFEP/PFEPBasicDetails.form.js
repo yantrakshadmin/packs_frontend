@@ -137,9 +137,6 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext,active }) => {
             <Button type='primary' onClick={onCancel}>
               Cancel
             </Button>
-            <Button type='primary' onClick={()=>{form.submit()}}>
-              console
-            </Button>
           </div>
           <Button type='link' htmlType='submit'>
             <ArrowRightOutlined style={{ fontSize:30 }}  />

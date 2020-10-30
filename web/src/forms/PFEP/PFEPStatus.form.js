@@ -115,7 +115,7 @@ export const PFEPStatusForm = ({ id, onCancel,active,onDone }) => {
         </Row>
         <Row justify='space-between'>
           <div className='row'>
-            <Button type='primary' htmlType='submit' disabled>
+            <Button type='primary' htmlType='submit'>
               Submit
             </Button>
             <div className='p-2' />

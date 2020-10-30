@@ -115,7 +115,7 @@ export const PFEPSolutionRequiredForm = ({  onCancel,active,onNext }) => {
         </Row>
         <Row justify='space-between'>
           <div className='row'>
-            <Button type='primary' htmlType='submit'>
+            <Button type='primary' htmlType='submit' disabled>
               Submit
             </Button>
             <div className='p-2' />
