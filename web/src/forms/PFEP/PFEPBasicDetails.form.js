@@ -5,9 +5,8 @@ import { PREPBasicDetailsFormFields } from 'common/formFields/PFEP/PFEPBasicDeta
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_BASIC_DATA, ADD_PFEP_DATA, STOP_STEP_LOADING } from 'common/actions';
-import moment from 'moment';
 import { PREPCreationFormFields } from 'common/formFields/PFEP/PFEPCreation.formFields';
-import { PREPTouchPointsFormFields } from 'common/formFields/PFEP/PFEPTouchPoints.formFields';
+import moment from 'moment';
 
 export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext,active }) => {
   const [loading,setLoading] = useState(false);
@@ -41,7 +40,7 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext,active }) => {
         //   email:state.email?state.email:null,
         //   contact_no:state.contact_no?state.contact_no:null
         // }}
-        initialValues={state}
+        initialValues={{ ...state,date:state.date?moment(state.date):null }}
         onFinish={submit}
         form={form}
         layout='vertical'
@@ -75,7 +74,7 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext,active }) => {
             </Col>
           ))}
         </Row>
-        <Form.List name='sending_details'>
+        <Form.List name='receivers'>
           {(fields, { add, remove }) => {
             return (
               <div>

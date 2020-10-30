@@ -36,9 +36,7 @@ const AllotmentForm = ({ location }) => {
     const fetchFlows = async () => {
       if (location.state.id && mrs && form) {
         form.setFieldsValue({ model: 'Rent', vehicle_type: 'Part Load' });
-        console.log('id', location.state.id);
         const reqData = mrs.filter((d) => d.id === location.state.id);
-        console.log(reqData);
         setDat(reqData[0].delivery_required_on);
         const { flows: flos } = reqData[0];
         const reqFlows = flos.map((flo) => ({
@@ -62,7 +60,6 @@ const AllotmentForm = ({ location }) => {
   }, [dat]);
 
   const preProcess = (data) => {
-    console.log(data);
     submit(data);
   };
 

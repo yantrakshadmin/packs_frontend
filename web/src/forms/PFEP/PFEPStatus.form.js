@@ -4,10 +4,8 @@ import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_DATA, STOP_STEP_LOADING } from 'common/actions';
 import {
-  ArrowRightOutlined, CloseOutlined,
+   CloseOutlined,
   DownOutlined,
-  MinusCircleOutlined,
-  PlusOutlined,
 } from '@ant-design/icons';
 import { createPFEP, editPFEP } from 'common/api/auth';
 import { PFEPStatusFormFields } from 'common/formFields/PFEP/PFEPStatus.formFields';

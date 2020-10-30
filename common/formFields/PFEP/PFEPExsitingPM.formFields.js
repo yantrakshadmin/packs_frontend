@@ -171,6 +171,7 @@ export const PREPExistingPMFormFields = [
     key: 'current_packaging',
     type: FORM_ELEMENT_TYPES.SELECT,
     others: {
+      defaultValue:'Returnable',
       selectOptions: [
         'Returnable','Non Returnalbe'
       ]
