@@ -29,7 +29,7 @@ export const PREPCreationFormFields = [
     customLabel: 'Sender Location',
   },
   {
-    key: 'receiver_client',
+    key: 'name',
     kwargs: {
       placeholder: 'Receiver Client',
     },
@@ -37,7 +37,7 @@ export const PREPCreationFormFields = [
     others: null,
     customLabel: 'Receiver Client',
   },{
-    key: 'receiver_location',
+    key: 'location',
     kwargs: {
       placeholder: 'Receiver Location',
     },

@@ -38,7 +38,7 @@ export const PREPSolutionRequiredFormFields = [
     customLabel: 'PP Box',
   },
   {
-    key: 'plastic_pallet',
+    key: 'solution_pp',
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
       defaultValue:false,
@@ -48,7 +48,7 @@ export const PREPSolutionRequiredFormFields = [
   },
 
   {
-    key: 'palletized_crate',
+    key: 'solution_palletized_crate',
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
       defaultValue:false,
@@ -57,7 +57,7 @@ export const PREPSolutionRequiredFormFields = [
     customLabel: 'Palletized Crate',
   },
   {
-    key: 'palletized_box_sol',
+    key: 'solution_palletized_box',
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
       defaultValue:false,
@@ -67,7 +67,7 @@ export const PREPSolutionRequiredFormFields = [
   },
 
   {
-    key: 'parts_to_part_contact',
+    key: 'solution_p2p_contact',
     type: FORM_ELEMENT_TYPES.SWITCH,
     customLabel: 'Part to Part Contact Permissible',
     others: {
@@ -76,14 +76,14 @@ export const PREPSolutionRequiredFormFields = [
     },
   },
   {
-    key: 'stacking_or_nesting_of_parts',
+    key: 'solution_stacking_nesting',
     type: FORM_ELEMENT_TYPES.SWITCH,
     customLabel: 'Stacking or Nesting of parts',
     others: {
       formOptions:{ noStyle:true }
     } },
   {
-    key: 'multiple_parts_in_single_packet',
+    key: 'mul_parts_single_pocket',
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
       placeholder: 'Multiple Parts in Single Packet',
@@ -105,7 +105,7 @@ export const PREPSolutionRequiredFormFields = [
     customLabel: 'Min/Max Margin from Wall',
   },
   {
-    key: 'other_specification',
+    key: 'other_spec',
     kwargs: {
       placeholder: 'Other Specification',
     },
@@ -116,7 +116,7 @@ export const PREPSolutionRequiredFormFields = [
     customLabel: 'Other Specification',
   },
   {
-    key: 'part_orientation',
+    key: 'parts_orientation',
     kwargs: {
       placeholder: 'Part Orientation',
     },

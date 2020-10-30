@@ -72,14 +72,14 @@ export const PREPProductDetailsFormFields = [
     type: FORM_ELEMENT_TYPES.INPUT,
   },
   {
-    key: 'hm_volume',
+    key: 'highest_mv',
     kwargs: {
       placeholder: 'Highest Monthly Volume',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Highest Monthly Volume',
   },{
-    key: 'lm_volume',
+    key: 'lowest_mv',
     kwargs: {
       placeholder: 'Lowest Monthly Volume',
     },
@@ -87,7 +87,7 @@ export const PREPProductDetailsFormFields = [
     customLabel: 'Lowest Monthly Volume',
   },
   {
-    key: 'avg_dispatch_lot_size',
+    key: 'average_dispatchlotsize',
     kwargs: {
       placeholder: 'Average Dispatch Lot Size',
     },
@@ -95,7 +95,7 @@ export const PREPProductDetailsFormFields = [
     customLabel: 'Average Dispatch Lot Size',
   },
   {
-    key: 'current_trans_mode',
+    key: 'transportation_mode',
     kwargs: {
       placeholder: 'Current Transportation Mode',
     },
@@ -103,7 +103,7 @@ export const PREPProductDetailsFormFields = [
     customLabel: 'Current Transportation Mode',
   },
   {
-    key: 'critical_Area',
+    key: 'critical_area',
     kwargs: {
       placeholder: 'Critical Area, If Any?',
     },
@@ -111,7 +111,7 @@ export const PREPProductDetailsFormFields = [
     customLabel: 'Critical Area, If Any?',
   },
   {
-    key: 'new_part_or_existing_flow',
+    key: 'np_ef',
     kwargs: {
       placeholder: 'New Part or Existing flow?',
     },
@@ -123,7 +123,7 @@ export const PREPProductDetailsFormFields = [
   },
 
   {
-    key: 'greasy_or_oily',
+    key: 'greasy_oily',
     kwargs: {
       placeholder: 'Is Part Greasy or Oily?',
     },
@@ -136,10 +136,10 @@ export const PREPProductDetailsFormFields = [
       placeholder: 'Part CAD Data (2D, 3D drawing, if available)',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Part CAD Data',
+    customLabel: 'Part CAD Data, Available?',
   },
   {
-    key: 'precautions',
+    key: 'special_measure',
     kwargs: {
       placeholder: 'Precautions to be consider?',
     },
@@ -147,7 +147,7 @@ export const PREPProductDetailsFormFields = [
     customLabel: 'Precautions or Special Measures?',
   },
   {
-    key: 'product_remark',
+    key: 'remarks',
     kwargs: {
       placeholder: 'Remark',
     },

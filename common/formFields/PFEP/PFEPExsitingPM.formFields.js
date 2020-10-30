@@ -82,7 +82,7 @@ export const PREPExistingPMFormFields = [
     customLabel: 'Packaging Type',
   },
   {
-    key: 'part_in_packet_details',
+    key: 'stacking_nesting',
     kwargs: {
       placeholder: 'Stacking, Nesting or Multiple parts in single Pocket. If any?',
     },
@@ -98,10 +98,10 @@ export const PREPExistingPMFormFields = [
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
-    customLabel: 'Inset Per PM',
+    customLabel: 'Inserts Per PM',
   },
   {
-    key: 'separator_sheet_per_pm',
+    key: 'spesheet_pm',
     kwargs: {
       type: 'number',
       placeholder: 'Separator Sheet Per PM',
@@ -111,7 +111,7 @@ export const PREPExistingPMFormFields = [
     customLabel: 'Separator Sheet Per PM',
   },
   {
-    key: 'pocket_matrix_detail',
+    key: 'matrix_details',
     kwargs: {
       placeholder: 'Pocket Matrix Detail',
     },
@@ -159,7 +159,7 @@ export const PREPExistingPMFormFields = [
     customLabel: 'PM Loaded Weight(Kgs)',
   },
   {
-    key: 'pallatized_sol_details',
+    key: 'palletized_sol_details',
     kwargs: {
       placeholder: 'Pallatized Solution Details',
     },
@@ -168,7 +168,7 @@ export const PREPExistingPMFormFields = [
     customLabel: 'Pallatized Solution Details',
   },
   {
-    key: 'current_packaging_type',
+    key: 'current_packaging',
     type: FORM_ELEMENT_TYPES.SELECT,
     others: {
       selectOptions: [
@@ -207,7 +207,7 @@ export const PREPExistingPMFormFields = [
     customLabel: 'Price Per Unit',
   },
   {
-    key: 'remarks',
+    key: 'remarks1',
     kwargs: {
       placeholder: 'Remark',
     },
