@@ -274,7 +274,7 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
                             },
                             others: {
                               selectOptions: ['Repairable', 'Return', 'Damage',
-                                'Swap Return','Others'],
+                                'Swap Return','Excess','Others',],
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],
