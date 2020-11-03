@@ -215,4 +215,31 @@ export const PREPExistingPMFormFields = [
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
   },
+  {
+    key: 'pocket_length1',
+    kwargs: {
+      type: 'number',
+      placeholder: 'Pocket 2 Length',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Pocket 2 Length(mm)',
+  },
+  {
+    key: 'pocket_breadth1',
+    kwargs: {
+      type: 'number',
+      placeholder: 'Pocket 2 Breadth',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Pocket 2 Breadth(mm)',
+  },
+  {
+    key: 'pocket_height1',
+    kwargs: {
+      type: 'number',
+      placeholder: 'Pocket 2 Height',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Pocket 2 Height(mm)',
+  },
 ]

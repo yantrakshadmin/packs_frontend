@@ -46,7 +46,6 @@ export const PREPSolutionRequiredFormFields = [
     },
     customLabel: 'Plastic Pallet',
   },
-
   {
     key: 'solution_palletized_crate',
     type: FORM_ELEMENT_TYPES.SWITCH,
@@ -65,20 +64,24 @@ export const PREPSolutionRequiredFormFields = [
     },
     customLabel: 'Palletized Box Solution',
   },
-
   {
     key: 'solution_p2p_contact',
-    type: FORM_ELEMENT_TYPES.SWITCH,
+    type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Part to Part Contact Permissible',
+    kwargs: {
+      placeholder: 'Part to Part Contact Permissible',
+    },
     others: {
-      defaultValue:false,
       formOptions:{ noStyle:true }
     },
   },
   {
     key: 'solution_stacking_nesting',
-    type: FORM_ELEMENT_TYPES.SWITCH,
+    type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Stacking or Nesting of parts',
+    kwargs: {
+      placeholder: 'Stacking or Nesting of parts',
+    },
     others: {
       formOptions:{ noStyle:true }
     } },
@@ -135,5 +138,25 @@ export const PREPSolutionRequiredFormFields = [
       formOptions:{ noStyle:true }
     },  type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Parts/PM',
+  },
+  {
+    key: 'wooden_pallet',
+    kwargs: {
+      placeholder: 'Wooden Pallet',
+    },
+    others: {
+      formOptions:{ noStyle:true }
+    },  type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Wooden Pallet',
+  },
+  {
+    key: 'solution_remark',
+    kwargs: {
+      placeholder: 'Remark',
+    },
+    others: {
+      formOptions:{ noStyle:true }
+    },  type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Remark',
   },
 ]

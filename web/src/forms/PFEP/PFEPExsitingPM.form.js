@@ -4,7 +4,6 @@ import { PREPExistingPMFormFields } from 'common/formFields/PFEP/PFEPExsitingPM.
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_DATA, STOP_STEP_LOADING } from 'common/actions';
-import { PREPCreationFormFields } from 'common/formFields/PFEP/PFEPCreation.formFields';
 import { ArrowRightOutlined } from '@ant-design/icons';
 
 export const PFEPExsitingPMForm = ({ id, onCancel,onDone,active,onNext }) => {
@@ -51,6 +50,15 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,active,onNext }) => {
         <Divider orientation='center'>Pocket Dimensions(ID)</Divider>
         <Row style={{ justifyContent: 'left' }}>
           {PREPExistingPMFormFields.slice(3, 6).map((item, idx) => (
+            <Col span={8}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {PREPExistingPMFormFields.slice(21, 24).map((item, idx) => (
             <Col span={8}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
