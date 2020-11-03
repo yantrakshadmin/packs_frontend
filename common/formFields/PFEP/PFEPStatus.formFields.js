@@ -111,4 +111,14 @@ export const PFEPStatusFormFields = [
     others: {
       formOptions:{ noStyle:true }
     } },
+  {
+    key: 'solution_remark',
+    kwargs: {
+      placeholder: 'Remark',
+    },
+    others: {
+      formOptions:{ noStyle:true }
+    },  type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Remark',
+  },
 ]

@@ -65,6 +65,15 @@ export const PREPSolutionRequiredFormFields = [
     customLabel: 'Palletized Box Solution',
   },
   {
+    key: 'wooden_pallet',
+    others: {
+      defaultValue:false,
+      formOptions:{ noStyle:true }
+    },
+    type: FORM_ELEMENT_TYPES.SWITCH,
+    customLabel: 'Wooden Pallet',
+  },
+  {
     key: 'solution_p2p_contact',
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Part to Part Contact Permissible',
@@ -138,25 +147,5 @@ export const PREPSolutionRequiredFormFields = [
       formOptions:{ noStyle:true }
     },  type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Parts/PM',
-  },
-  {
-    key: 'wooden_pallet',
-    kwargs: {
-      placeholder: 'Wooden Pallet',
-    },
-    others: {
-      formOptions:{ noStyle:true }
-    },  type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Wooden Pallet',
-  },
-  {
-    key: 'solution_remark',
-    kwargs: {
-      placeholder: 'Remark',
-    },
-    others: {
-      formOptions:{ noStyle:true }
-    },  type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Remark',
   },
 ]

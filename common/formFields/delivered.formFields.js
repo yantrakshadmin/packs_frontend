@@ -18,6 +18,7 @@ export const DeliveredFormFields = [
   },
   {
     key: 'document',
+    rules: [{ required: true, message: 'File is Required!' }],
     type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
     others: null,
     customLabel: 'Document',

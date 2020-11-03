@@ -37,7 +37,7 @@ export const PFEPSolutionRequiredForm = ({  onCancel,active,onNext }) => {
           <CloseOutlined />
         </div>
       </Item>
-      {PREPSolutionRequiredFormFields.slice(0, 7).map((item, idx) => (
+      {PREPSolutionRequiredFormFields.slice(0, 8).map((item, idx) => (
         <Item key={idx.toString()}>
           <div className='row justify-between'>
             <div style={{ flexWrap:'wrap',marginRight:'5px' }}>
@@ -62,14 +62,14 @@ export const PFEPSolutionRequiredForm = ({  onCancel,active,onNext }) => {
         autoComplete='off'
       >
         <Row style={{ justifyContent: 'left' }}>
-          {PREPSolutionRequiredFormFields.slice(9,10).map((item, idx) => (
+          {PREPSolutionRequiredFormFields.slice(8,9).map((item, idx) => (
             <Col span={4}>
               <div key={idx.toString()} className='p-2'>
                 {item.customLabel}
               </div>
             </Col>
           ))}
-          {PREPSolutionRequiredFormFields.slice(10,14).map((item, idx) => (
+          {PREPSolutionRequiredFormFields.slice(9,13).map((item, idx) => (
             <Col span={5}>
               <div key={idx.toString()} className='p-2'>
                 {item.customLabel}
@@ -78,14 +78,14 @@ export const PFEPSolutionRequiredForm = ({  onCancel,active,onNext }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {PREPSolutionRequiredFormFields.slice(9,10).map((item, idx) => (
+          {PREPSolutionRequiredFormFields.slice(8,9).map((item, idx) => (
             <Col span={4}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
-          {PREPSolutionRequiredFormFields.slice(10,14).map((item, idx) => (
+          {PREPSolutionRequiredFormFields.slice(9,13).map((item, idx) => (
             <Col span={5}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
@@ -94,14 +94,7 @@ export const PFEPSolutionRequiredForm = ({  onCancel,active,onNext }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {PREPSolutionRequiredFormFields.slice(7,9).map((item, idx) => (
-            <Col span={5}>
-              <div key={idx.toString()} className='p-2'>
-                {item.customLabel}
-              </div>
-            </Col>
-          ))}
-          {PREPSolutionRequiredFormFields.slice(14,16).map((item, idx) => (
+          {PREPSolutionRequiredFormFields.slice(13,15).map((item, idx) => (
             <Col span={5}>
               <div key={idx.toString()} className='p-2'>
                 {item.customLabel}
@@ -110,21 +103,14 @@ export const PFEPSolutionRequiredForm = ({  onCancel,active,onNext }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {PREPSolutionRequiredFormFields.slice(7,9).map((item, idx) => (
+          {PREPSolutionRequiredFormFields.slice(13,15).map((item, idx) => (
             <Col span={5}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
-          {PREPSolutionRequiredFormFields.slice(14,16).map((item, idx) => (
-            <Col span={5}>
-              <div key={idx.toString()} className='p-2'>
-                {formItem(item)}
-              </div>
-            </Col>
-          ))}
-          <Col span={4}>
+          <Col span={5}>
             <div className='p-2'>
               <Dropdown
                 trigger={['click']}

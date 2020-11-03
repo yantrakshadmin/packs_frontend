@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import { createPFEP, editPFEP } from 'common/api/auth';
 import { PFEPStatusFormFields } from 'common/formFields/PFEP/PFEPStatus.formFields';
+import { PREPSolutionRequiredFormFields } from 'common/formFields/PFEP/PFEPSolutionRequired.formFields';
 
 const { Item }  = Menu;
 
@@ -66,7 +67,7 @@ export const PFEPStatusForm = ({ id, onCancel,active,onDone }) => {
           <CloseOutlined />
         </div>
       </Item>
-      {PFEPStatusFormFields.map((item, idx) => (
+      {PFEPStatusFormFields.slice(0,11).map((item, idx) => (
         <Item key={idx.toString()}>
           <div className='row justify-between'>
             <div style={{ flexWrap:'wrap',marginRight:'5px' }}>
@@ -91,7 +92,13 @@ export const PFEPStatusForm = ({ id, onCancel,active,onDone }) => {
         autoComplete='off'
       >
         <Row style={{ justifyContent: 'left' }}>
-          <Col>
+          {PFEPStatusFormFields.slice(11,12).map((item, idx) => (
+            <Col span={6}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))} <Col span={5}>
             <div className='p-2'>
               <Dropdown
                 trigger={['click']}
@@ -110,6 +117,7 @@ export const PFEPStatusForm = ({ id, onCancel,active,onDone }) => {
             <br />
             <br />
           </Col>
+
         </Row>
         <Row justify='space-between'>
           <div className='row'>
