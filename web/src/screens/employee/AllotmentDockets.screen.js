@@ -30,10 +30,7 @@ import Document from 'icons/Document';
 import { BarcodeAllotmentDocket } from 'components/barcodeAllotmentDocket';
 import { GetUniqueValue } from 'common/helpers/getUniqueValues';
 import { EyeTwoTone,EyeInvisibleOutlined,UserOutlined } from '@ant-design/icons'
-import {
-  ALLOTMENT_DOCKET_NAME,
-  ALLOTMENT_DOCKET_PASSWORD,
-} from 'common/constants/allotmentDocketPassword';
+
 import { deleteHOC } from '../../hocs/deleteHoc';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { LineGraph } from '../../components/graphComponent/lineGraph';
@@ -46,7 +43,6 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
   const [deliveryId, setDeliveryId] = useState(null);
   const [reqData, setReqData] = useState([]);
   const [TN, setTN] = useState(null);
-  const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const { data: allotments, loading } = useAPI('/allotments-table/', {});
   const { data: count } = useAPI('/mr-count/', {});
@@ -55,7 +51,6 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
     searchVal,
     reqData,
   });
-  const [userData,setUserData] = useState({ name:'',password:'' })
   useEffect(() => {
     if (allotments) {
       const reqD = allotments.map((alt) => ({
@@ -72,35 +67,6 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
       setReqData(reqD);
     }
   }, [allotments]);
-
-  const PasswordPopUp = (
-    <Space direction='vertical'>
-      <Input
-        placeholder='Username'
-        value={userData.name}
-        onChange={(e)=>{setUserData({ ...userData,name:e.target.value })}}
-        prefix={<UserOutlined />} />
-      <Input.Password
-        value={userData.password}
-        onChange={(e)=>{setUserData({ ...userData,password:e.target.value })}}
-        placeholder='input password'
-        iconRender={show => (show ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-      />
-      <Button onClick={()=>{
-        if(userData.name === ALLOTMENT_DOCKET_NAME &&
-          userData.password === ALLOTMENT_DOCKET_PASSWORD){
-          setUserData({ name:'',password:'' });
-        }
-        else{
-          notification.error({
-            message:'Invalid Credentials'
-          })
-        }
-      }}>
-        Submit
-      </Button>
-    </Space>
-  );
 
   const columns = [
     {
@@ -226,13 +192,6 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
               <Delete />
             </Button>
           </Popconfirm>
-          <Popover
-            content={PasswordPopUp}
-            title='Verify'
-            trigger='click'
-          >
-            <Button type='primary'>Click me</Button>
-          </Popover>
         </div>
       ),
     },
@@ -310,6 +269,7 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
           </div>
         </Col>
       </Row>
+
       <TableWithTabHOC
         rowKey={(record) => record.id}
         refresh={reload}

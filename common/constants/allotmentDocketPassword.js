@@ -1,2 +1,2 @@
 export const ALLOTMENT_DOCKET_NAME = 'admin';
-export const ALLOTMENT_DOCKET_PASSWORD = 'Packs@321'
+export const ALLOTMENT_DOCKET_PASSWORD = '1'

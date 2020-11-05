@@ -1,27 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import materialEmployeecolumns from 'common/columns/materialEmployee.column';
 import { Link } from '@reach/router';
-import { Button, Input } from 'antd';
+import { Button, Col, Input, Modal, notification, Popover, Row, Space ,Typography } from 'antd';
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { retrieveEmployeeMrs } from 'common/api/auth';
 import moment from 'moment';
-import { GetUniqueValue } from 'common/helpers/getUniqueValues';
+import {
+  ALLOTMENT_DOCKET_PASSWORD,
+} from 'common/constants/allotmentDocketPassword';
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import MaterialRequestsTable from '../../components/MaterialRequestsTable';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import { AddMaterialRequestForm } from '../../forms/addMaterialRequest.form';
 
 const { Search } = Input;
+const { Title } = Typography;
 
 const ReceiverClientEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
   const [filterOptions, setFilterOptions] = useState([]);
-
+  const [materialReqVisible, setMaterialReqVisible] = useState(false);
+  const [popoverVisible, setPopoverVisible] = useState(false);
   const { filteredData, loading, reload } = useTableSearch({
     searchVal,
     retrieve: retrieveEmployeeMrs,
   });
+  const [userData,setUserData] = useState({ password:'' })
+
+  const PasswordPopUp = (
+    <Space direction='vertical'>
+      <Input.Password
+        value={userData.password}
+        onChange={(e)=>{setUserData({ ...userData,password:e.target.value })}}
+        placeholder='input password'
+        iconRender={show => (show ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+      />
+      <Button onClick={()=>{
+        if(userData.password === ALLOTMENT_DOCKET_PASSWORD){
+          setUserData({ password:'' });
+          setPopoverVisible(false);
+          setMaterialReqVisible(true);
+
+        }
+        else{
+          notification.error({
+            message:'Invalid Password'
+          })
+        }
+      }}>
+        Proceed
+      </Button>
+    </Space>
+  );
   const getFilterOptions=()=>{
     const arr=  [...new Set(
       (filteredData|| []).map(item =>
@@ -148,18 +181,49 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
 
   return (
     <>
+      <Modal
+        maskClosable={false}
+        visible={materialReqVisible}
+        destroyOnClose
+        style={{ minWidth: `80vw` }}
+        title='Add Material Request'
+        onCancel={(e) => {
+          setMaterialReqVisible(false);
+          e.stopPropagation();
+        }}
+        footer={null}>
+        <AddMaterialRequestForm
+          onDone={()=>{setMaterialReqVisible(false)}}
+          onCancel={()=>{setMaterialReqVisible(false)}} />
+      </Modal>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
         </div>
       </div>
       <br />
+      <Row justify='space-between'>
+        <Col>
+          <Title level={3}>Material Requests</Title>
+        </Col>
+        <Col>
+          <Popover
+            content={PasswordPopUp}
+            title='Verify'
+            trigger='click'
+            visible={popoverVisible}
+            onVisibleChange={(e)=>{setPopoverVisible(e)}}
+          >
+            <Button type='primary'>Add Material Request</Button>
+          </Popover>
+        </Col>
+      </Row>
       <TableWithTabHOC
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
         size='middle'
-        title='Material Requests'
+        title=''
         editingId={editingId}
         cancelEditing={cancelEditing}
         ExpandBody={MaterialRequestsTable}
