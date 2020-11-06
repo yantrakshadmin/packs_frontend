@@ -65,7 +65,7 @@ export const PREPSolutionRequiredFormFields = [
     customLabel: 'Palletized Box Solution',
   },
   {
-    key: 'wooden_pallet',
+    key: 'solution_wp',
     others: {
       defaultValue:false,
       formOptions:{ noStyle:true }
@@ -74,9 +74,9 @@ export const PREPSolutionRequiredFormFields = [
     customLabel: 'Wooden Pallet',
   },
   {
-    key: 'solution_p2p_contact',
+    key: 'p2p_contact',
     type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Part to Part Contact Permissible',
+    customLabel: 'Part to Part Contact Permissible?',
     kwargs: {
       placeholder: 'Part to Part Contact Permissible',
     },

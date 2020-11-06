@@ -173,7 +173,7 @@ export const PREPExistingPMFormFields = [
     others: {
       defaultValue:'Returnable',
       selectOptions: [
-        'Returnable','Non Returnalbe'
+        'Returnable','Non Returnable'
       ]
 
     },
