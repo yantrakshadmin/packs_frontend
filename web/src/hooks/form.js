@@ -13,7 +13,6 @@ export const useHandleForm = ({
   done,
   close,
   dates,
-  document,
 }) => {
   const isEdit = !!id;
   const [form] = Form.useForm();

@@ -409,10 +409,10 @@ export const deleteFlow = (id) =>
     secure: true,
   });
 
-export const createMr = ({ delivery_required_on, flows }) =>
+export const createMr = ({ delivery_required_on, flows,client_id }) =>
   loadAPI('/create-mrequets/', {
     method: 'POST',
-    data: { delivery_required_on, flows },
+    data: { delivery_required_on, flows,client_id },
     secure: true,
   });
 
@@ -423,8 +423,21 @@ export const editMr = (id, { delivery_required_on, flows }) =>
     secure: true,
   });
 
+export const editAddMr = (id, { delivery_required_on, flows,client_id }) =>
+  loadAPI(`/admin-mredit/${id}/`, {
+    method: 'PATCH',
+    data: { delivery_required_on, flows,client_id },
+    secure: true,
+  });
+
 export const retrieveMr = (id) =>
   loadAPI(`/edit-mrequets/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const retrieveAddMr = (id) =>
+  loadAPI(`/admin-mredit/${id}/`, {
     method: 'GET',
     secure: true,
   });
@@ -437,6 +450,12 @@ export const retrieveMrs = () =>
 
 export const deleteMr = (id) =>
   loadAPI(`/edit-mrequets/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const deleteAddMr = (id) =>
+  loadAPI(`/admin-mredit/${id}/`, {
     method: 'DELETE',
     secure: true,
   });

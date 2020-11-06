@@ -15,7 +15,7 @@ import {
 } from 'antd';
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
-import { deleteAllotment, retrieveEmployeeMrs } from 'common/api/auth';
+import { deleteAddMr, retrieveEmployeeMrs } from 'common/api/auth';
 import moment from 'moment';
 import {
   ALLOTMENT_DOCKET_PASSWORD,
@@ -219,9 +219,9 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
             onConfirm={deleteHOC({
               record,
               reload,
-              api: deleteAllotment,
-              success: 'Deleted kit successfully',
-              failure: 'Error in deleting kit',
+              api: deleteAddMr,
+              success: 'Deleted Material Request Successfully',
+              failure: 'Error in deleting Material Request',
             })}>
             <Button
               style={{

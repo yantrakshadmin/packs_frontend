@@ -6,7 +6,7 @@ import {
 } from 'common/formFields/materialRequest.formFields';
 import { useAPI } from 'common/hooks/api';
 import { useHandleForm } from 'hooks/form';
-import { createMr, editMr, retrieveMr } from 'common/api/auth';
+import { createMr, editAddMr, retrieveAddMr } from 'common/api/auth';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { useControlledSelect } from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
@@ -21,8 +21,10 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
 
   const { form, submit, loading } = useHandleForm({
     create: createMr,
-    edit: editMr,
-    retrieve: retrieveMr,
+    edit: editAddMr,
+    retrieve:async ()=>{
+      const result = await retrieveAddMr(id);
+      return { ...result,data:{ ...result.data,client_id:result.data.owner } }},
     success: 'Material Request created/edited successfully.',
     failure: 'Error in creating/editing material request.',
     done: onDone,
@@ -39,7 +41,7 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
       quantity: Number(flo.quantity),
     }));
     data.flows = newFlows;
-    console.log(data);
+    console.log(data,'addmr');
     submit(data);
   };
 
