@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import materialEmployeecolumns from 'common/columns/materialEmployee.column';
 import { Link } from '@reach/router';
-import { Button, Col, Input, Modal, notification, Popover, Row, Space ,Typography } from 'antd';
+import {
+  Button,
+  Col,
+  Input,
+  Modal,
+  notification,
+  Popconfirm,
+  Popover,
+  Row,
+  Space,
+  Typography,
+} from 'antd';
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
-import { retrieveEmployeeMrs } from 'common/api/auth';
+import { deleteAllotment, retrieveEmployeeMrs } from 'common/api/auth';
 import moment from 'moment';
 import {
   ALLOTMENT_DOCKET_PASSWORD,
@@ -13,6 +24,9 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import MaterialRequestsTable from '../../components/MaterialRequestsTable';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { AddMaterialRequestForm } from '../../forms/addMaterialRequest.form';
+import Edit from '../../icons/Edit';
+import { deleteHOC } from '../../hocs/deleteHoc';
+import Delete from '../../icons/Delete';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -24,10 +38,12 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
   const [filterOptions, setFilterOptions] = useState([]);
   const [materialReqVisible, setMaterialReqVisible] = useState(false);
   const [popoverVisible, setPopoverVisible] = useState(false);
+  const [popoverEditVisible, setPopoverEditVisible] = useState(false);
   const { filteredData, loading, reload } = useTableSearch({
     searchVal,
     retrieve: retrieveEmployeeMrs,
   });
+
   const [userData,setUserData] = useState({ password:'' })
 
   const PasswordPopUp = (
@@ -41,9 +57,12 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
       <Button onClick={()=>{
         if(userData.password === ALLOTMENT_DOCKET_PASSWORD){
           setUserData({ password:'' });
-          setPopoverVisible(false);
+          if(editingId){
+            setPopoverEditVisible(false);
+          }else{
+            setPopoverVisible(false);
+          }
           setMaterialReqVisible(true);
-
         }
         else{
           notification.error({
@@ -165,6 +184,59 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
         </Button>
       ),
     },
+
+    {
+      title: 'Action',
+      key: 'operation',
+      width: '9vw',
+      render: (text, record) => (
+        <div className='row justify-evenly'>
+          <Popover
+            content={PasswordPopUp}
+            title='Verify'
+            trigger='click'
+            visible={popoverEditVisible && record.id === editingId}
+            onVisibleChange={(e)=>{setPopoverEditVisible(e)}}
+          >
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                boxShadow: 'none',
+                padding: '1px',
+              }}
+              onClick={(e) => {
+                setEditingId(record.id);
+                setPopoverEditVisible(true);
+                e.stopPropagation();
+              }}>
+              <Edit />
+            </Button>
+          </Popover>
+          <Popconfirm
+            title='Confirm Delete'
+            onCancel={(e) => e.stopPropagation()}
+            onConfirm={deleteHOC({
+              record,
+              reload,
+              api: deleteAllotment,
+              success: 'Deleted kit successfully',
+              failure: 'Error in deleting kit',
+            })}>
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                boxShadow: 'none',
+                border: 'none',
+                padding: '1px',
+              }}
+              onClick={(e) => e.stopPropagation()}>
+              <Delete />
+            </Button>
+          </Popconfirm>
+        </div>
+      ),
+    },
   ];
 
   const tabs = [
@@ -189,12 +261,15 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
         title='Add Material Request'
         onCancel={(e) => {
           setMaterialReqVisible(false);
+          cancelEditing();
           e.stopPropagation();
         }}
         footer={null}>
         <AddMaterialRequestForm
+          id={editingId}
           onDone={()=>{setMaterialReqVisible(false)}}
-          onCancel={()=>{setMaterialReqVisible(false)}} />
+          onCancel={()=>{setMaterialReqVisible(false)}}
+        />
       </Modal>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
@@ -224,8 +299,8 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
         tabs={tabs}
         size='middle'
         title=''
-        editingId={editingId}
-        cancelEditing={cancelEditing}
+        // editingId={editingId}
+        // cancelEditing={cancelEditing}
         ExpandBody={MaterialRequestsTable}
         expandHandleKey='flows'
         hideRightButton

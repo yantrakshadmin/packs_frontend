@@ -54,7 +54,7 @@ export const useHandleForm = ({
         const { data } = await retrieve(id);
         if (dates) dates.map((date) => (data[date] = moment(data[date])));
         if (data) {
-          console.log(data);
+          console.log(data,'retrive');
           form.setFieldsValue(data);
         }
         setApiData(data);

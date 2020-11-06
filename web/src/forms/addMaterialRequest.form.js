@@ -15,10 +15,7 @@ import { FORM_ELEMENT_TYPES } from '../constants/formFields.constant';
 export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
   const [flowId, setFlowId] = useState(null);
   const [selectedClient,setSelectedClient ] = useState({ name:'Select Client',id:null })
-  // const { data: flows } = useAPI('/myflows/', {});
   const { data: flows } = useAPI(`/c-flows/?id=${selectedClient.id}`, {});
-  // const flows = []
-  // const kits = []
   const { data: kits } = useControlledSelect(flowId);
   const { data: clients } = useAPI('/clients/', {});
 
@@ -49,7 +46,7 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
   const handleFieldsChange = (data) => {
     if(data){
       if(data[0]){
-        if(data[0].name[0] === 'cname' ){
+        if(data[0].name[0] === 'client_id' ){
           const filtered = clients.filter((item)=>(item.user === data[0].value));
           setSelectedClient({ name:filtered[0].client_name,id:filtered[0].user })
         }
@@ -72,7 +69,7 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
         <Row>
           <Col span={10}>
             {formItem({
-              key: 'cname',
+              key: 'client_id',
               kwargs: {
                 placeholder: 'Select',
               },
