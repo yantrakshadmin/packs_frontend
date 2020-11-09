@@ -74,6 +74,14 @@ export const PREPSolutionRequiredFormFields = [
     customLabel: 'Wooden Pallet',
   },
   {
+    key: 'solution_stacking_nesting',
+    type: FORM_ELEMENT_TYPES.SWITCH,
+    customLabel: 'Stacking or Nesting of parts',
+    others: {
+      defaultValue: false,
+      formOptions:{ noStyle:true }
+    } },
+  {
     key: 'p2p_contact',
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Part to Part Contact Permissible?',
@@ -84,16 +92,6 @@ export const PREPSolutionRequiredFormFields = [
       formOptions:{ noStyle:true }
     },
   },
-  {
-    key: 'solution_stacking_nesting',
-    type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Stacking or Nesting of parts',
-    kwargs: {
-      placeholder: 'Stacking or Nesting of parts',
-    },
-    others: {
-      formOptions:{ noStyle:true }
-    } },
   {
     key: 'mul_parts_single_pocket',
     type: FORM_ELEMENT_TYPES.INPUT,

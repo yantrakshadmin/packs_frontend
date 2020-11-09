@@ -32,7 +32,12 @@ export const PFEPExsitingPMForm = ({ id, onCancel,onDone,active,onNext }) => {
       <Form
         onFinish={submit}
         form={form}
-        initialValues={state}
+        initialValues={
+          { ...state,
+            packaging_type:state.packaging_type?state.packaging_type:'New Part' ,
+            current_packaging:state.current_packaging?state.current_packaging:'Returnable'
+          }
+        }
         layout='vertical'
         // hideRequiredMark
         autoComplete='off'

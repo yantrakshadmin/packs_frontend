@@ -31,7 +31,7 @@ export const PFEPProductDetailsForm = ({ id, onCancel,active,onNext }) => {
       <Divider orientation='left'>Product Details Form</Divider>
       <Form
         onFinish={submit}
-        initialValues={state}
+        initialValues={{ ...state,np_ef:state.np_ef?state.np_ef:'New Part' }}
         form={form}
         layout='vertical'
         // hideRequiredMark

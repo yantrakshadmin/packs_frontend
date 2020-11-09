@@ -7,7 +7,9 @@ import {
 
 const initialState = {
   products: [],
-  pfepData:{},
+  pfepData:{
+    np_ef:'New Part',
+  },
   stepLoading:false,
 };
 
@@ -35,7 +37,8 @@ export const fetchData = (state = initialState, action) => {
     case CLEAN_PFEP_DATA:{
       return{
         ...state,
-        pfepData:{}
+        pfepData:{
+        }
       }
     }
     case START_STEP_LOADING:return {

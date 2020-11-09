@@ -116,6 +116,7 @@ export const PREPProductDetailsFormFields = [
       placeholder: 'New Part or Existing flow?',
     },
     others: {
+      defaultValue:'New Part',
       selectOptions:['New Part','Existing Flow']
     },
     type: FORM_ELEMENT_TYPES.SELECT,
