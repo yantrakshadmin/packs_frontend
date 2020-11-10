@@ -619,7 +619,6 @@ export const createDelivered = (req) =>
       'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
     },
   });
-
 export const editDelivered = (id, req) =>
   loadAPI(`/e-delivered/${id}/`, {
     method: 'PATCH',
@@ -636,6 +635,16 @@ export const retrieveDelivered = (id) =>
     secure: true,
   });
 
+
+export const leadFileUpload = (req) =>
+  loadAPI('/upload-pfep/', {
+    method: 'POST',
+    data: req,
+    secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+    },
+  });
 export const createReturn = (data) =>
   loadAPI('/create-return/', {
     method: 'POST',

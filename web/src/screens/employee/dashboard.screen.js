@@ -212,7 +212,7 @@ export const DashboardScreen = () => {
 
   const menuClientStats = clientStats?(
     <Menu>
-      {Object.keys(clientStats.Clients).map((key)=>(
+      {Object.keys((clientStats.Clients||{})).map((key)=>(
         <Menu.Item>
           <Button type='link' onClick={()=>{setClientStatIndex(parseInt(key,0))}}>
             {clientStats.Clients[key]}

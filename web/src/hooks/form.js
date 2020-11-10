@@ -24,15 +24,12 @@ export const useHandleForm = ({
 
   const submit = async (data) => {
     try {
-      console.log(data);
       let api;
-      console.log(isEdit);
       if (isEdit) api = () => edit(id, data);
       else api = () => create(data);
 
       const { error } = await api();
       if (error) {
-        console.log(error);
         throw Error(Object.values(error));
       }
 

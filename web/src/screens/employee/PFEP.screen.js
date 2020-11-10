@@ -121,6 +121,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
             onClick={(e) => {
               setEditingId(record.id);
               setLead(record.lead_no);
+              console.log(record,'record')
               dispatch({ type:ADD_PFEP_DATA,data:record })
               e.stopPropagation();
             }}>

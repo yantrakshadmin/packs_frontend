@@ -6,14 +6,14 @@ import { useTableSearch } from 'hooks/useTableSearch';
 import { retrieveLeads, deleteLead } from 'common/api/auth';
 import Delete from 'icons/Delete';
 import PersonTable from 'components/PersonTable';
-import { DiffOutlined } from '@ant-design/icons'
+import { DiffOutlined,ToTopOutlined } from '@ant-design/icons'
 import { CLEAN_PFEP_DATA } from 'common/actions';
-import { deleteHOC } from '../../hocs/deleteHoc';
-import Edit from '../../icons/Edit';
-import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import { LeadsForm } from '../../forms/leads.form';
-import { BarcodeAllotmentDocket } from '../../components/barcodeAllotmentDocket';
-import { PFEPMainForm } from '../../forms/PFEP/PFEPMain.form';
+import { deleteHOC } from 'hocs/deleteHoc';
+import Edit from 'icons/Edit';
+import TableWithTabHOC from 'hocs/TableWithTab.hoc';
+import { LeadsForm } from 'forms/leads.form';
+import { PFEPMainForm } from 'forms/PFEP/PFEPMain.form';
+import { UploadLeadForm } from 'forms/uploadLead.form';
 
 const { Search } = Input;
 
@@ -22,6 +22,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
   const [visible, setVisible] = useState(false);
+  const [visibleUpload, setVisibleUpload] = useState(false);
   const [lead,setLead] = useState(null);
   const { filteredData, loading, reload } = useTableSearch({
     searchVal,
@@ -64,6 +65,23 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
             <DiffOutlined
               style={{ fontSize:20 }}
               className='icon-bg' />
+          </Button>
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            onClick={(e) => {
+              setLead(record.lead_no);
+              setVisibleUpload(true)
+              e.stopPropagation();
+            }}>
+            <ToTopOutlined
+              style={{ fontSize:20 }}
+              className='icon-bg'
+            />
           </Button>
           <Button
             style={{
@@ -138,6 +156,21 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
         <PFEPMainForm
           onCancel={()=>{setVisible(false)}}
           onDone={()=>{setVisible(false)}}
+          lead={lead} />
+      </Modal>
+      <Modal
+        maskClosable={false}
+        visible={visibleUpload}
+        destroyOnClose
+        style={{ minWidth: `80vw` }}
+        title=''
+        onCancel={() => {
+          setVisibleUpload(false);
+        }}
+        footer={null}>
+        <UploadLeadForm
+          onCancel={()=>{setVisibleUpload(false)}}
+          onDone={()=>{setVisibleUpload(false)}}
           lead={lead} />
       </Modal>
       <TableWithTabHOC
