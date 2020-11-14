@@ -17,9 +17,7 @@ export const UploadLeadForm = ({ id, onCancel,lead, onDone }) => {
   const [reqFile, setFile] = useState(null);
 
   const { form, submit, loading } = useHandleForm({
-    create: async (data)=>{
-      const response = await leadFileUpload({ ...data,load_no:lead });
-      console.log(response,'data : ',data)},
+    create: leadFileUpload,
     edit: ()=>{},
     retrieve: ()=>{},
     success: 'Uploaded successfully.',
@@ -29,34 +27,20 @@ export const UploadLeadForm = ({ id, onCancel,lead, onDone }) => {
     id,
   });
 
-  function toFormData(obj, form, namespace) {
-    const fd = form || new FormData();
-    let formKey;
-    for (const property in obj) {
-      if (obj.hasOwnProperty(property) && obj[property]) {
-        if (namespace) {
-          formKey = `${namespace  }[${  property  }]`;
-        } else {
-          formKey = property;
-        }
-        // nested
-        if (property === 'items') fd.append('items', JSON.stringify(obj.items));
-        // if the property is an object, but not a File, use recursivity.
-        else if (obj[property] instanceof Date) {
-          fd.append(formKey, obj[property].toISOString());
-        } else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
-          toFormData(obj[property], fd, formKey);
-        } else {
-          // if it's a string or a File object
-          fd.append(formKey, obj[property]);
-        }
-      }
-    }
-    return fd;
+  function toFormData(obj) {
+    const FD = new FormData();
+    Object.keys(obj).map((property)=>{
+      return FD.append(property,obj[property])
+    })
+    return FD;
   }
 
   const preProcess = (data) => {
-    submit(data);
+    if (reqFile) {
+      data.document = reqFile.originFileObj;
+    }else delete data.document;
+    const req = toFormData({ ...data,lead });
+    submit(req);
   };
 
   return (
