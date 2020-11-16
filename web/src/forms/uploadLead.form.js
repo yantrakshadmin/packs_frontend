@@ -39,7 +39,7 @@ export const UploadLeadForm = ({ id, onCancel,lead, onDone }) => {
     if (reqFile) {
       data.document = reqFile.originFileObj;
     }else delete data.document;
-    const req = toFormData({ ...data,lead });
+    const req = toFormData({ ...data,lead_no:lead });
     submit(req);
   };
 
