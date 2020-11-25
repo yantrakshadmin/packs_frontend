@@ -4,7 +4,6 @@ import {vendorTypesOptions} from 'common/formFields/vendorTypesOptions';
 export const vendorFormFields = [
   {
     key: 'name',
-    rules: [{required: true, message: 'Please enter name!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -14,7 +13,6 @@ export const vendorFormFields = [
   },
   {
     key: 'street',
-    rules: [{required: true, message: 'Please enter name!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -24,7 +22,6 @@ export const vendorFormFields = [
   },
   {
     key: 'city',
-    rules: [{required: true, message: 'Please enter city!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -34,7 +31,6 @@ export const vendorFormFields = [
   },
   {
     key: 'pincode',
-    rules: [{required: true, message: 'Please enter pincode!'}],
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
@@ -45,7 +41,6 @@ export const vendorFormFields = [
   },
   {
     key: 'state',
-    rules: [{required: true, message: 'Please enter state!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -55,7 +50,6 @@ export const vendorFormFields = [
   },
   {
     key: 'contact_person_name',
-    rules: [{required: true, message: 'Please enter contact person name!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -65,7 +59,6 @@ export const vendorFormFields = [
   },
   {
     key: 'contact_person_no',
-    rules: [{required: true, message: 'Please enter contact person number!'}],
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
@@ -76,13 +69,7 @@ export const vendorFormFields = [
   },
   {
     key: 'email',
-    rules: [
-      {required: true, message: 'Please enter email!'},
-      {
-        type: 'email',
-        message: 'Please enter a valid email',
-      },
-    ],
+
     kwargs: {
       placeholder: 'Enter',
     },
@@ -92,7 +79,6 @@ export const vendorFormFields = [
   },
   {
     key: 'type',
-    rules: [{required: true, message: 'Please enter type!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -104,7 +90,6 @@ export const vendorFormFields = [
   },
   {
     key: 'payment_terms',
-    rules: [{required: true, message: 'Please enter payment terms!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -114,7 +99,6 @@ export const vendorFormFields = [
   },
   {
     key: 'pan',
-    rules: [{required: true, message: 'Please enter PAN!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -124,7 +108,6 @@ export const vendorFormFields = [
   },
   {
     key: 'gst',
-    rules: [{required: true, message: 'Please enter GST!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -134,7 +117,6 @@ export const vendorFormFields = [
   },
   {
     key: 'code',
-    rules: [{required: true, message: 'Please enter code!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -144,7 +126,6 @@ export const vendorFormFields = [
   },
   {
     key: 'remarks',
-    rules: [{required: true, message: 'Please enter remarks!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -154,7 +135,6 @@ export const vendorFormFields = [
   },
   {
     key: 'beneficiary_name',
-    rules: [{required: true, message: 'Please enter beneficiary name!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -165,7 +145,6 @@ export const vendorFormFields = [
 
   {
     key: 'account_no',
-    rules: [{required: true, message: 'Please enter account number!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -175,7 +154,6 @@ export const vendorFormFields = [
   },
   {
     key: 'bank_name',
-    rules: [{required: true, message: 'Please enter bank name!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -185,7 +163,6 @@ export const vendorFormFields = [
   },
   {
     key: 'ifsc',
-    rules: [{required: true, message: 'Please enter IFSC!'}],
     kwargs: {
       placeholder: 'Enter',
     },
