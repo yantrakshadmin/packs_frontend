@@ -190,7 +190,7 @@ const OutwardDocket = ({ location,match }) => {
             </Row>
             <Row>
               <Col span={22}>
-                <p style={{ fontWeight: 'bold', display: 'inline' }}>Transaction Type : Allot</p>
+                <p style={{ fontWeight: 'bold', display: 'inline' }}>Transaction Type : Outward</p>
               </Col>
             </Row>
             <Row>
@@ -280,7 +280,7 @@ const OutwardDocket = ({ location,match }) => {
                   <p style={{ fontWeight: 'bold' }}>GST : </p>
                 </Col>
                 <Col span={12} style={{ wordWrap: 'break-word' }}>
-                  {allotment.sending_location.gst}
+                  {allotment.owner.client_gst}
                 </Col>
               </Row>
             </Col>
@@ -306,6 +306,9 @@ const OutwardDocket = ({ location,match }) => {
                 <th>Quantity Parts</th>
                 <th>Kit Info</th>
                 <th>Kit Type</th>
+                <th>Product Name</th>
+                <th>Product Code</th>
+                <th>Product Quantity</th>
               </tr>
             </thead>
             <tbody>
@@ -318,7 +321,27 @@ const OutwardDocket = ({ location,match }) => {
                     <td>{kit.quantity_parts}</td>
                     <td>{kit.kit.kit_info}</td>
                     <td>{kit.kit.kit_type}</td>
-                  
+                    <td>
+                      {kit.kit.products.map((prod) => (
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <p>{prod.product.name}</p>
+                        </div>
+                      ))}
+                    </td>
+                    <td>
+                      {kit.kit.products.map((prod) => (
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <p>{prod.product.short_code}</p>
+                        </div>
+                      ))}
+                    </td>
+                    <td>
+                      {kit.kit.products.map((prod) => (
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <p>{prod.quantity * kit.quantity_kit}</p>
+                        </div>
+                      ))}
+                    </td>
                   </tr>
                 );
               })}
@@ -351,8 +374,6 @@ const OutwardDocket = ({ location,match }) => {
           </Col>
 
           <Col span={12}>
-           
-          
             <Row>
               <Col span={24}>
                 <p style={{ fontWeight: 'bold', display: 'inline' }}>Vehicle No. : </p>
