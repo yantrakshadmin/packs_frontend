@@ -6,15 +6,17 @@ export const outwardDocketColumn = [
     title:'Transaction Number',
     dataIndex:'transaction_no',
     key:'transaction_no'
-  },{
-    title:'Quantity Parts',
-    dataIndex:'quantity_parts',
-    key:'quantity_parts'
-  },{
-    title:'Quantity Kit',
-    dataIndex:'quantity_kit',
-    key:'quantity_kit'
-  },{
+  },
+  // {
+  //   title:'Quantity Parts',
+  //   dataIndex:'quantity_parts',
+  //   key:'quantity_parts'
+  // },{
+  //   title:'Quantity Kit',
+  //   dataIndex:'quantity_kit',
+  //   key:'quantity_kit'
+  // },
+  {
     title:'Transaction Name',
     dataIndex:'transporter_name',
     key:'transporter_name'

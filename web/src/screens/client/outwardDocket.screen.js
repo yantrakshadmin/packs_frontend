@@ -78,21 +78,22 @@ const OutwardDocketScreen = ({ currentPage }) => {
       )
     },
     ...outwardDocketColumn,
+    // {
+    //   title:'kit',
+    //   dataIndex:'kit',
+    //   key:'kit',
+    //   render:(kit)=>(
+    //     <div>
+    //       {kit.kit_name}
+    //       {' '}
+    //       -
+    //       {' '}
+    //       {kit.kit_info}
+    //     </div>
+    //   )
+    //
+    // },
     {
-      title:'kit',
-      dataIndex:'kit',
-      key:'kit',
-      render:(kit)=>(
-        <div>
-          {kit.kit_name}
-          {' '}
-          -
-          {' '}
-          {kit.kit_info}
-        </div>
-      )
-
-    },{
       title: 'Docket',
       key: 'docket',
       render: (text, record) => {
