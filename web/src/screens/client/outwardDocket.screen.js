@@ -188,7 +188,7 @@ const OutwardDocketScreen = ({ currentPage }) => {
         tabs={tabs}
         size='middle'
         editingId={editingId}
-        title='Outward Docket'
+        title='Outward Docket '
         modalBody={OutwardDocketForm}
         modalWidth={80}
         cancelEditing={cancelEditing}

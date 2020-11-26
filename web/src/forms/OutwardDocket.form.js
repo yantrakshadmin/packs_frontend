@@ -35,7 +35,6 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
       async (fetchId)=>{
         const response = await retrieveOutward(fetchId);
         const { data } = response;
-        console.log('Edit Ggg',data,'')
         return { ...response, data:{ ...data,kit:data.kit.id,sending_location:data.sending_location.id } }
       },
     success: 'Outward Docket created/edited successfully.',
@@ -46,6 +45,10 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
     dates: ['dispatch_date','transaction_date'],
   });
 
+  const handleFieldsChange = (data) => {
+      console.log(data,'This Data')
+  }
+
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Outward Docket</Divider>
@@ -55,7 +58,7 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
         layout='vertical'
         hideRequiredMark
         autoComplete='off'
-        // onFieldsChange={handleFieldsChange}
+        onFieldsChange={handleFieldsChange}
         >
         <Row>
           {outwardDocketFormFields.slice(0, 3).map((item, idx) => (

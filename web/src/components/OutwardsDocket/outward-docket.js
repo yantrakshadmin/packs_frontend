@@ -232,7 +232,7 @@ const OutwardDocket = ({ location,match }) => {
                   <p style={{ fontWeight: 'bold' }}>Sender's Name : </p>
                 </Col>
                 <Col span={12} style={{ wordWrap: 'break-word' }}>
-                  {allotment.sending_location.emitter.client_name}
+                  {allotment.owner.client_name}
                 </Col>
               </Row>
             </Col>
@@ -255,9 +255,9 @@ const OutwardDocket = ({ location,match }) => {
                 </Col>
                 <Col span={12} style={{ wordWrap: 'break-word' }}>
                   {
-                    `${allotment.sending_location.emitter.client_billing_address  },${
-                      allotment.sending_location.emitter.client_city},${allotment.owner.client_state},
-                      ${allotment.sending_location.emitter.client_pincode}`
+                    `${allotment.owner.client_billing_address  },${
+                      allotment.owner.client_city},${allotment.owner.client_state},
+                      ${allotment.owner.client_pincode}`
                   }
                 </Col>
               </Row>
@@ -302,48 +302,23 @@ const OutwardDocket = ({ location,match }) => {
               <tr>
                 <th>Kit ID</th>
                 <th>Kit Name</th>
-                <th>Quantity</th>
-                <th>HSN/SAC</th>
-                <th>Product Code</th>
-                <th>Product Name</th>
-                <th>Product Qty</th>
+                <th>Kit Quantity</th>
+                <th>Quantity Parts</th>
+                <th>Kit Info</th>
+                <th>Kit Type</th>
               </tr>
             </thead>
             <tbody>
-              {[allotment.kit].map((kit) => {
+              {[...allotment.kits].map((kit) => {
                 return (
                   <tr>
-                    <td>{kit.kit_name}</td>
-                    <td>{kit.kit_info}</td>
-                    <td>{kit.components_per_kit}</td>
-                    <td>
-                      {kit.products.map((prod) => (
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                          <p>{prod.product.hsn_code}</p>
-                        </div>
-                      ))}
-                    </td>
-                    <td>
-                      {kit.products.map((prod) => (
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                          <p>{prod.product.short_code}</p>
-                        </div>
-                      ))}
-                    </td>
-                    {/*<td>*/}
-                    {/*  {kit.products.map((prod) => (*/}
-                    {/*    <div style={{ display: 'flex', flexDirection: 'column' }}>*/}
-                    {/*      <p>{prod.product.name}</p>*/}
-                    {/*    </div>*/}
-                    {/*  ))}*/}
-                    {/*</td>*/}
-                    {/*<td>*/}
-                    {/*  {kit.products.map((prod) => (*/}
-                    {/*    <div style={{ display: 'flex', flexDirection: 'column' }}>*/}
-                    {/*      <p>{prod.quantity * flow.alloted_quantity}</p>*/}
-                    {/*    </div>*/}
-                    {/*  ))}*/}
-                    {/*</td>*/}
+                    <td>{kit.kit.id}</td>
+                    <td>{kit.kit.kit_name}</td>
+                    <td>{kit.quantity_kit}</td>
+                    <td>{kit.quantity_parts}</td>
+                    <td>{kit.kit.kit_info}</td>
+                    <td>{kit.kit.kit_type}</td>
+                  
                   </tr>
                 );
               })}
@@ -352,23 +327,7 @@ const OutwardDocket = ({ location,match }) => {
         </Row>
         <Row className='final-docket'>
           <Col span={12}>
-            <Row>
-              <Col span={7}>
-                <p style={{ fontWeight: 'bold', display: 'inline' }}>Amount in Words : </p>
-              </Col>
-              <Col span={16}>
-                <p style={{ display: 'inline', wordWrap: 'break-word', textTransform: 'capitalize' }}>
-                  {`${String.fromCharCode(0x20b9)  } ${  inWords(total)}`}
-                </p>
-              </Col>
-              <br />
-            </Row>
-            <Row>
-              <Col span={24}>
-                <p style={{ fontWeight: 'bold', display: 'inline' }}>SO No. : </p>
-                <p style={{ display: 'inline' }}>{allotment.id}</p>
-              </Col>
-            </Row>
+          
             <Row>
               <Col span={24}>
                 <p style={{ fontWeight: 'bold', display: 'inline' }}>Transporter Name : </p>
@@ -392,26 +351,8 @@ const OutwardDocket = ({ location,match }) => {
           </Col>
 
           <Col span={12}>
-            <Row>
-              <Col span={24}>
-                <p style={{ fontWeight: 'bold', display: 'inline' }}>Grand Total : </p>
-                <p style={{ fontWeight: 'bold', display: 'inline', wordWrap: 'break-word' }}>
-                  {`${String.fromCharCode(0x20b9)  } ${  total}`}
-                </p>
-              </Col>
-            </Row>
-            {/* <Row> */}
-            {/*  <Col span={24}> */}
-            {/*    <p style={{ fontWeight: 'bold', display: 'inline' }}>Creation Date : </p> */}
-            {/*    <p style={{ display: 'inline', wordWrap: 'break-word' }}> */}
-            {/*      {`${new Date().getDate().toString() */}
-            {/*      }/${ */}
-            {/*        new Date().getMonth().toString() */}
-            {/*      }/${ */}
-            {/*        new Date().getFullYear().toString()}`} */}
-            {/*    </p> */}
-            {/*  </Col> */}
-            {/* </Row> */}
+           
+          
             <Row>
               <Col span={24}>
                 <p style={{ fontWeight: 'bold', display: 'inline' }}>Vehicle No. : </p>
