@@ -82,12 +82,7 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
           {outwardDocketFormFields.slice(4, 8).map((item, idx) => (
             <Col span={6}>
               <div key={idx.toString()} className='p-2'>
-                {formItem({ ...item,others:{
-                  selectOptions:kits || [],
-                  key: 'id',
-                  customTitle: 'kit_name',
-                  dataKeys: ['kit_info','kit_type'],
-                } } )}
+                {formItem(item)}
               </div>
             </Col>
           ))}
