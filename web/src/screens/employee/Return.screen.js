@@ -222,7 +222,7 @@ const ReturnDocketsScreen = ({ currentPage }) => {
           <LineGraph {...{ tagName: 'Total Received', count:deliveredCount,width:230 }}  />
         </Col>
         <Col span={6}>
-          <LineGraph {...{ tagName: 'Intransit', count: pendingCount,width:230  }} />
+          <LineGraph {...{ tagName: 'In-transit', count: pendingCount,width:230  }} />
         </Col>
         <Col span={6}>
           <LineGraph {...{

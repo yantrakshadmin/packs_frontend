@@ -66,7 +66,6 @@ export const outwardDocketFormFields = [
     customLabel: 'Quantity Kit',
   },{
     key: 'transporter_name',
-    rules: [{ required: true, message: 'Please select Transporter Name!' }],
     kwargs: {
       placeholder: 'Transporter Name',
     },
@@ -76,7 +75,6 @@ export const outwardDocketFormFields = [
   },
   {
     key: 'vehicle_details',
-    rules: [{ required: true, message: 'Please select Vehicle Details!' }],
     kwargs: {
       placeholder: 'Vehicle Details',
     },

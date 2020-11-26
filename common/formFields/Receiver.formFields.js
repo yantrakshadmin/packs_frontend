@@ -23,7 +23,6 @@ export const receiverFormFields = [
   },
   {
     key: 'address',
-    rules: [{required: true, message: 'Please enter receiver address!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -43,7 +42,6 @@ export const receiverFormFields = [
   },
   {
     key: 'pan',
-    rules: [{required: true, message: 'Please enter receiver PAN!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -53,7 +51,6 @@ export const receiverFormFields = [
   },
   {
     key: 'gst',
-    rules: [{required: true, message: 'Please enter receiver GST!'}],
     kwargs: {
       placeholder: 'Enter',
     },

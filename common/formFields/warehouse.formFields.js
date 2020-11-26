@@ -77,7 +77,6 @@ export const wareHouseFormFields = [
   },
   {
     key: 'pan',
-    rules: [{required: true, message: 'Please enter warehouse PAN!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -87,7 +86,6 @@ export const wareHouseFormFields = [
   },
   {
     key: 'gst',
-    rules: [{required: true, message: 'Please enter warehouse GST!'}],
     kwargs: {
       placeholder: 'Enter',
     },

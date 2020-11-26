@@ -23,7 +23,6 @@ export const productFormFields = [
   },
   {
     key: 'description',
-    rules: [{required: true, message: 'Please enter description!'}],
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
       placeholder: 'Enter',
@@ -51,7 +50,6 @@ export const productFormFields = [
   },
   {
     key: 'hsn_code',
-    rules: [{required: true, message: 'Please enter hsn_code!'}],
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
       placeholder: 'Enter',
@@ -62,7 +60,6 @@ export const productFormFields = [
 
   {
     key: 'height',
-    rules: [{required: true, message: 'Please enter height!'}],
     type: FORM_ELEMENT_TYPES.INPUT_NUMBER,
     kwargs: {
       placeholder: 'Enter',
@@ -71,7 +68,6 @@ export const productFormFields = [
   },
   {
     key: 'width',
-    rules: [{required: true, message: 'Please enter width!'}],
     type: FORM_ELEMENT_TYPES.INPUT_NUMBER,
     kwargs: {
       placeholder: 'Enter',
@@ -80,7 +76,6 @@ export const productFormFields = [
   },
   {
     key: 'length',
-    rules: [{required: true, message: 'Please enter length!'}],
     type: FORM_ELEMENT_TYPES.INPUT_NUMBER,
     kwargs: {
       placeholder: 'Enter',
@@ -107,7 +102,6 @@ export const productFormFields = [
   },
   {
     key: 'cavity_length',
-    rules: [{required: true, message: 'Please enter cavity length!'}],
     type: FORM_ELEMENT_TYPES.INPUT_NUMBER,
     kwargs: {
       placeholder: 'Enter',
@@ -116,7 +110,6 @@ export const productFormFields = [
   },
   {
     key: 'cavity_width',
-    rules: [{required: true, message: 'Please enter cavity width!'}],
     type: FORM_ELEMENT_TYPES.INPUT_NUMBER,
     kwargs: {
       placeholder: 'Enter',
@@ -125,7 +118,6 @@ export const productFormFields = [
   },
   {
     key: 'document',
-    rules: [{required: false, message: 'Please attach document!'}],
     type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
     kwargs: {
       placeholder: 'Attach',
