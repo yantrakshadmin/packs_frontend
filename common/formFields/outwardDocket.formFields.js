@@ -36,7 +36,7 @@ export const outwardDocketFormFields = [
     kwargs: {
       placeholder: 'Transporter Name',
     },
-    type: FORM_ELEMENT_TYPES.INPUT,
+    type: FORM_ELEMENT_TYPES.SELECT,
     others: {
       selectOptions: ['Mahindra Logistics', 'TCI', 'Vinsum / Axpress', 'Other'],
     },

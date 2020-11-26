@@ -28,7 +28,6 @@ export const outwardDocketKitFormFields = [
         type: FORM_ELEMENT_TYPES.INPUT,
         kwargs: {
           type: 'number',
-          disabled: true,
         },
         others: null,
         customLabel: 'Kit Quantity',
