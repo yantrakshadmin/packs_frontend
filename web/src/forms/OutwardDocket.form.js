@@ -47,6 +47,17 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
 
   const handleFieldsChange = (data) => {
       console.log(data,'This Data')
+      if(data[0]){
+        console.log(data[0].name,'ye wala')
+        if(data[0].name){
+          if(data[0].name[2]==='quantity_parts'){
+            const allkits = form.getFieldValue('kits')
+            const selectedKit = kits.filter(i=>(i.id === allkits[data[0].name[1]].kit))
+            console.log(parseInt(parseInt(data[0].value)/selectedKit[0].components_per_kit)+1,'Ggg',form.getFieldValue('kits'),selectedKit)
+            const newData = {...allkits[data[0].name[1]],quantity_kit:Math.ceil(parseInt(data[0].value)/selectedKit[0].components_per_kit)}
+            allkits[data[0].name[1]] = newData
+            form.setFieldsValue('kits',allkits)
+        }}}
   }
 
   return (
