@@ -32,39 +32,6 @@ export const outwardDocketFormFields = [
     customLabel: 'Sender Client',
   },
   {
-    key: 'kit',
-    rules: [{ required: true, message: 'Please select kit!' }],
-    type: FORM_ELEMENT_TYPES.SELECT,
-    kwargs: {
-      placeholder: 'kit',
-    },
-    customLabel: 'kit',
-    others: {
-      selectOptions:[]
-    }
-  },
-  {
-    key: 'quantity_parts',
-    rules: [{ required: true, message: 'Please select Quantity Parts!' }],
-    kwargs: {
-      placeholder: 'Quantity Parts',
-      type:'number'
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Quantity Parts',
-  },
-  {
-    key: 'quantity_kit',
-    rules: [{ required: true, message: 'Please select Quantity Kit!' }],
-    kwargs: {
-      type:'number',
-      placeholder: 'Quantity Kit',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Quantity Kit',
-  },{
     key: 'transporter_name',
     kwargs: {
       placeholder: 'Transporter Name',

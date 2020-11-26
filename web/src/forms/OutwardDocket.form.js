@@ -1,5 +1,6 @@
 import React, { useEffect,useState } from 'react';
 import { Form, Col, Row, Button, Divider, Spin } from 'antd';
+import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { useHandleForm } from 'hooks/form';
 import {
   createOutward,
@@ -8,6 +9,8 @@ import {
 } from 'common/api/auth';
 import { outwardDocketFormFields }
   from 'common/formFields/outwardDocket.formFields';
+import { outwardDocketKitFormFields } 
+  from 'common/formFields/outwardDocketKits.formFields.js'
 import { useAPI } from 'common/hooks/api';
 import { getUniqueObject } from 'common/helpers/getUniqueValues';
 import formItem from '../hocs/formItem.hoc';
@@ -76,7 +79,7 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
           ))}
         </Row>
         <Row>
-          {outwardDocketFormFields.slice(4, 5).map((item, idx) => (
+          {outwardDocketFormFields.slice(4, 8).map((item, idx) => (
             <Col span={6}>
               <div key={idx.toString()} className='p-2'>
                 {formItem({ ...item,others:{
@@ -88,23 +91,90 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
               </div>
             </Col>
           ))}
-          {outwardDocketFormFields.slice(5, 8).map((item, idx) => (
-            <Col span={6}>
-              <div key={idx.toString()} className='p-2'>
-                {formItem( item )}
-              </div>
-            </Col>
-          ))}
         </Row>
-        <Row>
-          {outwardDocketFormFields.slice(8, 11).map((item, idx) => (
-            <Col span={6}>
-              <div key={idx.toString()} className='p-2'>
-                {formItem(item)}
+
+        <Divider orientation='left'>Kit Details</Divider>
+
+        <Form.List name='kits'>
+          {(fields, { add, remove }) => {
+            return (
+              <div>
+                {fields.map((field, index) => (
+                  <Row align='middle'>
+                    {outwardDocketKitFormFields.slice(0, 1).map((item) => (
+                      <Col span={7}>
+                        <div className='p-2'>
+                          {formItem({
+                            ...item,
+                            noLabel: index != 0,
+                            kwargs: {
+                              placeholder: 'Select',
+                              showSearch: true,
+                              filterOption: (input, option) =>
+                                option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                            },
+                            form,
+                            others: {
+                              selectOptions: kits || [],
+                              key: 'id',
+                              dataKeys: ['components_per_kit', 'kit_info', 'kit_name'],
+                              customTitle: 'kit_name',
+                              formOptions: {
+                                ...field,
+                                name: [field.name, item.key],
+                                fieldKey: [field.fieldKey, item.key],
+                              },
+                            },
+                          })}
+                        </div>
+                      </Col>
+                    ))}
+                    {outwardDocketKitFormFields.slice(1, 3).map((item) => (
+                      <Col span={7}>
+                        <div className='p-2'>
+                          {formItem({
+                            ...item,
+                            noLabel: index != 0,
+                            others: {
+                              formOptions: {
+                                ...field,
+                                name: [field.name, item.key],
+                                fieldKey: [field.fieldKey, item.key],
+                              },
+                            },
+                            form,
+                          })}
+                        </div>
+                      </Col>
+                    ))}
+                    <Button
+                      type='danger'
+                      style={index != 0 ? { top: '-2vh' } : null}
+                      onClick={() => {
+                        remove(field.name);
+                      }}>
+                      <MinusCircleOutlined />
+                      {' '}
+                      Delete
+                    </Button>
+                  </Row>
+                ))}
+                <Form.Item>
+                  <Button
+                    type='dashed'
+                    onClick={() => {
+                      add();
+                    }}
+                    block>
+                    <PlusOutlined />
+                    {' '}
+                    Add Item
+                  </Button>
+                </Form.Item>
               </div>
-            </Col>
-          ))}
-        </Row>
+            );
+          }}
+        </Form.List>
         <Row>
           <Button type='primary' htmlType='submit'>
             Save
