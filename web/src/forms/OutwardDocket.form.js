@@ -9,7 +9,7 @@ import {
 } from 'common/api/auth';
 import { outwardDocketFormFields }
   from 'common/formFields/outwardDocket.formFields';
-import { outwardDocketKitFormFields } 
+import { outwardDocketKitFormFields }
   from 'common/formFields/outwardDocketKits.formFields.js'
 import { useAPI } from 'common/hooks/api';
 import { getUniqueObject } from 'common/helpers/getUniqueValues';
@@ -25,8 +25,16 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
       setReceiverClients(getUniqueObject(flows.map((item)=>(item.receiver_client)),'id'))
     }
   },[flows])
-
-
+  // quantity_parts
+  // quantity_kit
+  // kit
+  const getKits = (data) =>{
+    return data.map(item=>({
+      quantity_parts:item.quantity_parts,
+      quantity_kit:item.quantity_kit,
+      kit:item.kit.id,
+    }))
+  }
 
   const { form, submit, loading } = useHandleForm({
     create: createOutward,
@@ -35,7 +43,8 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
       async (fetchId)=>{
         const response = await retrieveOutward(fetchId);
         const { data } = response;
-        return { ...response, data:{ ...data,kit:data.kit.id,sending_location:data.sending_location.id } }
+        return { ...response,
+          data:{ ...data,kits:getKits(data.kits),sending_location:data.sending_location.id } }
       },
     success: 'Outward Docket created/edited successfully.',
     failure: 'Error in creating/editing Outward Docket.',
@@ -46,17 +55,14 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
   });
 
   const handleFieldsChange = (data) => {
-      console.log(data,'This Data')
-      if(data[0]){
-        console.log(data[0].name,'ye wala')
-        if(data[0].name){
-          if(data[0].name[2]==='quantity_parts'){
-            const allkits = form.getFieldValue('kits')
-            const selectedKit = kits.filter(i=>(i.id === allkits[data[0].name[1]].kit))
-            console.log(parseInt(parseInt(data[0].value)/selectedKit[0].components_per_kit)+1,'Ggg',form.getFieldValue('kits'),selectedKit)
-            const newData = {...allkits[data[0].name[1]],quantity_kit:Math.ceil(parseInt(data[0].value)/selectedKit[0].components_per_kit)}
-            allkits[data[0].name[1]] = newData
-            form.setFieldsValue('kits',allkits)
+    if(data[0]){
+      if(data[0].name){
+        if(data[0].name[2]==='quantity_parts'){
+          const allkits = form.getFieldValue('kits')
+          const selectedKit = kits.filter(i=>(i.id === allkits[data[0].name[1]].kit))
+          const newData = { ...allkits[data[0].name[1]],quantity_kit:Math.ceil(parseInt(data[0].value)/selectedKit[0].components_per_kit) }
+          allkits[data[0].name[1]] = newData
+          form.setFieldsValue('kits',allkits)
         }}}
   }
 

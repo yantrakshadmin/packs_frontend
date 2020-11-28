@@ -11,6 +11,8 @@ import { OutwardDocketForm } from '../../forms/OutwardDocket.form';
 import Edit from '../../icons/Edit';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
+import Delivery from '../../icons/Delivery';
+import { OutwardDeliveredDocketForm } from '../../forms/OutwardDeliveredDocket.form';
 
 const { Search } = Input;
 
@@ -19,10 +21,9 @@ const OutwardDocketScreen = ({ currentPage }) => {
   const [editingId, setEditingId] = useState(null);
   const [reqData, setReqData] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
-
+  const [TN,setTN] = useState(null);
   const { data: outwards, loading } = useAPI('/outwards/', {});
-  const { data } = useAPI('/edit-outward/1/');
-  console.log(data,"edit data");
+  console.log(outwards,'otwrds')
   const { filteredData, reload } = useTableSearch({
     searchVal,
     reqData,
@@ -116,6 +117,21 @@ const OutwardDocketScreen = ({ currentPage }) => {
       width: '7vw',
       render: (text, record) => (
         <div className='row justify-evenly'>
+
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            onClick={(e) => {
+              setTN(record.transaction_no);
+              setDeliveryId(record.id);
+              e.stopPropagation();
+            }}>
+            <Delivery color={record.is_delivered ? '#7CFC00' : null} />
+          </Button>
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -166,6 +182,7 @@ const OutwardDocketScreen = ({ currentPage }) => {
 
   const cancelEditing = () => {
     setEditingId(null);
+    setTN(null)
     setDeliveryId(null);
   };
 
@@ -187,10 +204,11 @@ const OutwardDocketScreen = ({ currentPage }) => {
         refresh={reload}
         tabs={tabs}
         size='middle'
-        editingId={editingId}
-        title='Outward Docket '
-        modalBody={OutwardDocketForm}
+        editingId={editingId || deliveryId}
+        title={deliveryId?'Delivered Docket ':'Outward Docket '}
+        modalBody={deliveryId?OutwardDeliveredDocketForm:OutwardDocketForm}
         modalWidth={80}
+        formParams={{ transaction_no: TN }}
         cancelEditing={cancelEditing}
       />
     </>

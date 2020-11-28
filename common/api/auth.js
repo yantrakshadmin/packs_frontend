@@ -59,7 +59,6 @@ export const retrieveProducts = () =>
   });
 
 export const editProduct = (id, req) => {
-  console.log(document);
   return loadAPI(`/edit-product/${id}/`, {
     method: 'PATCH',
     secure: true,
@@ -632,6 +631,37 @@ export const editDelivered = (id, req) =>
 export const retrieveDelivered = (id) =>
   loadAPI(`/edit-delivered/${id}/`, {
     method: 'GET',
+    secure: true,
+  });
+
+export const createOutwardDeliveredDocket = (req) =>
+  loadAPI('/create-inward/', {
+    method: 'POST',
+    data: req,
+    secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+    },
+  });
+export const editOutwardDeliveredDocket = (id, req) =>
+  loadAPI(`/edit-inward/${id}/`, {
+    method: 'PATCH',
+    data: req,
+    secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+    },
+  });
+
+export const retrieveOutwardDeliveredDocket = (id) =>
+  loadAPI(`/edit-inward/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteOutwardDeliveredDocket = (id) =>
+  loadAPI(`/edit-inward/${id}/`, {
+    method: 'Delete',
     secure: true,
   });
 
