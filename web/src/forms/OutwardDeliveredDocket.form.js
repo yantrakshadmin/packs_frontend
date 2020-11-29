@@ -8,9 +8,9 @@ import { useHandleForm } from 'hooks/form';
 import {
   createOutwardDeliveredDocket,
   retrieveOutwardDeliveredDocket,
-  allDelivered,
+  allInward,
   editOutwardDeliveredDocket,
-  retrieveAllotmentsDelivered,
+  retrieveDocketOutwardInward,
 } from 'common/api/auth';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import formItem from '../hocs/formItem.hoc';
@@ -42,7 +42,7 @@ export const OutwardDeliveredDocketForm = ({ id, onCancel, onDone, transaction_n
 
   useEffect(() => {
     const fetchDelivered = async () => {
-      const { data } = await allDelivered();
+      const { data } = await allInward();
       if (data) {
         const dlvd = data.filter((d) => d.allotment === id)[0];
         if (dlvd) {
@@ -61,7 +61,7 @@ export const OutwardDeliveredDocketForm = ({ id, onCancel, onDone, transaction_n
   useEffect(() => {
     const fetchDelivered = async () => {
       setLoading(true);
-      const { data } = await retrieveAllotmentsDelivered(id);
+      const { data } = await retrieveDocketOutwardInward(id);
       if (data) {
         setLoading(false);
         const reqdlvd = data;
@@ -82,7 +82,7 @@ export const OutwardDeliveredDocketForm = ({ id, onCancel, onDone, transaction_n
     if (reqDlvd) {
       const reqProd = [];
       console.log(reqDlvd,'req');
-      reqDlvd.flows.forEach((flow) => {
+      reqDlvd.kits.forEach((flow) => {
         flow.kit.products.forEach((prod) => {
           reqProd.push(prod.product);
         });
@@ -122,7 +122,7 @@ export const OutwardDeliveredDocketForm = ({ id, onCancel, onDone, transaction_n
   }
 
   const preProcess = (data) => {
-    data.allotment = allotment;
+    data.outwarddocket = allotment;
     data.delivered = delivered;
     if (reqFile) {
       console.log(reqFile,'reques')
@@ -257,7 +257,7 @@ export const OutwardDeliveredDocketForm = ({ id, onCancel, onDone, transaction_n
                             },
                             others: {
                               selectOptions: ['Repairable',
-                                'Return', 'Damage', 'Swap Return','Others'],
+                                'Return', 'Damage', 'Swap Return'],
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],

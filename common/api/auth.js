@@ -794,11 +794,18 @@ export const deleteReceived = (id) =>
     secure: true,
   });
 
-export const allDelivered = (id) =>
+export const allDelivered = ( ) =>
   loadAPI('/delivered/', {
     method: 'GET',
     secure: true,
   });
+
+export const allInward = ( ) =>
+  loadAPI('/inward/', {
+    method: 'GET',
+    secure: true,
+  });
+
 
 export const allReceived = () => loadAPI('/received/', {});
 
@@ -849,6 +856,13 @@ export const retrieveReturnReport = ({ cname, to, from }) =>
 
 export const retrieveAllotmentsDelivered = (id) =>
   loadAPI('/allotments-delivered/', {
+    method: 'GET',
+    secure: true,
+    params: { id },
+  });
+
+export const retrieveDocketOutwardInward = (id) =>
+  loadAPI('/outward-inward/', {
     method: 'GET',
     secure: true,
     params: { id },
