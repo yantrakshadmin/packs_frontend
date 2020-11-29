@@ -25,16 +25,26 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
       setReceiverClients(getUniqueObject(flows.map((item)=>(item.receiver_client)),'id'))
     }
   },[flows])
+
+  const getKits = (data) => {
+    console.log("sdfghj")
+    console.log(data.map(item => ({kit:item.kit.id, quantity_parts: item.quantity_parts, quantity_kit: item.quantity_kit})), "dekho")
+    console.log("qwqe")
+    return data.map(item => ({kit:item.kit.id, quantity_parts: item.quantity_parts, quantity_kit: item.quantity_kit}))
+
+
+   }
+
   // quantity_parts
   // quantity_kit
   // kit
-  const getKits = (data) =>{
-    return data.map(item=>({
-      quantity_parts:item.quantity_parts,
-      quantity_kit:item.quantity_kit,
-      kit:item.kit.id,
-    }))
-  }
+  // const getKits = (data) =>{
+  //   return data.map(item=>({
+  //     quantity_parts:item.quantity_parts,
+  //     quantity_kit:item.quantity_kit,
+  //     kit:item.kit.id,
+  //   }))
+  // }
 
   const { form, submit, loading } = useHandleForm({
     create: createOutward,
@@ -43,6 +53,10 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
       async (fetchId)=>{
         const response = await retrieveOutward(fetchId);
         const { data } = response;
+        console.log(data, "kuchbhi")
+
+        const temp= getKits(data.kits)
+        return { ...response, data:{ ...data,kits:temp,sending_location:data.sending_location.id } }
         return { ...response,
           data:{ ...data,kits:getKits(data.kits),sending_location:data.sending_location.id } }
       },
@@ -65,6 +79,7 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
           form.setFieldsValue('kits',allkits)
         }}}
   }
+
 
   return (
     <Spin spinning={loading}>
