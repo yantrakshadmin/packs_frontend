@@ -644,7 +644,7 @@ export const createOutwardDeliveredDocket = (req) =>
     },
   });
 export const editOutwardDeliveredDocket = (id, req) =>
-  loadAPI(`/edit-inward/${id}/`, {
+  loadAPI(`/e-inward/${id}/`, {
     method: 'PATCH',
     data: req,
     secure: true,

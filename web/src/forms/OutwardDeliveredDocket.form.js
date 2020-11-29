@@ -24,9 +24,15 @@ export const OutwardDeliveredDocketForm = ({ id, onCancel, onDone, transaction_n
   const [products, setProducts] = useState(null);
   const [reqFile, setFile] = useState(null);
 
+  const getItems =(items) => {
+    return items.map(item =>({ product:item.product.id, quantity:item.quantity,fault:item.fault }))
+  }
   const { form, submit } = useHandleForm({
     create: createOutwardDeliveredDocket,
-    retrieve: retrieveOutwardDeliveredDocket,
+    retrieve:async ()=>{
+      const response = await retrieveOutwardDeliveredDocket(deliveryId);
+      return { ...response,data:{ ...response.data,items:getItems(response.data.items) }
+      }},
     success: 'Request created/edited successfully.',
     failure: 'Error in creating/editing request.',
     done: onDone,
@@ -34,6 +40,7 @@ export const OutwardDeliveredDocketForm = ({ id, onCancel, onDone, transaction_n
     edit: editOutwardDeliveredDocket,
     id: deliveryId,
   });
+
 
   useEffect(() => {
     form.setFieldsValue({ transaction_no });
@@ -44,7 +51,7 @@ export const OutwardDeliveredDocketForm = ({ id, onCancel, onDone, transaction_n
     const fetchDelivered = async () => {
       const { data } = await allInward();
       if (data) {
-        const dlvd = data.filter((d) => d.allotment === id)[0];
+        const dlvd = data.filter((d) => d.outwarddocket === id)[0];
         if (dlvd) {
           setDeliveryId(dlvd.id);
         } else {
@@ -122,8 +129,8 @@ export const OutwardDeliveredDocketForm = ({ id, onCancel, onDone, transaction_n
   }
 
   const preProcess = (data) => {
-    data.outwarddocket = allotment;
-    data.delivered = delivered;
+    data.outwarddocket = id;
+    // data.delivered = delivered;
     if (reqFile) {
       console.log(reqFile,'reques')
       data.document = reqFile.originFileObj;

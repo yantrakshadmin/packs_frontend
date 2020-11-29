@@ -1,16 +1,10 @@
-import React, { useEffect,useState } from 'react';
-import { Form, Col, Row, Button, Divider, Spin } from 'antd';
-import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Divider, Form, Row, Spin } from 'antd';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { useHandleForm } from 'hooks/form';
-import {
-  createOutward,
-  editOutward,
-  retrieveOutward,
-} from 'common/api/auth';
-import { outwardDocketFormFields }
-  from 'common/formFields/outwardDocket.formFields';
-import { outwardDocketKitFormFields }
-  from 'common/formFields/outwardDocketKits.formFields.js'
+import { createOutward, editOutward, retrieveOutward } from 'common/api/auth';
+import { outwardDocketFormFields, } from 'common/formFields/outwardDocket.formFields';
+import { outwardDocketKitFormFields } from 'common/formFields/outwardDocketKits.formFields'
 import { useAPI } from 'common/hooks/api';
 import { getUniqueObject } from 'common/helpers/getUniqueValues';
 import formItem from '../hocs/formItem.hoc';
@@ -27,24 +21,12 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
   },[flows])
 
   const getKits = (data) => {
-    console.log("sdfghj")
-    console.log(data.map(item => ({kit:item.kit.id, quantity_parts: item.quantity_parts, quantity_kit: item.quantity_kit})), "dekho")
-    console.log("qwqe")
-    return data.map(item => ({kit:item.kit.id, quantity_parts: item.quantity_parts, quantity_kit: item.quantity_kit}))
+    return data.map(item => ({
+      kit:item.kit.id,
+      quantity_parts: item.quantity_parts,
+      quantity_kit: item.quantity_kit }))
+  }
 
-
-   }
-
-  // quantity_parts
-  // quantity_kit
-  // kit
-  // const getKits = (data) =>{
-  //   return data.map(item=>({
-  //     quantity_parts:item.quantity_parts,
-  //     quantity_kit:item.quantity_kit,
-  //     kit:item.kit.id,
-  //   }))
-  // }
 
   const { form, submit, loading } = useHandleForm({
     create: createOutward,
@@ -53,12 +35,8 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
       async (fetchId)=>{
         const response = await retrieveOutward(fetchId);
         const { data } = response;
-        console.log(data, "kuchbhi")
-
         const temp= getKits(data.kits)
         return { ...response, data:{ ...data,kits:temp,sending_location:data.sending_location.id } }
-        return { ...response,
-          data:{ ...data,kits:getKits(data.kits),sending_location:data.sending_location.id } }
       },
     success: 'Outward Docket created/edited successfully.',
     failure: 'Error in creating/editing Outward Docket.',
@@ -74,8 +52,10 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
         if(data[0].name[2]==='quantity_parts'){
           const allkits = form.getFieldValue('kits')
           const selectedKit = kits.filter(i=>(i.id === allkits[data[0].name[1]].kit))
-          const newData = { ...allkits[data[0].name[1]],quantity_kit:Math.ceil(parseInt(data[0].value)/selectedKit[0].components_per_kit) }
-          allkits[data[0].name[1]] = newData
+          allkits[data[0].name[1]] = {
+            ...allkits[data[0].name[1]],
+            quantity_kit: Math.ceil(parseInt(data[0].value,0) / selectedKit[0].components_per_kit)
+          }
           form.setFieldsValue('kits',allkits)
         }}}
   }

@@ -13,6 +13,9 @@ import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Delivery from '../../icons/Delivery';
 import { OutwardDeliveredDocketForm } from '../../forms/OutwardDeliveredDocket.form';
+import { loadAPI } from 'common/helpers/api';
+import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
+import Document from '../../icons/Document';
 
 const { Search } = Input;
 
@@ -117,7 +120,28 @@ const OutwardDocketScreen = ({ currentPage }) => {
       width: '7vw',
       render: (text, record) => (
         <div className='row justify-evenly'>
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            // disabled={!record.document}
+            onClick={async (e) => {
+              const { data: req } = await loadAPI(
+                `${DEFAULT_BASE_URL}/inward/?pk=${record.id}`,
+                {},
+              );
 
+              if (req){
+                if (req[0].document) {
+                  window.open(req[0].document);
+                }}
+              e.stopPropagation();
+            }}>
+            <Document color={record.document ? '#7CFC00' : null} />
+          </Button>
           <Button
             style={{
               backgroundColor: 'transparent',
