@@ -178,8 +178,8 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
               record,
               reload,
               api: deleteAllotment,
-              success: 'Deleted kit successfully',
-              failure: 'Error in deleting kit',
+              success: 'Deleted Allotment Successfully',
+              failure: 'Error in deleting Allotment',
             })}>
             <Button
               style={{

@@ -37,6 +37,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
     {
       title: 'Sr. No.',
       key: 'srno',
+      width:'5vw',
       render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
     },
     ...clientColumns,
@@ -44,6 +45,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
       title: 'Client State',
       key: 'client_state',
       dataIndex: 'client_state',
+      width:'8vw',
       filters: GetUniqueValue(filteredData || [],'client_state'),
       onFilter: (value, record) => record.client_state === value,
     },
@@ -51,6 +53,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
       title: 'Client Region',
       key: 'client_region',
       dataIndex: 'client_region',
+      width:'8vw',
       filters: GetUniqueValue(filteredData || [],'client_region'),
       onFilter: (value, record) => record.client_region === value,
     },
@@ -63,6 +66,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
       title: 'Client Category',
       key: 'client_category',
       dataIndex: 'client_category',
+      width:'8vw',
     },
     // {
     //   title: 'Client Product User Type',

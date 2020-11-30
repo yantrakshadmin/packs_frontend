@@ -103,8 +103,8 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
               record,
               reload,
               api: deleteLead,
-              success: 'Deleted kit successfully',
-              failure: 'Error in deleting kit',
+              success: 'Deleted Lead successfully',
+              failure: 'Error in deleting Lead',
             })}>
             <Button
               style={{

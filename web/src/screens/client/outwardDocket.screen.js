@@ -6,6 +6,8 @@ import { Link } from '@reach/router';
 import { useAPI } from 'common/hooks/api';
 import { deleteFlow, deleteOutward } from 'common/api/auth';
 import { outwardDocketColumn } from 'common/columns/outwardDocket.column';
+import { loadAPI } from 'common/helpers/api';
+import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { OutwardDocketForm } from '../../forms/OutwardDocket.form';
 import Edit from '../../icons/Edit';
@@ -13,8 +15,6 @@ import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Delivery from '../../icons/Delivery';
 import { OutwardDeliveredDocketForm } from '../../forms/OutwardDeliveredDocket.form';
-import { loadAPI } from 'common/helpers/api';
-import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
 import Document from '../../icons/Document';
 
 const { Search } = Input;
@@ -25,9 +25,9 @@ const OutwardDocketScreen = ({ currentPage }) => {
   const [reqData, setReqData] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
   const [TN,setTN] = useState(null);
-  const { data: outwards, loading } = useAPI('/outwards/', {});
+  const { data: outwards, loading,reload } = useAPI('/outwards/', {});
   console.log(outwards,'otwrds')
-  const { filteredData, reload } = useTableSearch({
+  const { filteredData, } = useTableSearch({
     searchVal,
     reqData,
   });
@@ -133,11 +133,11 @@ const OutwardDocketScreen = ({ currentPage }) => {
                 `${DEFAULT_BASE_URL}/inward/?pk=${record.id}`,
                 {},
               );
-
               if (req){
-                if (req[0].document) {
-                  window.open(req[0].document);
-                }}
+                if(req[0]){
+                  if (req[0].document) {
+                    window.open(req[0].document);
+                  }}}
               e.stopPropagation();
             }}>
             <Document color={record.document ? '#7CFC00' : null} />
@@ -175,8 +175,8 @@ const OutwardDocketScreen = ({ currentPage }) => {
               record,
               reload,
               api: deleteOutward,
-              success: 'Deleted Flow successfully',
-              failure: 'Error in deleting flow',
+              success: 'Deleted Outward Docket Successfully',
+              failure: 'Error in deleting Outward Docket',
             })}>
             <Button
               style={{
@@ -227,6 +227,7 @@ const OutwardDocketScreen = ({ currentPage }) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
+        loading={loading}
         size='middle'
         editingId={editingId || deliveryId}
         title={deliveryId?'Delivered Docket ':'Outward Docket '}

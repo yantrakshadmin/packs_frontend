@@ -145,18 +145,18 @@ export const employeeRoutes = [
     Component: lazy(() => import('screens/employee/GRN.screen')),
   },
   {
-    name: 'PFEP',
+    name: 'Sales',
     icon: ['fas', 'layer-group'],
     path: '/reports/',
     isSubMenu: true,
     subMenu: [
       {
-        name: 'Leads Master',
+        name: 'Leads',
         path: '/pfep/leads/',
         Component: lazy(() => import('screens/employee/Leads.screen')),
       },
       {
-        name: 'Create PFEP',
+        name: 'PFEP',
         path: '/pfep/create/',
         Component: lazy(() => import('screens/employee/PFEP.screen')),
       },

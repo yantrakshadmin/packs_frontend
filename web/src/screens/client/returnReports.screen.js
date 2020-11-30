@@ -42,7 +42,6 @@ const ReturnReportsScreen = ({ currentPage }) => {
       title: 'Docket',
       key: 'docket',
       render: (text, record) => {
-        console.log(record);
         return (
           <Button type='primary'>
             <Link

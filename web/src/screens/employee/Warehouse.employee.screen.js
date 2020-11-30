@@ -77,8 +77,8 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
               record,
               reload,
               api: deleteWarehouse,
-              success: 'Deleted product successfully',
-              failure: 'Error in deleting product',
+              success: 'Deleted Warehouse successfully',
+              failure: 'Error in deleting warehouse',
             })}>
             <Button
               style={{

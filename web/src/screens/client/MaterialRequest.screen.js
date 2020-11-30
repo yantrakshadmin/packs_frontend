@@ -86,7 +86,7 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
               reload,
               api: deleteMr,
               success: 'Deleted Material Request successfully',
-              failure: 'Error in deleting material request',
+              failure: 'Error in deleting Material request',
             })}>
             <Button
               style={{

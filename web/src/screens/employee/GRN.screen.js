@@ -87,7 +87,6 @@ const KitEmployeeScreen = ({ currentPage }) => {
       elem.click();
       document.body.removeChild(elem);
     }
-    // window.URL.revokeObjectURL();
   };
 
   const cancelEditing = () => {

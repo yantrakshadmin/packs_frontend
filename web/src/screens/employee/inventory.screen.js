@@ -9,21 +9,19 @@ import { MasterHOC } from 'hocs/Master.hoc';
 export const InventoryScreen = () => {
   const { data: warehouses } = useAPI('/warehouse/', {});
   const [ reqObj,setObj ] = useState({ warehouse:null,date:null })
-  const [ cid,setCid ] = useState(8)
+  const [ cid,setCid ] = useState(null)
   const { data: inventory,loading:invLoading } =
     useAPI(reqObj.warehouse && reqObj.date?
-      `/inventory/?wh=${reqObj.warehouse}&date=${reqObj.date}`:'/inventory/', {});
+      `/inventory/?wh=${reqObj.warehouse}&date=${reqObj.date}`:'', {});
   const { data: clients } = useAPI('/clients/', {});
-  const { data: transitData } = useAPI(`/client-inventory/?id=${cid}`, {});
+  const { data: transitData,loading:transitLoading } = useAPI(`/client-inventory/?id=${cid}`, {});
   const [form] = Form.useForm();
   const [ reformattedInv,setReformattedInv] = useState([])
   const [ reformattedTran,setReformattedTran] = useState([])
 
   const onSubmitTransit = async (data) => {
     setCid(data.cid);
-    console.log(data)
   };
-  console.log(transitData,'transits',clients)
   const onSubmit = async (data) => {
     const date = moment(form.getFieldValue('date')).format('YYYY-MM-DD+HH:MM');
     setObj({ warehouse:data.warehouse,date })
@@ -160,7 +158,7 @@ export const InventoryScreen = () => {
             data={reformattedTran}
             title='Client Inventory'
             hideRightButton
-            loading={invLoading}
+            loading={transitLoading}
             columns={column} />
         </Col>
       </Row>

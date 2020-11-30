@@ -166,8 +166,8 @@ const ReturnDocketsScreen = ({ currentPage }) => {
               record,
               reload,
               api: deleteReturn,
-              success: 'Deleted kit successfully',
-              failure: 'Error in deleting kit',
+              success: 'Deleted Return successfully',
+              failure: 'Error in deleting return',
             })}>
             <Button
               style={{

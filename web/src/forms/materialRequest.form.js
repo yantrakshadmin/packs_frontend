@@ -22,7 +22,7 @@ export const MaterialRequestForm = ({ id, onCancel, onDone }) => {
     edit: editMr,
     retrieve: retrieveMr,
     success: 'Material Request created/edited successfully.',
-    failure: 'Error in creating/editing material request.',
+    failure: 'Error in creating/editing Material Request.',
     done: onDone,
     close: onCancel,
     id,

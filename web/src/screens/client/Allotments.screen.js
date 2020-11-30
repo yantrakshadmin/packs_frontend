@@ -1,25 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import allotmentColumns from 'common/columns/Allotment.column';
-import { DeliveredForm } from 'forms/delivered.form';
-import { Popconfirm, Input, Button } from 'antd';
+import {  Input } from 'antd';
 import moment from 'moment';
 import { AllotFlowTable } from 'components/AllotFlowExp';
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { useAPI } from 'common/hooks/api';
-import { Link } from '@reach/router';
-import { deleteHOC } from '../../hocs/deleteHoc';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 
 const { Search } = Input;
 
 const AllotmentDocketsScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
-  const [editingId, setEditingId] = useState(null);
-  const [deliveryId, setDeliveryId] = useState(null);
   const [csvData, setCsvData] = useState(null);
   const [reqData, setReqData] = useState([]);
-  const [TN, setTN] = useState(null);
 
   const { data: allotments, loading } = useAPI('/client-allotments/', {});
 
@@ -58,18 +52,11 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
         delete temp.flows;
         csvd.push(temp);
         d.flows.forEach((f) => {
-          const kit = f.kit.kit_name;
           const aq = f.alloted_quantity;
-          // let s = '';
-          // for (let i = 1; i <= aq; i++) {
-          //   s += `${d.transaction_no}-${kit}-${i}, `;
-          // }
-          // s = s.slice(0, -2);
           const temp1 = {
             ...f,
             'kit': f.kit.kit_name,
             'flow': f.flow.flow_name,
-            // 'kits assigned': s
           };
           csvd.push(temp1);
           f.kit.products.forEach((p) => {

@@ -81,8 +81,8 @@ const VendorEmployeeScreen = ({ currentPage }) => {
               record,
               reload,
               api: deleteVendor,
-              success: 'Deleted product successfully',
-              failure: 'Error in deleting product',
+              success: 'Deleted Vendor successfully',
+              failure: 'Error in deleting vendor',
             })}>
             <Button
               style={{

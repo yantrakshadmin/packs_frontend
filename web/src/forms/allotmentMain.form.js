@@ -22,7 +22,7 @@ export const AllotmentMainForm = ({ id, onCancel, onDone }) => {
   const { form, submit } = useHandleForm({
     create: createAllotment,
     success: 'Allotment created/edited successfully.',
-    failure: 'Error in creating/editing allotment.',
+    failure: 'Error in creating/editing Allotment.',
     edit: editAllotment,
     done: onDone,
     close: onCancel,

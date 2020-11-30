@@ -43,7 +43,6 @@ export const DashboardScreen = () => {
   const { data: clientStats,loading } = useAPI('/cycledays-graph/', {});
   const [clientStatsFiltered,setClientStatsFiltered ]
   = useState([]);
-console.log(clientStats,'ClientsStats')
   useEffect(()=>{
     if(sClientSelected !== undefined && sKitType !==undefined ){
       setAllotChartUrl(`/allot-graph/?sc=${sClientSelected}&type=${sKitType}`)

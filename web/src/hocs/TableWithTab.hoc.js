@@ -79,7 +79,7 @@ const TableWithTabHOC = ({
         visible={(modalVisible || !!editingId) && !separate}
         destroyOnClose
         style={{ minWidth: `${modalWidth}vw` }}
-        title={`Add ${title.slice(0, -1)}`}
+        title={`Add ${title}`}
         onCancel={onCancel}
         footer={null}>
         <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} {...formParams} />

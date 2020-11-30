@@ -121,12 +121,12 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
             onClick={(e) => {
               setEditingId(record.id);
               setLead(record.lead_no);
-              console.log(record,'record')
               dispatch({ type:ADD_PFEP_DATA,data:record })
               e.stopPropagation();
             }}>
             <Edit />
           </Button>
+
           <Popconfirm
             title='Confirm Delete'
             onCancel={(e) => e.stopPropagation()}
@@ -178,7 +178,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
         refresh={reload}
         tabs={tabs}
         size='middle'
-        title='PFEP Creation'
+        title='PFEP Creation '
         editingId={editingId}
         cancelEditing={()=>{cancelEditing();}}
         onCancelButton={()=>{

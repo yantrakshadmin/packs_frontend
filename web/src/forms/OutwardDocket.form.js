@@ -22,7 +22,7 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
 
   const getKits = (data) => {
     return data.map(item => ({
-      kit:item.kit.id,
+      kit:item.kit,
       quantity_parts: item.quantity_parts,
       quantity_kit: item.quantity_kit }))
   }
@@ -35,8 +35,9 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
       async (fetchId)=>{
         const response = await retrieveOutward(fetchId);
         const { data } = response;
+        console.log(data,'retrieve')
         const temp= getKits(data.kits)
-        return { ...response, data:{ ...data,kits:temp,sending_location:data.sending_location.id } }
+        return { ...response, data:{ ...data,kits:temp, } }
       },
     success: 'Outward Docket created/edited successfully.',
     failure: 'Error in creating/editing Outward Docket.',
