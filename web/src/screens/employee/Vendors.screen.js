@@ -38,6 +38,7 @@ const VendorEmployeeScreen = ({ currentPage }) => {
       width:'4vw',
       render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
     },
+     ...vendorColumns,
     {
       title: 'City',
       key: 'city',
@@ -54,7 +55,7 @@ const VendorEmployeeScreen = ({ currentPage }) => {
       filters: GetUniqueValue(filteredData || [],'type'),
       onFilter: (value, record) => record.type === value,
     },
-    ...vendorColumns,
+   
     {
       title: 'Action',
       key: 'operation',

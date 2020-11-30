@@ -3,6 +3,7 @@ export default [
     title: 'Lead No.',
     key: 'lead_no',
     dataIndex: 'lead_no',
+    width:'6vw'
   },
   {
     title: 'Company Name',
@@ -13,11 +14,13 @@ export default [
     title: 'Region',
     key: 'region',
     dataIndex: 'region',
+    width:'6vw'
   },
   {
     title: 'Email',
     key: 'email',
     dataIndex: 'email',
+    width:'12vw'
   },
   {
     title: 'Company Address',
