@@ -14,6 +14,7 @@ import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import { LeadsForm } from 'forms/leads.form';
 import { PFEPMainForm } from 'forms/PFEP/PFEPMain.form';
 import { UploadLeadForm } from 'forms/uploadLead.form';
+import {ActionsPopover} from 'components/ActionsPopover';
 
 const { Search } = Input;
 
@@ -41,48 +42,37 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
     }
   }, [filteredData]);
 
+
   const columns = [
     ...leadColumns,
     {
       title: 'Action',
       key: 'operation',
       fixed: 'right',
-      width: '7vw',
+      width: '12vw',
       render: (text, record) => (
         <div className='row align-center justify-evenly'>
-          <Button
-            style={{
-              backgroundColor: 'transparent',
-              border: 'none',
-              boxShadow: 'none',
-              padding: '1px',
-            }}
-            onClick={(e) => {
+        <ActionsPopover triggerTitle={'Options'} buttonList = {
+          [{
+              icon:DiffOutlined,
+              title:'Create PFEP',
+              onClick:(e) => {
               setLead(record.lead_no);
               setVisible(true)
               e.stopPropagation();
-            }}>
-            <DiffOutlined
-              style={{ fontSize:20 }}
-              className='icon-bg' />
-          </Button>
-          <Button
-            style={{
-              backgroundColor: 'transparent',
-              border: 'none',
-              boxShadow: 'none',
-              padding: '1px',
-            }}
-            onClick={(e) => {
+            }
+          },
+          {
+              icon:ToTopOutlined, 
+              title:'Upload PFEP',
+              onClick:(e) => {
               setLead(record.lead_no);
               setVisibleUpload(true)
               e.stopPropagation();
-            }}>
-            <ToTopOutlined
-              style={{ fontSize:20 }}
-              className='icon-bg'
-            />
-          </Button>
+          }
+          }
+         ]
+        }/>
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -186,7 +176,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
         expandHandleKey='person'
         ExpandBody={PersonTable}
         expandParams={{ loading }}
-        scroll={{ x: 2000 }}
+        scroll={{ x: 1200 }}
         csvdata={csvData}
         csvname={`Leads${  searchVal  }.csv`}
       />

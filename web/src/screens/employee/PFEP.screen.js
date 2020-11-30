@@ -42,11 +42,13 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
       title: 'Created Date',
       key: 'date',
       dataIndex: 'date',
+      width :'7vw',
       render:(text)=>(<div>{utcDateFormatter(text)}</div>)
     },
     {
       title: 'Emitter',
       key:'emitter',
+      width :'5vw',
       render:(record)=>(
         <div>
           {record.emitter_inv}
@@ -60,6 +62,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
     {
       title: 'Receiver',
       key:'receiver',
+      width :'6vw',
       render:(record)=>(
         <div>
           {record.receiver_inv}
@@ -72,6 +75,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
     },{
       title: 'Contact Person',
       key:'contact_person',
+      width :'8vw',
       render:(record)=>(
         <div>
           {record.contact_person}
@@ -87,6 +91,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
     {
       title:'Solution Required',
       key:'solution_required',
+      width :'10vw',
       render:(record)=>(
         <div className='column'>
           {record.solution_flc?<Tag>FLC</Tag>:null}
@@ -98,9 +103,21 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
     },{
       title:'Status',
       key:'status',
+      width :'8vw',
       render:(record)=>(
         <div className='column'>
-          {record.status?<Tag>{record.status}</Tag>:null}
+          {record.tp_shared?<Tag>TP shared</Tag>:null}
+          {record.cp_shared?<Tag>CP shared</Tag>:null}
+          {record.tp_approved?<Tag>TP Approved</Tag>:null}
+          {record.cp_approved?<Tag>CP Approved</Tag>:null}
+          {record.trials_done?<Tag>Trials Done</Tag>:null}
+          {record.trials_approved?<Tag>Trials Approved}</Tag>:null}
+          {record.esa_signed?<Tag>Esa Signed</Tag>:null}
+          {record.flow_started?<Tag>Flow Started</Tag>:null}
+          {record.on_hold?<Tag>On hold</Tag>:null}
+          {record.pfep_dropped?<Tag>PFEP Dropped</Tag>:null}
+          {record.not_qualified?<Tag>Not Qualified</Tag>:null}
+          {record.solution_remark?<Tag>Solution Remark</Tag>:null}
         </div>
       )
     },
@@ -108,7 +125,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
       title: 'Action',
       key: 'operation',
       fixed: 'right',
-      width: '7vw',
+      width: '5vw',
       render: (text, record) => (
         <div className='row align-center justify-evenly'>
           <Button
@@ -190,7 +207,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
         // expandHandleKey='person'
         // ExpandBody={PersonTable}
         // expandParams={{ loading }}
-        scroll={{ x: 2000 }}
+        scroll={{ x: 1200 }}
         csvdata={csvData}
         csvname={`PFEP${  searchVal  }.csv`}
       />

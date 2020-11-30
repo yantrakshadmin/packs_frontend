@@ -44,9 +44,7 @@
     "pretty-quick": "^2.0.1"
   },
   "husky": {
-    "hooks": {
-
-    }
+    "hooks": {}
   },
   "lint-staged": {
     "**/!(node_modules)/*.{js,jsx,ts,tsx}": [
