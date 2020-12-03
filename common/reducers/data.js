@@ -1,6 +1,8 @@
 import {
+  ADD_CREATE_CP_BASIC_DATA,
+  ADD_CREATE_CP_DATA,
   ADD_PFEP_BASIC_DATA,
-  ADD_PFEP_DATA,
+  ADD_PFEP_DATA, CLEAN_CREATE_CP_DATA,
   CLEAN_PFEP_DATA,
   FETCH_PRODUCTS, START_STEP_LOADING, STOP_STEP_LOADING,
 } from '../actions/index';
@@ -10,11 +12,13 @@ const initialState = {
   pfepData:{
     np_ef:'New Part',
   },
+  createCPData:{
+
+  },
   stepLoading:false,
 };
 
 export const fetchData = (state = initialState, action) => {
-  console.log(state,action,'data reducer')
   switch (action.type) {
     case FETCH_PRODUCTS: {
       return {
@@ -38,6 +42,25 @@ export const fetchData = (state = initialState, action) => {
       return{
         ...state,
         pfepData:{
+        }
+      }
+    }
+    case ADD_CREATE_CP_DATA:{
+      return{
+        ...state,
+        createCPData:{ ...state.createCPData,...action.data, }
+      }
+    }
+    case ADD_CREATE_CP_BASIC_DATA:{
+      return{
+        ...state,
+        createCPData:action.data
+      }
+    }
+    case CLEAN_CREATE_CP_DATA:{
+      return{
+        ...state,
+        createCPData:{
         }
       }
     }

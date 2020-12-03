@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Popconfirm,Tag, Button, Input } from 'antd';
+import { Popconfirm, Tag, Button, Input, Modal } from 'antd';
 import { connect, useDispatch } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { retrievePFEP,  deletePFEP } from 'common/api/auth';
@@ -7,10 +7,14 @@ import Delete from 'icons/Delete';
 import { PFEPColumn } from 'common/columns/PFEP.column';
 import {  utcDateFormatter } from 'common/helpers/dateFomatter';
 import {  ADD_PFEP_DATA, CLEAN_PFEP_DATA } from 'common/actions';
+import { DiffOutlined, ToTopOutlined } from '@ant-design/icons';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import Edit from '../../icons/Edit';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { PFEPMainForm } from '../../forms/PFEP/PFEPMain.form';
+import { ActionsPopover } from '../../components/ActionsPopover';
+import BasicDetailsCreateCPForm from '../../forms/CreateCP/basicDetialsCreateCP.form';
+import { MainCreateCPForm } from '../../forms/CreateCP/mainCreateCP.form';
 
 const { Search } = Input;
 
@@ -19,6 +23,8 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
   const [editingId, setEditingId] = useState(null);
   const [lead, setLead] = useState(null);
   const [csvData, setCsvData] = useState(null);
+  const [createCPVisible, setCreateCPVisible] = useState(false);
+  const [uploadTPVisible, setUploadTP] = useState(false);
   const dispatch = useDispatch();
 
   const { filteredData, loading, reload } = useTableSearch({
@@ -125,9 +131,30 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
       title: 'Action',
       key: 'operation',
       fixed: 'right',
-      width: '5vw',
+      width: '8vw',
       render: (text, record) => (
         <div className='row align-center justify-evenly'>
+          <ActionsPopover
+            triggerTitle='Options'
+            buttonList={
+            [{
+              Icon:DiffOutlined,
+              title:'Create CP',
+              onClick:(e) => {
+                setCreateCPVisible(true);
+                e.stopPropagation();
+              }
+            },
+            {
+              Icon:ToTopOutlined,
+              title:'Upload TP',
+              onClick:(e) => {
+                setUploadTP(true)
+                e.stopPropagation();
+              }
+            }
+            ]
+          } />
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -181,7 +208,11 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
   ];
 
   const cancelEditing = () => setEditingId(null);
-
+  const createCPCancel = ()=>{
+    setEditingId(null);
+    setLead(null);
+    setCreateCPVisible(false);
+  }
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -190,6 +221,32 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
         </div>
       </div>
       <br />
+      <Modal
+        maskClosable={false}
+        visible={createCPVisible}
+        destroyOnClose
+        style={{ minWidth: `80vw` }}
+        title='Create CP'
+        onCancel={()=>{setCreateCPVisible(false)}}
+        footer={null}>
+        <MainCreateCPForm
+          id={editingId}
+          lead={lead}
+          onCancel={createCPCancel}
+          onDone={createCPCancel}
+        />
+      </Modal>
+      <Modal
+        maskClosable={false}
+        visible={uploadTPVisible}
+        destroyOnClose
+        style={{ minWidth: `80vw` }}
+        title='Upload TP'
+        onCancel={()=>{setUploadTP(false)}}
+        footer={null}>
+        GGG
+        {/* <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} {...formParams} /> */}
+      </Modal>
       <TableWithTabHOC
         rowKey={(record) => record.id}
         refresh={reload}

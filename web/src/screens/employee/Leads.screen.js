@@ -14,7 +14,7 @@ import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import { LeadsForm } from 'forms/leads.form';
 import { PFEPMainForm } from 'forms/PFEP/PFEPMain.form';
 import { UploadLeadForm } from 'forms/uploadLead.form';
-import {ActionsPopover} from 'components/ActionsPopover';
+import { ActionsPopover } from 'components/ActionsPopover';
 
 const { Search } = Input;
 
@@ -52,27 +52,29 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
       width: '12vw',
       render: (text, record) => (
         <div className='row align-center justify-evenly'>
-        <ActionsPopover triggerTitle={'Options'} buttonList = {
+          <ActionsPopover
+            triggerTitle='Options'
+            buttonList={
           [{
-              icon:DiffOutlined,
-              title:'Create PFEP',
-              onClick:(e) => {
+            Icon:DiffOutlined,
+            title:'Create PFEP',
+            onClick:(e) => {
               setLead(record.lead_no);
               setVisible(true)
               e.stopPropagation();
             }
           },
           {
-              icon:ToTopOutlined, 
-              title:'Upload PFEP',
-              onClick:(e) => {
+            Icon:ToTopOutlined,
+            title:'Upload PFEP',
+            onClick:(e) => {
               setLead(record.lead_no);
               setVisibleUpload(true)
               e.stopPropagation();
+            }
           }
-          }
-         ]
-        }/>
+          ]
+        } />
           <Button
             style={{
               backgroundColor: 'transparent',
