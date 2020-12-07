@@ -10,6 +10,15 @@ export const solutionProposalCreateCPFormFields = [
     },
     customLabel:'Standard Assets'
   },
+  {
+    key: 'cost',
+    type: FORM_ELEMENT_TYPES.INPUT,
+    kwargs: {
+      placeholder: 'Cost',
+      type:'number'
+    },
+    customLabel:'Cost'
+  },
 ];
 // Specification	Quantity	Qyt/KIT	Rate	Total Cost	Month	Dep Cost
 export const formListSolutionProposalCreateCPFormFields = [
@@ -17,6 +26,7 @@ export const formListSolutionProposalCreateCPFormFields = [
     key: 'specification',
     kwargs: {
       placeholder: 'Specification',
+      disabled:true
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Specification',

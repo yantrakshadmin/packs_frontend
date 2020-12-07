@@ -16,5 +16,10 @@ export const CreateCPStep = [
     icon: 'user',
     component: lazy(() => import('web/src/forms/CreateCP/logisticsCreateCP.form')),
   },
+  {
+    title: 'Operating Cost Monthly ',
+    icon: 'user',
+    component: lazy(() => import('web/src/forms/CreateCP/operatingCostMonthlyCreateCP.form')),
+  },
 
 ]

@@ -4,8 +4,7 @@ import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_CREATE_CP_DATA, STOP_STEP_LOADING } from 'common/actions';
 import { ArrowRightOutlined } from '@ant-design/icons';
-import { logisticCreateCPFormFields }
-  from 'common/formFields/createCP/logisticsCreateCP.formFields';
+import { operatingCostMonthlyFormFields } from 'common/formFields/createCP/operatingCostMonthly.formFields';
 
 export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
   const [loading,setLoading] = useState(false);
@@ -17,12 +16,12 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
     setLoading(true)
     await dispatch({ type:ADD_CREATE_CP_DATA,data });
     setLoading(false)
-    if(active===2){
+    if(active===3){
       onNext();
     }
   }
   useEffect( ()=>{
-    if(active!==2){
+    if(active!==3){
       form.submit()
       dispatch({ type:STOP_STEP_LOADING })
     }
@@ -42,7 +41,7 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
         autoComplete='off'
       >
         <Row style={{ justifyContent: 'left' }}>
-          {logisticCreateCPFormFields.slice(0, 4).map((item, idx) => (
+          {operatingCostMonthlyFormFields.slice(0, 4).map((item, idx) => (
             <Col span={6}>
               <div key={idx.toString()} className='p-2'>
                 {item.customLabel}
@@ -51,7 +50,7 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {logisticCreateCPFormFields.slice(0, 4).map((item, idx) => (
+          {operatingCostMonthlyFormFields.slice(0, 4).map((item, idx) => (
             <Col span={6}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
@@ -60,7 +59,7 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {logisticCreateCPFormFields.slice(4, 8).map((item, idx) => (
+          {operatingCostMonthlyFormFields.slice(4, 8).map((item, idx) => (
             <Col span={6}>
               <div key={idx.toString()} className='p-2'>
                 {item.customLabel}
@@ -69,7 +68,7 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {logisticCreateCPFormFields.slice(4, 8).map((item, idx) => (
+          {operatingCostMonthlyFormFields.slice(4, 8).map((item, idx) => (
             <Col span={6}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
@@ -78,7 +77,7 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {logisticCreateCPFormFields.slice(8, 9).map((item, idx) => (
+          {operatingCostMonthlyFormFields.slice(8, 12).map((item, idx) => (
             <Col span={6}>
               <div key={idx.toString()} className='p-2'>
                 {item.customLabel}
@@ -87,7 +86,43 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {logisticCreateCPFormFields.slice(8, 9).map((item, idx) => (
+          {operatingCostMonthlyFormFields.slice(8,12).map((item, idx) => (
+            <Col span={6}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {operatingCostMonthlyFormFields.slice(12, 16).map((item, idx) => (
+            <Col span={6}>
+              <div key={idx.toString()} className='p-2'>
+                {item.customLabel}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {operatingCostMonthlyFormFields.slice(12,16).map((item, idx) => (
+            <Col span={6}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {operatingCostMonthlyFormFields.slice(16, 18).map((item, idx) => (
+            <Col span={6}>
+              <div key={idx.toString()} className='p-2'>
+                {item.customLabel}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {operatingCostMonthlyFormFields.slice(16,18).map((item, idx) => (
             <Col span={6}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}

@@ -16,7 +16,6 @@ export const solutionAssetOptions = [
 ]
 
 const FLCSpecification = [
-  'Cost',
   'Insert Type 1',
   'Insert Type 2',
   'Separator Sheet',
@@ -24,29 +23,25 @@ const FLCSpecification = [
   'HDPE Trays'];
 
 const crateSpecification = [
-  'Cost',
   'Crate LID',
-  ...FLCSpecification.slice(1,6)
+  ...FLCSpecification
 ];
 const palletSpecification = [
-  'Cost',
   'Palletized LID',
   'Pallet 1200x100',
-  ...FLCSpecification.slice(1,6)
+  ...FLCSpecification
 ];
 
 const pPBoxSpecifications = [
-  'Cost',
+
 ]
 
 const palletizedPPBoxSpecifications = [
-  'Cost',
   'Palletized LID',
   'Pallet'
 ]
 
 const plasticPalletSpecifications = [
-  'Cost',
   'Palletized LID',
 ]
 
@@ -77,7 +72,7 @@ export const getSpecifications = (type) => {
     'PP BOX':covertArray(pPBoxSpecifications),
     'Palletized PP Box':covertArray(palletizedPPBoxSpecifications),
     'Plastic Pallet':covertArray(plasticPalletSpecifications),
-    'Wooden Pallet':covertArray(palletSpecification),
+    'Wooden Pallet':covertArray(plasticPalletSpecifications),
   };
   return specifications[type];
 };

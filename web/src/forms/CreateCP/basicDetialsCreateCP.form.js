@@ -46,23 +46,17 @@ export const BasicDetailsCreateCPForm = ({ id, onCancel,lead,onNext,active }) =>
       >
         <Divider orientation='left'>Basic Details</Divider>
         <Row style={{ justifyContent: 'left' }}>
-          {basicDetailCreateCPFormFields.slice(0, 1).map((item, idx) => (
-            <Col span={4}>
-              <div key={idx.toString()} className='p-2'>
-                {formItem(item)}
-              </div>
-            </Col>
-          ))}
-          {basicDetailCreateCPFormFields.slice(1, 5).map((item, idx) => (
-            <Col span={5}>
+          {basicDetailCreateCPFormFields.slice(0, 4).map((item, idx) => (
+            <Col span={6}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
+        <Divider orientation='left'>Part Details</Divider>
         <Row style={{ justifyContent: 'left' }}>
-          {basicDetailCreateCPFormFields.slice(5, 14).map((item, idx) => (
+          {basicDetailCreateCPFormFields.slice(4, 14).map((item, idx) => (
             <Col span={6}>
               <div key={idx.toString()} className='p-2'>
                 {formItem(item)}

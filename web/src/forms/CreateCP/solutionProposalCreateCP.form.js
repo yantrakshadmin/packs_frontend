@@ -23,13 +23,13 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
     await dispatch({ type:id?ADD_CREATE_CP_DATA:ADD_CREATE_CP_BASIC_DATA,
       data:{ ...data,lead_no:lead } });
     setLoading(false)
-    if(active === 0){
+    if(active === 1){
       onNext();
     }
   }
 
   useEffect( ()=>{
-    if(active!==0){
+    if(active!==1){
       form.submit()
       dispatch({ type:STOP_STEP_LOADING })
     }
@@ -42,7 +42,6 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
           form.setFieldsValue({ solutions:getSpecifications(data[0].value) })
         }}}
   }
-  // form.setFieldsValue('kits',allkits)
 
   return (
     <Spin spinning={loading}>
