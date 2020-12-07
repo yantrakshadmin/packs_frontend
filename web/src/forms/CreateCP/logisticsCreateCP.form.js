@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Col, Row, Button, Divider, Spin } from 'antd';
-import { PREPExistingPMFormFields } from 'common/formFields/PFEP/PFEPExsitingPM.formFields';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_CREATE_CP_DATA, STOP_STEP_LOADING } from 'common/actions';
 import { ArrowRightOutlined } from '@ant-design/icons';
-import { PREPSolutionRequiredFormFields } from 'common/formFields/PFEP/PFEPSolutionRequired.formFields';
 import { logisticCreateCPFormFields } from 'common/formFields/createCP/logisticsCreateCP.formFields';
 
 export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {

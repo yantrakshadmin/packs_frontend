@@ -35,7 +35,6 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
       async (fetchId)=>{
         const response = await retrieveOutward(fetchId);
         const { data } = response;
-        console.log(data,'retrieve')
         const temp= getKits(data.kits)
         return { ...response, data:{ ...data,kits:temp, } }
       },
