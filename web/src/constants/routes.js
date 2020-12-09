@@ -14,6 +14,14 @@ export const publicRoutes = [
     path: '*',
     Component: lazy(() => import('screens/404.screen')),
   },
+  {
+    path: '/employee/docket/:id',
+    Component: lazy(() => import('components/Docket/Docket')),
+  },
+  {
+    path: '/employee/return-docket/:id',
+    Component: lazy(() => import('components/ReturnDocket/ReturnDocket')),
+  },
 ];
 
 export const extraRoutesClient = [

@@ -562,7 +562,7 @@ export const retrieveAllotments = (id) =>
 export const retrieveAllotmentsCalender = (tno) =>
   loadAPI(`/allotments-cal/?tno=${tno}`, {
     method: 'GET',
-    secure: true,
+    secure: false,
   });
 
 export const deleteAllotment = (id) =>
@@ -880,7 +880,7 @@ export const retrieveReturnDocket = (id) =>
 export const retrieveReturnDocketCaleder = (id) =>
   loadAPI(`/returns-cal/?tno=${id}`, {
     method: 'GET',
-    secure: true,
+    secure: false,
   });
 
 export const createLead = (data) =>
