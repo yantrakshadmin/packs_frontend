@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Col, Row, Button, Divider, Spin } from 'antd';
+import { Form, Col, Row, Button, Divider, Spin, notification } from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_CREATE_CP_DATA, STOP_STEP_LOADING } from 'common/actions';
-import { ArrowRightOutlined } from '@ant-design/icons';
-import { operatingCostMonthlyFormFields } from 'common/formFields/createCP/operatingCostMonthly.formFields';
+import { operatingCostMonthlyFormFields }
+from 'common/formFields/createCP/operatingCostMonthly.formFields';
+import { createCP, editCP } from 'common/api/auth';
 
 export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
   const [loading,setLoading] = useState(false);
@@ -12,14 +13,40 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
   const dispatch = useDispatch();
   const state =  useSelector(e=>(e.data.createCPData))
 
+
   const submit = async (data) =>{
     setLoading(true)
     await dispatch({ type:ADD_CREATE_CP_DATA,data });
     setLoading(false)
-    if(active===3){
-      onNext();
-    }
-  }
+    if(active === 3){
+      if(id){
+        const { error } = await editCP(id,{ ...state,...data });
+        if (error) {
+          notification.warning({
+            message: 'Unable To Edit.',
+            description:
+              'Something went wrong CP editing failed.',
+          });
+          onCancel();
+        } else {
+          onDone();
+        }
+      }
+      else{
+        const { error } = await createCP({ ...state,...data });
+        if (error) {
+          notification.warning({
+            message: 'Unable To Create.',
+            description:
+              'Something went wrong CP creation failed.',
+          });
+          onCancel();
+        } else {
+          onDone();
+        }
+      }
+    }}
+
   useEffect( ()=>{
     if(active!==3){
       form.submit()
@@ -132,7 +159,7 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
         </Row>
         <Row justify='space-between'>
           <div className='row'>
-            <Button type='primary' htmlType='submit' disabled>
+            <Button type='primary' htmlType='submit'>
               Submit
             </Button>
             <div className='p-2' />
@@ -140,9 +167,6 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
               Cancel
             </Button>
           </div>
-          <Button type='link' htmlType='submit'>
-            <ArrowRightOutlined style={{ fontSize:30 }}  />
-          </Button>
         </Row>
       </Form>
     </Spin>

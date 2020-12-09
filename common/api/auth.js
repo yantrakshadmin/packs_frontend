@@ -956,3 +956,24 @@ export const editPFEP = (id,data) =>
     secure: true,
     data
   });
+
+export const createCP = (data) =>{
+  return loadAPI('create-cp/',{
+    method:'POST',
+    secure:true,
+    data
+  })
+}
+
+export const deleteCP = (id) =>
+  loadAPI(`/edit-cp/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const editCP = (id,data) =>
+  loadAPI(`/edit-cp/${id}/`, {
+    method: 'PATCH',
+    secure: true,
+    data
+  });
