@@ -2,7 +2,7 @@ import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 
 export const basicDetailCreateCPFormFields = [
   {
-    key: 'emitter',
+    key: 'sender_client',
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
       placeholder: 'Emitter',
@@ -10,7 +10,7 @@ export const basicDetailCreateCPFormFields = [
     customLabel: 'Emitter'
   },
   {
-    key: 'emitter_location',
+    key: 'sender_location',
     kwargs: {
       placeholder: 'Emitter Location',
     },
@@ -42,8 +42,9 @@ export const basicDetailCreateCPFormFields = [
     others: null,
     customLabel: 'Part Name',
   },
+  //parts_pm
   {
-    key: 'component_per_kit',
+    key: 'component_perkit',
     kwargs: {
       placeholder: 'Component/Kit',
       type:'number',
@@ -52,8 +53,9 @@ export const basicDetailCreateCPFormFields = [
     others: null,
     customLabel: 'Component/Kit',
   },
+  //weight
   {
-    key: 'total_component_weight_per_kit',
+    key: 'total_comp_weight_perkit',
     kwargs: {
       placeholder: 'Total Component Weight/Kit',
       type:'number',
@@ -62,8 +64,9 @@ export const basicDetailCreateCPFormFields = [
     others: null,
     customLabel: 'Total Component Weight/Kit',
   },
+
   {
-    key: 'total_component_per_month',
+    key: 'volume_pm',
     kwargs: {
       placeholder: 'Total Component/Month',
       type:'number',
@@ -73,7 +76,8 @@ export const basicDetailCreateCPFormFields = [
     customLabel: 'Total Component/Month',
   },
   {
-    key: 'total_component_per_kit',
+    // key: 'total_component_per_kit',
+    key:'kit_pm',
     kwargs: {
       placeholder: 'Total Component/Kit',
       type:'number',
@@ -94,7 +98,7 @@ export const basicDetailCreateCPFormFields = [
     customLabel: 'Total Kit/Month',
   },
   {
-    key: 'yantra_cycle_time',
+    key: 'yantra_cycle',
     kwargs: {
       placeholder: 'Yantra Cycle Time',
       type:'number',
@@ -122,7 +126,7 @@ export const basicDetailCreateCPFormFields = [
     customLabel: 'Kit Usage Ratio',
   },
   {
-    key: 'number_of_kit_based_on_usage_ratio',
+    key: 'kit_based_on_usage_ratio',
     kwargs: {
       placeholder: 'Number of Kit based on Usage Ratio',
     },

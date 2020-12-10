@@ -19,6 +19,7 @@ const initialState = {
 };
 
 export const fetchData = (state = initialState, action) => {
+  // console.log(action,'Actions',state)
   switch (action.type) {
     case FETCH_PRODUCTS: {
       return {
@@ -46,6 +47,10 @@ export const fetchData = (state = initialState, action) => {
       }
     }
     case ADD_CREATE_CP_DATA:{
+      console.log({
+        ...state,
+        createCPData:{ ...state.createCPData,...action.data, }
+      },ADD_CREATE_CP_DATA)
       return{
         ...state,
         createCPData:{ ...state.createCPData,...action.data, }

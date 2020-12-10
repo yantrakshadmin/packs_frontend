@@ -4,7 +4,6 @@ import { ArrowRightOutlined, } from '@ant-design/icons';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  ADD_CREATE_CP_BASIC_DATA,
   ADD_CREATE_CP_DATA,
   STOP_STEP_LOADING,
 } from 'common/actions';
@@ -19,8 +18,8 @@ export const BasicDetailsCreateCPForm = ({ id, onCancel,lead,onNext,active }) =>
 
   const submit = async (data) =>{
     setLoading(true)
-    await dispatch({ type:id?ADD_CREATE_CP_DATA:ADD_CREATE_CP_BASIC_DATA,
-      data:{ ...data,lead_no:lead } });
+    await dispatch({ type:ADD_CREATE_CP_DATA,
+      data:{ ...data } });
     setLoading(false)
     if(active === 0){
       onNext();

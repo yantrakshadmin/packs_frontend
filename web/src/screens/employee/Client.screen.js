@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import clientColumns from 'common/columns/Clients.column';
-import { Button, Input } from 'antd';
+import { Button, Input, Popconfirm } from 'antd';
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { retrieveClients } from 'common/api/auth';
@@ -114,6 +114,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
             </Button>
           </a>
           <Button
+            disabled
             style={{
               backgroundColor: 'transparent',
               border: 'none',

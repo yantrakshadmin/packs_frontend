@@ -4,7 +4,7 @@ import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_CREATE_CP_DATA, STOP_STEP_LOADING } from 'common/actions';
 import { operatingCostMonthlyFormFields }
-from 'common/formFields/createCP/operatingCostMonthly.formFields';
+  from 'common/formFields/createCP/operatingCostMonthly.formFields';
 import { createCP, editCP } from 'common/api/auth';
 
 export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
@@ -56,7 +56,7 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation='left'>Logistic Details</Divider>
+      <Divider orientation='left'>Operating Cost</Divider>
       <Form
         onFinish={submit}
         form={form}

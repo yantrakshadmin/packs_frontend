@@ -2,21 +2,117 @@ import React, { useState, useEffect } from 'react';
 import { Popconfirm, Tag, Button, Input, Modal } from 'antd';
 import { connect, useDispatch } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
-import { retrievePFEP,  deletePFEP } from 'common/api/auth';
+import { retrievePFEP, deletePFEP } from 'common/api/auth';
 import Delete from 'icons/Delete';
 import { PFEPColumn } from 'common/columns/PFEP.column';
-import {  utcDateFormatter } from 'common/helpers/dateFomatter';
-import {  ADD_PFEP_DATA, CLEAN_PFEP_DATA } from 'common/actions';
+import { utcDateFormatter } from 'common/helpers/dateFomatter';
+import {
+  ADD_CREATE_CP_BASIC_DATA,
+  ADD_CREATE_CP_DATA,
+  ADD_PFEP_DATA,
+  CLEAN_PFEP_DATA,
+} from 'common/actions';
 import { DiffOutlined, ToTopOutlined } from '@ant-design/icons';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import Edit from '../../icons/Edit';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { PFEPMainForm } from '../../forms/PFEP/PFEPMain.form';
 import { ActionsPopover } from '../../components/ActionsPopover';
-import BasicDetailsCreateCPForm from '../../forms/CreateCP/basicDetialsCreateCP.form';
 import { MainCreateCPForm } from '../../forms/CreateCP/mainCreateCP.form';
 
 const { Search } = Input;
+
+// average_dispatchlotsize: 21
+// breadth: 12.56
+// contact_no: "956"
+// contact_person: "Anil"
+// cp_approved: false
+// cp_shared: true
+// critical_area: "no"
+// current_packaging: "Returnable"
+// date: "2020-11-09T08:07:07.838000Z"
+// designation: "-"
+// dispatch_frequency: "monthly"
+// email: "anil@lumax.com"
+// emitter_inv: 45
+// esa_signed: false
+// flow_started: false
+// greasy_oily: true
+// height: 21.65
+// highest_mv: 21
+// id: 9
+// inserts_pm: 5
+// lead_no: 2007
+// length: 12.65
+// lowest_mv: 21
+// matrix_details: "5"
+// max_cycle_days: 54
+// min_cycle_days: 54
+// min_max_margin: "45"
+// mul_parts_single_pocket: "45"
+// not_qualified: false
+// np_ef: "New Part"
+// on_hold: false
+// other_spec: "cvsd"
+// other_storage: 45
+// p2p_contact: "yes"
+// packaging_breadth: 12
+// packaging_height: 21
+// packaging_length: 12
+// packaging_type: "New Part"
+// palletized_sol_details: ""
+// part_cad_data: "no"
+// part_name: "test213"
+// part_number: "test122"
+// parts_orientation: "vertical"
+// parts_per_layer: 5
+// parts_per_pocket: 5
+// parts_pm: 45
+// pfep_dropped: false
+// pfep_no: 2001
+// pm_loaded_weight: 5
+// pocket_breadth: 21
+// pocket_breadth1: 21
+// pocket_height: 21
+// pocket_height1: 21
+// pocket_length: 21
+// pocket_length1: 21
+// price_per_unit: 5
+// receiver_inv: 0
+// receivers: (2) [{…}, {…}]
+// remarks: "---"
+// remarks1: "none"
+// remarks2: null
+// sender_client: "test"
+// sender_location: "test"
+// solution_crate: true
+// solution_flc: true
+// solution_fsc: true
+// solution_palletized_box: false
+// solution_palletized_crate: false
+// solution_pp: false
+// solution_ppbox: false
+// solution_stacking_nesting: false
+// solution_wp: false
+// special_measure: "nothing"
+// spesheet_pm: 5
+// stacking_nesting: "nested"
+// total_parts_per_pm: 5
+// tp: [{…}]
+// tp_approved: true
+// tp_shared: true
+// transit_time: 45
+// transportation_mode: "PTL"
+// trials_approved: false
+// trials_done: false
+// trips_per_pm: "5"
+// volume_pm: 12
+// wastage_pm: "none"
+// weight: 12.256
+// wh_emitter: 45
+// wh_receiver: 45
+// yantra_cycle: 45
+
 
 const PFEPEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
@@ -48,28 +144,28 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
       title: 'Created Date',
       key: 'date',
       dataIndex: 'date',
-      width :'7vw',
-      render:(text)=>(<div>{utcDateFormatter(text)}</div>)
+      width: '7vw',
+      render: (text) => (<div>{utcDateFormatter(text)}</div>),
     },
     {
       title: 'Emitter',
-      key:'emitter',
-      width :'5vw',
-      render:(record)=>(
+      key: 'emitter',
+      width: '5vw',
+      render: (record) => (
         <div>
           {record.emitter_inv}
           {' - '}
           {
             record.wh_emitter
-}
+          }
         </div>
-      )
+      ),
     },
     {
       title: 'Receiver',
-      key:'receiver',
-      width :'6vw',
-      render:(record)=>(
+      key: 'receiver',
+      width: '6vw',
+      render: (record) => (
         <div>
           {record.receiver_inv}
           {' - '}
@@ -77,12 +173,12 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
             record.wh_receiver
           }
         </div>
-      )
-    },{
+      ),
+    }, {
       title: 'Contact Person',
-      key:'contact_person',
-      width :'8vw',
-      render:(record)=>(
+      key: 'contact_person',
+      width: '8vw',
+      render: (record) => (
         <div>
           {record.contact_person}
           <br />
@@ -92,40 +188,40 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
           <br />
           {record.email}
         </div>
-      )
+      ),
     },
     {
-      title:'Solution Required',
-      key:'solution_required',
-      width :'10vw',
-      render:(record)=>(
+      title: 'Solution Required',
+      key: 'solution_required',
+      width: '10vw',
+      render: (record) => (
         <div className='column'>
-          {record.solution_flc?<Tag>FLC</Tag>:null}
-          {record.solution_fsc?<Tag>FSC</Tag>:null}
-          {record.solution_crate?<Tag>Crate</Tag>:null}
-          {record.solution_ppbox?<Tag>PP Box</Tag>:null}
+          {record.solution_flc ? <Tag>FLC</Tag> : null}
+          {record.solution_fsc ? <Tag>FSC</Tag> : null}
+          {record.solution_crate ? <Tag>Crate</Tag> : null}
+          {record.solution_ppbox ? <Tag>PP Box</Tag> : null}
         </div>
-      )
-    },{
-      title:'Status',
-      key:'status',
-      width :'8vw',
-      render:(record)=>(
+      ),
+    }, {
+      title: 'Status',
+      key: 'status',
+      width: '8vw',
+      render: (record) => (
         <div className='column'>
-          {record.tp_shared?<Tag>TP shared</Tag>:null}
-          {record.cp_shared?<Tag>CP shared</Tag>:null}
-          {record.tp_approved?<Tag>TP Approved</Tag>:null}
-          {record.cp_approved?<Tag>CP Approved</Tag>:null}
-          {record.trials_done?<Tag>Trials Done</Tag>:null}
-          {record.trials_approved?<Tag>Trials Approved}</Tag>:null}
-          {record.esa_signed?<Tag>Esa Signed</Tag>:null}
-          {record.flow_started?<Tag>Flow Started</Tag>:null}
-          {record.on_hold?<Tag>On hold</Tag>:null}
-          {record.pfep_dropped?<Tag>PFEP Dropped</Tag>:null}
-          {record.not_qualified?<Tag>Not Qualified</Tag>:null}
-          {record.solution_remark?<Tag>Solution Remark</Tag>:null}
+          {record.tp_shared ? <Tag>TP shared</Tag> : null}
+          {record.cp_shared ? <Tag>CP shared</Tag> : null}
+          {record.tp_approved ? <Tag>TP Approved</Tag> : null}
+          {record.cp_approved ? <Tag>CP Approved</Tag> : null}
+          {record.trials_done ? <Tag>Trials Done</Tag> : null}
+          {record.trials_approved ? <Tag>Trials Approved}</Tag> : null}
+          {record.esa_signed ? <Tag>Esa Signed</Tag> : null}
+          {record.flow_started ? <Tag>Flow Started</Tag> : null}
+          {record.on_hold ? <Tag>On hold</Tag> : null}
+          {record.pfep_dropped ? <Tag>PFEP Dropped</Tag> : null}
+          {record.not_qualified ? <Tag>Not Qualified</Tag> : null}
+          {record.solution_remark ? <Tag>Solution Remark</Tag> : null}
         </div>
-      )
+      ),
     },
     {
       title: 'Action',
@@ -137,24 +233,34 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
           <ActionsPopover
             triggerTitle='Options'
             buttonList={
-            [{
-              Icon:DiffOutlined,
-              title:'Create CP',
-              onClick:(e) => {
-                setCreateCPVisible(true);
-                e.stopPropagation();
-              }
-            },
-            {
-              Icon:ToTopOutlined,
-              title:'Upload TP',
-              onClick:(e) => {
-                setUploadTP(true)
-                e.stopPropagation();
-              }
-            }
-            ]
-          } />
+              [{
+                Icon: DiffOutlined,
+                title: 'Create CP',
+                onClick:async (e) => {
+                  setCreateCPVisible(true);
+                  await dispatch({
+                    type: ADD_CREATE_CP_BASIC_DATA, data: {
+                      ...record,
+                      receiver: record.receivers[0]?record.receivers[0].name:'',
+                      receiver_location: record.receivers[0]?record.receivers[0].location:'',
+                      component_perkit: record.parts_pm,
+                      total_comp_weight_perkit: record.weight,
+                      pfep:record.id
+                    },
+                  });
+                  e.stopPropagation();
+                },
+              },
+              {
+                Icon: ToTopOutlined,
+                title: 'Upload TP',
+                onClick: (e) => {
+                  setUploadTP(true);
+                  e.stopPropagation();
+                },
+              },
+              ]
+            } />
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -165,7 +271,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
             onClick={(e) => {
               setEditingId(record.id);
               setLead(record.lead_no);
-              dispatch({ type:ADD_PFEP_DATA,data:record })
+              dispatch({ type: ADD_PFEP_DATA, data: record });
               e.stopPropagation();
             }}>
             <Edit />
@@ -208,11 +314,11 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
   ];
 
   const cancelEditing = () => setEditingId(null);
-  const createCPCancel = ()=>{
+  const createCPCancel = () => {
     setEditingId(null);
     setLead(null);
     setCreateCPVisible(false);
-  }
+  };
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -227,7 +333,9 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
         destroyOnClose
         style={{ minWidth: `80vw` }}
         title='Create CP'
-        onCancel={()=>{setCreateCPVisible(false)}}
+        onCancel={() => {
+          setCreateCPVisible(false);
+        }}
         footer={null}>
         <MainCreateCPForm
           id={editingId}
@@ -242,7 +350,9 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
         destroyOnClose
         style={{ minWidth: `80vw` }}
         title='Upload TP'
-        onCancel={()=>{setUploadTP(false)}}
+        onCancel={() => {
+          setUploadTP(false);
+        }}
         footer={null}>
         GGG
         {/* <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} {...formParams} /> */}
@@ -254,9 +364,12 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
         size='middle'
         title='PFEP Creation '
         editingId={editingId}
-        cancelEditing={()=>{cancelEditing();}}
-        onCancelButton={()=>{
-          dispatch({ type:CLEAN_PFEP_DATA })}}
+        cancelEditing={() => {
+          cancelEditing();
+        }}
+        onCancelButton={() => {
+          dispatch({ type: CLEAN_PFEP_DATA });
+        }}
         hideRightButton
         modalWidth={80}
         modalBody={PFEPMainForm}
@@ -266,7 +379,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
         // expandParams={{ loading }}
         scroll={{ x: 1200 }}
         csvdata={csvData}
-        csvname={`PFEP${  searchVal  }.csv`}
+        csvname={`PFEP${searchVal}.csv`}
       />
     </>
   );

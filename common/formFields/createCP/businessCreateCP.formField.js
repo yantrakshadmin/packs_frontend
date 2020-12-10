@@ -1,15 +1,3 @@
-// #business
-
-// direct_cost = models.FloatField(default=0, blank=True, null=True)
-// perating_cost = models.FloatField(default=0, blank=True, null=True)
-// contigency_margin = models.FloatField(default=0, blank=True, null=True)
-// min_cost_for_trip = models.FloatField(default=0, blank=True, null=True)
-// billing_price = models.FloatField(default=0, blank=True, null=True)
-// agreed_margin = models.FloatField(default=0, blank=True, null=True)
-// trip_cost = models.FloatField(default=0, blank=True, null=True)
-// gross_margins = models.FloatField(default=0, blank=True, null=True)
-// remarks = models.FloatField(default=0, blank=True, null=True)
-
 import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 
 export const businessCreateCPFormFields = [
@@ -87,6 +75,7 @@ export const businessCreateCPFormFields = [
     key: 'remarks',
     kwargs: {
       placeholder: 'Remarks',
+      type:'number'
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,

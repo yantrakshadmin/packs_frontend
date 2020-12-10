@@ -55,7 +55,7 @@ const VendorEmployeeScreen = ({ currentPage }) => {
       filters: GetUniqueValue(filteredData || [],'type'),
       onFilter: (value, record) => record.type === value,
     },
-   
+
     {
       title: 'Action',
       key: 'operation',
@@ -64,6 +64,7 @@ const VendorEmployeeScreen = ({ currentPage }) => {
       render: (text, record) => (
         <div className='row align-center justify-evenly'>
           <Button
+            disabled
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -77,6 +78,7 @@ const VendorEmployeeScreen = ({ currentPage }) => {
             <Edit />
           </Button>
           <Popconfirm
+            disabled
             title='Confirm Delete'
             onConfirm={deleteHOC({
               record,
@@ -86,6 +88,7 @@ const VendorEmployeeScreen = ({ currentPage }) => {
               failure: 'Error in deleting vendor',
             })}>
             <Button
+              disabled
               style={{
                 backgroundColor: 'transparent',
                 boxShadow: 'none',

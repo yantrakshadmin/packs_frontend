@@ -24,7 +24,6 @@ const KitEmployeeScreen = ({ currentPage }) => {
   useEffect(() => {
     if (filteredData) {
       const csvd = [];
-      console.log(filteredData);
       filteredData.forEach((d) => {
         const temp = { ...d, 'kit_client': d.kit_client.client_name };
         delete temp.products;
@@ -75,6 +74,7 @@ const KitEmployeeScreen = ({ currentPage }) => {
       render: (text, record) => (
         <div className='row justify-evenly'>
           <Button
+            disabled
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -88,6 +88,7 @@ const KitEmployeeScreen = ({ currentPage }) => {
             <Edit />
           </Button>
           <Popconfirm
+            disabled
             title='Confirm Delete'
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
@@ -98,6 +99,7 @@ const KitEmployeeScreen = ({ currentPage }) => {
               failure: 'Error in deleting kit',
             })}>
             <Button
+              disabled
               style={{
                 backgroundColor: 'transparent',
                 boxShadow: 'none',

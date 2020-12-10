@@ -896,6 +896,12 @@ export const retrieveLeads = () =>
     secure: true,
   });
 
+export const retrieveCP = () =>
+  loadAPI('/cp/', {
+    method: 'GET',
+    secure: true,
+  });
+
 export const retrievePFEP = () =>
   loadAPI('/pfep/', {
     method: 'GET',

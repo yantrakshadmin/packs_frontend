@@ -67,6 +67,7 @@ const ProductEmployeeScreen = ({ currentPage }) => {
             </Button>
           </a>
           <Button
+            disabled
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -80,6 +81,7 @@ const ProductEmployeeScreen = ({ currentPage }) => {
             <Edit />
           </Button>
           <Popconfirm
+            disabled
             title='Confirm Delete'
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
@@ -90,6 +92,7 @@ const ProductEmployeeScreen = ({ currentPage }) => {
               failure: 'Error in deleting product',
             })}>
             <Button
+              disabled
               style={{
                 backgroundColor: 'transparent',
                 boxShadow: 'none',

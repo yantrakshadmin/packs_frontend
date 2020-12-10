@@ -10,7 +10,7 @@ import KitsTable from '../../components/KitsTable';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
-import { GetUniqueValue, GetUniqueValueNested } from 'common/helpers/getUniqueValues';
+import { GetUniqueValueNested } from 'common/helpers/getUniqueValues';
 
 const { Search } = Input;
 
@@ -85,6 +85,7 @@ const FlowEmployeeScreen = ({ currentPage }) => {
       render: (text, record) => (
         <div className='row justify-evenly'>
           <Button
+            disabled
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -98,6 +99,7 @@ const FlowEmployeeScreen = ({ currentPage }) => {
             <Edit />
           </Button>
           <Popconfirm
+            disabled
             title='Confirm Delete'
             onConfirm={deleteHOC({
               record,
@@ -107,6 +109,7 @@ const FlowEmployeeScreen = ({ currentPage }) => {
               failure: 'Error in deleting flow',
             })}>
             <Button
+              disabled
               style={{
                 backgroundColor: 'transparent',
                 boxShadow: 'none',

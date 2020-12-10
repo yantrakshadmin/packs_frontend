@@ -1,6 +1,6 @@
 import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 
-//boolean checkbox
+
 
 export const PREPMaterialHandlingEquipmentFormFields = [
   {

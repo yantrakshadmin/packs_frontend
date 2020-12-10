@@ -168,6 +168,11 @@ export const employeeRoutes = [
         path: '/pfep/create/',
         Component: lazy(() => import('screens/employee/PFEP.screen')),
       },
+      {
+        name: 'CP',
+        path: '/cp/',
+        Component: lazy(() => import('screens/employee/createCP.screen')),
+      },
     ],
   },
   {
@@ -261,11 +266,4 @@ export const clientRoutes = [
     path: '/return-reports/',
     Component: lazy(() => import('screens/client/returnReports.screen')),
   },
-  // {
-  //   name: 'Client Inventory',
-  //   icon: ['fas', 'layer-group'],
-  //   path: '/client-inventory/',
-  //   Component: lazy(() => import('screens/404.screen')),
-  // },
-
 ];
