@@ -4,8 +4,8 @@ import { Popover, Button,Typography } from 'antd';
 const { Title } = Typography;
 
 
-export const ActionsPopover= ({ buttonList,title,icon,triggerTitle }) => {
-  const [popover, setPopover]=useState(false)
+export const ActionsPopover= ({ buttonList,title,icon,triggerTitle, }) => {
+  const [popover, setPopover] = useState(false)
 
   const hide = () => {
     setPopover(
@@ -21,14 +21,13 @@ export const ActionsPopover= ({ buttonList,title,icon,triggerTitle }) => {
       {(buttonList || []).map(Item => (
         <Button
           size='small'
-          icon={<Item.Icon />}
+          icon={Item.Icon?<Item.Icon />:null}
           style={{ margin:'5px' }}
           type={Item.type || 'primary'}
           onClick={Item.onClick}>
           {Item.title}
         </Button>
       ))}
-
     </div>
   )
 
@@ -41,7 +40,7 @@ export const ActionsPopover= ({ buttonList,title,icon,triggerTitle }) => {
           <Button type='link' onClick={hide} style={{ float:"right" }}>Cancel</Button>
         </div>
 )}
-      trigger='click'
+      trigger='hover'
       visible={popover}
       onVisibleChange={handleVisibleChange}
       >

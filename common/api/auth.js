@@ -675,6 +675,16 @@ export const leadFileUpload = (req) =>
       'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
     },
   });
+
+export const tpFileUpload = (req) =>
+  loadAPI('/upload-tp/', {
+    method: 'POST',
+    data: req,
+    secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+    },
+  });
 export const createReturn = (data) =>
   loadAPI('/create-return/', {
     method: 'POST',

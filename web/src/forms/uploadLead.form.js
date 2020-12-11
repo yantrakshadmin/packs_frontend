@@ -13,11 +13,11 @@ const item = {
   customLabel: 'Upload Your File',
 };
 
-export const UploadLeadForm = ({ id, onCancel,lead, onDone }) => {
+export const UploadLeadForm = ({ id, onCancel,lead, onDone,create }) => {
   const [reqFile, setFile] = useState(null);
 
   const { form, submit, loading } = useHandleForm({
-    create: leadFileUpload,
+    create,
     edit: ()=>{},
     retrieve: ()=>{},
     success: 'Uploaded successfully.',

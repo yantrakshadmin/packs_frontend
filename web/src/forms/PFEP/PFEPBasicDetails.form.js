@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Col, Row, Button, Divider, Spin } from 'antd';
+import { Form, Col, Row, Button, Divider, Spin, notification } from 'antd';
 import { ArrowRightOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { PREPBasicDetailsFormFields } from 'common/formFields/PFEP/PFEPBasicDetails.formFields';
 import formItem from 'hocs/formItem.hoc';
@@ -33,13 +33,6 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext,active }) => {
   return (
     <Spin spinning={loading}>
       <Form
-        // initialValues={{
-        //   date:state.date?moment(state.date):null,
-        //   contact_person:state.contact_person?state.contact_person:null,
-        //   designation:state.designation?state.designation:null,
-        //   email:state.email?state.email:null,
-        //   contact_no:state.contact_no?state.contact_no:null
-        // }}
         initialValues={{ ...state,date:state.date?moment(state.date):null }}
         onFinish={submit}
         form={form}
@@ -75,7 +68,7 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext,active }) => {
           ))}
         </Row>
         <Form.List name='receivers'>
-          {(fields, { add, remove }) => {
+          {(fields, { add, remove, }) => {
             return (
               <div>
                 {fields.map((field, index) => (
@@ -114,7 +107,12 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext,active }) => {
                   <Button
                     type='dashed'
                     onClick={() => {
-                      add();
+                      const temp = form.getFieldValue('receivers')
+                      if( temp === undefined || temp.length<1){
+                        add();
+                      }else{
+                        notification.info({ message:"Only One receiver can be added!" })
+                      }
                     }}
                     block>
                     <PlusOutlined />
@@ -126,7 +124,6 @@ export const PFEPBasicDetailsForm = ({ id, onCancel,lead,onNext,active }) => {
             );
           }}
         </Form.List>
-
         <Row justify='space-between'>
           <div className='row'>
             <Button type='primary' htmlType='submit' disabled>

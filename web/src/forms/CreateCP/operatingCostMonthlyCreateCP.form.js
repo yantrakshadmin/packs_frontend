@@ -56,7 +56,7 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation='left'>Operating Cost</Divider>
+      <Divider orientation='left'>Opex</Divider>
       <Form
         onFinish={submit}
         form={form}

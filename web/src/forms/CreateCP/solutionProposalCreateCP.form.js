@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Col, Row, Button, Divider, Spin } from 'antd';
+import { Form, Col, Row, Button, Divider, Spin, Tag } from 'antd';
 import { ArrowRightOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +21,7 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
   const submit = async (data) =>{
     setLoading(true)
     await dispatch({ type:ADD_CREATE_CP_DATA,
-      data:{ ...data} });
+      data:{ ...data } });
     setLoading(false)
     if(active === 1){
       onNext();
@@ -54,7 +54,18 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
         onFieldsChange={handleFieldsChange}
         autoComplete='off'
       >
-        <Divider orientation='left'>Solution Proposal and Other Solution</Divider>
+        <Divider orientation='left'>Capex</Divider>
+        <div className='row px-2'>
+          {state.solution_flc ? <Tag>FLC</Tag> : null}
+          {state.solution_fsc ? <Tag>FSC</Tag> : null}
+          {state.solution_crate ? <Tag>Crate</Tag> : null}
+          {state.solution_ppbox ? <Tag>PP Box</Tag> : null}
+          {state.solution_palletized_box ? <Tag>Solution Palletized Box</Tag> : null}
+          {state.solution_palletized_crate? <Tag>Solution Palletized Crate</Tag> : null}
+          {state.solution_pp ? <Tag>Solution PP</Tag> : null}
+          {state.solution_stacking_nesting ? <Tag>Solution Stacking Nesting</Tag> : null}
+          {state.solution_wp ? <Tag>Solution WP</Tag> : null}
+        </div>
         <Row style={{ justifyContent: 'left' }}>
           {solutionProposalCreateCPFormFields.map((item, idx) => (
             <Col span={6}>

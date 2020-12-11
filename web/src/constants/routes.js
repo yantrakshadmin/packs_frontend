@@ -1,7 +1,8 @@
 import { lazy } from 'react';
 
 export const publicRoutes = [
-  { Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')), path: '/' },
+  { Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')),
+    path: '/' },
   {
     Component: lazy(() => import('../components/SignUp/sign-up-client.component')),
     path: '/sign-up/client/',
@@ -47,6 +48,11 @@ export const outerRoutesEmployee = [
     path: '/return-docket/:id',
     Component: lazy(() => import('components/ReturnDocket/ReturnDocket')),
   },
+  {
+    path: '/print-cp/:id',
+    Component: lazy(() => import('components/printCP')),
+  },
+
 ];
 export const outerRoutesClient = [
   {

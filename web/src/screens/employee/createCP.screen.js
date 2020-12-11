@@ -1,22 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Popconfirm, Tag, Button, Input, Modal } from 'antd';
+import { Popconfirm,  Button, Input, } from 'antd';
 import { connect, useDispatch } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { deleteCP, retrieveCP } from 'common/api/auth';
 import Delete from 'icons/Delete';
-import { PFEPColumn } from 'common/columns/PFEP.column';
-import { utcDateFormatter } from 'common/helpers/dateFomatter';
 import {
-  ADD_CREATE_CP_DATA,
+  ADD_CREATE_CP_BASIC_DATA,
   CLEAN_PFEP_DATA,
 } from 'common/actions';
-import { deleteHOC } from '../../hocs/deleteHoc';
-import Edit from '../../icons/Edit';
-import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import { CreateCPColumns } from 'common/columns/createCP.column';
-import { MainCreateCPForm } from '../../forms/CreateCP/mainCreateCP.form';
 
-const { Search } = Input;
 // agreed_margin: 0
 // billing_price: 0
 // buffer: 4
@@ -76,7 +68,99 @@ const { Search } = Input;
 // palletized_lid_rate: 0
 // palletized_lid_total_cost: 0
 // perating_cost: 0
-// pfep: 10
+// pfep:
+//   average_dispatchlotsize: 120
+// breadth: 127
+// contact_no: "9876543210"
+// contact_person: "anil"
+// cp_approved: true
+// cp_shared: false
+// critical_area: "No"
+// current_packaging: "Returnable"
+// date: "2020-11-09T10:34:31.944000Z"
+// designation: "sale"
+// dispatch_frequency: "once per week"
+// email: "anil@lumax.com"
+// emitter_inv: 5
+// esa_signed: false
+// flow_started: true
+// greasy_oily: false
+// height: 370
+// highest_mv: 2000
+// id: 10
+// inserts_pm: 0
+// lead_no: 2007
+// length: 256
+// lowest_mv: 500
+// matrix_details: "3x2"
+// max_cycle_days: 22
+// min_cycle_days: 20
+// min_max_margin: null
+// mul_parts_single_pocket: "Y"
+// not_qualified: true
+// np_ef: "New Part"
+// on_hold: false
+// other_spec: "NO"
+// other_storage: 0
+// owner: {id: 2, password: "pbkdf2_sha256$180000$T8KatsrlJbzL$jevLZA8OE4xmSYwpoeLWKkK66riY6JjyiYmu2ADm9S4=", last_login: null, is_superuser: false, username: "yantraksh", …}
+// p2p_contact: "Y"
+// packaging_breadth: 500
+// packaging_height: 450
+// packaging_length: 600
+// packaging_type: "New Part"
+// palletized_sol_details: "5 boxs / pallet"
+// part_cad_data: "NA"
+// part_name: "Shifter P405"
+// part_number: "abc123"
+// parts_orientation: "ANY"
+// parts_per_layer: 0
+// parts_per_pocket: 5
+// parts_pm: 0
+// pfep_dropped: false
+// pfep_no: 2002
+// pm_loaded_weight: 30
+// pocket_breadth: 120
+// pocket_breadth1: 0
+// pocket_height: 440
+// pocket_height1: 0
+// pocket_length: 200
+// pocket_length1: 0
+// price_per_unit: 0
+// receiver_inv: 5
+// receivers: (2) [{…}, {…}]
+// remarks: null
+// remarks1: null
+// remarks2: null
+// sender_client: "Lumax"
+// sender_location: "Manesar"
+// solution_crate: false
+// solution_flc: true
+// solution_fsc: true
+// solution_palletized_box: false
+// solution_palletized_crate: false
+// solution_pp: false
+// solution_ppbox: false
+// solution_stacking_nesting: false
+// solution_wp: false
+// special_measure: "NA"
+// spesheet_pm: 0
+// stacking_nesting: "Stacking 0f 5 parts"
+// total_parts_per_pm: 30
+// tp: [{…}]
+// tp_approved: false
+// tp_shared: true
+// transit_time: 5
+// transportation_mode: "PTL"
+// trials_approved: false
+// trials_done: false
+// trips_per_pm: "box - single, pallet - multiple"
+// volume_pm: 1500
+// wastage_pm: "box-100%, pallet - reusable"
+// weight: 1.5
+// wh_emitter: 0
+// wh_receiver: 5
+// yantra_cycle: 30
+// __proto__: Object
 // remarks: null
 // repair_reconditioning: 2
 // sep_sheet_dep_cost: 0
@@ -92,19 +176,29 @@ const { Search } = Input;
 // transportation_w1_c1: 2
 // transportation_w2_w1: 2
 // trip_cost: 0
+import { CreateCPColumns } from 'common/columns/createCP.column';
+import { useNavigate } from '@reach/router';
+import { deleteHOC } from '../../hocs/deleteHoc';
+import Edit from '../../icons/Edit';
+import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import { MainCreateCPForm } from '../../forms/CreateCP/mainCreateCP.form';
+import Document from '../../icons/Document';
+
+const { Search } = Input;
 
 const CreateCPScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
+  const [selectedCP, setSelectedCP] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
 
   const { filteredData, loading, reload } = useTableSearch({
     searchVal,
     retrieve: retrieveCP,
   });
-  console.log(filteredData,'ye wla')
   useEffect(() => {
     if (filteredData) {
       const csvd = [];
@@ -115,7 +209,6 @@ const CreateCPScreen = ({ currentPage }) => {
       setCsvData(csvd);
     }
   }, [filteredData]);
-
   const columns = [
     ...CreateCPColumns,
     {
@@ -123,11 +216,7 @@ const CreateCPScreen = ({ currentPage }) => {
       key: 'emitter',
       render: (record) => (
         <div>
-          {record.emitter_inv}
-          {' - '}
-          {
-            record.wh_emitter
-          }
+          {record.pfep.sender_client}
         </div>
       ),
     },{
@@ -135,7 +224,7 @@ const CreateCPScreen = ({ currentPage }) => {
       key: 'emitter_location',
       render: (record) => (
         <div>
-          {record.emitter_inv}
+          {record.pfep.sender_location}
         </div>
       ),
     },
@@ -144,8 +233,7 @@ const CreateCPScreen = ({ currentPage }) => {
       key: 'receiver',
       render: (record) => (
         <div>
-          {record.receiver_inv}
-
+          {record.pfep.receivers.length>0?record.pfep.receivers[0].name:''}
         </div>
       ),
     },
@@ -154,7 +242,7 @@ const CreateCPScreen = ({ currentPage }) => {
       key: 'receiver_location',
       render: (record) => (
         <div>
-          {record.receiver_inv}
+          {record.pfep.receivers.length>0?record.pfep.receivers[0].location:''}
         </div>
       ),
     },
@@ -172,8 +260,43 @@ const CreateCPScreen = ({ currentPage }) => {
               padding: '1px',
             }}
             onClick={(e) => {
+              navigate(`../print-cp/${record.id}`,{ state:record,receiverDetails:[{
+                part_name:record.pfep.part_name,
+                receiver_location: record.pfep.receivers.length>0?record.pfep.receivers[0].location:'',
+
+              }] })
+              e.stopPropagation();
+            }}>
+            <Document />
+          </Button>
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            onClick={(e) => {
               setEditingId(record.id);
-              dispatch({ type: ADD_CREATE_CP_DATA, data: record });
+              dispatch({ type: ADD_CREATE_CP_BASIC_DATA, data: {
+                ...record,
+                sender_client:record.pfep.sender_client?record.pfep.sender_client:'',
+                sender_location:record.pfep.sender_location?record.pfep.sender_location:'',
+                receiver: record.pfep.receivers[0]?record.pfep.receivers[0].name:'',
+                receiver_location: record.pfep.receivers[0]?record.pfep.receivers[0].location:'',
+                component_perkit: record.parts_pm,
+                total_comp_weight_perkit: record.weight,
+                pfep:record.id,
+                solution_crate:record.pfep.solution_crate,
+                solution_flc: record.pfep.solution_flc,
+                solution_fsc: record.pfep.solution_fsc,
+                solution_palletized_box:record.pfep.solution_palletized_box,
+                solution_palletized_crate: record.pfep.solution_palletized_crate,
+                solution_pp: record.pfep.solution_pp,
+                solution_ppbox: record.pfep.solution_ppbox,
+                solution_stacking_nesting: record.pfep.solution_stacking_nesting,
+                solution_wp: record.pfep.solution_wp,
+              } });
               e.stopPropagation();
             }}>
             <Edit />
@@ -215,10 +338,20 @@ const CreateCPScreen = ({ currentPage }) => {
   ];
 
   const cancelEditing = () => setEditingId(null);
-
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      setSelectedCP(selectedRows.map(item=>({ sender_client:item.pfep.sender_client })))
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    },
+    hideSelectAll:true,
+    getCheckboxProps: record => ({
+      disabled: selectedCP.length<=0?false:record.pfep.sender_client !== selectedCP[0].sender_client, // Column configuration not to be checked
+    }),
+  };
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Button className='mx-2' type='primary' disabled={selectedCP.length<=0}>Merge CP</Button>
         <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
         </div>
@@ -230,6 +363,7 @@ const CreateCPScreen = ({ currentPage }) => {
         tabs={tabs}
         size='middle'
         title='CP'
+        rowSelection={rowSelection}
         editingId={editingId}
         cancelEditing={() => {
           cancelEditing();
@@ -240,12 +374,8 @@ const CreateCPScreen = ({ currentPage }) => {
         hideRightButton
         modalWidth={80}
         modalBody={MainCreateCPForm}
-        // expandHandleKey='person'
-        // ExpandBody={PersonTable}
-        // expandParams={{ loading }}
-        // scroll={{ x: 1200 }}
         csvdata={csvData}
-        csvname={`PFEP${searchVal}.csv`}
+        csvname={`CP${searchVal}.csv`}
       />
     </>
   );

@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Popconfirm, Tag, Button, Input, Modal } from 'antd';
 import { connect, useDispatch } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
-import { retrievePFEP, deletePFEP } from 'common/api/auth';
+import { retrievePFEP, deletePFEP,  tpFileUpload } from 'common/api/auth';
 import Delete from 'icons/Delete';
 import { PFEPColumn } from 'common/columns/PFEP.column';
 import { utcDateFormatter } from 'common/helpers/dateFomatter';
 import {
   ADD_CREATE_CP_BASIC_DATA,
-  ADD_CREATE_CP_DATA,
   ADD_PFEP_DATA,
   CLEAN_PFEP_DATA,
 } from 'common/actions';
@@ -19,6 +18,7 @@ import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { PFEPMainForm } from '../../forms/PFEP/PFEPMain.form';
 import { ActionsPopover } from '../../components/ActionsPopover';
 import { MainCreateCPForm } from '../../forms/CreateCP/mainCreateCP.form';
+import { UploadLeadForm } from '../../forms/uploadLead.form';
 
 const { Search } = Input;
 
@@ -200,6 +200,11 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
           {record.solution_fsc ? <Tag>FSC</Tag> : null}
           {record.solution_crate ? <Tag>Crate</Tag> : null}
           {record.solution_ppbox ? <Tag>PP Box</Tag> : null}
+          {record.solution_palletized_box ? <Tag>Solution Palletized Box</Tag> : null}
+          {record.solution_palletized_crate? <Tag>Solution Palletized Crate</Tag> : null}
+          {record.solution_pp ? <Tag>Solution PP</Tag> : null}
+          {record.solution_stacking_nesting ? <Tag>Solution Stacking Nesting</Tag> : null}
+          {record.solution_wp ? <Tag>Solution WP</Tag> : null}
         </div>
       ),
     }, {
@@ -213,7 +218,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
           {record.tp_approved ? <Tag>TP Approved</Tag> : null}
           {record.cp_approved ? <Tag>CP Approved</Tag> : null}
           {record.trials_done ? <Tag>Trials Done</Tag> : null}
-          {record.trials_approved ? <Tag>Trials Approved}</Tag> : null}
+          {record.trials_approved ? <Tag>Trials Approved</Tag> : null}
           {record.esa_signed ? <Tag>Esa Signed</Tag> : null}
           {record.flow_started ? <Tag>Flow Started</Tag> : null}
           {record.on_hold ? <Tag>On hold</Tag> : null}
@@ -231,6 +236,8 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
       render: (text, record) => (
         <div className='row align-center justify-evenly'>
           <ActionsPopover
+            // popover={popover}
+            // setPopover={setPopover}
             triggerTitle='Options'
             buttonList={
               [{
@@ -238,6 +245,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
                 title: 'Create CP',
                 onClick:async (e) => {
                   setCreateCPVisible(true);
+                  console.log(record,'pfep')
                   await dispatch({
                     type: ADD_CREATE_CP_BASIC_DATA, data: {
                       ...record,
@@ -245,7 +253,16 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
                       receiver_location: record.receivers[0]?record.receivers[0].location:'',
                       component_perkit: record.parts_pm,
                       total_comp_weight_perkit: record.weight,
-                      pfep:record.id
+                      pfep:record.id,
+                      solution_crate:record.solution_crate,
+                      solution_flc: record.solution_flc,
+                      solution_fsc: record.solution_fsc,
+                      solution_palletized_box:record.solution_palletized_box,
+                      solution_palletized_crate: record.solution_palletized_crate,
+                      solution_pp: record.solution_pp,
+                      solution_ppbox: record.solution_ppbox,
+                      solution_stacking_nesting: record.solution_stacking_nesting,
+                      solution_wp: record.solution_wp,
                     },
                   });
                   e.stopPropagation();
@@ -255,6 +272,7 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
                 Icon: ToTopOutlined,
                 title: 'Upload TP',
                 onClick: (e) => {
+                  // setPopover(false);
                   setUploadTP(true);
                   e.stopPropagation();
                 },
@@ -276,7 +294,6 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
             }}>
             <Edit />
           </Button>
-
           <Popconfirm
             title='Confirm Delete'
             onCancel={(e) => e.stopPropagation()}
@@ -354,8 +371,12 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
           setUploadTP(false);
         }}
         footer={null}>
-        GGG
-        {/* <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} {...formParams} /> */}
+        <UploadLeadForm
+          onCancel={()=>{setUploadTP(false)}}
+          onDone={()=>{setUploadTP(false)}}
+          lead={lead}
+          create={tpFileUpload}
+        />
       </Modal>
       <TableWithTabHOC
         rowKey={(record) => record.id}

@@ -3,7 +3,7 @@ import leadColumns from 'common/columns/Leads.colums';
 import { Popconfirm, Button, Input, Modal } from 'antd';
 import { connect, useDispatch } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
-import { retrieveLeads, deleteLead } from 'common/api/auth';
+import { retrieveLeads, deleteLead, leadFileUpload } from 'common/api/auth';
 import Delete from 'icons/Delete';
 import PersonTable from 'components/PersonTable';
 import { DiffOutlined,ToTopOutlined } from '@ant-design/icons'
@@ -25,6 +25,8 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
   const [visible, setVisible] = useState(false);
   const [visibleUpload, setVisibleUpload] = useState(false);
   const [lead,setLead] = useState(null);
+  const [popover, setPopover]=useState(false)
+
   const { filteredData, loading, reload } = useTableSearch({
     searchVal,
     retrieve: retrieveLeads,
@@ -53,12 +55,15 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
       render: (text, record) => (
         <div className='row align-center justify-evenly'>
           <ActionsPopover
+            popover={popover}
+            setPopover={setPopover}
             triggerTitle='Options'
             buttonList={
           [{
             Icon:DiffOutlined,
             title:'Create PFEP',
             onClick:(e) => {
+              setPopover(false);
               setLead(record.lead_no);
               setVisible(true)
               e.stopPropagation();
@@ -68,6 +73,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
             Icon:ToTopOutlined,
             title:'Upload PFEP',
             onClick:(e) => {
+              setPopover(false);
               setLead(record.lead_no);
               setVisibleUpload(true)
               e.stopPropagation();
@@ -163,7 +169,9 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
         <UploadLeadForm
           onCancel={()=>{setVisibleUpload(false)}}
           onDone={()=>{setVisibleUpload(false)}}
-          lead={lead} />
+          lead={lead}
+          create={leadFileUpload}
+        />
       </Modal>
       <TableWithTabHOC
         rowKey={(record) => record.id}

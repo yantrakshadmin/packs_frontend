@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Col, Row, Button, Divider, Spin } from 'antd';
+import { Form, Col, Row, Button, Divider, Spin, notification } from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_PFEP_DATA, STOP_STEP_LOADING } from 'common/actions';
@@ -109,7 +109,12 @@ export const PFEPStockKeepingForm = ({ id, onCancel,onDone,onNext,active }) => {
                   <Button
                     type='dashed'
                     onClick={() => {
-                      add();
+                      const temp = form.getFieldValue('tp')
+                      if( temp === undefined || temp.length<5){
+                        add();
+                      }else{
+                        notification.info({message:"Only 5 touch points can be added!"})
+                      }
                     }}
                     block>
                     <PlusOutlined />

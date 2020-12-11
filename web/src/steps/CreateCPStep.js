@@ -7,7 +7,7 @@ export const CreateCPStep = [
     component: lazy(() => import('web/src/forms/CreateCP/basicDetialsCreateCP.form')),
   },
   {
-    title: 'Solution Proposal and Other Solution',
+    title: 'Capex',
     icon: 'user',
     component: lazy(() => import('web/src/forms/CreateCP/solutionProposalCreateCP.form')),
   },
@@ -17,7 +17,7 @@ export const CreateCPStep = [
     component: lazy(() => import('web/src/forms/CreateCP/logisticsCreateCP.form')),
   },
   {
-    title: 'Operating Cost Monthly ',
+    title: 'Opex ',
     icon: 'user',
     component: lazy(() => import('web/src/forms/CreateCP/operatingCostMonthlyCreateCP.form')),
   },
