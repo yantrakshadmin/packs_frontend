@@ -51,7 +51,8 @@ export const kitFormFields = [
     },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: {
-      selectOptions: ['FLC', 'FSC', 'Crate', 'PP Box'],
+      selectOptions: ['FLC', 'FSC', 'Crate', 'PP Box', 'CRT6412', 'CRT6418', 'CRT6423', 'CRT6435', 'Palletized CRT6412',
+      'Palletized CRT6418', 'Palletized CRT6423', 'Palletized CRT6435', 'Palletized PP Box', 'Plastic Pallet', 'Wooden Pallet'],
     },
     customLabel: 'Kit Type',
   },

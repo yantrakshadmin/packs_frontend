@@ -85,7 +85,7 @@ const FlowEmployeeScreen = ({ currentPage }) => {
       render: (text, record) => (
         <div className='row justify-evenly'>
           <Button
-            disabled
+            // disabled
             style={{
               backgroundColor: 'transparent',
               border: 'none',
