@@ -99,7 +99,7 @@ const FlowEmployeeScreen = ({ currentPage }) => {
             <Edit />
           </Button>
           <Popconfirm
-            disabled
+            // disabled
             title='Confirm Delete'
             onConfirm={deleteHOC({
               record,
@@ -109,7 +109,7 @@ const FlowEmployeeScreen = ({ currentPage }) => {
               failure: 'Error in deleting flow',
             })}>
             <Button
-              disabled
+              // disabled
               style={{
                 backgroundColor: 'transparent',
                 boxShadow: 'none',

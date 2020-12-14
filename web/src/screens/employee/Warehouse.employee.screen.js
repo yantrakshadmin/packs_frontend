@@ -59,7 +59,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
             </Button>
           </a>
           <Button
-            disabled
+            // disabled
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -73,7 +73,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
             <Edit />
           </Button>
           <Popconfirm
-            disabled
+            // disabled
             title='Confirm Delete'
             onConfirm={deleteHOC({
               record,
@@ -83,7 +83,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
               failure: 'Error in deleting warehouse',
             })}>
             <Button
-              disabled
+              // disabled
               style={{
                 backgroundColor: 'transparent',
                 boxShadow: 'none',

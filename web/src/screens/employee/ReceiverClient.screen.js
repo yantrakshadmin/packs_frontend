@@ -67,7 +67,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
       render: (text, record) => (
         <div className='row align-center justify-evenly'>
           <Button
-            disabled
+            // disabled
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -81,7 +81,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
             <Edit />
           </Button>
           <Popconfirm
-            disabled
+            // disabled
             title='Confirm Delete'
             onConfirm={deleteHOC({
               record,
@@ -91,7 +91,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
               failure: 'Error in deleting receiver client',
             })}>
             <Button
-              disabled
+              // disabled
               style={{
                 backgroundColor: 'transparent',
                 boxShadow: 'none',

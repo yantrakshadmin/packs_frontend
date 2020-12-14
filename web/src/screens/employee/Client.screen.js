@@ -114,7 +114,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
             </Button>
           </a>
           <Button
-            disabled
+            // disabled
             style={{
               backgroundColor: 'transparent',
               border: 'none',

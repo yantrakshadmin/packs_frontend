@@ -88,7 +88,7 @@ const KitEmployeeScreen = ({ currentPage }) => {
             <Edit />
           </Button>
           <Popconfirm
-            disabled
+            // disabled
             title='Confirm Delete'
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
@@ -99,7 +99,7 @@ const KitEmployeeScreen = ({ currentPage }) => {
               failure: 'Error in deleting kit',
             })}>
             <Button
-              disabled
+              // disabled
               style={{
                 backgroundColor: 'transparent',
                 boxShadow: 'none',
