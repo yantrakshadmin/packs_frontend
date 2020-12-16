@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Form, Col, Row, Button, Divider, Spin, message } from 'antd';
-import { clientFormFields } from 'common/formFields/clientProfile.formFields';
+import { Form, Col, Row, Button, Divider, Spin, message, notification } from 'antd';
+import { clientFormFields ,mailingListFormFields } from 'common/formFields/clientProfile.formFields';
 import { useHandleForm } from 'hooks/form';
 import { editClientProfile, retrieveClientProfile } from 'common/api/auth';
+// import { PREPCreationFormFields, } from 'common/formFields/PFEP/PFEPCreation.formFields';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import formItem from '../hocs/formItem.hoc';
 
 export const ClientForm = ({ id, onCancel, onDone }) => {
@@ -120,7 +122,58 @@ export const ClientForm = ({ id, onCancel, onDone }) => {
             },
           })}
         </Row>
-
+        <Form.List name='add_mailing_list'>
+          {(fields, { add, remove, }) => {
+            return (
+              <div>
+                {fields.map((field, index) => (
+                  <Row align='middle'>
+                    {mailingListFormFields.map((item) => (
+                      <Col span={5}>
+                        <div className='p-2'>
+                          {formItem({
+                            ...item,
+                            noLabel: index !== 0,
+                            form,
+                            others: {
+                              formOptions: {
+                                ...field,
+                                name: [field.name, item.key],
+                                fieldKey: [field.fieldKey, item.key],
+                              },
+                            },
+                          })}
+                        </div>
+                      </Col>
+                    ))}
+                    <Button
+                      type='danger'
+                      style={index !== 0 ? { top: '-2vh' } : null}
+                      onClick={() => {
+                        remove(field.name);
+                      }}>
+                      <MinusCircleOutlined />
+                      {' '}
+                      Delete
+                    </Button>
+                  </Row>
+                ))}
+                <Form.Item>
+                  <Button
+                    type='dashed'
+                    onClick={() => {
+                      add();
+                    }}
+                    block>
+                    <PlusOutlined />
+                    {' '}
+                    Add Mailing List
+                  </Button>
+                </Form.Item>
+              </div>
+            );
+          }}
+        </Form.List>
         <Row>
           <Button type='primary' htmlType='submit'>
             Save

@@ -217,3 +217,23 @@ export const clientFormFields = [
     customLabel: 'Client Annexure',
   },
 ];
+
+export const mailingListFormFields=[
+  {
+    key: 'name',
+    kwargs: {
+      placeholder: 'Name',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Name',
+  },
+  {
+    key: 'email',
+    kwargs: {
+      placeholder: 'email',
+      type:'email'
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Email',
+  },
+]
