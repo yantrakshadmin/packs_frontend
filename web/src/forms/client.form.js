@@ -103,6 +103,15 @@ export const ClientForm = ({ id, onCancel, onDone }) => {
             </Col>
           ))}
         </Row>
+        <Row style={{ justifyContent: 'space-between' }}>
+          {mailingListFormFields.map((item, idx) => (
+            <Col span={24}>
+              <div key={idx} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
         <Row align='center'>
           {formItem({
             ...clientFormFields[20],
@@ -122,58 +131,7 @@ export const ClientForm = ({ id, onCancel, onDone }) => {
             },
           })}
         </Row>
-        <Form.List name='add_mailing_list'>
-          {(fields, { add, remove, }) => {
-            return (
-              <div>
-                {fields.map((field, index) => (
-                  <Row align='middle'>
-                    {mailingListFormFields.map((item) => (
-                      <Col span={5}>
-                        <div className='p-2'>
-                          {formItem({
-                            ...item,
-                            noLabel: index !== 0,
-                            form,
-                            others: {
-                              formOptions: {
-                                ...field,
-                                name: [field.name, item.key],
-                                fieldKey: [field.fieldKey, item.key],
-                              },
-                            },
-                          })}
-                        </div>
-                      </Col>
-                    ))}
-                    <Button
-                      type='danger'
-                      style={index !== 0 ? { top: '-2vh' } : null}
-                      onClick={() => {
-                        remove(field.name);
-                      }}>
-                      <MinusCircleOutlined />
-                      {' '}
-                      Delete
-                    </Button>
-                  </Row>
-                ))}
-                <Form.Item>
-                  <Button
-                    type='dashed'
-                    onClick={() => {
-                      add();
-                    }}
-                    block>
-                    <PlusOutlined />
-                    {' '}
-                    Add Mailing List
-                  </Button>
-                </Form.Item>
-              </div>
-            );
-          }}
-        </Form.List>
+
         <Row>
           <Button type='primary' htmlType='submit'>
             Save

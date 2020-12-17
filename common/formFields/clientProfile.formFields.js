@@ -220,20 +220,11 @@ export const clientFormFields = [
 
 export const mailingListFormFields=[
   {
-    key: 'name',
+    key: 'mailing_list',
     kwargs: {
-      placeholder: 'Name',
+      placeholder: 'Mailing List',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Name',
-  },
-  {
-    key: 'email',
-    kwargs: {
-      placeholder: 'email',
-      type:'email'
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Email',
+    customLabel: 'Mailing List',
   },
 ]
