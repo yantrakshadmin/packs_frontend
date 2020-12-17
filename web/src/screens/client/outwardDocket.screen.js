@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { Link } from '@reach/router';
 import { useAPI } from 'common/hooks/api';
-import { deleteFlow, deleteOutward } from 'common/api/auth';
+import { deleteOutward } from 'common/api/auth';
 import { outwardDocketColumn } from 'common/columns/outwardDocket.column';
 import { loadAPI } from 'common/helpers/api';
 import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
@@ -19,14 +19,14 @@ import Document from '../../icons/Document';
 
 const { Search } = Input;
 
-const OutwardDocketScreen = ({ currentPage }) => {
+const OutwardDocketScreen = ({ currentPage,location,isEmployee }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [reqData, setReqData] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
   const [TN,setTN] = useState(null);
+  console.log(location,isEmployee,'Props')
   const { data: outwards, loading,reload } = useAPI('/outwards/', {});
-  console.log(outwards,'otwrds')
   const { filteredData, } = useTableSearch({
     searchVal,
     reqData,
