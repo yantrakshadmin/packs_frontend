@@ -1,18 +1,18 @@
 import React from 'react';
-import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import { Form, Col, Row, Button, Divider, Spin } from 'antd';
+import { kitFormFields } from 'common/formFields/kit.formFields';
+import { kitProductsFormFields } from 'common/formFields/kitProducts.formFields';
+import { useAPI } from 'common/hooks/api';
+import { useHandleForm } from 'hooks/form';
+import { createKit, retrieveKit, editKit } from 'common/api/auth';
+import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import formItem from '../hocs/formItem.hoc';
-import {kitFormFields} from 'common/formFields/kit.formFields';
-import {kitProductsFormFields} from 'common/formFields/kitProducts.formFields';
-import {useAPI} from 'common/hooks/api';
-import {useHandleForm} from 'hooks/form';
-import {createKit, retrieveKit, editKit} from 'common/api/auth';
-import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 
-export const KitForm = ({id, onCancel, onDone}) => {
-  const {data: clients} = useAPI('/clients/', {});
-  const {data: products} = useAPI('/products/', {});
+export const KitForm = ({ id, onCancel, onDone }) => {
+  const { data: clients } = useAPI('/clients/', {});
+  const { data: products } = useAPI('/products/', {});
 
-  const {form, submit, loading} = useHandleForm({
+  const { form, submit, loading } = useHandleForm({
     create: createKit,
     edit: editKit,
     retrieve: retrieveKit,
@@ -24,39 +24,39 @@ export const KitForm = ({id, onCancel, onDone}) => {
   });
 
   const preProcess = (data) => {
-    const {products} = data;
+    const { products } = data;
     const newProducts = products.map((prod) => ({
       product: Number(prod.product),
       quantity: Number(prod.quantity),
     }));
-    data['products'] = newProducts;
+    data.products = newProducts;
     console.log(data);
     submit(data);
   };
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Kit Details</Divider>
-      <Form onFinish={preProcess} form={form} layout="vertical" hideRequiredMark autoComplete="off">
-        <Row style={{justifyContent: 'left'}}>
+      <Divider orientation='left'>Kit Details</Divider>
+      <Form onFinish={preProcess} form={form} layout='vertical' hideRequiredMark autoComplete='off'>
+        <Row style={{ justifyContent: 'left' }}>
           {kitFormFields.slice(0, 2).map((item, idx) => (
             <Col span={12}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
-        <Row style={{justifyContent: 'left'}}>
+        <Row style={{ justifyContent: 'left' }}>
           {kitFormFields.slice(2, 3).map((item, idx) => (
             <Col span={12}>
-              <div key={idx} className="p-2">
-                {formItem({...item})}
+              <div key={idx} className='p-2'>
+                {formItem({ ...item })}
               </div>
             </Col>
           ))}
           <Col span={12}>
-            <div key={4} className="p-2">
+            <div key={4} className='p-2'>
               {formItem({
                 ...kitFormFields[3],
                 kwargs: {
@@ -75,26 +75,26 @@ export const KitForm = ({id, onCancel, onDone}) => {
             </div>
           </Col>
         </Row>
-        <Row style={{justifyContent: 'left'}}>
+        <Row style={{ justifyContent: 'left' }}>
           {kitFormFields.slice(4, 5).map((item, idx) => (
             <Col span={12}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
-        <Divider orientation="left">Product Details</Divider>
+        <Divider orientation='left'>Product Details</Divider>
 
-        <Form.List name="products">
-          {(fields, {add, remove}) => {
+        <Form.List name='products'>
+          {(fields, { add, remove }) => {
             return (
               <div>
                 {fields.map((field, index) => (
-                  <Row align="middle">
+                  <Row align='middle'>
                     {kitProductsFormFields.slice(0, 1).map((item) => (
                       <Col span={10}>
-                        <div className="p-2">
+                        <div className='p-2'>
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -122,7 +122,7 @@ export const KitForm = ({id, onCancel, onDone}) => {
                     ))}
                     {kitProductsFormFields.slice(1, 2).map((item) => (
                       <Col span={10}>
-                        <div className="p-2">
+                        <div className='p-2'>
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -138,23 +138,27 @@ export const KitForm = ({id, onCancel, onDone}) => {
                       </Col>
                     ))}
                     <Button
-                      type="danger"
-                      style={index != 0 ? {top: '-2vh'} : null}
+                      type='danger'
+                      style={index != 0 ? { top: '-2vh' } : null}
                       onClick={() => {
                         remove(field.name);
                       }}>
-                      <MinusCircleOutlined /> Delete
+                      <MinusCircleOutlined />
+                      {' '}
+                      Delete
                     </Button>
                   </Row>
                 ))}
                 <Form.Item>
                   <Button
-                    type="dashed"
+                    type='dashed'
                     onClick={() => {
                       add();
                     }}
                     block>
-                    <PlusOutlined /> Add Item
+                    <PlusOutlined />
+                    {' '}
+                    Add Item
                   </Button>
                 </Form.Item>
               </div>
@@ -162,11 +166,11 @@ export const KitForm = ({id, onCancel, onDone}) => {
           }}
         </Form.List>
         <Row>
-          <Button type="primary" htmlType="submit">
+          <Button type='primary' htmlType='submit'>
             Save
           </Button>
-          <div className="p-2" />
-          <Button type="primary" onClick={onCancel}>
+          <div className='p-2' />
+          <Button type='primary' onClick={onCancel}>
             Cancel
           </Button>
         </Row>

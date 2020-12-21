@@ -993,3 +993,24 @@ export const editCP = (id,data) =>
     secure: true,
     data
   });
+
+export const retrieveTestInv = (data) =>{
+  return loadAPI('inv-items/',{
+    method:'GET',
+    secure:true,
+    data
+  })
+}
+export const createTestInv = (data) =>{
+  return loadAPI('create-inv/',{
+    method:'POST',
+    secure:true,
+    data
+  })
+}
+
+export const deleteTestInv = (id) =>
+  loadAPI(`/edit-inv/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });

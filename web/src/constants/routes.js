@@ -225,6 +225,12 @@ export const employeeRoutes = [
     Component: lazy(() => import('screens/employee/inventory.screen')),
   },
   {
+    name: 'Test Inventory',
+    icon: ['fas', 'layer-group'],
+    path: '/inventory-test/',
+    Component: lazy(() => import('screens/employee/testInventory.screen.employee')),
+  },
+  {
     name: 'Outward Docket',
     icon: ['fas', 'layer-group'],
     path: '/outward-docket/',
@@ -271,6 +277,7 @@ export const clientRoutes = [
     name: 'Outward Docket',
     icon: ['fas', 'layer-group'],
     path: '/outward-docket/',
+    props:{ isEmployee:false },
     Component: lazy(() => import('screens/client/outwardDocket.screen')),
   },
   {

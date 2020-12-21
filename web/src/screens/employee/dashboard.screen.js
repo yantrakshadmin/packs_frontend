@@ -226,97 +226,104 @@ export const DashboardScreen = () => {
   )
   return (
     <>
-      <Card type='inner' title='Allotment and Return Stats'>
-        <Row justify='center' gutter={32}>
-          <Col span={12}>
-            <div className='row'>
-              <FilterDropdown menu={menuSClients} />
-              <FilterDropdown menu={menuSKits} />
-            </div>
-            <Bar
-              data={allotmentChartData}
-              height={125}
-              options={chartOptions}
+      <Row justify='start' gutter={16}>
+        <Col span={16}>
+          {/*<Card type='inner' title='Allotment and Return Stats'>*/}
+            <Row justify='start' gutter={32}>
+              <Col span={12}>
+                <div className='row'>
+                  <FilterDropdown menu={menuSClients} />
+                  <FilterDropdown menu={menuSKits} />
+                </div>
+                <Bar
+                  data={allotmentChartData}
+                  height={200}
+                  options={chartOptions}
             />
-            <div className='row justify-center'>
-              <Paragraph>
-                {sClientSelected?sClientSelected.replaceAll('%26','&') : 'All Clients'}
-                {/* eslint-disable-next-line no-nested-ternary */}
-                {sKitType &&sClientSelected ?
-                  ` - ${sKitType}`:(sKitType?sKitType.replaceAll('%26','&') :' - All Kits')  }
-              </Paragraph>
-            </div>
-          </Col>
-          <Col span={12}>
-            <FilterDropdown menu={menuRClients} />
-            <Bar
-              data={returnChartData}
-              height={125}
-              options={chartOptions}
+                <div className='row justify-center'>
+                  <Paragraph>
+                    {sClientSelected?sClientSelected.replaceAll('%26','&') : 'All Clients'}
+                    {/* eslint-disable-next-line no-nested-ternary */}
+                    {sKitType &&sClientSelected ?
+                      ` - ${sKitType}`:(sKitType?sKitType.replaceAll('%26','&') :' - All Kits')  }
+                  </Paragraph>
+                </div>
+              </Col>
+              <Col span={12}>
+                <FilterDropdown menu={menuRClients} />
+                <Bar
+                  data={returnChartData}
+                  height={200}
+                  options={chartOptions}
             />
-            <div className='row justify-center'>
-              <Paragraph>
-                {rClientSelected.replaceAll('%26','&')}
-              </Paragraph>
-            </div>
-          </Col>
-        </Row>
-      </Card>
-      <br />
-      <br />
-      <Card type='inner' title='Location and Planning'>
-        <Row>
-          <Col span={12}>
-            <Cal allotements={allotments} returns={returns} />
-          </Col>
-          <Col span={12}>
-            <Map  />
-          </Col>
-        </Row>
-      </Card>
-      <br />
-      <Card>
-        <Row gutter={32} align='bottom' justify='center'>
-          <Col span={12}>
-            <MasterHOC
-              size='small'
-              data={clientStatsFiltered}
-              title='Clients Stats'
-              hideRightButton
-              loading={loading}
-              columns={Column} />
-          </Col>
-          <Col span={12}>
-            <FilterDropdown menu={menuClientStats} />
-            <Bar
-              data={
-                {
-                  labels: ['Allotment','Onsite','Return'],
-                  datasets: [
+                <div className='row justify-center'>
+                  <Paragraph>
+                    {rClientSelected.replaceAll('%26','&')}
+                  </Paragraph>
+                </div>
+              </Col>
+            </Row>
+          {/*</Card>*/}
+          {/*<br />*/}
+          {/*<br />*/}
+          {/*<Card type='inner' title='Location and Planning'>*/}
+            <Row>
+              <Col span={12}>
+                <Cal allotements={allotments} returns={returns} />
+              </Col>
+              <Col span={12}>
+                <Map  />
+              </Col>
+            </Row>
+          {/*</Card>*/}
+        </Col>
+        <br />
+        <Col span={8}>
+          {/*<Card>*/}
+            <Row gutter={32} align='bottom' justify='center'>
+              <Col span={24}>
+                <FilterDropdown menu={menuClientStats} />
+                <Bar
+                  data={
                     {
-                      label: 'Client Statistics',
-                      ...chartConfigs,
-                      data:clientStats?[
-                        clientStats.Allotment[clientStatIndex],
-                        clientStats.Onsite[clientStatIndex],
-                        clientStats.Return[clientStatIndex]
-                      ]:[0,0,0],
-                    },
-                  ],
-                }
-              }
-              height={125}
-              options={chartOptions}
-            />
-            <div className='row justify-center'>
-              <Paragraph>
-                {clientStatsFiltered.length>0?
-                  clientStatsFiltered[clientStatIndex].Clients:null}
-              </Paragraph>
-            </div>
-          </Col>
-        </Row>
-      </Card>
+                      labels: ['Allotment','Onsite','Return'],
+                      datasets: [
+                        {
+                          label: 'Client Statistics',
+                          ...chartConfigs,
+                          data:clientStats?[
+                            clientStats.Allotment[clientStatIndex],
+                            clientStats.Onsite[clientStatIndex],
+                            clientStats.Return[clientStatIndex]
+                          ]:[0,0,0],
+                        },
+                      ],
+                    }
+                  }
+                  height={200}
+                  options={chartOptions}
+                />
+                <div className='row justify-center'>
+                  <Paragraph>
+                    {clientStatsFiltered.length>0?
+                      clientStatsFiltered[clientStatIndex].Clients:null}
+                  </Paragraph>
+                </div>
+              </Col>
+              <Col span={24}>
+                <MasterHOC
+                  size='small'
+                  scroll={{ x: 120 ,y:200}}
+                  data={clientStatsFiltered}
+                  title=''
+                  hideRightButton
+                  loading={loading}
+                  columns={Column} />
+              </Col>
+            </Row>
+          {/*</Card>*/}
+        </Col>
+      </Row>
     </>
   );
 };

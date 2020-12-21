@@ -8,6 +8,7 @@ export const MasterHOC = ({
   data,
   size,
   columns,
+  scroll,
   modalParams,
   modalBody: ModalBody,
   hideRightButton,
@@ -71,6 +72,7 @@ export const MasterHOC = ({
       <Row>
         <Col span={24}>
           <Table
+            scroll={scroll}
             bordered
             dataSource={data}
             columns={columns}
@@ -78,7 +80,6 @@ export const MasterHOC = ({
             {...tableOptions}
             size={size} />
         </Col>
-
       </Row>
     </div>
   );

@@ -19,14 +19,16 @@ import Document from '../../icons/Document';
 
 const { Search } = Input;
 
-const OutwardDocketScreen = ({ currentPage,location,isEmployee }) => {
+const OutwardDocketScreen = ({ currentPage,isEmployee }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [reqData, setReqData] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
   const [TN,setTN] = useState(null);
-  console.log(location,isEmployee,'Props')
-  const { data: outwards, loading,reload } = useAPI('/outwards/', {});
+
+  console.log(isEmployee,'Props')
+
+  const { data: outwards, loading,reload } = useAPI(isEmployee?'emp-outwards/':'/outwards/', {});
   const { filteredData, } = useTableSearch({
     searchVal,
     reqData,
