@@ -225,10 +225,28 @@ export const employeeRoutes = [
     Component: lazy(() => import('screens/employee/inventory.screen')),
   },
   {
-    name: 'Test Inventory',
+    name: 'Inventory',
     icon: ['fas', 'layer-group'],
-    path: '/inventory-test/',
-    Component: lazy(() => import('screens/employee/testInventory.screen.employee')),
+    path: '/main-inventory/',
+    isSubMenu: true,
+    subMenu: [
+      {
+        name: 'Test Inventory',
+        path: '/main-inventory/inventory-test/',
+        Component: lazy(() => import('screens/employee/testInventory.screen.employee')),
+      },
+      {
+        name: 'InTransits',
+        path: '/main-inventory/inventory-in-transits/',
+        Component: lazy(() => import('screens/employee/transitInventory.screen')),
+      },
+      {
+        name: 'Client Inventory',
+        path: '/main-inventory/inventory-clients/',
+        Component: lazy(() => import('screens/employee/clientInventory.screen')),
+      },
+
+    ]
   },
   {
     name: 'Outward Docket',

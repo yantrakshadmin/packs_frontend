@@ -8,7 +8,7 @@ export const Map = () => {
       <Iframe
         src={`${DEFAULT_BASE_URL}/map`}
         width='100%'
-        height='300px'
+        height='500px'
         id='myId'
         styles={{ height: '100%', width: '100%', zoom: '2' }}
         url=''

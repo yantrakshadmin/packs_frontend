@@ -227,8 +227,8 @@ export const DashboardScreen = () => {
   return (
     <>
       <Row justify='start' gutter={16}>
-        <Col span={16}>
-          {/*<Card type='inner' title='Allotment and Return Stats'>*/}
+        <Col span={24}>
+          <Card type='inner' title='Allotment and Return Stats'>
             <Row justify='start' gutter={32}>
               <Col span={12}>
                 <div className='row'>
@@ -237,7 +237,7 @@ export const DashboardScreen = () => {
                 </div>
                 <Bar
                   data={allotmentChartData}
-                  height={200}
+                  height={125}
                   options={chartOptions}
             />
                 <div className='row justify-center'>
@@ -253,7 +253,7 @@ export const DashboardScreen = () => {
                 <FilterDropdown menu={menuRClients} />
                 <Bar
                   data={returnChartData}
-                  height={200}
+                  height={125}
                   options={chartOptions}
             />
                 <div className='row justify-center'>
@@ -263,10 +263,10 @@ export const DashboardScreen = () => {
                 </div>
               </Col>
             </Row>
-          {/*</Card>*/}
-          {/*<br />*/}
-          {/*<br />*/}
-          {/*<Card type='inner' title='Location and Planning'>*/}
+          </Card>
+          <br />
+          <br />
+          <Card type='inner' title='Location and Planning'>
             <Row>
               <Col span={12}>
                 <Cal allotements={allotments} returns={returns} />
@@ -275,54 +275,54 @@ export const DashboardScreen = () => {
                 <Map  />
               </Col>
             </Row>
-          {/*</Card>*/}
+          </Card>
         </Col>
-        <br />
-        <Col span={8}>
-          {/*<Card>*/}
-            <Row gutter={32} align='bottom' justify='center'>
-              <Col span={24}>
-                <FilterDropdown menu={menuClientStats} />
-                <Bar
-                  data={
-                    {
-                      labels: ['Allotment','Onsite','Return'],
-                      datasets: [
-                        {
-                          label: 'Client Statistics',
-                          ...chartConfigs,
-                          data:clientStats?[
-                            clientStats.Allotment[clientStatIndex],
-                            clientStats.Onsite[clientStatIndex],
-                            clientStats.Return[clientStatIndex]
-                          ]:[0,0,0],
-                        },
-                      ],
-                    }
+      </Row>
+      <br />
+      <br />
+      <Row>
+        <Card>
+          <Row gutter={32} align='bottom' justify='center'>
+            <Col span={12}>
+              <FilterDropdown menu={menuClientStats} />
+              <Bar
+                data={
+                  {
+                    labels: ['Allotment','Onsite','Return'],
+                    datasets: [
+                      {
+                        label: 'Client Statistics',
+                        ...chartConfigs,
+                        data:clientStats?[
+                          clientStats.Allotment[clientStatIndex],
+                          clientStats.Onsite[clientStatIndex],
+                          clientStats.Return[clientStatIndex]
+                        ]:[0,0,0],
+                      },
+                    ],
                   }
-                  height={200}
-                  options={chartOptions}
-                />
-                <div className='row justify-center'>
-                  <Paragraph>
-                    {clientStatsFiltered.length>0?
-                      clientStatsFiltered[clientStatIndex].Clients:null}
-                  </Paragraph>
-                </div>
-              </Col>
-              <Col span={24}>
-                <MasterHOC
-                  size='small'
-                  scroll={{ x: 120 ,y:200}}
-                  data={clientStatsFiltered}
-                  title=''
-                  hideRightButton
-                  loading={loading}
-                  columns={Column} />
-              </Col>
-            </Row>
-          {/*</Card>*/}
-        </Col>
+                }
+                height={125}
+                options={chartOptions}
+              />
+              <div className='row justify-center'>
+                <Paragraph>
+                  {clientStatsFiltered.length>0?
+                    clientStatsFiltered[clientStatIndex].Clients:null}
+                </Paragraph>
+              </div>
+            </Col>
+            <Col span={12}>
+              <MasterHOC
+                size='small'
+                data={clientStatsFiltered}
+                title=''
+                hideRightButton
+                loading={loading}
+                columns={Column} />
+            </Col>
+          </Row>
+        </Card>
       </Row>
     </>
   );

@@ -1,20 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import { useAPI } from 'common/hooks/api';
 import { Button, Col, Form, Input, Popconfirm, Row } from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import { FORM_ELEMENT_TYPES } from 'constants/formFields.constant';
 import { MasterHOC } from 'hocs/Master.hoc';
-import { createTestInv, deleteTestInv, retrieveLeads, retrieveTestInv } from 'common/api/auth';
+import { createTestInv, deleteTestInv, retrieveTestInv } from 'common/api/auth';
+import { loadAPI } from 'common/helpers/api';
+import { TestInventoryDetailColumn } from 'common/columns/testInventoryDetail.column';
 import { useHandleForm } from '../../hooks/form';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import { useTableSearch } from '../../hooks/useTableSearch';
-import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 
 const { Search } = Input;
 
 export const TestInventoryScreen = () => {
   const { data: products  } = useAPI('/products/', {});
+  const [details,setDetails] = useState([]);
+  const [detailsLoading,setDetailsLoading] = useState(false);
+  const [selectedProduct,setSelectedProduct] = useState('');
   const [searchVal, setSearchVal] = useState(null);
 
   const { filteredData:invData, loading:invLoading, reload } = useTableSearch({
@@ -26,14 +30,20 @@ export const TestInventoryScreen = () => {
     create: createTestInv,
     success: 'Inventory created/edited successfully.',
     failure: 'Error in creating/editing Inventory.',
-    done: () => null,
+    done: () => {
+      reload();
+    },
     close: () => null,
   });
+
+
+
   const column  = [
     {
       title:'Product',
       key:'product',
-      dataIndex:'product'
+      dataIndex:'product',
+      render:(product)=><div>{product.short_code}</div>
     },
     {
       title:'Quantity',
@@ -46,6 +56,18 @@ export const TestInventoryScreen = () => {
       width: '9vw',
       render: (text, record) => (
         <div className='row justify-evenly'>
+          <Button
+            type='primary'
+            onClick={async (e) => {
+              setSelectedProduct(record.product.short_code);
+              setDetailsLoading(true)
+              const { data } = await
+              loadAPI(`/ledger-items/?id=${record.product.id}`,{ method:'GET' });
+              setDetails(data);
+              setDetailsLoading(false)
+              e.stopPropagation()}}>
+            Details
+          </Button>
           <Popconfirm
             title='Confirm Delete'
             onCancel={(e) => e.stopPropagation()}
@@ -71,16 +93,19 @@ export const TestInventoryScreen = () => {
       ),
     },
   ];
-  const tabs = [
+  const columnDetails = [
     {
-      name: 'All Leads',
-      key: 'allLeads',
-      data: invData,
-      columns:column,
-      loading,
+      title:'Product',
+      key:'product',
+      dataIndex:'product',
+      render:(product)=>(<div>{product.product}</div>)
     },
-  ];
-
+    {
+      title:'Date',
+      key:'date',
+      dataIndex:'date',
+      render:(date)=><div>{date.slice(0,11)}</div>
+    }, ...TestInventoryDetailColumn ]
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -134,24 +159,25 @@ export const TestInventoryScreen = () => {
 
       <Row gutter={32}>
         <Col span={12}>
-          <TableWithTabHOC
+          <MasterHOC
             refresh={reload}
             size='small'
-            tabs={tabs}
+            data={invData}
+            columns={column}
             title='Inventory'
             hideRightButton
-            loading={invLoading || loading}
+            loading={loading || invLoading}
             />
         </Col>
-        {/* <Col span={12}> */}
-        {/*  <MasterHOC */}
-        {/*    size='small' */}
-        {/*    data={reformattedTran} */}
-        {/*    title='Client Inventory' */}
-        {/*    hideRightButton */}
-        {/*    loading={transitLoading} */}
-        {/*    columns={column} /> */}
-        {/* </Col> */}
+        <Col span={12}>
+          <MasterHOC
+            size='small'
+            data={details}
+            title={`${selectedProduct} Details`}
+            hideRightButton
+            loading={detailsLoading}
+            columns={columnDetails} />
+        </Col>
       </Row>
     </div>
   );
