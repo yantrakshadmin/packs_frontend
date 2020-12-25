@@ -284,6 +284,15 @@ export const DashboardScreen = () => {
         <Card>
           <Row gutter={32} align='bottom' justify='center'>
             <Col span={12}>
+              <MasterHOC
+                size='small'
+                data={clientStatsFiltered}
+                title=''
+                hideRightButton
+                loading={loading}
+                columns={Column} />
+            </Col>
+            <Col span={12}>
               <FilterDropdown menu={menuClientStats} />
               <Bar
                 data={
@@ -312,15 +321,7 @@ export const DashboardScreen = () => {
                 </Paragraph>
               </div>
             </Col>
-            <Col span={12}>
-              <MasterHOC
-                size='small'
-                data={clientStatsFiltered}
-                title=''
-                hideRightButton
-                loading={loading}
-                columns={Column} />
-            </Col>
+
           </Row>
         </Card>
       </Row>

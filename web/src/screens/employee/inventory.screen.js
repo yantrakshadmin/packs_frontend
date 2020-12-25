@@ -22,6 +22,7 @@ export const InventoryScreen = () => {
   const onSubmitTransit = async (data) => {
     setCid(data.cid);
   };
+
   const onSubmit = async (data) => {
     const date = moment(form.getFieldValue('date')).format('YYYY-MM-DD+HH:MM');
     setObj({ warehouse:data.warehouse,date })

@@ -104,7 +104,7 @@ export const TestInventoryScreen = () => {
       title:'Date',
       key:'date',
       dataIndex:'date',
-      render:(date)=><div>{date.slice(0,11)}</div>
+      render:(date)=><div>{date.slice(0,10)}</div>
     }, ...TestInventoryDetailColumn ]
   return (
     <div>
