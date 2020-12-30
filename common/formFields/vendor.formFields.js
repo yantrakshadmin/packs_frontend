@@ -170,4 +170,9 @@ export const vendorFormFields = [
     others: null,
     customLabel: 'IFSC',
   },
+  {
+    key: 'active',
+    type: FORM_ELEMENT_TYPES.SWITCH,
+    label: 'Active',
+  },
 ];

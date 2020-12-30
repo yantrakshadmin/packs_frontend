@@ -62,4 +62,9 @@ export const flowFormFields = [
     others: null,
     customLabel: 'Receiver Client',
   },
+  {
+    key: 'active',
+    type: FORM_ELEMENT_TYPES.SWITCH,
+    label: 'Active',
+  },
 ];

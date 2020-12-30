@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import { vendorFormFields } from 'common/formFields/vendor.formFields';
-// import {useAPI} from 'common/hooks/api';
 import { useHandleForm } from 'hooks/form';
 import { createVendor, editVendor, retrieveVendor } from 'common/api/auth';
 import formItem from '../hocs/formItem.hoc';
@@ -82,7 +81,7 @@ export const VendorForm = ({ id, onCancel, onDone }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'space-between' }}>
-          {vendorFormFields.slice(15, 18).map((item, idx) => (
+          {vendorFormFields.slice(15, 19).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className='p-2'>
                 {formItem(item)}

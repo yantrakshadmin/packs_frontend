@@ -1,9 +1,9 @@
-import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
+import { FORM_ELEMENT_TYPES } from '../../web/src/constants/formFields.constant';
 
 export const kitFormFields = [
   {
     key: 'kit_name',
-    rules: [{required: true, message: 'Please enter kit name!'}],
+    rules: [{ required: true, message: 'Please enter kit name!' }],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -13,7 +13,7 @@ export const kitFormFields = [
   },
   {
     key: 'kit_info',
-    rules: [{required: true, message: 'Please enter kit info!'}],
+    rules: [{ required: true, message: 'Please enter kit info!' }],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -23,7 +23,7 @@ export const kitFormFields = [
   },
   {
     key: 'components_per_kit',
-    rules: [{required: true, message: 'Please enter components per kit!'}],
+    rules: [{ required: true, message: 'Please enter components per kit!' }],
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
@@ -34,7 +34,7 @@ export const kitFormFields = [
   },
   {
     key: 'kit_client',
-    rules: [{required: true, message: 'Please enter kit client name!'}],
+    rules: [{ required: true, message: 'Please enter kit client name!' }],
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
@@ -45,15 +45,20 @@ export const kitFormFields = [
   },
   {
     key: 'kit_type',
-    rules: [{required: true, message: 'Please select kit kit type!'}],
+    rules: [{ required: true, message: 'Please select kit kit type!' }],
     kwargs: {
       placeholder: 'Select',
     },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: {
       selectOptions: ['FLC', 'FSC', 'Crate', 'PP Box', 'CRT6412', 'CRT6418', 'CRT6423', 'CRT6435', 'Palletized CRT6412',
-      'Palletized CRT6418', 'Palletized CRT6423', 'Palletized CRT6435', 'Palletized PP Box', 'Plastic Pallet', 'Wooden Pallet'],
+        'Palletized CRT6418', 'Palletized CRT6423', 'Palletized CRT6435', 'Palletized PP Box', 'Plastic Pallet', 'Wooden Pallet'],
     },
     customLabel: 'Kit Type',
+  },
+  {
+    key: 'active',
+    type: FORM_ELEMENT_TYPES.SWITCH,
+    label: 'Active',
   },
 ];

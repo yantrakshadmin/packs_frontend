@@ -1,9 +1,9 @@
-import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
+import { FORM_ELEMENT_TYPES } from '../../web/src/constants/formFields.constant';
 
 export const productFormFields = [
   {
     key: 'name',
-    rules: [{required: true, message: 'Please enter name!'}],
+    rules: [{ required: true, message: 'Please enter name!' }],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -13,7 +13,7 @@ export const productFormFields = [
   },
   {
     key: 'short_code',
-    rules: [{required: true, message: 'Please enter short code!'}],
+    rules: [{ required: true, message: 'Please enter short code!' }],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -31,7 +31,7 @@ export const productFormFields = [
   },
   {
     key: 'category',
-    rules: [{required: true, message: 'Please select category!'}],
+    rules: [{ required: true, message: 'Please select category!' }],
     type: FORM_ELEMENT_TYPES.SELECT,
     kwargs: {
       placeholder: 'Select',
@@ -40,7 +40,7 @@ export const productFormFields = [
   },
   {
     key: 'priceperunit',
-    rules: [{required: true, message: 'Please enter price per unit!'}],
+    rules: [{ required: true, message: 'Please enter price per unit!' }],
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
       placeholder: 'Enter',
@@ -84,7 +84,7 @@ export const productFormFields = [
   },
   {
     key: 'actual_weight',
-    rules: [{required: true, message: 'Please enter actual weight!'}],
+    rules: [{ required: true, message: 'Please enter actual weight!' }],
     type: FORM_ELEMENT_TYPES.INPUT_NUMBER,
     kwargs: {
       placeholder: 'Enter',
@@ -93,7 +93,7 @@ export const productFormFields = [
   },
   {
     key: 'volumetric_weight',
-    rules: [{required: true, message: 'Please enter volumetric weight!'}],
+    rules: [{ required: true, message: 'Please enter volumetric weight!' }],
     type: FORM_ELEMENT_TYPES.INPUT_NUMBER,
     kwargs: {
       placeholder: 'Enter',
@@ -117,6 +117,11 @@ export const productFormFields = [
     customLabel: 'Cavity Width',
   },
   {
+    key: 'active',
+    type: FORM_ELEMENT_TYPES.SWITCH,
+    label: 'Active',
+  },
+  {
     key: 'document',
     type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
     kwargs: {
@@ -124,4 +129,5 @@ export const productFormFields = [
     },
     label: 'Document',
   },
+
 ];

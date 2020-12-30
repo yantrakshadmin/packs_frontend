@@ -216,6 +216,11 @@ export const clientFormFields = [
     others: null,
     customLabel: 'Client Annexure',
   },
+  {
+    key: 'active',
+    type: FORM_ELEMENT_TYPES.SWITCH,
+    label: 'Active',
+  },
 ];
 
 export const mailingListFormFields=[

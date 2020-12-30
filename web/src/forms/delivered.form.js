@@ -33,6 +33,7 @@ export const DeliveredForm = ({ id, onCancel, onDone, transaction_no }) => {
     close: onCancel,
     edit: editDelivered,
     id: deliveryId,
+    dates:['delivered_date']
   });
 
   useEffect(() => {

@@ -153,6 +153,13 @@ export const FlowForm = ({ id, onCancel, onDone }) => {
               })}
             </div>
           </Col>
+          {flowFormFields.slice(6, 7).map((item, idx) => (
+            <Col span={8}>
+              <div key={idx} className='p-2'>
+                {formItem({ ...item, form })}
+              </div>
+            </Col>
+          ))}
         </Row>
         <Divider orientation='left'>Kit Details</Divider>
 

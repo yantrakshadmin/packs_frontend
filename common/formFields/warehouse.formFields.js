@@ -93,6 +93,7 @@ export const wareHouseFormFields = [
     others: {uppercase: true},
     customLabel: 'Warehouse GST',
   },
+
   {
     key: 'document',
     kwargs: {
@@ -101,5 +102,10 @@ export const wareHouseFormFields = [
     type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
     others: null,
     customLabel: 'Document',
+  },
+  {
+    key: 'active',
+    type: FORM_ELEMENT_TYPES.SWITCH,
+    label: 'Active',
   },
 ];

@@ -32,6 +32,7 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
     edit: editReceived,
     retrieve: retrieveReceived,
     id: receivedId,
+    dates:['receiving_date']
   });
 
 

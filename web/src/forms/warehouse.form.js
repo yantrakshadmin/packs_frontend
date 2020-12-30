@@ -78,6 +78,15 @@ export const WareHouseForm = ({ id, onCancel, onDone }) => {
             </Col>
           ))}
         </Row>
+        <Row style={{ justifyContent: 'space-between' }}>
+          {wareHouseFormFields.slice(10, 11).map((item, idx) => (
+            <Col span={8}>
+              <div key={idx} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
         <Row align='center'>
           {formItem({
             ...wareHouseFormFields[9],

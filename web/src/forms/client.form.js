@@ -104,6 +104,15 @@ export const ClientForm = ({ id, onCancel, onDone }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'space-between' }}>
+          {clientFormFields.slice(21, 22).map((item, idx) => (
+            <Col span={6}>
+              <div key={idx} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'space-between' }}>
           {mailingListFormFields.map((item, idx) => (
             <Col span={24}>
               <div key={idx} className='p-2'>

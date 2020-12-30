@@ -18,7 +18,7 @@ export const DeliveredFormFields = [
   },
   {
     key: 'delivered_date',
-    rules: [{required: true, message: 'Please enter Delivery date!'}],
+    rules: [{ required: true, message: 'Please enter Delivery date!' }],
     kwargs: {
       placeholder: 'Enter',
     },

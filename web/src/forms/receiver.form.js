@@ -1,15 +1,15 @@
 import React from 'react';
-import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import { Form, Col, Row, Button, Divider, Spin } from 'antd';
+import { receiverFormFields } from 'common/formFields/Receiver.formFields.js';
+import { useAPI } from 'common/hooks/api';
+import { useHandleForm } from 'hooks/form';
+import { createReceiverClient, editReceiverClient, retrieveReceiverClient } from 'common/api/auth';
 import formItem from '../hocs/formItem.hoc';
-import {receiverFormFields} from 'common/formFields/Receiver.formFields.js';
-import {useAPI} from 'common/hooks/api';
-import {useHandleForm} from 'hooks/form';
-import {createReceiverClient, editReceiverClient, retrieveReceiverClient} from 'common/api/auth';
 
-export const ReceiverForm = ({id, onCancel, onDone}) => {
-  const {data} = useAPI('/clients/');
+export const ReceiverForm = ({ id, onCancel, onDone }) => {
+  const { data } = useAPI('/clients/');
 
-  const {form, submit, loading} = useHandleForm({
+  const { form, submit, loading } = useHandleForm({
     create: createReceiverClient,
     edit: editReceiverClient,
     retrieve: retrieveReceiverClient,
@@ -22,28 +22,28 @@ export const ReceiverForm = ({id, onCancel, onDone}) => {
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Receiver Client Details</Divider>
-      <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
-        <Row style={{justifyContent: 'left'}}>
+      <Divider orientation='left'>Receiver Client Details</Divider>
+      <Form onFinish={submit} form={form} layout='vertical' hideRequiredMark autoComplete='off'>
+        <Row style={{ justifyContent: 'left' }}>
           {receiverFormFields.slice(0, 2).map((item, idx) => (
             <Col span={12}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
-        <Row style={{justifyContent: 'left'}}>
+        <Row style={{ justifyContent: 'left' }}>
           {receiverFormFields.slice(2, 3).map((item, idx) => (
             <Col span={12}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
           {receiverFormFields.slice(3, 4).map((item, idx) => (
             <Col span={12}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem({
                   ...item,
                   others: {
@@ -64,21 +64,21 @@ export const ReceiverForm = ({id, onCancel, onDone}) => {
             </Col>
           ))}
         </Row>
-        <Row style={{justifyContent: 'left'}}>
-          {receiverFormFields.slice(4, 6).map((item, idx) => (
+        <Row style={{ justifyContent: 'left' }}>
+          {receiverFormFields.slice(4, 7).map((item, idx) => (
             <Col span={12}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
         <Row>
-          <Button type="primary" htmlType="submit">
+          <Button type='primary' htmlType='submit'>
             Save
           </Button>
-          <div className="p-2" />
-          <Button type="primary" onClick={onCancel}>
+          <div className='p-2' />
+          <Button type='primary' onClick={onCancel}>
             Cancel
           </Button>
         </Row>
