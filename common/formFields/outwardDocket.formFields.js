@@ -38,7 +38,7 @@ export const outwardDocketFormFields = [
     },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: {
-      selectOptions: ['Mahindra Logistics', 'TCI', 'Vinsum / Axpress', 'Other'],
+      selectOptions: ['Mahindra Logistics', 'TCI', 'Vinsum / Axpress', 'Chetak Logistics','Other'],
     },
     customLabel: 'Transporter Name',
   },

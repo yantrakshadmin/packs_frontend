@@ -17,6 +17,16 @@ export const DeliveredFormFields = [
     customLabel: 'Mark Successfully Delivered',
   },
   {
+    key: 'delivered_date',
+    rules: [{required: true, message: 'Please enter Delivery date!'}],
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.DATE,
+    others: null,
+    customLabel: 'Delivery Date',
+  },
+  {
     key: 'document',
     rules: [{ required: true, message: 'File is Required!' }],
     type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
