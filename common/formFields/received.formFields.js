@@ -17,6 +17,16 @@ export const ReceivedFormFields = [
     customLabel: 'Mark Delivered Successfully',
   },
   {
+    key: 'receiving_date',
+    rules: [{required: true, message: 'Please enter Receiving date!'}],
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.DATE,
+    others: null,
+    customLabel: 'Receiving Date',
+  },
+  {
     key: 'document',
     rules: [{ required: true, message: 'File is Required!' }],
     type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
