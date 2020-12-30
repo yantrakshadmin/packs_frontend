@@ -45,7 +45,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
       width: '7vw',
       render: (text, record) => (
         <div className='row align-center justify-evenly'>
-          <a href={record.document} target='_blank'>
+          <a href={record.document} target='_blank' rel="noopener noreferrer">
             <Button
               style={{
                 backgroundColor: 'transparent',

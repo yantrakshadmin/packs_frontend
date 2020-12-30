@@ -52,7 +52,10 @@ export const outerRoutesEmployee = [
     path: '/print-cp/:id',
     Component: lazy(() => import('components/printCP')),
   },
-
+  {
+    path: '/outward-docket/:id',
+    Component: lazy(() => import('components/OutwardsDocket/outward-docket')),
+  },
 ];
 export const outerRoutesClient = [
   {
