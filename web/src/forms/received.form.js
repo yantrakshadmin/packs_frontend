@@ -110,7 +110,6 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
         });
       });
       // const reqProds = returnn.kits.map((item) => item.product);
-      console.log(reqProds,'ye wla')
       setProducts(reqProds);
     }
   }, [returnn]);
@@ -152,13 +151,19 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
 
     await submit(req);
   };
-  console.log("return form")
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Delivery Details</Divider>
       <Form onFinish={preProcess} form={form} layout='vertical' hideRequiredMark autoComplete='off'>
         <Row style={{ justifyContent: 'left' }}>
           {ReceivedFormFields.slice(0, 1).map((item, idx) => (
+            <Col span={6}>
+              <div key={idx} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+          {ReceivedFormFields.slice(2, 3).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className='p-2'>
                 {formItem(item)}
@@ -179,7 +184,7 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {ReceivedFormFields.slice(2, 3).map((item, idx) => (
+          {ReceivedFormFields.slice(3, 4).map((item, idx) => (
             <Col span={24} style={{ justifyContent: 'center' }}>
               <div key={idx} className='p-2'>
                 {formItem({

@@ -149,6 +149,13 @@ export const DeliveredForm = ({ id, onCancel, onDone, transaction_no }) => {
               </div>
             </Col>
           ))}
+          {DeliveredFormFields.slice(2, 3).map((item, idx) => (
+            <Col span={6}>
+              <div key={idx} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
           {DeliveredFormFields.slice(1, 2).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className='p-2'>
@@ -163,8 +170,8 @@ export const DeliveredForm = ({ id, onCancel, onDone, transaction_no }) => {
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {DeliveredFormFields.slice(2, 3).map((item, idx) => (
-            <Col span={24} style={{ justifyContent: 'center' }}>
+          {DeliveredFormFields.slice(3, 4).map((item, idx) => (
+            <Col span={8} style={{ justifyContent: 'center' }}>
               <div key={idx} className='p-2'>
                 {formItem({
                   ...item,
