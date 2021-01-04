@@ -19,14 +19,16 @@ export const ActionsPopover= ({ buttonList,title,icon,triggerTitle, }) => {
   const content =()=> (
     <div>
       {(buttonList || []).map(Item => (
-        <Button
-          size='small'
-          icon={Item.Icon?<Item.Icon />:null}
-          style={{ margin:'5px' }}
-          type={Item.type || 'primary'}
-          onClick={Item.onClick}>
-          {Item.title}
-        </Button>
+        Item.Component?<Item.Component />:(
+          <Button
+            size='small'
+            icon={Item.Icon?<Item.Icon />:null}
+            style={{ margin:'5px' }}
+            type={Item.type || 'primary'}
+            onClick={Item.onClick}>
+            {Item.title}
+          </Button>
+        )
       ))}
     </div>
   )

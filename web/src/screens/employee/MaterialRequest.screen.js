@@ -20,13 +20,15 @@ import moment from 'moment';
 import {
   ALLOTMENT_DOCKET_PASSWORD,
 } from 'common/constants/allotmentDocketPassword';
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { EyeInvisibleOutlined, EyeTwoTone, } from '@ant-design/icons';
 import MaterialRequestsTable from '../../components/MaterialRequestsTable';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { AddMaterialRequestForm } from '../../forms/addMaterialRequest.form';
 import Edit from '../../icons/Edit';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
+import { ActionsPopover } from '../../components/ActionsPopover';
+import MRRejectionForm from '../../forms/MRRejection.form';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -37,6 +39,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
   const [csvData, setCsvData] = useState(null);
   const [filterOptions, setFilterOptions] = useState([]);
   const [materialReqVisible, setMaterialReqVisible] = useState(false);
+  const [rejectionVisible, setRejectionVisible] = useState(false);
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [popoverEditVisible, setPopoverEditVisible] = useState(false);
   const { filteredData, loading, reload } = useTableSearch({
@@ -177,14 +180,30 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
       key: 'docket',
       width: '10vw',
       render: (text, record) => (
-        <Button type='primary' disabled={record.is_allocated} onClick={(e) => e.stopPropagation()}>
-          <Link to='../create-allotment/' state={{ id: record.id }} key={record.id}>
-            Create Allotment Docket
-          </Link>
-        </Button>
+        <ActionsPopover
+          triggerTitle='Create Allotment Docket'
+          buttonList={
+            [{
+              title:'Create Allotment Docket',
+              Component:()=>(
+                <Button
+                  type='primary'
+                  disabled={record.is_allocated}
+                  onClick={(e) => e.stopPropagation()}>
+                  <Link to='../create-allotment/' state={{ id: record.id }} key={record.id}>
+                    Approve
+                  </Link>
+                </Button>
+              )
+            },
+            {
+              title:'Reject',
+              onClick:(e)=>{setRejectionVisible(true); e.stopPropagation()}
+            }
+            ]
+          } />
       ),
     },
-
     {
       title: 'Action',
       key: 'operation',
@@ -249,7 +268,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
     },
   ];
 
-  const cancelEditing = () => setEditingId(null);
+  const cancelEditing = () =>{ setEditingId(null);reload();};
 
   return (
     <>
@@ -267,8 +286,26 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
         footer={null}>
         <AddMaterialRequestForm
           id={editingId}
-          onDone={()=>{setMaterialReqVisible(false)}}
-          onCancel={()=>{setMaterialReqVisible(false)}}
+          onDone={()=>{reload();setMaterialReqVisible(false)}}
+          onCancel={()=>{reload();setMaterialReqVisible(false)}}
+        />
+      </Modal>
+      <Modal
+        maskClosable={false}
+        visible={rejectionVisible}
+        destroyOnClose
+        style={{ minWidth: `80vw` }}
+        title='Reject Material Request'
+        onCancel={(e) => {
+          setRejectionVisible(false);
+          cancelEditing();
+          e.stopPropagation();
+        }}
+        footer={null}>
+        <MRRejectionForm
+          // id={editingId}
+          onDone={()=>{setRejectionVisible(false)}}
+          onCancel={()=>{setRejectionVisible(false)}}
         />
       </Modal>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>

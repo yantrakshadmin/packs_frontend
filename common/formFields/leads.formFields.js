@@ -1,9 +1,9 @@
-import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
+import { FORM_ELEMENT_TYPES } from '../../web/src/constants/formFields.constant';
 
 export const leadsFormFields = [
   {
     key: 'company_name',
-    rules: [{required: true, message: 'Please enter Company Name!'}],
+    rules: [{ required: true, message: 'Please enter Company Name!' }],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -22,7 +22,7 @@ export const leadsFormFields = [
   },
   {
     key: 'address',
-    rules: [{required: true, message: 'Please enter Company Adress!'}],
+    rules: [{ required: true, message: 'Please enter Company Adress!' }],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -32,7 +32,7 @@ export const leadsFormFields = [
   },
   {
     key: 'state',
-    rules: [{required: true, message: 'Please enter State!'}],
+    rules: [{ required: true, message: 'Please enter State!' }],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -42,17 +42,17 @@ export const leadsFormFields = [
   },
   {
     key: 'region',
-    rules: [{required: true, message: 'Please enter Region!'}],
+    rules: [{ required: true, message: 'Please enter Region!' }],
     kwargs: {
       placeholder: 'Enter',
     },
     type: FORM_ELEMENT_TYPES.SELECT,
-    others: {selectOptions: ['East', 'West', 'North', 'South', 'Central']},
+    others: { selectOptions: ['East', 'West', 'North', 'South', 'Central'] },
     customLabel: 'Region',
   },
   {
     key: 'status',
-    rules: [{required: true, message: 'Please select Pipeline Status!'}],
+    rules: [{ required: true, message: 'Please select Pipeline Status!' }],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -61,10 +61,10 @@ export const leadsFormFields = [
       selectOptions: [
         'Introduction Mail',
         'Initial Meeting',
-        'PFEP Study Done',
-        'TP/CP Submitted',
-        'Solution Accepted',
-        'Trial Done',
+        // 'PFEP Study Done',
+        // 'TP/CP Submitted',
+        // 'Solution Accepted',
+        // 'Trial Done',
         'CCF form received',
         'Agreement Draft Approved',
         'Agreement Signed',
@@ -78,7 +78,7 @@ export const leadsFormFields = [
   },
   {
     key: 'lead_owner',
-    rules: [{required: true, message: 'Please enter Lead Owner!'}],
+    rules: [{ required: true, message: 'Please enter Lead Owner!' }],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -88,7 +88,7 @@ export const leadsFormFields = [
   },
   {
     key: 'lead_source',
-    rules: [{required: true, message: 'Please enter Lead Source!'}],
+    rules: [{ required: true, message: 'Please enter Lead Source!' }],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -98,12 +98,12 @@ export const leadsFormFields = [
   },
   {
     key: 'industry',
-    rules: [{required: true, message: 'Please enter Industry!'}],
+    rules: [{ required: true, message: 'Please enter Industry!' }],
     kwargs: {
       placeholder: 'Enter',
     },
     type: FORM_ELEMENT_TYPES.SELECT,
-    others: {selectOptions: ['Automotive', 'F.M.C.G.', 'Pharmaceuticals', 'Ecommerce', 'Others']},
+    others: { selectOptions: ['Automotive', 'F.M.C.G.', 'Pharmaceuticals', 'Ecommerce', 'Others'] },
     customLabel: 'Industry',
   },
   {
@@ -120,7 +120,7 @@ export const leadsFormFields = [
 export const leadsContactFormFields = [
   {
     key: 'name',
-    rules: [{required: true, message: 'Please enter Contact Person Name!'}],
+    rules: [{ required: true, message: 'Please enter Contact Person Name!' }],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -130,7 +130,7 @@ export const leadsContactFormFields = [
   },
   {
     key: 'phone',
-    rules: [{required: true, message: 'Please enter Phone!'}],
+    rules: [{ required: true, message: 'Please enter Phone!' }],
     kwargs: {
       placeholder: 'Enter',
     },

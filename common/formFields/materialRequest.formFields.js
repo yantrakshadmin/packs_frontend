@@ -1,9 +1,9 @@
-import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
+import { FORM_ELEMENT_TYPES } from '../../web/src/constants/formFields.constant';
 
 export const materialRequestFormFields = [
   {
     key: 'delivery_required_on',
-    rules: [{required: true, message: 'Please select delivery date!'}],
+    rules: [{ required: true, message: 'Please select delivery date!' }],
     kwargs: {
       placeholder: 'Select',
     },
@@ -16,7 +16,7 @@ export const materialRequestFormFields = [
 export const materialRequestFlowFormFields = [
   {
     key: 'flow',
-    rules: [{required: true, message: 'Please select flow!'}],
+    rules: [{ required: true, message: 'Please select flow!' }],
     kwargs: {
       placeholder: 'Select',
     },
@@ -26,7 +26,7 @@ export const materialRequestFlowFormFields = [
   },
   {
     key: 'kit',
-    rules: [{required: true, message: 'Please select kit!'}],
+    rules: [{ required: true, message: 'Please select kit!' }],
     kwargs: {
       placeholder: 'Select',
     },
@@ -36,7 +36,7 @@ export const materialRequestFlowFormFields = [
   },
   {
     key: 'quantity',
-    rules: [{required: true, message: 'Please select quantity!'}],
+    rules: [{ required: true, message: 'Please select quantity!' }],
     kwargs: {
       placeholder: 'Select',
       type: 'number',

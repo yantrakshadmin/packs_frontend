@@ -4,8 +4,8 @@ import { leadsFormFields, leadsContactFormFields } from 'common/formFields/leads
 import { useHandleForm } from 'hooks/form';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { editLead, retrieveLead, createLead } from 'common/api/auth';
-import formItem from '../hocs/formItem.hoc';
 import { PREPMaterialHandlingEquipmentFormFields } from 'common/formFields/PFEP/PFEPMaterialHandlingEquipment.formFields';
+import formItem from '../hocs/formItem.hoc';
 
 export const LeadsForm = ({ id, onCancel, onDone }) => {
   //   const [reqFile, setFile] = useState(null);

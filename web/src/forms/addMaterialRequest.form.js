@@ -24,7 +24,9 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
     edit: editAddMr,
     retrieve:async ()=>{
       const result = await retrieveAddMr(id);
-      return { ...result,data:{ ...result.data,client_id:result.data.owner } }},
+      console.log(result.data,'ret')
+      setSelectedClient({ id:result.data.owner });
+      return { ...result,data:{ ...result.data, client_id:result.data.owner } }},
     success: 'Material Request created/edited successfully.',
     failure: 'Error in creating/editing material request.',
     done: onDone,
@@ -41,7 +43,6 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
       quantity: Number(flo.quantity),
     }));
     data.flows = newFlows;
-    console.log(data,'addmr');
     submit(data);
   };
 
@@ -104,7 +105,7 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
                 {fields.map((field, index) => (
                   <Row align='middle'>
                     {materialRequestFlowFormFields.slice(0, 1).map((item) => (
-                      <Col span={7}>
+                      <Col span={13}>
                         <div className='p-2'>
                           {formItem({
                             ...item,
@@ -134,7 +135,7 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
                       </Col>
                     ))}
                     {materialRequestFlowFormFields.slice(1, 2).map((item) => (
-                      <Col span={7}>
+                      <Col span={4}>
                         <div className='p-2'>
                           {formItem({
                             ...item,
@@ -168,7 +169,7 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
                       </Col>
                     ))}
                     {materialRequestFlowFormFields.slice(2, 3).map((item) => (
-                      <Col span={7}>
+                      <Col span={4}>
                         <div className='p-2'>
                           {formItem({
                             ...item,
@@ -186,7 +187,7 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
                     ))}
                     <Col span={3}>
                       <Button
-                        style={{ width: '9vw' }}
+                        // style={{ width: '9vw' }}
                         style={index != 0 ? { top: '-2vh' } : null}
                         type='danger'
                         onClick={() => {

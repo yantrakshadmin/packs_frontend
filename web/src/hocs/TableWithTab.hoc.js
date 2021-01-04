@@ -15,6 +15,7 @@ const TableWithTabHOC = ({
   title,
   newPage,
   tabs,
+  modelTitle,
   modalBody: ModalBody = () => null,
   refresh,
   rowSelection,
@@ -79,7 +80,7 @@ const TableWithTabHOC = ({
         visible={(modalVisible || !!editingId) && !separate}
         destroyOnClose
         style={{ minWidth: `${modalWidth}vw` }}
-        title={`Add ${title}`}
+        title={modelTitle || `Add ${title}`}
         onCancel={onCancel}
         footer={null}>
         <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} {...formParams} />

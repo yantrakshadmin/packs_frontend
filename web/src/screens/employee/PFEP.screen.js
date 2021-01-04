@@ -22,98 +22,6 @@ import { UploadLeadForm } from '../../forms/uploadLead.form';
 
 const { Search } = Input;
 
-// average_dispatchlotsize: 21
-// breadth: 12.56
-// contact_no: "956"
-// contact_person: "Anil"
-// cp_approved: false
-// cp_shared: true
-// critical_area: "no"
-// current_packaging: "Returnable"
-// date: "2020-11-09T08:07:07.838000Z"
-// designation: "-"
-// dispatch_frequency: "monthly"
-// email: "anil@lumax.com"
-// emitter_inv: 45
-// esa_signed: false
-// flow_started: false
-// greasy_oily: true
-// height: 21.65
-// highest_mv: 21
-// id: 9
-// inserts_pm: 5
-// lead_no: 2007
-// length: 12.65
-// lowest_mv: 21
-// matrix_details: "5"
-// max_cycle_days: 54
-// min_cycle_days: 54
-// min_max_margin: "45"
-// mul_parts_single_pocket: "45"
-// not_qualified: false
-// np_ef: "New Part"
-// on_hold: false
-// other_spec: "cvsd"
-// other_storage: 45
-// p2p_contact: "yes"
-// packaging_breadth: 12
-// packaging_height: 21
-// packaging_length: 12
-// packaging_type: "New Part"
-// palletized_sol_details: ""
-// part_cad_data: "no"
-// part_name: "test213"
-// part_number: "test122"
-// parts_orientation: "vertical"
-// parts_per_layer: 5
-// parts_per_pocket: 5
-// parts_pm: 45
-// pfep_dropped: false
-// pfep_no: 2001
-// pm_loaded_weight: 5
-// pocket_breadth: 21
-// pocket_breadth1: 21
-// pocket_height: 21
-// pocket_height1: 21
-// pocket_length: 21
-// pocket_length1: 21
-// price_per_unit: 5
-// receiver_inv: 0
-// receivers: (2) [{…}, {…}]
-// remarks: "---"
-// remarks1: "none"
-// remarks2: null
-// sender_client: "test"
-// sender_location: "test"
-// solution_crate: true
-// solution_flc: true
-// solution_fsc: true
-// solution_palletized_box: false
-// solution_palletized_crate: false
-// solution_pp: false
-// solution_ppbox: false
-// solution_stacking_nesting: false
-// solution_wp: false
-// special_measure: "nothing"
-// spesheet_pm: 5
-// stacking_nesting: "nested"
-// total_parts_per_pm: 5
-// tp: [{…}]
-// tp_approved: true
-// tp_shared: true
-// transit_time: 45
-// transportation_mode: "PTL"
-// trials_approved: false
-// trials_done: false
-// trips_per_pm: "5"
-// volume_pm: 12
-// wastage_pm: "none"
-// weight: 12.256
-// wh_emitter: 45
-// wh_receiver: 45
-// yantra_cycle: 45
-
-
 const PFEPEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
@@ -245,7 +153,6 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
                 title: 'Create CP',
                 onClick:async (e) => {
                   setCreateCPVisible(true);
-                  console.log(record,'pfep')
                   await dispatch({
                     type: ADD_CREATE_CP_BASIC_DATA, data: {
                       ...record,
@@ -379,11 +286,12 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
         />
       </Modal>
       <TableWithTabHOC
+        modelTitle={`Lead Number : ${lead}`}
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
         size='middle'
-        title='PFEP Creation '
+        title='PFEP Creation'
         editingId={editingId}
         cancelEditing={() => {
           cancelEditing();

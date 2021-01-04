@@ -3,8 +3,6 @@ import { Form, Col, Row, Button, Divider, Spin, message, notification } from 'an
 import { clientFormFields ,mailingListFormFields } from 'common/formFields/clientProfile.formFields';
 import { useHandleForm } from 'hooks/form';
 import { editClientProfile, retrieveClientProfile } from 'common/api/auth';
-// import { PREPCreationFormFields, } from 'common/formFields/PFEP/PFEPCreation.formFields';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import formItem from '../hocs/formItem.hoc';
 
 export const ClientForm = ({ id, onCancel, onDone }) => {
