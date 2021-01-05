@@ -1001,6 +1001,7 @@ export const retrieveTestInv = (data) =>{
     data
   })
 }
+
 export const createTestInv = (data) =>{
   return loadAPI('create-inv/',{
     method:'POST',
@@ -1014,3 +1015,12 @@ export const deleteTestInv = (id) =>
     method: 'DELETE',
     secure: true,
   });
+
+
+export const createMRStatus = (data) =>{
+  return loadAPI('create-mrstatus/',{
+    method:'POST',
+    secure:true,
+    data
+  })
+}

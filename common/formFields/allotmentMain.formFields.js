@@ -1,9 +1,9 @@
-import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
+import { FORM_ELEMENT_TYPES } from '../../web/src/constants/formFields.constant';
 
 export const allotmentFormFields = [
   {
     key: 'sales_order',
-    rules: [{required: true, message: 'Please select sales order ID!'}],
+    rules: [{ required: true, message: 'Please select sales order ID!' }],
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
@@ -15,7 +15,7 @@ export const allotmentFormFields = [
 
   {
     key: 'model',
-    rules: [{required: true, message: 'Please select model!'}],
+    rules: [{ required: true, message: 'Please select model!' }],
     kwargs: {
       placeholder: 'Select',
     },
@@ -28,7 +28,7 @@ export const allotmentFormFields = [
 
   {
     key: 'driver_name',
-    rules: [{required: true, message: 'Please enter driver name!'}],
+    rules: [{ required: true, message: 'Please enter driver name!' }],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -38,7 +38,7 @@ export const allotmentFormFields = [
   },
   {
     key: 'lr_number',
-    rules: [{required: true, message: 'Please enter LR number!'}],
+    rules: [{ required: true, message: 'Please enter LR number!' }],
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
@@ -49,7 +49,7 @@ export const allotmentFormFields = [
   },
   {
     key: 'vehicle_number',
-    rules: [{required: true, message: 'Please enter vehicle number!'}],
+    rules: [{ required: true, message: 'Please enter vehicle number!' }],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -59,7 +59,7 @@ export const allotmentFormFields = [
   },
   {
     key: 'freight_charges',
-    rules: [{required: true, message: 'Please enter freight charges!'}],
+    rules: [{ required: true, message: 'Please enter freight charges!' }],
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
@@ -70,7 +70,7 @@ export const allotmentFormFields = [
   },
   {
     key: 'vehicle_type',
-    rules: [{required: true, message: 'Please select vehicle type!'}],
+    rules: [{ required: true, message: 'Please select vehicle type!' }],
     kwargs: {
       placeholder: 'Select',
     },
@@ -94,7 +94,7 @@ export const allotmentFormFields = [
 
   {
     key: 'remarks',
-    rules: [{required: true, message: 'Please enter remarks!'}],
+    rules: [{ required: true, message: 'Please enter remarks!' }],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -104,7 +104,7 @@ export const allotmentFormFields = [
   },
   {
     key: 'send_from_warehouse',
-    rules: [{required: true, message: 'Please select warehouse!'}],
+    rules: [{ required: true, message: 'Please select warehouse!' }],
     kwargs: {
       placeholder: 'Select',
     },
@@ -114,7 +114,7 @@ export const allotmentFormFields = [
   },
   {
     key: 'transport_by',
-    rules: [{required: true, message: 'Please enter transport by!'}],
+    rules: [{ required: true, message: 'Please enter transport by!' }],
     kwargs: {
       placeholder: 'Select',
     },
@@ -124,7 +124,7 @@ export const allotmentFormFields = [
   },
   {
     key: 'dispatch_date',
-    rules: [{required: true, message: 'Please enter dispatch date!'}],
+    rules: [{ required: true, message: 'Please enter dispatch date!' }],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -134,7 +134,7 @@ export const allotmentFormFields = [
   },
   {
     key: 'expected_delivery',
-    rules: [{required: true, message: 'Please select expected delivery!'}],
+    rules: [{ required: true, message: 'Please select expected delivery!' }],
     kwargs: {
       placeholder: 'Select',
     },
@@ -147,7 +147,7 @@ export const allotmentFormFields = [
 export const allotmentProductFormFields = [
   {
     key: 'flow',
-    rules: [{required: true, message: 'Please enter flow!'}],
+    rules: [{ required: true, message: 'Please enter flow!' }],
     kwargs: {
       placeholder: 'Enter',
       disabled: true,
@@ -159,7 +159,7 @@ export const allotmentProductFormFields = [
   },
   {
     key: 'kit',
-    rules: [{required: true, message: 'Please enter kit!'}],
+    rules: [{ required: true, message: 'Please enter kit!' }],
     kwargs: {
       placeholder: 'Enter',
       disabled: true,
@@ -171,7 +171,7 @@ export const allotmentProductFormFields = [
   },
   {
     key: 'asked_quantity',
-    rules: [{required: true, message: 'Please enter asked quantity!'}],
+    rules: [{ required: true, message: 'Please enter asked quantity!' }],
     kwargs: {
       placeholder: 'Enter',
       disabled: true,
@@ -183,7 +183,7 @@ export const allotmentProductFormFields = [
   },
   {
     key: 'alloted_quantity',
-    rules: [{required: true, message: 'Please enter alloted quantity!'}],
+    rules: [{ required: true, message: 'Please enter alloted quantity!' }],
     kwargs: {
       placeholder: 'Enter',
       type: 'number',

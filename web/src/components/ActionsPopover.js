@@ -4,7 +4,7 @@ import { Popover, Button,Typography } from 'antd';
 const { Title } = Typography;
 
 
-export const ActionsPopover= ({ buttonList,title,icon,triggerTitle, }) => {
+export const ActionsPopover= ({ buttonList,title,icon,triggerTitle, disabled}) => {
   const [popover, setPopover] = useState(false)
 
   const hide = () => {
@@ -21,6 +21,7 @@ export const ActionsPopover= ({ buttonList,title,icon,triggerTitle, }) => {
       {(buttonList || []).map(Item => (
         Item.Component?<Item.Component />:(
           <Button
+            disabled={disabled}
             size='small'
             icon={Item.Icon?<Item.Icon />:null}
             style={{ margin:'5px' }}

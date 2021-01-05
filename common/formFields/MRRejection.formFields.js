@@ -2,7 +2,7 @@ import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 
 export const MRRejectionFormFields = [
   {
-    key: 'reasons',
+    key: 'reason',
     type: FORM_ELEMENT_TYPES.SELECT,
     others: {
       selectOptions: [

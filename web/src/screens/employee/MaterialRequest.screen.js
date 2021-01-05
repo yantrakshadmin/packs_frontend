@@ -10,7 +10,7 @@ import {
   Popconfirm,
   Popover,
   Row,
-  Space,
+  Space, Tag,
   Typography,
 } from 'antd';
 import { connect } from 'react-redux';
@@ -21,6 +21,9 @@ import {
   ALLOTMENT_DOCKET_PASSWORD,
 } from 'common/constants/allotmentDocketPassword';
 import { EyeInvisibleOutlined, EyeTwoTone, } from '@ant-design/icons';
+import { loadAPI } from 'common/helpers/api';
+import { useAPI } from 'common/hooks/api';
+import { mergeArray } from 'common/helpers/mrHelper';
 import MaterialRequestsTable from '../../components/MaterialRequestsTable';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { AddMaterialRequestForm } from '../../forms/addMaterialRequest.form';
@@ -28,7 +31,8 @@ import Edit from '../../icons/Edit';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import { ActionsPopover } from '../../components/ActionsPopover';
-import MRRejectionForm from '../../forms/MRRejection.form';
+import { MRRejectionForm } from '../../forms/MRRejection.form';
+import { yantraColors } from '../../helpers/yantraColors';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -46,6 +50,9 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
     searchVal,
     retrieve: retrieveEmployeeMrs,
   });
+
+  const { data:mrStatusData } = useAPI('list-mrstatus/')
+  // console.log(mrStatusData,filteredData,'wala',mergeArray((filteredData||[]),(mrStatusData||[])));
 
   const [userData,setUserData] = useState({ password:'' })
 
@@ -181,28 +188,60 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
       width: '10vw',
       render: (text, record) => (
         <ActionsPopover
-          triggerTitle='Create Allotment Docket'
+          triggerTitle='Options'
           buttonList={
             [{
-              title:'Create Allotment Docket',
               Component:()=>(
                 <Button
                   type='primary'
                   disabled={record.is_allocated}
-                  onClick={(e) => e.stopPropagation()}>
+                  onClick={async (e) => {
+                    const response  = await loadAPI('reate-mrstatus/',
+                      {
+                        method:'Post',
+                        data:{ mr:record.id } });
+                    e.stopPropagation()
+                  }}>
                   <Link to='../create-allotment/' state={{ id: record.id }} key={record.id}>
-                    Approve
+                    Create Allotment Docket
                   </Link>
                 </Button>
               )
             },
             {
               title:'Reject',
-              onClick:(e)=>{setRejectionVisible(true); e.stopPropagation()}
+              disabled:record.is_allocated,
+              onClick:(e)=>{
+                setEditingId(record.id);
+                setRejectionVisible(true); e.stopPropagation()}
             }
             ]
           } />
       ),
+    },{
+      title:'Request Status',
+      key:'is_rejected',
+      render:(row)=>(
+        <div>
+          {row.is_rejected?(
+            <Popover content={(
+              <div style={{ width:'20rem' }}>
+                <text>
+                  <b>Reason : </b>
+                  {row.reason}
+                </text>
+                <br />
+                <text>
+                  <b>Remark : </b>
+                  {row.remark}
+                </text>
+              </div>
+)}>
+              <Tag color={yantraColors.danger}>Rejected</Tag>
+            </Popover>
+          ):<div><Tag color={yantraColors.primary}>Approved</Tag></div>}
+        </div>
+      )
     },
     {
       title: 'Action',
@@ -262,7 +301,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
     {
       name: 'All Material Requests',
       key: 'allMaterialRequests',
-      data: filteredData,
+      data: mergeArray((filteredData||[]),(mrStatusData||[])),
       columns,
       loading,
     },
@@ -303,7 +342,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
         }}
         footer={null}>
         <MRRejectionForm
-          // id={editingId}
+          mr={editingId}
           onDone={()=>{setRejectionVisible(false)}}
           onCancel={()=>{setRejectionVisible(false)}}
         />

@@ -1,16 +1,19 @@
 import React from 'react';
 import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import { useHandleForm } from 'hooks/form';
-import { editClientProfile, retrieveClientProfile } from 'common/api/auth';
+import { createMRStatus } from 'common/api/auth';
 import { MRRejectionFormFields } from 'common/formFields/MRRejection.formFields';
 import formItem from '../hocs/formItem.hoc';
 
-export const MRRejectionForm = ({ id, onCancel, onDone }) => {
+export const MRRejectionForm = ({ id, onCancel, onDone,mr }) => {
 
   const { form, submit, loading } = useHandleForm({
-    create: null,
-    edit: editClientProfile,
-    retrieve: retrieveClientProfile,
+    create:async (data)=>{
+      console.log(data);
+      const response = await createMRStatus({ ...data,mr,is_rejected:true });
+      return response},
+    edit: null,
+    retrieve: null,
     success: 'Successfully Submitted',
     failure: 'Error in Submission',
     done: onDone,
