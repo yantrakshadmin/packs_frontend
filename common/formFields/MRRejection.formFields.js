@@ -3,6 +3,7 @@ import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 export const MRRejectionFormFields = [
   {
     key: 'reason',
+    rules: [{ required: true, message: 'Please select reason!' }],
     type: FORM_ELEMENT_TYPES.SELECT,
     others: {
       selectOptions: [
@@ -19,7 +20,6 @@ export const MRRejectionFormFields = [
 
   {
     key: 'remarks',
-    rules: [{ required: true, message: 'Please enter remarks!' }],
     kwargs: {
       placeholder: 'Enter',
     },

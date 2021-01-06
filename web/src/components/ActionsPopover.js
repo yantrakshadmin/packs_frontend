@@ -4,7 +4,7 @@ import { Popover, Button,Typography } from 'antd';
 const { Title } = Typography;
 
 
-export const ActionsPopover= ({ buttonList,title,icon,triggerTitle, disabled}) => {
+export const ActionsPopover= ({ buttonList,title,icon,triggerTitle,showCancel,disabled }) => {
   const [popover, setPopover] = useState(false)
 
   const hide = () => {
@@ -40,7 +40,11 @@ export const ActionsPopover= ({ buttonList,title,icon,triggerTitle, disabled}) =
       title={(
         <div className='row justify-between align-center'>
           <Title level={4}>{title|| 'Actions'}</Title>
-          <Button type='link' onClick={hide} style={{ float:"right" }}>Cancel</Button>
+          {showCancel?(
+            <Button type='link' onClick={hide} style={{ float:"right" }}>
+              Cancel
+            </Button>
+          ):null}
         </div>
 )}
       trigger='hover'

@@ -176,6 +176,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
             }}
             onClick={(e) => e.stopPropagation()}>
             Pending
+            {' '}
           </Button>
         );
       },

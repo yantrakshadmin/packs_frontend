@@ -21,7 +21,6 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
 
   const { filteredData, loading, reload } = useTableSearch({ searchVal, retrieve: retrieveMrs });
   const { data:mrStatusData } = useAPI('list-mrstatus/')
-  console.log(mrStatusData,'Ggg')
   const cancelEditing = () => {
     setEditingId(null);
   };
@@ -60,9 +59,10 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
             }}
             onClick={(e) => e.stopPropagation()}>
             Pending
+            {' '}
           </Button>
         );
-      },
+      }
     },
     {
       title:'Request Status',
