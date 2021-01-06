@@ -193,7 +193,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
               Component:()=>(
                 <Button
                   type='primary'
-                  disabled={record.is_allocated}
+                  disabled={record.is_allocated || record.is_rejected}
                   onClick={async (e) => {
                     const response  = await loadAPI('reate-mrstatus/',
                       {
@@ -212,7 +212,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
                 <Button
                   className='mx-2'
                   type='primary'
-                  disabled={record.is_allocated}
+                  disabled={record.is_allocated || record.is_rejected}
                   onClick={(e) => {
                     setEditingId(record.id);
                     setRejectionVisible(true);
