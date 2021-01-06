@@ -176,14 +176,14 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
             }}
             onClick={(e) => e.stopPropagation()}>
             Pending
-            {' '}
+            {'  '}
           </Button>
         );
       },
     },
     {
-      title: 'Docket',
-      key: 'docket',
+      title: 'Options',
+      key: 'options',
       width: '10vw',
       render: (text, record) => (
         <ActionsPopover
@@ -238,10 +238,12 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
                   {row.reason}
                 </text>
                 <br />
-                <text>
-                  <b>Remark : </b>
-                  {row.remark}
-                </text>
+                {row.remark?(
+                  <text>
+                    <b>Remarks : </b>
+                    {row.remark}
+                  </text>
+                ):null}
               </div>
 )}>
               <Button type='primary' danger>Rejected</Button>
