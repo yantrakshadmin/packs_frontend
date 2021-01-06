@@ -78,10 +78,10 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
                   {row.reason}
                 </text>
                 <br />
-                {row.remark?(
+                {row.remarks?(
                   <text>
                     <b>Remarks : </b>
-                    {row.remark}
+                    {row.remarks}
                   </text>
                 ):null}
               </div>

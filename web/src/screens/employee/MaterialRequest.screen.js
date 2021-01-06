@@ -230,6 +230,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
       render:(row)=>(
         <div>
 
+          {/* eslint-disable-next-line no-nested-ternary */}
           {row.is_rejected?(
             <Popover content={(
               <div style={{ width:'20rem' }}>
@@ -238,10 +239,10 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
                   {row.reason}
                 </text>
                 <br />
-                {row.remark?(
+                {row.remarks?(
                   <text>
                     <b>Remarks : </b>
-                    {row.remark}
+                    {row.remarks}
                   </text>
                 ):null}
               </div>

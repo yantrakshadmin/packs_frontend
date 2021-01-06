@@ -6,7 +6,7 @@ export const mergeArray=(a,b)=>{
         is_rejected:obj.is_rejected,
         reason:obj.reason,
         mr:obj.mr,
-        remark:obj.remark
+        remarks:obj.remarks
       }
     }
     return item
