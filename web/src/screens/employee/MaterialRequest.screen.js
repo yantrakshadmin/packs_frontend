@@ -254,7 +254,12 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
           ):<div><Button type='primary'>Approved</Button></div>}
         </div>
       )
-    },
+    },{
+      title: 'Raised By',
+      key: 'raised_by',
+      dataIndex: 'raised_by'
+
+      },
     {
       title: 'Action',
       key: 'operation',

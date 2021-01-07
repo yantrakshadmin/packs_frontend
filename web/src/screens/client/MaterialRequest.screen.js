@@ -94,6 +94,12 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
         </div>
       )
     },
+      {
+      title: 'Raised By',
+      key: 'raised_by',
+      dataIndex: 'raised_by'
+
+      },
     {
       title: 'Action',
       key: 'operation',
