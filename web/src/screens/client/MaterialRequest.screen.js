@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { useAPI } from 'common/hooks/api';
 import { mergeArray } from 'common/helpers/mrHelper';
-import { MaterialRequestForm } from '../../forms/materialRequest.form';
-import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import MaterialRequestsTable from '../../components/MaterialRequestsTable';
-import { deleteHOC } from '../../hocs/deleteHoc';
-import Delete from '../../icons/Delete';
-import Edit from '../../icons/Edit';
+import { MaterialRequestForm } from 'forms/materialRequest.form';
+import TableWithTabHOC from 'hocs/TableWithTab.hoc';
+import MaterialRequestsTable from 'components/MaterialRequestsTable';
+import { deleteHOC } from 'hocs/deleteHoc';
+import Delete from 'icons/Delete';
+import Edit from 'icons/Edit';
 
 const { Search } = Input;
 
@@ -32,13 +32,13 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
       title: 'Status',
       key: 'status',
       className: 'align-center',
-      render: (text, record) => {
-        if (record.is_allocated)
+      render:  (text, record) => {
+        if (record.is_allocated && (!record.is_rejected) )
           return (
             <Button
               type='primary'
               style={{
-                backgroundColor: '#48BB78',
+                backgroundColor: '#00FF00',
                 outline: 'none',
                 border: 'none',
                 borderRadius: '7%',
@@ -47,53 +47,76 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
               Allocated
             </Button>
           );
-        return (
-          <Button
-            type='primary'
-            style={{
-              backgroundColor: 'red',
-              outline: 'none',
-              border: 'none',
-              borderRadius: '7%',
-              color: 'rgba(255,255,255,0.9)',
-            }}
-            onClick={(e) => e.stopPropagation()}>
-            Pending
-            {'  '}
-          </Button>
-        );
-      }
-    },
-    {
-      title:'Request Status',
-      key:'is_rejected',
-      render:(row)=>(
-        <div>
-          {/* eslint-disable-next-line no-nested-ternary */}
-          {row.is_rejected?(
+        if((!record.is_allocated) && (!record.is_rejected)){
+          return (
+            <Button
+              type='primary'
+              style={{
+                backgroundColor: 'red',
+                outline: 'none',
+                border: 'none',
+                borderRadius: '7%',
+                color: 'rgba(255,255,255,0.9)',
+              }}
+              onClick={(e) => e.stopPropagation()}>
+              Pending
+              {'  '}
+            </Button>
+          );
+        }
+        if((!record.is_allocated) && record.is_rejected){
+          return(
             <Popover content={(
               <div style={{ width:'20rem' }}>
                 <text>
                   <b>Reason : </b>
-                  {row.reason}
+                  {record.reason}
                 </text>
                 <br />
-                {row.remarks?(
+                {record.remarks?(
                   <text>
                     <b>Remarks : </b>
-                    {row.remarks}
+                    {record.remarks}
                   </text>
                 ):null}
               </div>
             )}>
               <Button type='primary' danger>Rejected</Button>
             </Popover>
-          ):row.is_rejected === undefined?(
-            <Button>Not Created</Button>
-          ):<div><Button type='primary'>Approved</Button></div>}
-        </div>
-      )
+          )
+        }
+        return(<div />)}
     },
+    // {
+    //   title:'Request Status',
+    //   key:'is_rejected',
+    //   render:(row)=>(
+    //     <div>
+    //       {/* eslint-disable-next-line no-nested-ternary */}
+    //       {row.is_rejected?(
+    //         <Popover content={(
+    //           <div style={{ width:'20rem' }}>
+    //             <text>
+    //               <b>Reason : </b>
+    //               {row.reason}
+    //             </text>
+    //             <br />
+    //             {row.remarks?(
+    //               <text>
+    //                 <b>Remarks : </b>
+    //                 {row.remarks}
+    //               </text>
+    //             ):null}
+    //           </div>
+    //         )}>
+    //           <Button type='primary' danger>Rejected</Button>
+    //         </Popover>
+    //       ):row.is_rejected === undefined?(
+    //         <Button>Not Created</Button>
+    //       ):<div><Button type='primary'>Approved</Button></div>}
+    //     </div>
+    //   )
+    // },
     {
       title: 'Action',
       key: 'operation',

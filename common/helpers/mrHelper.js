@@ -13,4 +13,17 @@ export const mergeArray=(a,b)=>{
   });
 }
 
+export const statusCheck =(isAllocated,isRejected)=>{
+  let status = 'Allocated';
+  if(!isAllocated && !isRejected){
+    status='Pending';
+  }
+  else if(isAllocated && !isRejected){
+    status='Allocated';
+  }
+  else if(!isAllocated && isRejected){
+    status='Rejected';
+  }
+  return status
+}
 

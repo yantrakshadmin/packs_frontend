@@ -38,14 +38,16 @@ export const ActionsPopover= ({ buttonList,title,icon,triggerTitle,showCancel,di
     <Popover
       content={content}
       title={(
-        <div className='row justify-between align-center'>
-          <Title level={4}>{title|| 'Actions'}</Title>
-          {showCancel?(
-            <Button type='link' onClick={hide} style={{ float:"right" }}>
-              Cancel
-            </Button>
-          ):null}
-        </div>
+        title || showCancel?(
+          <div className='row justify-between align-center'>
+            {title?<Title level={4}>{title|| ''}</Title>:null}
+            {showCancel?(
+              <Button type='link' onClick={hide} style={{ float:"right" }}>
+                Cancel
+              </Button>
+            ):null}
+          </div>
+        ):null
 )}
       trigger='hover'
       visible={popover}
@@ -54,9 +56,11 @@ export const ActionsPopover= ({ buttonList,title,icon,triggerTitle,showCancel,di
       <Button
         type='primary'
         style={{
-          padding:"3px",
+          outline: 'none',
+          border: 'none',
+          borderRadius: '7%',
         }}
-        >
+      >
         {triggerTitle}
       </Button>
     </Popover>

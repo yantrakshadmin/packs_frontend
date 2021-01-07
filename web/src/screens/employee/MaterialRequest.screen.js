@@ -23,7 +23,7 @@ import {
 import { EyeInvisibleOutlined, EyeTwoTone, } from '@ant-design/icons';
 import { loadAPI } from 'common/helpers/api';
 import { useAPI } from 'common/hooks/api';
-import { mergeArray } from 'common/helpers/mrHelper';
+import { mergeArray, statusCheck } from 'common/helpers/mrHelper';
 import MaterialRequestsTable from '../../components/MaterialRequestsTable';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { AddMaterialRequestForm } from '../../forms/addMaterialRequest.form';
@@ -141,16 +141,19 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
       filters: [
         {
           text: 'Allocated',
-          value: true,
+          value: 'Allocated',
         },
         {
           text: 'Pending',
-          value: false,
+          value: 'Pending',
+        },{
+          text: 'Rejected',
+          value: 'Rejected',
         },
       ],
-      onFilter: (value, record) => record.is_allocated === value,
+      onFilter: (value, record) => statusCheck(record.is_allocated,record.is_rejected) === value,
       render: (text, record) => {
-        if (record.is_allocated)
+        if (record.is_allocated && (!record.is_rejected) )
           return (
             <Button
               type='primary'
@@ -164,22 +167,46 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
               Allocated
             </Button>
           );
-        return (
-          <Button
-            type='primary'
-            style={{
-              backgroundColor: 'red',
-              outline: 'none',
-              border: 'none',
-              borderRadius: '7%',
-              color: 'rgba(255,255,255,0.9)',
-            }}
-            onClick={(e) => e.stopPropagation()}>
-            Pending
-            {'  '}
-          </Button>
-        );
-      },
+        if((!record.is_allocated) && (!record.is_rejected)){
+          return (
+            <Button
+              type='primary'
+              style={{
+                backgroundColor: 'red',
+                outline: 'none',
+                border: 'none',
+                borderRadius: '7%',
+                color: 'rgba(255,255,255,0.9)',
+              }}
+              onClick={(e) => e.stopPropagation()}>
+              Pending
+              {'  '}
+            </Button>
+          );
+        }
+        if((!record.is_allocated) && record.is_rejected){
+          return(
+            <Popover content={(
+              <div style={{ width:'20rem' }}>
+                <text>
+                  <b>Reason : </b>
+                  {record.reason}
+                </text>
+                <br />
+                {record.remarks?(
+                  <text>
+                    <b>Remarks : </b>
+                    {record.remarks}
+                  </text>
+                ):null}
+              </div>
+          )}>
+              <Button type='primary' danger>Rejected</Button>
+            </Popover>
+          )
+        }
+        return(<div />)}
+      ,
     },
     {
       title: 'Options',
@@ -224,37 +251,38 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
             ]
           } />
       ),
-    },{
-      title:'Request Status',
-      key:'is_rejected',
-      render:(row)=>(
-        <div>
-
-          {/* eslint-disable-next-line no-nested-ternary */}
-          {row.is_rejected?(
-            <Popover content={(
-              <div style={{ width:'20rem' }}>
-                <text>
-                  <b>Reason : </b>
-                  {row.reason}
-                </text>
-                <br />
-                {row.remarks?(
-                  <text>
-                    <b>Remarks : </b>
-                    {row.remarks}
-                  </text>
-                ):null}
-              </div>
-)}>
-              <Button type='primary' danger>Rejected</Button>
-            </Popover>
-          ):row.is_rejected === undefined?(
-            <Button>Not Created</Button>
-          ):<div><Button type='primary'>Approved</Button></div>}
-        </div>
-      )
     },
+    //     {
+    //       title:'Request Status',
+    //       key:'is_rejected',
+    //       render:(row)=>(
+    //         <div>
+    //
+    //           {/* eslint-disable-next-line no-nested-ternary */}
+    //           {row.is_rejected?(
+    //             <Popover content={(
+    //               <div style={{ width:'20rem' }}>
+    //                 <text>
+    //                   <b>Reason : </b>
+    //                   {row.reason}
+    //                 </text>
+    //                 <br />
+    //                 {row.remarks?(
+    //                   <text>
+    //                     <b>Remarks : </b>
+    //                     {row.remarks}
+    //                   </text>
+    //                 ):null}
+    //               </div>
+    // )}>
+    //               <Button type='primary' danger>Rejected</Button>
+    //             </Popover>
+    //           ):row.is_rejected === undefined?(
+    //             <Button>Not Created</Button>
+    //           ):<div><Button type='primary'>Approved</Button></div>}
+    //         </div>
+    //       )
+    //     },
     {
       title: 'Action',
       key: 'operation',
