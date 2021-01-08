@@ -10,7 +10,7 @@ import {
   Popconfirm,
   Popover,
   Row,
-  Space, Tag,
+  Space,
   Typography,
 } from 'antd';
 import { connect } from 'react-redux';
@@ -32,7 +32,6 @@ import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import { ActionsPopover } from '../../components/ActionsPopover';
 import { MRRejectionForm } from '../../forms/MRRejection.form';
-import { yantraColors } from '../../helpers/yantraColors';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -52,7 +51,6 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
   });
 
   const { data:mrStatusData } = useAPI('list-mrstatus/')
-  // console.log(mrStatusData,filteredData,'wala',mergeArray((filteredData||[]),(mrStatusData||[])));
 
   const [userData,setUserData] = useState({ password:'' })
 
@@ -178,13 +176,14 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
             }}
             onClick={(e) => e.stopPropagation()}>
             Pending
+            {'  '}
           </Button>
         );
       },
     },
     {
-      title: 'Docket',
-      key: 'docket',
+      title: 'Options',
+      key: 'options',
       width: '10vw',
       render: (text, record) => (
         <ActionsPopover
@@ -194,7 +193,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
               Component:()=>(
                 <Button
                   type='primary'
-                  disabled={record.is_allocated}
+                  disabled={record.is_allocated || record.is_rejected}
                   onClick={async (e) => {
                     const response  = await loadAPI('reate-mrstatus/',
                       {
@@ -209,11 +208,18 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
               )
             },
             {
-              title:'Reject',
-              disabled:record.is_allocated,
-              onClick:(e)=>{
-                setEditingId(record.id);
-                setRejectionVisible(true); e.stopPropagation()}
+              Component: ()=>(
+                <Button
+                  className='mx-2'
+                  type='primary'
+                  disabled={record.is_allocated || record.is_rejected}
+                  onClick={(e) => {
+                    setEditingId(record.id);
+                    setRejectionVisible(true);
+                    e.stopPropagation()}}>
+                  Reject
+                </Button>
+              )
             }
             ]
           } />
@@ -223,6 +229,8 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
       key:'is_rejected',
       render:(row)=>(
         <div>
+
+          {/* eslint-disable-next-line no-nested-ternary */}
           {row.is_rejected?(
             <Popover content={(
               <div style={{ width:'20rem' }}>
@@ -231,18 +239,27 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
                   {row.reason}
                 </text>
                 <br />
-                <text>
-                  <b>Remark : </b>
-                  {row.remark}
-                </text>
+                {row.remarks?(
+                  <text>
+                    <b>Remarks : </b>
+                    {row.remarks}
+                  </text>
+                ):null}
               </div>
 )}>
-              <Tag color={yantraColors.danger}>Rejected</Tag>
+              <Button type='primary' danger>Rejected</Button>
             </Popover>
-          ):<div><Tag color={yantraColors.primary}>Approved</Tag></div>}
+          ):row.is_rejected === undefined?(
+            <Button>Not Created</Button>
+          ):<div><Button type='primary'>Approved</Button></div>}
         </div>
       )
-    },
+    },{
+      title: 'Raised By',
+      key: 'raised_by',
+      dataIndex: 'raised_by'
+
+      },
     {
       title: 'Action',
       key: 'operation',

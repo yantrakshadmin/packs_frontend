@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import materialRequestColumns from 'common/columns/materialRequest.column';
-import { Popconfirm, Button, Input, Popover, Tag } from 'antd';
+import { Popconfirm, Button, Input, Popover } from 'antd';
 import { deleteMr, retrieveMrs } from 'common/api/auth';
 import { connect } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
@@ -12,7 +12,6 @@ import MaterialRequestsTable from '../../components/MaterialRequestsTable';
 import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
-import { yantraColors } from '../../helpers/yantraColors';
 
 const { Search } = Input;
 
@@ -22,7 +21,6 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
 
   const { filteredData, loading, reload } = useTableSearch({ searchVal, retrieve: retrieveMrs });
   const { data:mrStatusData } = useAPI('list-mrstatus/')
-
   const cancelEditing = () => {
     setEditingId(null);
   };
@@ -61,15 +59,17 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
             }}
             onClick={(e) => e.stopPropagation()}>
             Pending
+            {'  '}
           </Button>
         );
-      },
+      }
     },
     {
       title:'Request Status',
       key:'is_rejected',
       render:(row)=>(
         <div>
+          {/* eslint-disable-next-line no-nested-ternary */}
           {row.is_rejected?(
             <Popover content={(
               <div style={{ width:'20rem' }}>
@@ -78,18 +78,28 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
                   {row.reason}
                 </text>
                 <br />
-                <text>
-                  <b>Remark : </b>
-                  {row.remark}
-                </text>
+                {row.remarks?(
+                  <text>
+                    <b>Remarks : </b>
+                    {row.remarks}
+                  </text>
+                ):null}
               </div>
             )}>
-              <Tag color={yantraColors.danger}>Rejected</Tag>
+              <Button type='primary' danger>Rejected</Button>
             </Popover>
-          ):<div><Tag color={yantraColors.primary}>Approved</Tag></div>}
+          ):row.is_rejected === undefined?(
+            <Button>Not Created</Button>
+          ):<div><Button type='primary'>Approved</Button></div>}
         </div>
       )
     },
+      {
+      title: 'Raised By',
+      key: 'raised_by',
+      dataIndex: 'raised_by'
+
+      },
     {
       title: 'Action',
       key: 'operation',
