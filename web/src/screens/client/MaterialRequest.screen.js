@@ -118,6 +118,11 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
     //   )
     // },
     {
+      title: 'Raised By',
+      key: 'raised_by',
+      dataIndex: 'raised_by'
+    },
+    {
       title: 'Action',
       key: 'operation',
       width: '7vw',

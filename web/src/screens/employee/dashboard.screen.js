@@ -9,11 +9,16 @@ import { Cal } from './events.screen';
 import { Map } from './map.screen';
 import { MasterHOC } from '../../hocs/Master.hoc';
 
+import _ from 'lodash';
+
+
 const { Paragraph } = Typography;
 const kitTypes = ['FLC', 'FSC', 'Crate','PP Box',]
 
 export const DashboardScreen = () => {
+
   const [allotmentChartData,setAllotmentChartData] = useState(initialChart('Allotments by Months'));
+
   const [returnChartData,setReturnChartData] = useState({
     labels: ['January',
       'February', 'March',
@@ -31,6 +36,12 @@ export const DashboardScreen = () => {
   const [clientStatIndex,setClientStatIndex] = useState(0);
   const [rClientSelected,setRClientSelected] = useState('All Clients');
   const [sClientSelected,setSClientSelected] = useState(undefined);
+
+  const [sYears,setSYears] = useState([]);
+  const [sYearSelected,setSYearSelected] = useState(undefined);
+  const [rYears,setRYears] = useState([]);
+  const [rYearSelected,setRYearSelected] = useState(undefined);
+
   const [sKitType,setSKitType] = useState(undefined)
   const { data: allotments } = useAPI('/cal/', {});
   const { data: returns } = useAPI('/cal-r/', {});
@@ -43,6 +54,7 @@ export const DashboardScreen = () => {
   const { data: clientStats,loading } = useAPI('/cycledays-graph/', {});
   const [clientStatsFiltered,setClientStatsFiltered ]
     = useState([]);
+
   useEffect(()=>{
     if(sClientSelected !== undefined && sKitType !==undefined ){
       setAllotChartUrl(`/allot-graph/?sc=${sClientSelected}&type=${sKitType}`)
@@ -57,15 +69,60 @@ export const DashboardScreen = () => {
       setAllotChartUrl(`/allot-graph/`)
     }
   },[sClientSelected,sKitType])
+
+  
+  const [yearFilteredChartAllot,setYearFilteredChartAllot] = useState({});
+
   useEffect(()=>{
-    const chartAllotData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     if(chartAllot){
       if(chartAllot.series){
-        chartAllot.series[0].data.map(item => {
-          const d = new Date(item.name);
-          chartAllotData[d.getMonth()] = chartAllotData[d.getMonth()] + item.y
-          return null
-        });}}
+        let newData = _.groupBy(chartAllot.series[0].data,el => {
+          const d = new Date(el.name);
+          return (d.getFullYear());
+        })
+        let years = [];
+        _.forEach(newData,(value,key) => {
+		  years.push(key);
+          const months = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+          value.map(item => {
+            const d = new Date(item.name);
+            months[d.getMonth()] = months[d.getMonth()] + item.y;
+            return null;
+          });
+          newData[key] = months;
+        })
+        setSYears(years);
+        if (years.length>0) {
+          setSYearSelected(Math.max.apply(Math, years));
+        }
+
+        setYearFilteredChartAllot(newData);
+        
+        // chartAllot.series[0].data.map(item => {
+        //   const d = new Date(item.name);
+        //   chartAllotData[d.getMonth()] = chartAllotData[d.getMonth()] + item.y
+        //   return null;
+        // });
+      }
+    }
+    // setAllotmentChartData(
+    //   {
+    //     labels: ['January',
+    //       'February', 'March',
+    //       'April', 'May', 'June', 'July', 'Aug',
+    //       'Sept', 'Oct', 'Nov', 'Dec'],
+    //     datasets: [
+    //       {
+    //         label: 'Allotments by Months',
+    //         ...chartConfigs,
+    //         data: yearFilteredChartAllot[2021],
+    //       },
+    //     ],
+    //   }
+    // )
+  },[chartAllot])
+
+  useEffect(() => {
     setAllotmentChartData(
       {
         labels: ['January',
@@ -76,24 +133,68 @@ export const DashboardScreen = () => {
           {
             label: 'Allotments by Months',
             ...chartConfigs,
-            data: chartAllotData,
+            data: yearFilteredChartAllot[sYearSelected],
           },
         ],
       }
-    );
-  },[chartAllot])
+    )
+  },[yearFilteredChartAllot,sYearSelected,setSYearSelected]);
+
+
+  const [yearFilteredChartReturn,setYearFilteredChartReturn] = useState({});
 
   useEffect(()=>{
-    const chartReturnData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     if(chartReturn){
       if(chartReturn.series){
-        chartReturn.series[0].data.map(item => {
-          const d = new Date(item.name);
-          chartReturnData[d.getMonth()] = chartReturnData[d.getMonth()] + item.y
-          return null
-        });}}
+        let newData = _.groupBy(chartReturn.series[0].data,el => {
+          const d = new Date(el.name);
+          return (d.getFullYear());
+        })
+        let years = [];
+        _.forEach(newData,(value,key) => {
+			years.push(key);
+			const months = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+			value.map(item => {
+			const d = new Date(item.name);
+			months[d.getMonth()] = months[d.getMonth()] + item.y;
+			return null;
+			});
+			newData[key] = months;
+        })
+        setRYears(years);
+        if (years.length>0) {
+          setRYearSelected(Math.max.apply(Math, years));
+        }
+        console.log(newData);
+        setYearFilteredChartReturn(newData);
+      }
+    }
+    // const chartReturnData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    // if(chartReturn){
+    //   if(chartReturn.series){
+    //     chartReturn.series[0].data.map(item => {
+    //       const d = new Date(item.name);
+    //       chartReturnData[d.getMonth()] = chartReturnData[d.getMonth()] + item.y
+    //       return null
+    //     });}}
+    // setReturnChartData(
+    //   {
+    //     labels: ['January',
+    //       'February', 'March',
+    //       'April', 'May', 'June', 'July', 'Aug',
+    //       'Sept', 'Oct', 'Nov', 'Dec'],
+    //     datasets: [
+    //       {
+    //         label: 'Returns by Months',
+    //         ...chartConfigs,
+    //         data: chartReturnData,
+    //       },
+    //     ],
+    //   }
+    // );
+  },[chartReturn])
 
-
+  useEffect(() => {
     setReturnChartData(
       {
         labels: ['January',
@@ -102,14 +203,17 @@ export const DashboardScreen = () => {
           'Sept', 'Oct', 'Nov', 'Dec'],
         datasets: [
           {
-            label: 'Returns by Months',
+            label: 'Allotments by Months',
             ...chartConfigs,
-            data: chartReturnData,
+            data: yearFilteredChartReturn[rYearSelected],
           },
         ],
       }
-    );
-  },[chartReturn])
+    )
+  },[yearFilteredChartReturn,rYearSelected,setRYearSelected]);
+
+
+
 
   const getFilteredArray = () =>{
     const newArr = []
@@ -139,6 +243,7 @@ export const DashboardScreen = () => {
       </Dropdown>
     )
   }
+
   const menuRClients = rClients?(
     <Menu>
       <Menu.Item>
@@ -159,6 +264,7 @@ export const DashboardScreen = () => {
       <Menu.Item danger>No Data</Menu.Item>
     </Menu>
   )
+
   const menuSClients = sClients?(
     <Menu>
       <Menu.Item>
@@ -186,6 +292,7 @@ export const DashboardScreen = () => {
       <Menu.Item danger>No Data</Menu.Item>
     </Menu>
   )
+
   const menuSKits =(
     <Menu>
       <Menu.Item>
@@ -206,6 +313,44 @@ export const DashboardScreen = () => {
           </Button>
         </Menu.Item>
       ))}
+    </Menu>
+  )
+
+  const menuSYears = sYears?(
+    <Menu>
+      {sYears.map((key)=>(
+        <Menu.Item>
+          <Button
+            type='link'
+            disabled={key===sYearSelected}
+            onClick={()=>{setSYearSelected(key)}}>
+            {key}
+          </Button>
+        </Menu.Item>
+      ))}
+    </Menu>
+  ):(
+    <Menu>
+      <Menu.Item danger>No Data</Menu.Item>
+    </Menu>
+  )
+
+  const menuRYears = rYears?(
+    <Menu>
+      {rYears.map((key)=>(
+        <Menu.Item>
+          <Button
+            type='link'
+            disabled={key===rYearSelected}
+            onClick={()=>{setRYearSelected(key)}}>
+            {key}
+          </Button>
+        </Menu.Item>
+      ))}
+    </Menu>
+  ):(
+    <Menu>
+      <Menu.Item danger>No Data</Menu.Item>
     </Menu>
   )
 
@@ -232,6 +377,7 @@ export const DashboardScreen = () => {
             <div className='row'>
               <FilterDropdown menu={menuSClients} />
               <FilterDropdown menu={menuSKits} />
+              <FilterDropdown menu={menuSYears} />
             </div>
             <Bar
               data={allotmentChartData}
@@ -240,15 +386,19 @@ export const DashboardScreen = () => {
             />
             <div className='row justify-center'>
               <Paragraph>
+                
                 {sClientSelected?sClientSelected.replaceAll('%26','&') : 'All Clients'}
                 {/* eslint-disable-next-line no-nested-ternary */}
                 {sKitType &&sClientSelected ?
                   ` - ${sKitType}`:(sKitType?sKitType.replaceAll('%26','&') :' - All Kits')  }
+                {` - `}
+                {sYearSelected?sYearSelected : ''}
               </Paragraph>
             </div>
           </Col>
           <Col span={12}>
             <FilterDropdown menu={menuRClients} />
+            <FilterDropdown menu={menuRYears} />
             <Bar
               data={returnChartData}
               height={125}
@@ -257,6 +407,8 @@ export const DashboardScreen = () => {
             <div className='row justify-center'>
               <Paragraph>
                 {rClientSelected.replaceAll('%26','&')}
+                {` - `}
+                {rYearSelected?rYearSelected : ''}
               </Paragraph>
             </div>
           </Col>
