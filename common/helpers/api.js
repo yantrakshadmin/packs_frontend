@@ -1,10 +1,10 @@
 import * as jwtDecode from 'jwt-decode';
 import axios from 'axios';
 
-import {ACCESS_TOKEN, REFRESH_TOKEN} from '../constants/storage';
-import {DEFAULT_BASE_URL} from '../constants/enviroment';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants/storage';
+import { DEFAULT_BASE_URL } from '../constants/enviroment';
 
-import {getStorage} from './shared';
+import { getStorage } from './shared';
 
 axios.defaults.baseURL = DEFAULT_BASE_URL;
 
@@ -19,7 +19,7 @@ const getAccessToken = async () => {
   if (new Date(parseInt(accessPayload.exp, 10) * 1000) > new Date()) return accessToken;
 
   const {
-    data: {access: newAccessToken},
+    data: { access: newAccessToken },
   } = await axios.post('/api/token/refresh/', {
     refresh: refreshToken,
   });
@@ -42,27 +42,26 @@ export const loadAPI = async (url, opts = {}) => {
   try {
     const res = await axios(url, {
       headers: {
-        ...(secure ? {Authorization: `Bearer ${await getAccessToken()}`} : {}),
+        ...(secure ? { Authorization: `Bearer ${await getAccessToken()}` } : {}),
         ...headers,
       },
       ...options,
     });
 
-    const {data, status} = res;
+    const { data, status } = res;
     await onSuccess(data);
-    console.log(data);
-    return {data, status, error: undefined, loading: false};
+    return { data, status, error: undefined, loading: false };
   } catch (error) {
     if (error.response) {
-      const {data, status} = error.response;
+      const { data, status } = error.response;
       await onFailure(data);
-      return {data: undefined, status, error: data, loading: false};
+      return { data: undefined, status, error: data, loading: false };
     }
 
     if (error.request) {
-      const e = {message: 'error in request setup'};
+      const e = { message: 'error in request setup' };
       // noinspection JSCheckFunctionSignatures
-      return {data: undefined, status: 0, error: e, loading: false};
+      return { data: undefined, status: 0, error: e, loading: false };
     }
 
     throw Error(error);

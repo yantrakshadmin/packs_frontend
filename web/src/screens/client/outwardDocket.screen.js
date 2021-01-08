@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button, Popconfirm } from 'antd';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { Link } from '@reach/router';
 import { useAPI } from 'common/hooks/api';
@@ -16,6 +16,7 @@ import Delete from '../../icons/Delete';
 import Delivery from '../../icons/Delivery';
 import { OutwardDeliveredDocketForm } from '../../forms/OutwardDeliveredDocket.form';
 import Document from '../../icons/Document';
+import TableWithTabHoc from '../../hocs/TableWithTab.hoc';
 
 const { Search } = Input;
 
@@ -25,8 +26,8 @@ const OutwardDocketScreen = ({ currentPage,isEmployee }) => {
   const [reqData, setReqData] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
   const [TN,setTN] = useState(null);
-
-  console.log(isEmployee,'Props')
+  const user = useSelector(s=>s.user.userMeta.id)
+  console.log(user,isEmployee,'Props')
 
   const { data: outwards, loading,reload } = useAPI(isEmployee?'emp-outwards/':'/outwards/', {});
   const { filteredData, } = useTableSearch({
@@ -231,6 +232,8 @@ const OutwardDocketScreen = ({ currentPage,isEmployee }) => {
         tabs={tabs}
         loading={loading}
         size='middle'
+        noNewPageCSV
+        downloadLink={isEmployee?null:`${DEFAULT_BASE_URL}outward-report?id=${user}`}
         editingId={editingId || deliveryId}
         title={deliveryId?'Delivered Docket ':'Outward Docket '}
         modalBody={deliveryId?OutwardDeliveredDocketForm:OutwardDocketForm}
@@ -241,6 +244,8 @@ const OutwardDocketScreen = ({ currentPage,isEmployee }) => {
     </>
   );
 };
+
+
 
 const mapStateToProps = (state) => {
   return { currentPage: state.page.currentPage };

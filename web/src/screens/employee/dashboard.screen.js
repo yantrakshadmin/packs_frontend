@@ -15,18 +15,18 @@ const kitTypes = ['FLC', 'FSC', 'Crate','PP Box',]
 export const DashboardScreen = () => {
   const [allotmentChartData,setAllotmentChartData] = useState(initialChart('Allotments by Months'));
   const [returnChartData,setReturnChartData] = useState({
-      labels: ['January',
-        'February', 'March',
-        'April', 'May', 'June', 'July', 'Aug',
-        'Sept', 'Oct', 'Nov', 'Dec'],
-      datasets: [
-        {
-          label:'Return by Months' ,
-          ...chartConfigs,
-          data:  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        },
-      ],
-    }
+    labels: ['January',
+      'February', 'March',
+      'April', 'May', 'June', 'July', 'Aug',
+      'Sept', 'Oct', 'Nov', 'Dec'],
+    datasets: [
+      {
+        label:'Return by Months' ,
+        ...chartConfigs,
+        data:  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      },
+    ],
+  }
   );
   const [clientStatIndex,setClientStatIndex] = useState(0);
   const [rClientSelected,setRClientSelected] = useState('All Clients');

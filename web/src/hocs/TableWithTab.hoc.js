@@ -16,6 +16,7 @@ const TableWithTabHOC = ({
   newPage,
   tabs,
   modelTitle,
+  noNewPageCSV,
   modalBody: ModalBody = () => null,
   refresh,
   rowSelection,
@@ -101,7 +102,7 @@ const TableWithTabHOC = ({
           ) : null}
           {downloadLink ? (
             <>
-              <Button href={downloadLink} rel='noopener noreferrer' target='blank'>
+              <Button href={downloadLink} rel='noopener noreferrer' target={noNewPageCSV?null:'blank'}>
                 Download CSV
               </Button>
               <br />

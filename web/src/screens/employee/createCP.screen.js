@@ -280,12 +280,11 @@ const CreateCPScreen = ({ currentPage }) => {
               setEditingId(record.id);
               dispatch({ type: ADD_CREATE_CP_BASIC_DATA, data: {
                 ...record,
+                part_name:record.pfep.part_name?record.pfep.part_name:'',
                 sender_client:record.pfep.sender_client?record.pfep.sender_client:'',
                 sender_location:record.pfep.sender_location?record.pfep.sender_location:'',
                 receiver: record.pfep.receivers[0]?record.pfep.receivers[0].name:'',
                 receiver_location: record.pfep.receivers[0]?record.pfep.receivers[0].location:'',
-                component_perkit: record.parts_pm,
-                total_comp_weight_perkit: record.weight,
                 pfep:record.id,
                 solution_crate:record.pfep.solution_crate,
                 solution_flc: record.pfep.solution_flc,
