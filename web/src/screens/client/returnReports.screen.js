@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import returnColumns from 'common/columns/Return.column';
 import { Input, Button } from 'antd';
-import { connect } from 'react-redux';
+import { connect,useSelector } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { Link } from '@reach/router';
 import { useAPI } from 'common/hooks/api';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 
+import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
+
 const { Search } = Input;
 
-const ReturnReportsScreen = ({ currentPage }) => {
+const ReturnReportsScreen = ({ currentPage,isEmployee }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [reqData, setReqData] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
+
+  const user = useSelector(s=>s.user.userMeta.id)
 
   const { data: returns, loading } = useAPI('/client-return/', {});
 
@@ -92,6 +96,8 @@ const ReturnReportsScreen = ({ currentPage }) => {
         size='middle'
         title='Return Reports'
         newPage='./return/'
+        downloadLink={isEmployee?null:`${DEFAULT_BASE_URL}client-return-reportsdownload/?cname=${user}`}
+			  downloadLinkButtonTitle = "Download Reports"
         separate={!deliveryId}
         modalWidth={60}
         cancelEditing={cancelEditing}
