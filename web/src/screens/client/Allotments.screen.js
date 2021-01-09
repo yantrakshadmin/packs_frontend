@@ -3,17 +3,21 @@ import allotmentColumns from 'common/columns/Allotment.column';
 import {  Input } from 'antd';
 import moment from 'moment';
 import { AllotFlowTable } from 'components/AllotFlowExp';
-import { connect } from 'react-redux';
+import { connect,useSelector } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { useAPI } from 'common/hooks/api';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 
+import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
+
 const { Search } = Input;
 
-const AllotmentDocketsScreen = ({ currentPage }) => {
+const AllotmentDocketsScreen = ({ currentPage,isEmployee }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [csvData, setCsvData] = useState(null);
   const [reqData, setReqData] = useState([]);
+
+  const user = useSelector(s=>s.user.userMeta.id)
 
   const { data: allotments, loading } = useAPI('/client-allotments/', {});
 
@@ -108,25 +112,27 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
-        </div>
-      </div>
-      <br />
-      <TableWithTabHOC
-        rowKey={(record) => record.id}
-        refresh={reload}
-        tabs={tabs}
-        size='middle'
-        title='My Allotments'
-        hideRightButton
-        expandHandleKey='flows'
-        ExpandBody={AllotFlowTable}
-        csvdata={csvData}
-        csvname='MyAllotments.csv'
-        expandParams={{ loading }}
-      />
+		<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+			<div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end',marginLeft: '10px' }}>
+				<Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
+			</div>
+		</div>
+		<br />
+		<TableWithTabHOC
+			rowKey={(record) => record.id}
+			refresh={reload}
+			tabs={tabs}
+			size='middle'
+			title='My Allotments'
+			hideRightButton
+			expandHandleKey='flows'
+			ExpandBody={AllotFlowTable}
+			csvdata={csvData}
+			csvname='MyAllotments.csv'
+			downloadLink={isEmployee?null:`${DEFAULT_BASE_URL}client-allotment-reportsdownload?cname=${user}`}
+			downloadLinkButtonTitle = "Download Reports"
+			expandParams={{ loading }}
+		/>
     </>
   );
 };

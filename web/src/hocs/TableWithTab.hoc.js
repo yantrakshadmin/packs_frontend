@@ -29,6 +29,7 @@ const TableWithTabHOC = ({
   scroll,
   size,
   downloadLink,
+  downloadLinkButtonTitle,
   reset,
   separate,
   editingId,
@@ -99,11 +100,15 @@ const TableWithTabHOC = ({
               {csvname.replace('null', '').replace(' ', '')}
               )
             </CSVLink>
+            
           ) : null}
           {downloadLink ? (
             <>
+            <br />
               <Button href={downloadLink} rel='noopener noreferrer' target={noNewPageCSV?null:'blank'}>
-                Download CSV
+                {downloadLinkButtonTitle ? (
+                  downloadLinkButtonTitle
+                ) : "Download CSV" }
               </Button>
               <br />
               {' '}
