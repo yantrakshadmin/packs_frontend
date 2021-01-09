@@ -92,19 +92,20 @@ const TableWithTabHOC = ({
         <Col>
           <Title level={3}>{title}</Title>
           {csvdata ? (
-            <CSVLink
-              data={csvdata}
-              filename={csvname.replace(' ', '').replace('null', '')}
-              className='btn btn-primary'>
-              Download CSV (
-              {csvname.replace('null', '').replace(' ', '')}
-              )
-            </CSVLink>
-            
+            <>
+              <CSVLink
+                data={csvdata}
+                filename={csvname.replace(' ', '').replace('null', '')}
+                className='btn btn-primary'>
+                Download CSV (
+                {csvname.replace('null', '').replace(' ', '')}
+                )
+              </CSVLink>
+              <br />
+            </>
           ) : null}
           {downloadLink ? (
             <>
-            <br />
               <Button href={downloadLink} rel='noopener noreferrer' target={noNewPageCSV?null:'blank'}>
                 {downloadLinkButtonTitle ? (
                   downloadLinkButtonTitle
