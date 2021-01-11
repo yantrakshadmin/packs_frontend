@@ -6,9 +6,8 @@ import { AllotFlowTable } from 'components/AllotFlowExp';
 import { connect,useSelector } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { useAPI } from 'common/hooks/api';
-import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-
 import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
+import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 
 const { Search } = Input;
 
@@ -112,26 +111,26 @@ const AllotmentDocketsScreen = ({ currentPage,isEmployee }) => {
 
   return (
     <>
-		<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-			<div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end',marginLeft: '10px' }}>
-				<Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
-			</div>
-		</div>
-		<br />
-		<TableWithTabHOC
-			rowKey={(record) => record.id}
-			refresh={reload}
-			tabs={tabs}
-			size='middle'
-			title='My Allotments'
-			hideRightButton
-			expandHandleKey='flows'
-			ExpandBody={AllotFlowTable}
-			csvdata={csvData}
-			csvname='MyAllotments.csv'
-			downloadLink={isEmployee?null:`${DEFAULT_BASE_URL}client-allotment-reportsdownload?cname=${user}`}
-			downloadLinkButtonTitle = "Download Reports"
-			expandParams={{ loading }}
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end',marginLeft: '10px' }}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
+        </div>
+      </div>
+      <br />
+      <TableWithTabHOC
+        rowKey={(record) => record.id}
+        refresh={reload}
+        tabs={tabs}
+        size='middle'
+        title='My Allotments'
+        hideRightButton
+        expandHandleKey='flows'
+        ExpandBody={AllotFlowTable}
+        csvdata={csvData}
+        csvname='MyAllotments.csv'
+        downloadLink={isEmployee?null:`${DEFAULT_BASE_URL}client-allotment-reportsdownload?cname=${user}`}
+        downloadLinkButtonTitle='Download Reports'
+        expandParams={{ loading }}
 		/>
     </>
   );

@@ -38,7 +38,6 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
     if(data[0]){
       if(data[0].name){
         if(data[0].name[0]==='standard_assets') {
-          console.log(data[0].name[0], data, 'this one');
           form.setFieldsValue({ solutions:getSpecifications(data[0].value) })
         }}}
   }
