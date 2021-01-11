@@ -57,6 +57,7 @@ const covertArray=(arr)=>{
   }))
 }
 
+
 export const getSpecifications = (type) => {
   const specifications = {
     'FLC':covertArray(FLCSpecification),
@@ -76,3 +77,5 @@ export const getSpecifications = (type) => {
   };
   return specifications[type];
 };
+
+
