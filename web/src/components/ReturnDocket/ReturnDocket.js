@@ -1,6 +1,8 @@
 import React, { useState , useEffect } from 'react';
 import { Row, Col, Typography, Spin } from 'antd';
 import { Table } from 'react-bootstrap';
+import moment from 'moment';
+
 
 import { retrieveReturnDocket, retrieveReturnDocketCaleder } from 'common/api/auth';
 
@@ -115,13 +117,13 @@ const ReturnDocket = ({ location }) => {
             <Row>
               <Col span={22}>
                 <p style={{ fontWeight: 'bold', display: 'inline' }}>Transaction Date : </p>
-                <p style={{ display: 'inline' }}>{reqReturn.transaction_date.slice(0, 10)}</p>
+                <p style={{ display: 'inline' }}>{moment(reqReturn.transaction_date).format('DD/MM/YYYY')}</p>
               </Col>
             </Row>
             <Row>
               <Col span={22}>
                 <p style={{ fontWeight: 'bold', display: 'inline' }}>Dispatch Date : </p>
-                <p style={{ display: 'inline' }}>{reqReturn.transaction_date.slice(0, 10)}</p>
+                <p style={{ display: 'inline' }}>{moment(reqReturn.transaction_date).format('DD/MM/YYYY')}</p>
               </Col>
             </Row>
             <Row>
