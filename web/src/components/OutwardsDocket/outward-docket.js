@@ -2,6 +2,9 @@ import React, { useState , useEffect } from 'react';
 import { Row, Col, Typography, Spin } from 'antd';
 import { Table } from 'react-bootstrap';
 
+import moment from 'moment';
+
+
 import {
   retrieveAllotments,
   retrieveAllotmentsCalender,
@@ -176,7 +179,7 @@ const OutwardDocket = ({ location,match }) => {
               <Col span={22}>
                 <p style={{ fontWeight: 'bold', display: 'inline' }}>Transaction Date : </p>
                 <p style={{ display: 'inline' }}>
-                  {allotment.transaction_date?allotment.transaction_date.slice(0, 10):0}
+                  {allotment.transaction_date? moment(allotment.transaction_date).format('DD/MM/YYYY') :0}
                 </p>
               </Col>
             </Row>
@@ -184,7 +187,7 @@ const OutwardDocket = ({ location,match }) => {
               <Col span={22}>
                 <p style={{ fontWeight: 'bold', display: 'inline' }}>Dispatch Date : </p>
                 <p style={{ display: 'inline' }}>
-                  {allotment.dispatch_date?allotment.dispatch_date.slice(0, 10):0}
+                  {allotment.dispatch_date? moment(allotment.dispatch_date).format('DD/MM/YYYY') :0}
                 </p>
               </Col>
             </Row>

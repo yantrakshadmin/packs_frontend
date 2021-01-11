@@ -57,22 +57,25 @@ const covertArray=(arr)=>{
   }))
 }
 
+
 export const getSpecifications = (type) => {
   const specifications = {
-    'FLC':covertArray(FLCSpecification),
-    'FSC':covertArray(FLCSpecification),
-    'CRT6412':covertArray(crateSpecification),
-    'CRT6418':covertArray(crateSpecification),
-    'CRT6423':covertArray(crateSpecification),
-    'CRT6435':covertArray(crateSpecification),
-    'Palletized CRT6412':covertArray(palletSpecification),
-    'Palletized CRT6418':covertArray(palletSpecification),
-    'Palletized CRT6423':covertArray(palletSpecification),
-    'Palletized CRT6435':covertArray(palletSpecification),
-    'PP BOX':covertArray(pPBoxSpecifications),
-    'Palletized PP Box':covertArray(palletizedPPBoxSpecifications),
-    'Plastic Pallet':covertArray(plasticPalletSpecifications),
-    'Wooden Pallet':covertArray(plasticPalletSpecifications),
+    'FLC':covertArray(['FLC'].concat(FLCSpecification)),
+    'FSC':covertArray(['FSC'].concat(FLCSpecification)),
+    'CRT6412':covertArray(['CRT6412'].concat(crateSpecification)),
+    'CRT6418':covertArray(['CRT6418'].concat(crateSpecification)),
+    'CRT6423':covertArray(['CRT6423'].concat(crateSpecification)),
+    'CRT6435':covertArray(['CRT6435'].concat(crateSpecification)),
+    'Palletized CRT6412':covertArray(['Palletized CRT6412'].concat(palletSpecification)),
+    'Palletized CRT6418':covertArray(['Palletized CRT6418'].concat(palletSpecification)),
+    'Palletized CRT6423':covertArray(['Palletized CRT6423'].concat(palletSpecification)),
+    'Palletized CRT6435':covertArray(['Palletized CRT6435'].concat(palletSpecification)),
+    'PP BOX':covertArray(['PP BOX'].concat(pPBoxSpecifications)),
+    'Palletized PP Box':covertArray(['Palletized PP Box'].concat(palletizedPPBoxSpecifications)),
+    'Plastic Pallet':covertArray(['Plastic Pallet'].concat(plasticPalletSpecifications)),
+    'Wooden Pallet':covertArray(['Wooden Pallet'].concat(plasticPalletSpecifications)),
   };
   return specifications[type];
 };
+
+
