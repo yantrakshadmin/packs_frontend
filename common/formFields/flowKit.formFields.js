@@ -18,6 +18,7 @@ export const flowKitsFormFields = [
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
+      min : 0,
     },
     others: null,
     customLabel: 'Quantity',

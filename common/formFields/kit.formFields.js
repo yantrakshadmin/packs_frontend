@@ -27,6 +27,7 @@ export const kitFormFields = [
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
+      min : 0,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
