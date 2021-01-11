@@ -24,8 +24,8 @@ export const AllotFlowTable = ({loading, flows, transaction_no}) => {
     },
     {
       title: 'Flow Name',
-      key: 'flow',
-      dataIndex: 'flow',
+      key: 'flow_name',
+      dataIndex: 'flow_name',
     },
     // {
     //   title: 'Kits Assigned',
@@ -47,7 +47,7 @@ export const AllotFlowTable = ({loading, flows, transaction_no}) => {
     if (flows) {
       let temp = [];
       temp = flows.map((f) => {
-        return {...f, kit_name: f['kit'].kit_name, products: f['kit'].products};
+        return {...f, kit_name: f['kit'].kit_name, products: f['kit'].products,flow_name : f['flow'].flow_name};
       });
       setData(temp);
     }
