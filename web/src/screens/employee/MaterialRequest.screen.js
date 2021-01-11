@@ -209,6 +209,11 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
       ,
     },
     {
+      title: 'Raised By',
+      key: 'raised_by',
+      dataIndex: 'raised_by'
+    },
+    {
       title: 'Options',
       key: 'options',
       width: '10vw',
