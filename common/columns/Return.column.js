@@ -17,6 +17,7 @@ export default [
     sorter: (a, b) => moment(a.transaction_date).unix() - moment(b.transaction_date).unix(),
     render: (text, record) => {
       return moment(record.transaction_date).format('DD/MM/YYYY');
+      // return moment(record.transaction_date).format('MMMM Do YYYY, h:mm:ss a');
     },
   },
   {

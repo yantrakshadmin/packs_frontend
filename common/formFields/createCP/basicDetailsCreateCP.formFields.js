@@ -43,19 +43,19 @@ export const basicDetailCreateCPFormFields = [
     customLabel: 'Part Name',
   },
   //parts_pm
-  {
-    key: 'component_perkit',
-    kwargs: {
-      placeholder: 'Component/Kit',
-      type:'number',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Component/Kit',
-  },
+  // {
+  //   key: 'component_perkit',
+  //   kwargs: {
+  //     placeholder: 'Component/Kit',
+  //     type:'number',
+  //   },
+  //   type: FORM_ELEMENT_TYPES.INPUT,
+  //   others: null,
+  //   customLabel: 'Component/Kit',
+  // },
   //weight
   {
-    key: 'total_comp_weight_perkit',
+    key: 'component_perkit',
     kwargs: {
       placeholder: 'Total Component Weight/Kit',
       type:'number',

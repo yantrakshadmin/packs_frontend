@@ -1,6 +1,7 @@
 import React, { useState , useEffect } from 'react';
 import { Row, Col, Typography, Spin } from 'antd';
 import { Table } from 'react-bootstrap';
+import moment from 'moment';
 
 import { retrieveAllotments, retrieveAllotmentsCalender } from 'common/api/auth';
 
@@ -115,13 +116,13 @@ const Docket = ({ location,match }) => {
             <Row>
               <Col span={22}>
                 <p style={{ fontWeight: 'bold', display: 'inline' }}>Transaction Date : </p>
-                <p style={{ display: 'inline' }}>{allotment.dispatch_date.slice(0, 10)}</p>
+                <p style={{ display: 'inline' }}>{moment(allotment.dispatch_date).format('DD/MM/YYYY')}</p>
               </Col>
             </Row>
             <Row>
               <Col span={22}>
                 <p style={{ fontWeight: 'bold', display: 'inline' }}>Dispatch Date : </p>
-                <p style={{ display: 'inline' }}>{allotment.dispatch_date.slice(0, 10)}</p>
+                <p style={{ display: 'inline' }}>{moment(allotment.dispatch_date).format('DD/MM/YYYY')}</p>
               </Col>
             </Row>
             <Row>

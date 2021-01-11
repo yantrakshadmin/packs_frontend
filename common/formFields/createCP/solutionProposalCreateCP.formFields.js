@@ -34,12 +34,12 @@ export const formListSolutionProposalCreateCPFormFields = [
   {
     key: 'quantity',
     kwargs: {
-      placeholder: 'Quantity',
+      placeholder: 'Total KIT Quantity',
       type:'number'
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
-    customLabel: 'Quantity',
+    customLabel: 'Total KIT Quantity',
   },
   {
     key: 'quantity_per_kit',
@@ -58,6 +58,14 @@ export const formListSolutionProposalCreateCPFormFields = [
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Rate',
+  },
+  {
+    key: 'tot_mat_req',
+    kwargs: {
+      placeholder: 'Total Material Req',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Total Material Req',
   },
   {
     key: 'total_cost',
