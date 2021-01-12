@@ -18,6 +18,7 @@ export const outwardDocketKitFormFields = [
         kwargs: {
           placeholder: 'Enter',
           type: 'number',
+          min : 0,
         },
         others: null,
         customLabel: 'Parts Quantity',
@@ -28,6 +29,7 @@ export const outwardDocketKitFormFields = [
         type: FORM_ELEMENT_TYPES.INPUT,
         kwargs: {
           type: 'number',
+          min : 0,
         },
         others: null,
         customLabel: 'Kit Quantity',
