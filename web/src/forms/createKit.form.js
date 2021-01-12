@@ -9,10 +9,8 @@ import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import formItem from '../hocs/formItem.hoc';
 
 import _ from 'lodash';
+import { filterActive } from 'common/helpers/mrHelper';
 
-const filterProducts = (products) => {
-  return _.filter(products, (el) => el.active );
-}
 
 export const KitForm = ({ id, onCancel, onDone }) => {
 
@@ -73,7 +71,7 @@ export const KitForm = ({ id, onCancel, onDone }) => {
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
-                  selectOptions: clients || [],
+                  selectOptions: filterActive(clients) || [],
                   key: 'user',
                   customTitle: 'client_name',
                   dataKeys: ['client_shipping_address'],
@@ -113,7 +111,7 @@ export const KitForm = ({ id, onCancel, onDone }) => {
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                             },
                             others: {
-                              selectOptions: filterProducts(products) || [],
+                              selectOptions: filterActive(products) || [],
                               key: 'id',
                               dataKeys: ['name', 'description', 'category'],
                               customTitle: 'short_code',
