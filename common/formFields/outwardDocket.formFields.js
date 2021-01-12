@@ -62,12 +62,12 @@ export const outwardDocketFormFields = [
     customLabel: 'Invoice Number',
   },
   {
-    key: 'remark',
+    key: 'remarks',
     kwargs: {
-      placeholder: 'Remark',
+      placeholder: 'Remarks',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
-    customLabel: 'Remark',
+    customLabel: 'Remarks',
   },
 ]

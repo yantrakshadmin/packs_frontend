@@ -41,4 +41,12 @@ export default [
     key: 'actual_weight',
     dataIndex: 'actual_weight',
   },
+  {
+    title: 'Status',
+    key: 'active',
+    render: (text, record) => {
+      return record.active ? "Active" : "Inactive" ;
+    },
+    dataIndex: 'active',
+  },
 ];
