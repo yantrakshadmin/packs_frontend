@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import { kitFormFields } from 'common/formFields/kit.formFields';
 import { kitProductsFormFields } from 'common/formFields/kitProducts.formFields';
@@ -8,7 +8,12 @@ import { createKit, retrieveKit, editKit } from 'common/api/auth';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import formItem from '../hocs/formItem.hoc';
 
+import _ from 'lodash';
+import { filterActive } from 'common/helpers/mrHelper';
+
+
 export const KitForm = ({ id, onCancel, onDone }) => {
+
   const { data: clients } = useAPI('/clients/', {});
   const { data: products } = useAPI('/products/', {});
 
@@ -23,7 +28,7 @@ export const KitForm = ({ id, onCancel, onDone }) => {
     id,
   });
 
-  const preProcess = (data) => {
+  const preProcess = useCallback(data => {
     const { products } = data;
     const newProducts = products.map((prod) => ({
       product: Number(prod.product),
@@ -32,7 +37,7 @@ export const KitForm = ({ id, onCancel, onDone }) => {
     data.products = newProducts;
     console.log(data);
     submit(data);
-  };
+  },[submit,])
 
   return (
     <Spin spinning={loading}>
@@ -66,7 +71,7 @@ export const KitForm = ({ id, onCancel, onDone }) => {
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
-                  selectOptions: clients || [],
+                  selectOptions: filterActive(clients) || [],
                   key: 'user',
                   customTitle: 'client_name',
                   dataKeys: ['client_shipping_address'],
@@ -106,7 +111,7 @@ export const KitForm = ({ id, onCancel, onDone }) => {
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                             },
                             others: {
-                              selectOptions: products || [],
+                              selectOptions: filterActive(products) || [],
                               key: 'id',
                               dataKeys: ['name', 'description', 'category'],
                               customTitle: 'short_code',

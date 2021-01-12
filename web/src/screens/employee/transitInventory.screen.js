@@ -2,8 +2,8 @@ import React from 'react';
 import { Row,Col } from 'antd';
 import { connect } from 'react-redux';
 import { useAPI } from 'common/hooks/api';
-import { transitInventoryColumn } from 'common/columns/transitInventory.column';
-import { getReformattedData } from 'common/helpers/inventory';
+import { transitInventoryAllotmentColumn,transitInventoryReturnColumn } from 'common/columns/transitInventory.column';
+import { getReformattedAllotmentData,getReformattedReturnData } from 'common/helpers/inventory';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 
 const TransitInventoryScreen = ({ currentPage }) => {
@@ -21,14 +21,14 @@ const TransitInventoryScreen = ({ currentPage }) => {
     {
       name: 'Allotment In-Transit',
       key: 'allotmentInTransit',
-      data: getReformattedData(deliveredInTransit),
-      columns:transitInventoryColumn,
+      data: getReformattedAllotmentData(deliveredInTransit),
+      columns:transitInventoryAllotmentColumn,
       dLoading,
     },{
       name: 'Return In-Transit',
       key: 'returnInTransit',
-      data: getReformattedData(returnInTransit),
-      columns:transitInventoryColumn,
+      data: getReformattedReturnData(returnInTransit),
+      columns:transitInventoryReturnColumn,
       rLoading,
     },
   ];

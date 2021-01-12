@@ -40,6 +40,7 @@ export const materialRequestFlowFormFields = [
     kwargs: {
       placeholder: 'Select',
       type: 'number',
+      min : 0,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
