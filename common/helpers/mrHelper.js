@@ -27,3 +27,6 @@ export const statusCheck =(isAllocated,isRejected)=>{
   return status
 }
 
+export const filterActive = (data) => {
+  return _.filter(data, (el) => el.active );
+}
