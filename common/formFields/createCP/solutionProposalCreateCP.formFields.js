@@ -149,7 +149,7 @@ export const formListSolutionProposalCreateCPFormFields = [
       placeholder: 'Total Material Req',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Total Material Req',
+    customLabel: 'Total Mat. Req.',
   },
   {
     key: 'total_cost',
@@ -192,7 +192,7 @@ export const stdAssetsProposalCreateCPFormFields = [
       formOptions:{ noStyle:true }
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Quantity',
+    customLabel: 'Total Kit Qty',
   },
   {
     key: '_quantity_perkit',
@@ -221,13 +221,13 @@ export const stdAssetsProposalCreateCPFormFields = [
   {
     key: '_tot_mat_req',
     kwargs: {
-      placeholder: 'Total Material Request',
+      placeholder: 'Total Mat. Req.',
     },
     others: {
       formOptions:{ noStyle:true }
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Total Material Request',
+    customLabel: 'Total Mat. Req.',
   },
   {
     key: '_total_cost',
