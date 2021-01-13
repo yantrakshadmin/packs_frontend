@@ -20,81 +20,81 @@ export const solutionAssetOptions = [
 export const getLabels = (type,insertType)=>{
   const specifications = {
     'FLC':insertType==='Insert'?[
-      'Standard Assets',
+      'FLC',
       'Insert Type 1',
       'Insert Type 2',
       'Separator Sheet',
     ]:[
-      'Standard Assets',
+      'FLC',
       'Separator Sheet',
       'Mould',
       'HDPE',
     ],
     'FSC':insertType==='Insert'?[
-      'Standard Assets',
+      'FSC',
       'Insert Type 1',
       'Insert Type 2',
       'Separator Sheet',
     ]:[
-      'Standard Assets',
+      'FSC',
       'Separator Sheet',
       'Mould',
       'HDPE',
     ],
     'CRT6412':insertType==='Insert'?[
-      'Standard Assets',
+      'CRT6412',
       'Crate Lid',
       'Insert Type 1',
       'Insert Type 2',
       'Separator Sheet',
     ]:[
-      'Standard Assets',
+      'CRT6412',
       'Crate Lid',
       'Separator Sheet',
       'Mould',
       'HDPE',
     ],
     'CRT6418':insertType==='Insert'?[
-      'Standard Assets',
+      'CRT6418',
       'Crate Lid',
       'Insert Type 1',
       'Insert Type 2',
       'Separator Sheet',
     ]:[
-      'Standard Assets',
+      'CRT6418',
       'Crate Lid',
       'Separator Sheet',
       'Mould',
       'HDPE',
     ],
     'CRT6423':insertType==='Insert'?[
-      'Standard Assets',
+      'CRT6423',
       'Crate Lid',
       'Insert Type 1',
       'Insert Type 2',
       'Separator Sheet'
     ]:[
-      'Standard Assets',
+      'CRT6423',
       'Crate Lid',
       'Separator Sheet',
       'Mould',
       'HDPE',
     ],
     'CRT6435':insertType==='Insert'?[
-      'Standard Assets',
+      'CRT6435',
       'Crate Lid',
       'Insert Type 1',
       'Insert Type 2',
       'Separator Sheet'
     ]:[
-      'Standard Assets',
+      'CRT6435',
       'Crate Lid',
       'Separator Sheet',
       'Mould',
       'HDPE',
     ],
     'Palletized CRT6412':insertType==='Insert'?[
-      'Standard Assets',
+      'Palletized CRT6412',
       'Crate Lid',
       'Palletized Lid',
       'Pallet',
@@ -102,7 +102,7 @@ export const getLabels = (type,insertType)=>{
       'Insert Type 2',
       'Separator Sheet'
     ]:[
-      'Standard Assets',
+      'Palletized CRT6412',
       'Crate Lid',
       'Palletized Lid',
       'Pallet',
@@ -111,7 +111,7 @@ export const getLabels = (type,insertType)=>{
       'HDPE',
     ],
     'Palletized CRT6418':insertType==='Insert'?[
-      'Standard Assets',
+      'Palletized CRT6418',
       'Crate Lid',
       'Palletized Lid',
       'Pallet',
@@ -119,7 +119,7 @@ export const getLabels = (type,insertType)=>{
       'Insert Type 2',
       'Separator Sheet'
     ]:[
-      'Standard Assets',
+      'Palletized CRT6418',
       'Crate Lid',
       'Palletized Lid',
       'Pallet',
@@ -128,7 +128,7 @@ export const getLabels = (type,insertType)=>{
       'HDPE',
     ],
     'Palletized CRT6423':insertType==='Insert'?[
-      'Standard Assets',
+      'Palletized CRT6423',
       'Crate Lid',
       'Palletized Lid',
       'Pallet',
@@ -136,7 +136,7 @@ export const getLabels = (type,insertType)=>{
       'Insert Type 2',
       'Separator Sheet'
     ]:[
-      'Standard Assets',
+      'Palletized CRT6423',
       'Crate Lid',
       'Palletized Lid',
       'Pallet',
@@ -144,7 +144,7 @@ export const getLabels = (type,insertType)=>{
       'Mould',
       'HDPE',],
     'Palletized CRT6435':insertType==='Insert'?[
-      'Standard Assets',
+      'Palletized CRT6435',
       'Crate Lid',
       'Palletized Lid',
       'Pallet',
@@ -152,7 +152,7 @@ export const getLabels = (type,insertType)=>{
       'Insert Type 2',
       'Separator Sheet'
     ]:[
-      'Standard Assets',
+      'Palletized CRT6435',
       'Crate Lid',
       'Palletized Lid',
       'Pallet',
@@ -161,23 +161,24 @@ export const getLabels = (type,insertType)=>{
       'HDPE',
     ],
     'PP BOX':[
-      'Standard Assets',
+      'PP BOX',
     ],
     'Palletized PP Box':[
-      'Standard Assets',
+      'Palletized PP Box',
       'Palletized Lid',
       'Pallet',
     ],
     'Plastic Pallet':[
-      'Standard Assets',
+      'Plastic Pallet',
       'Palletized Lid',
     ],
     'Wooden Pallet':[
-      'Standard Assets',
+      'Wooden Pallet',
       'Palletized Lid',]
   };
   return specifications[type];
 }
+
 
 export const getFields = (type,insertType) => {
   const specifications = {
@@ -346,3 +347,186 @@ export const getFields = (type,insertType) => {
 };
 
 
+
+
+// export const createFields=(arr)=>{
+//   let fields = [];
+//   arr.map(key=>{
+//     fields = [...fields,...stdAssetsProposalCreateCPFormFields.map(item=>({
+//       ...item,key:`${key}${item.key}`
+//     }))]
+//     return null
+//   })
+//   return fields;
+// }
+
+
+export const formatStr = (str,typeStr) => {
+  return `${str}_${typeStr}`;
+}
+
+export const getFieldsByColumn = (type,insertType,typeStr) => {
+  const specifications = {
+    'FLC':insertType==='Insert'? [
+      formatStr('std_ast',typeStr),
+      formatStr('insert1',typeStr),
+      formatStr('insert2',typeStr),
+      formatStr('sep_sheet',typeStr),
+    ]:[
+      formatStr('std_ast',typeStr),
+      formatStr('sep_sheet',typeStr),
+      formatStr('mould',typeStr),
+      formatStr('hdpe',typeStr),
+    ],
+    'FSC':insertType==='Insert'?[
+      formatStr('std_ast',typeStr),
+      formatStr('insert1',typeStr),
+      formatStr('insert2',typeStr),
+      formatStr('sep_sheet',typeStr),
+    ]:[
+      formatStr('std_ast',typeStr),
+      formatStr('sep_sheet',typeStr),
+      formatStr('mould',typeStr),
+      formatStr('hdpe',typeStr),
+    ],
+    'CRT6412':insertType==='Insert'?[
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('insert1',typeStr),
+      formatStr('insert2',typeStr),
+      formatStr('sep_sheet',typeStr),
+    ]:[
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('sep_sheet',typeStr),
+      formatStr('mould',typeStr),
+      formatStr('hdpe',typeStr),
+    ],
+    'CRT6418':insertType==='Insert'?([
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('insert1',typeStr),
+      formatStr('insert2',typeStr),
+      formatStr('sep_sheet',typeStr),
+    ]):([
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('sep_sheet',typeStr),
+      formatStr('mould',typeStr),
+      formatStr('hdpe',typeStr),
+    ]),
+    'CRT6423':insertType==='Insert'?([
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('insert1',typeStr),
+      formatStr('insert2',typeStr),
+      formatStr('sep_sheet',typeStr),
+    ]):([
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('sep_sheet',typeStr),
+      formatStr('mould',typeStr),
+      formatStr('hdpe',typeStr),
+    ]),
+    'CRT6435':insertType==='Insert'?([
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('insert1',typeStr),
+      formatStr('insert2',typeStr),
+      formatStr('sep_sheet',typeStr),
+    ]):([
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('sep_sheet',typeStr),
+      formatStr('mould',typeStr),
+      formatStr('hdpe',typeStr),
+    ]),
+    'Palletized CRT6412':insertType==='Insert'?([
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('palletized_lid',typeStr),
+      formatStr('pallet',typeStr),
+      formatStr('insert1',typeStr),
+      formatStr('insert2',typeStr),
+      formatStr('sep_sheet',typeStr),
+    ]):([
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('palletized_lid',typeStr),
+      formatStr('pallet',typeStr),
+      formatStr('sep_sheet',typeStr),
+      formatStr('mould',typeStr),
+      formatStr('hdpe',typeStr),
+    ]),
+    'Palletized CRT6418':insertType==='Insert'?([
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('palletized_lid',typeStr),
+      formatStr('pallet',typeStr),
+      formatStr('insert1',typeStr),
+      formatStr('insert2',typeStr),
+      formatStr('sep_sheet',typeStr),
+    ]):([
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('palletized_lid',typeStr),
+      formatStr('pallet',typeStr),
+      formatStr('sep_sheet',typeStr),
+      formatStr('mould',typeStr),
+      formatStr('hdpe',typeStr),
+    ]),
+    'Palletized CRT6423':insertType==='Insert'?([
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('palletized_lid',typeStr),
+      formatStr('pallet',typeStr),
+      formatStr('insert1',typeStr),
+      formatStr('insert2',typeStr),
+      formatStr('sep_sheet',typeStr),
+    ]):([
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('palletized_lid',typeStr),
+      formatStr('pallet',typeStr),
+      formatStr('sep_sheet',typeStr),
+      formatStr('mould',typeStr),
+      formatStr('hdpe',typeStr),
+    ]),
+    'Palletized CRT6435':insertType==='Insert'?([
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('palletized_lid',typeStr),
+      formatStr('pallet',typeStr),
+      formatStr('insert1',typeStr),
+      formatStr('insert2',typeStr),
+      formatStr('sep_sheet',typeStr),
+    ]):([
+      formatStr('std_ast',typeStr),
+      formatStr('crate_lid',typeStr),
+      formatStr('palletized_lid',typeStr),
+      formatStr('pallet',typeStr),
+      formatStr('sep_sheet',typeStr),
+      formatStr('mould',typeStr),
+      formatStr('hdpe',typeStr),
+    ]),
+    'PP BOX':insertType==='Insert'?([
+      formatStr('std_ast',typeStr),
+    ]):([
+      formatStr('std_ast',typeStr),
+    ]),
+    'Palletized PP Box':([
+      formatStr('std_ast',typeStr),
+      formatStr('palletized_lid',typeStr),
+      formatStr('pallet',typeStr),
+    ]),
+    'Plastic Pallet':([
+      formatStr('std_ast',typeStr),
+      formatStr('palletized_lid',typeStr),
+    ]),
+    'Wooden Pallet':([
+      formatStr('std_ast',typeStr),
+      formatStr('palletized_lid',typeStr),
+    ])
+  };
+  return specifications[type];
+};

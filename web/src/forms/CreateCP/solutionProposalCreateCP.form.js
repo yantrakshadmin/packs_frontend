@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Form, Col, Row, Button, Divider, Spin, Tag } from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +9,7 @@ import {
 } from 'common/actions';
 import { solutionProposalCreateCPFormFields , }
   from 'common/formFields/createCP/solutionProposalCreateCP.formFields';
-import { getFields, getLabels } from 'common/constants/solutionproposalCreateCP';
+import { getFields, getLabels,getFieldsByColumn } from 'common/constants/solutionproposalCreateCP';
 
 
 export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }) => {
@@ -35,20 +35,70 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
       dispatch({ type:STOP_STEP_LOADING })
     }
   },[active])
-  const handleFieldsChange = (data) => {
-    if(data[0]){
-      if(data[0].name){
-        if(data[0].name[0]==='standard_assets') {
-          // console.log(getFields(data[0].value),form.getFieldValue('insert_type'),'Ggg')
-          setFields(getFields(data[0].value,form.getFieldValue('insert_type')))
-          setLabels(getLabels(form.getFieldValue('standard_assets'),data[0].value))
+
+  useEffect( () => {
+    if (form.getFieldValue('kit_based_on_usage_ratio')) {
+      const totalKitQtysCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'quantity');
+      totalKitQtysCols.forEach(i => {
+        if (!form.getFieldValue(i)) {
+          if (i!=="mould_quantity") {
+            form.setFieldsValue({
+              [i] : form.getFieldValue('kit_based_on_usage_ratio'),
+            })
+          } else {
+            form.setFieldsValue({
+              ['mould_quantity'] : 1,
+            })
+          }
         }
-        if(data[0].name[0]==='insert_type') {
-          // console.log(form.getFieldValue('standard_assets'),getFields(data[0].value),'Ggg')
-          setFields(getFields(form.getFieldValue('standard_assets'),data[0].value))
-          setLabels(getLabels(form.getFieldValue('standard_assets'),data[0].value))
-        }}}
-  }
+      })
+    }
+  },[form])
+
+  const handleFieldsChange = useCallback(data => {
+
+    console.log(data[0].name[0]);
+
+    setFields(getFields(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type')));
+    setLabels(getLabels(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type')));
+
+    const qtyPerKitCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'quantity_perkit');
+    const rateCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'rate');
+    const totalMatReqCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'tot_mat_req');
+    const totalCostCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'total_cost');
+
+    qtyPerKitCols.forEach((i,idx) => {
+      
+      if (form.getFieldValue(i) && form.getFieldValue(rateCols[idx])) {
+        form.setFieldsValue({
+          [totalMatReqCols[idx]] : form.getFieldValue(i)*form.getFieldValue(rateCols[idx]),
+        })
+      }
+
+      if (form.getFieldValue(i) && form.getFieldValue(rateCols[idx]) && form.getFieldValue(totalMatReqCols[idx])) {
+        form.setFieldsValue({
+          [totalCostCols[idx]] : form.getFieldValue(i)*form.getFieldValue(rateCols[idx])*form.getFieldValue(totalMatReqCols[idx]),
+        })
+      }
+
+    })
+
+  },[form,fields,labels])
+
+  // const handleFieldsChange = (data) => {
+  //   if(data[0]){
+  //     if(data[0].name){
+  //       if(data[0].name[0]==='standard_assets') {
+  //         // console.log(getFields(data[0].value),form.getFieldValue('insert_type'),'Ggg')
+  //         setFields(getFields(data[0].value,form.getFieldValue('insert_type')))
+  //         setLabels(getLabels(form.getFieldValue('standard_assets'),data[0].value))
+  //       }
+  //       if(data[0].name[0]==='insert_type') {
+  //         // console.log(form.getFieldValue('standard_assets'),getFields(data[0].value),'Ggg')
+  //         setFields(getFields(form.getFieldValue('standard_assets'),data[0].value))
+  //         setLabels(getLabels(form.getFieldValue('standard_assets'),data[0].value))
+  //       }}}
+  // }
 
   return (
     <Spin spinning={loading}>
@@ -86,6 +136,11 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
           ))}
         </Row>
         <Row style={{ justifyContent: 'left' }}>
+          <Col span={3}>
+              <div className='p-2 flex row justify-center'>
+                <b></b>
+              </div>
+          </Col>
           {[...fields].slice(0,7).map((item, idx) => (
             <Col span={3}>
               <div key={idx.toString()} className='p-2 flex row justify-center'>

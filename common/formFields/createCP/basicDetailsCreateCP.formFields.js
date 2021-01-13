@@ -111,15 +111,18 @@ export const basicDetailCreateCPFormFields = [
     key: 'buffer',
     kwargs: {
       placeholder: 'Buffer',
+      type:'number',
+      min:0,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
-    customLabel: 'Buffer',
+    customLabel: 'Buffer (%)',
   },
   {
     key: 'kit_usage_ratio',
     kwargs: {
       placeholder: 'Kit Usage Ratio',
+      type:'number',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -129,6 +132,7 @@ export const basicDetailCreateCPFormFields = [
     key: 'kit_based_on_usage_ratio',
     kwargs: {
       placeholder: 'Number of Kit based on Usage Ratio',
+      type:'number',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
