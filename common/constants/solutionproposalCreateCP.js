@@ -1,3 +1,5 @@
+import { createFields } from 'common/formFields/createCP/solutionProposalCreateCP.formFields';
+
 export const solutionAssetOptions = [
   'FLC',
   'FSC',
@@ -15,65 +17,330 @@ export const solutionAssetOptions = [
   'Wooden Pallet',
 ]
 
-const FLCSpecification = [
-  'Insert Type 1',
-  'Insert Type 2',
-  'Separator Sheet',
-  'Mould Cost',
-  'HDPE Trays'];
-
-const crateSpecification = [
-  'Crate LID',
-  ...FLCSpecification
-];
-const palletSpecification = [
-  'Palletized LID',
-  'Pallet 1200x100',
-  ...FLCSpecification
-];
-
-const pPBoxSpecifications = [
-
-]
-
-const palletizedPPBoxSpecifications = [
-  'Palletized LID',
-  'Pallet'
-]
-
-const plasticPalletSpecifications = [
-  'Palletized LID',
-]
-
-const covertArray=(arr)=>{
-  return arr.map(item=>({
-    specification:item,
-    quantity:0,
-    quantity_per_kit:0,
-    rate:'',
-    total_cost:0,
-    month:'',
-    dep_cost:''
-  }))
+export const getLabels = (type,insertType)=>{
+  const specifications = {
+    'FLC':insertType==='Insert'?[
+      'Standard Assets',
+      'Insert Type 1',
+      'Insert Type 2',
+      'Separator Sheet',
+    ]:[
+      'Standard Assets',
+      'Separator Sheet',
+      'Mould',
+      'HDPE',
+    ],
+    'FSC':insertType==='Insert'?[
+      'Standard Assets',
+      'Insert Type 1',
+      'Insert Type 2',
+      'Separator Sheet',
+    ]:[
+      'Standard Assets',
+      'Separator Sheet',
+      'Mould',
+      'HDPE',
+    ],
+    'CRT6412':insertType==='Insert'?[
+      'Standard Assets',
+      'Crate Lid',
+      'Insert Type 1',
+      'Insert Type 2',
+      'Separator Sheet',
+    ]:[
+      'Standard Assets',
+      'Crate Lid',
+      'Separator Sheet',
+      'Mould',
+      'HDPE',
+    ],
+    'CRT6418':insertType==='Insert'?[
+      'Standard Assets',
+      'Crate Lid',
+      'Insert Type 1',
+      'Insert Type 2',
+      'Separator Sheet',
+    ]:[
+      'Standard Assets',
+      'Crate Lid',
+      'Separator Sheet',
+      'Mould',
+      'HDPE',
+    ],
+    'CRT6423':insertType==='Insert'?[
+      'Standard Assets',
+      'Crate Lid',
+      'Insert Type 1',
+      'Insert Type 2',
+      'Separator Sheet'
+    ]:[
+      'Standard Assets',
+      'Crate Lid',
+      'Separator Sheet',
+      'Mould',
+      'HDPE',
+    ],
+    'CRT6435':insertType==='Insert'?[
+      'Standard Assets',
+      'Crate Lid',
+      'Insert Type 1',
+      'Insert Type 2',
+      'Separator Sheet'
+    ]:[
+      'Standard Assets',
+      'Crate Lid',
+      'Separator Sheet',
+      'Mould',
+      'HDPE',
+    ],
+    'Palletized CRT6412':insertType==='Insert'?[
+      'Standard Assets',
+      'Crate Lid',
+      'Palletized Lid',
+      'Pallet',
+      'Insert Type 1',
+      'Insert Type 2',
+      'Separator Sheet'
+    ]:[
+      'Standard Assets',
+      'Crate Lid',
+      'Palletized Lid',
+      'Pallet',
+      'Separator Sheet',
+      'Mould',
+      'HDPE',
+    ],
+    'Palletized CRT6418':insertType==='Insert'?[
+      'Standard Assets',
+      'Crate Lid',
+      'Palletized Lid',
+      'Pallet',
+      'Insert Type 1',
+      'Insert Type 2',
+      'Separator Sheet'
+    ]:[
+      'Standard Assets',
+      'Crate Lid',
+      'Palletized Lid',
+      'Pallet',
+      'Separator Sheet',
+      'Mould',
+      'HDPE',
+    ],
+    'Palletized CRT6423':insertType==='Insert'?[
+      'Standard Assets',
+      'Crate Lid',
+      'Palletized Lid',
+      'Pallet',
+      'Insert Type 1',
+      'Insert Type 2',
+      'Separator Sheet'
+    ]:[
+      'Standard Assets',
+      'Crate Lid',
+      'Palletized Lid',
+      'Pallet',
+      'Separator Sheet',
+      'Mould',
+      'HDPE',],
+    'Palletized CRT6435':insertType==='Insert'?[
+      'Standard Assets',
+      'Crate Lid',
+      'Palletized Lid',
+      'Pallet',
+      'Insert Type 1',
+      'Insert Type 2',
+      'Separator Sheet'
+    ]:[
+      'Standard Assets',
+      'Crate Lid',
+      'Palletized Lid',
+      'Pallet',
+      'Separator Sheet',
+      'Mould',
+      'HDPE',
+    ],
+    'PP BOX':[
+      'Standard Assets',
+    ],
+    'Palletized PP Box':[
+      'Standard Assets',
+      'Palletized Lid',
+      'Pallet',
+    ],
+    'Plastic Pallet':[
+      'Standard Assets',
+      'Palletized Lid',
+    ],
+    'Wooden Pallet':[
+      'Standard Assets',
+      'Palletized Lid',]
+  };
+  return specifications[type];
 }
 
-
-export const getSpecifications = (type) => {
+export const getFields = (type,insertType) => {
   const specifications = {
-    'FLC':covertArray(['FLC'].concat(FLCSpecification)),
-    'FSC':covertArray(['FSC'].concat(FLCSpecification)),
-    'CRT6412':covertArray(['CRT6412'].concat(crateSpecification)),
-    'CRT6418':covertArray(['CRT6418'].concat(crateSpecification)),
-    'CRT6423':covertArray(['CRT6423'].concat(crateSpecification)),
-    'CRT6435':covertArray(['CRT6435'].concat(crateSpecification)),
-    'Palletized CRT6412':covertArray(['Palletized CRT6412'].concat(palletSpecification)),
-    'Palletized CRT6418':covertArray(['Palletized CRT6418'].concat(palletSpecification)),
-    'Palletized CRT6423':covertArray(['Palletized CRT6423'].concat(palletSpecification)),
-    'Palletized CRT6435':covertArray(['Palletized CRT6435'].concat(palletSpecification)),
-    'PP BOX':covertArray(['PP BOX'].concat(pPBoxSpecifications)),
-    'Palletized PP Box':covertArray(['Palletized PP Box'].concat(palletizedPPBoxSpecifications)),
-    'Plastic Pallet':covertArray(['Plastic Pallet'].concat(plasticPalletSpecifications)),
-    'Wooden Pallet':covertArray(['Wooden Pallet'].concat(plasticPalletSpecifications)),
+    'FLC':insertType==='Insert'?createFields([
+      'std_ast',
+      'insert1',
+      'insert2',
+      'sep_sheet',
+    ]):createFields([
+      'std_ast',
+      'sep_sheet',
+      'mould',
+      'hdpe',
+    ]),
+    'FSC':insertType==='Insert'?createFields([
+      'std_ast',
+      'insert1',
+      'insert2',
+      'sep_sheet',
+    ]):createFields([
+      'std_ast',
+      'sep_sheet',
+      'mould',
+      'hdpe',
+    ]),
+    'CRT6412':insertType==='Insert'?createFields([
+      'std_ast',
+      'crate_lid',
+      'insert1',
+      'insert2',
+      'sep_sheet',
+    ]):createFields([
+      'std_ast',
+      'crate_lid',
+      'sep_sheet',
+      'mould',
+      'hdpe',
+    ]),
+    'CRT6418':insertType==='Insert'?createFields([
+      'std_ast',
+      'crate_lid',
+      'insert1',
+      'insert2',
+      'sep_sheet',
+    ]):createFields([
+      'std_ast',
+      'crate_lid',
+      'sep_sheet',
+      'mould',
+      'hdpe',
+    ]),
+    'CRT6423':insertType==='Insert'?createFields([
+      'std_ast',
+      'crate_lid',
+      'insert1',
+      'insert2',
+      'sep_sheet',
+    ]):createFields([
+      'std_ast',
+      'crate_lid',
+      'sep_sheet',
+      'mould',
+      'hdpe',
+    ]),
+    'CRT6435':insertType==='Insert'?createFields([
+      'std_ast',
+      'crate_lid',
+      'insert1',
+      'insert2',
+      'sep_sheet',
+    ]):createFields([
+      'std_ast',
+      'crate_lid',
+      'sep_sheet',
+      'mould',
+      'hdpe',
+    ]),
+    'Palletized CRT6412':insertType==='Insert'?createFields([
+      'std_ast',
+      'crate_lid',
+      'palletized_lid',
+      'pallet',
+      'insert1',
+      'insert2',
+      'sep_sheet',
+    ]):createFields([
+      'std_ast',
+      'crate_lid',
+      'palletized_lid',
+      'pallet',
+      'sep_sheet',
+      'mould',
+      'hdpe',
+    ]),
+    'Palletized CRT6418':insertType==='Insert'?createFields([
+      'std_ast',
+      'crate_lid',
+      'palletized_lid',
+      'pallet',
+      'insert1',
+      'insert2',
+      'sep_sheet',
+    ]):createFields([
+      'std_ast',
+      'crate_lid',
+      'palletized_lid',
+      'pallet',
+      'sep_sheet',
+      'mould',
+      'hdpe',
+    ]),
+    'Palletized CRT6423':insertType==='Insert'?createFields([
+      'std_ast',
+      'crate_lid',
+      'palletized_lid',
+      'pallet',
+      'insert1',
+      'insert2',
+      'sep_sheet',
+    ]):createFields([
+      'std_ast',
+      'crate_lid',
+      'palletized_lid',
+      'pallet',
+      'sep_sheet',
+      'mould',
+      'hdpe',
+    ]),
+    'Palletized CRT6435':insertType==='Insert'?createFields([
+      'std_ast',
+      'crate_lid',
+      'palletized_lid',
+      'pallet',
+      'insert1',
+      'insert2',
+      'sep_sheet',
+    ]):createFields([
+      'std_ast',
+      'crate_lid',
+      'palletized_lid',
+      'pallet',
+      'sep_sheet',
+      'mould',
+      'hdpe',
+    ]),
+    'PP BOX':insertType==='Insert'?createFields([
+      'std_ast',
+    ]):createFields([
+      'std_ast',
+    ]),
+    'Palletized PP Box':createFields([
+      'std_ast',
+      'palletized_lid',
+      'pallet',
+    ]),
+    'Plastic Pallet':createFields([
+      'std_ast',
+      'palletized_lid',
+    ]),
+    'Wooden Pallet':createFields([
+      'std_ast',
+      'palletized_lid',
+    ])
   };
   return specifications[type];
 };

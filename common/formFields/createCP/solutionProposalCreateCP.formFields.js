@@ -11,6 +11,14 @@ export const solutionProposalCreateCPFormFields = [
     customLabel:'Standard Assets'
   },
   {
+    key: 'insert_type',
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: {
+      selectOptions: ['Insert','HDPE Tray'],
+    },
+    customLabel:'Insert Type'
+  },
+  {
     key: 'cost',
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
@@ -21,8 +29,9 @@ export const solutionProposalCreateCPFormFields = [
   },
 ];
 
+
 // Specification	Quantity	Qyt/KIT	Rate	Total Cost	Month	Dep Cost
-//
+
 // std_ast_quantity = models.FloatField(default=0, blank=True, null=True)
 // std_ast_quantity_perkit = models.FloatField(default=0, blank=True, null=True)
 // std_ast_rate = models.FloatField(default=0, blank=True, null=True)
@@ -171,72 +180,98 @@ export const formListSolutionProposalCreateCPFormFields = [
     customLabel: 'Dep Cost',
   },
 ]
-//
-// export const formListSolutionProposalCreateCPFormFields = [
-//   {
-//     key: 'specification',
-//     kwargs: {
-//       placeholder: 'Specification',
-//       disabled:true
-//     },
-//     type: FORM_ELEMENT_TYPES.INPUT,
-//     customLabel: 'Specification',
-//   },
-//   {
-//     key: 'quantity',
-//     kwargs: {
-//       placeholder: 'Quantity',
-//       type:'number'
-//     },
-//     type: FORM_ELEMENT_TYPES.INPUT,
-//     others: null,
-//     customLabel: 'Quantity',
-//   },
-//   {
-//     key: 'quantity_per_kit',
-//     kwargs: {
-//       placeholder: 'Qyt/KIT',
-//       type:'number'
-//     },
-//     type: FORM_ELEMENT_TYPES.INPUT,
-//     others: null,
-//     customLabel: 'Qyt/KIT',
-//   },
-//   {
-//     key: 'rate',
-//     kwargs: {
-//       placeholder: 'Rate',
-//     },
-//     type: FORM_ELEMENT_TYPES.INPUT,
-//     customLabel: 'Rate',
-//   },
-//   {
-//     key: 'total_cost',
-//     kwargs: {
-//       placeholder: 'Total Cost',
-//       type:'number'
-//     },
-//     type: FORM_ELEMENT_TYPES.INPUT,
-//     others: null,
-//     customLabel: 'Total Cost',
-//   },
-//   {
-//     key: 'month',
-//     kwargs: {
-//       placeholder: 'Month',
-//     },
-//     type: FORM_ELEMENT_TYPES.INPUT,
-//     others: null,
-//     customLabel: 'Month',
-//   },
-//   {
-//     key: 'dep_cost',
-//     kwargs: {
-//       placeholder: 'Dep Cost',
-//     },
-//     type: FORM_ELEMENT_TYPES.INPUT,
-//     others: null,
-//     customLabel: 'Dep Cost',
-//   },
-// ]
 
+export const stdAssetsProposalCreateCPFormFields = [
+  {
+    key: '_quantity',
+    kwargs: {
+      placeholder: 'Quantity',
+      type:'number'
+    },
+    others: {
+      formOptions:{ noStyle:true }
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Quantity',
+  },
+  {
+    key: '_quantity_perkit',
+    kwargs: {
+      placeholder: 'Quantity/Kit',
+      type:'number'
+    },
+    others: {
+      formOptions:{ noStyle:true }
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Quantity/Kit',
+  },
+  {
+    key: '_rate',
+    kwargs: {
+      placeholder: 'Rate',
+      type:'number'
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: {
+      formOptions:{ noStyle:true }
+    },
+    customLabel: 'Rate',
+  },
+  {
+    key: '_tot_mat_req',
+    kwargs: {
+      placeholder: 'Total Material Request',
+    },
+    others: {
+      formOptions:{ noStyle:true }
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Total Material Request',
+  },
+  {
+    key: '_total_cost',
+    kwargs: {
+      placeholder: 'Total Cost',
+      type:'number'
+    },
+    others: {
+      formOptions:{ noStyle:true }
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Total Cost',
+  },
+  {
+    key: '_month',
+    kwargs: {
+      placeholder: 'Month',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: {
+      formOptions:{ noStyle:true }
+    },
+    customLabel: 'Month',
+  },
+  {
+    key: '_dep_cost',
+    kwargs: {
+      placeholder: 'Dep Cost',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: {
+      formOptions:{ noStyle:true }
+    },
+    customLabel: 'Dep Cost',
+  },
+]
+
+export const createFields=(arr)=>{
+  let fields = [];
+  arr.map(key=>{
+    fields = [...fields,...stdAssetsProposalCreateCPFormFields.map(item=>({
+      ...item,key:`${key}${item.key}`
+    }))]
+    return null
+  })
+  return fields;
+}

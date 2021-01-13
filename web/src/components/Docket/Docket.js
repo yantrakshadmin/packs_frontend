@@ -135,8 +135,10 @@ const Docket = ({ location,match }) => {
                 <p style={{ display: 'inline', fontWeight: 'bold' }}>
                   KIT ID : &nbsp;
                   {allotment.flows.map((flow, idx) => {
-                    if (idx === allotment.flows.length - 1) return flow.kit.kit_name.slice(3);
-                    return `${flow.kit.kit_name.slice(3)  }/`;
+                    if (flow.alloted_quantity>0) {
+                      //if (idx===allotment.flows.length-1) return flow.kit.kit_name.slice(3);
+                      return `${flow.kit.kit_name.slice(3)}, `;
+                    }
                   })}
                 </p>
               </Col>
@@ -256,7 +258,8 @@ const Docket = ({ location,match }) => {
             </thead>
             <tbody>
               {allotment.flows.map((flow) => {
-                return (
+                if (flow.alloted_quantity > 0) {
+                  return (
                   <tr>
                     <td>{flow.kit.kit_name}</td>
                     <td>{flow.kit.kit_info}</td>
@@ -291,7 +294,11 @@ const Docket = ({ location,match }) => {
                     </td>
                   </tr>
                 );
-              })}
+                } else {
+                  return null;
+                }
+              }
+              )}
             </tbody>
           </Table>
         </Row>

@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Col, Row, Button, Divider, Spin, Tag } from 'antd';
-import { ArrowRightOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
+import { ArrowRightOutlined } from '@ant-design/icons';
 import {
-  ADD_CREATE_CP_BASIC_DATA,
   ADD_CREATE_CP_DATA,
   STOP_STEP_LOADING,
 } from 'common/actions';
-import { formListSolutionProposalCreateCPFormFields, solutionProposalCreateCPFormFields }
+import { solutionProposalCreateCPFormFields , }
   from 'common/formFields/createCP/solutionProposalCreateCP.formFields';
-import { getSpecifications } from 'common/constants/solutionproposalCreateCP';
+import { getFields, getLabels } from 'common/constants/solutionproposalCreateCP';
+
 
 export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }) => {
   const [loading,setLoading] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const state =  useSelector(e=>(e.data.createCPData))
-
+  const [fields,setFields] = useState(getFields('FLC','Insert'))
+  const [labels,setLabels] = useState(getLabels('FLC','Insert'))
   const submit = async (data) =>{
     setLoading(true)
     await dispatch({ type:ADD_CREATE_CP_DATA,
@@ -38,14 +39,24 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
     if(data[0]){
       if(data[0].name){
         if(data[0].name[0]==='standard_assets') {
-          form.setFieldsValue({ solutions:getSpecifications(data[0].value) })
+          // console.log(getFields(data[0].value),form.getFieldValue('insert_type'),'Ggg')
+          setFields(getFields(data[0].value,form.getFieldValue('insert_type')))
+          setLabels(getLabels(form.getFieldValue('standard_assets'),data[0].value))
+        }
+        if(data[0].name[0]==='insert_type') {
+          // console.log(form.getFieldValue('standard_assets'),getFields(data[0].value),'Ggg')
+          setFields(getFields(form.getFieldValue('standard_assets'),data[0].value))
+          setLabels(getLabels(form.getFieldValue('standard_assets'),data[0].value))
         }}}
   }
 
   return (
     <Spin spinning={loading}>
       <Form
-        initialValues={{ ...state }}
+        initialValues={{
+          ...state,
+          insert_type:state.insert_type||'Insert',
+          standard_assets:state.standard_assets || 'FLC' }}
         onFinish={submit}
         form={form}
         layout='vertical'
@@ -74,55 +85,176 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
             </Col>
           ))}
         </Row>
-        <Form.List name='solutions'>
-          {(fields, { add, remove }) => {
-            return (
-              <div>
-                {fields.map((field, index) => (
-                  <Row align='middle'>
-                    {formListSolutionProposalCreateCPFormFields.slice(0,1).map((item) => (
-                      <Col span={4}>
-                        <div className='p-2'>
-                          {formItem({
-                            ...item,
-                            noLabel: index !== 0,
-                            form,
-                            others: {
-                              formOptions: {
-                                ...field,
-                                // hidden:true,
-                                name: [field.name, item.key],
-                                fieldKey: [field.fieldKey, item.key],
-                              },
-                            },
-                          })}
-                        </div>
-                      </Col>
-                    ))}
-                    {formListSolutionProposalCreateCPFormFields.slice(1,7).map((item) => (
-                      <Col span={3}>
-                        <div className='p-2'>
-                          {formItem({
-                            ...item,
-                            noLabel: index !== 0,
-                            form,
-                            others: {
-                              formOptions: {
-                                ...field,
-                                name: [field.name, item.key],
-                                fieldKey: [field.fieldKey, item.key],
-                              },
-                            },
-                          })}
-                        </div>
-                      </Col>
-                    ))}
-                  </Row>
-                ))}
+        <Row style={{ justifyContent: 'left' }}>
+          {[...fields].slice(0,7).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2 flex row justify-center'>
+                <b>{item.customLabel}</b>
               </div>
-            );
-          }}
-        </Form.List>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {labels.slice(0,1).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2 flex row justify-center'>
+                <b>{item}</b>
+              </div>
+            </Col>
+          ))}
+          {[...fields].slice(0,7).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {labels.slice(1,2).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2 flex row justify-center'>
+                <b>{item}</b>
+              </div>
+            </Col>
+          ))}
+          {[...fields].slice(7,14).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {labels.slice(2,3).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2 flex row justify-center'>
+                <b>{item}</b>
+              </div>
+            </Col>
+          ))}
+          {[...fields].slice(14,21).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {labels.slice(3,4).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2 flex row justify-center'>
+                <b>{item}</b>
+              </div>
+            </Col>
+          ))}
+          {[...fields].slice(21,28).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {labels.slice(4,5).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2 flex row justify-center'>
+                <b>{item}</b>
+              </div>
+            </Col>
+          ))}
+          {[...fields].slice(28,35).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {labels.slice(5,6).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2 flex row justify-center'>
+                <b>{item}</b>
+              </div>
+            </Col>
+          ))}
+          {[...fields].slice(35,42).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Row style={{ justifyContent: 'left' }}>
+          {labels.slice(6,7).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2 flex row justify-center'>
+                <b>{item}</b>
+              </div>
+            </Col>
+          ))}
+          {[...fields].slice(42,49).map((item, idx) => (
+            <Col span={3}>
+              <div key={idx.toString()} className='p-2'>
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        {/* <Form.List name='solutions'> */}
+        {/*  {(fields, { add, remove }) => { */}
+        {/*    return ( */}
+        {/*      <div> */}
+        {/*        {fields.map((field, index) => ( */}
+        {/*          <Row align='middle'> */}
+        {/*            {formListSolutionProposalCreateCPFormFields.slice(0,1).map((item) => ( */}
+        {/*              <Col span={4}> */}
+        {/*                <div className='p-2'> */}
+        {/*                  {formItem({ */}
+        {/*                    ...item, */}
+        {/*                    noLabel: index !== 0, */}
+        {/*                    form, */}
+        {/*                    others: { */}
+        {/*                      formOptions: { */}
+        {/*                        ...field, */}
+        {/*                        // hidden:true, */}
+        {/*                        name: [field.name, item.key], */}
+        {/*                        fieldKey: [field.fieldKey, item.key], */}
+        {/*                      }, */}
+        {/*                    }, */}
+        {/*                  })} */}
+        {/*                </div> */}
+        {/*              </Col> */}
+        {/*            ))} */}
+        {/*            {[...createFields('std_ast')].slice(1,7).map((item) => ( */}
+        {/*              <Col span={3}> */}
+        {/*                <div className='p-2'> */}
+        {/*                  {formItem({ */}
+        {/*                    ...item, */}
+        {/*                    noLabel: index !== 0, */}
+        {/*                    form, */}
+        {/*                    others: { */}
+        {/*                      formOptions: { */}
+        {/*                        ...field, */}
+        {/*                        name: [field.name, item.key], */}
+        {/*                        fieldKey: [field.fieldKey, item.key], */}
+        {/*                      }, */}
+        {/*                    }, */}
+        {/*                  })} */}
+        {/*                </div> */}
+        {/*              </Col> */}
+        {/*            ))} */}
+        {/*          </Row> */}
+        {/*        ))} */}
+        {/*      </div> */}
+        {/*    ); */}
+        {/*  }} */}
+        {/* </Form.List> */}
         <Row justify='space-between'>
           <div className='row'>
             <Button type='primary' htmlType='submit' disabled>
