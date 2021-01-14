@@ -2,100 +2,10 @@ import React from 'react';
 import { Row,Col,Typography,Table } from 'antd'
 
 const { Title,Paragraph } = Typography
-// average_dispatchlotsize: 0
-// breadth: 0
-// contact_no: "-"
-// contact_person: "Anil"
-// cp_approved: false
-// cp_shared: false
-// critical_area: null
-// current_packaging: "Returnable"
-// date: "2020-02-03T00:00:00.548000Z"
-// designation: "Project"
-// dispatch_frequency: null
-// email: "anil@lumax.com"
-// emitter_inv: 0
-// esa_signed: false
-// flow_started: false
-// greasy_oily: false
-// height: 0
-// highest_mv: 0
-// id: 74
-// inserts_pm: 0
-// key: "1607681298992"
-// lead_no: 2022
-// length: 0
-// lowest_mv: 0
-// matrix_details: null
-// max_cycle_days: 0
-// min_cycle_days: 0
-// min_max_margin: null
-// mul_parts_single_pocket: null
-// not_qualified: false
-// np_ef: "New Part"
-// on_hold: false
-// other_spec: null
-// other_storage: 0
-// p2p_contact: null
-// packaging_breadth: 0
-// packaging_height: 0
-// packaging_length: 0
-// packaging_type: "New Part"
-// palletized_sol_details: null
-// part_cad_data: null
-// part_name: null
-// part_number: null
-// parts_orientation: null
-// parts_per_layer: 0
-// parts_per_pocket: 0
-// parts_pm: 0
-// pfep_dropped: false
-// pfep_no: 2023
-// pm_loaded_weight: 0
-// pocket_breadth: 0
-// pocket_breadth1: 0
-// pocket_height: 0
-// pocket_height1: 0
-// pocket_length: 0
-// pocket_length1: 0
-// price_per_unit: 0
-// receiver_inv: 0
-// receivers: [{…}]
-// remarks: null
-// remarks1: null
-// remarks2: null
-// sender_client: "test"
-// sender_location: "Manesar"
-// solution_crate: false
-// solution_flc: false
-// solution_fsc: false
-// solution_palletized_box: false
-// solution_palletized_crate: false
-// solution_pp: false
-// solution_ppbox: false
-// solution_stacking_nesting: false
-// solution_wp: false
-// special_measure: null
-// spesheet_pm: 0
-// stacking_nesting: null
-// total_parts_per_pm: 0
-// tp: (2) [{…}, {…}]
-// tp_approved: false
-// tp_shared: false
-// transit_time: 0
-// transportation_mode: null
-// trials_approved: false
-// trials_done: false
-// trips_per_pm: null
-// volume_pm: 0
-// wastage_pm: null
-// weight: 0
-// wh_emitter: 0
-// wh_receiver: 0
-// yantra_cycle: 0
 
 export const PrintCp = ({ location }) => {
   const { state } = location;
+  console.log(state,'data CP')
   const columns = [
     {
       // width:'40vw',
@@ -103,7 +13,7 @@ export const PrintCp = ({ location }) => {
       key: 'part_name',
       render:(record)=>(
         <div className='px-2'>
-          Info
+          info
         </div>
       )
     },

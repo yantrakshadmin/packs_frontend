@@ -47,7 +47,7 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
             })
           } else {
             form.setFieldsValue({
-              ['mould_quantity'] : 1,
+              'mould_quantity' : 1,
             })
           }
         }
@@ -56,8 +56,6 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
   },[form])
 
   const handleFieldsChange = useCallback(data => {
-
-    console.log(data[0].name[0]);
 
     setFields(getFields(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type')));
     setLabels(getLabels(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type')));
@@ -68,7 +66,7 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
     const totalCostCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'total_cost');
 
     qtyPerKitCols.forEach((i,idx) => {
-      
+
       if (form.getFieldValue(i) && form.getFieldValue(rateCols[idx])) {
         form.setFieldsValue({
           [totalMatReqCols[idx]] : form.getFieldValue(i)*form.getFieldValue(rateCols[idx]),
@@ -137,9 +135,9 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
         </Row>
         <Row style={{ justifyContent: 'left' }}>
           <Col span={3}>
-              <div className='p-2 flex row justify-center'>
-                <b></b>
-              </div>
+            <div className='p-2 flex row justify-center'>
+              <b />
+            </div>
           </Col>
           {[...fields].slice(0,7).map((item, idx) => (
             <Col span={3}>

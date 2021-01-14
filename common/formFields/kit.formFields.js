@@ -45,6 +45,23 @@ export const kitFormFields = [
     customLabel: 'Kit Client',
   },
   {
+    key: 'part_name',
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Part Name',
+  },
+  {
+    key: 'part_number',
+    kwargs: {
+      placeholder: 'Enter',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Part Number',
+  },{
     key: 'kit_type',
     rules: [{ required: true, message: 'Please select kit kit type!' }],
     kwargs: {
@@ -62,4 +79,5 @@ export const kitFormFields = [
     type: FORM_ELEMENT_TYPES.SWITCH,
     label: 'Active',
   },
+
 ];
