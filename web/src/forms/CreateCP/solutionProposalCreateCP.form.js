@@ -59,8 +59,11 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
 
     console.log(data[0].name[0]);
 
-    setFields(getFields(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type')));
-    setLabels(getLabels(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type')));
+	if (data[0].name[0]==="standard_assets" || data[0].name[0]==='insert_type') {
+		setFields(getFields(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type')));
+		setLabels(getLabels(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type')));
+	}
+
 
     const qtyPerKitCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'quantity_perkit');
     const rateCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'rate');
@@ -68,19 +71,20 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
     const totalCostCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'total_cost');
 
     qtyPerKitCols.forEach((i,idx) => {
-      
-      if (form.getFieldValue(i) && form.getFieldValue(rateCols[idx])) {
-        form.setFieldsValue({
-          [totalMatReqCols[idx]] : form.getFieldValue(i)*form.getFieldValue(rateCols[idx]),
-        })
-      }
-
-      if (form.getFieldValue(i) && form.getFieldValue(rateCols[idx]) && form.getFieldValue(totalMatReqCols[idx])) {
-        form.setFieldsValue({
-          [totalCostCols[idx]] : form.getFieldValue(i)*form.getFieldValue(rateCols[idx])*form.getFieldValue(totalMatReqCols[idx]),
-        })
-      }
-
+		if (data[0].name[0]===qtyPerKitCols[idx] || data[0].name[0]===rateCols[idx]) {
+			if (form.getFieldValue(qtyPerKitCols[idx]) && form.getFieldValue(rateCols[idx])) {
+				const x = form.getFieldValue(qtyPerKitCols[idx])*form.getFieldValue(rateCols[idx]);
+				form.setFieldsValue({
+					[totalMatReqCols[idx]] : x,
+					[totalCostCols[idx]] : Math.pow(x,2),
+				})
+			} else {
+				form.setFieldsValue({
+					[totalMatReqCols[idx]] : 0,
+					[totalCostCols[idx]] : 0,
+				})
+			}
+		}
     })
 
   },[form,fields,labels])
