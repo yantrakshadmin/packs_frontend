@@ -97,7 +97,7 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
 				const depCostCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'dep_cost');
 
 				qtyPerKitCols.forEach((i,idx) => {
-					if (data[0].name[0]===qtyPerKitCols[idx] || data[0].name[0]===rateCols[idx] || data[0].name[0]===totalMatReqCols[idx] || data[0].name[0]===totalCostCols[idx] || data[0].name[0]===depCostCols[idx]) {
+					if (data[0].name[0]===qtyPerKitCols[idx] || data[0].name[0]===rateCols[idx] || data[0].name[0]===totalMatReqCols[idx] || data[0].name[0]===totalCostCols[idx] || data[0].name[0]===monthCols[idx] || data[0].name[0]===depCostCols[idx]) {
 						if (form.getFieldValue(qtyPerKitCols[idx]) && form.getFieldValue(rateCols[idx])) {
 							const x = form.getFieldValue(qtyPerKitCols[idx])*form.getFieldValue(rateCols[idx]);
 							form.setFieldsValue({
