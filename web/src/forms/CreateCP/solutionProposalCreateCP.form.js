@@ -62,7 +62,6 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
 		const monthCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'month');
 		monthCols.forEach(i => {
 			if (!form.getFieldValue(i)) {
-				//console.log("HAHA: " + _.chain(i).trimEnd("month").trimEnd("_"))
 				form.setFieldsValue({
 					[i] : getDefaultMonthValue(i.slice(0,-6)),
 				})
@@ -80,48 +79,49 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
 		if(data[0]){
 			if(data[0].name) {
 
-				//console.log(data[0].name[0]);
+				const currentInputField = data[0].name[0];
+        		console.log(currentInputField);
 
-				if (data[0].name[0]==="standard_assets" || data[0].name[0]==='insert_type') {
+				if (currentInputField==="standard_assets" || currentInputField==='insert_type') {
 					setFields(getFields(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type')));
 					setLabels(getLabels(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type')));
 					updateTotalKitQtysCols();
 					updateMonthCols();
+				} else {
+					const qtyPerKitCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'quantity_perkit');
+					const rateCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'rate');
+					const totalMatReqCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'tot_mat_req');
+					const totalCostCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'total_cost');
+					const monthCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'month');
+					const depCostCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'dep_cost');
+	
+					qtyPerKitCols.forEach((i,idx) => {
+						if (currentInputField===qtyPerKitCols[idx] || currentInputField===rateCols[idx] || currentInputField===totalMatReqCols[idx] || currentInputField===totalCostCols[idx] || currentInputField===monthCols[idx] || currentInputField===depCostCols[idx]) {
+							if (form.getFieldValue(qtyPerKitCols[idx]) && form.getFieldValue(rateCols[idx])) {
+								const x = form.getFieldValue(qtyPerKitCols[idx])*form.getFieldValue(rateCols[idx]);
+								form.setFieldsValue({
+									[totalMatReqCols[idx]] : x,
+									[totalCostCols[idx]] : Math.pow(x,2),
+								})
+							} else {
+								form.setFieldsValue({
+									[totalMatReqCols[idx]] : 0,
+									[totalCostCols[idx]] : 0,
+								})
+							}
+	
+							if ( form.getFieldValue(totalCostCols[idx]) && form.getFieldValue(monthCols[idx]) && form.getFieldValue("yantra_cycle") ) {
+								form.setFieldsValue({
+									[depCostCols[idx]] : ( form.getFieldValue(totalCostCols[idx])/form.getFieldValue(monthCols[idx]) )/( 30*form.getFieldValue("yantra_cycle") ),
+								})
+							} else {
+								form.setFieldsValue({
+									[depCostCols[idx]] : 0,
+								})
+							}
+						}
+					})
 				}
-
-				const qtyPerKitCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'quantity_perkit');
-				const rateCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'rate');
-				const totalMatReqCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'tot_mat_req');
-				const totalCostCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'total_cost');
-				const monthCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'month');
-				const depCostCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'dep_cost');
-
-				qtyPerKitCols.forEach((i,idx) => {
-					if (data[0].name[0]===qtyPerKitCols[idx] || data[0].name[0]===rateCols[idx] || data[0].name[0]===totalMatReqCols[idx] || data[0].name[0]===totalCostCols[idx] || data[0].name[0]===monthCols[idx] || data[0].name[0]===depCostCols[idx]) {
-						if (form.getFieldValue(qtyPerKitCols[idx]) && form.getFieldValue(rateCols[idx])) {
-							const x = form.getFieldValue(qtyPerKitCols[idx])*form.getFieldValue(rateCols[idx]);
-							form.setFieldsValue({
-								[totalMatReqCols[idx]] : x,
-								[totalCostCols[idx]] : Math.pow(x,2),
-							})
-						} else {
-							form.setFieldsValue({
-								[totalMatReqCols[idx]] : 0,
-								[totalCostCols[idx]] : 0,
-							})
-						}
-
-						if ( form.getFieldValue(totalCostCols[idx]) && form.getFieldValue(monthCols[idx]) && form.getFieldValue("yantra_cycle") ) {
-							form.setFieldsValue({
-								[depCostCols[idx]] : ( form.getFieldValue(totalCostCols[idx])/form.getFieldValue(monthCols[idx]) )/( 30*form.getFieldValue("yantra_cycle") ),
-							})
-						} else {
-							form.setFieldsValue({
-								[depCostCols[idx]] : 0,
-							})
-						}
-					}
-				})
 
 			}
 		}
