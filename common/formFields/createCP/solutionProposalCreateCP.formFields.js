@@ -1,5 +1,24 @@
 import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
-import { solutionAssetOptions } from '../../constants/solutionproposalCreateCP';
+//import { solutionAssetOptions } from '../../constants/solutionproposalCreateCP';
+
+
+const solutionAssetOptions = [
+  'FLC',
+  'FSC',
+  'CRT6412',
+  'CRT6418',
+  'CRT6423',
+  'CRT6435',
+  'Palletized CRT6412',
+  'Palletized CRT6418',
+  'Palletized CRT6423',
+  'Palletized CRT6435',
+  'PP BOX',
+  'Palletized PP Box',
+  'Plastic Pallet',
+  'Wooden Pallet',
+]
+
 
 export const solutionProposalCreateCPFormFields = [
   {
@@ -222,6 +241,7 @@ export const stdAssetsProposalCreateCPFormFields = [
     key: '_tot_mat_req',
     kwargs: {
       placeholder: 'Total Mat. Req.',
+      disabled: true,
     },
     others: {
       formOptions:{ noStyle:true }
@@ -233,7 +253,8 @@ export const stdAssetsProposalCreateCPFormFields = [
     key: '_total_cost',
     kwargs: {
       placeholder: 'Total Cost',
-      type:'number'
+      type:'number',
+      disabled: true,
     },
     others: {
       formOptions:{ noStyle:true }
@@ -258,6 +279,7 @@ export const stdAssetsProposalCreateCPFormFields = [
     key: '_dep_cost',
     kwargs: {
       placeholder: 'Dep Cost',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {

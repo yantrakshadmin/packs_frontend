@@ -39,8 +39,19 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
 
         const currentInputField = data[0].name[0];
         console.log(currentInputField);
-        
-        if (currentInputField==="total_cost_supply_chain" || currentInputField==="labor_cost_perton" || currentInputField==="repair_reconditioning" || currentInputField==="other_cost" || currentInputField==="total_cost") {
+
+
+        if (currentInputField==="min_warehouse" || currentInputField==="transportation_w1_c1" || currentInputField==="transportation_c2_w2" || currentInputField==="transportation_w2_w1" || currentInputField==="total_cost_supply_chain" || currentInputField==="labor_cost_perton" || currentInputField==="repair_reconditioning" || currentInputField==="other_cost" || currentInputField==="total_cost") {
+          if ( form.getFieldValue("min_warehouse") || form.getFieldValue("transportation_w1_c1") || form.getFieldValue("transportation_c2_w2") || form.getFieldValue("transportation_w2_w1") ) {
+            form.setFieldsValue({
+              "total_cost_supply_chain" : ifNanReturnZero(form.getFieldValue("min_warehouse"))+ifNanReturnZero(form.getFieldValue("transportation_w1_c1"))+ifNanReturnZero(form.getFieldValue("transportation_c2_w2"))+ifNanReturnZero(form.getFieldValue("transportation_w2_w1")),
+            })
+          } else {
+            form.setFieldsValue({
+              "total_cost_supply_chain" : 0,
+            })
+          }
+
           if ( form.getFieldValue("total_cost_supply_chain") || form.getFieldValue("labor_cost_perton") || form.getFieldValue("repair_reconditioning") || form.getFieldValue("other_cost") ) {
             form.setFieldsValue({
               "total_cost" : ifNanReturnZero(form.getFieldValue("total_cost_supply_chain"))+ifNanReturnZero(form.getFieldValue("labor_cost_perton"))+ifNanReturnZero(form.getFieldValue("repair_reconditioning"))+ifNanReturnZero(form.getFieldValue("other_cost")),

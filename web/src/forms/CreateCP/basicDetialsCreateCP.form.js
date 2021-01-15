@@ -52,7 +52,7 @@ export const BasicDetailsCreateCPForm = ({ id, onCancel,lead,onNext,active }) =>
 
     if (form.getFieldValue("total_kit_per_month") && form.getFieldValue("kit_usage_ratio") && form.getFieldValue("buffer")) {
       form.setFieldsValue({
-        "kit_based_on_usage_ratio" : _.ceil(( form.getFieldValue("total_kit_per_month")/form.getFieldValue("kit_usage_ratio") )*( 1+parseInt(form.getFieldValue("buffer")) )),
+        "kit_based_on_usage_ratio" : _.ceil(( form.getFieldValue("total_kit_per_month")/form.getFieldValue("kit_usage_ratio") )*( 1+(parseInt(form.getFieldValue("buffer"))/100) )),
       })
     } else {
       form.setFieldsValue({

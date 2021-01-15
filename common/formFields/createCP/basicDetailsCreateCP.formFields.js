@@ -92,6 +92,7 @@ export const basicDetailCreateCPFormFields = [
     kwargs: {
       placeholder: 'Total Kit/Month',
       type:'number',
+      disabled : true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -123,6 +124,7 @@ export const basicDetailCreateCPFormFields = [
     kwargs: {
       placeholder: 'Kit Usage Ratio',
       type:'number',
+      disabled : true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -133,6 +135,7 @@ export const basicDetailCreateCPFormFields = [
     kwargs: {
       placeholder: 'Number of Kit based on Usage Ratio',
       type:'number',
+      disabled : true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,

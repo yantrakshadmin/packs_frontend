@@ -2,12 +2,25 @@ import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 
 
 export const operatingCostMonthlyFormFields = [
-
+  {
+    key: 'direct_cost',
+    kwargs: {
+      placeholder: 'Direct Cost',
+      type: 'number',
+      disabled: true,
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: {
+      formOptions: { noStyle: true, },
+    },
+    customLabel: 'Direct Cost',
+  },
   {
     key: 'operating_cost',
     kwargs: {
       placeholder: 'Operating Cost',
       type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
@@ -19,6 +32,7 @@ export const operatingCostMonthlyFormFields = [
     kwargs: {
       placeholder: 'Contingency Margin',
       type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
@@ -30,6 +44,7 @@ export const operatingCostMonthlyFormFields = [
     kwargs: {
       placeholder: 'Min cost to bill for a trip',
       type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
@@ -41,6 +56,7 @@ export const operatingCostMonthlyFormFields = [
     kwargs: {
       placeholder: 'Price should be billed @ 20% margin',
       type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
@@ -52,6 +68,7 @@ export const operatingCostMonthlyFormFields = [
     kwargs: {
       placeholder: 'Margin agreed for this flow',
       type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
@@ -74,6 +91,7 @@ export const operatingCostMonthlyFormFields = [
     kwargs: {
       placeholder: 'Gross Margins',
       type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
