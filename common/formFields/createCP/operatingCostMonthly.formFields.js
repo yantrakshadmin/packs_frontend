@@ -73,7 +73,7 @@ export const operatingCostMonthlyFormFields = [
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
       formOptions: { noStyle: true },
-    }, customLabel: 'Margin agreed for this flow',
+    }, customLabel: 'Margin agreed for this flow (%)',
   },
   {
     key: 'trip_cost_sales',
@@ -96,7 +96,7 @@ export const operatingCostMonthlyFormFields = [
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
       formOptions: { noStyle: true },
-    }, customLabel: 'Gross Margins',
+    }, customLabel: 'Gross Margins (%)',
   },
   {
     key: 'remark_operating_cost',

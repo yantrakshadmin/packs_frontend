@@ -128,7 +128,7 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
   const updateMarginAgreedForThisFlow = useCallback(() => {
     if (form.getFieldValue("trip_cost_sales") && form.getFieldValue("min_cost_to_bill_for_a_trip")) {
       form.setFieldsValue({
-        "margin_agreed_for_this_flow" : _.round(form.getFieldValue("trip_cost_sales")/form.getFieldValue("min_cost_to_bill_for_a_trip"),2),
+        "margin_agreed_for_this_flow" : _.round((form.getFieldValue("trip_cost_sales")/form.getFieldValue("min_cost_to_bill_for_a_trip")-1)*100,2),
       })
     } else {
       form.setFieldsValue({
@@ -140,7 +140,7 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
   const updateGrossMargins = useCallback(() => {
     if (form.getFieldValue("trip_cost_sales") && form.getFieldValue("operating_cost")) {
       form.setFieldsValue({
-        "gross_margins" : _.round((form.getFieldValue("trip_cost_sales")-form.getFieldValue("operating_cost"))/form.getFieldValue("trip_cost_sales"),2),
+        "gross_margins" : _.round(((form.getFieldValue("trip_cost_sales")-form.getFieldValue("operating_cost"))/form.getFieldValue("trip_cost_sales")*100),2),
       })
     } else {
       form.setFieldsValue({
