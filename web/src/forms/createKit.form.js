@@ -81,7 +81,7 @@ export const KitForm = ({ id, onCancel, onDone }) => {
           </Col>
         </Row>
         <Row style={{ justifyContent: 'left' }}>
-          {kitFormFields.slice(4, 6).map((item, idx) => (
+          {kitFormFields.slice(4, 8).map((item, idx) => (
             <Col span={12}>
               <div key={idx} className='p-2'>
                 {formItem(item)}
