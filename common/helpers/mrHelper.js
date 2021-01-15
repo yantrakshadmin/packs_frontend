@@ -30,3 +30,7 @@ export const statusCheck =(isAllocated,isRejected)=>{
 export const filterActive = (data) => {
   return _.filter(data, (el) => el.active );
 }
+
+export const ifNanReturnZero = num => {
+  return parseInt(num) ? parseInt(num) : 0;
+}

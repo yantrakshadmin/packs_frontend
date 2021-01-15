@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useCallback } from 'react';
 import { Form, Col, Row, Button, Divider, Spin } from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,6 +6,9 @@ import { ADD_CREATE_CP_DATA, STOP_STEP_LOADING } from 'common/actions';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { logisticCreateCPFormFields }
   from 'common/formFields/createCP/logisticsCreateCP.formFields';
+
+import { ifNanReturnZero } from 'common/helpers/mrHelper';
+
 
 export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
   const [loading,setLoading] = useState(false);
@@ -28,6 +31,33 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
     }
   },[active])
 
+
+  const handleFieldsChange = useCallback(data => {
+
+		if(data[0]){
+			if(data[0].name) {
+
+        const currentInputField = data[0].name[0];
+        console.log(currentInputField);
+        
+        if (currentInputField==="total_cost_supply_chain" || currentInputField==="labor_cost_perton" || currentInputField==="repair_reconditioning" || currentInputField==="other_cost" || currentInputField==="total_cost") {
+          if ( form.getFieldValue("total_cost_supply_chain") || form.getFieldValue("labor_cost_perton") || form.getFieldValue("repair_reconditioning") || form.getFieldValue("other_cost") ) {
+            form.setFieldsValue({
+              "total_cost" : ifNanReturnZero(form.getFieldValue("total_cost_supply_chain"))+ifNanReturnZero(form.getFieldValue("labor_cost_perton"))+ifNanReturnZero(form.getFieldValue("repair_reconditioning"))+ifNanReturnZero(form.getFieldValue("other_cost")),
+            })
+          } else {
+            form.setFieldsValue({
+              "total_cost" : 0,
+            })
+          }
+        }
+
+			}
+		}
+
+  	},[form,])
+
+
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Logistic Details</Divider>
@@ -38,6 +68,7 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
           { ...state }
         }
         layout='vertical'
+        onFieldsChange={handleFieldsChange}
         // hideRequiredMark
         autoComplete='off'
       >

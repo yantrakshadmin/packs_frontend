@@ -1,5 +1,6 @@
 import { createFields } from 'common/formFields/createCP/solutionProposalCreateCP.formFields';
 
+
 export const solutionAssetOptions = [
   'FLC',
   'FSC',
@@ -347,20 +348,6 @@ export const getFields = (type,insertType) => {
 };
 
 
-
-
-// export const createFields=(arr)=>{
-//   let fields = [];
-//   arr.map(key=>{
-//     fields = [...fields,...stdAssetsProposalCreateCPFormFields.map(item=>({
-//       ...item,key:`${key}${item.key}`
-//     }))]
-//     return null
-//   })
-//   return fields;
-// }
-
-
 export const formatStr = (str,typeStr) => {
   return `${str}_${typeStr}`;
 }
@@ -530,3 +517,26 @@ export const getFieldsByColumn = (type,insertType,typeStr) => {
   };
   return specifications[type];
 };
+
+export const getDefaultMonthValue = type => {
+  switch (type) {
+    case "std_ast":
+      return 18;
+    case "crate_lid":
+      return 12;
+    case "palletized_lid":
+      return 12;
+    case "insert1":
+      return 12;
+    case "insert2":
+      return 12;
+    case "sep_sheet":
+      return 12;
+    case "mould":
+      return 18;
+    case "hdpe":
+      return 12;
+    default:
+      return 0;
+  }
+}
