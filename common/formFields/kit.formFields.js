@@ -61,7 +61,8 @@ export const kitFormFields = [
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     customLabel: 'Part Number',
-  },{
+  },
+  {
     key: 'kit_type',
     rules: [{ required: true, message: 'Please select kit kit type!' }],
     kwargs: {
