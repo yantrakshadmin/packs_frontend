@@ -99,13 +99,13 @@ export const operatingCostMonthlyFormFields = [
     }, customLabel: 'Gross Margins (%)',
   },
   {
-    key: 'remark_operating_cost',
+    key: 'remarks',
     kwargs: {
-      placeholder: 'Remark',
+      placeholder: 'Remarks',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
       formOptions: { noStyle: true },
-    }, customLabel: 'Remark',
+    }, customLabel: 'Remarks',
   },
 ];

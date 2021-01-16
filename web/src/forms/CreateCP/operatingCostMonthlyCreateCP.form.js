@@ -47,6 +47,9 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
           onCancel();
         } else {
           onDone();
+          notification.warning({
+            message: 'CP Craeted successfully.',
+          });
         }
       }
     }}

@@ -37,15 +37,15 @@ export const solutionProposalCreateCPFormFields = [
     },
     customLabel:'Insert Type'
   },
-  {
-    key: 'cost',
-    type: FORM_ELEMENT_TYPES.INPUT,
-    kwargs: {
-      placeholder: 'Cost',
-      type:'number'
-    },
-    customLabel:'Cost'
-  },
+  // {
+  //   key: 'cost',
+  //   type: FORM_ELEMENT_TYPES.INPUT,
+  //   kwargs: {
+  //     placeholder: 'Cost',
+  //     type:'number'
+  //   },
+  //   customLabel:'Cost'
+  // },
 ];
 
 

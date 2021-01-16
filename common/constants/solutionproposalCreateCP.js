@@ -18,6 +18,11 @@ export const solutionAssetOptions = [
   'Wooden Pallet',
 ]
 
+export const insertTypeOptions = [
+  'Insert',
+  'HDPE Tray',
+]
+
 export const getLabels = (type,insertType)=>{
   const specifications = {
     'FLC':insertType==='Insert'?[
@@ -96,7 +101,6 @@ export const getLabels = (type,insertType)=>{
     ],
     'Palletized CRT6412':insertType==='Insert'?[
       'Palletized CRT6412',
-      'Crate Lid',
       'Palletized Lid',
       'Pallet',
       'Insert Type 1',
@@ -104,7 +108,6 @@ export const getLabels = (type,insertType)=>{
       'Separator Sheet'
     ]:[
       'Palletized CRT6412',
-      'Crate Lid',
       'Palletized Lid',
       'Pallet',
       'Separator Sheet',
@@ -113,7 +116,6 @@ export const getLabels = (type,insertType)=>{
     ],
     'Palletized CRT6418':insertType==='Insert'?[
       'Palletized CRT6418',
-      'Crate Lid',
       'Palletized Lid',
       'Pallet',
       'Insert Type 1',
@@ -121,7 +123,6 @@ export const getLabels = (type,insertType)=>{
       'Separator Sheet'
     ]:[
       'Palletized CRT6418',
-      'Crate Lid',
       'Palletized Lid',
       'Pallet',
       'Separator Sheet',
@@ -130,7 +131,6 @@ export const getLabels = (type,insertType)=>{
     ],
     'Palletized CRT6423':insertType==='Insert'?[
       'Palletized CRT6423',
-      'Crate Lid',
       'Palletized Lid',
       'Pallet',
       'Insert Type 1',
@@ -138,7 +138,6 @@ export const getLabels = (type,insertType)=>{
       'Separator Sheet'
     ]:[
       'Palletized CRT6423',
-      'Crate Lid',
       'Palletized Lid',
       'Pallet',
       'Separator Sheet',
@@ -146,7 +145,6 @@ export const getLabels = (type,insertType)=>{
       'HDPE',],
     'Palletized CRT6435':insertType==='Insert'?[
       'Palletized CRT6435',
-      'Crate Lid',
       'Palletized Lid',
       'Pallet',
       'Insert Type 1',
@@ -154,7 +152,6 @@ export const getLabels = (type,insertType)=>{
       'Separator Sheet'
     ]:[
       'Palletized CRT6435',
-      'Crate Lid',
       'Palletized Lid',
       'Pallet',
       'Separator Sheet',
@@ -259,7 +256,6 @@ export const getFields = (type,insertType) => {
     ]),
     'Palletized CRT6412':insertType==='Insert'?createFields([
       'std_ast',
-      'crate_lid',
       'palletized_lid',
       'pallet',
       'insert1',
@@ -267,7 +263,6 @@ export const getFields = (type,insertType) => {
       'sep_sheet',
     ]):createFields([
       'std_ast',
-      'crate_lid',
       'palletized_lid',
       'pallet',
       'sep_sheet',
@@ -276,7 +271,6 @@ export const getFields = (type,insertType) => {
     ]),
     'Palletized CRT6418':insertType==='Insert'?createFields([
       'std_ast',
-      'crate_lid',
       'palletized_lid',
       'pallet',
       'insert1',
@@ -284,7 +278,6 @@ export const getFields = (type,insertType) => {
       'sep_sheet',
     ]):createFields([
       'std_ast',
-      'crate_lid',
       'palletized_lid',
       'pallet',
       'sep_sheet',
@@ -293,7 +286,6 @@ export const getFields = (type,insertType) => {
     ]),
     'Palletized CRT6423':insertType==='Insert'?createFields([
       'std_ast',
-      'crate_lid',
       'palletized_lid',
       'pallet',
       'insert1',
@@ -301,7 +293,6 @@ export const getFields = (type,insertType) => {
       'sep_sheet',
     ]):createFields([
       'std_ast',
-      'crate_lid',
       'palletized_lid',
       'pallet',
       'sep_sheet',
@@ -310,7 +301,6 @@ export const getFields = (type,insertType) => {
     ]),
     'Palletized CRT6435':insertType==='Insert'?createFields([
       'std_ast',
-      'crate_lid',
       'palletized_lid',
       'pallet',
       'insert1',
@@ -318,7 +308,6 @@ export const getFields = (type,insertType) => {
       'sep_sheet',
     ]):createFields([
       'std_ast',
-      'crate_lid',
       'palletized_lid',
       'pallet',
       'sep_sheet',

@@ -32,6 +32,13 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
 		}
 	}
 
+	// useEffect(() => {
+	// 	if (form.getFieldValue("standard_assets") && form.getFieldValue("insert_type")) {
+	// 		setFields(getFields(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type')));
+	// 		setLabels(getFields(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type')));
+	// 	}
+	// },[])
+
 	useEffect( ()=>{
 		if(active!==1){
 			form.submit()
