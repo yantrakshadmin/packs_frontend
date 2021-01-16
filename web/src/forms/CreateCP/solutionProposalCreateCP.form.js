@@ -39,6 +39,8 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
 		}
 	},[active])
 
+	console.log(state,'state')
+
 	const updateTotalKitQtysCols = useCallback(() => {
 		if (form.getFieldValue('kit_based_on_usage_ratio')) {
 			const totalKitQtysCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'quantity');
@@ -94,7 +96,7 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
 					const totalCostCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'total_cost');
 					const monthCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'month');
 					const depCostCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'dep_cost');
-	
+
 					qtyPerKitCols.forEach((i,idx) => {
 						if (currentInputField===qtyPerKitCols[idx] || currentInputField===rateCols[idx] || currentInputField===totalMatReqCols[idx] || currentInputField===totalCostCols[idx] || currentInputField===monthCols[idx] || currentInputField===depCostCols[idx]) {
 							if (form.getFieldValue(qtyPerKitCols[idx]) && form.getFieldValue(rateCols[idx])) {
@@ -109,7 +111,7 @@ export const SolutionProposalCreateCPForm = ({ id, onCancel,lead,onNext,active }
 									[totalCostCols[idx]] : 0,
 								})
 							}
-	
+
 							if ( form.getFieldValue(totalCostCols[idx]) && form.getFieldValue(monthCols[idx]) && form.getFieldValue("yantra_cycle") ) {
 								form.setFieldsValue({
 									[depCostCols[idx]] : ( form.getFieldValue(totalCostCols[idx])/form.getFieldValue(monthCols[idx]) )/( 30*form.getFieldValue("yantra_cycle") ),
