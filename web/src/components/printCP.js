@@ -1,69 +1,74 @@
 import React from 'react';
 import { Row,Col,Typography,Table } from 'antd'
+import _ from 'lodash';
 
 const { Title,Paragraph } = Typography
 
+
+// part_name:record.pfep.part_name,
+//   receiver_location: record.pfep.receivers.length>0?record.pfep.receivers[0].location:'',
+//   proposed_solution_proposal:record.standard_assets,
+//   component_per_solution:record.component_perkit,
+//   price_per_component:_.round(record.trip_cost/record.component_perkit, 2),
+//   trip_cost:record.trip_cost,
+//   parts_volume_per_month :record.volume_pm,
+//   cycle_days:record.pfep.min_cycle_days,
+
+
 export const PrintCp = ({ location }) => {
-  const { state } = location;
-  console.log(state,'data CP')
+  const { state, } = location;
+  // const { receiverDetails} = state;
+  console.log(state,'data CP',)
   const columns = [
     {
-      // width:'40vw',
       title: 'Part Name',
       key: 'part_name',
-      render:(record)=>(
-        <div className='px-2'>
-          info
-        </div>
-      )
+      dataIndex: 'part_name'
     },
     {
-      // width:'40vw',
       title: 'Receiver Location',
-      dataIndex: 'value',
-      key: 'value',
+      dataIndex: 'receiver_location',
+      key: 'receiver_location',
     },{
-      // width:'40vw',
       title: 'Proposed Packaging Solution',
-      key: 'part_name',
-      render:(record)=>(
-        <div className='px-2'>
-          Info
-        </div>
+      key: 'proposed_solution_proposal',
+      dataIndex: 'proposed_solution_proposal',
+      render:(solution)=>(
+        <Row>
+          {Object.keys(solution).map(key=>(
+            <Col span={24}>
+              {solution[key]}
+              {' '}
+              {key}
+              <br />
+            </Col>
+          ))}
+        </Row>
       )
     },
     {
-      // width:'40vw',
       title: 'No. of Component per Solution',
-      dataIndex: 'value',
-      key: 'value',
+      dataIndex: 'component_per_solution',
+      key: 'component_per_solution',
     },
     {
-      // width:'40vw',
       title: 'Price Per Component',
-      dataIndex: 'value',
-      key: 'value',
+      dataIndex: 'price_per_component',
+      key: 'price_per_component',
     },{
-      // width:'40vw',
-      title: 'Total Trip Cost Per FLC',
-      key: 'part_name',
-      render:(record)=>(
-        <div className='px-2'>
-          Info
-        </div>
-      )
+      title: 'Total Trip Cost Per Solution',
+      key: 'trip_cost',
+      dataIndex: 'trip_cost'
     },
     {
-      // width:'40vw',
       title: 'Parts Volume/Month',
-      dataIndex: 'value',
-      key: 'value',
+      dataIndex: 'parts_volume_per_month',
+      key: 'parts_volume_per_month',
     },
     {
-      // width:'40vw',
       title: 'Cycle Time (Days)',
-      dataIndex: 'value',
-      key: 'value',
+      dataIndex: 'cycle_days',
+      key: 'cycle_days',
     },
   ];
 
@@ -123,6 +128,10 @@ export const PrintCp = ({ location }) => {
       </Col>
     </Row>
   )
+  const d = new Date();
+  const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+  const nd = new Date(utc + (3600000*+5.5));
+  const ist =  nd.toLocaleString();
   return (
     <div className='print-cp-container'>
       <Row>
@@ -134,9 +143,12 @@ export const PrintCp = ({ location }) => {
             <div>
               <text>
                 <b>Date : </b>
-                1/12/20
+                {ist.split(',')[0]}
                 <br />
-                <b>YNT/CP/1216</b>
+                <b>
+                  YNT/CP/
+                  {state.id}
+                </b>
               </text>
             </div>
           </div>
@@ -149,7 +161,9 @@ export const PrintCp = ({ location }) => {
           <Title
             level={4}
             className='row align-center justify-center print-cp-gray print-cp-border'>
-            Proposal for Lumax Mannoh
+            Proposal for
+            {' '}
+            {state.pfep.sender_client}
           </Title>
         </Col>
       </Row>
@@ -182,11 +196,16 @@ export const PrintCp = ({ location }) => {
           </Row>
         )))}
         right={(
-        [{ value:state.pfep.receivers.length>0?state.pfep.receivers[0].name:''
+        [{ value:state.receiverDetails.length>0?state.receiverDetails[0].receiver_name:''
           ,key:'reveiverDetails' }].map((i,key)=>(
             <Row key={i.key}>
               <Col span={24} className='px-2'>
-                {i.value}
+                {state.receiverDetails.length>1?state.receiverDetails.map(item=>(
+                  <div>
+                    {item.receiver_name}
+                    <br />
+                  </div>
+                )):i.value}
               </Col>
             </Row>
         ))
@@ -218,14 +237,20 @@ export const PrintCp = ({ location }) => {
         size='small'
         pagination={false}
         bordered
-        dataSource={dataSource}
+        dataSource={state.receiverDetails||[]}
         columns={columns} />
       <br />
       <Paragraph>
         * Cycle time to be revisited after regular intervals, pricing may vary if cycle time varies.
         <br />
         YANTRA Packs will not be responsible for Loading &
-        Unloading activities at Lumax Mannoh and Mahindra & Mahindra.
+        Unloading activities at
+        {' '}
+        {state.pfep.sender_client}
+        {' '}
+        and
+        {' '}
+        {state.receiverDetails.length>1?'Multiple Receivers':state.receiverDetails[0].receiver_name}
         <br />
         YANTRA Packs will be responsible for reverse logistics from Destination to Origin.
         <br />

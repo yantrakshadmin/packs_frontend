@@ -18,6 +18,44 @@ export const solutionAssetOptions = [
   'Wooden Pallet',
 ]
 
+
+export const getSolutionProposal=(record)=>{
+  if(record.standard_assets === 'FLC'
+    || record.standard_assets === 'FSC'
+    ||record.standard_assets === 'PP BOX'){
+    return {
+      [record.standard_assets]:record.std_ast_quantity_perkit,
+    }
+  }
+  if(
+    record.standard_assets === 'CRT6412' ||
+    record.standard_assets === 'CRT6418' ||
+    record.standard_assets === 'CRT6423' ||
+    record.standard_assets === 'CRT6435') {
+    return {
+      [record.standard_assets]:record.crate_lid_quantity_perkit
+    }}
+  if(
+    record.standard_assets === 'Palletized CRT6412' ||
+    record.standard_assets === 'Palletized CRT6418' ||
+    record.standard_assets === 'Palletized CRT6423' ||
+    record.standard_assets === 'Palletized CRT6435' ||
+    record.standard_assets === 'Palletized PP Box'  ||
+    record.standard_assets === 'Plastic Pallet'  ||
+    record.standard_assets === 'Wooden Pallet'
+  ) {
+    return {
+      Lid:1,
+      Crate:1,
+      [record.standard_assets]:record.palletized_lid_quantity_perkit
+    }
+  }
+
+  return {
+  }
+}
+
+
 export const insertTypeOptions = [
   'Insert',
   'HDPE Tray',
