@@ -419,7 +419,6 @@ export const getFieldsByColumn = (type,insertType,typeStr) => {
     ]),
     'Palletized CRT6412':insertType==='Insert'?([
       formatStr('std_ast',typeStr),
-      formatStr('crate_lid',typeStr),
       formatStr('palletized_lid',typeStr),
       formatStr('pallet',typeStr),
       formatStr('insert1',typeStr),
@@ -427,7 +426,6 @@ export const getFieldsByColumn = (type,insertType,typeStr) => {
       formatStr('sep_sheet',typeStr),
     ]):([
       formatStr('std_ast',typeStr),
-      formatStr('crate_lid',typeStr),
       formatStr('palletized_lid',typeStr),
       formatStr('pallet',typeStr),
       formatStr('sep_sheet',typeStr),
@@ -436,7 +434,6 @@ export const getFieldsByColumn = (type,insertType,typeStr) => {
     ]),
     'Palletized CRT6418':insertType==='Insert'?([
       formatStr('std_ast',typeStr),
-      formatStr('crate_lid',typeStr),
       formatStr('palletized_lid',typeStr),
       formatStr('pallet',typeStr),
       formatStr('insert1',typeStr),
@@ -444,7 +441,6 @@ export const getFieldsByColumn = (type,insertType,typeStr) => {
       formatStr('sep_sheet',typeStr),
     ]):([
       formatStr('std_ast',typeStr),
-      formatStr('crate_lid',typeStr),
       formatStr('palletized_lid',typeStr),
       formatStr('pallet',typeStr),
       formatStr('sep_sheet',typeStr),
@@ -453,7 +449,6 @@ export const getFieldsByColumn = (type,insertType,typeStr) => {
     ]),
     'Palletized CRT6423':insertType==='Insert'?([
       formatStr('std_ast',typeStr),
-      formatStr('crate_lid',typeStr),
       formatStr('palletized_lid',typeStr),
       formatStr('pallet',typeStr),
       formatStr('insert1',typeStr),
@@ -461,7 +456,6 @@ export const getFieldsByColumn = (type,insertType,typeStr) => {
       formatStr('sep_sheet',typeStr),
     ]):([
       formatStr('std_ast',typeStr),
-      formatStr('crate_lid',typeStr),
       formatStr('palletized_lid',typeStr),
       formatStr('pallet',typeStr),
       formatStr('sep_sheet',typeStr),
@@ -470,7 +464,6 @@ export const getFieldsByColumn = (type,insertType,typeStr) => {
     ]),
     'Palletized CRT6435':insertType==='Insert'?([
       formatStr('std_ast',typeStr),
-      formatStr('crate_lid',typeStr),
       formatStr('palletized_lid',typeStr),
       formatStr('pallet',typeStr),
       formatStr('insert1',typeStr),
@@ -478,7 +471,6 @@ export const getFieldsByColumn = (type,insertType,typeStr) => {
       formatStr('sep_sheet',typeStr),
     ]):([
       formatStr('std_ast',typeStr),
-      formatStr('crate_lid',typeStr),
       formatStr('palletized_lid',typeStr),
       formatStr('pallet',typeStr),
       formatStr('sep_sheet',typeStr),

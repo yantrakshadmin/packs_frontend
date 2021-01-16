@@ -28,7 +28,7 @@ export const BasicDetailsCreateCPForm = ({ id, onCancel,lead,onNext,active }) =>
     }
   }
 
-  const handleFieldsChange = useCallback(data => {
+  const handleFieldsChange = data => {
 
     if(data[0]){
 			if(data[0].name) {
@@ -45,7 +45,7 @@ export const BasicDetailsCreateCPForm = ({ id, onCancel,lead,onNext,active }) =>
             "kit_pm" : 0,
           })
         }
-    
+
         if (form.getFieldValue("yantra_cycle")) {
           form.setFieldsValue({
             "kit_usage_ratio" : _.round(30/form.getFieldValue("yantra_cycle"),2),
@@ -55,7 +55,7 @@ export const BasicDetailsCreateCPForm = ({ id, onCancel,lead,onNext,active }) =>
             "kit_usage_ratio" : 0,
           })
         }
-    
+
         if (form.getFieldValue("kit_pm") && form.getFieldValue("kit_usage_ratio") && form.getFieldValue("buffer")) {
           form.setFieldsValue({
             "kit_based_on_usage_ratio" : _.ceil(( form.getFieldValue("kit_pm")/form.getFieldValue("kit_usage_ratio") )*( 1+(parseInt(form.getFieldValue("buffer"))/100) )),
@@ -69,7 +69,7 @@ export const BasicDetailsCreateCPForm = ({ id, onCancel,lead,onNext,active }) =>
       }
     }
 
-  },[form])
+  }
 
   useEffect( ()=>{
     if(active!==0){

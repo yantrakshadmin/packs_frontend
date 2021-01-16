@@ -1,5 +1,4 @@
 import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
-//import { solutionAssetOptions } from '../../constants/solutionproposalCreateCP';
 
 
 const solutionAssetOptions = [

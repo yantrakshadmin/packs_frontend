@@ -285,7 +285,7 @@ const CreateCPScreen = ({ currentPage }) => {
                 sender_location:record.pfep.sender_location?record.pfep.sender_location:'',
                 receiver: record.pfep.receivers[0]?record.pfep.receivers[0].name:'',
                 receiver_location: record.pfep.receivers[0]?record.pfep.receivers[0].location:'',
-                pfep:record.id,
+                pfep:record.pfep.id,
                 solution_crate:record.pfep.solution_crate,
                 solution_flc: record.pfep.solution_flc,
                 solution_fsc: record.pfep.solution_fsc,

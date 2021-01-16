@@ -28,7 +28,7 @@ export const operatingCostMonthlyFormFields = [
     }, customLabel: 'Operating Cost',
   },
   {
-    key: 'contingency_margin',
+    key: 'contigency_margin',
     kwargs: {
       placeholder: 'Contingency Margin',
       type: 'number',
@@ -40,7 +40,7 @@ export const operatingCostMonthlyFormFields = [
     }, customLabel: 'Contingency Margin',
   },
   {
-    key: 'min_cost_to_bill_for_a_trip',
+    key: 'min_cost_for_trip',
     kwargs: {
       placeholder: 'Min cost to bill for a trip',
       type: 'number',
@@ -52,7 +52,7 @@ export const operatingCostMonthlyFormFields = [
     }, customLabel: 'Min cost to bill for a trip',
   },
   {
-    key: 'price_should_be_billed',
+    key: 'billing_price',
     kwargs: {
       placeholder: 'Price should be billed @ 20% margin',
       type: 'number',
@@ -64,7 +64,7 @@ export const operatingCostMonthlyFormFields = [
     }, customLabel: 'Price should be billed @ 20% margin',
   },
   {
-    key: 'margin_agreed_for_this_flow',
+    key: 'agreed_margin',
     kwargs: {
       placeholder: 'Margin agreed for this flow',
       type: 'number',
@@ -76,7 +76,7 @@ export const operatingCostMonthlyFormFields = [
     }, customLabel: 'Margin agreed for this flow (%)',
   },
   {
-    key: 'trip_cost_sales',
+    key: 'trip_cost',
     kwargs: {
       placeholder: 'TRIP COST (SALES)',
       type: 'number',
