@@ -43,7 +43,7 @@ import {
 // insert2_rate: 0
 // insert2_total_cost: 0
 // kit_based_on_usage_ratio: 4
-// kit_pm: 4
+// component_perkit: 4
 // kit_usage_ratio: 4
 // labor_cost_perton: 2
 // min_cost_for_trip: 0

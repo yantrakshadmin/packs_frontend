@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Form, Col, Row, Button, Divider, Spin, notification } from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_CREATE_CP_DATA, STOP_STEP_LOADING } from 'common/actions';
-import { operatingCostMonthlyFormFields }
-  from 'common/formFields/createCP/operatingCostMonthly.formFields';
+import { operatingCostMonthlyFormFields } from 'common/formFields/createCP/operatingCostMonthly.formFields';
+import { getFieldsByColumn, } from 'common/constants/solutionproposalCreateCP';
 import { createCP, editCP } from 'common/api/auth';
+
+//import { ifNanReturnZero } from 'common/helpers/mrHelper';
+import _ from 'lodash';
+
 
 export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
   const [loading,setLoading] = useState(false);
@@ -43,6 +47,9 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
           onCancel();
         } else {
           onDone();
+          notification.warning({
+            message: 'CP Craeted successfully.',
+          });
         }
       }
     }}
@@ -54,6 +61,126 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
     }
   },[active])
 
+  const updateDirectCost = useCallback(() => {
+    if (form.getFieldValue('standard_assets') && form.getFieldValue('insert_type') && form.getFieldValue("kit_based_on_usage_ratio")) {
+      let directCost = 0;
+      const depCostCols = getFieldsByColumn(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type'),'dep_cost');
+      depCostCols.forEach((i) => {
+        directCost = directCost + form.getFieldValue(i);
+      })
+      directCost = directCost/form.getFieldValue("kit_based_on_usage_ratio");
+
+      form.setFieldsValue({
+        "direct_cost" : _.round(directCost,2),
+      })
+    } else {
+      form.setFieldsValue({
+        "direct_cost" : 0,
+      })
+    }
+  },[form])
+
+  const updateOperatingCost = useCallback(() => {
+		if (form.getFieldValue("total_cost")) {
+      form.setFieldsValue({
+        "operating_cost" : _.round(form.getFieldValue("total_cost"),2),
+      })
+    } else {
+      form.setFieldsValue({
+        "operating_cost" : 0,
+      })
+    }
+  },[form])
+  
+  const updateContingencyMargin = useCallback(() => {
+    if (form.getFieldValue("operating_cost") && form.getFieldValue("direct_cost")) {
+      form.setFieldsValue({
+        "contingency_margin" : _.round((form.getFieldValue("operating_cost")+form.getFieldValue("direct_cost"))*0.02,2),
+      })
+    } else {
+      form.setFieldsValue({
+        "contingency_margin" : 0,
+      })
+    }
+  },[form])
+
+  const updateMinCostToBillForATrip = useCallback(() => {
+    if (form.getFieldValue("operating_cost") && form.getFieldValue("direct_cost") && form.getFieldValue("contingency_margin")) {
+      form.setFieldsValue({
+        "min_cost_to_bill_for_a_trip" : _.round(form.getFieldValue("operating_cost")+form.getFieldValue("direct_cost")+form.getFieldValue("contingency_margin"),2),
+      })
+    } else {
+      form.setFieldsValue({
+        "min_cost_to_bill_for_a_trip" : 0,
+      })
+    }
+  },[form])
+
+  const updatePriceShouldBeBilled = useCallback(() => {
+    if (form.getFieldValue("min_cost_to_bill_for_a_trip")) {
+      form.setFieldsValue({
+        "price_should_be_billed" : _.round(form.getFieldValue("min_cost_to_bill_for_a_trip")/0.8,2),
+      })
+    } else {
+      form.setFieldsValue({
+        "price_should_be_billed" : 0,
+      })
+    }
+  },[form])
+
+  const updateMarginAgreedForThisFlow = useCallback(() => {
+    if (form.getFieldValue("trip_cost_sales") && form.getFieldValue("min_cost_to_bill_for_a_trip")) {
+      form.setFieldsValue({
+        "margin_agreed_for_this_flow" : _.round((form.getFieldValue("trip_cost_sales")/form.getFieldValue("min_cost_to_bill_for_a_trip")-1)*100,2),
+      })
+    } else {
+      form.setFieldsValue({
+        "margin_agreed_for_this_flow" : 0,
+      })
+    }
+  },[form])
+
+  const updateGrossMargins = useCallback(() => {
+    if (form.getFieldValue("trip_cost_sales") && form.getFieldValue("operating_cost")) {
+      form.setFieldsValue({
+        "gross_margins" : _.round(((form.getFieldValue("trip_cost_sales")-form.getFieldValue("operating_cost"))/form.getFieldValue("trip_cost_sales")*100),2),
+      })
+    } else {
+      form.setFieldsValue({
+        "gross_margins" : 0,
+      })
+    }
+  },[form])
+
+  useEffect( () => {
+    updateDirectCost();
+    updateOperatingCost();
+    updateContingencyMargin();
+    updateMinCostToBillForATrip();
+    updatePriceShouldBeBilled();
+    updateMarginAgreedForThisFlow();
+    updateGrossMargins();
+  }, [] )
+
+  const handleFieldsChange = useCallback(data => {
+
+		if(data[0]){
+			if(data[0].name) {
+
+        const currentInputField = data[0].name[0];
+        console.log(currentInputField);
+
+        if (currentInputField==="trip_cost_sales") {
+          updateMarginAgreedForThisFlow();
+          updateGrossMargins();
+        }
+
+			}
+		}
+
+  	},[form,])
+
+
   return (
     <Spin spinning={loading}>
       <Divider orientation='left'>Opex</Divider>
@@ -64,6 +191,7 @@ export const LogisticCreateCPForm = ({ id, onCancel,onDone,active,onNext }) => {
           { ...state }
         }
         layout='vertical'
+        onFieldsChange={handleFieldsChange}
         // hideRequiredMark
         autoComplete='off'
       >

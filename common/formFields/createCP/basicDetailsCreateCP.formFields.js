@@ -55,7 +55,7 @@ export const basicDetailCreateCPFormFields = [
   // },
   //weight
   {
-    key: 'component_perkit',
+    key: 'total_comp_weight_perkit',
     kwargs: {
       placeholder: 'Total Component Weight/Kit',
       type:'number',
@@ -77,7 +77,7 @@ export const basicDetailCreateCPFormFields = [
   },
   {
     // key: 'total_component_per_kit',
-    key:'kit_pm',
+    key:'component_perkit',
     kwargs: {
       placeholder: 'Total Component/Kit',
       type:'number',
@@ -88,10 +88,11 @@ export const basicDetailCreateCPFormFields = [
   },
 
   {
-    key: 'total_kit_per_month',
+    key: 'kit_pm',
     kwargs: {
       placeholder: 'Total Kit/Month',
       type:'number',
+      disabled : true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -123,6 +124,7 @@ export const basicDetailCreateCPFormFields = [
     kwargs: {
       placeholder: 'Kit Usage Ratio',
       type:'number',
+      disabled : true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -133,6 +135,7 @@ export const basicDetailCreateCPFormFields = [
     kwargs: {
       placeholder: 'Number of Kit based on Usage Ratio',
       type:'number',
+      disabled : true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
