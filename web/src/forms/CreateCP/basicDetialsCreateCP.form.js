@@ -28,39 +28,48 @@ export const BasicDetailsCreateCPForm = ({ id, onCancel,lead,onNext,active }) =>
     }
   }
 
-  const handleFieldsChange = useCallback(data => {
+  const handleFieldsChange = data => {
 
-    if (form.getFieldValue("volume_pm") && form.getFieldValue("kit_pm")) {
-      form.setFieldsValue({
-        "total_kit_per_month" : _.ceil(form.getFieldValue("volume_pm")/form.getFieldValue("kit_pm")),
-      })
-    } else {
-      form.setFieldsValue({
-        "total_kit_per_month" : 0,
-      })
+    if(data[0]){
+			if(data[0].name) {
+
+        const currentInputField = data[0].name[0];
+        console.log(currentInputField);
+
+        if (form.getFieldValue("volume_pm") && form.getFieldValue("component_perkit")) {
+          form.setFieldsValue({
+            "kit_pm" : _.ceil(form.getFieldValue("volume_pm")/form.getFieldValue("component_perkit")),
+          })
+        } else {
+          form.setFieldsValue({
+            "kit_pm" : 0,
+          })
+        }
+
+        if (form.getFieldValue("yantra_cycle")) {
+          form.setFieldsValue({
+            "kit_usage_ratio" : _.round(30/form.getFieldValue("yantra_cycle"),2),
+          })
+        } else {
+          form.setFieldsValue({
+            "kit_usage_ratio" : 0,
+          })
+        }
+
+        if (form.getFieldValue("kit_pm") && form.getFieldValue("kit_usage_ratio") && form.getFieldValue("buffer")) {
+          form.setFieldsValue({
+            "kit_based_on_usage_ratio" : _.ceil(( form.getFieldValue("kit_pm")/form.getFieldValue("kit_usage_ratio") )*( 1+(parseInt(form.getFieldValue("buffer"))/100) )),
+          })
+        } else {
+          form.setFieldsValue({
+            "kit_based_on_usage_ratio" : 0,
+          })
+        }
+
+      }
     }
 
-    if (form.getFieldValue("yantra_cycle")) {
-      form.setFieldsValue({
-        "kit_usage_ratio" : _.round(30/form.getFieldValue("yantra_cycle"),2),
-      })
-    } else {
-      form.setFieldsValue({
-        "kit_usage_ratio" : 0,
-      })
-    }
-
-    if (form.getFieldValue("total_kit_per_month") && form.getFieldValue("kit_usage_ratio") && form.getFieldValue("buffer")) {
-      form.setFieldsValue({
-        "kit_based_on_usage_ratio" : _.ceil(( form.getFieldValue("total_kit_per_month")/form.getFieldValue("kit_usage_ratio") )*( 1+parseInt(form.getFieldValue("buffer")) )),
-      })
-    } else {
-      form.setFieldsValue({
-        "kit_based_on_usage_ratio" : 0,
-      })
-    }
-
-  },[form])
+  }
 
   useEffect( ()=>{
     if(active!==0){

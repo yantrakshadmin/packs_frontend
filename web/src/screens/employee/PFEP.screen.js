@@ -156,10 +156,11 @@ const PFEPEmployeeScreen = ({ currentPage }) => {
                   await dispatch({
                     type: ADD_CREATE_CP_BASIC_DATA, data: {
                       ...record,
+                      remarks:'',
                       receiver: record.receivers[0]?record.receivers[0].name:'',
                       receiver_location: record.receivers[0]?record.receivers[0].location:'',
                       component_perkit: record.parts_pm,
-                      total_comp_weight_perkit: record.weight,
+                      //total_comp_weight_perkit: record.weight,
                       pfep:record.id,
                       solution_crate:record.solution_crate,
                       solution_flc: record.solution_flc,

@@ -61,6 +61,7 @@ export const logisticCreateCPFormFields = [
     key: 'total_cost_supply_chain',
     kwargs: {
       placeholder: 'Total Cost Supply Chain',
+      disabled: true,
     },
     others: {
       formOptions:{ noStyle:true }
@@ -111,6 +112,7 @@ export const logisticCreateCPFormFields = [
     key: 'total_cost',
     kwargs: {
       placeholder: 'Total Cost',
+      disabled: true,
 
     },
     type: FORM_ELEMENT_TYPES.INPUT,

@@ -2,12 +2,25 @@ import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
 
 
 export const operatingCostMonthlyFormFields = [
-
+  {
+    key: 'direct_cost',
+    kwargs: {
+      placeholder: 'Direct Cost',
+      type: 'number',
+      disabled: true,
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: {
+      formOptions: { noStyle: true, },
+    },
+    customLabel: 'Direct Cost',
+  },
   {
     key: 'operating_cost',
     kwargs: {
       placeholder: 'Operating Cost',
       type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
@@ -15,10 +28,11 @@ export const operatingCostMonthlyFormFields = [
     }, customLabel: 'Operating Cost',
   },
   {
-    key: 'contingency_margin',
+    key: 'contigency_margin',
     kwargs: {
       placeholder: 'Contingency Margin',
       type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
@@ -26,10 +40,11 @@ export const operatingCostMonthlyFormFields = [
     }, customLabel: 'Contingency Margin',
   },
   {
-    key: 'min_cost_to_bill_for_a_trip',
+    key: 'min_cost_for_trip',
     kwargs: {
       placeholder: 'Min cost to bill for a trip',
       type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
@@ -37,10 +52,11 @@ export const operatingCostMonthlyFormFields = [
     }, customLabel: 'Min cost to bill for a trip',
   },
   {
-    key: 'price_should_be_billed',
+    key: 'billing_price',
     kwargs: {
       placeholder: 'Price should be billed @ 20% margin',
       type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
@@ -48,18 +64,19 @@ export const operatingCostMonthlyFormFields = [
     }, customLabel: 'Price should be billed @ 20% margin',
   },
   {
-    key: 'margin_agreed_for_this_flow',
+    key: 'agreed_margin',
     kwargs: {
       placeholder: 'Margin agreed for this flow',
       type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
       formOptions: { noStyle: true },
-    }, customLabel: 'Margin agreed for this flow',
+    }, customLabel: 'Margin agreed for this flow (%)',
   },
   {
-    key: 'trip_cost_sales',
+    key: 'trip_cost',
     kwargs: {
       placeholder: 'TRIP COST (SALES)',
       type: 'number',
@@ -74,20 +91,21 @@ export const operatingCostMonthlyFormFields = [
     kwargs: {
       placeholder: 'Gross Margins',
       type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
       formOptions: { noStyle: true },
-    }, customLabel: 'Gross Margins',
+    }, customLabel: 'Gross Margins (%)',
   },
   {
-    key: 'remark_operating_cost',
+    key: 'remarks',
     kwargs: {
-      placeholder: 'Remark',
+      placeholder: 'Remarks',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
       formOptions: { noStyle: true },
-    }, customLabel: 'Remark',
+    }, customLabel: 'Remarks',
   },
 ];
