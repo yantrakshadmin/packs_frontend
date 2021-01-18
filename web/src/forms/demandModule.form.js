@@ -54,10 +54,12 @@ export const DemandModuleForm = ({ id, onCancel, onDone }) => {
             if (currentSelected==="kits") {
                 form.setFieldsValue({
                     "kits" : form.getFieldValue(currentSelected).map(v => {
-                        if (v.kit) {
-                            return {...v,part_number:v.kit};
+                      if (v) {
+                        if ('kit' in v) {
+                          return {...v,part_number:v.kit};
                         }
                         return v;
+                      }
                     }),
                 })
             }
