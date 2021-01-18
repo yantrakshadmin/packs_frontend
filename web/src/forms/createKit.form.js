@@ -71,7 +71,7 @@ export const KitForm = ({ id, onCancel, onDone }) => {
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
-                  selectOptions: filterActive(clients) || [],
+                  selectOptions: filterActive(_,clients) || [],
                   key: 'user',
                   customTitle: 'client_name',
                   dataKeys: ['client_shipping_address'],
@@ -111,7 +111,7 @@ export const KitForm = ({ id, onCancel, onDone }) => {
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                             },
                             others: {
-                              selectOptions: filterActive(products) || [],
+                              selectOptions: filterActive(_,products) || [],
                               key: 'id',
                               dataKeys: ['name', 'description', 'category'],
                               customTitle: 'short_code',

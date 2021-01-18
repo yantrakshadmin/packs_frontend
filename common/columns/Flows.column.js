@@ -14,5 +14,12 @@ export default [
     key: 'flow_type',
     dataIndex: 'flow_type',
   },
-
+  {
+    title: 'Status',
+    key: 'active',
+    render: (text, record) => {
+      return record.active ? "Active" : "Inactive" ;
+    },
+    dataIndex: 'active',
+  },
 ];
