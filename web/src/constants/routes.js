@@ -289,6 +289,12 @@ export const clientRoutes = [
     Component: lazy(() => import('screens/client/MaterialRequest.screen')),
   },
   {
+    name: 'Demand Module (Beta)',
+    icon: ['fas', 'layer-group'],
+    path: '/demands/',
+    Component: lazy(() => import('screens/client/DemandModule.screen')),
+  },
+  {
     name: 'My Allotments',
     icon: ['fas', 'layer-group'],
     path: '/allotments/',
