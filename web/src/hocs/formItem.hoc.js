@@ -83,7 +83,7 @@ const FormItem = ({ key, rules, kwargs, type, others, customLabel, noLabel }) =>
           name={key}
           rules={rules}
           {...formOptions}>
-          <Input {...kwargs} size='middle' />
+          <Input size='middle' {...kwargs} />
         </Form.Item>
       );
     }
@@ -96,7 +96,7 @@ const FormItem = ({ key, rules, kwargs, type, others, customLabel, noLabel }) =>
           name={key}
           rules={rules}
           {...formOptions}>
-          <InputNumber {...kwargs} size='middle' />
+          <InputNumber size='middle' {...kwargs} />
         </Form.Item>
       );
 

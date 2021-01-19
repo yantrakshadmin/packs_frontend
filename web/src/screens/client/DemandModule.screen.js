@@ -163,7 +163,7 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={DemandModuleForm}
-        modalWidth={80}
+        modalWidth={98}
         expandHandleKey='flows'
         expandParams={{ loading }}
         ExpandBody={MaterialRequestsTable}
