@@ -9,6 +9,10 @@ import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import formItem from '../hocs/formItem.hoc';
 
 
+import _ from 'lodash';
+import { filterActive } from 'common/helpers/mrHelper';
+
+
 export const FlowForm = ({ id, onCancel, onDone }) => {
   const { data: receiverClients } = useAPI('/receiverclients/', {});
   const { data: clients } = useAPI('/clients/', {});
@@ -124,7 +128,7 @@ export const FlowForm = ({ id, onCancel, onDone }) => {
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
-                  selectOptions: clients || [],
+                  selectOptions: filterActive(_,clients) || [],
                   key: 'user',
                   customTitle: 'client_name',
                   dataKeys: ['client_shipping_address'],
@@ -144,7 +148,7 @@ export const FlowForm = ({ id, onCancel, onDone }) => {
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
-                  selectOptions: receiverClients || [],
+                  selectOptions: filterActive(_,receiverClients) || [],
                   key: 'id',
                   customTitle: 'name',
                   dataKeys: ['city', 'address'],
@@ -183,7 +187,7 @@ export const FlowForm = ({ id, onCancel, onDone }) => {
                             },
                             form,
                             others: {
-                              selectOptions: kits || [],
+                              selectOptions: filterActive(_,kits) || [],
                               key: 'id',
                               dataKeys: ['components_per_kit', 'kit_info', 'kit_name'],
                               customTitle: 'kit_name',

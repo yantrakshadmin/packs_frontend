@@ -6,6 +6,10 @@ import { useHandleForm } from 'hooks/form';
 import { createReceiverClient, editReceiverClient, retrieveReceiverClient } from 'common/api/auth';
 import formItem from '../hocs/formItem.hoc';
 
+import _ from 'lodash';
+import { filterActive } from 'common/helpers/mrHelper';
+
+
 export const ReceiverForm = ({ id, onCancel, onDone }) => {
   const { data } = useAPI('/clients/');
 
@@ -47,7 +51,7 @@ export const ReceiverForm = ({ id, onCancel, onDone }) => {
                 {formItem({
                   ...item,
                   others: {
-                    selectOptions: data || [],
+                    selectOptions: filterActive(_,data) || [],
                     key: 'user',
                     customTitle: 'client_name',
                     dataKeys: ['client_shipping_address'],

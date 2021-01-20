@@ -83,7 +83,7 @@ const FormItem = ({ key, rules, kwargs, type, others, customLabel, noLabel }) =>
           name={key}
           rules={rules}
           {...formOptions}>
-          <Input {...kwargs} size='middle' />
+          <Input size='middle' {...kwargs} />
         </Form.Item>
       );
     }
@@ -96,7 +96,7 @@ const FormItem = ({ key, rules, kwargs, type, others, customLabel, noLabel }) =>
           name={key}
           rules={rules}
           {...formOptions}>
-          <InputNumber {...kwargs} size='middle' />
+          <InputNumber size='middle' {...kwargs} />
         </Form.Item>
       );
 
@@ -186,6 +186,19 @@ const FormItem = ({ key, rules, kwargs, type, others, customLabel, noLabel }) =>
           <DatePicker onChange={(date) => console.log(date)} />
         </Form.Item>
       );
+
+    case FORM_ELEMENT_TYPES.MONTH_PICKER:
+      return (
+        <Form.Item
+          key={key}
+          {...formOptions}
+          label={noLabel ? null : customLabel || key.charAt(0).toUpperCase() + key.slice(1)}
+          name={key}
+          rules={rules}>
+          <DatePicker onChange={(date) => console.log(date)} picker="month" />
+        </Form.Item>
+      );
+
     case FORM_ELEMENT_TYPES.MULTIPLE_CHECKBOX:
       return (
         <Form.Item

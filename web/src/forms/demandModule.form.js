@@ -1,28 +1,31 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {Form, Col, Row, Button, Divider, Spin} from 'antd';
 import {
-  materialRequestFormFields,
-  materialRequestFlowFormFields,
-} from 'common/formFields/materialRequest.formFields';
+  demandModuleFormFields,
+  demandModuleFlowFormFields,
+  demandModuleFlowFormCalFields,
+} from 'common/formFields/demandModule.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
 import {createMr, editMr, retrieveMr} from 'common/api/auth';
-import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
+import {PlusOutlined, CloseOutlined} from '@ant-design/icons';
 import {useControlledSelect} from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
 
-export const MaterialRequestForm = ({id, onCancel, onDone}) => {
-  const [flowId, setFlowId] = useState(null);
+import DmCalModal from './demandModuleCalModal.form';
 
-  const {data: flows} = useAPI('/myflows/', {});
-  const {data: kits} = useControlledSelect(flowId);
+import _ from 'lodash';
+import {filterActive} from 'common/helpers/mrHelper';
+
+export const DemandModuleForm = ({id, onCancel, onDone}) => {
+  const {data: kits} = useAPI('/client-kits/', {});
 
   const {form, submit, loading} = useHandleForm({
     create: createMr,
     edit: editMr,
     retrieve: retrieveMr,
-    success: 'Material Request created/edited successfully.',
-    failure: 'Error in creating/editing Material Request.',
+    success: 'Demand created/edited successfully.',
+    failure: 'Error in creating/editing Demand.',
     done: onDone,
     close: onCancel,
     id,
@@ -41,13 +44,42 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
     submit(data);
   };
 
-  const handleFieldsChange = (data) => {
-    console.log(data);
-  };
+  const handleFieldsChange = useCallback(
+    (data) => {
+      if (data[0] && kits) {
+        if (data[0].name) {
+          const currentSelected = data[0].name[0];
+          console.log(currentSelected);
+          if (currentSelected === 'kits') {
+            form.setFieldsValue({
+              kits: form.getFieldValue(currentSelected).map((v) => {
+                if (v) {
+                  if ('kit' in v) {
+                    const thisKit = _.find(kits, (o) => o.id === v.kit);
+                    return {
+                      ...v,
+                      part_number: thisKit.part_number,
+                      kit_client: thisKit.kit_client['client_code'],
+                      client_city: thisKit.kit_client['client_city'],
+                      kit_type: thisKit.kit_type,
+                      kit_id: thisKit.kit_name,
+                      components_per_kit: thisKit.components_per_kit,
+                    };
+                  }
+                  return v;
+                }
+              }),
+            });
+          }
+        }
+      }
+    },
+    [kits, form],
+  );
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Material Request Details</Divider>
+      <Divider orientation="left">Demand Module Details</Divider>
       <Form
         onFinish={preProcess}
         form={form}
@@ -56,7 +88,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
         autoComplete="off"
         onFieldsChange={handleFieldsChange}>
         <Row style={{justifyContent: 'left'}}>
-          {materialRequestFormFields.slice(0, 1).map((item, idx) => (
+          {demandModuleFormFields.slice(0, 1).map((item, idx) => (
             <Col span={24}>
               <div key={idx} className="p-2">
                 {formItem(item)}
@@ -67,44 +99,14 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
 
         <Divider orientation="left">Flow and Kit Details</Divider>
 
-        <Form.List name="flows">
+        <Form.List name="kits">
           {(fields, {add, remove}) => {
             return (
               <div>
                 {fields.map((field, index) => (
                   <Row align="middle">
-                    {materialRequestFlowFormFields.slice(0, 1).map((item) => (
-                      <Col span={13}>
-                        <div className="p-2">
-                          {formItem({
-                            ...item,
-                            noLabel: index != 0,
-                            kwargs: {
-                              onChange: (val) => {
-                                setFlowId(val);
-                              },
-                              placeholder: 'Select',
-                              showSearch: true,
-                              filterOption: (input, option) =>
-                                option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-                            },
-                            others: {
-                              selectOptions: flows || [],
-                              key: 'id',
-                              dataKeys: ['flow_name', 'flow_info', 'flow_type'],
-                              customTitle: 'flow_name',
-                              formOptions: {
-                                ...field,
-                                name: [field.name, item.key],
-                                fieldKey: [field.fieldKey, item.key],
-                              },
-                            },
-                          })}
-                        </div>
-                      </Col>
-                    ))}
-                    {materialRequestFlowFormFields.slice(1, 2).map((item) => (
-                      <Col span={4}>
+                    {demandModuleFlowFormFields.slice(0, 1).map((item) => (
+                      <Col span={item.col_span}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -114,19 +116,12 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
                               showSearch: true,
                               filterOption: (input, option) =>
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-                              onFocus: () => {
-                                const data = form.getFieldValue(['flows', field.name, 'flow']);
-                                if (data) {
-                                  console.log(data);
-                                  setFlowId(data);
-                                }
-                              },
                             },
                             others: {
-                              selectOptions: kits || [],
+                              selectOptions: filterActive(_, kits) || [],
                               key: 'id',
-                              dataKeys: ['kit_name', 'kit_info', 'components_per_kit'],
-                              customTitle: 'kit_name',
+                              customTitle: 'part_name',
+                              //dataKeys: ['kit_name', 'kit_info', 'components_per_kit'],
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],
@@ -137,8 +132,8 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
                         </div>
                       </Col>
                     ))}
-                    {materialRequestFlowFormFields.slice(2, 3).map((item) => (
-                      <Col span={4}>
+                    {demandModuleFlowFormFields.slice(1).map((item) => (
+                      <Col span={item.col_span}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -154,15 +149,17 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
                         </div>
                       </Col>
                     ))}
-                    <Col span={3}>
+                    <Col span={1}>
+                      <DmCalModal />
+                    </Col>
+                    <Col span={1}>
                       <Button
-                        // style={{ width: '9vw' }}
-                        style={index != 0 ? {top: '-2vh'} : null}
                         type="danger"
+                        title="Delete"
                         onClick={() => {
                           remove(field.name);
                         }}>
-                        <MinusCircleOutlined /> Delete
+                        <CloseOutlined />
                       </Button>
                     </Col>
                   </Row>

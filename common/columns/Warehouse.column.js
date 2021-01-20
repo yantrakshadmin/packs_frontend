@@ -44,4 +44,12 @@ export default [
     key: 'gst',
     dataIndex: 'gst',
   },
+  {
+    title: 'Status',
+    key: 'active',
+    render: (text, record) => {
+      return record.active ? "Active" : "Inactive" ;
+    },
+    dataIndex: 'active',
+  },
 ];

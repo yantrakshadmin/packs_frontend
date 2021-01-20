@@ -1,8 +1,7 @@
-import { lazy } from 'react';
+import {lazy} from 'react';
 
 export const publicRoutes = [
-  { Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')),
-    path: '/' },
+  {Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')), path: '/'},
   {
     Component: lazy(() => import('../components/SignUp/sign-up-client.component')),
     path: '/sign-up/client/',
@@ -204,7 +203,8 @@ export const employeeRoutes = [
         name: 'Floating',
         path: '/reports/stocking/',
         Component: lazy(() => import('components/Reports/Stocking.js')),
-      },  {
+      },
+      {
         name: 'GRN Count',
         path: '/reports/grn-count/',
         Component: lazy(() => import('components/Reports/grnCount')),
@@ -248,15 +248,14 @@ export const employeeRoutes = [
         path: '/main-inventory/inventory-clients/',
         Component: lazy(() => import('screens/employee/clientInventory.screen')),
       },
-
-    ]
+    ],
   },
   {
     name: 'Outward Docket',
     icon: ['fas', 'layer-group'],
     path: '/outward-docket/',
     Component: lazy(() => import('screens/client/outwardDocket.screen')),
-    props:{ isEmployee:true }
+    props: {isEmployee: true},
   },
 ];
 
@@ -289,6 +288,12 @@ export const clientRoutes = [
     Component: lazy(() => import('screens/client/MaterialRequest.screen')),
   },
   {
+    name: 'Demands (Beta)',
+    icon: ['fas', 'layer-group'],
+    path: '/demands/',
+    Component: lazy(() => import('screens/client/DemandModule.screen')),
+  },
+  {
     name: 'My Allotments',
     icon: ['fas', 'layer-group'],
     path: '/allotments/',
@@ -298,7 +303,7 @@ export const clientRoutes = [
     name: 'Outward Docket',
     icon: ['fas', 'layer-group'],
     path: '/outward-docket/',
-    props:{ isEmployee:false },
+    props: {isEmployee: false},
     Component: lazy(() => import('screens/client/outwardDocket.screen')),
   },
   {
