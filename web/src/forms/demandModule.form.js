@@ -150,7 +150,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                       </Col>
                     ))}
                     <Col span={1}>
-                      <DmCalModal demandModuleFlowFormCalFields={demandModuleFlowFormCalFields} />
+                      <DmCalModal />
                     </Col>
                     <Col span={1}>
                       <Button
