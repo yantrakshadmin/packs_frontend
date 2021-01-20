@@ -1,9 +1,9 @@
-import { FORM_ELEMENT_TYPES } from '../../web/src/constants/formFields.constant';
+import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
 
 export const demandModuleFormFields = [
   {
     key: 'delivery_required_on',
-    rules: [{ required: true, message: 'Please select delivery date!' }],
+    rules: [{required: true, message: 'Please select delivery date!'}],
     kwargs: {
       placeholder: 'Select',
     },
@@ -16,7 +16,7 @@ export const demandModuleFormFields = [
 export const demandModuleFlowFormFields = [
   {
     key: 'kit',
-    rules: [{ required: true, message: 'Please select Part Name!' }],
+    rules: [{required: true, message: 'Please select Part Name!'}],
     kwargs: {
       placeholder: 'Part Name',
     },
@@ -51,12 +51,12 @@ export const demandModuleFlowFormFields = [
     key: 'client_city',
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
-      placeholder: 'Receiver Location',
+      placeholder: 'Receiver Loc.',
       disabled: true,
     },
     others: null,
-    customLabel: 'Receiver Location',
-    col_span: 3,
+    customLabel: 'Receiver Loc.',
+    col_span: 2,
   },
   {
     key: 'cycle_time',
@@ -78,7 +78,7 @@ export const demandModuleFlowFormFields = [
     },
     others: null,
     customLabel: 'Kit Type',
-    col_span: 4,
+    col_span: 3,
   },
   {
     key: 'kit_id',
@@ -101,5 +101,38 @@ export const demandModuleFlowFormFields = [
     others: null,
     customLabel: 'Parts/Kit',
     col_span: 2,
+  },
+  {
+    key: 'monthly',
+    type: FORM_ELEMENT_TYPES.INPUT,
+    kwargs: {
+      placeholder: 'Monthly',
+    },
+    others: null,
+    customLabel: 'Monthly',
+    col_span: 2,
+  },
+];
+
+export const demandModuleFlowFormCalFields = [
+  {
+    key: 'date',
+    type: FORM_ELEMENT_TYPES.DATE,
+    kwargs: {
+      placeholder: 'Date',
+    },
+    others: null,
+    customLabel: 'Date',
+    col_span: 4,
+  },
+  {
+    key: 'event',
+    type: FORM_ELEMENT_TYPES.INPUT,
+    kwargs: {
+      placeholder: 'Event',
+    },
+    others: null,
+    customLabel: 'Event',
+    col_span: 4,
   },
 ];

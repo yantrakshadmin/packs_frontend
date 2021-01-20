@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import materialRequestColumns from 'common/columns/materialRequest.column';
-import { Popconfirm, Button, Input, Popover } from 'antd';
-import { deleteMr, retrieveMrs } from 'common/api/auth';
-import { connect } from 'react-redux';
-import { useTableSearch } from 'hooks/useTableSearch';
-import { useAPI } from 'common/hooks/api';
-import { mergeArray } from 'common/helpers/mrHelper';
-import { DemandModuleForm } from 'forms/demandModule.form';
+import {Popconfirm, Button, Input, Popover} from 'antd';
+import {deleteMr, retrieveMrs} from 'common/api/auth';
+import {connect} from 'react-redux';
+import {useTableSearch} from 'hooks/useTableSearch';
+import {useAPI} from 'common/hooks/api';
+import {mergeArray} from 'common/helpers/mrHelper';
+import {DemandModuleForm} from 'forms/demandModule.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import MaterialRequestsTable from 'components/MaterialRequestsTable';
-import { deleteHOC } from 'hocs/deleteHoc';
+import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
 
-const { Search } = Input;
+const {Search} = Input;
 
-const MaterialRequestEmployeeScreen = ({ currentPage }) => {
+const MaterialRequestEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  const { filteredData, loading, reload } = useTableSearch({ searchVal, retrieve: retrieveMrs });
-  const { data:mrStatusData } = useAPI('list-mrstatus/')
+  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveMrs});
+  const {data: mrStatusData} = useAPI('list-mrstatus/');
   const cancelEditing = () => {
     setEditingId(null);
   };
@@ -32,11 +32,11 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
       title: 'Status',
       key: 'status',
       className: 'align-center',
-      render:  (text, record) => {
-        if (record.is_allocated && (!record.is_rejected) )
+      render: (text, record) => {
+        if (record.is_allocated && !record.is_rejected)
           return (
             <Button
-              type='primary'
+              type="primary"
               style={{
                 backgroundColor: '#00FF00',
                 outline: 'none',
@@ -47,10 +47,10 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
               Allocated
             </Button>
           );
-        if((!record.is_allocated) && (!record.is_rejected)){
+        if (!record.is_allocated && !record.is_rejected) {
           return (
             <Button
-              type='primary'
+              type="primary"
               style={{
                 backgroundColor: 'red',
                 outline: 'none',
@@ -64,40 +64,44 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
             </Button>
           );
         }
-        if((!record.is_allocated) && record.is_rejected){
-          return(
-            <Popover content={(
-              <div style={{ width:'20rem' }}>
-                <text>
-                  <b>Reason : </b>
-                  {record.reason}
-                </text>
-                <br />
-                {record.remarks?(
+        if (!record.is_allocated && record.is_rejected) {
+          return (
+            <Popover
+              content={
+                <div style={{width: '20rem'}}>
                   <text>
-                    <b>Remarks : </b>
-                    {record.remarks}
+                    <b>Reason : </b>
+                    {record.reason}
                   </text>
-                ):null}
-              </div>
-            )}>
-              <Button type='primary' danger>Rejected</Button>
+                  <br />
+                  {record.remarks ? (
+                    <text>
+                      <b>Remarks : </b>
+                      {record.remarks}
+                    </text>
+                  ) : null}
+                </div>
+              }>
+              <Button type="primary" danger>
+                Rejected
+              </Button>
             </Popover>
-          )
+          );
         }
-        return(<div />)}
+        return <div />;
+      },
     },
     {
       title: 'Raised By',
       key: 'raised_by',
-      dataIndex: 'raised_by'
+      dataIndex: 'raised_by',
     },
     {
       title: 'Action',
       key: 'operation',
       width: '7vw',
       render: (text, record) => (
-        <div className='row justify-evenly'>
+        <div className="row justify-evenly">
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -112,7 +116,7 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
             <Edit />
           </Button>
           <Popconfirm
-            title='Confirm Delete'
+            title="Confirm Delete"
             onConfirm={deleteHOC({
               record,
               reload,
@@ -140,7 +144,7 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
     {
       name: 'All Material Requests',
       key: 'allMaterialRequests',
-      data: mergeArray((filteredData||[]),(mrStatusData||[])),
+      data: mergeArray(filteredData || [], mrStatusData || []),
       columns,
       loading,
     },
@@ -148,9 +152,9 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
       </div>
       <br />
@@ -158,14 +162,14 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size='middle'
-        title='Demand Modules'
+        size="middle"
+        title="Demands (Beta)"
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={DemandModuleForm}
         modalWidth={98}
-        expandHandleKey='flows'
-        expandParams={{ loading }}
+        expandHandleKey="flows"
+        expandParams={{loading}}
         ExpandBody={MaterialRequestsTable}
       />
     </>
@@ -173,7 +177,7 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { currentPage: state.page.currentPage };
+  return {currentPage: state.page.currentPage};
 };
 
 export default connect(mapStateToProps)(MaterialRequestEmployeeScreen);
