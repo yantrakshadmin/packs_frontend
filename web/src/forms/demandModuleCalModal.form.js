@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import {Modal, Button, Calendar, Badge, Input, DatePicker, Col} from 'antd';
+import {Modal, Button, Calendar, Badge, Input, Alert} from 'antd';
 import {PlusOutlined, MinusOutlined, CalendarOutlined} from '@ant-design/icons';
 import moment from 'moment';
 
@@ -78,8 +78,7 @@ const Cal = (props) => {
         return (
           <span key={idx}>
             <Input.Group compact>
-              <DatePicker disabled style={{width: '40%'}} value={item.date} />
-              <Input disabled style={{width: '50%'}} value={item.event} />
+              <Input disabled style={{width: '90%'}} value={item.event} />
               <Button onClick={() => deleteEvent(item.key)} style={{width: '10%'}} type="danger">
                 <MinusOutlined />
               </Button>
@@ -162,11 +161,15 @@ const Cal = (props) => {
         dateFullCellRender={dateCellRender}
       />
       <br />
+      <Alert
+        style={{textAlign: 'center'}}
+        message={`Selected date: ${selectedValue && selectedValue.format('DD MMMM YYYY')}`}
+      />
+      <br />
       {renderEventsList()}
       <Input.Group compact>
-        <DatePicker style={{width: '40%'}} disabled="true" value={selectedValue} />
         <Input
-          style={{width: '50%'}}
+          style={{width: '90%'}}
           placeholder="Add Event"
           onChange={handleChange}
           value={eventText}
