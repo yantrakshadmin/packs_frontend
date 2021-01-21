@@ -197,11 +197,7 @@ const DmCalModal = ({field, kitQuantities, setKitQuantities}) => {
     setIsModalVisible(true);
   }, [isModalVisible]);
 
-  const handleOk = useCallback(() => {
-    setIsModalVisible(false);
-  }, [isModalVisible]);
-
-  const handleCancel = useCallback(() => {
+  const handleClose = useCallback(() => {
     setIsModalVisible(false);
   }, [isModalVisible]);
 
@@ -222,8 +218,9 @@ const DmCalModal = ({field, kitQuantities, setKitQuantities}) => {
       <Modal
         title="Add Quantities"
         visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}>
+        footer={null}
+        onOk={handleClose}
+        onCancel={handleClose}>
         <Cal field={field} kitQuantities={kitQuantities} setKitQuantities={setKitQuantities} />
       </Modal>
     </>
