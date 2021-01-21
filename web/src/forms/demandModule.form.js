@@ -32,7 +32,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
     dates: ['delivery_required_on'],
   });
 
-  const [kitEvents, setKitEvents] = useState({});
+  const [kitQuantities, setKitQuantities] = useState({});
 
   const preProcess = (data) => {
     const {flows} = data;
@@ -151,7 +151,11 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                       </Col>
                     ))}
                     <Col span={1}>
-                      <DmCalModal fieldName={field.name} fieldKey={field.fieldKey} />
+                      <DmCalModal
+                        field={field}
+                        kitQuantities={kitQuantities}
+                        setKitQuantities={setKitQuantities}
+                      />
                     </Col>
                     <Col span={1}>
                       <Button

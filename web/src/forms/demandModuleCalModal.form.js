@@ -5,18 +5,12 @@ import moment from 'moment';
 
 import _ from 'lodash';
 
-import formItem from '../hocs/formItem.hoc';
+//import formItem from '../hocs/formItem.hoc';
 
-const Cal = (props) => {
+const Cal = ({field, kitQuantities, setKitQuantities}) => {
   const [value, setValue] = useState(moment(new Date()));
   const [selectedValue, setSelectedValue] = useState(moment(new Date()));
   const [eventText, setEventText] = useState(null);
-
-  const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    console.log(props.fieldKey);
-  }, [events]);
 
   const onSelect = useCallback(
     (value) => {
@@ -41,21 +35,35 @@ const Cal = (props) => {
   );
 
   const addEvent = useCallback(() => {
-    setEvents([
-      ...events,
-      {
-        date: selectedValue,
-        event: eventText,
-      },
-    ]);
+    if (field.fieldKey in kitQuantities) {
+      setKitQuantities({
+        ...kitQuantities,
+        [field.fieldKey]: [
+          ...kitQuantities[field.fieldKey],
+          {date: selectedValue, event: eventText},
+        ],
+      });
+    } else {
+      setKitQuantities({
+        ...kitQuantities,
+        [field.fieldKey]: [{date: selectedValue, event: eventText}],
+      });
+    }
     setEventText(null);
-  }, [selectedValue, eventText, events]);
+  }, [selectedValue, eventText, kitQuantities]);
 
   const deleteEvent = useCallback(
     (date) => {
-      setEvents(_.remove(events, (el) => el.date.format('L') !== date.format('L')));
+      const newThisFieldKitQuantities = _.remove(
+        [...kitQuantities[field.fieldKey]],
+        (el) => el.date.format('L') !== date.format('L'),
+      );
+      setKitQuantities({
+        ...kitQuantities,
+        [field.fieldKey]: newThisFieldKitQuantities,
+      });
     },
-    [events],
+    [kitQuantities],
   );
 
   const renderAddButton = useCallback(() => {
@@ -75,7 +83,10 @@ const Cal = (props) => {
   }, [eventText, selectedValue]);
 
   const renderEventInput = useCallback(() => {
-    const ev = _.find(events, (ev) => ev.date.format('L') === selectedValue.format('L'));
+    const ev = _.find(
+      kitQuantities[field.fieldKey],
+      (ev) => ev.date.format('L') === selectedValue.format('L'),
+    );
     if (ev) {
       return (
         <Input.Group compact>
@@ -97,14 +108,14 @@ const Cal = (props) => {
         {renderAddButton()}
       </Input.Group>
     );
-  }, [events, selectedValue, eventText]);
+  }, [kitQuantities, selectedValue, eventText]);
 
   const dateCellRender = useCallback(
     (value) => {
       const valueDate = value.format('L');
       const today = moment().format('L');
       const selectedDate = selectedValue.format('L');
-      const ev = _.find(events, (ev) => ev.date.format('L') === valueDate);
+      const ev = _.find(kitQuantities[field.fieldKey], (ev) => ev.date.format('L') === valueDate);
       if (ev && valueDate === today && valueDate === selectedDate) {
         return (
           <Badge dot>
@@ -156,7 +167,7 @@ const Cal = (props) => {
         </Button>
       );
     },
-    [events, selectedValue],
+    [kitQuantities, selectedValue],
   );
 
   return (
@@ -179,7 +190,7 @@ const Cal = (props) => {
   );
 };
 
-const DmCalModal = (props) => {
+const DmCalModal = ({field, kitQuantities, setKitQuantities}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = useCallback(() => {
@@ -194,6 +205,15 @@ const DmCalModal = (props) => {
     setIsModalVisible(false);
   }, [isModalVisible]);
 
+  useEffect(() => {
+    if (!(field.fieldKey in kitQuantities)) {
+      setKitQuantities({
+        ...kitQuantities,
+        [field.fieldKey]: [],
+      });
+    }
+  }, [kitQuantities]);
+
   return (
     <>
       <Button type="primary" onClick={showModal}>
@@ -204,7 +224,7 @@ const DmCalModal = (props) => {
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}>
-        <Cal props={props} />
+        <Cal field={field} kitQuantities={kitQuantities} setKitQuantities={setKitQuantities} />
       </Modal>
     </>
   );
