@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {Modal, Button, Calendar, Badge, Input, Alert} from 'antd';
 import {PlusOutlined, MinusOutlined, CalendarOutlined} from '@ant-design/icons';
 import moment from 'moment';
@@ -13,6 +13,10 @@ const Cal = (props) => {
   const [eventText, setEventText] = useState(null);
 
   const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    console.log(props);
+  }, [events]);
 
   const onSelect = useCallback(
     (value) => {
@@ -94,10 +98,10 @@ const Cal = (props) => {
   const dateCellRender = useCallback(
     (value) => {
       const valueDate = value.format('L');
-      const now = moment().format('L');
+      const today = moment().format('L');
       const selectedDate = selectedValue.format('L');
       const evs = _.filter(events, (ev) => ev.date.format('L') === valueDate);
-      if (evs.length > 0 && valueDate === now && valueDate === selectedDate) {
+      if (evs.length > 0 && valueDate === today && valueDate === selectedDate) {
         return (
           <Badge dot>
             <Button type="primary" danger shape="circle">
@@ -105,7 +109,7 @@ const Cal = (props) => {
             </Button>
           </Badge>
         );
-      } else if (evs.length > 0 && valueDate === now) {
+      } else if (evs.length > 0 && valueDate === today) {
         return (
           <Badge dot>
             <Button type="dashed" danger shape="circle">
@@ -127,7 +131,7 @@ const Cal = (props) => {
             {value.date()}
           </Button>
         );
-      } else if (valueDate === now) {
+      } else if (valueDate === today) {
         return (
           <Button type="dashed" danger shape="circle">
             {value.date()}
