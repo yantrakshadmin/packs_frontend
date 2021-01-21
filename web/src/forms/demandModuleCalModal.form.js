@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {Modal, Button, Calendar, Badge, Input, Alert} from 'antd';
-import {PlusOutlined, MinusOutlined, CalendarOutlined} from '@ant-design/icons';
+import {CheckOutlined, DeleteOutlined, CalendarOutlined} from '@ant-design/icons';
 import moment from 'moment';
 
 import _ from 'lodash';
@@ -15,7 +15,7 @@ const Cal = (props) => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    console.log(props);
+    console.log(props.fieldKey);
   }, [events]);
 
   const onSelect = useCallback(
@@ -44,7 +44,6 @@ const Cal = (props) => {
     setEvents([
       ...events,
       {
-        key: events.length,
         date: selectedValue,
         event: eventText,
       },
@@ -53,8 +52,8 @@ const Cal = (props) => {
   }, [selectedValue, eventText, events]);
 
   const deleteEvent = useCallback(
-    (key) => {
-      setEvents(_.remove(events, (el) => el.key !== key));
+    (date) => {
+      setEvents(_.remove(events, (el) => el.date.format('L') !== date.format('L')));
     },
     [events],
   );
@@ -63,45 +62,50 @@ const Cal = (props) => {
     if (eventText && selectedValue) {
       return (
         <Button style={{width: '10%'}} onClick={addEvent} type="primary">
-          <PlusOutlined />
+          <CheckOutlined />
         </Button>
       );
     } else {
       return (
         <Button disabled style={{width: '10%'}} type="primary">
-          <PlusOutlined />
+          <CheckOutlined />
         </Button>
       );
     }
   }, [eventText, selectedValue]);
 
-  const renderEventsList = useCallback(() => {
-    const evs = _.filter(events, (ev) => ev.date.format('L') === selectedValue.format('L'));
-    if (evs.length > 0) {
-      return evs.map((item, idx) => {
-        return (
-          <span key={idx}>
-            <Input.Group compact>
-              <Input disabled style={{width: '90%'}} value={item.event} />
-              <Button onClick={() => deleteEvent(item.key)} style={{width: '10%'}} type="danger">
-                <MinusOutlined />
-              </Button>
-            </Input.Group>
-            <br />
-          </span>
-        );
-      });
+  const renderEventInput = useCallback(() => {
+    const ev = _.find(events, (ev) => ev.date.format('L') === selectedValue.format('L'));
+    if (ev) {
+      return (
+        <Input.Group compact>
+          <Input disabled style={{width: '90%'}} value={ev.event} />
+          <Button onClick={() => deleteEvent(ev.date)} style={{width: '10%'}} type="danger">
+            <DeleteOutlined />
+          </Button>
+        </Input.Group>
+      );
     }
-    return null;
-  }, [events, selectedValue]);
+    return (
+      <Input.Group compact>
+        <Input
+          style={{width: '90%'}}
+          placeholder="Add Quantity"
+          onChange={handleChange}
+          value={eventText}
+        />
+        {renderAddButton()}
+      </Input.Group>
+    );
+  }, [events, selectedValue, eventText]);
 
   const dateCellRender = useCallback(
     (value) => {
       const valueDate = value.format('L');
       const today = moment().format('L');
       const selectedDate = selectedValue.format('L');
-      const evs = _.filter(events, (ev) => ev.date.format('L') === valueDate);
-      if (evs.length > 0 && valueDate === today && valueDate === selectedDate) {
+      const ev = _.find(events, (ev) => ev.date.format('L') === valueDate);
+      if (ev && valueDate === today && valueDate === selectedDate) {
         return (
           <Badge dot>
             <Button type="primary" danger shape="circle">
@@ -109,7 +113,7 @@ const Cal = (props) => {
             </Button>
           </Badge>
         );
-      } else if (evs.length > 0 && valueDate === today) {
+      } else if (ev && valueDate === today) {
         return (
           <Badge dot>
             <Button type="dashed" danger shape="circle">
@@ -117,7 +121,7 @@ const Cal = (props) => {
             </Button>
           </Badge>
         );
-      } else if (evs.length > 0 && valueDate === selectedDate) {
+      } else if (ev && valueDate === selectedDate) {
         return (
           <Badge dot>
             <Button type="primary" danger shape="circle">
@@ -137,7 +141,7 @@ const Cal = (props) => {
             {value.date()}
           </Button>
         );
-      } else if (evs.length > 0) {
+      } else if (ev) {
         return (
           <Badge dot>
             <Button type="text" shape="circle">
@@ -170,16 +174,7 @@ const Cal = (props) => {
         message={`Selected date: ${selectedValue && selectedValue.format('DD MMMM YYYY')}`}
       />
       <br />
-      {renderEventsList()}
-      <Input.Group compact>
-        <Input
-          style={{width: '90%'}}
-          placeholder="Add Event"
-          onChange={handleChange}
-          value={eventText}
-        />
-        {renderAddButton()}
-      </Input.Group>
+      {renderEventInput()}
     </>
   );
 };
@@ -204,7 +199,11 @@ const DmCalModal = (props) => {
       <Button type="primary" onClick={showModal}>
         <CalendarOutlined />
       </Button>
-      <Modal title="Add Events" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal
+        title="Add Quantities"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}>
         <Cal props={props} />
       </Modal>
     </>
