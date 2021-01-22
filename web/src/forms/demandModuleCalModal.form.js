@@ -1,18 +1,16 @@
-import React, {useState, useCallback} from 'react';
-import {Modal, Button, Calendar, Badge, Input, DatePicker, Col} from 'antd';
-import {PlusOutlined, MinusOutlined, CalendarOutlined} from '@ant-design/icons';
+import React, {useState, useCallback, useEffect} from 'react';
+import {Modal, Button, Calendar, Badge, Input, Alert} from 'antd';
+import {CheckOutlined, DeleteOutlined, CalendarOutlined} from '@ant-design/icons';
 import moment from 'moment';
 
 import _ from 'lodash';
 
-import formItem from '../hocs/formItem.hoc';
+//import formItem from '../hocs/formItem.hoc';
 
-const Cal = (props) => {
+const Cal = ({field, kitQuantities, setKitQuantities}) => {
   const [value, setValue] = useState(moment(new Date()));
   const [selectedValue, setSelectedValue] = useState(moment(new Date()));
   const [eventText, setEventText] = useState(null);
-
-  const [events, setEvents] = useState([]);
 
   const onSelect = useCallback(
     (value) => {
@@ -37,68 +35,88 @@ const Cal = (props) => {
   );
 
   const addEvent = useCallback(() => {
-    setEvents([
-      ...events,
-      {
-        key: events.length,
-        date: selectedValue,
-        event: eventText,
-      },
-    ]);
+    if (field.fieldKey in kitQuantities) {
+      setKitQuantities({
+        ...kitQuantities,
+        [field.fieldKey]: [
+          ...kitQuantities[field.fieldKey],
+          {date: selectedValue, event: eventText},
+        ],
+      });
+    } else {
+      setKitQuantities({
+        ...kitQuantities,
+        [field.fieldKey]: [{date: selectedValue, event: eventText}],
+      });
+    }
     setEventText(null);
-  }, [selectedValue, eventText, events]);
+  }, [selectedValue, eventText, kitQuantities]);
 
   const deleteEvent = useCallback(
-    (key) => {
-      setEvents(_.remove(events, (el) => el.key !== key));
+    (date) => {
+      const newThisFieldKitQuantities = _.remove(
+        [...kitQuantities[field.fieldKey]],
+        (el) => el.date.format('L') !== date.format('L'),
+      );
+      setKitQuantities({
+        ...kitQuantities,
+        [field.fieldKey]: newThisFieldKitQuantities,
+      });
     },
-    [events],
+    [kitQuantities],
   );
 
   const renderAddButton = useCallback(() => {
     if (eventText && selectedValue) {
       return (
         <Button style={{width: '10%'}} onClick={addEvent} type="primary">
-          <PlusOutlined />
+          <CheckOutlined />
         </Button>
       );
     } else {
       return (
         <Button disabled style={{width: '10%'}} type="primary">
-          <PlusOutlined />
+          <CheckOutlined />
         </Button>
       );
     }
   }, [eventText, selectedValue]);
 
-  const renderEventsList = useCallback(() => {
-    const evs = _.filter(events, (ev) => ev.date.format('L') === selectedValue.format('L'));
-    if (evs.length > 0) {
-      return evs.map((item, idx) => {
-        return (
-          <span key={idx}>
-            <Input.Group compact>
-              <DatePicker disabled style={{width: '40%'}} value={item.date} />
-              <Input disabled style={{width: '50%'}} value={item.event} />
-              <Button onClick={() => deleteEvent(item.key)} style={{width: '10%'}} type="danger">
-                <MinusOutlined />
-              </Button>
-            </Input.Group>
-            <br />
-          </span>
-        );
-      });
+  const renderEventInput = useCallback(() => {
+    const ev = _.find(
+      kitQuantities[field.fieldKey],
+      (ev) => ev.date.format('L') === selectedValue.format('L'),
+    );
+    if (ev) {
+      return (
+        <Input.Group compact>
+          <Input disabled style={{width: '90%'}} value={ev.event} />
+          <Button onClick={() => deleteEvent(ev.date)} style={{width: '10%'}} type="danger">
+            <DeleteOutlined />
+          </Button>
+        </Input.Group>
+      );
     }
-    return null;
-  }, [events, selectedValue]);
+    return (
+      <Input.Group compact>
+        <Input
+          style={{width: '90%'}}
+          placeholder="Add Quantity"
+          onChange={handleChange}
+          value={eventText}
+        />
+        {renderAddButton()}
+      </Input.Group>
+    );
+  }, [kitQuantities, selectedValue, eventText]);
 
   const dateCellRender = useCallback(
     (value) => {
       const valueDate = value.format('L');
-      const now = moment().format('L');
+      const today = moment().format('L');
       const selectedDate = selectedValue.format('L');
-      const evs = _.filter(events, (ev) => ev.date.format('L') === valueDate);
-      if (evs.length > 0 && valueDate === now && valueDate === selectedDate) {
+      const ev = _.find(kitQuantities[field.fieldKey], (ev) => ev.date.format('L') === valueDate);
+      if (ev && valueDate === today && valueDate === selectedDate) {
         return (
           <Badge dot>
             <Button type="primary" danger shape="circle">
@@ -106,7 +124,7 @@ const Cal = (props) => {
             </Button>
           </Badge>
         );
-      } else if (evs.length > 0 && valueDate === now) {
+      } else if (ev && valueDate === today) {
         return (
           <Badge dot>
             <Button type="dashed" danger shape="circle">
@@ -114,7 +132,7 @@ const Cal = (props) => {
             </Button>
           </Badge>
         );
-      } else if (evs.length > 0 && valueDate === selectedDate) {
+      } else if (ev && valueDate === selectedDate) {
         return (
           <Badge dot>
             <Button type="primary" danger shape="circle">
@@ -128,13 +146,13 @@ const Cal = (props) => {
             {value.date()}
           </Button>
         );
-      } else if (valueDate === now) {
+      } else if (valueDate === today) {
         return (
           <Button type="dashed" danger shape="circle">
             {value.date()}
           </Button>
         );
-      } else if (evs.length > 0) {
+      } else if (ev) {
         return (
           <Badge dot>
             <Button type="text" shape="circle">
@@ -149,7 +167,7 @@ const Cal = (props) => {
         </Button>
       );
     },
-    [events, selectedValue],
+    [kitQuantities, selectedValue],
   );
 
   return (
@@ -162,22 +180,17 @@ const Cal = (props) => {
         dateFullCellRender={dateCellRender}
       />
       <br />
-      {renderEventsList()}
-      <Input.Group compact>
-        <DatePicker style={{width: '40%'}} disabled="true" value={selectedValue} />
-        <Input
-          style={{width: '50%'}}
-          placeholder="Add Event"
-          onChange={handleChange}
-          value={eventText}
-        />
-        {renderAddButton()}
-      </Input.Group>
+      <Alert
+        style={{textAlign: 'center'}}
+        message={`Selected date: ${selectedValue && selectedValue.format('DD MMMM YYYY')}`}
+      />
+      <br />
+      {renderEventInput()}
     </>
   );
 };
 
-const DmCalModal = (props) => {
+const DmCalModal = ({field, kitQuantities, setKitQuantities}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = useCallback(() => {
@@ -192,13 +205,26 @@ const DmCalModal = (props) => {
     setIsModalVisible(false);
   }, [isModalVisible]);
 
+  useEffect(() => {
+    if (!(field.fieldKey in kitQuantities)) {
+      setKitQuantities({
+        ...kitQuantities,
+        [field.fieldKey]: [],
+      });
+    }
+  }, [kitQuantities]);
+
   return (
     <>
       <Button type="primary" onClick={showModal}>
         <CalendarOutlined />
       </Button>
-      <Modal title="Add Events" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-        <Cal props={props} />
+      <Modal
+        title="Add Quantities"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}>
+        <Cal field={field} kitQuantities={kitQuantities} setKitQuantities={setKitQuantities} />
       </Modal>
     </>
   );

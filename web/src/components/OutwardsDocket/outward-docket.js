@@ -1,9 +1,8 @@
-import React, { useState , useEffect } from 'react';
-import { Row, Col, Typography, Spin } from 'antd';
-import { Table } from 'react-bootstrap';
+import React, {useState, useEffect} from 'react';
+import {Row, Col, Typography, Spin} from 'antd';
+import {Table} from 'react-bootstrap';
 
 import moment from 'moment';
-
 
 import {
   retrieveAllotments,
@@ -14,7 +13,7 @@ import {
 import '../Docket/docket.styles.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const { Title } = Typography;
+const {Title} = Typography;
 // dispatch_date: "2020-10-22T17:13:16.490000Z"
 // id: 1
 // invoice_number: "u76878a"
@@ -75,19 +74,19 @@ const { Title } = Typography;
 // client_state: "Haryana"
 // user: 5
 
-const OutwardDocket = ({ location,match }) => {
+const OutwardDocket = ({location, match}) => {
   const [allotment, setAllotment] = useState(null);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const fetchAllotment = async () => {
-      if(location.state){
-        if(location.state.id){
-          const { data } = await retrieveOutwardDocket(location.state.id);
-          console.log(data,'ye wala')
+      if (location.state) {
+        if (location.state.id) {
+          const {data} = await retrieveOutwardDocket(location.state.id);
+          console.log(data, 'ye wala');
           if (data) setAllotment(data);
-
-        }}
+        }
+      }
     };
     fetchAllotment();
   }, [location]);
@@ -136,64 +135,66 @@ const OutwardDocket = ({ location,match }) => {
 
   function inWords(num) {
     if ((num = num.toString()).length > 9) return 'overflow';
-    const n = (`000000000${  num}`).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+    const n = `000000000${num}`.substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
     if (!n) return;
     let str = '';
-    str += n[1] != 0 ? `${a[Number(n[1])] || `${b[n[1][0]]  } ${  a[n[1][1]]}`  }crore ` : '';
-    str += n[2] != 0 ? `${a[Number(n[2])] || `${b[n[2][0]]  } ${  a[n[2][1]]}`  }lakh ` : '';
-    str += n[3] != 0 ? `${a[Number(n[3])] || `${b[n[3][0]]  } ${  a[n[3][1]]}`  }thousand ` : '';
-    str += n[4] != 0 ? `${a[Number(n[4])] || `${b[n[4][0]]  } ${  a[n[4][1]]}`  }hundred ` : '';
+    str += n[1] != 0 ? `${a[Number(n[1])] || `${b[n[1][0]]} ${a[n[1][1]]}`}crore ` : '';
+    str += n[2] != 0 ? `${a[Number(n[2])] || `${b[n[2][0]]} ${a[n[2][1]]}`}lakh ` : '';
+    str += n[3] != 0 ? `${a[Number(n[3])] || `${b[n[3][0]]} ${a[n[3][1]]}`}thousand ` : '';
+    str += n[4] != 0 ? `${a[Number(n[4])] || `${b[n[4][0]]} ${a[n[4][1]]}`}hundred ` : '';
     str +=
       n[5] != 0
-        ? `${(str != '' ? 'and ' : '') + (a[Number(n[5])] || `${b[n[5][0]]  } ${  a[n[5][1]]}`)  }only `
+        ? `${(str != '' ? 'and ' : '') + (a[Number(n[5])] || `${b[n[5][0]]} ${a[n[5][1]]}`)}only `
         : '';
     return str;
   }
 
-  if (allotment){
-    console.log(allotment,'allotment')
+  if (allotment) {
+    console.log(allotment, 'allotment');
     return (
-      <div className='container-docket'>
-        <div className='header-docket'>
-          <div className='logo-docket'>
-            <img src={`${process.env.PUBLIC_URL  }/home-logo.png`} alt='Yantraksh' />
+      <div className="container-docket">
+        <div className="header-docket">
+          <div className="logo-docket">
+            <img src={`${process.env.PUBLIC_URL}/home-logo.png`} alt="Yantraksh" />
           </div>
-          <div className='heading-docket'>
-            <Title level={2} style={{ fontWeight: 'bold' }}>
+          <div className="heading-docket">
+            <Title level={2} style={{fontWeight: 'bold'}}>
               DELIVERY CHALLAN
             </Title>
           </div>
         </div>
         <hr />
-        <Row className='meta-docket'>
-          <Col span={17} className='left'>
+        <Row className="meta-docket">
+          <Col span={17} className="left">
             <Row>
               <Col span={22}>
-                <p style={{ fontWeight: 'bold', display: 'inline' }}>Transaction No. : </p>
-                <p style={{ display: 'inline' }}>
-                  {allotment.transaction_no}
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Transaction No. : </p>
+                <p style={{display: 'inline'}}>{allotment.transaction_no}</p>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={22}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Transaction Date : </p>
+                <p style={{display: 'inline'}}>
+                  {allotment.transaction_date
+                    ? moment(allotment.transaction_date).format('DD/MM/YYYY')
+                    : 0}
                 </p>
               </Col>
             </Row>
             <Row>
               <Col span={22}>
-                <p style={{ fontWeight: 'bold', display: 'inline' }}>Transaction Date : </p>
-                <p style={{ display: 'inline' }}>
-                  {allotment.transaction_date? moment(allotment.transaction_date).format('DD/MM/YYYY') :0}
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Dispatch Date : </p>
+                <p style={{display: 'inline'}}>
+                  {allotment.dispatch_date
+                    ? moment(allotment.dispatch_date).format('DD/MM/YYYY')
+                    : 0}
                 </p>
               </Col>
             </Row>
             <Row>
               <Col span={22}>
-                <p style={{ fontWeight: 'bold', display: 'inline' }}>Dispatch Date : </p>
-                <p style={{ display: 'inline' }}>
-                  {allotment.dispatch_date? moment(allotment.dispatch_date).format('DD/MM/YYYY') :0}
-                </p>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={22}>
-                <p style={{ fontWeight: 'bold', display: 'inline' }}>Transaction Type : Outward</p>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Transaction Type : Outward</p>
               </Col>
             </Row>
             <Row>
@@ -210,31 +211,24 @@ const OutwardDocket = ({ location,match }) => {
           </Col>
           <Col
             span={7}
-            className='right'
+            className="right"
             style={{
               fontFamily: 'Arial, Helvetica, sans-serif',
             }}>
             <p>
-              [ &nbsp;] Original for Consignee
-              {' '}
-              <br />
-              {' '}
-              [ &nbsp;] Duplicate for Transporter
-              {' '}
-              <br />
-              [
+              [ &nbsp;] Original for Consignee <br /> [ &nbsp;] Duplicate for Transporter <br />[
               &nbsp;] Triplicate for Consignor
             </p>
           </Col>
         </Row>
-        <div className='main-data-docket'>
+        <div className="main-data-docket">
           <Row>
             <Col span={12}>
               <Row>
                 <Col span={10}>
-                  <p style={{ fontWeight: 'bold' }}>Sender's Name : </p>
+                  <p style={{fontWeight: 'bold'}}>Sender's Name : </p>
                 </Col>
-                <Col span={12} style={{ wordWrap: 'break-word' }}>
+                <Col span={12} style={{wordWrap: 'break-word'}}>
                   {allotment.owner.client_name}
                 </Col>
               </Row>
@@ -242,9 +236,9 @@ const OutwardDocket = ({ location,match }) => {
             <Col span={12}>
               <Row>
                 <Col span={10}>
-                  <p style={{ fontWeight: 'bold' }}>Receiver's Name : </p>
+                  <p style={{fontWeight: 'bold'}}>Receiver's Name : </p>
                 </Col>
-                <Col span={12} style={{ wordWrap: 'break-word' }}>
+                <Col span={12} style={{wordWrap: 'break-word'}}>
                   {allotment.sending_location.name}
                 </Col>
               </Row>
@@ -254,23 +248,20 @@ const OutwardDocket = ({ location,match }) => {
             <Col span={12}>
               <Row>
                 <Col span={10}>
-                  <p style={{ fontWeight: 'bold' }}>Sender's Address : </p>
+                  <p style={{fontWeight: 'bold'}}>Sender's Address : </p>
                 </Col>
-                <Col span={12} style={{ wordWrap: 'break-word' }}>
-                  {
-                    `${allotment.owner.client_billing_address  },${
-                      allotment.owner.client_city},${allotment.owner.client_state},
-                      ${allotment.owner.client_pincode}`
-                  }
+                <Col span={12} style={{wordWrap: 'break-word'}}>
+                  {`${allotment.owner.client_billing_address},${allotment.owner.client_city},${allotment.owner.client_state},
+                      ${allotment.owner.client_pincode}`}
                 </Col>
               </Row>
             </Col>
             <Col span={12}>
               <Row>
                 <Col span={10}>
-                  <p style={{ fontWeight: 'bold' }}>Receiver's Address : </p>
+                  <p style={{fontWeight: 'bold'}}>Receiver's Address : </p>
                 </Col>
-                <Col span={12} style={{ wordWrap: 'break-word' }}>
+                <Col span={12} style={{wordWrap: 'break-word'}}>
                   {`${allotment.sending_location.address}`}
                 </Col>
               </Row>
@@ -280,9 +271,9 @@ const OutwardDocket = ({ location,match }) => {
             <Col span={12}>
               <Row>
                 <Col span={10}>
-                  <p style={{ fontWeight: 'bold' }}>GST : </p>
+                  <p style={{fontWeight: 'bold'}}>GST : </p>
                 </Col>
-                <Col span={12} style={{ wordWrap: 'break-word' }}>
+                <Col span={12} style={{wordWrap: 'break-word'}}>
                   {allotment.owner.client_gst}
                 </Col>
               </Row>
@@ -290,17 +281,17 @@ const OutwardDocket = ({ location,match }) => {
             <Col span={12}>
               <Row>
                 <Col span={10}>
-                  <p style={{ fontWeight: 'bold' }}>GST : </p>
+                  <p style={{fontWeight: 'bold'}}>GST : </p>
                 </Col>
-                <Col span={12} style={{ wordWrap: 'break-word' }}>
+                <Col span={12} style={{wordWrap: 'break-word'}}>
                   {allotment.sending_location.emitter.client_gst}
                 </Col>
               </Row>
             </Col>
           </Row>
         </div>
-        <Row className='table-docket'>
-          <Table bordered size='sm'>
+        <Row className="table-docket">
+          <Table bordered size="sm">
             <thead>
               <tr>
                 <th>Kit ID</th>
@@ -326,21 +317,21 @@ const OutwardDocket = ({ location,match }) => {
                     <td>{kit.kit.kit_type}</td>
                     <td>
                       {kit.kit.products.map((prod) => (
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{display: 'flex', flexDirection: 'column'}}>
                           <p>{prod.product.name}</p>
                         </div>
                       ))}
                     </td>
                     <td>
                       {kit.kit.products.map((prod) => (
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{display: 'flex', flexDirection: 'column'}}>
                           <p>{prod.product.short_code}</p>
                         </div>
                       ))}
                     </td>
                     <td>
                       {kit.kit.products.map((prod) => (
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{display: 'flex', flexDirection: 'column'}}>
                           <p>{prod.quantity * kit.quantity_kit}</p>
                         </div>
                       ))}
@@ -351,27 +342,34 @@ const OutwardDocket = ({ location,match }) => {
             </tbody>
           </Table>
         </Row>
-        <Row className='final-docket'>
+        <Row className="final-docket">
           <Col span={12}>
-          
             <Row>
               <Col span={24}>
-                <p style={{ fontWeight: 'bold', display: 'inline' }}>Transporter Name : </p>
-                <p style={{ display: 'inline', wordWrap: 'break-word' }}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Invoice Number : </p>
+                <p style={{display: 'inline', wordWrap: 'break-word'}}>
+                  {allotment.invoice_number}
+                </p>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Transporter Name : </p>
+                <p style={{display: 'inline', wordWrap: 'break-word'}}>
                   {allotment.transporter_name}
                 </p>
               </Col>
             </Row>
             <Row>
               <Col span={24}>
-                <p style={{ fontWeight: 'bold', display: 'inline' }}>Driver Name : </p>
-                <p style={{ display: 'inline', wordWrap: 'break-word' }}>{allotment.driver_name}</p>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Driver Name : </p>
+                <p style={{display: 'inline', wordWrap: 'break-word'}}>{allotment.driver_name}</p>
               </Col>
             </Row>
             <Row>
               <Col span={24}>
-                <p style={{ fontWeight: 'bold', display: 'inline' }}>Driver No. : </p>
-                <p style={{ display: 'inline', wordWrap: 'break-word' }}>{allotment.driver_number}</p>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Driver No. : </p>
+                <p style={{display: 'inline', wordWrap: 'break-word'}}>{allotment.driver_number}</p>
               </Col>
             </Row>
           </Col>
@@ -379,8 +377,8 @@ const OutwardDocket = ({ location,match }) => {
           <Col span={12}>
             <Row>
               <Col span={24}>
-                <p style={{ fontWeight: 'bold', display: 'inline' }}>Vehicle No. : </p>
-                <p style={{ display: 'inline', wordWrap: 'break-word' }}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Vehicle No. : </p>
+                <p style={{display: 'inline', wordWrap: 'break-word'}}>
                   {allotment.vehicle_number}
                 </p>
               </Col>
@@ -388,18 +386,18 @@ const OutwardDocket = ({ location,match }) => {
           </Col>
         </Row>
         <hr />
-        <table style={{ pageBreakInside: 'avoid' }}>
-          <div className='declaration'>
-            <p style={{ fontWeight: 'bold', display: 'inline' }}>Declaration : </p>
-            <p style={{ display: 'inline' }}>
+        <table style={{pageBreakInside: 'avoid'}}>
+          <div className="declaration">
+            <p style={{fontWeight: 'bold', display: 'inline'}}>Declaration : </p>
+            <p style={{display: 'inline'}}>
               The packaging products given on hire shall always remain the property of Yantraksh
               Logistics Private Limited and shall not be used for the purpose otherwise agreed upon.
               The same shall be returned at the address notified by Yantraksh Logistics Private
               Limited.
             </p>
             <br />
-            <p style={{ fontWeight: 'bold', display: 'inline' }}>Note : </p>
-            <p style={{ display: 'inline' }}>
+            <p style={{fontWeight: 'bold', display: 'inline'}}>Note : </p>
+            <p style={{display: 'inline'}}>
               {' '}
               No E-Way Bill is required for Empty Cargo Containers. Refer, Rule 14 of Central Goods
               and Services Tax (Second Amendment) Rules, 2018.
@@ -408,29 +406,27 @@ const OutwardDocket = ({ location,match }) => {
         </table>
 
         <hr />
-        <table style={{ pageBreakInside: 'avoid', width: '90vw' }}>
-          <div className='footer'>
+        <table style={{pageBreakInside: 'avoid', width: '90vw'}}>
+          <div className="footer">
             <Row>
               <Col span={1} />
-              <Col span={11} style={{ fontWeight: 'bold' }}>
+              <Col span={11} style={{fontWeight: 'bold'}}>
                 For Sending Location :
               </Col>
               <Col span={6} />
-              <Col span={6} style={{ fontWeight: 'bold' }}>
+              <Col span={6} style={{fontWeight: 'bold'}}>
                 For Receiving Location :
               </Col>
             </Row>
-            <br />
-            {' '}
-            <br />
+            <br /> <br />
             <br />
             <Row>
               <Col span={1} />
-              <Col span={11} style={{ fontWeight: 'bold' }}>
+              <Col span={11} style={{fontWeight: 'bold'}}>
                 Authorized Signature
               </Col>
               <Col span={6} />
-              <Col span={6} style={{ fontWeight: 'bold' }}>
+              <Col span={6} style={{fontWeight: 'bold'}}>
                 Authorized Signature
               </Col>
             </Row>
@@ -440,9 +436,7 @@ const OutwardDocket = ({ location,match }) => {
               <Col span={6} />
               <Col span={6}>(Company Seal & Signature)</Col>
             </Row>
-            <br />
-            {' '}
-            <br />
+            <br /> <br />
             <div
               style={{
                 display: 'flex',
@@ -452,7 +446,7 @@ const OutwardDocket = ({ location,match }) => {
                 padding: '0',
                 margin: '0',
               }}>
-              <p style={{ fontSize: '26px', color: '#034efc' }}>
+              <p style={{fontSize: '26px', color: '#034efc'}}>
                 Yantraksh Logistics Private Limited
               </p>
               <p>CIN No: U74999GJ2018PTC105552</p>
@@ -460,10 +454,9 @@ const OutwardDocket = ({ location,match }) => {
           </div>
         </table>
       </div>
-    );}
-  return (
-    <Spin spinning style={{ position: 'absolute', marginLeft: '49vw', marginTop: '49vh' }} />
-  );
+    );
+  }
+  return <Spin spinning style={{position: 'absolute', marginLeft: '49vw', marginTop: '49vh'}} />;
 };
 
 export default OutwardDocket;

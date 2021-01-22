@@ -32,6 +32,8 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
     dates: ['delivery_required_on'],
   });
 
+  const [kitQuantities, setKitQuantities] = useState({});
+
   const preProcess = (data) => {
     const {flows} = data;
     const newFlows = flows.map((flo) => ({
@@ -49,7 +51,6 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
       if (data[0] && kits) {
         if (data[0].name) {
           const currentSelected = data[0].name[0];
-          console.log(currentSelected);
           if (currentSelected === 'kits') {
             form.setFieldsValue({
               kits: form.getFieldValue(currentSelected).map((v) => {
@@ -150,7 +151,11 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                       </Col>
                     ))}
                     <Col span={1}>
-                      <DmCalModal />
+                      <DmCalModal
+                        field={field}
+                        kitQuantities={kitQuantities}
+                        setKitQuantities={setKitQuantities}
+                      />
                     </Col>
                     <Col span={1}>
                       <Button
