@@ -15,6 +15,17 @@ export const demandModuleFormFields = [
 
 export const demandModuleFlowFormFields = [
   {
+    key: 'flow',
+    rules: [{required: true, message: 'Please select flow!'}],
+    kwargs: {
+      placeholder: 'Select',
+    },
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: null,
+    customLabel: 'Flow',
+    col_span: 3,
+  },
+  {
     key: 'kit',
     rules: [{required: true, message: 'Please select Part Name!'}],
     kwargs: {
@@ -37,7 +48,7 @@ export const demandModuleFlowFormFields = [
     col_span: 2,
   },
   {
-    key: 'kit_client',
+    key: 'receiver_client_name',
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
       placeholder: 'Receiver Client',
@@ -48,7 +59,7 @@ export const demandModuleFlowFormFields = [
     col_span: 2,
   },
   {
-    key: 'client_city',
+    key: 'receiver_client_city',
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
       placeholder: 'Receiver Loc.',
@@ -59,7 +70,7 @@ export const demandModuleFlowFormFields = [
     col_span: 2,
   },
   {
-    key: 'cycle_time',
+    key: 'flow_days',
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
       placeholder: 'Cycle Time',

@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {Form, Col, Row, Button, Divider, Spin} from 'antd';
 import {
   demandModuleFormFields,
@@ -18,7 +18,18 @@ import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
 
 export const DemandModuleForm = ({id, onCancel, onDone}) => {
-  const {data: kits} = useAPI('/client-kits/', {});
+  const {data: flows} = useAPI('/myflows/', {});
+  const [flowId, setFlowId] = useState(null);
+
+  const [kits, setKits] = useState([]);
+
+  useEffect(() => {
+    if (flowId) {
+      const f = _.find(flows, (o) => o.id === flowId);
+      const ks = f.kits.map((el) => el.kit);
+      setKits(ks);
+    }
+  }, [flowId]);
 
   const {form, submit, loading} = useHandleForm({
     create: createMr,
@@ -39,7 +50,6 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
     const newFlows = flows.map((flo) => ({
       flow: Number(flo.flow),
       kit: Number(flo.kit),
-      quantity: Number(flo.quantity),
     }));
     data.flows = newFlows;
     console.log(data);
@@ -48,24 +58,42 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
 
   const handleFieldsChange = useCallback(
     (data) => {
-      if (data[0] && kits) {
+      if (data[0]) {
         if (data[0].name) {
           const currentSelected = data[0].name[0];
-          if (currentSelected === 'kits') {
+          if (currentSelected === 'flows') {
             form.setFieldsValue({
-              kits: form.getFieldValue(currentSelected).map((v) => {
+              flows: form.getFieldValue(currentSelected).map((v) => {
                 if (v) {
-                  if ('kit' in v) {
+                  if ('flow' in v && 'kit' in v) {
+                    console.log(v);
                     const thisKit = _.find(kits, (o) => o.id === v.kit);
-                    return {
-                      ...v,
-                      part_number: thisKit.part_number,
-                      kit_client: thisKit.kit_client['client_code'],
-                      client_city: thisKit.kit_client['client_city'],
-                      kit_type: thisKit.kit_type,
-                      kit_id: thisKit.kit_name,
-                      components_per_kit: thisKit.components_per_kit,
-                    };
+                    const thisFlow = _.find(flows, (o) => o.id === v.flow);
+                    if (thisKit && thisFlow) {
+                      return {
+                        ...v,
+                        part_number: thisKit.part_number,
+                        receiver_client_name: thisFlow.receiver_client.name,
+                        receiver_client_city: thisFlow.receiver_client.city,
+                        flow_days: thisFlow.flow_days,
+                        kit_type: thisKit.kit_type,
+                        kit_id: thisKit.kit_name,
+                        components_per_kit: thisKit.components_per_kit,
+                      };
+                    } else {
+                      return {
+                        ...v,
+                        kit: null,
+                        part_name: '',
+                        part_number: '',
+                        receiver_client_name: '',
+                        receiver_client_city: '',
+                        flow_days: '',
+                        kit_type: '',
+                        kit_id: '',
+                        components_per_kit: '',
+                      };
+                    }
                   }
                   return v;
                 }
@@ -75,7 +103,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
         }
       }
     },
-    [kits, form],
+    [kits, flows, form],
   );
 
   return (
@@ -100,7 +128,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
 
         <Divider orientation="left">Flow and Kit Details</Divider>
 
-        <Form.List name="kits">
+        <Form.List name="flows">
           {(fields, {add, remove}) => {
             return (
               <div>
@@ -113,10 +141,47 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                             ...item,
                             noLabel: index != 0,
                             kwargs: {
+                              onChange: (val) => {
+                                setFlowId(val);
+                              },
                               placeholder: 'Select',
                               showSearch: true,
                               filterOption: (input, option) =>
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                            },
+                            others: {
+                              selectOptions: filterActive(_, flows) || [],
+                              key: 'id',
+                              dataKeys: ['flow_name', 'flow_info', 'flow_type'],
+                              customTitle: 'flow_name',
+                              formOptions: {
+                                ...field,
+                                name: [field.name, item.key],
+                                fieldKey: [field.fieldKey, item.key],
+                              },
+                            },
+                          })}
+                        </div>
+                      </Col>
+                    ))}
+                    {demandModuleFlowFormFields.slice(1, 2).map((item) => (
+                      <Col span={item.col_span}>
+                        <div className="p-2">
+                          {formItem({
+                            ...item,
+                            noLabel: index != 0,
+                            kwargs: {
+                              placeholder: 'Select',
+                              showSearch: true,
+                              filterOption: (input, option) =>
+                                option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                              onFocus: () => {
+                                const data = form.getFieldValue(['flows', field.name, 'flow']);
+                                if (data) {
+                                  console.log(data);
+                                  setFlowId(data);
+                                }
+                              },
                             },
                             others: {
                               selectOptions: filterActive(_, kits) || [],
@@ -133,7 +198,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                         </div>
                       </Col>
                     ))}
-                    {demandModuleFlowFormFields.slice(1).map((item) => (
+                    {demandModuleFlowFormFields.slice(2).map((item) => (
                       <Col span={item.col_span}>
                         <div className="p-2">
                           {formItem({
