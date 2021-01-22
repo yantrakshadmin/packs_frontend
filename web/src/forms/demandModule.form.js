@@ -60,15 +60,55 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
     (data) => {
       if (data[0]) {
         if (data[0].name) {
+          if (data[0].name[0] === 'flows') {
+            const fields = form.getFieldsValue();
+
+            if ('flows' in fields) {
+              const fieldKey = data[0].name[1];
+              const flowsX = fields['flows'];
+              if (fieldKey in flowsX) {
+                if ('flow' in flowsX[fieldKey]) {
+                  const thisFlow = _.find(flows, (o) => o.id === flowsX[fieldKey].flow);
+                  if ('kit' in flowsX[fieldKey]) {
+                    const thisKit = _.find(kits, (o) => o.id === flowsX[fieldKey].kit);
+                    if (thisFlow && thisKit) {
+                      Object.assign(flowsX[fieldKey], {
+                        part_number: thisKit.part_number,
+                        receiver_client_name: thisFlow.receiver_client.name,
+                        receiver_client_city: thisFlow.receiver_client.city,
+                        flow_days: thisFlow.flow_days,
+                        kit_type: thisKit.kit_type,
+                        kit_id: thisKit.kit_name,
+                        components_per_kit: thisKit.components_per_kit,
+                      });
+                    }
+                  }
+                  form.setFieldsValue({flows: flowsX});
+                  console.log(flowsX);
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    [kits, flows, form, kitQuantities],
+  );
+
+  const handleOLDFieldsChange = useCallback(
+    (data) => {
+      if (data[0]) {
+        if (data[0].name) {
           const currentSelected = data[0].name[0];
           if (currentSelected === 'flows') {
+            const fieldKey = data[0].name[1];
             form.setFieldsValue({
               flows: form.getFieldValue(currentSelected).map((v) => {
                 if (v) {
                   if ('flow' in v && 'kit' in v) {
-                    console.log(v);
                     const thisKit = _.find(kits, (o) => o.id === v.kit);
                     const thisFlow = _.find(flows, (o) => o.id === v.flow);
+                    const quantities = fieldKey in kitQuantities ? kitQuantities[fieldKey] : [];
                     if (thisKit && thisFlow) {
                       return {
                         ...v,
@@ -79,19 +119,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                         kit_type: thisKit.kit_type,
                         kit_id: thisKit.kit_name,
                         components_per_kit: thisKit.components_per_kit,
-                      };
-                    } else {
-                      return {
-                        ...v,
-                        kit: null,
-                        part_name: '',
-                        part_number: '',
-                        receiver_client_name: '',
-                        receiver_client_city: '',
-                        flow_days: '',
-                        kit_type: '',
-                        kit_id: '',
-                        components_per_kit: '',
+                        quantities: quantities,
                       };
                     }
                   }
@@ -102,8 +130,9 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
           }
         }
       }
+      console.log(form.getFieldsValue());
     },
-    [kits, flows, form],
+    [kits, flows, form, kitQuantities],
   );
 
   return (
@@ -217,6 +246,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                     ))}
                     <Col span={1}>
                       <DmCalModal
+                        form={form}
                         field={field}
                         kitQuantities={kitQuantities}
                         setKitQuantities={setKitQuantities}
