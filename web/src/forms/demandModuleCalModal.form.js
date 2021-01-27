@@ -190,18 +190,14 @@ const Cal = ({field, kitQuantities, setKitQuantities}) => {
   );
 };
 
-const DmCalModal = ({field, kitQuantities, setKitQuantities}) => {
+const DmCalModal = ({form, field, kitQuantities, setKitQuantities}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = useCallback(() => {
     setIsModalVisible(true);
   }, [isModalVisible]);
 
-  const handleOk = useCallback(() => {
-    setIsModalVisible(false);
-  }, [isModalVisible]);
-
-  const handleCancel = useCallback(() => {
+  const handleClose = useCallback(() => {
     setIsModalVisible(false);
   }, [isModalVisible]);
 
@@ -211,19 +207,50 @@ const DmCalModal = ({field, kitQuantities, setKitQuantities}) => {
         ...kitQuantities,
         [field.fieldKey]: [],
       });
+      const fields = form.getFieldsValue();
+      const {flows} = fields;
+      if (flows[field.fieldKey]) {
+        Object.assign(flows[field.fieldKey], {quantities: []});
+        form.setFieldsValue({flows});
+      }
+    } else {
+      const fields = form.getFieldsValue();
+      const {flows} = fields;
+      if (flows[field.fieldKey]) {
+        const quantities = kitQuantities[field.fieldKey];
+        Object.assign(flows[field.fieldKey], {quantities: quantities});
+        form.setFieldsValue({flows});
+      }
     }
   }, [kitQuantities]);
 
-  return (
-    <>
-      <Button type="primary" onClick={showModal}>
+  const renderModalButton = useCallback(() => {
+    const flows = form.getFieldValue('flows');
+    if (flows[field.fieldKey]) {
+      if ('flow' in flows[field.fieldKey] && 'kit' in flows[field.fieldKey]) {
+        return (
+          <Button type="primary" onClick={showModal}>
+            <CalendarOutlined />
+          </Button>
+        );
+      }
+    }
+    return (
+      <Button type="primary" disabled>
         <CalendarOutlined />
       </Button>
+    );
+  }, [form, field]);
+
+  return (
+    <>
+      {renderModalButton()}
       <Modal
         title="Add Quantities"
         visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}>
+        footer={null}
+        onOk={handleClose}
+        onCancel={handleClose}>
         <Cal field={field} kitQuantities={kitQuantities} setKitQuantities={setKitQuantities} />
       </Modal>
     </>
