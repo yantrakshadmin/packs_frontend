@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 //import formItem from '../hocs/formItem.hoc';
 
-const Cal = ({field, kitQuantities, setKitQuantities, deliveryMonth, maxInput}) => {
+const Cal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth, maxInput}) => {
   const [value, setValue] = useState(deliveryMonth);
   const [selectedValue, setSelectedValue] = useState(deliveryMonth);
   const [eventText, setEventText] = useState(null);
@@ -41,6 +41,25 @@ const Cal = ({field, kitQuantities, setKitQuantities, deliveryMonth, maxInput}) 
     },
     [eventText, maxInput],
   );
+
+  useEffect(() => {
+    if (!(field.fieldKey in kitQuantities)) {
+      const fields = form.getFieldsValue();
+      const {flows} = fields;
+      if (flows[field.fieldKey]) {
+        Object.assign(flows[field.fieldKey], {quantities: []});
+        form.setFieldsValue({flows});
+      }
+    } else {
+      const fields = form.getFieldsValue();
+      const {flows} = fields;
+      if (flows[field.fieldKey]) {
+        const quantities = kitQuantities[field.fieldKey];
+        Object.assign(flows[field.fieldKey], {quantities: quantities});
+        form.setFieldsValue({flows});
+      }
+    }
+  }, [kitQuantities]);
 
   const addEvent = useCallback(() => {
     if (field.fieldKey in kitQuantities) {
@@ -201,28 +220,28 @@ const DmCalModal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth
     setIsModalVisible(false);
   }, [isModalVisible]);
 
-  useEffect(() => {
-    if (!(field.fieldKey in kitQuantities)) {
-      setKitQuantities({
-        ...kitQuantities,
-        [field.fieldKey]: [],
-      });
-      const fields = form.getFieldsValue();
-      const {flows} = fields;
-      if (flows[field.fieldKey]) {
-        Object.assign(flows[field.fieldKey], {quantities: []});
-        form.setFieldsValue({flows});
-      }
-    } else {
-      const fields = form.getFieldsValue();
-      const {flows} = fields;
-      if (flows[field.fieldKey]) {
-        const quantities = kitQuantities[field.fieldKey];
-        Object.assign(flows[field.fieldKey], {quantities: quantities});
-        form.setFieldsValue({flows});
-      }
-    }
-  }, [kitQuantities]);
+  // useEffect(() => {
+  //   if (!(field.fieldKey in kitQuantities)) {
+  //     setKitQuantities({
+  //       ...kitQuantities,
+  //       [field.fieldKey]: [],
+  //     });
+  //     const fields = form.getFieldsValue();
+  //     const {flows} = fields;
+  //     if (flows[field.fieldKey]) {
+  //       Object.assign(flows[field.fieldKey], {quantities: []});
+  //       form.setFieldsValue({flows});
+  //     }
+  //   } else {
+  //     const fields = form.getFieldsValue();
+  //     const {flows} = fields;
+  //     if (flows[field.fieldKey]) {
+  //       const quantities = kitQuantities[field.fieldKey];
+  //       Object.assign(flows[field.fieldKey], {quantities: quantities});
+  //       form.setFieldsValue({flows});
+  //     }
+  //   }
+  // }, [kitQuantities]);
 
   const renderModalButton = useCallback(() => {
     const flows = form.getFieldValue('flows');
@@ -267,6 +286,7 @@ const DmCalModal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth
         onOk={handleClose}
         onCancel={handleClose}>
         <Cal
+          form={form}
           field={field}
           kitQuantities={kitQuantities}
           setKitQuantities={setKitQuantities}

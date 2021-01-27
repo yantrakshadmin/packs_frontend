@@ -1,38 +1,38 @@
-import { loadAPI } from '../helpers/api';
+import {loadAPI} from '../helpers/api';
 
-export const getJWTTokens = ({ username, password }) =>
+export const getJWTTokens = ({username, password}) =>
   loadAPI(`/api/token/`, {
     method: 'POST',
-    data: { username, password },
+    data: {username, password},
     secure: false,
   });
 
-export const isUserVerified = ({ username }) =>
+export const isUserVerified = ({username}) =>
   loadAPI(`/verification/`, {
-    params: { username },
+    params: {username},
     secure: false,
   });
 
-export const verifyUser = ({ username, otp }) =>
+export const verifyUser = ({username, otp}) =>
   loadAPI('/verifyOTP/', {
     method: 'POST',
-    data: { username, otp },
+    data: {username, otp},
     secure: false,
   });
 
 export const getUserMeta = () => loadAPI(`/user/meta/`);
 
-export const createEmployee = ({ username, email, password, first_name, last_name }) =>
+export const createEmployee = ({username, email, password, first_name, last_name}) =>
   loadAPI('/create-employee/', {
     method: 'POST',
-    data: { username, email, password, first_name, last_name },
+    data: {username, email, password, first_name, last_name},
     secure: false,
   });
 
-export const createClient = ({ username, email, password, first_name, last_name }) =>
+export const createClient = ({username, email, password, first_name, last_name}) =>
   loadAPI('/create-client/', {
     method: 'POST',
-    data: { username, email, password, first_name, last_name },
+    data: {username, email, password, first_name, last_name},
     secure: false,
   });
 
@@ -48,7 +48,7 @@ export const createProduct = (req) =>
     data: req,
     secure: true,
     headers: {
-      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
 
@@ -64,7 +64,7 @@ export const editProduct = (id, req) => {
     secure: true,
     data: req,
     headers: {
-      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
 };
@@ -94,17 +94,35 @@ export const createKit = ({
   loadAPI('/create-kit/', {
     method: 'POST',
     secure: true,
-    data: { kit_name, kit_info, components_per_kit, kit_client,part_name, part_number, kit_type, products },
+    data: {
+      kit_name,
+      kit_info,
+      components_per_kit,
+      kit_client,
+      part_name,
+      part_number,
+      kit_type,
+      products,
+    },
   });
 
 export const editKit = (
   id,
-  { kit_name, kit_info, components_per_kit, kit_client,part_name, part_number, kit_type, products },
+  {kit_name, kit_info, components_per_kit, kit_client, part_name, part_number, kit_type, products},
 ) =>
   loadAPI(`/edit-kit/${id}/`, {
     method: 'PATCH',
     secure: true,
-    data: { kit_name, kit_info, components_per_kit, kit_client,part_name, part_number, kit_type, products },
+    data: {
+      kit_name,
+      kit_info,
+      components_per_kit,
+      kit_client,
+      part_name,
+      part_number,
+      kit_type,
+      products,
+    },
   });
 
 export const retrieveKits = () =>
@@ -131,31 +149,36 @@ export const deleteKit = (id) =>
     secure: true,
   });
 
-export const createOutward = (data) => (loadAPI('create-outward/',{
-  method:'POST',
-  secure:true,
-  data
-}))
+export const createOutward = (data) =>
+  loadAPI('create-outward/', {
+    method: 'POST',
+    secure: true,
+    data,
+  });
 
-export const editOutward = (id,data) => (loadAPI(`edit-outward/${id}/`,{
-  method:'PATCH',
-  secure:true,
-  data
-}))
+export const editOutward = (id, data) =>
+  loadAPI(`edit-outward/${id}/`, {
+    method: 'PATCH',
+    secure: true,
+    data,
+  });
 
-export const deleteOutward = (id) => (loadAPI(`edit-outward/${id}/`,{
-  method:'Delete',
-  secure:true,
-}))
+export const deleteOutward = (id) =>
+  loadAPI(`edit-outward/${id}/`, {
+    method: 'Delete',
+    secure: true,
+  });
 
-export const retrieveOutward = (id) => (loadAPI(`edit-outward/${id}/`,{
-  method:'GET',
-  secure:true,
-}))
-export const retrieveOutwardDocket = (id) => (loadAPI(`outwards/?id=${id}`,{
-  method:'GET',
-  secure:true,
-}))
+export const retrieveOutward = (id) =>
+  loadAPI(`edit-outward/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+export const retrieveOutwardDocket = (id) =>
+  loadAPI(`outwards/?id=${id}`, {
+    method: 'GET',
+    secure: true,
+  });
 
 export const createVendor = ({
   name,
@@ -274,7 +297,7 @@ export const createWarehouse = (req) =>
     secure: true,
     data: req,
     headers: {
-      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
 
@@ -284,7 +307,7 @@ export const editWarehouse = (id, req) =>
     secure: true,
     data: req,
     headers: {
-      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
 
@@ -312,7 +335,7 @@ export const editClientProfile = (id, req) =>
     secure: true,
     data: req,
     headers: {
-      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
 
@@ -322,18 +345,18 @@ export const retrieveClientProfile = (id) =>
     secure: true,
   });
 
-export const createReceiverClient = ({ name, city, address, emitter, pan, gst }) =>
+export const createReceiverClient = ({name, city, address, emitter, pan, gst}) =>
   loadAPI('/create-receiverclient/', {
     method: 'POST',
-    data: { name, city, address, emitter, pan, gst },
+    data: {name, city, address, emitter, pan, gst},
     secure: true,
   });
 
-export const editReceiverClient = (id, { name, city, address, emitter, pan, gst }) =>
+export const editReceiverClient = (id, {name, city, address, emitter, pan, gst}) =>
   // loadAPI(`/edit-receiverclient/${id}/`, {
   loadAPI(`/edit-receiverclient/${id}/`, {
     method: 'PATCH',
-    data: { name, city, address, emitter, pan, gst },
+    data: {name, city, address, emitter, pan, gst},
     secure: true,
   });
 
@@ -367,17 +390,17 @@ export const createFlow = ({
   loadAPI('/create-flow/', {
     method: 'POST',
     secure: true,
-    data: { flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits },
+    data: {flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits},
   });
 
 export const editFlow = (
   id,
-  { flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits },
+  {flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits},
 ) =>
   loadAPI(`/edit-flow/${id}/`, {
     method: 'PATCH',
     secure: true,
-    data: { flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits },
+    data: {flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits},
   });
 
 export const retreiveFlow = (id) =>
@@ -410,24 +433,24 @@ export const deleteFlow = (id) =>
     secure: true,
   });
 
-export const createMr = ({ delivery_required_on, flows,client_id }) =>
+export const createMr = ({delivery_required_on, flows, client_id}) =>
   loadAPI('/create-mrequets/', {
     method: 'POST',
-    data: { delivery_required_on, flows,client_id },
+    data: {delivery_required_on, flows, client_id},
     secure: true,
   });
 
-export const editMr = (id, { delivery_required_on, flows }) =>
+export const editMr = (id, {delivery_required_on, flows}) =>
   loadAPI(`/edit-mrequets/${id}/`, {
     method: 'PATCH',
-    data: { delivery_required_on, flows },
+    data: {delivery_required_on, flows},
     secure: true,
   });
 
-export const editAddMr = (id, { delivery_required_on, flows,client_id }) =>
+export const editAddMr = (id, {delivery_required_on, flows, client_id}) =>
   loadAPI(`/admin-mredit/${id}/`, {
     method: 'PATCH',
-    data: { delivery_required_on, flows,client_id },
+    data: {delivery_required_on, flows, client_id},
     secure: true,
   });
 
@@ -456,6 +479,57 @@ export const deleteMr = (id) =>
   });
 
 export const deleteAddMr = (id) =>
+  loadAPI(`/admin-mredit/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const createDm = ({delivery_month, flows, client_id}) =>
+  loadAPI('/create-demand/', {
+    method: 'POST',
+    data: {delivery_month, flows, client_id},
+    secure: true,
+  });
+
+export const editDm = (id, {delivery_required_on, flows}) =>
+  loadAPI(`/edit-mrequets/${id}/`, {
+    method: 'PATCH',
+    data: {delivery_required_on, flows},
+    secure: true,
+  });
+
+export const editAddDm = (id, {delivery_required_on, flows, client_id}) =>
+  loadAPI(`/admin-mredit/${id}/`, {
+    method: 'PATCH',
+    data: {delivery_required_on, flows, client_id},
+    secure: true,
+  });
+
+export const retrieveDm = (id) =>
+  loadAPI(`/edit-mrequets/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const retrieveAddDm = (id) =>
+  loadAPI(`/admin-mredit/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const retrieveDms = () =>
+  loadAPI('/mrequets/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteDm = (id) =>
+  loadAPI(`/edit-mrequets/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const deleteAddDm = (id) =>
   loadAPI(`/admin-mredit/${id}/`, {
     method: 'DELETE',
     secure: true,
@@ -558,7 +632,7 @@ export const retrieveAllotments = (id) =>
   loadAPI('/allotments/', {
     method: 'GET',
     secure: true,
-    params: { id },
+    params: {id},
   });
 
 export const retrieveAllotmentsCalender = (tno) =>
@@ -617,7 +691,7 @@ export const createDelivered = (req) =>
     data: req,
     secure: true,
     headers: {
-      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
 export const editDelivered = (id, req) =>
@@ -626,7 +700,7 @@ export const editDelivered = (id, req) =>
     data: req,
     secure: true,
     headers: {
-      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
 
@@ -642,7 +716,7 @@ export const createOutwardDeliveredDocket = (req) =>
     data: req,
     secure: true,
     headers: {
-      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
 export const editOutwardDeliveredDocket = (id, req) =>
@@ -651,7 +725,7 @@ export const editOutwardDeliveredDocket = (id, req) =>
     data: req,
     secure: true,
     headers: {
-      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
 
@@ -667,14 +741,13 @@ export const deleteOutwardDeliveredDocket = (id) =>
     secure: true,
   });
 
-
 export const leadFileUpload = (req) =>
   loadAPI('/upload-pfep/', {
     method: 'POST',
     data: req,
     secure: true,
     headers: {
-      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
 
@@ -684,7 +757,7 @@ export const tpFileUpload = (req) =>
     data: req,
     secure: true,
     headers: {
-      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
 export const createReturn = (data) =>
@@ -752,7 +825,7 @@ export const retrieveReturns = (id) =>
   loadAPI('/return-received/', {
     method: 'GET',
     secure: true,
-    params: { id },
+    params: {id},
   });
 //
 // export const retrieveReturns = () =>
@@ -779,7 +852,7 @@ export const createReceived = (req) =>
     data: req,
     secure: true,
     headers: {
-      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
 
@@ -790,7 +863,7 @@ export const editReceived = (id, req) =>
     data: req,
     secure: true,
     headers: {
-      'Content-Type': `multipart/form-data  boundary=${  Math.random().toString().substr(2)}`,
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
 
@@ -806,18 +879,17 @@ export const deleteReceived = (id) =>
     secure: true,
   });
 
-export const allDelivered = ( ) =>
+export const allDelivered = () =>
   loadAPI('/delivered/', {
     method: 'GET',
     secure: true,
   });
 
-export const allInward = ( ) =>
+export const allInward = () =>
   loadAPI('/inward/', {
     method: 'GET',
     secure: true,
   });
-
 
 export const allReceived = () => loadAPI('/received/', {});
 
@@ -833,7 +905,7 @@ export const retrieveGRNBarCodes = (id) =>
     secure: true,
   });
 
-export const retrieveAllotmentReport = ({ cname, to, from }) =>
+export const retrieveAllotmentReport = ({cname, to, from}) =>
   loadAPI(`/allotment-reports/`, {
     method: 'GET',
     secure: true,
@@ -844,18 +916,18 @@ export const retrieveAllotmentReport = ({ cname, to, from }) =>
     },
   });
 
-export const retrieveStockingReport = ({ to, from ,cname }) =>
+export const retrieveStockingReport = ({to, from, cname}) =>
   loadAPI(`/floating-report/`, {
     method: 'GET',
     secure: true,
     params: {
       to,
       from,
-      cname
+      cname,
     },
   });
 
-export const retrieveReturnReport = ({ cname, to, from }) =>
+export const retrieveReturnReport = ({cname, to, from}) =>
   loadAPI(`/return-reports/`, {
     method: 'GET',
     secure: true,
@@ -870,14 +942,14 @@ export const retrieveAllotmentsDelivered = (id) =>
   loadAPI('/allotments-delivered/', {
     method: 'GET',
     secure: true,
-    params: { id },
+    params: {id},
   });
 
 export const retrieveDocketOutwardInward = (id) =>
   loadAPI('/outward-inward/', {
     method: 'GET',
     secure: true,
-    params: { id },
+    params: {id},
   });
 
 export const retrieveReturnDocket = (id) =>
@@ -939,28 +1011,28 @@ export const deleteLead = (id) =>
     secure: true,
   });
 
-export const postAltBarcodes = (data) =>{
-  return loadAPI('dispatch-allotment/',{
-    method:'POST',
-    secure:true,
-    data
-  })
-}
+export const postAltBarcodes = (data) => {
+  return loadAPI('dispatch-allotment/', {
+    method: 'POST',
+    secure: true,
+    data,
+  });
+};
 
-export const postReturnBarcodes = (data) =>{
-  return loadAPI('dispatch-return/',{
-    method:'POST',
-    secure:true,
-    data
-  })
-}
-export const createPFEP = (data) =>{
-  return loadAPI('create-pfep/',{
-    method:'POST',
-    secure:true,
-    data
-  })
-}
+export const postReturnBarcodes = (data) => {
+  return loadAPI('dispatch-return/', {
+    method: 'POST',
+    secure: true,
+    data,
+  });
+};
+export const createPFEP = (data) => {
+  return loadAPI('create-pfep/', {
+    method: 'POST',
+    secure: true,
+    data,
+  });
+};
 
 export const deletePFEP = (id) =>
   loadAPI(`/edit-pfep/${id}/`, {
@@ -968,20 +1040,20 @@ export const deletePFEP = (id) =>
     secure: true,
   });
 
-export const editPFEP = (id,data) =>
+export const editPFEP = (id, data) =>
   loadAPI(`/edit-pfep/${id}/`, {
     method: 'PATCH',
     secure: true,
-    data
+    data,
   });
 
-export const createCP = (data) =>{
-  return loadAPI('create-cp/',{
-    method:'POST',
-    secure:true,
-    data
-  })
-}
+export const createCP = (data) => {
+  return loadAPI('create-cp/', {
+    method: 'POST',
+    secure: true,
+    data,
+  });
+};
 
 export const deleteCP = (id) =>
   loadAPI(`/edit-cp/${id}/`, {
@@ -989,28 +1061,28 @@ export const deleteCP = (id) =>
     secure: true,
   });
 
-export const editCP = (id,data) =>
+export const editCP = (id, data) =>
   loadAPI(`/edit-cp/${id}/`, {
     method: 'PATCH',
     secure: true,
-    data
+    data,
   });
 
-export const retrieveTestInv = (data) =>{
-  return loadAPI('inv-items/',{
-    method:'GET',
-    secure:true,
-    data
-  })
-}
+export const retrieveTestInv = (data) => {
+  return loadAPI('inv-items/', {
+    method: 'GET',
+    secure: true,
+    data,
+  });
+};
 
-export const createTestInv = (data) =>{
-  return loadAPI('create-inv/',{
-    method:'POST',
-    secure:true,
-    data
-  })
-}
+export const createTestInv = (data) => {
+  return loadAPI('create-inv/', {
+    method: 'POST',
+    secure: true,
+    data,
+  });
+};
 
 export const deleteTestInv = (id) =>
   loadAPI(`/edit-inv/${id}/`, {
@@ -1018,11 +1090,10 @@ export const deleteTestInv = (id) =>
     secure: true,
   });
 
-
-export const createMRStatus = (data) =>{
-  return loadAPI('create-mrstatus/',{
-    method:'POST',
-    secure:true,
-    data
-  })
-}
+export const createMRStatus = (data) => {
+  return loadAPI('create-mrstatus/', {
+    method: 'POST',
+    secure: true,
+    data,
+  });
+};

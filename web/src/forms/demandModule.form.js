@@ -7,7 +7,7 @@ import {
 } from 'common/formFields/demandModule.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {createMr, editMr, retrieveMr} from 'common/api/auth';
+import {createDm, editDm, retrieveDm} from 'common/api/auth';
 import {PlusOutlined, CloseOutlined} from '@ant-design/icons';
 import {useControlledSelect} from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
@@ -32,15 +32,15 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
   }, [flowId]);
 
   const {form, submit, loading} = useHandleForm({
-    create: createMr,
-    edit: editMr,
-    retrieve: retrieveMr,
+    create: createDm,
+    edit: editDm,
+    retrieve: retrieveDm,
     success: 'Demand created/edited successfully.',
     failure: 'Error in creating/editing Demand.',
     done: onDone,
     close: onCancel,
     id,
-    dates: ['delivery_required_on'],
+    dates: ['delivery_month'],
   });
 
   const [kitQuantities, setKitQuantities] = useState({});
@@ -50,6 +50,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
     const newFlows = flows.map((flo) => ({
       flow: Number(flo.flow),
       kit: Number(flo.kit),
+      quantities: flo.quantities,
     }));
     data.flows = newFlows;
     console.log(data);
@@ -95,45 +96,45 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
     [kits, flows, form, kitQuantities],
   );
 
-  const handleOLDFieldsChange = useCallback(
-    (data) => {
-      if (data[0]) {
-        if (data[0].name) {
-          const currentSelected = data[0].name[0];
-          if (currentSelected === 'flows') {
-            const fieldKey = data[0].name[1];
-            form.setFieldsValue({
-              flows: form.getFieldValue(currentSelected).map((v) => {
-                if (v) {
-                  if ('flow' in v && 'kit' in v) {
-                    const thisKit = _.find(kits, (o) => o.id === v.kit);
-                    const thisFlow = _.find(flows, (o) => o.id === v.flow);
-                    const quantities = fieldKey in kitQuantities ? kitQuantities[fieldKey] : [];
-                    if (thisKit && thisFlow) {
-                      return {
-                        ...v,
-                        part_number: thisKit.part_number,
-                        receiver_client_name: thisFlow.receiver_client.name,
-                        receiver_client_city: thisFlow.receiver_client.city,
-                        flow_days: thisFlow.flow_days,
-                        kit_type: thisKit.kit_type,
-                        kit_id: thisKit.kit_name,
-                        components_per_kit: thisKit.components_per_kit,
-                        quantities: quantities,
-                      };
-                    }
-                  }
-                  return v;
-                }
-              }),
-            });
-          }
-        }
-      }
-      console.log(form.getFieldsValue());
-    },
-    [kits, flows, form, kitQuantities],
-  );
+  // const handleOLDFieldsChange = useCallback(
+  //   (data) => {
+  //     if (data[0]) {
+  //       if (data[0].name) {
+  //         const currentSelected = data[0].name[0];
+  //         if (currentSelected === 'flows') {
+  //           const fieldKey = data[0].name[1];
+  //           form.setFieldsValue({
+  //             flows: form.getFieldValue(currentSelected).map((v) => {
+  //               if (v) {
+  //                 if ('flow' in v && 'kit' in v) {
+  //                   const thisKit = _.find(kits, (o) => o.id === v.kit);
+  //                   const thisFlow = _.find(flows, (o) => o.id === v.flow);
+  //                   const quantities = fieldKey in kitQuantities ? kitQuantities[fieldKey] : [];
+  //                   if (thisKit && thisFlow) {
+  //                     return {
+  //                       ...v,
+  //                       part_number: thisKit.part_number,
+  //                       receiver_client_name: thisFlow.receiver_client.name,
+  //                       receiver_client_city: thisFlow.receiver_client.city,
+  //                       flow_days: thisFlow.flow_days,
+  //                       kit_type: thisKit.kit_type,
+  //                       kit_id: thisKit.kit_name,
+  //                       components_per_kit: thisKit.components_per_kit,
+  //                       quantities: quantities,
+  //                     };
+  //                   }
+  //                 }
+  //                 return v;
+  //               }
+  //             }),
+  //           });
+  //         }
+  //       }
+  //     }
+  //     console.log(form.getFieldsValue());
+  //   },
+  //   [kits, flows, form, kitQuantities],
+  // );
 
   return (
     <Spin spinning={loading}>
