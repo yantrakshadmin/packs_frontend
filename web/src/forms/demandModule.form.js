@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import {Form, Col, Row, Button, Divider, Spin, Space, Card} from 'antd';
 import {
   demandModuleFormFields,
   demandModuleFlowFormFields,
@@ -162,27 +162,78 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
             return (
               <div>
                 {fields.map((field, index) => (
-                  <Row align="middle">
-                    {demandModuleFlowFormFields.slice(0, 1).map((item) => (
-                      <Col span={item.col_span}>
-                        <div className="p-2">
+                  <Card>
+                    <Row gutter={8}>
+                      <Col span={16}>
+                        {demandModuleFlowFormFields.slice(0, 1).map((item) => (
+                          <>
+                            {formItem({
+                              ...item,
+                              kwargs: {
+                                onChange: (val) => {
+                                  setFlowId(val);
+                                },
+                                placeholder: 'Select Flow',
+                                showSearch: true,
+                                filterOption: (input, option) =>
+                                  option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                              },
+                              others: {
+                                selectOptions: filterActive(_, flows) || [],
+                                key: 'id',
+                                dataKeys: ['flow_name', 'flow_info', 'flow_type'],
+                                customTitle: 'flow_name',
+                                formOptions: {
+                                  ...field,
+                                  name: [field.name, item.key],
+                                  fieldKey: [field.fieldKey, item.key],
+                                },
+                              },
+                            })}
+                          </>
+                        ))}
+                      </Col>
+                      <Col span={8}>
+                        {demandModuleFlowFormFields.slice(1, 2).map((item) => (
+                          <>
+                            {formItem({
+                              ...item,
+                              kwargs: {
+                                placeholder: 'Select Part Name',
+                                showSearch: true,
+                                filterOption: (input, option) =>
+                                  option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                                onFocus: () => {
+                                  const data = form.getFieldValue(['flows', field.name, 'flow']);
+                                  if (data) {
+                                    console.log(data);
+                                    setFlowId(data);
+                                  }
+                                },
+                              },
+                              others: {
+                                selectOptions: filterActive(_, kits) || [],
+                                key: 'id',
+                                customTitle: 'part_name',
+                                //dataKeys: ['kit_name', 'kit_info', 'components_per_kit'],
+                                formOptions: {
+                                  ...field,
+                                  name: [field.name, item.key],
+                                  fieldKey: [field.fieldKey, item.key],
+                                },
+                              },
+                            })}
+                          </>
+                        ))}
+                      </Col>
+                    </Row>
+
+                    <Space key={field.fieldKey}>
+                      {demandModuleFlowFormFields.slice(2).map((item) => (
+                        <>
                           {formItem({
                             ...item,
-                            noLabel: index != 0,
-                            kwargs: {
-                              onChange: (val) => {
-                                setFlowId(val);
-                              },
-                              placeholder: 'Select',
-                              showSearch: true,
-                              filterOption: (input, option) =>
-                                option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-                            },
                             others: {
-                              selectOptions: filterActive(_, flows) || [],
-                              key: 'id',
-                              dataKeys: ['flow_name', 'flow_info', 'flow_type'],
-                              customTitle: 'flow_name',
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],
@@ -190,80 +241,32 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                               },
                             },
                           })}
-                        </div>
-                      </Col>
-                    ))}
-                    {demandModuleFlowFormFields.slice(1, 2).map((item) => (
-                      <Col span={item.col_span}>
-                        <div className="p-2">
-                          {formItem({
-                            ...item,
-                            noLabel: index != 0,
-                            kwargs: {
-                              placeholder: 'Select',
-                              showSearch: true,
-                              filterOption: (input, option) =>
-                                option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-                              onFocus: () => {
-                                const data = form.getFieldValue(['flows', field.name, 'flow']);
-                                if (data) {
-                                  console.log(data);
-                                  setFlowId(data);
-                                }
-                              },
-                            },
-                            others: {
-                              selectOptions: filterActive(_, kits) || [],
-                              key: 'id',
-                              customTitle: 'part_name',
-                              //dataKeys: ['kit_name', 'kit_info', 'components_per_kit'],
-                              formOptions: {
-                                ...field,
-                                name: [field.name, item.key],
-                                fieldKey: [field.fieldKey, item.key],
-                              },
-                            },
-                          })}
-                        </div>
-                      </Col>
-                    ))}
-                    {demandModuleFlowFormFields.slice(2).map((item) => (
-                      <Col span={item.col_span}>
-                        <div className="p-2">
-                          {formItem({
-                            ...item,
-                            noLabel: index != 0,
-                            others: {
-                              formOptions: {
-                                ...field,
-                                name: [field.name, item.key],
-                                fieldKey: [field.fieldKey, item.key],
-                              },
-                            },
-                          })}
-                        </div>
-                      </Col>
-                    ))}
-                    <Col span={1}>
-                      <DmCalModal
-                        form={form}
-                        field={field}
-                        kitQuantities={kitQuantities}
-                        setKitQuantities={setKitQuantities}
-                      />
-                    </Col>
-                    <Col span={1}>
-                      <Button
-                        type="danger"
-                        title="Delete"
-                        onClick={() => {
-                          remove(field.name);
-                        }}>
-                        <CloseOutlined />
-                      </Button>
-                    </Col>
-                  </Row>
+                        </>
+                      ))}
+                      <Form.Item label="Cal">
+                        <DmCalModal
+                          form={form}
+                          field={field}
+                          kitQuantities={kitQuantities}
+                          setKitQuantities={setKitQuantities}
+                          deliveryMonth={form.getFieldValue('delivery_month')}
+                        />
+                      </Form.Item>
+
+                      <Form.Item label="Action">
+                        <Button
+                          type="danger"
+                          title="Delete"
+                          onClick={() => {
+                            remove(field.name);
+                          }}>
+                          <CloseOutlined />
+                        </Button>
+                      </Form.Item>
+                    </Space>
+                  </Card>
                 ))}
+                <br />
                 <Form.Item>
                   <Button
                     type="dashed"

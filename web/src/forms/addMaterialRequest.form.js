@@ -1,32 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { Form, Col, Row, Button, Divider, Spin } from 'antd';
+import React, {useEffect, useState} from 'react';
+import {Form, Col, Row, Button, Divider, Spin} from 'antd';
 import {
   materialRequestFormFields,
   materialRequestFlowFormFields,
 } from 'common/formFields/materialRequest.formFields';
-import { useAPI } from 'common/hooks/api';
-import { useHandleForm } from 'hooks/form';
-import { createMr, editAddMr, retrieveAddMr } from 'common/api/auth';
-import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { useControlledSelect } from '../hooks/useControlledSelect';
+import {useAPI} from 'common/hooks/api';
+import {useHandleForm} from 'hooks/form';
+import {createMr, editAddMr, retrieveAddMr} from 'common/api/auth';
+import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
+import {useControlledSelect} from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
-import { FORM_ELEMENT_TYPES } from '../constants/formFields.constant';
+import {FORM_ELEMENT_TYPES} from '../constants/formFields.constant';
 
-export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
+export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
   const [flowId, setFlowId] = useState(null);
-  const [selectedClient,setSelectedClient ] = useState({ name:'Select Client',id:null })
-  const { data: flows } = useAPI(`/c-flows/?id=${selectedClient.id}`, {});
-  const { data: kits } = useControlledSelect(flowId);
-  const { data: clients } = useAPI('/clients/', {});
+  const [selectedClient, setSelectedClient] = useState({name: 'Select Client', id: null});
+  const {data: flows} = useAPI(`/c-flows/?id=${selectedClient.id}`, {});
+  const {data: kits} = useControlledSelect(flowId);
+  const {data: clients} = useAPI('/clients/', {});
 
-  const { form, submit, loading } = useHandleForm({
+  const {form, submit, loading} = useHandleForm({
     create: createMr,
     edit: editAddMr,
-    retrieve:async ()=>{
+    retrieve: async () => {
       const result = await retrieveAddMr(id);
-      console.log(result.data,'ret')
-      setSelectedClient({ id:result.data.owner });
-      return { ...result,data:{ ...result.data, client_id:result.data.owner } }},
+      console.log(result.data, 'ret');
+      setSelectedClient({id: result.data.owner});
+      return {...result, data: {...result.data, client_id: result.data.owner}};
+    },
     success: 'Material Request created/edited successfully.',
     failure: 'Error in creating/editing material request.',
     done: onDone,
@@ -36,7 +37,7 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
   });
 
   const preProcess = (data) => {
-    const { flows } = data;
+    const {flows} = data;
     const newFlows = flows.map((flo) => ({
       flow: Number(flo.flow),
       kit: Number(flo.kit),
@@ -47,11 +48,11 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
   };
 
   const handleFieldsChange = (data) => {
-    if(data){
-      if(data[0]){
-        if(data[0].name[0] === 'client_id' ){
-          const filtered = clients.filter((item)=>(item.user === data[0].value));
-          setSelectedClient({ name:filtered[0].client_name,id:filtered[0].user })
+    if (data) {
+      if (data[0]) {
+        if (data[0].name[0] === 'client_id') {
+          const filtered = clients.filter((item) => item.user === data[0].value);
+          setSelectedClient({name: filtered[0].client_name, id: filtered[0].user});
         }
       }
     }
@@ -61,52 +62,48 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
   // },[ newflows])
   return (
     <Spin spinning={loading}>
-      <Divider orientation='left'>Material Request Details</Divider>
+      <Divider orientation="left">Material Request Details</Divider>
       <Form
         onFinish={preProcess}
         form={form}
-        layout='vertical'
+        layout="vertical"
         hideRequiredMark
-        autoComplete='off'
+        autoComplete="off"
         onFieldsChange={handleFieldsChange}>
-        <Row>
-          <Col span={10}>
-            {formItem({
-              key: 'client_id',
-              kwargs: {
-                placeholder: 'Select',
-              },
-              others: {
-                selectOptions: clients || [],
-                key: 'user',
-                customTitle: 'client_name',
-                dataKeys: ['client_shipping_address'],
-              },
-              type: FORM_ELEMENT_TYPES.SELECT,
-              customLabel: 'Client',
-            })}
-          </Col>
-        </Row>
-        <Divider orientation='center'>{selectedClient.name}</Divider>
-        <Row style={{ justifyContent: 'left' }}>
+        {formItem({
+          key: 'client_id',
+          kwargs: {
+            placeholder: 'Select',
+          },
+          others: {
+            selectOptions: clients || [],
+            key: 'user',
+            customTitle: 'client_name',
+            dataKeys: ['client_shipping_address'],
+          },
+          type: FORM_ELEMENT_TYPES.SELECT,
+          customLabel: 'Client',
+        })}
+        <Divider orientation="center">{selectedClient.name}</Divider>
+        <Row style={{justifyContent: 'left'}}>
           {materialRequestFormFields.slice(0, 1).map((item, idx) => (
             <Col span={24}>
-              <div key={idx.toString()} className='p-2'>
+              <div key={idx.toString()} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
-        <Divider orientation='left'>Flow and Kit Details</Divider>
-        <Form.List name='flows'>
-          {(fields, { add, remove }) => {
+        <Divider orientation="left">Flow and Kit Details</Divider>
+        <Form.List name="flows">
+          {(fields, {add, remove}) => {
             return (
               <div>
                 {fields.map((field, index) => (
-                  <Row align='middle'>
+                  <Row align="middle">
                     {materialRequestFlowFormFields.slice(0, 1).map((item) => (
                       <Col span={13}>
-                        <div className='p-2'>
+                        <div className="p-2">
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -136,7 +133,7 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
                     ))}
                     {materialRequestFlowFormFields.slice(1, 2).map((item) => (
                       <Col span={4}>
-                        <div className='p-2'>
+                        <div className="p-2">
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -170,7 +167,7 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
                     ))}
                     {materialRequestFlowFormFields.slice(2, 3).map((item) => (
                       <Col span={4}>
-                        <div className='p-2'>
+                        <div className="p-2">
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -188,28 +185,24 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
                     <Col span={3}>
                       <Button
                         // style={{ width: '9vw' }}
-                        style={index != 0 ? { top: '-2vh' } : null}
-                        type='danger'
+                        style={index != 0 ? {top: '-2vh'} : null}
+                        type="danger"
                         onClick={() => {
                           remove(field.name);
                         }}>
-                        <MinusCircleOutlined />
-                        {' '}
-                        Delete
+                        <MinusCircleOutlined /> Delete
                       </Button>
                     </Col>
                   </Row>
                 ))}
                 <Form.Item>
                   <Button
-                    type='dashed'
+                    type="dashed"
                     onClick={() => {
                       add();
                     }}
                     block>
-                    <PlusOutlined />
-                    {' '}
-                    Add Item
+                    <PlusOutlined /> Add Item
                   </Button>
                 </Form.Item>
               </div>
@@ -217,11 +210,11 @@ export const AddMaterialRequestForm = ({ id, onCancel, onDone }) => {
           }}
         </Form.List>
         <Row>
-          <Button type='primary' htmlType='submit'>
+          <Button type="primary" htmlType="submit">
             Save
           </Button>
-          <div className='p-2' />
-          <Button type='primary' onClick={onCancel}>
+          <div className="p-2" />
+          <Button type="primary" onClick={onCancel}>
             Cancel
           </Button>
         </Row>

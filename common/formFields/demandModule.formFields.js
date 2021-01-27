@@ -2,14 +2,14 @@ import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
 
 export const demandModuleFormFields = [
   {
-    key: 'delivery_required_on',
+    key: 'delivery_month',
     rules: [{required: true, message: 'Please select delivery date!'}],
     kwargs: {
       placeholder: 'Select',
     },
     type: FORM_ELEMENT_TYPES.MONTH_PICKER,
     others: null,
-    customLabel: 'Delivery Required On',
+    customLabel: 'Delivery Month',
   },
 ];
 
@@ -18,23 +18,21 @@ export const demandModuleFlowFormFields = [
     key: 'flow',
     rules: [{required: true, message: 'Please select flow!'}],
     kwargs: {
-      placeholder: 'Select',
+      placeholder: 'Select Flow',
     },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
-    customLabel: 'Flow',
-    col_span: 3,
+    customLabel: 'Select Flow',
   },
   {
     key: 'kit',
     rules: [{required: true, message: 'Please select Part Name!'}],
     kwargs: {
-      placeholder: 'Part Name',
+      placeholder: 'Select Part Name',
     },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
-    customLabel: 'Part Name',
-    col_span: 3,
+    customLabel: 'Select Part Name',
   },
   {
     key: 'part_number',
