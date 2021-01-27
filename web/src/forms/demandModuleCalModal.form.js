@@ -7,9 +7,9 @@ import _ from 'lodash';
 
 //import formItem from '../hocs/formItem.hoc';
 
-const Cal = ({field, kitQuantities, setKitQuantities}) => {
-  const [value, setValue] = useState(moment(new Date()));
-  const [selectedValue, setSelectedValue] = useState(moment(new Date()));
+const Cal = ({field, kitQuantities, setKitQuantities, deliveryMonth, maxInput}) => {
+  const [value, setValue] = useState(deliveryMonth);
+  const [selectedValue, setSelectedValue] = useState(deliveryMonth);
   const [eventText, setEventText] = useState(null);
 
   const onSelect = useCallback(
@@ -29,9 +29,17 @@ const Cal = ({field, kitQuantities, setKitQuantities}) => {
 
   const handleChange = useCallback(
     (ev) => {
-      setEventText(ev.target.value);
+      if (parseInt(ev.target.value) <= parseInt(maxInput)) {
+        setEventText(ev.target.value);
+      } else {
+        if (!parseInt(ev.target.value)) {
+          setEventText(null);
+        } else {
+          setEventText(maxInput);
+        }
+      }
     },
-    [eventText],
+    [eventText, maxInput],
   );
 
   const addEvent = useCallback(() => {
@@ -104,19 +112,31 @@ const Cal = ({field, kitQuantities, setKitQuantities}) => {
           placeholder="Add Quantity"
           onChange={handleChange}
           value={eventText}
+          type="number"
+          min="0"
+          max={maxInput}
         />
         {renderAddButton()}
       </Input.Group>
     );
-  }, [kitQuantities, selectedValue, eventText]);
+  }, [kitQuantities, selectedValue, eventText, maxInput]);
+
+  const disabledDate = useCallback(
+    (value) => {
+      if (value.format('MM-YYYY') !== deliveryMonth.format('MM-YYYY')) {
+        return true;
+      }
+      return false;
+    },
+    [deliveryMonth],
+  );
 
   const dateCellRender = useCallback(
     (value) => {
       const valueDate = value.format('L');
-      const today = moment().format('L');
       const selectedDate = selectedValue.format('L');
       const ev = _.find(kitQuantities[field.fieldKey], (ev) => ev.date.format('L') === valueDate);
-      if (ev && valueDate === today && valueDate === selectedDate) {
+      if (ev && valueDate === selectedDate) {
         return (
           <Badge dot>
             <Button type="primary" danger shape="circle">
@@ -124,35 +144,13 @@ const Cal = ({field, kitQuantities, setKitQuantities}) => {
             </Button>
           </Badge>
         );
-      } else if (ev && valueDate === today) {
-        return (
-          <Badge dot>
-            <Button type="dashed" danger shape="circle">
-              {value.date()}
-            </Button>
-          </Badge>
-        );
-      } else if (ev && valueDate === selectedDate) {
-        return (
-          <Badge dot>
-            <Button type="primary" danger shape="circle">
-              {value.date()}
-            </Button>
-          </Badge>
-        );
-      } else if (valueDate === selectedDate) {
+      } else if (!ev && valueDate === selectedDate) {
         return (
           <Button type="primary" danger shape="circle">
             {value.date()}
           </Button>
         );
-      } else if (valueDate === today) {
-        return (
-          <Button type="dashed" danger shape="circle">
-            {value.date()}
-          </Button>
-        );
-      } else if (ev) {
+      } else if (ev && valueDate !== selectedDate) {
         return (
           <Badge dot>
             <Button type="text" shape="circle">
@@ -176,8 +174,10 @@ const Cal = ({field, kitQuantities, setKitQuantities}) => {
         value={value}
         onSelect={onSelect}
         fullscreen={false}
+        headerRender={() => null}
         onPanelChange={onPanelChange}
         dateFullCellRender={dateCellRender}
+        disabledDate={disabledDate}
       />
       <br />
       <Alert
@@ -190,7 +190,7 @@ const Cal = ({field, kitQuantities, setKitQuantities}) => {
   );
 };
 
-const DmCalModal = ({form, field, kitQuantities, setKitQuantities}) => {
+const DmCalModal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = useCallback(() => {
@@ -227,7 +227,12 @@ const DmCalModal = ({form, field, kitQuantities, setKitQuantities}) => {
   const renderModalButton = useCallback(() => {
     const flows = form.getFieldValue('flows');
     if (flows[field.fieldKey]) {
-      if ('flow' in flows[field.fieldKey] && 'kit' in flows[field.fieldKey]) {
+      if (
+        deliveryMonth &&
+        'flow' in flows[field.fieldKey] &&
+        'kit' in flows[field.fieldKey] &&
+        'monthly' in flows[field.fieldKey]
+      ) {
         return (
           <Button type="primary" onClick={showModal}>
             <CalendarOutlined />
@@ -240,7 +245,17 @@ const DmCalModal = ({form, field, kitQuantities, setKitQuantities}) => {
         <CalendarOutlined />
       </Button>
     );
-  }, [form, field]);
+  }, [form, field, deliveryMonth]);
+
+  const maxInputVal = useCallback(() => {
+    const flows = form.getFieldValue('flows');
+    if (flows[field.fieldKey]) {
+      if ('monthly' in flows[field.fieldKey]) {
+        return flows[field.fieldKey]['monthly'];
+      }
+    }
+    return 0;
+  }, [form]);
 
   return (
     <>
@@ -251,7 +266,13 @@ const DmCalModal = ({form, field, kitQuantities, setKitQuantities}) => {
         footer={null}
         onOk={handleClose}
         onCancel={handleClose}>
-        <Cal field={field} kitQuantities={kitQuantities} setKitQuantities={setKitQuantities} />
+        <Cal
+          field={field}
+          kitQuantities={kitQuantities}
+          setKitQuantities={setKitQuantities}
+          deliveryMonth={deliveryMonth}
+          maxInput={maxInputVal()}
+        />
       </Modal>
     </>
   );
