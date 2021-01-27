@@ -112,13 +112,13 @@ export const demandModuleFlowFormFields = [
     col_span: 2,
   },
   {
-    key: 'monthly',
+    key: 'monthly_quantity',
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
-      placeholder: 'Monthly',
+      placeholder: 'Monthly Qty',
     },
     others: null,
-    customLabel: 'Monthly',
+    customLabel: 'Monthly Qty',
     col_span: 2,
   },
 ];

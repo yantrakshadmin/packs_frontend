@@ -484,10 +484,10 @@ export const deleteAddMr = (id) =>
     secure: true,
   });
 
-export const createDm = ({delivery_month, flows, client_id}) =>
+export const createDm = ({delivery_month, demand_flows, client_id}) =>
   loadAPI('/create-demand/', {
     method: 'POST',
-    data: {delivery_month, flows, client_id},
+    data: {delivery_month, demand_flows, client_id},
     secure: true,
   });
 

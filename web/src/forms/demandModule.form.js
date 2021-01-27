@@ -46,13 +46,14 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
   const [kitQuantities, setKitQuantities] = useState({});
 
   const preProcess = (data) => {
-    const {flows} = data;
-    const newFlows = flows.map((flo) => ({
+    const {demand_flows} = data;
+    const newFlows = demand_flows.map((flo) => ({
       flow: Number(flo.flow),
       kit: Number(flo.kit),
-      quantities: flo.quantities,
+      monthly_quantity: flo.monthly_quantity,
+      events: flo.quantities,
     }));
-    data.flows = newFlows;
+    data.demand_flows = newFlows;
     console.log(data);
     submit(data);
   };
@@ -61,12 +62,12 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
     (data) => {
       if (data[0]) {
         if (data[0].name) {
-          if (data[0].name[0] === 'flows') {
+          if (data[0].name[0] === 'demand_flows') {
             const fields = form.getFieldsValue();
 
-            if ('flows' in fields) {
+            if ('demand_flows' in fields) {
               const fieldKey = data[0].name[1];
-              const flowsX = fields['flows'];
+              const flowsX = fields['demand_flows'];
               if (fieldKey in flowsX) {
                 if ('flow' in flowsX[fieldKey]) {
                   const thisFlow = _.find(flows, (o) => o.id === flowsX[fieldKey].flow);
@@ -84,7 +85,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                       });
                     }
                   }
-                  form.setFieldsValue({flows: flowsX});
+                  form.setFieldsValue({demand_flows: flowsX});
                   console.log(flowsX);
                 }
               }
@@ -158,7 +159,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
 
         <Divider orientation="left">Flow and Kit Details</Divider>
 
-        <Form.List name="flows">
+        <Form.List name="demand_flows">
           {(fields, {add, remove}) => {
             return (
               <div>
@@ -205,7 +206,11 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                                 filterOption: (input, option) =>
                                   option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                                 onFocus: () => {
-                                  const data = form.getFieldValue(['flows', field.name, 'flow']);
+                                  const data = form.getFieldValue([
+                                    'demand_flows',
+                                    field.name,
+                                    'flow',
+                                  ]);
                                   if (data) {
                                     console.log(data);
                                     setFlowId(data);
