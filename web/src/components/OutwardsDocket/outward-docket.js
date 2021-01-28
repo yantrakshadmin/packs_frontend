@@ -402,6 +402,13 @@ const OutwardDocket = ({location, match}) => {
               No E-Way Bill is required for Empty Cargo Containers. Refer, Rule 14 of Central Goods
               and Services Tax (Second Amendment) Rules, 2018.
             </p>
+            {allotment.remarks ? (
+              <>
+                <br />
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Remarks : </p>
+                <p style={{display: 'inline'}}>{allotment.remarks}</p>
+              </>
+            ) : null}
           </div>
         </table>
 
