@@ -11,6 +11,9 @@ import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 import {useControlledSelect} from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
 
+import _ from 'lodash';
+import {filterActive} from 'common/helpers/mrHelper';
+
 export const MaterialRequestForm = ({id, onCancel, onDone}) => {
   const [flowId, setFlowId] = useState(null);
 
@@ -89,7 +92,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                             },
                             others: {
-                              selectOptions: flows || [],
+                              selectOptions: filterActive(_, flows) || [],
                               key: 'id',
                               dataKeys: ['flow_name', 'flow_info', 'flow_type'],
                               customTitle: 'flow_name',
@@ -123,7 +126,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
                               },
                             },
                             others: {
-                              selectOptions: kits || [],
+                              selectOptions: filterActive(_, kits) || [],
                               key: 'id',
                               dataKeys: ['kit_name', 'kit_info', 'components_per_kit'],
                               customTitle: 'kit_name',

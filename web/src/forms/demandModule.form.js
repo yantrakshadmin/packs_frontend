@@ -3,7 +3,6 @@ import {Form, Col, Row, Button, Divider, Spin, Space, Card} from 'antd';
 import {
   demandModuleFormFields,
   demandModuleFlowFormFields,
-  demandModuleFlowFormCalFields,
 } from 'common/formFields/demandModule.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
@@ -94,7 +93,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
         }
       }
     },
-    [kits, flows, form, kitQuantities],
+    [kits, flows, form],
   );
 
   // const handleOLDFieldsChange = useCallback(
