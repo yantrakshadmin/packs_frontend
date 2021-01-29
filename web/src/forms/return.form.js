@@ -341,7 +341,7 @@ const ReturnForm = ({location}) => {
                                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                                 },
                                 others: {
-                                  selectOptions: filterActive(_, kits) || [],
+                                  selectOptions: kits || [],
                                   key: 'id',
                                   dataKeys: ['kit_info', 'components_per_kit'],
                                   customTitle: 'kit_name',
