@@ -12,6 +12,9 @@ import {useControlledSelect} from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
 import {FORM_ELEMENT_TYPES} from '../constants/formFields.constant';
 
+import _ from 'lodash';
+import {filterActive} from 'common/helpers/mrHelper';
+
 export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
   const [flowId, setFlowId] = useState(null);
   const [selectedClient, setSelectedClient] = useState({name: 'Select Client', id: null});
@@ -117,7 +120,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                             },
                             others: {
-                              selectOptions: flows || [],
+                              selectOptions: filterActive(_, flows) || [],
                               key: 'id',
                               dataKeys: ['flow_name', 'flow_info', 'flow_type'],
                               customTitle: 'flow_name',
@@ -151,7 +154,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                               },
                             },
                             others: {
-                              selectOptions: kits || [],
+                              selectOptions: filterActive(_, kits) || [],
                               key: 'id',
                               dataKeys: ['kit_name', 'kit_info', 'components_per_kit'],
                               customTitle: 'kit_name',
