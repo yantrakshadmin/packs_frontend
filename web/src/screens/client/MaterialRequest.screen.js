@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import materialRequestColumns from 'common/columns/materialRequest.column';
-import { Popconfirm, Button, Input, Popover } from 'antd';
-import { deleteMr, retrieveMrs } from 'common/api/auth';
-import { connect } from 'react-redux';
-import { useTableSearch } from 'hooks/useTableSearch';
-import { useAPI } from 'common/hooks/api';
-import { mergeArray } from 'common/helpers/mrHelper';
-import { MaterialRequestForm } from 'forms/materialRequest.form';
+import {Popconfirm, Button, Input, Popover} from 'antd';
+import {deleteMr, retrieveMrs} from 'common/api/auth';
+import {connect} from 'react-redux';
+import {useTableSearch} from 'hooks/useTableSearch';
+import {useAPI} from 'common/hooks/api';
+import {mergeArray} from 'common/helpers/mrHelper';
+import {MaterialRequestForm} from 'forms/materialRequest.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import MaterialRequestsTable from 'components/MaterialRequestsTable';
-import { deleteHOC } from 'hocs/deleteHoc';
+import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
 
-const { Search } = Input;
+const {Search} = Input;
 
-const MaterialRequestEmployeeScreen = ({ currentPage }) => {
+const MaterialRequestEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  const { filteredData, loading, reload } = useTableSearch({ searchVal, retrieve: retrieveMrs });
-  const { data:mrStatusData } = useAPI('list-mrstatus/')
+  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveMrs});
+  const {data: mrStatusData} = useAPI('list-mrstatus/');
   const cancelEditing = () => {
     setEditingId(null);
   };
@@ -32,11 +32,11 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
       title: 'Status',
       key: 'status',
       className: 'align-center',
-      render:  (text, record) => {
-        if (record.is_allocated && (!record.is_rejected) )
+      render: (text, record) => {
+        if (record.is_allocated && !record.is_rejected)
           return (
             <Button
-              type='primary'
+              type="primary"
               style={{
                 backgroundColor: '#00FF00',
                 outline: 'none',
@@ -47,10 +47,10 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
               Allocated
             </Button>
           );
-        if((!record.is_allocated) && (!record.is_rejected)){
+        if (!record.is_allocated && !record.is_rejected) {
           return (
             <Button
-              type='primary'
+              type="primary"
               style={{
                 backgroundColor: 'red',
                 outline: 'none',
@@ -64,28 +64,65 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
             </Button>
           );
         }
-        if((!record.is_allocated) && record.is_rejected){
-          return(
-            <Popover content={(
-              <div style={{ width:'20rem' }}>
-                <text>
-                  <b>Reason : </b>
-                  {record.reason}
-                </text>
-                <br />
-                {record.remarks?(
-                  <text>
-                    <b>Remarks : </b>
-                    {record.remarks}
-                  </text>
-                ):null}
-              </div>
-            )}>
-              <Button type='primary' danger>Rejected</Button>
-            </Popover>
-          )
+        if (!record.is_allocated && record.is_rejected) {
+          return (
+            // <Popover
+            //   content={
+            //     <div style={{width: '20rem'}}>
+            //       <text>
+            //         <b>Reason : </b>
+            //         {record.reason}
+            //       </text>
+            //       <br />
+            //       {record.remarks ? (
+            //         <text>
+            //           <b>Remarks : </b>
+            //           {record.remarks}
+            //         </text>
+            //       ) : null}
+            //     </div>
+            //   }>
+            //   <Button type="primary" danger>
+            //     Rejected
+            //   </Button>
+            // </Popover>
+            <Button type="primary" danger>
+              Rejected
+            </Button>
+          );
         }
-        return(<div />)}
+        return <div />;
+      },
+    },
+    {
+      title: 'Reason',
+      key: 'reason',
+      className: 'align-center',
+      render: (text, record) => {
+        if (record.is_allocated && !record.is_rejected) return '-';
+        if (!record.is_allocated && !record.is_rejected) {
+          return '-';
+        }
+        if (!record.is_allocated && record.is_rejected) {
+          return record.reason;
+        }
+        return <div />;
+      },
+    },
+    {
+      title: 'Remarks',
+      key: 'remarks',
+      className: 'align-center',
+      render: (text, record) => {
+        if (record.is_allocated && !record.is_rejected) return '-';
+        if (!record.is_allocated && !record.is_rejected) {
+          return '-';
+        }
+        if (!record.is_allocated && record.is_rejected) {
+          return record.remarks;
+        }
+        return <div />;
+      },
     },
     // {
     //   title:'Request Status',
@@ -120,14 +157,14 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
     {
       title: 'Raised By',
       key: 'raised_by',
-      dataIndex: 'raised_by'
+      dataIndex: 'raised_by',
     },
     {
       title: 'Action',
       key: 'operation',
       width: '7vw',
       render: (text, record) => (
-        <div className='row justify-evenly'>
+        <div className="row justify-evenly">
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -142,7 +179,7 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
             <Edit />
           </Button>
           <Popconfirm
-            title='Confirm Delete'
+            title="Confirm Delete"
             onConfirm={deleteHOC({
               record,
               reload,
@@ -170,7 +207,7 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
     {
       name: 'All Material Requests',
       key: 'allMaterialRequests',
-      data: mergeArray((filteredData||[]),(mrStatusData||[])),
+      data: mergeArray(filteredData || [], mrStatusData || []),
       columns,
       loading,
     },
@@ -178,9 +215,9 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
       </div>
       <br />
@@ -188,14 +225,14 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size='middle'
-        title='Material Requests'
+        size="middle"
+        title="Material Requests"
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={MaterialRequestForm}
         modalWidth={80}
-        expandHandleKey='flows'
-        expandParams={{ loading }}
+        expandHandleKey="flows"
+        expandParams={{loading}}
         ExpandBody={MaterialRequestsTable}
       />
     </>
@@ -203,7 +240,7 @@ const MaterialRequestEmployeeScreen = ({ currentPage }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { currentPage: state.page.currentPage };
+  return {currentPage: state.page.currentPage};
 };
 
 export default connect(mapStateToProps)(MaterialRequestEmployeeScreen);

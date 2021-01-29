@@ -33,15 +33,15 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
       render: (text, record) => (
         <div className="row justify-evenly">
           {/* <Popover
-          content={PasswordPopUp}
-          title="Verify"
-          trigger="click"
-          visible={popoverEditVisible && record.id === editingId}
-          onVisibleChange={(e) => {
-            setPopoverEditVisible(e);
-          }}>
-          
-        </Popover> */}
+            content={PasswordPopUp}
+            title="Verify"
+            trigger="click"
+            visible={popoverEditVisible && record.id === editingId}
+            onVisibleChange={(e) => {
+              setPopoverEditVisible(e);
+            }}>
+            
+          </Popover> */}
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -85,6 +85,7 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
         size="middle"
         title="Demands (Beta)"
         editingId={editingId}
+        hideRightButton={true}
         cancelEditing={cancelEditing}
         modalBody={DemandModuleForm}
         modalWidth={98}

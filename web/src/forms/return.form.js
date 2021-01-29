@@ -434,7 +434,7 @@ const ReturnForm = ({location}) => {
                                   ...item,
                                   noLabel: ind != 0,
                                   others: {
-                                    selectOptions: filterActive(_, products) || [],
+                                    selectOptions: products || [],
                                     key: 'id',
                                     customTitle: 'short_code',
                                     formOptions: {

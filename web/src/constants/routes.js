@@ -143,6 +143,12 @@ export const employeeRoutes = [
     Component: lazy(() => import('screens/employee/MaterialRequest.screen')),
   },
   {
+    name: 'Demands (Beta)',
+    icon: ['fas', 'layer-group'],
+    path: '/demands/',
+    Component: lazy(() => import('screens/employee/DemandModule.screen')),
+  },
+  {
     name: 'Allotment Dockets',
     icon: ['fas', 'layer-group'],
     path: '/allotment-dockets/',
