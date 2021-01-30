@@ -20,15 +20,17 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
   const {data: flows} = useAPI('/myflows/', {});
   const [flowId, setFlowId] = useState(null);
 
-  const [kits, setKits] = useState([]);
+  const {data: kits} = useControlledSelect(flowId);
 
-  useEffect(() => {
-    if (flowId) {
-      const f = _.find(flows, (o) => o.id === flowId);
-      const ks = f.kits.map((el) => el.kit);
-      setKits(ks);
-    }
-  }, [flowId]);
+  // const [kits, setKits] = useState([]);
+
+  // useEffect(() => {
+  //   if (flowId) {
+  //     const f = _.find(flows, (o) => o.id === flowId);
+  //     const ks = f.kits.map((el) => el.kit);
+  //     setKits(ks);
+  //   }
+  // }, [flowId]);
 
   const {form, submit, loading} = useHandleForm({
     create: createDm,

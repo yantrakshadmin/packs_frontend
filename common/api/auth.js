@@ -491,10 +491,10 @@ export const createDm = ({delivery_month, demand_flows, client_id}) =>
     secure: true,
   });
 
-export const editDm = (id, {delivery_required_on, flows}) =>
-  loadAPI(`/edit-mrequets/${id}/`, {
+export const editDm = (id, {delivery_month, demand_flows}) =>
+  loadAPI(`/edit-demand/${id}/`, {
     method: 'PATCH',
-    data: {delivery_required_on, flows},
+    data: {delivery_month, demand_flows},
     secure: true,
   });
 
@@ -506,7 +506,7 @@ export const editAddDm = (id, {delivery_required_on, flows, client_id}) =>
   });
 
 export const retrieveDm = (id) =>
-  loadAPI(`/edit-mrequets/${id}/`, {
+  loadAPI(`/edit-demand/${id}/`, {
     method: 'GET',
     secure: true,
   });
@@ -518,7 +518,7 @@ export const retrieveAddDm = (id) =>
   });
 
 export const retrieveDms = () =>
-  loadAPI('/mrequets/', {
+  loadAPI('/demands/', {
     method: 'GET',
     secure: true,
   });
