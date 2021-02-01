@@ -280,7 +280,7 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
                             },
                             others: {
                               selectOptions: ['Repairable', 'Return', 'Damage',
-                                'Swap Return','Excess','Others',],
+                                'Swap Return','Excess','Lost','Others',],
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],

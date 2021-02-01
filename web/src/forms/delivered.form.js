@@ -265,7 +265,7 @@ export const DeliveredForm = ({ id, onCancel, onDone, transaction_no }) => {
                             },
                             others: {
                               selectOptions: ['Repairable',
-                                'Return', 'Damage', 'Swap Return','Others'],
+                                'Return', 'Damage', 'Swap Return','Lost','Others'],
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],
