@@ -5,12 +5,14 @@ import {
   demandModuleFlowFormFields,
 } from 'common/formFields/demandModule.formFields';
 import {useAPI} from 'common/hooks/api';
+import {loadAPI} from 'common/helpers/api';
 import {useHandleForm} from 'hooks/form';
 import {createDm, editDm, retrieveDm} from 'common/api/auth';
 import {PlusOutlined, CloseOutlined} from '@ant-design/icons';
 import {useControlledSelect} from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
 
+import moment from 'moment';
 import DmCalModal from './demandModuleCalModal.form';
 
 import _ from 'lodash';
@@ -23,14 +25,6 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
   const {data: kits} = useControlledSelect(flowId);
 
   // const [kits, setKits] = useState([]);
-
-  // useEffect(() => {
-  //   if (flowId) {
-  //     const f = _.find(flows, (o) => o.id === flowId);
-  //     const ks = f.kits.map((el) => el.kit);
-  //     setKits(ks);
-  //   }
-  // }, [flowId]);
 
   const {form, submit, loading} = useHandleForm({
     create: createDm,
@@ -46,13 +40,61 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
 
   const [kitQuantities, setKitQuantities] = useState({});
 
+  // useEffect(() => {
+  //   if (id && !loading) {
+  //     const demand_flows = form.getFieldValue('demand_flows');
+  //     if (demand_flows) {
+  //       const DF = demand_flows.map((i, idx) => {
+  //         try {
+  //           const {data: thisFlow} = loadAPI(`/demand-flows/?id=${demand_flows[idx].flow}`);
+  //           const {data: thisKit} = loadAPI(`/demand-kits/?id=${demand_flows[idx].kit}`);
+  //           return {
+  //             ...i,
+  //             part_number: thisKit.part_number,
+  //             // receiver_client_name: thisFlow.receiver_client.name,
+  //             // receiver_client_city: thisFlow.receiver_client.city,
+  //             // flow_days: thisFlow.flow_days,
+  //             kit_type: thisKit.kit_type,
+  //             kit_id: thisKit.kit_name,
+  //             components_per_kit: thisKit.components_per_kit,
+  //           };
+  //         } catch (err) {
+  //           console.log(err);
+  //           return null;
+  //         }
+  //       });
+
+  //       console.log(DF);
+  //       form.setFieldsValue({demand_flows: DF});
+  //     }
+  //   }
+  // }, [id, loading]);
+
+  useEffect(() => {
+    if (id && !loading) {
+      const demand_flows = form.getFieldValue('demand_flows');
+      if (demand_flows) {
+        const q = {};
+
+        demand_flows.forEach((i, idx) => {
+          q[idx] = i.quantities.map((ev) => ({
+            ...ev,
+            date: moment(ev.date),
+          }));
+        });
+        setKitQuantities(q);
+      }
+    }
+  }, [id, loading]);
+
   const preProcess = (data) => {
     const {demand_flows} = data;
+    console.log(demand_flows);
     const newFlows = demand_flows.map((flo) => ({
       flow: Number(flo.flow),
       kit: Number(flo.kit),
       monthly_quantity: flo.monthly_quantity,
-      events: flo.quantities,
+      quantities: flo.quantities,
     }));
     data.demand_flows = newFlows;
     console.log(data);
@@ -97,45 +139,41 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
     },
     [kits, flows, form],
   );
-
-  // const handleOLDFieldsChange = useCallback(
-  //   (data) => {
-  //     if (data[0]) {
-  //       if (data[0].name) {
-  //         const currentSelected = data[0].name[0];
-  //         if (currentSelected === 'flows') {
-  //           const fieldKey = data[0].name[1];
-  //           form.setFieldsValue({
-  //             flows: form.getFieldValue(currentSelected).map((v) => {
-  //               if (v) {
-  //                 if ('flow' in v && 'kit' in v) {
-  //                   const thisKit = _.find(kits, (o) => o.id === v.kit);
-  //                   const thisFlow = _.find(flows, (o) => o.id === v.flow);
-  //                   const quantities = fieldKey in kitQuantities ? kitQuantities[fieldKey] : [];
-  //                   if (thisKit && thisFlow) {
-  //                     return {
-  //                       ...v,
-  //                       part_number: thisKit.part_number,
-  //                       receiver_client_name: thisFlow.receiver_client.name,
-  //                       receiver_client_city: thisFlow.receiver_client.city,
-  //                       flow_days: thisFlow.flow_days,
-  //                       kit_type: thisKit.kit_type,
-  //                       kit_id: thisKit.kit_name,
-  //                       components_per_kit: thisKit.components_per_kit,
-  //                       quantities: quantities,
-  //                     };
-  //                   }
-  //                 }
-  //                 return v;
-  //               }
-  //             }),
-  //           });
-  //         }
-  //       }
+  // const renderDFTable = useCallback(
+  //   (fieldKey) => {
+  //     try {
+  //       const flowsX = form.getFieldsValue('demand_flows');
+  //       const thisFlow = _.find(flows, (o) => o.id === flowsX[fieldKey].flow);
+  //       const thisKit = _.find(kits, (o) => o.id === flowsX[fieldKey].kit);
+  //       const dataSource = [
+  //         {
+  //           part_number: thisKit.part_number,
+  //           receiver_client_name: thisFlow.receiver_client.name,
+  //           receiver_client_city: thisFlow.receiver_client.city,
+  //           flow_days: thisFlow.flow_days,
+  //           kit_type: thisKit.kit_type,
+  //           kit_id: thisKit.kit_name,
+  //           components_per_kit: thisKit.components_per_kit,
+  //         },
+  //       ];
+  //       return <Table columns={demandFlowsCols} dataSource={dataSource} size="small" />;
+  //     } catch (err) {
+  //       console.log(err);
+  //       const dataSource = [
+  //         {
+  //           part_number: '-',
+  //           receiver_client_name: '-',
+  //           receiver_client_city: '-',
+  //           flow_days: '-',
+  //           kit_type: '-',
+  //           kit_id: '-',
+  //           components_per_kit: '-',
+  //         },
+  //       ];
+  //       return <Table columns={demandFlowsCols} dataSource={dataSource} size="small" />;
   //     }
-  //     console.log(form.getFieldsValue());
   //   },
-  //   [kits, flows, form, kitQuantities],
+  //   [flowId, kits, flows, form],
   // );
 
   return (
