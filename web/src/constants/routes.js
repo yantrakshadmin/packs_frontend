@@ -1,7 +1,7 @@
-import {lazy} from 'react';
+import { lazy } from 'react';
 
 export const publicRoutes = [
-  {Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')), path: '/'},
+  { Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')), path: '/' },
   {
     Component: lazy(() => import('../components/SignUp/sign-up-client.component')),
     path: '/sign-up/client/',
@@ -240,9 +240,9 @@ export const employeeRoutes = [
     isSubMenu: true,
     subMenu: [
       {
-        name: 'Test Inventory',
-        path: '/main-inventory/inventory-test/',
-        Component: lazy(() => import('screens/employee/testInventory.screen.employee')),
+        name: 'Yantra Inventory',
+        path: '/main-inventory/yantra-inventory/',
+        Component: lazy(() => import('screens/employee/yantraInventory.screen.employee')),
       },
       {
         name: 'InTransits',
@@ -261,7 +261,7 @@ export const employeeRoutes = [
     icon: ['fas', 'layer-group'],
     path: '/outward-docket/',
     Component: lazy(() => import('screens/client/outwardDocket.screen')),
-    props: {isEmployee: true},
+    props: { isEmployee: true },
   },
 ];
 
@@ -309,7 +309,7 @@ export const clientRoutes = [
     name: 'Outward Docket',
     icon: ['fas', 'layer-group'],
     path: '/outward-docket/',
-    props: {isEmployee: false},
+    props: { isEmployee: false },
     Component: lazy(() => import('screens/client/outwardDocket.screen')),
   },
   {

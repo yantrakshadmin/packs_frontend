@@ -2,7 +2,8 @@ import React from 'react';
 import { Row,Col } from 'antd';
 import { connect } from 'react-redux';
 import { useAPI } from 'common/hooks/api';
-import { transitInventoryAllotmentColumn,transitInventoryReturnColumn } from 'common/columns/transitInventory.column';
+import { transitInventoryAllotmentColumn,transitInventoryReturnColumn }
+  from 'common/columns/transitInventory.column';
 import { getReformattedAllotmentData,getReformattedReturnData } from 'common/helpers/inventory';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 

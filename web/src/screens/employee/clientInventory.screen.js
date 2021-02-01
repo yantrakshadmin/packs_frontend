@@ -3,10 +3,10 @@ import { Row, Col, Form, Button } from 'antd';
 import { connect } from 'react-redux';
 import { useAPI } from 'common/hooks/api';
 import { getReformattedData } from 'common/helpers/inventory'
+import { transitInventoryColumn } from 'common/columns/transitInventory.column';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import formItem from '../../hocs/formItem.hoc';
 import { FORM_ELEMENT_TYPES } from '../../constants/formFields.constant';
-import { transitInventoryColumn } from 'common/columns/transitInventory.column';
 
 const TransitInventoryScreen = ({ currentPage }) => {
   const [ cid,setCid ] = useState(null)
