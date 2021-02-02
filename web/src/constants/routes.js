@@ -1,7 +1,7 @@
-import { lazy } from 'react';
+import {lazy} from 'react';
 
 export const publicRoutes = [
-  { Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')), path: '/' },
+  {Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')), path: '/'},
   {
     Component: lazy(() => import('../components/SignUp/sign-up-client.component')),
     path: '/sign-up/client/',
@@ -138,37 +138,37 @@ export const employeeRoutes = [
   },
   {
     name: 'Material Requests',
-    icon: ['fas', 'layer-group'],
+    icon: ['fas', 'notes-medical'],
     path: '/material-request/',
     Component: lazy(() => import('screens/employee/MaterialRequest.screen')),
   },
   {
-    name: 'Demands (Beta)',
-    icon: ['fas', 'layer-group'],
+    name: 'Volume Plan',
+    icon: ['far', 'calendar-alt'],
     path: '/demands/',
     Component: lazy(() => import('screens/employee/DemandModule.screen')),
   },
   {
     name: 'Allotment Dockets',
-    icon: ['fas', 'layer-group'],
+    icon: ['fas', 'truck-loading'],
     path: '/allotment-dockets/',
     Component: lazy(() => import('screens/employee/AllotmentDockets.screen.js')),
   },
   {
     name: 'Return Dockets',
-    icon: ['fas', 'layer-group'],
+    icon: ['fas', 'undo-alt'],
     path: '/return-dockets/',
     Component: lazy(() => import('screens/employee/Return.screen')),
   },
   {
     name: 'GRN',
-    icon: ['fas', 'layer-group'],
+    icon: ['fas', 'cart-arrow-down'],
     path: '/grn/',
     Component: lazy(() => import('screens/employee/GRN.screen')),
   },
   {
     name: 'Sales',
-    icon: ['fas', 'layer-group'],
+    icon: ['fas', 'user-friends'],
     path: '/reports/',
     isSubMenu: true,
     subMenu: [
@@ -191,7 +191,7 @@ export const employeeRoutes = [
   },
   {
     name: 'Reports',
-    icon: ['fas', 'layer-group'],
+    icon: ['fas', 'chart-pie'],
     path: '/reports/',
     isSubMenu: true,
     subMenu: [
@@ -229,13 +229,13 @@ export const employeeRoutes = [
   },
   {
     name: 'Inventory',
-    icon: ['fas', 'layer-group'],
+    icon: ['fas', 'boxes'],
     path: '/inventory/',
     Component: lazy(() => import('screens/employee/inventory.screen')),
   },
   {
     name: 'Inventory',
-    icon: ['fas', 'layer-group'],
+    icon: ['fas', 'boxes'],
     path: '/main-inventory/',
     isSubMenu: true,
     subMenu: [
@@ -258,10 +258,10 @@ export const employeeRoutes = [
   },
   {
     name: 'Outward Docket',
-    icon: ['fas', 'layer-group'],
+    icon: ['fas', 'sign-out-alt'],
     path: '/outward-docket/',
     Component: lazy(() => import('screens/client/outwardDocket.screen')),
-    props: { isEmployee: true },
+    props: {isEmployee: true},
   },
 ];
 
@@ -289,32 +289,32 @@ export const clientRoutes = [
   },
   {
     name: 'Material Requests',
-    icon: ['fas', 'layer-group'],
+    icon: ['fas', 'notes-medical'],
     path: '/material-request/',
     Component: lazy(() => import('screens/client/MaterialRequest.screen')),
   },
   {
-    name: 'Demands (Beta)',
-    icon: ['fas', 'layer-group'],
+    name: 'Volume Plan',
+    icon: ['far', 'calendar-alt'],
     path: '/demands/',
     Component: lazy(() => import('screens/client/DemandModule.screen')),
   },
   {
     name: 'My Allotments',
-    icon: ['fas', 'layer-group'],
+    icon: ['fas', 'truck-loading'],
     path: '/allotments/',
     Component: lazy(() => import('screens/client/Allotments.screen')),
   },
   {
     name: 'Outward Docket',
-    icon: ['fas', 'layer-group'],
+    icon: ['fas', 'sign-out-alt'],
     path: '/outward-docket/',
-    props: { isEmployee: false },
+    props: {isEmployee: false},
     Component: lazy(() => import('screens/client/outwardDocket.screen')),
   },
   {
     name: 'Return Reports',
-    icon: ['fas', 'layer-group'],
+    icon: ['fas', 'chart-pie'],
     path: '/return-reports/',
     Component: lazy(() => import('screens/client/returnReports.screen')),
   },
