@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import { useAPI } from 'common/hooks/api';
 import { Button, Col, Form, Input, Popconfirm, Row } from 'antd';
 import formItem from 'hocs/formItem.hoc';
@@ -25,7 +25,7 @@ export const TestInventoryScreen = () => {
     searchVal,
     retrieve: retrieveTestInv,
   });
-
+  console.log(invData,'Ggg')
   const { form, submit, loading } = useHandleForm({
     create: createTestInv,
     success: 'Inventory created/edited successfully.',
@@ -49,6 +49,12 @@ export const TestInventoryScreen = () => {
       title:'Quantity',
       key:'quantity',
       dataIndex:'quantity'
+    },
+    {
+      title:'Product Info',
+      key:'product_info',
+      dataIndex:'product',
+      render:(product)=><div>{product.description}</div>
     },
     {
       title: 'Action',

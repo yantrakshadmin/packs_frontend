@@ -83,7 +83,7 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
         refresh={reload}
         tabs={tabs}
         size="middle"
-        title="Demands (Beta)"
+        title="Volume Plan (Beta)"
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={DemandModuleForm}

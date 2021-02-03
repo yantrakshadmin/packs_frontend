@@ -8,6 +8,12 @@ export const transitInventoryColumn = [
     key: 'quantity',
     dataIndex:'quantity'
   },
+  {
+    title: 'Product Info',
+    key: 'product_info',
+    dataIndex:'description'
+  },
+
 ];
 
 export const transitInventoryAllotmentColumn = [

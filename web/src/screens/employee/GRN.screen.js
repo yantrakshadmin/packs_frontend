@@ -17,6 +17,7 @@ import { ProductTable } from '../../components/GRNProductsTable';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import { GRNForm } from '../../forms/GRN.form';
 import { GetUniqueValue } from 'common/helpers/getUniqueValues';
+import TableWithTabHoc from '../../hocs/TableWithTab.hoc';
 
 const { Search } = Input;
 
@@ -232,8 +233,10 @@ const KitEmployeeScreen = ({ currentPage }) => {
         expandHandleKey='products'
         expandParams={{ loading }}
         ExpandBody={ProductTable}
-        csvdata={csvData}
-        csvname={`GRNs${  searchVal  } .csv`}
+        // csvdata={csvData}
+        downloadLink={`${DEFAULT_BASE_URL}/grn-download/`}
+
+        // csvname={`GRNs${  searchVal  } .csv`}
       />
     </>
   );

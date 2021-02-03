@@ -1,5 +1,4 @@
-import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
-
+import {FORM_ELEMENT_TYPES} from 'web/src/constants/formFields.constant';
 
 const solutionAssetOptions = [
   'FLC',
@@ -16,8 +15,7 @@ const solutionAssetOptions = [
   'Palletized PP Box',
   'Plastic Pallet',
   'Wooden Pallet',
-]
-
+];
 
 export const solutionProposalCreateCPFormFields = [
   {
@@ -26,15 +24,15 @@ export const solutionProposalCreateCPFormFields = [
     others: {
       selectOptions: solutionAssetOptions,
     },
-    customLabel:'Standard Assets'
+    customLabel: 'Standard Assets',
   },
   {
     key: 'insert_type',
     type: FORM_ELEMENT_TYPES.SELECT,
     others: {
-      selectOptions: ['Insert','HDPE Tray'],
+      selectOptions: ['Insert', 'HDPE Tray'],
     },
-    customLabel:'Insert Type'
+    customLabel: 'Insert Type',
   },
   // {
   //   key: 'cost',
@@ -46,7 +44,6 @@ export const solutionProposalCreateCPFormFields = [
   //   customLabel:'Cost'
   // },
 ];
-
 
 // Specification	Quantity	Qyt/KIT	Rate	Total Cost	Month	Dep Cost
 
@@ -122,13 +119,12 @@ export const solutionProposalCreateCPFormFields = [
 // hdpe_month = models.FloatField(default=0, blank=True, null=True)
 // hdpe_dep_cost = models.FloatField(default=0, blank=True, null=True)
 
-
 export const formListSolutionProposalCreateCPFormFields = [
   {
     key: 'specification',
     kwargs: {
       placeholder: 'Specification',
-      disabled:true
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Specification',
@@ -137,7 +133,7 @@ export const formListSolutionProposalCreateCPFormFields = [
     key: 'quantity',
     kwargs: {
       placeholder: 'Total KIT Quantity',
-      type:'number'
+      type: 'number',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -147,7 +143,7 @@ export const formListSolutionProposalCreateCPFormFields = [
     key: 'quantity_per_kit',
     kwargs: {
       placeholder: 'Qyt/KIT',
-      type:'number'
+      type: 'number',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -173,7 +169,7 @@ export const formListSolutionProposalCreateCPFormFields = [
     key: 'total_cost',
     kwargs: {
       placeholder: 'Total Cost',
-      type:'number'
+      type: 'number',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -197,17 +193,18 @@ export const formListSolutionProposalCreateCPFormFields = [
     others: null,
     customLabel: 'Dep Cost',
   },
-]
+];
 
 export const stdAssetsProposalCreateCPFormFields = [
   {
     key: '_quantity',
     kwargs: {
       placeholder: 'Quantity',
-      type:'number'
+      type: 'number',
+      disabled: true,
     },
     others: {
-      formOptions:{ noStyle:true }
+      formOptions: {noStyle: true},
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Total Kit Qty',
@@ -216,10 +213,10 @@ export const stdAssetsProposalCreateCPFormFields = [
     key: '_quantity_perkit',
     kwargs: {
       placeholder: 'Quantity/Kit',
-      type:'number'
+      type: 'number',
     },
     others: {
-      formOptions:{ noStyle:true }
+      formOptions: {noStyle: true},
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Quantity/Kit',
@@ -228,11 +225,11 @@ export const stdAssetsProposalCreateCPFormFields = [
     key: '_rate',
     kwargs: {
       placeholder: 'Rate',
-      type:'number'
+      type: 'number',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
-      formOptions:{ noStyle:true }
+      formOptions: {noStyle: true},
     },
     customLabel: 'Rate',
   },
@@ -243,7 +240,7 @@ export const stdAssetsProposalCreateCPFormFields = [
       disabled: true,
     },
     others: {
-      formOptions:{ noStyle:true }
+      formOptions: {noStyle: true},
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Total Mat. Req.',
@@ -252,11 +249,11 @@ export const stdAssetsProposalCreateCPFormFields = [
     key: '_total_cost',
     kwargs: {
       placeholder: 'Total Cost',
-      type:'number',
+      type: 'number',
       disabled: true,
     },
     others: {
-      formOptions:{ noStyle:true }
+      formOptions: {noStyle: true},
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Total Cost',
@@ -270,7 +267,7 @@ export const stdAssetsProposalCreateCPFormFields = [
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
-      formOptions:{ noStyle:true }
+      formOptions: {noStyle: true},
     },
     customLabel: 'Month',
   },
@@ -282,19 +279,23 @@ export const stdAssetsProposalCreateCPFormFields = [
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: {
-      formOptions:{ noStyle:true }
+      formOptions: {noStyle: true},
     },
     customLabel: 'Dep Cost',
   },
-]
+];
 
-export const createFields=(arr)=>{
+export const createFields = (arr) => {
   let fields = [];
-  arr.map(key=>{
-    fields = [...fields,...stdAssetsProposalCreateCPFormFields.map(item=>({
-      ...item,key:`${key}${item.key}`
-    }))]
-    return null
-  })
+  arr.map((key) => {
+    fields = [
+      ...fields,
+      ...stdAssetsProposalCreateCPFormFields.map((item) => ({
+        ...item,
+        key: `${key}${item.key}`,
+      })),
+    ];
+    return null;
+  });
   return fields;
-}
+};
