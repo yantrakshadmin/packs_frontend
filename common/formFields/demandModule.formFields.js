@@ -90,7 +90,7 @@ export const demandModuleFlowFormFields = [
     col_span: 3,
   },
   {
-    key: 'kit_id',
+    key: 'kit_name',
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
       placeholder: 'Kit ID',

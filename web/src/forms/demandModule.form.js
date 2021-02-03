@@ -20,6 +20,7 @@ import {filterActive} from 'common/helpers/mrHelper';
 
 export const DemandModuleForm = ({id, onCancel, onDone}) => {
   const {data: flows} = useAPI('/myflows/', {});
+
   const [flowId, setFlowId] = useState(null);
 
   const {data: kits} = useControlledSelect(flowId);
@@ -63,6 +64,13 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
       kit: Number(flo.kit),
       monthly_quantity: flo.monthly_quantity,
       quantities: flo.quantities,
+      part_number: flo.part_number ? flo.part_number : '',
+      receiver_client_name: flo.receiver_client_name ? flo.receiver_client_name : '',
+      receiver_client_city: flo.receiver_client_city ? flo.receiver_client_city : '',
+      flow_days: flo.flow_days ? flo.flow_days : '',
+      kit_name: flo.kit_name ? flo.kit_name : '',
+      kit_type: flo.kit_type ? flo.kit_type : '',
+      components_per_kit: flo.components_per_kit ? flo.components_per_kit : '',
     }));
     data.demand_flows = newFlows;
     console.log(data);
@@ -83,7 +91,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
             receiver_client_city: thisFlow.receiver_client.city,
             flow_days: thisFlow.flow_days,
             kit_type: thisKit.kit_type,
-            kit_id: thisKit.kit_name,
+            kit_name: thisKit.kit_name,
             components_per_kit: thisKit.components_per_kit,
           });
           form.setFieldsValue({demand_flows: flowsX});
