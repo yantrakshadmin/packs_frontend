@@ -1,18 +1,18 @@
-import React, { useState ,useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
 import moment from 'moment';
-import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
-import { useAPI } from 'common/hooks/api';
-import { Row, Col, Form, Button } from 'antd';
-import { retrieveAllotmentReport, retrieveClients } from 'common/api/auth';
+import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
+import {useAPI} from 'common/hooks/api';
+import {Row, Col, Form, Button} from 'antd';
+import {retrieveAllotmentReport, retrieveClients} from 'common/api/auth';
 import allotmentColumns from 'common/columns/AllotmentReport.column';
-import { AllotFlowTable } from 'components/AllotFlowExp';
+import {AllotFlowTable} from 'components/AllotFlowExp';
 import TableWithTabHoc from 'hocs/TableWithTab.hoc';
-import { FORM_ELEMENT_TYPES } from '../../constants/formFields.constant';
+import {FORM_ELEMENT_TYPES} from '../../constants/formFields.constant';
 
 import formItem from '../../hocs/formItem.hoc';
 
-const AllotmentReport = ({ currentPage }) => {
+const AllotmentReport = ({currentPage}) => {
   const [all, setAll] = useState(false);
   const [loading, setLoading] = useState(false);
   const [csvData, setCsvData] = useState(null);
@@ -24,7 +24,7 @@ const AllotmentReport = ({ currentPage }) => {
   const [from, setFrom] = useState(null);
   const [form] = Form.useForm();
 
-  const { data: clients } = useAPI('/clients/', {});
+  const {data: clients} = useAPI('/clients/', {});
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -34,7 +34,7 @@ const AllotmentReport = ({ currentPage }) => {
     } else {
       setClient(data.cname);
       let reqC = null;
-      const { data: clients } = await retrieveClients();
+      const {data: clients} = await retrieveClients();
       clients.forEach((c) => {
         if (c.user === data.cname) reqC = c.client_name;
       });
@@ -44,7 +44,7 @@ const AllotmentReport = ({ currentPage }) => {
     data.from = moment(data.from).format('YYYY-MM-DD HH:MM');
     setTo(data.to);
     setFrom(data.from);
-    const { data: report } = await retrieveAllotmentReport(data);
+    const {data: report} = await retrieveAllotmentReport(data);
     if (report) {
       console.log(report);
       setLoading(false);
@@ -75,7 +75,7 @@ const AllotmentReport = ({ currentPage }) => {
     if (reqAllotments) {
       const csvd = [];
       reqAllotments.forEach((d) => {
-        const temp = { ...d, 'is_delivered': [d.is_delivered ? 'Yes' : 'No'] };
+        const temp = {...d, is_delivered: [d.is_delivered ? 'Yes' : 'No']};
         delete temp.flows;
         csvd.push(temp);
         d.flows.forEach((f) => {
@@ -88,12 +88,12 @@ const AllotmentReport = ({ currentPage }) => {
           // s = s.slice(0, -2);
           const temp1 = {
             ...f,
-            'kit': f.kit.kit_name,
+            kit: f.kit.kit_name,
             // 'kits assigned': s
           };
           csvd.push(temp1);
           f.kit.products.forEach((p) => {
-            const temp2 = { ...p, 'quantity': p.quantity * aq };
+            const temp2 = {...p, quantity: p.quantity * aq};
             csvd.push(temp2);
           });
         });
@@ -123,7 +123,7 @@ const AllotmentReport = ({ currentPage }) => {
 
   return (
     <>
-      <Form onFinish={onSubmit} form={form} layout='vertical' hideRequiredMark autoComplete='off'>
+      <Form onFinish={onSubmit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
         <Row>
           <Col span={10}>
             {formItem({
@@ -146,7 +146,7 @@ const AllotmentReport = ({ currentPage }) => {
           <Col span={3}>
             {formItem({
               key: 'from',
-              rules: [{ required: true, message: 'Please select From date!' }],
+              rules: [{required: true, message: 'Please select From date!'}],
               kwargs: {
                 placeholder: 'Select',
                 type: 'number',
@@ -160,7 +160,7 @@ const AllotmentReport = ({ currentPage }) => {
           <Col span={3}>
             {formItem({
               key: 'to',
-              rules: [{ required: true, message: 'Please select To date!' }],
+              rules: [{required: true, message: 'Please select To date!'}],
               kwargs: {
                 placeholder: 'Select',
                 type: 'number',
@@ -172,7 +172,7 @@ const AllotmentReport = ({ currentPage }) => {
           </Col>
         </Row>
         <Row>
-          <Button type='primary' htmlType='submit'>
+          <Button type="primary" htmlType="submit">
             Submit
           </Button>
         </Row>
@@ -180,14 +180,15 @@ const AllotmentReport = ({ currentPage }) => {
       <br />
       <TableWithTabHoc
         tabs={tabs}
-        size='middle'
-        title='Allotment Dockets'
+        size="middle"
+        title="Allotment Dockets"
         hideRightButton
         downloadLink={`${DEFAULT_BASE_URL}/allotment-reportsdownload/?cname=${client}&to=${to}&from=${from}`}
-        rowKey='id'
-        expandHandleKey='flows'
+        downloadLink2={`${DEFAULT_BASE_URL}/billing-annexure/?id=${client}&to=${to}&from=${from}`}
+        rowKey="id"
+        expandHandleKey="flows"
         ExpandBody={AllotFlowTable}
-        expandParams={{ loading }}
+        expandParams={{loading}}
         // csvdata={csvData}
         // csvname={'Allotments' + clientName + '.csv'}
       />
@@ -196,7 +197,7 @@ const AllotmentReport = ({ currentPage }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { currentPage: state.page.currentPage };
+  return {currentPage: state.page.currentPage};
 };
 
 export default connect(mapStateToProps)(AllotmentReport);
