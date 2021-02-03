@@ -8,10 +8,11 @@ import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
 import {DemandModuleForm} from 'forms/demandModule.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
-import DemandModuleTable from 'components/DemandModuleTable';
+import DemandFlowsTable from './DemandModuleStuff/DemandFlowsTable';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
+import Modal from './DemandModuleStuff/Modal';
 
 const {Search} = Input;
 
@@ -32,16 +33,6 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
       width: '9vw',
       render: (text, record) => (
         <div className="row justify-evenly">
-          {/* <Popover
-            content={PasswordPopUp}
-            title="Verify"
-            trigger="click"
-            visible={popoverEditVisible && record.id === editingId}
-            onVisibleChange={(e) => {
-              setPopoverEditVisible(e);
-            }}>
-            
-          </Popover> */}
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -55,6 +46,9 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
             }}>
             <Edit />
           </Button>
+          <Modal destroyOnClose={true} width="90%" record={record}>
+            <DemandFlowsTable loading={loading} dataSource={record.demand_flows} />
+          </Modal>
         </div>
       ),
     },
@@ -89,9 +83,9 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
         cancelEditing={cancelEditing}
         modalBody={DemandModuleForm}
         modalWidth={98}
-        expandHandleKey="demand_flows"
-        expandParams={{loading}}
-        ExpandBody={DemandModuleTable}
+        // expandHandleKey="demand_flows"
+        // expandParams={{loading}}
+        // ExpandBody={DemandModuleTable}
       />
     </>
   );
