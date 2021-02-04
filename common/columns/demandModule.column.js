@@ -1,5 +1,20 @@
 import moment from 'moment';
 
+const getFullName = (fn, ln) => {
+  if (fn && ln) {
+    return `${fn} ${ln}`;
+  }
+  if (fn && !ln) {
+    return fn;
+  }
+  if (!fn && ln) {
+    return ln;
+  }
+  if (!fn && !ln) {
+    return '-';
+  }
+};
+
 export default [
   {
     title: 'ID',
@@ -19,7 +34,8 @@ export default [
     title: 'Raised By',
     key: 'raised_by',
     dataIndex: 'raised_by',
-    render: (text, record) => (record.raised_by ? record.raised_by : '-'),
+    render: (text, record) =>
+      record.owner ? getFullName(record.owner.first_name, record.owner.last_name) : '-',
   },
   {
     title: 'Status',
