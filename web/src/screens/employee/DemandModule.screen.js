@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import demandModuleColumns from 'common/columns/demandModule.column';
 import {Popconfirm, Button, Input, Popover} from 'antd';
 import {deleteMr, retrieveDms} from 'common/api/auth';
@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
-import {DemandModuleForm} from 'forms/demandModule.form';
+import {DemandModuleForm} from 'forms/demandModuleEmployee.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import DemandModuleTable from 'components/DemandModuleTable';
 import {deleteHOC} from 'hocs/deleteHoc';
@@ -46,12 +46,12 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
             }}>
             <Edit />
           </Button>
-          <Modal
+          {/* <Modal
             destroyOnClose={true}
             width="90%"
             record={record}
             dataSource={record.demand_flows}
-          />
+          /> */}
         </div>
       ),
     },
@@ -85,6 +85,7 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
         hideRightButton={true}
         cancelEditing={cancelEditing}
         modalBody={DemandModuleForm}
+        formParams={{filteredData: filteredData}}
         modalWidth={98}
         expandHandleKey="demand_flows"
         expandParams={{loading}}

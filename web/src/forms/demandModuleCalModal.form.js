@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 //import formItem from '../hocs/formItem.hoc';
 
-const Cal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth, maxInput}) => {
+const Cal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth, maxInput, letEdit}) => {
   const [value, setValue] = useState(deliveryMonth);
   const [selectedValue, setSelectedValue] = useState(deliveryMonth);
   const [eventText, setEventText] = useState(null);
@@ -94,6 +94,13 @@ const Cal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth, maxIn
   );
 
   const renderAddButton = useCallback(() => {
+    if (!letEdit) {
+      return (
+        <Button disabled style={{width: '10%'}} type="primary">
+          <CheckOutlined />
+        </Button>
+      );
+    }
     if (eventText && selectedValue) {
       return (
         <Button style={{width: '10%'}} onClick={addEvent} type="primary">
@@ -107,7 +114,7 @@ const Cal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth, maxIn
         </Button>
       );
     }
-  }, [eventText, selectedValue]);
+  }, [eventText, selectedValue, letEdit]);
 
   const renderEventInput = useCallback(() => {
     const ev = _.find(
@@ -115,6 +122,16 @@ const Cal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth, maxIn
       (ev) => ev.date.format('L') === selectedValue.format('L'),
     );
     if (ev) {
+      if (!letEdit) {
+        return (
+          <Input.Group compact>
+            <Input disabled style={{width: '90%'}} value={ev.quantity} />
+            <Button type="danger" disabled>
+              <DeleteOutlined />
+            </Button>
+          </Input.Group>
+        );
+      }
       return (
         <Input.Group compact>
           <Input disabled style={{width: '90%'}} value={ev.quantity} />
@@ -138,7 +155,7 @@ const Cal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth, maxIn
         {renderAddButton()}
       </Input.Group>
     );
-  }, [kitQuantities, selectedValue, eventText, maxInput]);
+  }, [kitQuantities, selectedValue, eventText, maxInput, letEdit]);
 
   const disabledDate = useCallback(
     (value) => {
@@ -209,7 +226,7 @@ const Cal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth, maxIn
   );
 };
 
-const DmCalModal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth}) => {
+const DmCalModal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth, letEdit}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = useCallback(() => {
@@ -292,6 +309,7 @@ const DmCalModal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth
           setKitQuantities={setKitQuantities}
           deliveryMonth={deliveryMonth}
           maxInput={maxInputVal()}
+          letEdit={letEdit}
         />
       </Modal>
     </>

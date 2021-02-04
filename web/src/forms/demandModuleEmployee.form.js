@@ -1,8 +1,9 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {Form, Col, Row, Button, Divider, Spin, Space, Card} from 'antd';
+import {Form, Col, Row, Button, Divider, Spin, Space, Card, Input} from 'antd';
 import {
   demandModuleFormFields,
   demandModuleFlowFormFields,
+  demandModuleFlowFormFieldsSpecialEmp,
 } from 'common/formFields/demandModule.formFields';
 import {useAPI} from 'common/hooks/api';
 import {loadAPI} from 'common/helpers/api';
@@ -11,19 +12,30 @@ import {createDm, editDm, retrieveDm} from 'common/api/auth';
 import {PlusOutlined, CloseOutlined} from '@ant-design/icons';
 import {useControlledSelect} from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
+import _ from 'lodash';
 
 import moment from 'moment';
 import DmCalModal from './demandModuleCalModal.form';
 
-import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
 
-export const DemandModuleForm = ({id, onCancel, onDone}) => {
-  const {data: flows} = useAPI('/myflows/', {});
+export const DemandModuleForm = ({id, onCancel, onDone, filteredData}) => {
+  //const {data: flows} = useAPI('/myflows/', {});
 
-  const [flowId, setFlowId] = useState(null);
+  //const [flowId, setFlowId] = useState(null);
 
-  const {data: kits} = useControlledSelect(flowId);
+  //const {data: kits} = useControlledSelect(flowId);
+
+  const [thisDemand, setThisDemand] = useState(null);
+
+  useEffect(() => {
+    if (filteredData && id) {
+      const t = _.find(filteredData, (el) => el.id === id);
+      if (t) {
+        setThisDemand(t);
+      }
+    }
+  }, []);
 
   const {form, submit, loading} = useHandleForm({
     create: createDm,
@@ -60,46 +72,52 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
     const {demand_flows} = data;
     console.log(demand_flows);
     const newFlows = demand_flows.map((flo) => ({
-      flow: Number(flo.flow),
-      kit: Number(flo.kit),
-      monthly_quantity: flo.monthly_quantity,
-      quantities: flo.quantities,
-      part_number: flo.part_number ? flo.part_number : '',
-      receiver_client_name: flo.receiver_client_name ? flo.receiver_client_name : '',
-      receiver_client_city: flo.receiver_client_city ? flo.receiver_client_city : '',
-      flow_days: flo.flow_days ? flo.flow_days : '',
-      kit_name: flo.kit_name ? flo.kit_name : '',
-      kit_type: flo.kit_type ? flo.kit_type : '',
-      components_per_kit: flo.components_per_kit ? flo.components_per_kit : '',
+      ...flo,
+      deployed_pool: flo.deployed_pool ? flo.deployed_pool : 0,
+      //   flow: Number(flo.flow),
+      //   kit: Number(flo.kit),
+      //   monthly_quantity: flo.monthly_quantity,
+      //   quantities: flo.quantities,
+      //   part_number: flo.part_number ? flo.part_number : '',
+      //   receiver_client_name: flo.receiver_client_name ? flo.receiver_client_name : '',
+      //   receiver_client_city: flo.receiver_client_city ? flo.receiver_client_city : '',
+      //   flow_days: flo.flow_days ? flo.flow_days : '',
+      //   kit_name: flo.kit_name ? flo.kit_name : '',
+      //   kit_type: flo.kit_type ? flo.kit_type : '',
+      //   components_per_kit: flo.components_per_kit ? flo.components_per_kit : '',
     }));
     data.demand_flows = newFlows;
     console.log(data);
     submit(data);
   };
 
-  const handleFieldsChange = useCallback(
-    (data) => {
-      try {
-        if (data[0].name[0] === 'demand_flows') {
-          const fieldKey = data[0].name[1];
-          const flowsX = form.getFieldValue('demand_flows');
-          const thisFlow = _.find(flows, (o) => o.id === flowsX[fieldKey].flow);
-          const thisKit = _.find(kits, (o) => o.id === flowsX[fieldKey].kit);
-          Object.assign(flowsX[fieldKey], {
-            part_number: thisKit.part_number,
-            receiver_client_name: thisFlow.receiver_client.name,
-            receiver_client_city: thisFlow.receiver_client.city,
-            flow_days: thisFlow.flow_days,
-            kit_type: thisKit.kit_type,
-            kit_name: thisKit.kit_name,
-            components_per_kit: thisKit.components_per_kit,
-          });
-          form.setFieldsValue({demand_flows: flowsX});
-        }
-      } catch (err) {}
-    },
-    [kits, flows, form],
-  );
+  //   const handleFieldsChange = useCallback(
+  //     (data) => {
+  //       try {
+  //         if (data[0].name[0] === 'demand_flows') {
+  //           const fieldKey = data[0].name[1];
+  //           const flowsX = form.getFieldValue('demand_flows');
+  //           const thisFlow = _.find(flows, (o) => o.id === flowsX[fieldKey].flow);
+  //           const thisKit = _.find(kits, (o) => o.id === flowsX[fieldKey].kit);
+  //           Object.assign(flowsX[fieldKey], {
+  //             part_number: thisKit.part_number,
+  //             receiver_client_name: thisFlow.receiver_client.name,
+  //             receiver_client_city: thisFlow.receiver_client.city,
+  //             flow_days: thisFlow.flow_days,
+  //             kit_type: thisKit.kit_type,
+  //             kit_name: thisKit.kit_name,
+  //             components_per_kit: thisKit.components_per_kit,
+  //           });
+  //           form.setFieldsValue({demand_flows: flowsX});
+  //         }
+  //       } catch (err) {}
+  //     },
+  //     [kits, flows, form],
+  //   );
+
+  if (id && !thisDemand) {
+    return null;
+  }
 
   return (
     <Spin spinning={loading}>
@@ -110,16 +128,12 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
         layout="vertical"
         hideRequiredMark
         autoComplete="off"
-        onFieldsChange={handleFieldsChange}>
-        <Row style={{justifyContent: 'left'}}>
-          {demandModuleFormFields.slice(0, 1).map((item, idx) => (
-            <Col span={24}>
-              <div key={idx} className="p-2">
-                {formItem(item)}
-              </div>
-            </Col>
-          ))}
-        </Row>
+        //onFieldsChange={handleFieldsChange}
+      >
+        <Card>
+          Delivery Month:{' '}
+          {thisDemand.delivery_month ? moment(thisDemand.delivery_month).format('DD/MM/YYYY') : '-'}
+        </Card>
 
         <Divider orientation="left">Flow and Kit Details</Divider>
 
@@ -130,62 +144,55 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                 {fields.map((field, index) => (
                   <Card>
                     <Row gutter={8}>
-                      <Col span={16}>
-                        {demandModuleFlowFormFields.slice(0, 1).map((item) => (
-                          <>
-                            {formItem({
-                              ...item,
-                              kwargs: {
-                                onChange: (val) => {
-                                  setFlowId(val);
-                                },
-                                placeholder: 'Select Flow',
-                                showSearch: true,
-                                filterOption: (input, option) =>
-                                  option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-                              },
-                              others: {
-                                selectOptions: filterActive(_, flows) || [],
-                                key: 'id',
-                                dataKeys: ['flow_name', 'flow_info', 'flow_type'],
-                                customTitle: 'flow_name',
-                                formOptions: {
-                                  ...field,
-                                  name: [field.name, item.key],
-                                  fieldKey: [field.fieldKey, item.key],
-                                },
-                              },
-                            })}
-                          </>
-                        ))}
-                      </Col>
                       <Col span={8}>
-                        {demandModuleFlowFormFields.slice(1, 2).map((item) => (
+                        <Form.Item label={'Flow'}>
+                          <Input
+                            value={thisDemand.demand_flows[field.fieldKey].flow.flow_name}
+                            size="middle"
+                            disabled
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col span={7}>
+                        <Form.Item label={'Kit'}>
+                          <Input
+                            value={thisDemand.demand_flows[field.fieldKey].kit.part_name}
+                            size="middle"
+                            disabled
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col span={3}>
+                        <Form.Item label={'Required Kit/Month'}>
+                          <Input
+                            value={thisDemand.demand_flows[field.fieldKey].monthly_quantity}
+                            size="middle"
+                            disabled
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col span={3}>
+                        <Form.Item label={'Required Pool'}>
+                          <Input
+                            value={
+                              thisDemand.demand_flows[field.fieldKey].flow.flow_days
+                                ? _.ceil(
+                                    (thisDemand.demand_flows[field.fieldKey].flow.flow_days / 30) *
+                                      thisDemand.demand_flows[field.fieldKey].monthly_quantity,
+                                  )
+                                : '-'
+                            }
+                            size="middle"
+                            disabled
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col span={3}>
+                        {demandModuleFlowFormFieldsSpecialEmp.map((item) => (
                           <>
                             {formItem({
                               ...item,
-                              kwargs: {
-                                placeholder: 'Select Part Name',
-                                showSearch: true,
-                                filterOption: (input, option) =>
-                                  option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-                                onFocus: () => {
-                                  const data = form.getFieldValue([
-                                    'demand_flows',
-                                    field.name,
-                                    'flow',
-                                  ]);
-                                  if (data) {
-                                    console.log(data);
-                                    setFlowId(data);
-                                  }
-                                },
-                              },
                               others: {
-                                selectOptions: filterActive(_, kits) || [],
-                                key: 'id',
-                                customTitle: 'part_name',
-                                //dataKeys: ['kit_name', 'kit_info', 'components_per_kit'],
                                 formOptions: {
                                   ...field,
                                   name: [field.name, item.key],
@@ -199,7 +206,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                     </Row>
 
                     <Space key={field.fieldKey}>
-                      {demandModuleFlowFormFields.slice(2).map((item) => (
+                      {demandModuleFlowFormFields.slice(2, 9).map((item) => (
                         <>
                           {formItem({
                             ...item,
@@ -213,6 +220,24 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                           })}
                         </>
                       ))}
+                      {/* {demandModuleFlowFormFields.slice(9).map((item) => (
+                        <>
+                          {formItem({
+                            ...item,
+                            kwargs: {
+                              placeholder: 'Monthly Qty',
+                              disabled: true,
+                            },
+                            others: {
+                              formOptions: {
+                                ...field,
+                                name: [field.name, item.key],
+                                fieldKey: [field.fieldKey, item.key],
+                              },
+                            },
+                          })}
+                        </>
+                      ))} */}
                       <Form.Item label="Cal">
                         <DmCalModal
                           form={form}
@@ -220,34 +245,12 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                           kitQuantities={kitQuantities}
                           setKitQuantities={setKitQuantities}
                           deliveryMonth={form.getFieldValue('delivery_month')}
-                          letEdit={true}
+                          letEdit={false}
                         />
-                      </Form.Item>
-
-                      <Form.Item label="Action">
-                        <Button
-                          type="danger"
-                          title="Delete"
-                          onClick={() => {
-                            remove(field.name);
-                          }}>
-                          <CloseOutlined />
-                        </Button>
                       </Form.Item>
                     </Space>
                   </Card>
                 ))}
-                <br />
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => {
-                      add();
-                    }}
-                    block>
-                    <PlusOutlined /> Add Item
-                  </Button>
-                </Form.Item>
               </div>
             );
           }}

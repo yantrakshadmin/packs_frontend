@@ -123,6 +123,19 @@ export const demandModuleFlowFormFields = [
   },
 ];
 
+export const demandModuleFlowFormFieldsSpecialEmp = [
+  {
+    key: 'deployed_pool',
+    type: FORM_ELEMENT_TYPES.INPUT,
+    kwargs: {
+      placeholder: 'Deployed Pool',
+    },
+    others: null,
+    customLabel: 'Deployed Pool',
+    col_span: 2,
+  },
+];
+
 export const demandModuleFlowFormCalFields = [
   {
     key: 'date',
