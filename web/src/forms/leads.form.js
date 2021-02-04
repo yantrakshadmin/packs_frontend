@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { Form, Col, Row, Button, Divider, Spin, message } from 'antd';
-import { leadsFormFields, leadsContactFormFields } from 'common/formFields/leads.formFields';
-import { useHandleForm } from 'hooks/form';
-import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { editLead, retrieveLead, createLead } from 'common/api/auth';
-import { PREPMaterialHandlingEquipmentFormFields } from 'common/formFields/PFEP/PFEPMaterialHandlingEquipment.formFields';
+import React, {useState} from 'react';
+import {Form, Col, Row, Button, Divider, Spin, message} from 'antd';
+import {leadsFormFields, leadsContactFormFields} from 'common/formFields/leads.formFields';
+import {useHandleForm} from 'hooks/form';
+import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
+import {editLead, retrieveLead, createLead} from 'common/api/auth';
+//import {PREPMaterialHandlingEquipmentFormFields} from 'common/formFields/PFEP/PFEPMaterialHandlingEquipment.formFields';
 import formItem from '../hocs/formItem.hoc';
 
-export const LeadsForm = ({ id, onCancel, onDone }) => {
+export const LeadsForm = ({id, onCancel, onDone}) => {
   //   const [reqFile, setFile] = useState(null);
 
-  const { form, submit, loading } = useHandleForm({
+  const {form, submit, loading} = useHandleForm({
     create: createLead,
     edit: editLead,
     retrieve: retrieveLead,
@@ -35,40 +35,40 @@ export const LeadsForm = ({ id, onCancel, onDone }) => {
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation='left'>Lead Details</Divider>
+      <Divider orientation="left">Lead Details</Divider>
       <Form
         onFinish={submit}
         form={form}
-        layout='vertical'
+        layout="vertical"
         hideRequiredMark
-        autoComplete='off'
+        autoComplete="off"
         // onFieldsChange={handleFieldsChange}
       >
         {/* <Row align="center">
           <Col span={24}>{formItem(leadsFormFields[0])}</Col>
         </Row> */}
-        <Row style={{ justifyContent: 'left' }}>
+        <Row style={{justifyContent: 'left'}}>
           {leadsFormFields.slice(0, 4).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className='p-2'>
+              <div key={idx} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
-        <Row style={{ justifyContent: 'left' }}>
+        <Row style={{justifyContent: 'left'}}>
           {leadsFormFields.slice(4, 8).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className='p-2'>
+              <div key={idx} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
-        <Row style={{ justifyContent: 'left' }}>
+        <Row style={{justifyContent: 'left'}}>
           {leadsFormFields.slice(8, 10).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className='p-2'>
+              <div key={idx} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
@@ -93,7 +93,7 @@ export const LeadsForm = ({ id, onCancel, onDone }) => {
             },
           })}
         </Row> */}
-        <Row style={{ justifyContent: 'left' }}>
+        {/* <Row style={{ justifyContent: 'left' }}>
           {PREPMaterialHandlingEquipmentFormFields.slice(0, 3).map((item, idx) => (
             <Col span={4}>
               <div key={idx.toString()} className='p-2'>
@@ -101,18 +101,18 @@ export const LeadsForm = ({ id, onCancel, onDone }) => {
               </div>
             </Col>
           ))}
-        </Row>
-        <Divider orientation='left'>Contact Person Details</Divider>
+        </Row> */}
+        <Divider orientation="left">Contact Person Details</Divider>
 
-        <Form.List name='person'>
-          {(fields, { add, remove }) => {
+        <Form.List name="person">
+          {(fields, {add, remove}) => {
             return (
               <div>
                 {fields.map((field, index) => (
-                  <Row align='middle'>
+                  <Row align="middle">
                     {leadsContactFormFields.slice(0, 4).map((item) => (
                       <Col span={5}>
-                        <div className='p-2'>
+                        <div className="p-2">
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -128,27 +128,23 @@ export const LeadsForm = ({ id, onCancel, onDone }) => {
                       </Col>
                     ))}
                     <Button
-                      type='danger'
-                      style={index != 0 ? { top: '-2vh' } : null}
+                      type="danger"
+                      style={index != 0 ? {top: '-2vh'} : null}
                       onClick={() => {
                         remove(field.name);
                       }}>
-                      <MinusCircleOutlined />
-                      {' '}
-                      Delete
+                      <MinusCircleOutlined /> Delete
                     </Button>
                   </Row>
                 ))}
                 <Form.Item>
                   <Button
-                    type='dashed'
+                    type="dashed"
                     onClick={() => {
                       add();
                     }}
                     block>
-                    <PlusOutlined />
-                    {' '}
-                    Add Item
+                    <PlusOutlined /> Add Item
                   </Button>
                 </Form.Item>
               </div>
@@ -157,11 +153,11 @@ export const LeadsForm = ({ id, onCancel, onDone }) => {
         </Form.List>
 
         <Row>
-          <Button type='primary' htmlType='submit'>
+          <Button type="primary" htmlType="submit">
             Save
           </Button>
-          <div className='p-2' />
-          <Button type='primary' onClick={onDone}>
+          <div className="p-2" />
+          <Button type="primary" onClick={onDone}>
             Cancel
           </Button>
         </Row>

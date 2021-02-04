@@ -55,25 +55,20 @@ const PFEPEmployeeScreen = ({currentPage}) => {
       title: 'Emitter',
       key: 'emitter',
       width: '5vw',
-      render: (record) => (
-        <div>
-          {record.emitter_inv}
-          {' - '}
-          {record.wh_emitter}
-        </div>
-      ),
+      render: (record) => (record.sender_client ? record.sender_client : '-'),
     },
     {
       title: 'Receiver',
       key: 'receiver',
       width: '6vw',
-      render: (record) => (
-        <div>
-          {record.receiver_inv}
-          {' - '}
-          {record.wh_receiver}
-        </div>
-      ),
+      render: (record) => {
+        if (record.receivers) {
+          if (record.receivers[0]) {
+            return record.receivers[0]['name'];
+          }
+        }
+        return '-';
+      },
     },
     {
       title: 'Contact Person',
