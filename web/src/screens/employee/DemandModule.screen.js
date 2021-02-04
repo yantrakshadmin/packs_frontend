@@ -8,7 +8,7 @@ import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
 import {DemandModuleForm} from 'forms/demandModule.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
-import DemandFlowsTable from './DemandModuleStuff/DemandFlowsTable';
+import DemandModuleTable from 'components/DemandModuleTable';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
@@ -46,9 +46,12 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
             }}>
             <Edit />
           </Button>
-          <Modal destroyOnClose={true} width="90%" record={record}>
-            <DemandFlowsTable loading={loading} dataSource={record.demand_flows} />
-          </Modal>
+          <Modal
+            destroyOnClose={true}
+            width="90%"
+            record={record}
+            dataSource={record.demand_flows}
+          />
         </div>
       ),
     },
@@ -83,9 +86,9 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
         cancelEditing={cancelEditing}
         modalBody={DemandModuleForm}
         modalWidth={98}
-        // expandHandleKey="demand_flows"
-        // expandParams={{loading}}
-        // ExpandBody={DemandModuleTable}
+        expandHandleKey="demand_flows"
+        expandParams={{loading}}
+        ExpandBody={DemandModuleTable}
       />
     </>
   );

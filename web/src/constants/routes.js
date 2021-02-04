@@ -225,6 +225,11 @@ export const employeeRoutes = [
         path: '/reports/return-count/',
         Component: lazy(() => import('components/Reports/returnCount')),
       },
+      {
+        name: 'Outward Count',
+        path: '/reports/outward-count/',
+        Component: lazy(() => import('components/Reports/Outward.js')),
+      },
     ],
   },
   {

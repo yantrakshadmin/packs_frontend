@@ -524,7 +524,7 @@ export const retrieveDms = () =>
   });
 
 export const deleteDm = (id) =>
-  loadAPI(`/edit-mrequets/${id}/`, {
+  loadAPI(`/edit-demand/${id}/`, {
     method: 'DELETE',
     secure: true,
   });

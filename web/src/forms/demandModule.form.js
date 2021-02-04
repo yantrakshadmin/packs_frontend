@@ -103,7 +103,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Demand Module Details</Divider>
+      <Divider orientation="left">Volume Plan Details</Divider>
       <Form
         onFinish={preProcess}
         form={form}
