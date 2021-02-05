@@ -27,8 +27,9 @@ const StockingReport = ({currentPage}) => {
     if (selectedClientID) {
       try {
         setSelectedKits(_.filter(kits, (k) => k.kit_client.user === selectedClientID));
-        console.log(selectedKits);
-      } catch (err) {}
+      } catch (err) {
+        setSelectedKits([]);
+      }
     }
   }, [selectedClientID]);
 
@@ -98,7 +99,7 @@ const StockingReport = ({currentPage}) => {
                   },
                   others: {
                     selectOptions: selectedKits || [],
-                    key: 'id',
+                    key: 'kit_name',
                     dataKeys: ['kit_info', 'components_per_kit'],
                     customTitle: 'kit_name',
                   },

@@ -1,130 +1,41 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import {useAPI} from 'common/hooks/api';
-import {Row, Col, Form, Button} from 'antd';
-import {retrieveAllotmentReport, retrieveClients} from 'common/api/auth';
-import allotmentColumns from 'common/columns/AllotmentReport.column';
-import {AllotFlowTable} from 'components/AllotFlowExp';
-import TableWithTabHoc from 'hocs/TableWithTab.hoc';
+import {Row, Col, Form, Button, Typography} from 'antd';
 import {FORM_ELEMENT_TYPES} from '../../constants/formFields.constant';
+import _ from 'lodash';
 
 import formItem from '../../hocs/formItem.hoc';
 
-const AllotmentReport = ({currentPage}) => {
-  const [all, setAll] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [csvData, setCsvData] = useState(null);
-  const [reportData, setReportData] = useState(null);
-  const [reqAllotments, setReqAllotments] = useState(null);
+const {Title} = Typography;
+const StockingReport = ({currentPage}) => {
   const [client, setClient] = useState('');
-  const [clientName, setClientName] = useState(null);
-  const [to, setTo] = useState(null);
-  const [from, setFrom] = useState(null);
+  const [toDate, setToDate] = useState(null);
+  const [fromDate, setFromDate] = useState(null);
   const [form] = Form.useForm();
 
   const {data: clients} = useAPI('/clients/', {});
 
-  const onSubmit = async (data) => {
-    setLoading(true);
-    if (!data.cname) {
-      data.cname = '';
-      setClient(data.cname);
-    } else {
-      setClient(data.cname);
-      let reqC = null;
-      const {data: clients} = await retrieveClients();
-      clients.forEach((c) => {
-        if (c.user === data.cname) reqC = c.client_name;
-      });
-      setClientName(reqC);
-    }
-    data.to = moment(data.to).format('YYYY-MM-DD HH:MM');
-    data.from = moment(data.from).format('YYYY-MM-DD HH:MM');
-    setTo(data.to);
-    setFrom(data.from);
-    const {data: report} = await retrieveAllotmentReport(data);
-    if (report) {
-      console.log(report);
-      setLoading(false);
-      setReportData(report);
-    }
+  const onChange = async () => {
+    const tempFrom = moment(form.getFieldValue('dateFrom')).format('YYYY-MM-DD+HH:MM');
+    const tempTo = moment(form.getFieldValue('dateTo')).format('YYYY-MM-DD+HH:MM');
+    setToDate(tempTo);
+    setFromDate(tempFrom);
+    setClient(form.getFieldValue('cname'));
   };
-
-  useEffect(() => {
-    if (reportData) {
-      const reqD = reportData.map((alt) => ({
-        id: alt.id,
-        owner: alt.owner,
-        vehicle_type: alt.vehicle_type,
-        transaction_no: alt.transaction_no,
-        dispatch_date: alt.dispatch_date,
-        material_request_id: alt.sales_order,
-        warehouse_name: alt.send_from_warehouse,
-        flows: alt.flows,
-        vehicle_number: alt.vehicle_number,
-        transport_by: alt.transport_by,
-        is_delivered: alt.is_delivered,
-      }));
-      setReqAllotments(reqD);
-    }
-  }, [reportData]);
-
-  useEffect(() => {
-    if (reqAllotments) {
-      const csvd = [];
-      reqAllotments.forEach((d) => {
-        const temp = {...d, is_delivered: [d.is_delivered ? 'Yes' : 'No']};
-        delete temp.flows;
-        csvd.push(temp);
-        d.flows.forEach((f) => {
-          const kit = f.kit.kit_name;
-          const aq = f.alloted_quantity;
-          // let s = '';
-          // for (let i = 1; i <= aq; i++) {
-          //   s += `${d.transaction_no}-${kit}-${i}, `;
-          // }
-          // s = s.slice(0, -2);
-          const temp1 = {
-            ...f,
-            kit: f.kit.kit_name,
-            // 'kits assigned': s
-          };
-          csvd.push(temp1);
-          f.kit.products.forEach((p) => {
-            const temp2 = {...p, quantity: p.quantity * aq};
-            csvd.push(temp2);
-          });
-        });
-      });
-      setCsvData(csvd);
-    }
-  }, [reqAllotments]);
-
-  const columns = [
-    {
-      title: 'Sr. No.',
-      key: 'srno',
-      render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
-    },
-    ...allotmentColumns,
-  ];
-
-  const tabs = [
-    {
-      name: 'Outward Dockets',
-      key: 'Outward Dockets',
-      data: reqAllotments || [],
-      columns,
-      loading,
-    },
-  ];
 
   return (
     <>
-      <Form onFinish={onSubmit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
-        <Row>
+      <Title level={3}>Outward Reports</Title>
+      <Form
+        onFieldsChange={onChange}
+        form={form}
+        layout="vertical"
+        hideRequiredMark
+        autoComplete="off">
+        <Row gutter={10}>
           <Col span={10}>
             {formItem({
               key: 'cname',
@@ -142,10 +53,11 @@ const AllotmentReport = ({currentPage}) => {
             })}
           </Col>
         </Row>
-        <Row>
-          <Col span={3}>
+
+        <Row gutter={10}>
+          <Col span={4}>
             {formItem({
-              key: 'from',
+              key: 'dateFrom',
               rules: [{required: true, message: 'Please select From date!'}],
               kwargs: {
                 placeholder: 'Select',
@@ -156,10 +68,9 @@ const AllotmentReport = ({currentPage}) => {
               customLabel: 'From',
             })}
           </Col>
-          <Col span={4} />
-          <Col span={3}>
+          <Col span={4}>
             {formItem({
-              key: 'to',
+              key: 'dateTo',
               rules: [{required: true, message: 'Please select To date!'}],
               kwargs: {
                 placeholder: 'Select',
@@ -172,26 +83,15 @@ const AllotmentReport = ({currentPage}) => {
           </Col>
         </Row>
         <Row>
-          <Button type="primary" htmlType="submit">
-            Submit
+          <Button
+            href={`${DEFAULT_BASE_URL}/outward-report/?to=${toDate}&from=${fromDate}&cname=${client}`}
+            rel="noopener noreferrer"
+            target="blank">
+            Download CSV
           </Button>
         </Row>
       </Form>
       <br />
-      <TableWithTabHoc
-        tabs={tabs}
-        size="middle"
-        title="Outward Dockets"
-        hideRightButton
-        downloadLink={`${DEFAULT_BASE_URL}/allotment-reportsdownload/?cname=${client}&to=${to}&from=${from}`}
-        downloadLink2={`${DEFAULT_BASE_URL}/billing-annexure/?id=${client}&to=${to}&from=${from}`}
-        rowKey="id"
-        expandHandleKey="flows"
-        ExpandBody={AllotFlowTable}
-        expandParams={{loading}}
-        // csvdata={csvData}
-        // csvname={'Allotments' + clientName + '.csv'}
-      />
     </>
   );
 };
@@ -200,4 +100,4 @@ const mapStateToProps = (state) => {
   return {currentPage: state.page.currentPage};
 };
 
-export default connect(mapStateToProps)(AllotmentReport);
+export default connect(mapStateToProps)(StockingReport);
