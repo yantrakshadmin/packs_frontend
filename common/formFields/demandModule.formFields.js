@@ -90,7 +90,7 @@ export const demandModuleFlowFormFields = [
     col_span: 3,
   },
   {
-    key: 'kit_id',
+    key: 'kit_name',
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
       placeholder: 'Kit ID',
@@ -119,6 +119,19 @@ export const demandModuleFlowFormFields = [
     },
     others: null,
     customLabel: 'Monthly Qty',
+    col_span: 2,
+  },
+];
+
+export const demandModuleFlowFormFieldsSpecialEmp = [
+  {
+    key: 'deployed_pool',
+    type: FORM_ELEMENT_TYPES.INPUT,
+    kwargs: {
+      placeholder: 'Deployed Pool',
+    },
+    others: null,
+    customLabel: 'Deployed Pool',
     col_span: 2,
   },
 ];

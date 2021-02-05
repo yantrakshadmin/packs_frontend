@@ -1,12 +1,12 @@
-import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
+import {FORM_ELEMENT_TYPES} from 'web/src/constants/formFields.constant';
 
 export const PREPSolutionRequiredFormFields = [
   {
     key: 'solution_flc',
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
-      defaultValue:false,
-      formOptions:{ noStyle:true }
+      defaultValue: false,
+      formOptions: {noStyle: true},
     },
     customLabel: 'FLC',
   },
@@ -14,8 +14,8 @@ export const PREPSolutionRequiredFormFields = [
     key: 'solution_fsc',
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
-      defaultValue:false,
-      formOptions:{ noStyle:true }
+      defaultValue: false,
+      formOptions: {noStyle: true},
     },
     customLabel: 'FSC',
   },
@@ -23,8 +23,8 @@ export const PREPSolutionRequiredFormFields = [
     key: 'solution_crate',
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
-      defaultValue:false,
-      formOptions:{ noStyle:true }
+      defaultValue: false,
+      formOptions: {noStyle: true},
     },
     customLabel: 'Crate',
   },
@@ -32,8 +32,8 @@ export const PREPSolutionRequiredFormFields = [
     key: 'solution_ppbox',
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
-      defaultValue:false,
-      formOptions:{ noStyle:true }
+      defaultValue: false,
+      formOptions: {noStyle: true},
     },
     customLabel: 'PP Box',
   },
@@ -41,8 +41,8 @@ export const PREPSolutionRequiredFormFields = [
     key: 'solution_pp',
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
-      defaultValue:false,
-      formOptions:{ noStyle:true }
+      defaultValue: false,
+      formOptions: {noStyle: true},
     },
     customLabel: 'Plastic Pallet',
   },
@@ -50,8 +50,8 @@ export const PREPSolutionRequiredFormFields = [
     key: 'solution_palletized_crate',
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
-      defaultValue:false,
-      formOptions:{ noStyle:true }
+      defaultValue: false,
+      formOptions: {noStyle: true},
     },
     customLabel: 'Palletized Crate',
   },
@@ -59,16 +59,16 @@ export const PREPSolutionRequiredFormFields = [
     key: 'solution_palletized_box',
     type: FORM_ELEMENT_TYPES.SWITCH,
     others: {
-      defaultValue:false,
-      formOptions:{ noStyle:true }
+      defaultValue: false,
+      formOptions: {noStyle: true},
     },
     customLabel: 'Palletized Box Solution',
   },
   {
     key: 'solution_wp',
     others: {
-      defaultValue:false,
-      formOptions:{ noStyle:true }
+      defaultValue: false,
+      formOptions: {noStyle: true},
     },
     type: FORM_ELEMENT_TYPES.SWITCH,
     customLabel: 'Wooden Pallet',
@@ -79,8 +79,9 @@ export const PREPSolutionRequiredFormFields = [
     customLabel: 'Stacking or Nesting of parts',
     others: {
       defaultValue: false,
-      formOptions:{ noStyle:true }
-    } },
+      formOptions: {noStyle: true},
+    },
+  },
   {
     key: 'p2p_contact',
     type: FORM_ELEMENT_TYPES.INPUT,
@@ -89,7 +90,7 @@ export const PREPSolutionRequiredFormFields = [
       placeholder: 'Part to Part Contact Permissible',
     },
     others: {
-      formOptions:{ noStyle:true }
+      formOptions: {noStyle: true},
     },
   },
   {
@@ -100,7 +101,7 @@ export const PREPSolutionRequiredFormFields = [
     },
     customLabel: 'Multiple Parts in Single Packet',
     others: {
-      formOptions:{ noStyle:true }
+      formOptions: {noStyle: true},
     },
   },
   {
@@ -109,7 +110,7 @@ export const PREPSolutionRequiredFormFields = [
       placeholder: 'Min/Max Margin from Wall',
     },
     others: {
-      formOptions:{ noStyle:true }
+      formOptions: {noStyle: true},
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Min/Max Margin from Wall',
@@ -120,7 +121,7 @@ export const PREPSolutionRequiredFormFields = [
       placeholder: 'Other Specification',
     },
     others: {
-      formOptions:{ noStyle:true }
+      formOptions: {noStyle: true},
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Other Specification',
@@ -131,7 +132,7 @@ export const PREPSolutionRequiredFormFields = [
       placeholder: 'Part Orientation',
     },
     others: {
-      formOptions:{ noStyle:true }
+      formOptions: {noStyle: true},
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Part Orientation',
@@ -142,8 +143,9 @@ export const PREPSolutionRequiredFormFields = [
       placeholder: 'Parts/PM',
     },
     others: {
-      formOptions:{ noStyle:true }
-    },  type: FORM_ELEMENT_TYPES.INPUT,
+      formOptions: {noStyle: true},
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Parts/PM',
   },
-]
+];

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import demandModuleColumns from 'common/columns/demandModule.column';
 import {Popconfirm, Button, Input, Popover} from 'antd';
-import {deleteMr, retrieveDms} from 'common/api/auth';
+import {deleteDm, retrieveDms} from 'common/api/auth';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
@@ -32,16 +32,6 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
       width: '9vw',
       render: (text, record) => (
         <div className="row justify-evenly">
-          {/* <Popover
-          content={PasswordPopUp}
-          title="Verify"
-          trigger="click"
-          visible={popoverEditVisible && record.id === editingId}
-          onVisibleChange={(e) => {
-            setPopoverEditVisible(e);
-          }}>
-          
-        </Popover> */}
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -55,6 +45,26 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
             }}>
             <Edit />
           </Button>
+          <Popconfirm
+            title="Confirm Delete"
+            onConfirm={deleteHOC({
+              record,
+              reload,
+              api: deleteDm,
+              success: 'Deleted Volume Plan successfully',
+              failure: 'Error in deleting Volume Plan',
+            })}>
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                boxShadow: 'none',
+                border: 'none',
+                padding: '1px',
+              }}
+              onClick={(e) => e.stopPropagation()}>
+              <Delete />
+            </Button>
+          </Popconfirm>
         </div>
       ),
     },
@@ -62,8 +72,8 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
 
   const tabs = [
     {
-      name: 'All Material Requests',
-      key: 'allMaterialRequests',
+      name: 'All Volume Plans',
+      key: 'allVolumePlans',
       data: filteredData || [],
       columns,
       loading,

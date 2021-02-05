@@ -11,7 +11,7 @@ const solutionAssetOptions = [
   'Palletized CRT6418',
   'Palletized CRT6423',
   'Palletized CRT6435',
-  'PP BOX',
+  'PP Box',
   'Palletized PP Box',
   'Plastic Pallet',
   'Wooden Pallet',
