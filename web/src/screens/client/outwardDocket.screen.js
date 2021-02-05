@@ -1,36 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { Input, Button, Popconfirm } from 'antd';
-import { connect, useSelector } from 'react-redux';
-import { useTableSearch } from 'hooks/useTableSearch';
-import { Link } from '@reach/router';
-import { useAPI } from 'common/hooks/api';
-import { deleteOutward } from 'common/api/auth';
-import { outwardDocketColumn } from 'common/columns/outwardDocket.column';
-import { loadAPI } from 'common/helpers/api';
-import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
+import React, {useState, useEffect} from 'react';
+import {Input, Button, Popconfirm} from 'antd';
+import {connect, useSelector} from 'react-redux';
+import {useTableSearch} from 'hooks/useTableSearch';
+import {Link} from '@reach/router';
+import {useAPI} from 'common/hooks/api';
+import {deleteOutward} from 'common/api/auth';
+import {outwardDocketColumn} from 'common/columns/outwardDocket.column';
+import {GetUniqueValueNested} from 'common/helpers/getUniqueValues';
+import {loadAPI} from 'common/helpers/api';
+import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import { OutwardDocketForm } from '../../forms/OutwardDocket.form';
+import {OutwardDocketForm} from '../../forms/OutwardDocket.form';
 import Edit from '../../icons/Edit';
-import { deleteHOC } from '../../hocs/deleteHoc';
+import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Delivery from '../../icons/Delivery';
-import { OutwardDeliveredDocketForm } from '../../forms/OutwardDeliveredDocket.form';
+import {OutwardDeliveredDocketForm} from '../../forms/OutwardDeliveredDocket.form';
 import Document from '../../icons/Document';
 import TableWithTabHoc from '../../hocs/TableWithTab.hoc';
 
-const { Search } = Input;
+const {Search} = Input;
 
-const OutwardDocketScreen = ({ currentPage,isEmployee }) => {
+const OutwardDocketScreen = ({currentPage, isEmployee}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [reqData, setReqData] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
-  const [TN,setTN] = useState(null);
-  const user = useSelector(s=>s.user.userMeta.id)
-  console.log(user,isEmployee,'Props')
+  const [TN, setTN] = useState(null);
+  const user = useSelector((s) => s.user.userMeta.id);
+  console.log(user, isEmployee, 'Props');
 
-  const { data: outwards, loading,reload } = useAPI(isEmployee?'emp-outwards/':'/outwards/', {});
-  const { filteredData, } = useTableSearch({
+  const {data: outwards, loading, reload} = useAPI(isEmployee ? 'emp-outwards/' : '/outwards/', {});
+  const {filteredData} = useTableSearch({
     searchVal,
     reqData,
   });
@@ -50,39 +51,36 @@ const OutwardDocketScreen = ({ currentPage,isEmployee }) => {
       render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
     },
     {
-      title:'Transaction Date',
-      dataIndex:'transaction_date',
-      key:'transaction_date',
-      render:(text)=>(
-        <div>
-          {text.slice(0, 10)}
-        </div>
-      )
+      title: 'Transaction Date',
+      dataIndex: 'transaction_date',
+      key: 'transaction_date',
+      render: (text) => <div>{text.slice(0, 10)}</div>,
     },
     {
-      title:'Dispatch Date',
-      dataIndex:'dispatch_date',
-      key:'dispatch_date',
-      render:(text)=>(
-        <div>
-          {text.slice(0, 10)}
-        </div>
-      )
+      title: 'Dispatch Date',
+      dataIndex: 'dispatch_date',
+      key: 'dispatch_date',
+      render: (text) => <div>{text.slice(0, 10)}</div>,
     },
     {
-      title:'Sending Location',
-      dataIndex:'sending_location',
-      key:'sending_location',
+      title: 'Sending Location',
+      dataIndex: 'sending_location',
+      key: 'sending_location',
       width: 400,
-      render:(location)=>(
+      render: (location) => (
         <div>
-          {location.name}
-          {' '}
-          -
-          {' '}
-          {location.address}
+          {location.name} - {location.address}
         </div>
-      )
+      ),
+    },
+    {
+      title: 'Client Name',
+      dataIndex: 'owner',
+      key: 'owner',
+      width: 400,
+      render: (i) => <div>{i.client_name}</div>,
+      filters: GetUniqueValueNested(filteredData || [], 'owner', 'client_name'),
+      onFilter: (value, record) => record.owner.client_name === value.client_name,
     },
     ...outwardDocketColumn,
     // {
@@ -105,12 +103,12 @@ const OutwardDocketScreen = ({ currentPage,isEmployee }) => {
       key: 'docket',
       render: (text, record) => {
         return (
-          <Button type='primary'>
+          <Button type="primary">
             <Link
               to={`../outward-docket/${record.id}`}
-              state={{ id: record.id }}
+              state={{id: record.id}}
               key={record.id}
-              style={{ textDecoration: 'none' }}>
+              style={{textDecoration: 'none'}}>
               View Docket
             </Link>
           </Button>
@@ -122,7 +120,7 @@ const OutwardDocketScreen = ({ currentPage,isEmployee }) => {
       key: 'operation',
       width: '7vw',
       render: (text, record) => (
-        <div className='row justify-evenly'>
+        <div className="row justify-evenly">
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -132,15 +130,14 @@ const OutwardDocketScreen = ({ currentPage,isEmployee }) => {
             }}
             // disabled={!record.document}
             onClick={async (e) => {
-              const { data: req } = await loadAPI(
-                `${DEFAULT_BASE_URL}/inward/?pk=${record.id}`,
-                {},
-              );
-              if (req){
-                if(req[0]){
+              const {data: req} = await loadAPI(`${DEFAULT_BASE_URL}/inward/?pk=${record.id}`, {});
+              if (req) {
+                if (req[0]) {
                   if (req[0].document) {
                     window.open(req[0].document);
-                  }}}
+                  }
+                }
+              }
               e.stopPropagation();
             }}>
             <Document color={record.document ? '#7CFC00' : null} />
@@ -173,7 +170,7 @@ const OutwardDocketScreen = ({ currentPage,isEmployee }) => {
             <Edit />
           </Button>
           <Popconfirm
-            title='Confirm Delete'
+            title="Confirm Delete"
             onConfirm={deleteHOC({
               record,
               reload,
@@ -209,7 +206,7 @@ const OutwardDocketScreen = ({ currentPage,isEmployee }) => {
 
   const cancelEditing = () => {
     setEditingId(null);
-    setTN(null)
+    setTN(null);
     setDeliveryId(null);
   };
 
@@ -220,9 +217,9 @@ const OutwardDocketScreen = ({ currentPage,isEmployee }) => {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
       </div>
       <br />
@@ -231,24 +228,22 @@ const OutwardDocketScreen = ({ currentPage,isEmployee }) => {
         refresh={reload}
         tabs={tabs}
         loading={loading}
-        size='middle'
+        size="middle"
         noNewPageCSV
-        downloadLink={isEmployee?null:`${DEFAULT_BASE_URL}outward-report?id=${user}`}
+        downloadLink={isEmployee ? null : `${DEFAULT_BASE_URL}outward-report?id=${user}`}
         editingId={editingId || deliveryId}
-        title={deliveryId?'Delivered Docket ':'Outward Docket '}
-        modalBody={deliveryId?OutwardDeliveredDocketForm:OutwardDocketForm}
+        title={deliveryId ? 'Delivered Docket ' : 'Outward Docket '}
+        modalBody={deliveryId ? OutwardDeliveredDocketForm : OutwardDocketForm}
         modalWidth={80}
-        formParams={{ transaction_no: TN }}
+        formParams={{transaction_no: TN}}
         cancelEditing={cancelEditing}
       />
     </>
   );
 };
 
-
-
 const mapStateToProps = (state) => {
-  return { currentPage: state.page.currentPage };
+  return {currentPage: state.page.currentPage};
 };
 
 export default connect(mapStateToProps)(OutwardDocketScreen);

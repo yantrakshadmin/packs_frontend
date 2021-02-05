@@ -180,6 +180,12 @@ export const retrieveOutwardDocket = (id) =>
     secure: true,
   });
 
+export const retrieveOutwardDocketEmp = (id) =>
+  loadAPI(`emp-outwards/?id=${id}`, {
+    method: 'GET',
+    secure: true,
+  });
+
 export const createVendor = ({
   name,
   street,

@@ -7,7 +7,7 @@ import moment from 'moment';
 import {
   retrieveAllotments,
   retrieveAllotmentsCalender,
-  retrieveOutwardDocket,
+  retrieveOutwardDocketEmp,
 } from 'common/api/auth';
 
 import '../Docket/docket.styles.scss';
@@ -82,7 +82,7 @@ const OutwardDocket = ({location, match}) => {
     const fetchAllotment = async () => {
       if (location.state) {
         if (location.state.id) {
-          const {data} = await retrieveOutwardDocket(location.state.id);
+          const {data} = await retrieveOutwardDocketEmp(location.state.id);
           console.log(data, 'ye wala');
           if (data) setAllotment(data);
         }
