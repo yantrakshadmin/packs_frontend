@@ -1,28 +1,48 @@
-import React, { useState  } from 'react';
-import { connect } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
 import moment from 'moment';
-import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
-import { useAPI } from 'common/hooks/api';
-import { Row, Col, Form, Button,Typography } from 'antd';
-import { FORM_ELEMENT_TYPES } from '../../constants/formFields.constant';
+import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
+import {useAPI} from 'common/hooks/api';
+import {Row, Col, Form, Button, Typography} from 'antd';
+import {FORM_ELEMENT_TYPES} from '../../constants/formFields.constant';
+import _ from 'lodash';
 
 import formItem from '../../hocs/formItem.hoc';
 
-const { Title } =Typography;
-const StockingReport = ({ currentPage }) => {
+const {Title} = Typography;
+const StockingReport = ({currentPage}) => {
   const [client, setClient] = useState('');
+  const [kit, setKit] = useState('');
   const [toDate, setToDate] = useState(null);
   const [fromDate, setFromDate] = useState(null);
   const [form] = Form.useForm();
 
-  const { data: clients } = useAPI('/clients/', {});
+  const {data: clients} = useAPI('/clients/', {});
+  const {data: kits} = useAPI('/kits/', {});
+  const [selectedClientID, setSelectedClientID] = useState(null);
+  const [selectedKits, setSelectedKits] = useState([]);
+  const [selectAllKits, setSelectAllKits] = useState(false);
+
+  useEffect(() => {
+    if (selectedClientID) {
+      try {
+        setSelectedKits(_.filter(kits, (k) => k.kit_client.user === selectedClientID));
+        console.log(selectedKits);
+      } catch (err) {}
+    }
+  }, [selectedClientID]);
 
   const onChange = async () => {
     const tempFrom = moment(form.getFieldValue('dateFrom')).format('YYYY-MM-DD+HH:MM');
-    const tempTo = moment(form.getFieldValue('dateTo')).format('YYYY-MM-DD+HH:MM')
+    const tempTo = moment(form.getFieldValue('dateTo')).format('YYYY-MM-DD+HH:MM');
     setToDate(tempTo);
     setFromDate(tempFrom);
-    setClient(form.getFieldValue('cname'))
+    setClient(form.getFieldValue('cname'));
+    if (!selectAllKits) {
+      setKit(form.getFieldValue('kit'));
+    } else {
+      setKit('0');
+    }
   };
 
   return (
@@ -31,15 +51,18 @@ const StockingReport = ({ currentPage }) => {
       <Form
         onFieldsChange={onChange}
         form={form}
-        layout='vertical'
+        layout="vertical"
         hideRequiredMark
-        autoComplete='off'>
-        <Row>
+        autoComplete="off">
+        <Row gutter={10}>
           <Col span={10}>
             {formItem({
               key: 'cname',
               kwargs: {
                 placeholder: 'Select',
+                onChange: (val) => {
+                  setSelectedClientID(val);
+                },
               },
               others: {
                 selectOptions: clients || [],
@@ -52,11 +75,46 @@ const StockingReport = ({ currentPage }) => {
             })}
           </Col>
         </Row>
-        <Row>
-          <Col span={3}>
+        {selectedKits.length > 0 ? (
+          <Row gutter={10}>
+            <Col span={2}>
+              {formItem({
+                key: 'select_all_kits',
+                kwargs: {
+                  onChange: (val) => {
+                    setSelectAllKits(val);
+                  },
+                },
+                type: FORM_ELEMENT_TYPES.SWITCH,
+                customLabel: 'All Kits',
+              })}
+            </Col>
+            {!selectAllKits ? (
+              <Col span={8}>
+                {formItem({
+                  key: 'kit',
+                  kwargs: {
+                    placeholder: 'Select',
+                  },
+                  others: {
+                    selectOptions: selectedKits || [],
+                    key: 'id',
+                    dataKeys: ['kit_info', 'components_per_kit'],
+                    customTitle: 'kit_name',
+                  },
+                  type: FORM_ELEMENT_TYPES.SELECT,
+                  customLabel: 'Kit',
+                })}
+              </Col>
+            ) : null}
+          </Row>
+        ) : null}
+
+        <Row gutter={10}>
+          <Col span={4}>
             {formItem({
               key: 'dateFrom',
-              rules: [{ required: true, message: 'Please select From date!' }],
+              rules: [{required: true, message: 'Please select From date!'}],
               kwargs: {
                 placeholder: 'Select',
                 type: 'number',
@@ -66,11 +124,10 @@ const StockingReport = ({ currentPage }) => {
               customLabel: 'From',
             })}
           </Col>
-          <Col span={4} />
-          <Col span={3}>
+          <Col span={4}>
             {formItem({
               key: 'dateTo',
-              rules: [{ required: true, message: 'Please select To date!' }],
+              rules: [{required: true, message: 'Please select To date!'}],
               kwargs: {
                 placeholder: 'Select',
                 type: 'number',
@@ -83,10 +140,9 @@ const StockingReport = ({ currentPage }) => {
         </Row>
         <Row>
           <Button
-            href={`${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}`}
-            rel='noopener noreferrer'
-            target='blank'
-          >
+            href={`${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}&kit=${kit}`}
+            rel="noopener noreferrer"
+            target="blank">
             Download CSV
           </Button>
         </Row>
@@ -97,7 +153,7 @@ const StockingReport = ({ currentPage }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { currentPage: state.page.currentPage };
+  return {currentPage: state.page.currentPage};
 };
 
 export default connect(mapStateToProps)(StockingReport);
