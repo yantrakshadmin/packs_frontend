@@ -206,6 +206,11 @@ export const employeeRoutes = [
         Component: lazy(() => import('components/Reports/Return.js')),
       },
       {
+        name: 'Outwards',
+        path: '/reports/outwards/',
+        Component: lazy(() => import('components/Reports/Outward.js')),
+      },
+      {
         name: 'Floating',
         path: '/reports/stocking/',
         Component: lazy(() => import('components/Reports/Stocking.js')),
@@ -224,11 +229,6 @@ export const employeeRoutes = [
         name: 'Return Count',
         path: '/reports/return-count/',
         Component: lazy(() => import('components/Reports/returnCount')),
-      },
-      {
-        name: 'Outward Count',
-        path: '/reports/outward-count/',
-        Component: lazy(() => import('components/Reports/Outward.js')),
       },
     ],
   },
