@@ -15,9 +15,14 @@ import Edit from '../../icons/Edit';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Delivery from '../../icons/Delivery';
+import Download from '../../icons/Download';
 import {OutwardDeliveredDocketForm} from '../../forms/OutwardDeliveredDocket.form';
 import Document from '../../icons/Document';
 import TableWithTabHoc from '../../hocs/TableWithTab.hoc';
+
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faBarcode, faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
+import {yantraColors} from '../../helpers/yantraColors';
 
 const {Search} = Input;
 
@@ -103,15 +108,19 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
       key: 'docket',
       render: (text, record) => {
         return (
-          <Button type="primary">
+          // <a href={`../return-docket/${record.transaction_no}`} target="_blank" rel="noreferrer">
+          //     <Download />
+          //   </a>
+          <div className="row align-center justify-evenly">
             <Link
               to={`../outward-docket/${record.id}`}
+              target="_blank"
               state={{id: record.id}}
               key={record.id}
               style={{textDecoration: 'none'}}>
-              View Docket
+              <Download />
             </Link>
-          </Button>
+          </div>
         );
       },
     },
@@ -140,7 +149,10 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
               }
               e.stopPropagation();
             }}>
-            <Document color={record.document ? '#7CFC00' : null} />
+            <FontAwesomeIcon
+              icon={record.document ? faEye : faEyeSlash}
+              style={{fontSize: 20, color: yantraColors['primary']}}
+            />
           </Button>
           <Button
             style={{
@@ -149,11 +161,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
               boxShadow: 'none',
               padding: '1px',
             }}
-            onClick={(e) => {
-              setTN(record.transaction_no);
-              setDeliveryId(record.id);
-              e.stopPropagation();
-            }}>
+            disabled>
             <Delivery color={record.is_delivered ? '#7CFC00' : null} />
           </Button>
           <Button
@@ -163,33 +171,90 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
               boxShadow: 'none',
               padding: '1px',
             }}
-            onClick={(e) => {
-              setEditingId(record.id);
-              e.stopPropagation();
-            }}>
+            disabled>
             <Edit />
           </Button>
-          <Popconfirm
-            title="Confirm Delete"
-            onConfirm={deleteHOC({
-              record,
-              reload,
-              api: deleteOutward,
-              success: 'Deleted Outward Docket Successfully',
-              failure: 'Error in deleting Outward Docket',
-            })}>
-            <Button
-              style={{
-                backgroundColor: 'transparent',
-                boxShadow: 'none',
-                border: 'none',
-                padding: '1px',
-              }}
-              onClick={(e) => e.stopPropagation()}>
-              <Delete />
-            </Button>
-          </Popconfirm>
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              boxShadow: 'none',
+              border: 'none',
+              padding: '1px',
+            }}
+            disabled>
+            <Delete />
+          </Button>
         </div>
+        // <div className="row justify-evenly">
+        //   <Button
+        //     style={{
+        //       backgroundColor: 'transparent',
+        //       border: 'none',
+        //       boxShadow: 'none',
+        //       padding: '1px',
+        //     }}
+        //     // disabled={!record.document}
+        //     onClick={async (e) => {
+        //       const {data: req} = await loadAPI(`${DEFAULT_BASE_URL}/inward/?pk=${record.id}`, {});
+        //       if (req) {
+        //         if (req[0]) {
+        //           if (req[0].document) {
+        //             window.open(req[0].document);
+        //           }
+        //         }
+        //       }
+        //       e.stopPropagation();
+        //     }}>
+        //     <Document color={record.document ? '#7CFC00' : null} />
+        //   </Button>
+        //   <Button
+        //     style={{
+        //       backgroundColor: 'transparent',
+        //       border: 'none',
+        //       boxShadow: 'none',
+        //       padding: '1px',
+        //     }}
+        //     onClick={(e) => {
+        //       setTN(record.transaction_no);
+        //       setDeliveryId(record.id);
+        //       e.stopPropagation();
+        //     }}>
+        //     <Delivery color={record.is_delivered ? '#7CFC00' : null} />
+        //   </Button>
+        //   <Button
+        //     style={{
+        //       backgroundColor: 'transparent',
+        //       border: 'none',
+        //       boxShadow: 'none',
+        //       padding: '1px',
+        //     }}
+        //     onClick={(e) => {
+        //       setEditingId(record.id);
+        //       e.stopPropagation();
+        //     }}>
+        //     <Edit />
+        //   </Button>
+        //   <Popconfirm
+        //     title="Confirm Delete"
+        //     onConfirm={deleteHOC({
+        //       record,
+        //       reload,
+        //       api: deleteOutward,
+        //       success: 'Deleted Outward Docket Successfully',
+        //       failure: 'Error in deleting Outward Docket',
+        //     })}>
+        //     <Button
+        //       style={{
+        //         backgroundColor: 'transparent',
+        //         boxShadow: 'none',
+        //         border: 'none',
+        //         padding: '1px',
+        //       }}
+        //       onClick={(e) => e.stopPropagation()}>
+        //       <Delete />
+        //     </Button>
+        //   </Popconfirm>
+        // </div>
       ),
     },
   ];

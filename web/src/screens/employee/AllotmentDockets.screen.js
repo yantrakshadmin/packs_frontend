@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Col,
   Row,
@@ -11,43 +11,45 @@ import {
   Popover,
   notification,
 } from 'antd';
-import { faTruckLoading ,faMoneyCheck } from  '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {yantraColors} from '../../helpers/yantraColors';
+import {faTruckLoading, faBarcode, faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import allotmentColumns from 'common/columns/Allotment.column';
-import { DeliveredForm } from 'forms/delivered.form';
-import { AllotmentMainForm } from 'forms/allotmentMain.form';
-import { connect } from 'react-redux';
-import { useTableSearch } from 'hooks/useTableSearch';
-import { deleteAllotment } from 'common/api/auth';
-import { loadAPI } from 'common/helpers/api';
-import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
-import { useAPI } from 'common/hooks/api';
-import { Link, useNavigate } from '@reach/router';
+import {DeliveredForm} from 'forms/delivered.form';
+import {AllotmentMainForm} from 'forms/allotmentMain.form';
+import {connect} from 'react-redux';
+import {useTableSearch} from 'hooks/useTableSearch';
+import {deleteAllotment} from 'common/api/auth';
+import {loadAPI} from 'common/helpers/api';
+import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
+import {useAPI} from 'common/hooks/api';
+import {Link, useNavigate} from '@reach/router';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
+import Download from 'icons/Download';
 import Delivery from 'icons/Delivery';
 import Document from 'icons/Document';
-import { BarcodeAllotmentDocket } from 'components/barcodeAllotmentDocket';
-import { GetUniqueValue } from 'common/helpers/getUniqueValues';
-import { EyeTwoTone,EyeInvisibleOutlined,UserOutlined } from '@ant-design/icons'
+import {BarcodeAllotmentDocket} from 'components/barcodeAllotmentDocket';
+import {GetUniqueValue} from 'common/helpers/getUniqueValues';
+import {EyeTwoTone, EyeInvisibleOutlined, UserOutlined} from '@ant-design/icons';
 
-import { deleteHOC } from '../../hocs/deleteHoc';
+import {deleteHOC} from '../../hocs/deleteHoc';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import { LineGraph } from '../../components/graphComponent/lineGraph';
+import {LineGraph} from '../../components/graphComponent/lineGraph';
 
-const { Search } = Input;
-const { Title } = Typography;
-const AllotmentDocketsScreen = ({ currentPage }) => {
+const {Search} = Input;
+const {Title} = Typography;
+const AllotmentDocketsScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
   const [reqData, setReqData] = useState([]);
   const [TN, setTN] = useState(null);
   const [visible, setVisible] = useState(false);
-  const { data: allotments, loading } = useAPI('/allotments-table/', {});
-  const { data: count } = useAPI('/mr-count/', {});
-  const [altId,setAltId] = useState(null);
-  const { filteredData, reload } = useTableSearch({
+  const {data: allotments, loading} = useAPI('/allotments-table/', {});
+  const {data: count} = useAPI('/mr-count/', {});
+  const [altId, setAltId] = useState(null);
+  const {filteredData, reload} = useTableSearch({
     searchVal,
     reqData,
   });
@@ -85,7 +87,7 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
       title: 'Parent Company',
       key: 'parent_name',
       dataIndex: 'parent_name',
-      filters: GetUniqueValue(filteredData || [],'parent_name'),
+      filters: GetUniqueValue(filteredData || [], 'parent_name'),
       onFilter: (value, record) => record.parent_name === value,
     },
     {
@@ -93,21 +95,20 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
       key: 'docket',
       render: (text, record) => {
         return (
-          <div className='row align-center justify-evenly'>
-            <a href={`../docket/${record.transaction_no}`} target='_blank' rel='noreferrer'>
-              <FontAwesomeIcon
-                icon={faMoneyCheck}
-                style={{ fontSize:20 }} />
+          <div className="row align-center justify-evenly">
+            <a href={`../docket/${record.transaction_no}`} target="_blank" rel="noreferrer">
+              <Download />
             </a>
             <FontAwesomeIcon
-              className='mx-2 icon-bg'
-              icon={faTruckLoading}
-              onClick={()=>{
+              className="mx-2 icon-bg"
+              icon={faBarcode}
+              onClick={() => {
                 setTN(record.transaction_no);
                 setAltId(record.id);
-                setVisible(true);}}
-              style={{ fontSize:20 }}
-              />
+                setVisible(true);
+              }}
+              style={{fontSize: 20, color: yantraColors['primary']}}
+            />
           </div>
         );
       },
@@ -117,7 +118,7 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
       key: 'operation',
       width: '9vw',
       render: (text, record) => (
-        <div className='row justify-evenly'>
+        <div className="row justify-evenly">
           {/* <a */}
           {/*  href={`${DEFAULT_BASE_URL  }/delivered-docket/?pk=${record.id}`} */}
           {/*  target='_blank' */}
@@ -130,18 +131,23 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
               boxShadow: 'none',
               padding: '1px',
             }}
-              // disabled={!record.document}
+            // disabled={!record.document}
             onClick={async (e) => {
-              const { data: req } = await loadAPI(
+              const {data: req} = await loadAPI(
                 `${DEFAULT_BASE_URL}/delivered-docket/?pk=${record.id}`,
                 {},
               );
-              if (req) if (req.document) {
-                window.open(req.document);
-              }
+              if (req)
+                if (req.document) {
+                  window.open(req.document);
+                }
               e.stopPropagation();
             }}>
-            <Document color={record.document ? '#7CFC00' : null} />
+            <FontAwesomeIcon
+              icon={record.document ? faEye : faEyeSlash}
+              style={{fontSize: 20, color: yantraColors['primary']}}
+            />
+            {/* <Document color={record.document ? '#7CFC00' : null} /> */}
           </Button>
           {/* </a> */}
           <Button
@@ -172,7 +178,7 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
             <Edit />
           </Button>
           <Popconfirm
-            title='Confirm Delete'
+            title="Confirm Delete"
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
               record,
@@ -215,7 +221,7 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
   const total = 'Total Orders';
   const deliverd = 'Delivered Orders';
   const pending = 'Pending Orders';
-  const materialRequest = 'Material Request'
+  const materialRequest = 'Material Request';
   let deliveredCount = 0;
   // eslint-disable-next-line array-callback-return
   reqData.map((alt) => {
@@ -224,19 +230,18 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
   const pendingCount = reqData.length - deliveredCount;
   return (
     <>
-
-      <Row className='mr-auto ml-auto' gutter={24}>
+      <Row className="mr-auto ml-auto" gutter={24}>
         <Col span={6}>
-          <LineGraph {...{ tagName: materialRequest,count,width:230 }} />
+          <LineGraph {...{tagName: materialRequest, count, width: 230}} />
         </Col>
         <Col span={6}>
-          <LineGraph {...{ tagName: total, count:  reqData.length ,width:230 }} />
+          <LineGraph {...{tagName: total, count: reqData.length, width: 230}} />
         </Col>
         <Col span={6}>
-          <LineGraph {...{ tagName: deliverd, count:deliveredCount, width:230 }} />
+          <LineGraph {...{tagName: deliverd, count: deliveredCount, width: 230}} />
         </Col>
         <Col span={6}>
-          <LineGraph {...{ tagName: pending, count: pendingCount ,width:230 }} />
+          <LineGraph {...{tagName: pending, count: pendingCount, width: 230}} />
         </Col>
       </Row>
       <br />
@@ -244,7 +249,7 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
         maskClosable={false}
         visible={visible}
         destroyOnClose
-        style={{ minWidth: `80vw` }}
+        style={{minWidth: `80vw`}}
         title={TN}
         onCancel={(e) => {
           setTN(null);
@@ -253,19 +258,21 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
           e.stopPropagation();
         }}
         footer={null}>
-        {visible?<BarcodeAllotmentDocket transaction={TN} allot={altId} setVisible={setVisible} />
-          :null}
+        {visible ? (
+          <BarcodeAllotmentDocket transaction={TN} allot={altId} setVisible={setVisible} />
+        ) : null}
       </Modal>
       <Row>
         <Col span={19}>
           <Title level={3}>Allotment Dockets</Title>
         </Col>
         <Col span={5}>
-          <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
+          <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
             <Search
               onChange={(e) => setSearchVal(e.target.value)}
-              placeholder='Search'
-              enterButton />
+              placeholder="Search"
+              enterButton
+            />
           </div>
         </Col>
       </Row>
@@ -274,12 +281,12 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size='middle'
-        title=''
+        size="middle"
+        title=""
         modalBody={deliveryId ? DeliveredForm : AllotmentMainForm}
         modalWidth={60}
         editingId={editingId || deliveryId}
-        formParams={{ transaction_no: TN }}
+        formParams={{transaction_no: TN}}
         cancelEditing={cancelEditing}
         hideRightButton
       />
@@ -288,7 +295,7 @@ const AllotmentDocketsScreen = ({ currentPage }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { currentPage: state.page.currentPage };
+  return {currentPage: state.page.currentPage};
 };
 
 export default connect(mapStateToProps)(AllotmentDocketsScreen);
