@@ -95,7 +95,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
                 setReturnNo(record.id);
                 setVisible(true);
               }}
-              style={{fontSize: 20, color: yantraColors['primary']}}
+              style={{fontSize: 20}}
             />
           </div>
         );
