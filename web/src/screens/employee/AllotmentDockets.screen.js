@@ -139,7 +139,6 @@ const AllotmentDocketsScreen = ({currentPage}) => {
               );
               if (req)
                 if (req.document) {
-                  console.log(req);
                   window.open(req.document);
                 }
               e.stopPropagation();

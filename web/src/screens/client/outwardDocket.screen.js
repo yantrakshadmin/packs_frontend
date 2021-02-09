@@ -150,7 +150,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
               e.stopPropagation();
             }}>
             <FontAwesomeIcon
-              icon={record.document ? faEye : faEyeSlash}
+              icon={record.is_delivered ? faEye : faEyeSlash}
               style={{fontSize: 20, color: yantraColors['primary']}}
             />
           </Button>
