@@ -139,12 +139,13 @@ const AllotmentDocketsScreen = ({currentPage}) => {
               );
               if (req)
                 if (req.document) {
+                  console.log(req);
                   window.open(req.document);
                 }
               e.stopPropagation();
             }}>
             <FontAwesomeIcon
-              icon={record.document ? faEye : faEyeSlash}
+              icon={record.is_delivered ? faEye : faEyeSlash}
               style={{fontSize: 20, color: yantraColors['primary']}}
             />
             {/* <Document color={record.document ? '#7CFC00' : null} /> */}
