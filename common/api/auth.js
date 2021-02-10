@@ -90,6 +90,7 @@ export const createKit = ({
   part_number,
   kit_type,
   products,
+  active,
 }) =>
   loadAPI('/create-kit/', {
     method: 'POST',
@@ -103,12 +104,23 @@ export const createKit = ({
       part_number,
       kit_type,
       products,
+      active,
     },
   });
 
 export const editKit = (
   id,
-  {kit_name, kit_info, components_per_kit, kit_client, part_name, part_number, kit_type, products},
+  {
+    kit_name,
+    kit_info,
+    components_per_kit,
+    kit_client,
+    part_name,
+    part_number,
+    kit_type,
+    products,
+    active,
+  },
 ) =>
   loadAPI(`/edit-kit/${id}/`, {
     method: 'PATCH',
@@ -122,6 +134,7 @@ export const editKit = (
       part_number,
       kit_type,
       products,
+      active,
     },
   });
 
@@ -180,6 +193,12 @@ export const retrieveOutwardDocket = (id) =>
     secure: true,
   });
 
+export const retrieveOutwardDocketEmp = (id) =>
+  loadAPI(`emp-outwards/?id=${id}`, {
+    method: 'GET',
+    secure: true,
+  });
+
 export const createVendor = ({
   name,
   street,
@@ -199,6 +218,7 @@ export const createVendor = ({
   account_no,
   bank_name,
   ifsc,
+  active,
 }) =>
   loadAPI('/create-vendor/', {
     method: 'POST',
@@ -221,6 +241,7 @@ export const createVendor = ({
       account_no,
       bank_name,
       ifsc,
+      active,
     },
     secure: true,
   });
@@ -246,6 +267,7 @@ export const editVendor = (
     account_no,
     bank_name,
     ifsc,
+    active,
   },
 ) =>
   loadAPI(`/edit-vendor/${id}/`, {
@@ -269,6 +291,7 @@ export const editVendor = (
       account_no,
       bank_name,
       ifsc,
+      active,
     },
     secure: true,
   });
@@ -345,18 +368,18 @@ export const retrieveClientProfile = (id) =>
     secure: true,
   });
 
-export const createReceiverClient = ({name, city, address, emitter, pan, gst}) =>
+export const createReceiverClient = ({name, city, address, emitter, pan, gst, active}) =>
   loadAPI('/create-receiverclient/', {
     method: 'POST',
-    data: {name, city, address, emitter, pan, gst},
+    data: {name, city, address, emitter, pan, gst, active},
     secure: true,
   });
 
-export const editReceiverClient = (id, {name, city, address, emitter, pan, gst}) =>
+export const editReceiverClient = (id, {name, city, address, emitter, pan, gst, active}) =>
   // loadAPI(`/edit-receiverclient/${id}/`, {
   loadAPI(`/edit-receiverclient/${id}/`, {
     method: 'PATCH',
-    data: {name, city, address, emitter, pan, gst},
+    data: {name, city, address, emitter, pan, gst, active},
     secure: true,
   });
 
@@ -386,21 +409,40 @@ export const createFlow = ({
   sender_client,
   receiver_client,
   kits,
+  active,
 }) =>
   loadAPI('/create-flow/', {
     method: 'POST',
     secure: true,
-    data: {flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits},
+    data: {
+      flow_name,
+      flow_info,
+      flow_type,
+      flow_days,
+      sender_client,
+      receiver_client,
+      kits,
+      active,
+    },
   });
 
 export const editFlow = (
   id,
-  {flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits},
+  {flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits, active},
 ) =>
   loadAPI(`/edit-flow/${id}/`, {
     method: 'PATCH',
     secure: true,
-    data: {flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits},
+    data: {
+      flow_name,
+      flow_info,
+      flow_type,
+      flow_days,
+      sender_client,
+      receiver_client,
+      kits,
+      active,
+    },
   });
 
 export const retreiveFlow = (id) =>

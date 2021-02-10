@@ -132,7 +132,7 @@ export const DemandModuleForm = ({id, onCancel, onDone, filteredData}) => {
       >
         <Card>
           Delivery Month:{' '}
-          {thisDemand.delivery_month ? moment(thisDemand.delivery_month).format('DD/MM/YYYY') : '-'}
+          {thisDemand.delivery_month ? moment(thisDemand.delivery_month).format('MM/YYYY') : '-'}
         </Card>
 
         <Divider orientation="left">Flow and Kit Details</Divider>

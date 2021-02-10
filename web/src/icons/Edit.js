@@ -1,10 +1,9 @@
 import React from 'react';
-import { EditTwoTone } from '@ant-design/icons'
+import {yantraColors} from '../helpers/yantraColors';
+//import {EditTwoTone} from '@ant-design/icons';
 
-// const Delete = () => {
-//   return <i className='far fa-edit' style={{ fontSize: 20 }} />;
-// };
-
-const Edit=() => (<EditTwoTone style={{ fontSize: 20 }} />)
+const Edit = () => (
+  <i className="far fa-edit" style={{fontSize: 20, color: yantraColors['primary']}} />
+);
 
 export default Edit;

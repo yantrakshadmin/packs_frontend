@@ -1,5 +1,5 @@
-import { Form , notification } from 'antd';
-import { useEffect, useState } from 'react';
+import {Form, notification} from 'antd';
+import {useEffect, useState} from 'react';
 
 import moment from 'moment';
 
@@ -28,15 +28,15 @@ export const useHandleForm = ({
       if (isEdit) api = () => edit(id, data);
       else api = () => create(data);
 
-      const { error } = await api();
+      const {error} = await api();
       if (error) {
         throw Error(Object.values(error));
       }
 
-      notification.success({ message: successMessage });
+      notification.success({message: successMessage});
       done();
     } catch (e) {
-      notification.error({ message: failureMessage, description: e.toString() });
+      notification.error({message: failureMessage, description: e.toString()});
       close();
     }
   };
@@ -47,16 +47,16 @@ export const useHandleForm = ({
 
     try {
       if (isEdit && retrieve) {
-        const { data } = await retrieve(id);
+        const {data} = await retrieve(id);
         if (dates) dates.map((date) => (data[date] = moment(data[date])));
         if (data) {
-          console.log(data,'retrive');
+          console.log(data, 'retrive');
           form.setFieldsValue(data);
         }
         setApiData(data);
       }
     } catch (e) {
-      notification.error({ message: 'Error in getting data', description: e.toString() });
+      notification.error({message: 'Error in getting data', description: e.toString()});
       close();
     }
 
@@ -68,5 +68,5 @@ export const useHandleForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  return { form, loading, submit, data: apiData };
+  return {form, loading, submit, data: apiData};
 };

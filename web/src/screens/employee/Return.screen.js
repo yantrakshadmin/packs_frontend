@@ -1,42 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import returnColumns from 'common/columns/Return.column';
 import ReturnForm from 'forms/return.form';
-import { ReceivedForm } from 'forms/received.form';
-import { Popconfirm, Input, Button, Row, Col, Modal } from 'antd';
-import { connect } from 'react-redux';
-import { useTableSearch } from 'hooks/useTableSearch';
-import { deleteReturn } from 'common/api/auth';
-import { Link,useNavigate } from '@reach/router';
+import {ReceivedForm} from 'forms/received.form';
+import {Popconfirm, Input, Button, Row, Col, Modal} from 'antd';
+import {connect} from 'react-redux';
+import {useTableSearch} from 'hooks/useTableSearch';
+import {deleteReturn} from 'common/api/auth';
+import {Link, useNavigate} from '@reach/router';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
 import Delivery from 'icons/Delivery';
+import Download from 'icons/Download';
 import Document from 'icons/Document';
-import { useAPI } from 'common/hooks/api';
-import { GetUniqueValue } from 'common/helpers/getUniqueValues';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoneyCheck, faTruckLoading } from '@fortawesome/free-solid-svg-icons';
-import { BarcodeReturnDocket } from 'components/barcodeReturnDocket';
-import { loadAPI } from 'common/helpers/api';
-import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
-import { deleteHOC } from '../../hocs/deleteHoc';
+import {useAPI} from 'common/hooks/api';
+import {GetUniqueValue} from 'common/helpers/getUniqueValues';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {
+  faMoneyCheck,
+  faTruckLoading,
+  faBarcode,
+  faEye,
+  faEyeSlash,
+} from '@fortawesome/free-solid-svg-icons';
+import {BarcodeReturnDocket} from 'components/barcodeReturnDocket';
+import {loadAPI} from 'common/helpers/api';
+import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
+import {deleteHOC} from '../../hocs/deleteHoc';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import { LineGraph } from '../../components/graphComponent/lineGraph';
+import {LineGraph} from '../../components/graphComponent/lineGraph';
+import {yantraColors} from '../../helpers/yantraColors';
 
-const { Search } = Input;
+const {Search} = Input;
 
-const ReturnDocketsScreen = ({ currentPage }) => {
+const ReturnDocketsScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [reqData, setReqData] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
   const [visible, setVisible] = useState(false);
-  const [returnNo,setReturnNo] = useState(null);
+  const [returnNo, setReturnNo] = useState(null);
   const [TN, setTN] = useState(null);
   const navigate = useNavigate();
 
-  const { data: returns, loading } = useAPI('/return-table/', {});
+  const {data: returns, loading} = useAPI('/return-table/', {});
 
-  const { filteredData, reload } = useTableSearch({
+  const {filteredData, reload} = useTableSearch({
     searchVal,
     reqData,
   });
@@ -66,7 +74,7 @@ const ReturnDocketsScreen = ({ currentPage }) => {
       title: 'Receiver Client',
       key: 'receiver_client',
       dataIndex: 'receiver_client',
-      filters: GetUniqueValue(filteredData || [],'receiver_client'),
+      filters: GetUniqueValue(filteredData || [], 'receiver_client'),
       onFilter: (value, record) => record.receiver_client === value,
     },
     ...returnColumns,
@@ -75,24 +83,20 @@ const ReturnDocketsScreen = ({ currentPage }) => {
       key: 'docket',
       render: (text, record) => {
         return (
-          <div className='row align-center justify-evenly'>
-            <a
-              href={`../return-docket/${record.transaction_no}`}
-              target='_blank'
-              rel='noreferrer'>
-              <FontAwesomeIcon
-                icon={faMoneyCheck}
-                style={{ fontSize:20 }} />
+          <div className="row align-center justify-evenly">
+            <a href={`../return-docket/${record.transaction_no}`} target="_blank" rel="noreferrer">
+              <Download />
             </a>
             <FontAwesomeIcon
-              className='mx-2 icon-bg'
-              icon={faTruckLoading}
-              onClick={()=>{
+              className="mx-2 icon-bg"
+              icon={faBarcode}
+              onClick={() => {
                 setTN(record.transaction_no);
                 setReturnNo(record.id);
-                setVisible(true);}}
-              style={{ fontSize:20 }}
-        />
+                setVisible(true);
+              }}
+              style={{fontSize: 20}}
+            />
           </div>
         );
       },
@@ -102,8 +106,8 @@ const ReturnDocketsScreen = ({ currentPage }) => {
       key: 'operation',
       width: '9vw',
       render: (text, record) => (
-        <div className='row justify-evenly'>
-          <a href={record.document} target='_blank' rel='noopener noreferrer'>
+        <div className="row justify-evenly">
+          <a href={record.document} target="_blank" rel="noopener noreferrer">
             <Button
               style={{
                 backgroundColor: 'transparent',
@@ -113,18 +117,22 @@ const ReturnDocketsScreen = ({ currentPage }) => {
               }}
               // disabled={!record.document}
               onClick={async (e) => {
-                console.log(record,'record')
-                const { data: req } = await loadAPI(
+                console.log(record, 'record');
+                const {data: req} = await loadAPI(
                   `${DEFAULT_BASE_URL}/received-docket/?pk=${record.id}`,
                   {},
                 );
-                if (req) if (req.document) {
-                  window.open(req.document);
-                  // navigate(req.document)
-                }
+                if (req)
+                  if (req.document) {
+                    window.open(req.document);
+                    // navigate(req.document)
+                  }
                 e.stopPropagation();
               }}>
-              <Document color={record.document ? '#7CFC00' : null} />
+              <FontAwesomeIcon
+                icon={record.is_delivered ? faEye : faEyeSlash}
+                style={{fontSize: 20, color: yantraColors['primary']}}
+              />
             </Button>
           </a>
           <Button
@@ -160,7 +168,7 @@ const ReturnDocketsScreen = ({ currentPage }) => {
             <Edit />
           </Button>
           <Popconfirm
-            title='Confirm Delete'
+            title="Confirm Delete"
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
               record,
@@ -210,31 +218,34 @@ const ReturnDocketsScreen = ({ currentPage }) => {
   (reqData || []).map((alt) => {
     if (alt.is_delivered) deliveredCount += 1;
   });
-  const pendingCount = (reqData||[]).length - deliveredCount;
+  const pendingCount = (reqData || []).length - deliveredCount;
 
   return (
     <>
-      <Row className='mr-auto ml-auto' gutter={24}>
+      <Row className="mr-auto ml-auto" gutter={24}>
         <Col span={6}>
-          <LineGraph {...{ tagName: 'Total Return', count:  (reqData || []).length,width:230 }} />
+          <LineGraph {...{tagName: 'Total Return', count: (reqData || []).length, width: 230}} />
         </Col>
         <Col span={6}>
-          <LineGraph {...{ tagName: 'Total Received', count:deliveredCount,width:230 }}  />
+          <LineGraph {...{tagName: 'Total Received', count: deliveredCount, width: 230}} />
         </Col>
         <Col span={6}>
-          <LineGraph {...{ tagName: 'In-transit', count: pendingCount,width:230  }} />
+          <LineGraph {...{tagName: 'In-transit', count: pendingCount, width: 230}} />
         </Col>
         <Col span={6}>
-          <LineGraph {...{
-            tagName: 'DEPS Reported',
-            count: 5,
-            width:230 }} />
+          <LineGraph
+            {...{
+              tagName: 'DEPS Reported',
+              count: 5,
+              width: 230,
+            }}
+          />
         </Col>
       </Row>
       <br />
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
       </div>
       <br />
@@ -243,7 +254,7 @@ const ReturnDocketsScreen = ({ currentPage }) => {
         maskClosable={false}
         visible={visible}
         destroyOnClose
-        style={{ minWidth: `80vw` }}
+        style={{minWidth: `80vw`}}
         title={TN}
         onCancel={() => {
           setVisible(false);
@@ -255,10 +266,10 @@ const ReturnDocketsScreen = ({ currentPage }) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size='middle'
-        title='Return Dockets'
+        size="middle"
+        title="Return Dockets"
         modalBody={deliveryId ? ReceivedForm : ReturnForm}
-        newPage='./return/'
+        newPage="./return/"
         separate={!deliveryId}
         modalWidth={60}
         editingId={editingId || deliveryId}
@@ -269,7 +280,7 @@ const ReturnDocketsScreen = ({ currentPage }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { currentPage: state.page.currentPage };
+  return {currentPage: state.page.currentPage};
 };
 
 export default connect(mapStateToProps)(ReturnDocketsScreen);

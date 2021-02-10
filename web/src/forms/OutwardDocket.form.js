@@ -1,21 +1,25 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Col, Divider, Form, Row, Spin} from 'antd';
-import {MinusCircleOutlined, PlusOutlined} from '@ant-design/icons';
-import {useHandleForm} from 'hooks/form';
-import {createOutward, editOutward, retrieveOutward} from 'common/api/auth';
-import {outwardDocketFormFields} from 'common/formFields/outwardDocket.formFields';
-import {outwardDocketKitFormFields} from 'common/formFields/outwardDocketKits.formFields';
-import {useAPI} from 'common/hooks/api';
-import {getUniqueObject} from 'common/helpers/getUniqueValues';
-import formItem from '../hocs/formItem.hoc';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Divider, Form, Row, Spin } from 'antd';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { useHandleForm } from 'hooks/form';
+import { createOutward, editOutward, retrieveOutward } from 'common/api/auth';
+import { outwardDocketFormFields } from 'common/formFields/outwardDocket.formFields';
+import { outwardDocketKitFormFields } from 'common/formFields/outwardDocketKits.formFields';
+import { useAPI } from 'common/hooks/api';
+import { getUniqueObject } from 'common/helpers/getUniqueValues';
 
 import _ from 'lodash';
-import {filterActive} from 'common/helpers/mrHelper';
+import { filterActive } from 'common/helpers/mrHelper';
+import { returnProductFormFields } from 'common/formFields/return.formFields';
+import formItem from '../hocs/formItem.hoc';
 
-export const OutwardDocketForm = ({id, onCancel, onDone}) => {
-  const {data: flows} = useAPI('/client-flows/');
-  const {data: kits} = useAPI('/client-kits/');
+export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
+  const { data: flows } = useAPI('/client-flows/');
+  const { data: kits } = useAPI('/client-kits/');
   const [receiverClients, setReceiverClients] = useState([]);
+  const [pcc,setPcc] = useState([])
+  const [products, setProducts] = useState(null);
+  const [kitID, setKitID] = useState(null);
 
   useEffect(() => {
     if (flows) {
@@ -39,14 +43,14 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
     }));
   };
 
-  const {form, submit, loading} = useHandleForm({
+  const { form, submit, loading } = useHandleForm({
     create: createOutward,
     edit: editOutward,
     retrieve: async (fetchId) => {
       const response = await retrieveOutward(fetchId);
-      const {data} = response;
+      const { data } = response;
       const temp = getKits(data.kits);
-      return {...response, data: {...data, kits: temp}};
+      return { ...response, data: { ...data, kits: temp } };
     },
     success: 'Outward Docket created/edited successfully.',
     failure: 'Error in creating/editing Outward Docket.',
@@ -55,6 +59,16 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
     id,
     dates: ['dispatch_date', 'transaction_date'],
   });
+  useEffect(()=>{
+    const prods = []
+    if(kits){
+      console.log(kits,'kits...')
+      kits.forEach((k) => {
+        k.products.forEach((p) => prods.push(p.product));
+      });
+    }
+    setProducts(prods);
+  },[kits])
 
   const handleFieldsChange = (data) => {
     if (data[0]) {
@@ -68,31 +82,76 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
           };
           form.setFieldsValue('kits', allkits);
         }
+        if (
+          data[0].name[2] === 'kit' ||
+          (data[0].name[2] === 'quantity_kit' &&
+            data[0].errors[0] === 'Please enter quantity!' &&
+            kitID)
+        ) {
+          if (data[0].name[2] === 'kit') setKitID(data[0].value);
+          // console.log(data[0].name);
+          if (kitID) {
+            console.log(kitID);
+            const rk = kits.filter((k) => k.id === kitID)[0];
+            const produces = [];
+            rk.products.forEach((p) => {
+              produces.push({ product: p.product.id, product_quantity: p.quantity });
+            });
+            form.setFields([
+              {
+                name: [`items${data[0].name[1]}`],
+                value: produces,
+              },
+            ]);
+          }
+        }
+        if (data[0].name[2] === 'quantity_parts'|| data[0].name[2] === 'quantity_kit') {
+          if (!kitID) {
+            const kitd = form.getFieldValue([data[0].name[0], data[0].name[1], 'kit']);
+            if (kitd) {
+              setKitID(kitd);
+            }
+          }
+          if (kitID) {
+            const q = data[0].value;
+            // let temp = form.getFieldValue(`items${data[0].name[1]}`);
+            const rk = kits.filter((k) => k.id === kitID)[0];
+            form.setFields([
+              {
+                name: [`items${data[0].name[1]}`],
+                value: rk.products.map((p) => {
+                  // console.log(p.product_quantity, q);
+                  return { product: p.product.id, product_quantity: p.quantity * q };
+                }),
+              },
+            ]);
+            // console.log(rk);
+          }
+        }
       }
     }
   };
-
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Outward Docket</Divider>
+      <Divider orientation='left'>Outward Docket</Divider>
       <Form
         onFinish={submit}
         form={form}
-        layout="vertical"
+        layout='vertical'
         hideRequiredMark
-        autoComplete="off"
+        autoComplete='off'
         onFieldsChange={handleFieldsChange}>
         <Row>
           {outwardDocketFormFields.slice(0, 3).map((item, idx) => (
             <Col span={6}>
-              <div key={idx.toString()} className="p-2">
+              <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
           {outwardDocketFormFields.slice(3, 4).map((item, idx) => (
             <Col span={6}>
-              <div key={idx.toString()} className="p-2">
+              <div key={idx.toString()} className='p-2'>
                 {formItem({
                   ...item,
                   others: {
@@ -109,97 +168,176 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
         <Row>
           {outwardDocketFormFields.slice(4, 8).map((item, idx) => (
             <Col span={6}>
-              <div key={idx.toString()} className="p-2">
+              <div key={idx.toString()} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
 
-        <Divider orientation="left">Kit Details</Divider>
-
-        <Form.List name="kits">
-          {(fields, {add, remove}) => {
-            return (
-              <div>
-                {fields.map((field, index) => (
-                  <Row align="middle">
-                    {outwardDocketKitFormFields.slice(0, 1).map((item) => (
-                      <Col span={7}>
-                        <div className="p-2">
-                          {formItem({
-                            ...item,
-                            noLabel: index != 0,
-                            kwargs: {
-                              placeholder: 'Select',
-                              showSearch: true,
-                              filterOption: (input, option) =>
-                                option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-                            },
-                            form,
-                            others: {
-                              selectOptions: filterActive(_, kits) || [],
-                              key: 'id',
-                              dataKeys: ['components_per_kit', 'kit_info', 'kit_name'],
-                              customTitle: 'kit_name',
-                              formOptions: {
-                                ...field,
-                                name: [field.name, item.key],
-                                fieldKey: [field.fieldKey, item.key],
-                              },
-                            },
-                          })}
-                        </div>
-                      </Col>
-                    ))}
-                    {outwardDocketKitFormFields.slice(1, 3).map((item) => (
-                      <Col span={7}>
-                        <div className="p-2">
-                          {formItem({
-                            ...item,
-                            noLabel: index != 0,
-                            others: {
-                              formOptions: {
-                                ...field,
-                                name: [field.name, item.key],
-                                fieldKey: [field.fieldKey, item.key],
-                              },
-                            },
-                            form,
-                          })}
-                        </div>
-                      </Col>
-                    ))}
-                    <Button
-                      type="danger"
-                      style={index != 0 ? {top: '-2vh'} : null}
-                      onClick={() => {
-                        remove(field.name);
-                      }}>
-                      <MinusCircleOutlined /> Delete
-                    </Button>
-                  </Row>
-                ))}
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => {
-                      add();
-                    }}
-                    block>
-                    <PlusOutlined /> Add Item
-                  </Button>
-                </Form.Item>
-              </div>
-            );
-          }}
-        </Form.List>
+        <Divider orientation='left'>Kit Details</Divider>
         <Row>
-          <Button type="primary" htmlType="submit">
+          <Col span={12}>
+            <Form.List name='kits'>
+              {(fields, { add, remove }) => {
+                return (
+                  <div>
+                    {fields.map((field, index) => (
+                      <Row align='middle'>
+                        {outwardDocketKitFormFields.slice(0, 1).map((item) => (
+                          <Col span={6}>
+                            <div className='p-2'>
+                              {formItem({
+                                ...item,
+                                noLabel: index != 0,
+                                kwargs: {
+                                  placeholder: 'Select',
+                                  showSearch: true,
+                                  filterOption: (input, option) =>
+                                    option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                                },
+                                form,
+                                others: {
+                                  selectOptions: filterActive(_, kits) || [],
+                                  key: 'id',
+                                  dataKeys: ['components_per_kit', 'kit_info', 'kit_name'],
+                                  customTitle: 'kit_name',
+                                  formOptions: {
+                                    ...field,
+                                    name: [field.name, item.key],
+                                    fieldKey: [field.fieldKey, item.key],
+                                  },
+                                },
+                              })}
+                            </div>
+                          </Col>
+                        ))}
+                        {outwardDocketKitFormFields.slice(1, 3).map((item) => (
+                          <Col span={6}>
+                            <div className='p-2'>
+                              {formItem({
+                                ...item,
+                                noLabel: index != 0,
+                                others: {
+                                  formOptions: {
+                                    ...field,
+                                    name: [field.name, item.key],
+                                    fieldKey: [field.fieldKey, item.key],
+                                  },
+                                },
+                                form,
+                              })}
+                            </div>
+                          </Col>
+                        ))}
+                        <Button
+                          type='danger'
+                          style={index != 0 ? { top: '-2vh' } : null}
+                          onClick={() => {
+                            // console.log(field.name);
+                            const temp = pcc.filter((p, idx) => idx != field.name);
+                            const temp1 = temp.map((t) => {
+                              if (t > field.name) {
+                                const tdata = form.getFieldValue([`items${t}`]);
+                                form.setFields([
+                                  {
+                                    name: [`items${t - 1}`],
+                                    value: tdata,
+                                  },
+                                ]);
+                                return --t;
+                              }
+                              return t;
+                            });
+                            form.resetFields([`items${pcc.length - 1}`]);
+                            setPcc([...temp1]);
+                            remove(field.name);
+                          }}>
+                          <MinusCircleOutlined />
+                          {' '}
+                          Delete
+                        </Button>
+                      </Row>
+                    ))}
+                    <Form.Item>
+                      <Button
+                        type='dashed'
+                        onClick={() => {
+                          setPcc([...pcc, pcc.length]);
+                          add();
+                        }}
+                        block>
+                        <PlusOutlined />
+                        {' '}
+                        Add Item
+                      </Button>
+                    </Form.Item>
+                  </div>
+                );
+              }}
+            </Form.List>
+          </Col>
+          <Col span={1} />
+          <Col span={11}>
+            {pcc.map((p, idx) => (
+              <Form.List name={`items${p}`}>
+                {(fields, { add, remove }) => {
+                  return (
+                    <div>
+                      {fields.map((field, ind) => (
+                        <Row align='middle'>
+                          {returnProductFormFields.slice(0, 1).map((item) => (
+                            <Col span={12}>
+                              <div className='p-2'>
+                                {formItem({
+                                  ...item,
+                                  noLabel: ind != 0,
+                                  others: {
+                                    selectOptions: products || [],
+                                    key: 'id',
+                                    customTitle: 'short_code',
+                                    formOptions: {
+                                      ...field,
+                                      name: [field.name, item.key],
+                                      fieldKey: [field.fieldKey, item.key],
+                                    },
+                                  },
+                                })}
+                              </div>
+                            </Col>
+                          ))}
+                          {returnProductFormFields.slice(1, 2).map((item) => (
+                            <Col span={12}>
+                              <div className='p-2'>
+                                {formItem({
+                                  ...item,
+                                  noLabel: ind != 0,
+                                  others: {
+                                    formOptions: {
+                                      ...field,
+                                      name: [field.name, item.key],
+                                      fieldKey: [field.fieldKey, item.key],
+                                    },
+                                  },
+                                })}
+                              </div>
+                            </Col>
+                          ))}
+                        </Row>
+                      ))}
+                    </div>
+                  );
+                }}
+              </Form.List>
+            ))}
+          </Col>
+        </Row>
+        <Row>
+          <Button type='primary' htmlType='submit'>
             Save
           </Button>
-          <div className="p-2" />
-          <Button type="primary" onClick={onCancel}>
+          <div className='p-2' />
+          <Button type='primary' onClick={onCancel}>
             Cancel
           </Button>
         </Row>

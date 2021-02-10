@@ -87,7 +87,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
     {
       title: 'Solution Required',
       key: 'solution_required',
-      width: '10vw',
+      width: '12vw',
       render: (record) => (
         <div className="column">
           {record.solution_flc ? <Tag>FLC</Tag> : null}
