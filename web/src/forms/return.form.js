@@ -1,26 +1,25 @@
-import React, {useState, useEffect} from 'react';
-import {Form, Col, Row, Button, Divider, Spin, Modal} from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Form, Col, Row, Button, Divider, Spin, Modal } from 'antd';
 import moment from 'moment';
 import {
   returnFormFields,
   returnProductFormFields,
   returnKitFormFields,
 } from 'common/formFields/return.formFields.js';
-import {useAPI} from 'common/hooks/api';
-import {loadAPI} from 'common/helpers/api';
-import {useHandleForm} from 'hooks/form';
-import {navigate} from '@reach/router';
-import {createReturn, retrieveReturn, editReturn} from 'common/api/auth';
-import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
-import Products from 'icons/Products';
+import { useAPI } from 'common/hooks/api';
+import { loadAPI } from 'common/helpers/api';
+import { useHandleForm } from 'hooks/form';
+import { navigate } from '@reach/router';
+import { createReturn, retrieveReturn, editReturn } from 'common/api/auth';
+import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import formItem from '../hocs/formItem.hoc';
 
 import './returnform.styles.scss';
 
 import _ from 'lodash';
-import {filterActive} from 'common/helpers/mrHelper';
+import { filterActive } from 'common/helpers/mrHelper';
 
-const ReturnForm = ({location}) => {
+const ReturnForm = ({ location }) => {
   const [products, setProducts] = useState(null);
   const [kitID, setKitID] = useState(null);
   const [pcc, setPcc] = useState([]);
@@ -32,12 +31,12 @@ const ReturnForm = ({location}) => {
   const [receiverClient, setReceiverClient] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const {data: receiverClients} = useAPI('/receiverclients/', {});
-  const {data: warehouses} = useAPI('/warehouse/', {});
-  const {data: flows} = useAPI('/flows/', {});
-  const {data: vendors} = useAPI('/vendors/', {});
+  const { data: receiverClients } = useAPI('/receiverclients/', {});
+  const { data: warehouses } = useAPI('/warehouse/', {});
+  const { data: flows } = useAPI('/flows/', {});
+  const { data: vendors } = useAPI('/vendors/', {});
 
-  const {form, submit} = useHandleForm({
+  const { form, submit } = useHandleForm({
     create: createReturn,
     edit: editReturn,
     success: 'Return created/edited successfully.',
@@ -46,15 +45,15 @@ const ReturnForm = ({location}) => {
     done: () => navigate('../../employee/return-dockets/'),
     close: () => navigate('../../employee/return-dockets/'),
   });
-
+  console.log('form ceck')
   useEffect(() => {
     // console.log(pcc);
   }, [pcc]);
 
   useEffect(() => {
-    if (form) form.setFields([{name: ['transaction_type'], value: 'Return'}]);
+    if (form) form.setFields([{ name: ['transaction_type'], value: 'Return' }]);
     const fetchReturn = async () => {
-      const {data} = await retrieveReturn(location.state.id);
+      const { data } = await retrieveReturn(location.state.id);
       if (data) {
         setReturn(data);
       }
@@ -81,7 +80,7 @@ const ReturnForm = ({location}) => {
             {
               name: [`items${idx}`],
               value: k.items.map((i) => {
-                return {product: i.product, product_quantity: i.quantity};
+                return { product: i.product, product_quantity: i.quantity };
               }),
             },
           ]);
@@ -103,10 +102,10 @@ const ReturnForm = ({location}) => {
     const fetchKits = async () => {
       const kitss = [];
       const prods = [];
-      const {data} = await loadAPI(`/r-flows/?id=${receiverClient}`);
+      const { data } = await loadAPI(`/r-flows/?id=${receiverClient}`);
       data.forEach((d) => {
         d.kits.forEach((k) => {
-          kitss.push({...k.kit});
+          kitss.push({ ...k.kit });
           k.kit.products.forEach((p) => prods.push(p.product));
         });
       });
@@ -136,7 +135,7 @@ const ReturnForm = ({location}) => {
                 const rk = kits.filter((k) => k.id === kitID)[0];
                 const produces = [];
                 rk.products.forEach((p) => {
-                  produces.push({product: p.product.id, product_quantity: p.quantity});
+                  produces.push({ product: p.product.id, product_quantity: p.quantity });
                 });
                 form.setFields([
                   {
@@ -162,7 +161,7 @@ const ReturnForm = ({location}) => {
                     name: [`items${data[0].name[1]}`],
                     value: rk.products.map((p) => {
                       // console.log(p.product_quantity, q);
-                      return {product: p.product.id, product_quantity: p.quantity * q};
+                      return { product: p.product.id, product_quantity: p.quantity * q };
                     }),
                   },
                 ]);
@@ -179,38 +178,38 @@ const ReturnForm = ({location}) => {
       return {
         ...k,
         items: items.map((i) => {
-          return {product: i.product, quantity: i.product_quantity};
+          return { product: i.product, quantity: i.product_quantity };
         }),
       };
     });
-    const reqD = {...data, kits: tempkits};
+    const reqD = { ...data, kits: tempkits };
     // console.log(reqD);
     submit(reqD);
   };
-
+  console.log(pcc,'pcc')
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Return Docket Details</Divider>
+      <Divider orientation='left'>Return Docket Details</Divider>
       <Form
         onFieldsChange={handleFieldsChange}
         onFinish={handleSubmit}
         form={form}
-        layout="vertical"
+        layout='vertical'
         hideRequiredMark
-        autoComplete="off"
-        style={{margin: '2vw'}}>
-        <Row style={{justifyContent: 'left'}}>
+        autoComplete='off'
+        style={{ margin: '2vw' }}>
+        <Row style={{ justifyContent: 'left' }}>
           {returnFormFields.slice(0, 2).map((item, idx) => (
             <Col span={8}>
-              <div key={idx} className="p-2">
+              <div key={idx} className='p-2'>
                 {formItem(item)}
               </div>
             </Col>
           ))}
         </Row>
-        <Row style={{justifyContent: 'left'}}>
+        <Row style={{ justifyContent: 'left' }}>
           <Col span={8}>
-            <div key={3} className="p-2">
+            <div key={3} className='p-2'>
               {formItem({
                 ...returnFormFields[2],
                 kwargs: {
@@ -229,7 +228,7 @@ const ReturnForm = ({location}) => {
             </div>
           </Col>
           <Col span={8}>
-            <div key={3} className="p-2">
+            <div key={3} className='p-2'>
               {formItem({
                 ...returnFormFields[3],
                 kwargs: {
@@ -252,7 +251,7 @@ const ReturnForm = ({location}) => {
             </div>
           </Col>
           <Col span={8}>
-            <div key={3} className="p-2">
+            <div key={3} className='p-2'>
               {formItem({
                 ...returnFormFields[4],
                 kwargs: {
@@ -271,25 +270,25 @@ const ReturnForm = ({location}) => {
             </div>
           </Col>
         </Row>
-        <Row style={{justifyContent: 'left'}}>
+        <Row style={{ justifyContent: 'left' }}>
           {returnFormFields.slice(5, 9).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className="p-2">
-                {formItem({...item})}
+              <div key={idx} className='p-2'>
+                {formItem({ ...item })}
               </div>
             </Col>
           ))}
         </Row>
-        <Row style={{justifyContent: 'left'}}>
+        <Row style={{ justifyContent: 'left' }}>
           {returnFormFields.slice(9, 11).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className="p-2">
-                {formItem({...item})}
+              <div key={idx} className='p-2'>
+                {formItem({ ...item })}
               </div>
             </Col>
           ))}
           <Col span={6}>
-            <div key={4} className="p-2">
+            <div key={4} className='p-2'>
               {formItem({
                 ...returnFormFields[11],
                 kwargs: {
@@ -310,26 +309,26 @@ const ReturnForm = ({location}) => {
             </div>
           </Col>
           <Col span={6}>
-            <div key={4} className="p-2">
+            <div key={4} className='p-2'>
               {formItem({
                 ...returnFormFields[12],
               })}
             </div>
           </Col>
         </Row>
-        <Divider orientation="left">Product Details</Divider>
+        <Divider orientation='left'>Product Details</Divider>
         <Row>
           <Col span={12}>
-            <Form.List name="kits">
-              {(fields, {add, remove}) => {
+            <Form.List name='kits'>
+              {(fields, { add, remove }) => {
                 // console.log(fields);
                 return (
                   <div>
                     {fields.map((field, index) => (
-                      <Row align="middle">
+                      <Row align='middle'>
                         {returnKitFormFields.slice(0, 1).map((item) => (
                           <Col span={10}>
-                            <div className="p-2">
+                            <div className='p-2'>
                               {formItem({
                                 ...item,
                                 noLabel: index != 0,
@@ -357,7 +356,7 @@ const ReturnForm = ({location}) => {
                         ))}
                         {returnKitFormFields.slice(1, 2).map((item) => (
                           <Col span={10}>
-                            <div className="p-2">
+                            <div className='p-2'>
                               {formItem({
                                 ...item,
                                 noLabel: index != 0,
@@ -374,8 +373,8 @@ const ReturnForm = ({location}) => {
                         ))}
                         <Col span={4}>
                           <Button
-                            type="danger"
-                            style={index != 0 ? {top: '-2vh'} : null}
+                            type='danger'
+                            style={index != 0 ? { top: '-2vh' } : null}
                             onClick={() => {
                               // console.log(field.name);
                               const temp = pcc.filter((p, idx) => idx != field.name);
@@ -396,21 +395,25 @@ const ReturnForm = ({location}) => {
                               setPcc([...temp1]);
                               remove(field.name);
                             }}>
-                            <MinusCircleOutlined /> Delete
+                            <MinusCircleOutlined />
+                            {' '}
+                            Delete
                           </Button>
                         </Col>
                       </Row>
                     ))}
                     <Form.Item>
                       <Button
-                        type="dashed"
+                        type='dashed'
                         onClick={() => {
                           const temp = pcc;
                           setPcc([...pcc, pcc.length]);
                           add();
                         }}
                         block>
-                        <PlusOutlined /> Add Item
+                        <PlusOutlined />
+                        {' '}
+                        Add Item
                       </Button>
                     </Form.Item>
                   </div>
@@ -422,14 +425,14 @@ const ReturnForm = ({location}) => {
           <Col span={11}>
             {pcc.map((p, idx) => (
               <Form.List name={`items${p}`}>
-                {(fields, {add, remove}) => {
+                {(fields, { add, remove }) => {
                   return (
                     <div>
                       {fields.map((field, ind) => (
-                        <Row align="middle">
+                        <Row align='middle'>
                           {returnProductFormFields.slice(0, 1).map((item) => (
                             <Col span={12}>
-                              <div className="p-2">
+                              <div className='p-2'>
                                 {formItem({
                                   ...item,
                                   noLabel: ind != 0,
@@ -449,7 +452,7 @@ const ReturnForm = ({location}) => {
                           ))}
                           {returnProductFormFields.slice(1, 2).map((item) => (
                             <Col span={12}>
-                              <div className="p-2">
+                              <div className='p-2'>
                                 {formItem({
                                   ...item,
                                   noLabel: ind != 0,
@@ -474,11 +477,11 @@ const ReturnForm = ({location}) => {
           </Col>
         </Row>
         <Row>
-          <Button type="primary" htmlType="submit">
+          <Button type='primary' htmlType='submit'>
             Save
           </Button>
-          <div className="p-2" />
-          <Button type="primary" onClick={() => navigate('../../employee/return-dockets/')}>
+          <div className='p-2' />
+          <Button type='primary' onClick={() => navigate('../../employee/return-dockets/')}>
             Cancel
           </Button>
         </Row>

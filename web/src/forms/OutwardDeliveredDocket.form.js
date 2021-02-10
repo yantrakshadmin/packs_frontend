@@ -23,7 +23,6 @@ export const OutwardDeliveredDocketForm = ({ id, onCancel, onDone, transaction_n
   const [allotment, setAllotment] = useState(null);
   const [products, setProducts] = useState(null);
   const [reqFile, setFile] = useState(null);
-
   const getItems =(items) => {
     return items.map(item =>({ product:item.product.id, quantity:item.quantity,fault:item.fault }))
   }
