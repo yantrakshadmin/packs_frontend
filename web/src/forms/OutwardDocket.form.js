@@ -76,11 +76,24 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
         if (data[0].name[2] === 'quantity_parts') {
           const allkits = form.getFieldValue('kits');
           const selectedKit = kits.filter((i) => i.id === allkits[data[0].name[1]].kit);
+          const q = Math.ceil(parseInt(data[0].value, 0) / selectedKit[0].components_per_kit)
           allkits[data[0].name[1]] = {
             ...allkits[data[0].name[1]],
-            quantity_kit: Math.ceil(parseInt(data[0].value, 0) / selectedKit[0].components_per_kit),
+            quantity_kit: q,
           };
           form.setFieldsValue('kits', allkits);
+          if(kitID){
+            const rk = kits.filter((k) => k.id === kitID)[0];
+            form.setFields([
+              {
+                name: [`items${data[0].name[1]}`],
+                value: rk.products.map((p) => {
+                  return {  product: p.product.id, product_quantity: p.quantity*q  };
+                }),
+              },
+            ]);
+          }
+
         }
         if (
           data[0].name[2] === 'kit' ||
@@ -91,7 +104,6 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
           if (data[0].name[2] === 'kit') setKitID(data[0].value);
           // console.log(data[0].name);
           if (kitID) {
-            console.log(kitID);
             const rk = kits.filter((k) => k.id === kitID)[0];
             const produces = [];
             rk.products.forEach((p) => {
@@ -103,29 +115,6 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
                 value: produces,
               },
             ]);
-          }
-        }
-        if (data[0].name[2] === 'quantity_parts'|| data[0].name[2] === 'quantity_kit') {
-          if (!kitID) {
-            const kitd = form.getFieldValue([data[0].name[0], data[0].name[1], 'kit']);
-            if (kitd) {
-              setKitID(kitd);
-            }
-          }
-          if (kitID) {
-            const q = data[0].value;
-            // let temp = form.getFieldValue(`items${data[0].name[1]}`);
-            const rk = kits.filter((k) => k.id === kitID)[0];
-            form.setFields([
-              {
-                name: [`items${data[0].name[1]}`],
-                value: rk.products.map((p) => {
-                  // console.log(p.product_quantity, q);
-                  return { product: p.product.id, product_quantity: p.quantity * q };
-                }),
-              },
-            ]);
-            // console.log(rk);
           }
         }
       }
