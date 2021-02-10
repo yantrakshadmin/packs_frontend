@@ -39,8 +39,11 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
 
   const [kitQuantities, setKitQuantities] = useState({});
 
+  const [dmTouched, setDMTouched] = useState(false);
+
   useEffect(() => {
     if (id && !loading) {
+      setDMTouched(true);
       const demand_flows = form.getFieldValue('demand_flows');
       if (demand_flows) {
         const q = {};
@@ -79,6 +82,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
 
   const handleFieldsChange = useCallback(
     (data) => {
+      setDMTouched(true);
       try {
         if (data[0].name[0] === 'demand_flows') {
           const fieldKey = data[0].name[1];
@@ -98,7 +102,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
         }
       } catch (err) {}
     },
-    [kits, flows, form],
+    [kits, flows, form, dmTouched],
   );
 
   return (
@@ -244,7 +248,8 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                     onClick={() => {
                       add();
                     }}
-                    block>
+                    block
+                    disabled={dmTouched ? false : true}>
                     <PlusOutlined /> Add Item
                   </Button>
                 </Form.Item>
