@@ -1,9 +1,9 @@
-import { FORM_ELEMENT_TYPES } from '../../web/src/constants/formFields.constant';
+import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
 
 export const returnFormFields = [
   {
     key: 'transaction_type',
-    rules: [{ required: true, message: 'Please select transaction type!' }],
+    rules: [{required: true, message: 'Please select transaction type!'}],
     kwargs: {
       placeholder: 'Select',
     },
@@ -15,7 +15,7 @@ export const returnFormFields = [
   },
   {
     key: 'transaction_date',
-    rules: [{ required: true, message: 'Please select transaction date!' }],
+    rules: [{required: true, message: 'Please select transaction date!'}],
     kwargs: {
       placeholder: 'Select',
     },
@@ -25,21 +25,21 @@ export const returnFormFields = [
   },
   {
     key: 'warehouse',
-    rules: [{ required: true, message: 'Please select warehouse!' }],
+    rules: [{required: true, message: 'Please select warehouse!'}],
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
     customLabel: 'Warehouse',
   },
   {
     key: 'receiver_client',
-    rules: [{ required: true, message: 'Please select receiver client!' }],
+    rules: [{required: true, message: 'Please select receiver client!'}],
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
     customLabel: 'Receiver Client',
   },
   {
     key: 'flow',
-    rules: [{ required: true, message: 'Please select flow!' }],
+    rules: [{required: true, message: 'Please select flow!'}],
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
     customLabel: 'Flow',
@@ -94,7 +94,7 @@ export const returnFormFields = [
   },
   {
     key: 'vehicle_type',
-    rules: [{ required: true, message: 'Please select vehicle type!' }],
+    rules: [{required: true, message: 'Please select vehicle type!'}],
     kwargs: {
       placeholder: 'Select',
     },
@@ -117,7 +117,7 @@ export const returnFormFields = [
   },
   {
     key: 'transport_by',
-    rules: [{ required: true, message: 'Please enter transport by!' }],
+    rules: [{required: true, message: 'Please enter transport by!'}],
     kwargs: {
       placeholder: 'Select',
     },
@@ -139,7 +139,7 @@ export const returnFormFields = [
 export const returnKitFormFields = [
   {
     key: 'kit',
-    rules: [{ required: true, message: 'Please select kit!' }],
+    rules: [{required: true, message: 'Please select kit!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -149,7 +149,7 @@ export const returnKitFormFields = [
   },
   {
     key: 'quantity',
-    rules: [{ required: true, message: 'Please enter quantity!' }],
+    rules: [{required: true, message: 'Please enter quantity!'}],
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
@@ -172,6 +172,28 @@ export const returnProductFormFields = [
   },
   {
     key: 'product_quantity',
+    kwargs: {
+      placeholder: 'Enter',
+      type: 'number',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Quantity',
+  },
+];
+
+export const outwardProductFormFields = [
+  {
+    key: 'product',
+    type: FORM_ELEMENT_TYPES.SELECT,
+    customLabel: 'Product',
+    kwargs: {
+      showArrow: false,
+      disabled: true,
+    },
+  },
+  {
+    key: 'quantity',
     kwargs: {
       placeholder: 'Enter',
       type: 'number',

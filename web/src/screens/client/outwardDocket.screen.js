@@ -301,7 +301,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
         loading={loading}
         size="middle"
         noNewPageCSV
-        downloadLink={isEmployee ? null : `${DEFAULT_BASE_URL}outward-report?id=${user}`}
+        downloadLink={isEmployee ? null : `${DEFAULT_BASE_URL}outward-reportClient/`}
         editingId={editingId || deliveryId}
         title={deliveryId ? 'Delivered Docket ' : 'Outward Docket '}
         modalBody={deliveryId ? OutwardDeliveredDocketForm : OutwardDocketForm}

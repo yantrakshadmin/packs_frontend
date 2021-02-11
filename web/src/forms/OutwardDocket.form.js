@@ -10,8 +10,28 @@ import {getUniqueObject} from 'common/helpers/getUniqueValues';
 
 import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
-import {returnProductFormFields} from 'common/formFields/return.formFields';
+import {outwardProductFormFields} from 'common/formFields/return.formFields';
 import formItem from '../hocs/formItem.hoc';
+
+const getKits = (data) => {
+  return data.map((item) => ({
+    kit: item.kit,
+    quantity_parts: item.quantity_parts,
+    quantity_kit: item.quantity_kit,
+  }));
+};
+
+const getKitItems = (data, setPcc) => {
+  var temp = {};
+  var pccTemp = [];
+  console.log(data);
+  data.forEach((item, idx) => {
+    temp[`items${idx}`] = item['items'] ? item.items : [];
+    pccTemp.push(idx);
+  });
+  setPcc(pccTemp);
+  return temp;
+};
 
 export const OutwardDocketForm = ({id, onCancel, onDone}) => {
   const {data: flows} = useAPI('/client-flows/');
@@ -35,13 +55,9 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
     }
   }, [flows]);
 
-  const getKits = (data) => {
-    return data.map((item) => ({
-      kit: item.kit,
-      quantity_parts: item.quantity_parts,
-      quantity_kit: item.quantity_kit,
-    }));
-  };
+  useEffect(() => {
+    console.log(pcc);
+  }, [pcc]);
 
   const {form, submit, loading} = useHandleForm({
     create: createOutward,
@@ -50,7 +66,8 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
       const response = await retrieveOutward(fetchId);
       const {data} = response;
       const temp = getKits(data.kits);
-      return {...response, data: {...data, kits: temp}};
+      const kitItems = getKitItems(data.kits, setPcc);
+      return {...response, data: {...data, kits: temp, ...kitItems}};
     },
     success: 'Outward Docket created/edited successfully.',
     failure: 'Error in creating/editing Outward Docket.',
@@ -59,6 +76,7 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
     id,
     dates: ['dispatch_date', 'transaction_date'],
   });
+
   useEffect(() => {
     const prods = [];
     if (kits) {
@@ -88,7 +106,7 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
               {
                 name: [`items${data[0].name[1]}`],
                 value: rk.products.map((p) => {
-                  return {product: p.product.id, product_quantity: p.quantity * q};
+                  return {product: p.product.id, quantity: p.quantity * q};
                 }),
               },
             ]);
@@ -106,7 +124,7 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
             const rk = kits.filter((k) => k.id === kitID)[0];
             const produces = [];
             rk.products.forEach((p) => {
-              produces.push({product: p.product.id, product_quantity: p.quantity});
+              produces.push({product: p.product.id, quantity: p.quantity});
             });
             form.setFields([
               {
@@ -127,7 +145,7 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
       return {
         ...k,
         items: items.map((i) => {
-          return {product: i.product, quantity: i.product_quantity};
+          return {product: i.product, quantity: i.quantity};
         }),
       };
     });
@@ -287,7 +305,7 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
                     <div>
                       {fields.map((field, ind) => (
                         <Row align="middle">
-                          {returnProductFormFields.slice(0, 1).map((item) => (
+                          {outwardProductFormFields.slice(0, 1).map((item) => (
                             <Col span={12}>
                               <div className="p-2">
                                 {formItem({
@@ -307,7 +325,7 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
                               </div>
                             </Col>
                           ))}
-                          {returnProductFormFields.slice(1, 2).map((item) => (
+                          {outwardProductFormFields.slice(1, 2).map((item) => (
                             <Col span={12}>
                               <div className="p-2">
                                 {formItem({
