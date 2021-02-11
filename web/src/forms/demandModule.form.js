@@ -37,7 +37,11 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
     dates: ['delivery_month'],
   });
 
-  const [kitQuantities, setKitQuantities] = useState({});
+  const [kitQuantities, setKitQuantities] = useState([]);
+
+  useEffect(() => {
+    console.log(kitQuantities);
+  }, [kitQuantities]);
 
   const [dmTouched, setDMTouched] = useState(false);
 
@@ -46,15 +50,15 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
       setDMTouched(true);
       const demand_flows = form.getFieldValue('demand_flows');
       if (demand_flows) {
-        const q = {};
+        var temp = [];
 
         demand_flows.forEach((i, idx) => {
-          q[idx] = i.quantities.map((ev) => ({
+          temp[idx] = i.quantities.map((ev) => ({
             ...ev,
             date: moment(ev.date),
           }));
         });
-        setKitQuantities(q);
+        setKitQuantities(temp);
       }
     }
   }, [id, loading]);
@@ -82,6 +86,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
 
   const handleFieldsChange = useCallback(
     (data) => {
+      console.log(data);
       setDMTouched(true);
       try {
         if (data[0].name[0] === 'demand_flows') {
@@ -103,6 +108,16 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
       } catch (err) {}
     },
     [kits, flows, form, dmTouched],
+  );
+
+  const customRemove = useCallback(
+    (remove, fieldName) => {
+      var temp = [...kitQuantities];
+      temp.splice(fieldName, 1);
+      setKitQuantities(temp);
+      remove(fieldName);
+    },
+    [kitQuantities],
   );
 
   return (
@@ -221,6 +236,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                         <DmCalModal
                           form={form}
                           field={field}
+                          fieldName={field.name}
                           kitQuantities={kitQuantities}
                           setKitQuantities={setKitQuantities}
                           deliveryMonth={form.getFieldValue('delivery_month')}
@@ -233,7 +249,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
                           type="danger"
                           title="Delete"
                           onClick={() => {
-                            remove(field.name);
+                            customRemove(remove, field.name);
                           }}>
                           <CloseOutlined />
                         </Button>

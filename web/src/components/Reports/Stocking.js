@@ -141,7 +141,11 @@ const StockingReport = ({currentPage}) => {
         </Row>
         <Row>
           <Button
-            href={`${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}&kit=${kit}`}
+            href={
+              !selectAllKits
+                ? `${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}&kit=${kit}`
+                : `${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}`
+            }
             rel="noopener noreferrer"
             target="blank">
             Download CSV

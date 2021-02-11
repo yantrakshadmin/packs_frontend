@@ -5,9 +5,15 @@ import moment from 'moment';
 
 import _ from 'lodash';
 
-//import formItem from '../hocs/formItem.hoc';
-
-const Cal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth, maxInput, letEdit}) => {
+const Cal = ({
+  form,
+  fieldName,
+  kitQuantities,
+  setKitQuantities,
+  deliveryMonth,
+  maxInput,
+  letEdit,
+}) => {
   const [value, setValue] = useState(deliveryMonth);
   const [selectedValue, setSelectedValue] = useState(deliveryMonth);
   const [eventText, setEventText] = useState(null);
@@ -43,52 +49,47 @@ const Cal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth, maxIn
   );
 
   useEffect(() => {
-    if (!(field.fieldKey in kitQuantities)) {
+    if (!kitQuantities[fieldName]) {
       const fields = form.getFieldsValue();
       const {demand_flows} = fields;
-      if (demand_flows[field.fieldKey]) {
-        Object.assign(demand_flows[field.fieldKey], {quantities: []});
+      if (demand_flows[fieldName]) {
+        Object.assign(demand_flows[fieldName], {quantities: []});
         form.setFieldsValue({demand_flows});
       }
     } else {
       const fields = form.getFieldsValue();
       const {demand_flows} = fields;
-      if (demand_flows[field.fieldKey]) {
-        const quantities = kitQuantities[field.fieldKey];
-        Object.assign(demand_flows[field.fieldKey], {quantities: quantities});
+      if (demand_flows[fieldName]) {
+        const quantities = kitQuantities[fieldName];
+        Object.assign(demand_flows[fieldName], {quantities: quantities});
         form.setFieldsValue({demand_flows});
       }
     }
   }, [kitQuantities]);
 
   const addEvent = useCallback(() => {
-    if (field.fieldKey in kitQuantities) {
-      setKitQuantities({
-        ...kitQuantities,
-        [field.fieldKey]: [
-          ...kitQuantities[field.fieldKey],
-          {date: selectedValue, quantity: eventText},
-        ],
-      });
+    if (kitQuantities[fieldName]) {
+      var temp = [...kitQuantities];
+      temp[fieldName] = [...temp[fieldName], {date: selectedValue, quantity: eventText}];
+      setKitQuantities(temp);
     } else {
-      setKitQuantities({
-        ...kitQuantities,
-        [field.fieldKey]: [{date: selectedValue, quantity: eventText}],
-      });
+      var temp = [...kitQuantities];
+      temp[fieldName] = [{date: selectedValue, quantity: eventText}];
+      setKitQuantities(temp);
     }
+
     setEventText(null);
   }, [selectedValue, eventText, kitQuantities]);
 
   const deleteEvent = useCallback(
     (date) => {
+      var temp = [...kitQuantities];
       const newThisFieldKitQuantities = _.remove(
-        [...kitQuantities[field.fieldKey]],
+        [...temp[fieldName]],
         (el) => el.date.format('L') !== date.format('L'),
       );
-      setKitQuantities({
-        ...kitQuantities,
-        [field.fieldKey]: newThisFieldKitQuantities,
-      });
+      temp[fieldName] = newThisFieldKitQuantities;
+      setKitQuantities(temp);
     },
     [kitQuantities],
   );
@@ -118,7 +119,7 @@ const Cal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth, maxIn
 
   const renderEventInput = useCallback(() => {
     const ev = _.find(
-      kitQuantities[field.fieldKey],
+      kitQuantities[fieldName],
       (ev) => ev.date.format('L') === selectedValue.format('L'),
     );
     if (ev) {
@@ -171,7 +172,7 @@ const Cal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth, maxIn
     (value) => {
       const valueDate = value.format('L');
       const selectedDate = selectedValue.format('L');
-      const ev = _.find(kitQuantities[field.fieldKey], (ev) => ev.date.format('L') === valueDate);
+      const ev = _.find(kitQuantities[fieldName], (ev) => ev.date.format('L') === valueDate);
       if (ev && valueDate === selectedDate) {
         return (
           <Badge dot>
@@ -226,7 +227,7 @@ const Cal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth, maxIn
   );
 };
 
-const DmCalModal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth, letEdit}) => {
+const DmCalModal = ({form, fieldName, kitQuantities, setKitQuantities, deliveryMonth, letEdit}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = useCallback(() => {
@@ -237,37 +238,14 @@ const DmCalModal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth
     setIsModalVisible(false);
   }, [isModalVisible]);
 
-  // useEffect(() => {
-  //   if (!(field.fieldKey in kitQuantities)) {
-  //     setKitQuantities({
-  //       ...kitQuantities,
-  //       [field.fieldKey]: [],
-  //     });
-  //     const fields = form.getFieldsValue();
-  //     const {flows} = fields;
-  //     if (flows[field.fieldKey]) {
-  //       Object.assign(flows[field.fieldKey], {quantities: []});
-  //       form.setFieldsValue({flows});
-  //     }
-  //   } else {
-  //     const fields = form.getFieldsValue();
-  //     const {flows} = fields;
-  //     if (flows[field.fieldKey]) {
-  //       const quantities = kitQuantities[field.fieldKey];
-  //       Object.assign(flows[field.fieldKey], {quantities: quantities});
-  //       form.setFieldsValue({flows});
-  //     }
-  //   }
-  // }, [kitQuantities]);
-
   const renderModalButton = useCallback(() => {
     const demand_flows = form.getFieldValue('demand_flows');
-    if (demand_flows[field.fieldKey]) {
+    if (demand_flows[fieldName]) {
       if (
         deliveryMonth &&
-        'flow' in demand_flows[field.fieldKey] &&
-        'kit' in demand_flows[field.fieldKey] &&
-        'monthly_quantity' in demand_flows[field.fieldKey]
+        'flow' in demand_flows[fieldName] &&
+        'kit' in demand_flows[fieldName] &&
+        'monthly_quantity' in demand_flows[fieldName]
       ) {
         return (
           <Button type="primary" onClick={showModal}>
@@ -281,13 +259,13 @@ const DmCalModal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth
         <CalendarOutlined />
       </Button>
     );
-  }, [form, field, deliveryMonth]);
+  }, [form, fieldName, deliveryMonth]);
 
   const maxInputVal = useCallback(() => {
     const demand_flows = form.getFieldValue('demand_flows');
-    if (demand_flows[field.fieldKey]) {
-      if ('monthly_quantity' in demand_flows[field.fieldKey]) {
-        return demand_flows[field.fieldKey]['monthly_quantity'];
+    if (demand_flows[fieldName]) {
+      if ('monthly_quantity' in demand_flows[fieldName]) {
+        return demand_flows[fieldName]['monthly_quantity'];
       }
     }
     return 0;
@@ -304,7 +282,7 @@ const DmCalModal = ({form, field, kitQuantities, setKitQuantities, deliveryMonth
         onCancel={handleClose}>
         <Cal
           form={form}
-          field={field}
+          fieldName={fieldName}
           kitQuantities={kitQuantities}
           setKitQuantities={setKitQuantities}
           deliveryMonth={deliveryMonth}

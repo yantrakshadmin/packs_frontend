@@ -129,6 +129,62 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
       key: 'operation',
       width: '7vw',
       render: (text, record) => (
+        // <div className="row justify-evenly">
+        //   <Button
+        //     style={{
+        //       backgroundColor: 'transparent',
+        //       border: 'none',
+        //       boxShadow: 'none',
+        //       padding: '1px',
+        //     }}
+        //     // disabled={!record.document}
+        //     onClick={async (e) => {
+        //       const {data: req} = await loadAPI(`${DEFAULT_BASE_URL}/inward/?pk=${record.id}`, {});
+        //       if (req) {
+        //         if (req[0]) {
+        //           if (req[0].document) {
+        //             window.open(req[0].document);
+        //           }
+        //         }
+        //       }
+        //       e.stopPropagation();
+        //     }}>
+        //     <FontAwesomeIcon
+        //       icon={record.is_delivered ? faEye : faEyeSlash}
+        //       style={{fontSize: 20, color: yantraColors['primary']}}
+        //     />
+        //   </Button>
+        //   <Button
+        //     style={{
+        //       backgroundColor: 'transparent',
+        //       border: 'none',
+        //       boxShadow: 'none',
+        //       padding: '1px',
+        //     }}
+        //     disabled>
+        //     <Delivery color={record.is_delivered ? '#7CFC00' : null} />
+        //   </Button>
+        //   <Button
+        //     style={{
+        //       backgroundColor: 'transparent',
+        //       border: 'none',
+        //       boxShadow: 'none',
+        //       padding: '1px',
+        //     }}
+        //     disabled>
+        //     <Edit />
+        //   </Button>
+        //   <Button
+        //     style={{
+        //       backgroundColor: 'transparent',
+        //       boxShadow: 'none',
+        //       border: 'none',
+        //       padding: '1px',
+        //     }}
+        //     disabled>
+        //     <Delete />
+        //   </Button>
+        // </div>
         <div className="row justify-evenly">
           <Button
             style={{
@@ -161,7 +217,12 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
               boxShadow: 'none',
               padding: '1px',
             }}
-            disabled>
+            onClick={(e) => {
+              setTN(record.transaction_no);
+              setDeliveryId(record.id);
+              e.stopPropagation();
+            }}
+            disabled={isEmployee ? true : false}>
             <Delivery color={record.is_delivered ? '#7CFC00' : null} />
           </Button>
           <Button
@@ -171,90 +232,35 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
               boxShadow: 'none',
               padding: '1px',
             }}
-            disabled>
+            onClick={(e) => {
+              setEditingId(record.id);
+              e.stopPropagation();
+            }}
+            disabled={isEmployee ? true : false}>
             <Edit />
           </Button>
-          <Button
-            style={{
-              backgroundColor: 'transparent',
-              boxShadow: 'none',
-              border: 'none',
-              padding: '1px',
-            }}
-            disabled>
-            <Delete />
-          </Button>
+          <Popconfirm
+            title="Confirm Delete"
+            onConfirm={deleteHOC({
+              record,
+              reload,
+              api: deleteOutward,
+              success: 'Deleted Outward Docket Successfully',
+              failure: 'Error in deleting Outward Docket',
+            })}>
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                boxShadow: 'none',
+                border: 'none',
+                padding: '1px',
+              }}
+              onClick={(e) => e.stopPropagation()}
+              disabled={isEmployee ? true : false}>
+              <Delete />
+            </Button>
+          </Popconfirm>
         </div>
-        // <div className="row justify-evenly">
-        //   <Button
-        //     style={{
-        //       backgroundColor: 'transparent',
-        //       border: 'none',
-        //       boxShadow: 'none',
-        //       padding: '1px',
-        //     }}
-        //     // disabled={!record.document}
-        //     onClick={async (e) => {
-        //       const {data: req} = await loadAPI(`${DEFAULT_BASE_URL}/inward/?pk=${record.id}`, {});
-        //       if (req) {
-        //         if (req[0]) {
-        //           if (req[0].document) {
-        //             window.open(req[0].document);
-        //           }
-        //         }
-        //       }
-        //       e.stopPropagation();
-        //     }}>
-        //     <Document color={record.document ? '#7CFC00' : null} />
-        //   </Button>
-        //   <Button
-        //     style={{
-        //       backgroundColor: 'transparent',
-        //       border: 'none',
-        //       boxShadow: 'none',
-        //       padding: '1px',
-        //     }}
-        //     onClick={(e) => {
-        //       setTN(record.transaction_no);
-        //       setDeliveryId(record.id);
-        //       e.stopPropagation();
-        //     }}>
-        //     <Delivery color={record.is_delivered ? '#7CFC00' : null} />
-        //   </Button>
-        //   <Button
-        //     style={{
-        //       backgroundColor: 'transparent',
-        //       border: 'none',
-        //       boxShadow: 'none',
-        //       padding: '1px',
-        //     }}
-        //     onClick={(e) => {
-        //       setEditingId(record.id);
-        //       e.stopPropagation();
-        //     }}>
-        //     <Edit />
-        //   </Button>
-        //   <Popconfirm
-        //     title="Confirm Delete"
-        //     onConfirm={deleteHOC({
-        //       record,
-        //       reload,
-        //       api: deleteOutward,
-        //       success: 'Deleted Outward Docket Successfully',
-        //       failure: 'Error in deleting Outward Docket',
-        //     })}>
-        //     <Button
-        //       style={{
-        //         backgroundColor: 'transparent',
-        //         boxShadow: 'none',
-        //         border: 'none',
-        //         padding: '1px',
-        //       }}
-        //       onClick={(e) => e.stopPropagation()}>
-        //       <Delete />
-        //     </Button>
-        //   </Popconfirm>
-        // </div>
       ),
     },
   ];
@@ -295,11 +301,11 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
         loading={loading}
         size="middle"
         noNewPageCSV
-        downloadLink={isEmployee ? null : `${DEFAULT_BASE_URL}outward-report?id=${user}`}
+        downloadLink={isEmployee ? null : `${DEFAULT_BASE_URL}outward-reportClient/`}
         editingId={editingId || deliveryId}
         title={deliveryId ? 'Delivered Docket ' : 'Outward Docket '}
         modalBody={deliveryId ? OutwardDeliveredDocketForm : OutwardDocketForm}
-        modalWidth={80}
+        modalWidth={98}
         formParams={{transaction_no: TN}}
         cancelEditing={cancelEditing}
       />
