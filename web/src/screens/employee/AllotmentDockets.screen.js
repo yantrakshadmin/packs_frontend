@@ -33,6 +33,8 @@ import {BarcodeAllotmentDocket} from 'components/barcodeAllotmentDocket';
 import {GetUniqueValue} from 'common/helpers/getUniqueValues';
 import {EyeTwoTone, EyeInvisibleOutlined, UserOutlined} from '@ant-design/icons';
 
+import ExpandTable from '../../components/AllotmentsExpandTable';
+
 import {deleteHOC} from '../../hocs/deleteHoc';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {LineGraph} from '../../components/graphComponent/lineGraph';
@@ -285,6 +287,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
         title=""
         modalBody={deliveryId ? DeliveredForm : AllotmentMainForm}
         modalWidth={60}
+        ExpandBody={ExpandTable}
         editingId={editingId || deliveryId}
         formParams={{transaction_no: TN}}
         cancelEditing={cancelEditing}

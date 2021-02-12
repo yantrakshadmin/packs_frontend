@@ -221,7 +221,8 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
               setTN(record.transaction_no);
               setDeliveryId(record.id);
               e.stopPropagation();
-            }}>
+            }}
+            disabled={isEmployee ? true : false}>
             <Delivery color={record.is_delivered ? '#7CFC00' : null} />
           </Button>
           <Button
@@ -234,7 +235,8 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
             onClick={(e) => {
               setEditingId(record.id);
               e.stopPropagation();
-            }}>
+            }}
+            disabled={isEmployee ? true : false}>
             <Edit />
           </Button>
           <Popconfirm
@@ -253,7 +255,8 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
                 border: 'none',
                 padding: '1px',
               }}
-              onClick={(e) => e.stopPropagation()}>
+              onClick={(e) => e.stopPropagation()}
+              disabled={isEmployee ? true : false}>
               <Delete />
             </Button>
           </Popconfirm>
@@ -298,11 +301,11 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
         loading={loading}
         size="middle"
         noNewPageCSV
-        downloadLink={isEmployee ? null : `${DEFAULT_BASE_URL}outward-report?id=${user}`}
+        downloadLink={isEmployee ? null : `${DEFAULT_BASE_URL}outward-reportClient/`}
         editingId={editingId || deliveryId}
         title={deliveryId ? 'Delivered Docket ' : 'Outward Docket '}
         modalBody={deliveryId ? OutwardDeliveredDocketForm : OutwardDocketForm}
-        modalWidth={80}
+        modalWidth={98}
         formParams={{transaction_no: TN}}
         cancelEditing={cancelEditing}
       />

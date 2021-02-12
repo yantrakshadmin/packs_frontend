@@ -12,26 +12,11 @@ import formItem from '../../hocs/formItem.hoc';
 const {Title} = Typography;
 const StockingReport = ({currentPage}) => {
   const [client, setClient] = useState('');
-  const [kit, setKit] = useState('');
   const [toDate, setToDate] = useState(null);
   const [fromDate, setFromDate] = useState(null);
   const [form] = Form.useForm();
 
   const {data: clients} = useAPI('/clients/', {});
-  const {data: kits} = useAPI('/kits/', {});
-  const [selectedClientID, setSelectedClientID] = useState(null);
-  const [selectedKits, setSelectedKits] = useState([]);
-  const [selectAllKits, setSelectAllKits] = useState(false);
-
-  useEffect(() => {
-    if (selectedClientID) {
-      try {
-        setSelectedKits(_.filter(kits, (k) => k.kit_client.user === selectedClientID));
-      } catch (err) {
-        setSelectedKits([]);
-      }
-    }
-  }, [selectedClientID]);
 
   const onChange = async () => {
     const tempFrom = moment(form.getFieldValue('dateFrom')).format('YYYY-MM-DD+HH:MM');
@@ -39,16 +24,11 @@ const StockingReport = ({currentPage}) => {
     setToDate(tempTo);
     setFromDate(tempFrom);
     setClient(form.getFieldValue('cname'));
-    if (!selectAllKits) {
-      setKit(form.getFieldValue('kit'));
-    } else {
-      setKit('0');
-    }
   };
 
   return (
     <>
-      <Title level={3}>Floating Reports</Title>
+      <Title level={3}>Volume Plan Reports</Title>
       <Form
         onFieldsChange={onChange}
         form={form}
@@ -61,9 +41,6 @@ const StockingReport = ({currentPage}) => {
               key: 'cname',
               kwargs: {
                 placeholder: 'Select',
-                onChange: (val) => {
-                  setSelectedClientID(val);
-                },
               },
               others: {
                 selectOptions: clients || [],
@@ -76,42 +53,8 @@ const StockingReport = ({currentPage}) => {
             })}
           </Col>
         </Row>
-        {selectedKits.length > 0 ? (
-          <Row gutter={10}>
-            <Col span={2}>
-              {formItem({
-                key: 'select_all_kits',
-                kwargs: {
-                  onChange: (val) => {
-                    setSelectAllKits(val);
-                  },
-                },
-                type: FORM_ELEMENT_TYPES.SWITCH,
-                customLabel: 'All Kits',
-              })}
-            </Col>
-            {!selectAllKits ? (
-              <Col span={8}>
-                {formItem({
-                  key: 'kit',
-                  kwargs: {
-                    placeholder: 'Select',
-                  },
-                  others: {
-                    selectOptions: selectedKits || [],
-                    key: 'kit_name',
-                    dataKeys: ['kit_info', 'components_per_kit'],
-                    customTitle: 'kit_name',
-                  },
-                  type: FORM_ELEMENT_TYPES.SELECT,
-                  customLabel: 'Kit',
-                })}
-              </Col>
-            ) : null}
-          </Row>
-        ) : null}
 
-        <Row gutter={10}>
+        {/* <Row gutter={10}>
           <Col span={4}>
             {formItem({
               key: 'dateFrom',
@@ -138,14 +81,10 @@ const StockingReport = ({currentPage}) => {
               customLabel: 'To',
             })}
           </Col>
-        </Row>
+        </Row> */}
         <Row>
           <Button
-            href={
-              !selectAllKits
-                ? `${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}&kit=${kit}`
-                : `${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}`
-            }
+            href={`${DEFAULT_BASE_URL}/demandvallot-report/?cname=${client}`}
             rel="noopener noreferrer"
             target="blank">
             Download CSV

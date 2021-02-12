@@ -49,21 +49,21 @@ export const DemandModuleForm = ({id, onCancel, onDone, filteredData}) => {
     dates: ['delivery_month'],
   });
 
-  const [kitQuantities, setKitQuantities] = useState({});
+  const [kitQuantities, setKitQuantities] = useState([]);
 
   useEffect(() => {
     if (id && !loading) {
       const demand_flows = form.getFieldValue('demand_flows');
       if (demand_flows) {
-        const q = {};
+        const temp = [];
 
         demand_flows.forEach((i, idx) => {
-          q[idx] = i.quantities.map((ev) => ({
+          temp[idx] = i.quantities.map((ev) => ({
             ...ev,
             date: moment(ev.date),
           }));
         });
-        setKitQuantities(q);
+        setKitQuantities(temp);
       }
     }
   }, [id, loading]);
@@ -242,6 +242,7 @@ export const DemandModuleForm = ({id, onCancel, onDone, filteredData}) => {
                         <DmCalModal
                           form={form}
                           field={field}
+                          fieldName={field.name}
                           kitQuantities={kitQuantities}
                           setKitQuantities={setKitQuantities}
                           deliveryMonth={form.getFieldValue('delivery_month')}

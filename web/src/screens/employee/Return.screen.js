@@ -29,6 +29,7 @@ import {deleteHOC} from '../../hocs/deleteHoc';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {LineGraph} from '../../components/graphComponent/lineGraph';
 import {yantraColors} from '../../helpers/yantraColors';
+import ExpandTable from '../../components/ReturnsExpandTable';
 
 const {Search} = Input;
 
@@ -269,6 +270,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
         size="middle"
         title="Return Dockets"
         modalBody={deliveryId ? ReceivedForm : ReturnForm}
+        ExpandBody={ExpandTable}
         newPage="./return/"
         separate={!deliveryId}
         modalWidth={60}
