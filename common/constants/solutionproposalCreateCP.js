@@ -48,7 +48,7 @@ export const getSolutionProposal = (record) => {
   ) {
     return {
       Lid: 1,
-      Crate: 1,
+      Pallet: 1,
       [record.standard_assets]: record.palletized_lid_quantity_perkit,
     };
   }
