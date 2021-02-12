@@ -196,6 +196,11 @@ export const employeeRoutes = [
     isSubMenu: true,
     subMenu: [
       {
+        name: 'Volume Plan',
+        path: '/reports/demands/',
+        Component: lazy(() => import('components/Reports/Demand.js')),
+      },
+      {
         name: 'Allotments',
         path: '/reports/allotments/',
         Component: lazy(() => import('components/Reports/Allotment.js')),
