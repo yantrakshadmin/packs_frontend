@@ -70,7 +70,7 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
       flow: Number(flo.flow),
       kit: Number(flo.kit),
       monthly_quantity: flo.monthly_quantity,
-      quantities: flo.quantities,
+      quantities: flo.quantities ? flo.quantities : [],
       part_number: flo.part_number ? flo.part_number : '',
       receiver_client_name: flo.receiver_client_name ? flo.receiver_client_name : '',
       receiver_client_city: flo.receiver_client_city ? flo.receiver_client_city : '',
