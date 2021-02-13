@@ -68,7 +68,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
       render: (text) => <div>{text.slice(0, 10)}</div>,
     },
     {
-      title: 'Sending Location',
+      title: 'Receiver Client',
       dataIndex: 'sending_location',
       key: 'sending_location',
       width: 400,
@@ -79,7 +79,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
       ),
     },
     {
-      title: 'Client Name',
+      title: 'Sender Client',
       dataIndex: 'owner',
       key: 'owner',
       width: 400,
