@@ -565,6 +565,12 @@ export const retrieveDms = () =>
     secure: true,
   });
 
+export const retrieveDmsClient = () =>
+  loadAPI('/client-demands/', {
+    method: 'GET',
+    secure: true,
+  });
+
 export const deleteDm = (id) =>
   loadAPI(`/edit-demand/${id}/`, {
     method: 'DELETE',

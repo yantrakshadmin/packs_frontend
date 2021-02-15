@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import demandModuleColumns from 'common/columns/demandModule.column';
 import {Popconfirm, Button, Input, Popover} from 'antd';
-import {deleteDm, retrieveDms} from 'common/api/auth';
+import {deleteDm, retrieveDmsClient} from 'common/api/auth';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
@@ -19,7 +19,7 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveDms});
+  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveDmsClient});
   const cancelEditing = () => {
     setEditingId(null);
   };
