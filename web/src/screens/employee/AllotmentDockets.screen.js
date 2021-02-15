@@ -135,6 +135,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
             }}
             // disabled={!record.document}
             onClick={async (e) => {
+              e.stopPropagation();
               const {data: req} = await loadAPI(
                 `${DEFAULT_BASE_URL}/delivered-docket/?pk=${record.id}`,
                 {},

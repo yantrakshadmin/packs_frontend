@@ -165,7 +165,10 @@ export const DemandModuleForm = ({id, onCancel, onDone, filteredData}) => {
                       <Col span={3}>
                         <Form.Item label={'Required Kit/Month'}>
                           <Input
-                            value={thisDemand.demand_flows[field.fieldKey].monthly_quantity}
+                            value={_.ceil(
+                              thisDemand.demand_flows[field.fieldKey].monthly_quantity /
+                                thisDemand.demand_flows[field.fieldKey].components_per_kit,
+                            )}
                             size="middle"
                             disabled
                           />
@@ -178,7 +181,8 @@ export const DemandModuleForm = ({id, onCancel, onDone, filteredData}) => {
                               thisDemand.demand_flows[field.fieldKey].flow.flow_days
                                 ? _.ceil(
                                     (thisDemand.demand_flows[field.fieldKey].flow.flow_days / 30) *
-                                      thisDemand.demand_flows[field.fieldKey].monthly_quantity,
+                                      (thisDemand.demand_flows[field.fieldKey].monthly_quantity /
+                                        thisDemand.demand_flows[field.fieldKey].components_per_kit),
                                   )
                                 : '-'
                             }
