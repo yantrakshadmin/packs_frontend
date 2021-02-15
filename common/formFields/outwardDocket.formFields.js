@@ -1,22 +1,24 @@
-import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
+import {FORM_ELEMENT_TYPES} from 'web/src/constants/formFields.constant';
 
 export const outwardDocketFormFields = [
   {
+    customLabel: 'Transaction Date',
     key: 'transaction_date',
     type: FORM_ELEMENT_TYPES.DATE,
     others: null,
   },
   {
+    customLabel: 'Dispatch Date',
     key: 'dispatch_date',
     type: FORM_ELEMENT_TYPES.DATE,
     others: null,
   },
   {
     key: 'transaction_no',
-    rules: [{ required: true, message: 'Please select Transaction Number!' }],
+    rules: [{required: true, message: 'Please select Transaction Number!'}],
     kwargs: {
       placeholder: 'Transaction Number',
-      type:'number'
+      type: 'number',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -24,7 +26,7 @@ export const outwardDocketFormFields = [
   },
   {
     key: 'sending_location',
-    rules: [{ required: true, message: 'Please select Sender Client!' }],
+    rules: [{required: true, message: 'Please select Sender Client!'}],
     type: FORM_ELEMENT_TYPES.SELECT,
     kwargs: {
       placeholder: 'Sender Client',
@@ -38,7 +40,7 @@ export const outwardDocketFormFields = [
     },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: {
-      selectOptions: ['Mahindra Logistics', 'TCI', 'Vinsum / Axpress', 'Chetak Logistics','Other'],
+      selectOptions: ['Mahindra Logistics', 'TCI', 'Vinsum / Axpress', 'Chetak Logistics', 'Other'],
     },
     customLabel: 'Transporter Name',
   },
@@ -53,7 +55,7 @@ export const outwardDocketFormFields = [
   },
   {
     key: 'invoice_number',
-    rules: [{ required: true, message: 'Please select Invoice Number!' }],
+    rules: [{required: true, message: 'Please select Invoice Number!'}],
     kwargs: {
       placeholder: 'Invoice Number',
     },
@@ -70,4 +72,4 @@ export const outwardDocketFormFields = [
     others: null,
     customLabel: 'Remarks',
   },
-]
+];

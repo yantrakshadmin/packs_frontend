@@ -8,6 +8,8 @@ import {outwardDocketKitFormFields} from 'common/formFields/outwardDocketKits.fo
 import {useAPI} from 'common/hooks/api';
 import {getUniqueObject} from 'common/helpers/getUniqueValues';
 
+import moment from 'moment';
+
 import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
 import {outwardProductFormFields} from 'common/formFields/return.formFields';
@@ -161,6 +163,7 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
         onFinish={handleSubmit}
         form={form}
         layout="vertical"
+        initialValues={{transaction_date: moment(), dispatch_date: moment(), transaction_no: 0}}
         hideRequiredMark
         autoComplete="off"
         onFieldsChange={handleFieldsChange}>
