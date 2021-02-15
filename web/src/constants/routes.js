@@ -235,6 +235,11 @@ export const employeeRoutes = [
         path: '/reports/return-count/',
         Component: lazy(() => import('components/Reports/returnCount')),
       },
+      {
+        name: 'Loss/Excess',
+        path: '/reports/loss-excess/',
+        Component: lazy(() => import('components/Reports/LossExcess.js')),
+      },
     ],
   },
   {
