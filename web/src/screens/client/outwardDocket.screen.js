@@ -83,7 +83,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
         </div>
       ),
       filters: GetUniqueValueNested(filteredData || [], 'sending_location', 'name'),
-      onFilter: (value, record) => record.owner.name === value.name,
+      onFilter: (value, record) => record.sending_location.name === value,
     },
     // {
     //   title: 'Sender Client',
