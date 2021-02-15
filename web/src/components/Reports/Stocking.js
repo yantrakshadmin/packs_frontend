@@ -22,6 +22,7 @@ const StockingReport = ({currentPage}) => {
   const [selectedClientID, setSelectedClientID] = useState(null);
   const [selectedKits, setSelectedKits] = useState([]);
   const [selectAllKits, setSelectAllKits] = useState(false);
+  const [selectAllClients, setSelectAllClients] = useState(false);
 
   useEffect(() => {
     if (selectedClientID) {
@@ -56,59 +57,76 @@ const StockingReport = ({currentPage}) => {
         hideRequiredMark
         autoComplete="off">
         <Row gutter={10}>
-          <Col span={10}>
+          <Col span={2}>
             {formItem({
-              key: 'cname',
+              key: 'select_all_clients',
               kwargs: {
-                placeholder: 'Select',
                 onChange: (val) => {
-                  setSelectedClientID(val);
+                  setSelectAllClients(val);
                 },
               },
-              others: {
-                selectOptions: clients || [],
-                key: 'user',
-                customTitle: 'client_name',
-                dataKeys: ['client_shipping_address'],
-              },
-              type: FORM_ELEMENT_TYPES.SELECT,
-              customLabel: 'Client',
+              type: FORM_ELEMENT_TYPES.SWITCH,
+              customLabel: 'All Clients',
             })}
           </Col>
-        </Row>
-        {selectedKits.length > 0 ? (
-          <Row gutter={10}>
-            <Col span={2}>
+          {!selectAllClients ? (
+            <Col span={10}>
               {formItem({
-                key: 'select_all_kits',
+                key: 'cname',
                 kwargs: {
+                  placeholder: 'Select',
                   onChange: (val) => {
-                    setSelectAllKits(val);
+                    setSelectedClientID(val);
                   },
                 },
-                type: FORM_ELEMENT_TYPES.SWITCH,
-                customLabel: 'All Kits',
+                others: {
+                  selectOptions: clients || [],
+                  key: 'user',
+                  customTitle: 'client_name',
+                  dataKeys: ['client_shipping_address'],
+                },
+                type: FORM_ELEMENT_TYPES.SELECT,
+                customLabel: 'Client',
               })}
             </Col>
-            {!selectAllKits ? (
-              <Col span={8}>
+          ) : null}
+        </Row>
+
+        {!selectAllClients ? (
+          selectedKits.length > 0 ? (
+            <Row gutter={10}>
+              <Col span={2}>
                 {formItem({
-                  key: 'kit',
+                  key: 'select_all_kits',
                   kwargs: {
-                    placeholder: 'Select',
+                    onChange: (val) => {
+                      setSelectAllKits(val);
+                    },
                   },
-                  others: {
-                    selectOptions: selectedKits || [],
-                    key: 'kit_name',
-                    dataKeys: ['kit_info', 'components_per_kit'],
-                    customTitle: 'kit_name',
-                  },
-                  type: FORM_ELEMENT_TYPES.SELECT,
-                  customLabel: 'Kit',
+                  type: FORM_ELEMENT_TYPES.SWITCH,
+                  customLabel: 'All Kits',
                 })}
               </Col>
-            ) : null}
-          </Row>
+              {!selectAllKits ? (
+                <Col span={8}>
+                  {formItem({
+                    key: 'kit',
+                    kwargs: {
+                      placeholder: 'Select',
+                    },
+                    others: {
+                      selectOptions: selectedKits || [],
+                      key: 'kit_name',
+                      dataKeys: ['kit_info', 'components_per_kit'],
+                      customTitle: 'kit_name',
+                    },
+                    type: FORM_ELEMENT_TYPES.SELECT,
+                    customLabel: 'Kit',
+                  })}
+                </Col>
+              ) : null}
+            </Row>
+          ) : null
         ) : null}
 
         <Row gutter={10}>
@@ -142,9 +160,11 @@ const StockingReport = ({currentPage}) => {
         <Row>
           <Button
             href={
-              !selectAllKits
-                ? `${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}&kit=${kit}`
-                : `${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}`
+              !selectAllClients
+                ? !selectAllKits
+                  ? `${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}&kit=${kit}`
+                  : `${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}`
+                : `${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${'all'}`
             }
             rel="noopener noreferrer"
             target="blank">

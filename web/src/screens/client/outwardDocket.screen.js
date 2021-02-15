@@ -19,6 +19,7 @@ import Download from '../../icons/Download';
 import {OutwardDeliveredDocketForm} from '../../forms/OutwardDeliveredDocket.form';
 import Document from '../../icons/Document';
 import TableWithTabHoc from '../../hocs/TableWithTab.hoc';
+import moment from 'moment';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBarcode, faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
@@ -59,12 +60,16 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
       title: 'Transaction Date',
       dataIndex: 'transaction_date',
       key: 'transaction_date',
+      sorter: (a, b) => moment(a.transaction_date).unix() - moment(b.transaction_date).unix(),
+      showSorterTooltip: false,
       render: (text) => <div>{text.slice(0, 10)}</div>,
     },
     {
       title: 'Dispatch Date',
       dataIndex: 'dispatch_date',
       key: 'dispatch_date',
+      sorter: (a, b) => moment(a.dispatch_date).unix() - moment(b.dispatch_date).unix(),
+      showSorterTooltip: false,
       render: (text) => <div>{text.slice(0, 10)}</div>,
     },
     {
@@ -77,16 +82,18 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
           {location.name} - {location.address}
         </div>
       ),
+      filters: GetUniqueValueNested(filteredData || [], 'sending_location', 'name'),
+      onFilter: (value, record) => record.owner.name === value.name,
     },
-    {
-      title: 'Sender Client',
-      dataIndex: 'owner',
-      key: 'owner',
-      width: 400,
-      render: (i) => <div>{i.client_name}</div>,
-      filters: GetUniqueValueNested(filteredData || [], 'owner', 'client_name'),
-      onFilter: (value, record) => record.owner.client_name === value.client_name,
-    },
+    // {
+    //   title: 'Sender Client',
+    //   dataIndex: 'owner',
+    //   key: 'owner',
+    //   width: 400,
+    //   render: (i) => <div>{i.client_name}</div>,
+    //   filters: GetUniqueValueNested(filteredData || [], 'owner', 'client_name'),
+    //   onFilter: (value, record) => record.owner.client_name === value.client_name,
+    // },
     ...outwardDocketColumn,
     // {
     //   title:'kit',
