@@ -1,12 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Form, Col, Row, Button, Divider, Spin} from 'antd';
-import {
-  materialRequestFormFields,
-  materialRequestFlowFormFields,
-} from 'common/formFields/materialRequest.formFields';
+import {expenseFormFields, expenseFlowFormFields} from 'common/formFields/expense.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {createMr, editMr, retrieveMr} from 'common/api/auth';
+import {createExpense, editMr, retrieveMr} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 import {useControlledSelect} from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
@@ -14,14 +11,18 @@ import formItem from '../hocs/formItem.hoc';
 import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
 
-export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
+export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
   const [flowId, setFlowId] = useState(null);
 
   const {data: flows} = useAPI('/myflows/', {});
   const {data: kits} = useControlledSelect(flowId);
 
+  useEffect(() => {
+    console.log(isEmployee);
+  }, []);
+
   const {form, submit, loading} = useHandleForm({
-    create: createMr,
+    create: createExpense,
     edit: editMr,
     retrieve: retrieveMr,
     success: isEmployee
@@ -36,12 +37,15 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
 
   const preProcess = (data) => {
     const {flows} = data;
-    const newFlows = flows.map((flo) => ({
-      flow: Number(flo.flow),
-      kit: Number(flo.kit),
-      quantity: Number(flo.quantity),
-    }));
-    data.flows = newFlows;
+    if (flows) {
+      const newFlows = flows.map((flo) => ({
+        flow: Number(flo.flow),
+        kit: Number(flo.kit),
+        quantity: Number(flo.quantity),
+      }));
+      data.flows = newFlows;
+    }
+
     console.log(data);
     submit(data);
   };
@@ -52,7 +56,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Material Request Details</Divider>
+      <Divider orientation="left">Expense Details</Divider>
       <Form
         onFinish={preProcess}
         form={form}
@@ -61,8 +65,8 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
         autoComplete="off"
         onFieldsChange={handleFieldsChange}>
         <Row style={{justifyContent: 'left'}}>
-          {materialRequestFormFields.slice(0, 1).map((item, idx) => (
-            <Col span={24}>
+          {expenseFormFields.slice(0).map((item, idx) => (
+            <Col span={item.colSpan}>
               <div key={idx} className="p-2">
                 {formItem(item)}
               </div>
@@ -70,7 +74,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
           ))}
         </Row>
 
-        <Divider orientation="left">Flow and Kit Details</Divider>
+        <Divider orientation="left">Transaction Details</Divider>
 
         <Form.List name="flows">
           {(fields, {add, remove}) => {
@@ -78,8 +82,8 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
               <div>
                 {fields.map((field, index) => (
                   <Row align="middle">
-                    {materialRequestFlowFormFields.slice(0, 1).map((item) => (
-                      <Col span={13}>
+                    {expenseFlowFormFields.slice(0, 1).map((item) => (
+                      <Col span={item.colSpan}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -108,8 +112,8 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
                         </div>
                       </Col>
                     ))}
-                    {materialRequestFlowFormFields.slice(1, 2).map((item) => (
-                      <Col span={4}>
+                    {expenseFlowFormFields.slice(1, 2).map((item) => (
+                      <Col span={item.colSpan}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -142,8 +146,8 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
                         </div>
                       </Col>
                     ))}
-                    {materialRequestFlowFormFields.slice(2, 3).map((item) => (
-                      <Col span={4}>
+                    {expenseFlowFormFields.slice(2).map((item) => (
+                      <Col span={item.colSpan}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -159,7 +163,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
                         </div>
                       </Col>
                     ))}
-                    <Col span={3}>
+                    <Col span={2}>
                       <Button
                         // style={{ width: '9vw' }}
                         style={index != 0 ? {top: '-2vh'} : null}
@@ -167,7 +171,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
                         onClick={() => {
                           remove(field.name);
                         }}>
-                        <MinusCircleOutlined /> Delete
+                        <MinusCircleOutlined />
                       </Button>
                     </Col>
                   </Row>

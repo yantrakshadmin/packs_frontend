@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
-import {MaterialRequestForm} from 'forms/materialRequest.form';
+import {ExpenseForm} from 'forms/expense.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import MaterialRequestsTable from 'components/MaterialRequestsTable';
 import {deleteHOC} from 'hocs/deleteHoc';
@@ -15,7 +15,7 @@ import Edit from 'icons/Edit';
 
 const {Search} = Input;
 
-const MaterialRequestEmployeeScreen = ({currentPage, isEmployee}) => {
+const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
@@ -205,8 +205,8 @@ const MaterialRequestEmployeeScreen = ({currentPage, isEmployee}) => {
 
   const tabs = [
     {
-      name: 'All Material Requests',
-      key: 'allMaterialRequests',
+      name: 'All Expenses',
+      key: 'allExpenses',
       data: mergeArray(filteredData || [], mrStatusData || []),
       columns,
       loading,
@@ -226,10 +226,10 @@ const MaterialRequestEmployeeScreen = ({currentPage, isEmployee}) => {
         refresh={reload}
         tabs={tabs}
         size="middle"
-        title="Material Requests"
+        title="Expenses"
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={MaterialRequestForm}
+        modalBody={ExpenseForm}
         modalWidth={80}
         formParams={{isEmployee}}
         expandHandleKey="flows"
@@ -244,4 +244,4 @@ const mapStateToProps = (state) => {
   return {currentPage: state.page.currentPage};
 };
 
-export default connect(mapStateToProps)(MaterialRequestEmployeeScreen);
+export default connect(mapStateToProps)(ExpenseEmployeeScreen);

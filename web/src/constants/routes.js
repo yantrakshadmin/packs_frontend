@@ -278,6 +278,13 @@ export const employeeRoutes = [
     Component: lazy(() => import('screens/client/outwardDocket.screen')),
     props: {isEmployee: true},
   },
+  {
+    name: 'Expense',
+    icon: ['fas', 'money-check-alt'],
+    path: '/expense/',
+    Component: lazy(() => import('screens/employee/Expense.screen')),
+    props: {isEmployee: false},
+  },
 ];
 
 export const clientRoutes = [
@@ -307,6 +314,7 @@ export const clientRoutes = [
     icon: ['fas', 'notes-medical'],
     path: '/material-request/',
     Component: lazy(() => import('screens/client/MaterialRequest.screen')),
+    props: {isEmployee: false},
   },
   {
     name: 'Volume Plan',
