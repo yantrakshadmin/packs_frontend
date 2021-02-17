@@ -42,11 +42,13 @@ export const expenseFormFields = [
     // rules: [{required: true, message: 'Please upload bill!'}],
     kwargs: {
       placeholder: 'Upload',
+      multiple: true,
     },
     type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
-    others: null,
+    others: {
+      p1: 'Click or drag single/multiple files.',
+    },
     customLabel: 'Upload Bill',
-    multiple: true,
     colSpan: 6,
   },
   {
