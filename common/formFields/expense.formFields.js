@@ -2,6 +2,8 @@ import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
 
 const transactionTypeOptions = ['Allot', 'Return'];
 
+const statusOptions = ['Approved', 'Hold', 'Rejected'];
+
 export const expenseFormFields = [
   {
     key: 'invoice_date',
@@ -49,9 +51,33 @@ export const expenseFormFields = [
     },
     type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
     others: {
-      p1: 'Click or drag single/multiple files.',
+      //p1: 'Click or drag single/multiple files.',
     },
     customLabel: 'Upload Bill',
+    colSpan: 6,
+  },
+  {
+    key: 'amount',
+    // rules: [{required: true, message: 'Please enter amount exc gst!'}],
+    kwargs: {
+      placeholder: 'Amount',
+      type: 'number',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Amount',
+    colSpan: 6,
+  },
+  {
+    key: 'gst',
+    // rules: [{required: true, message: 'Please enter amount exc gst!'}],
+    kwargs: {
+      placeholder: 'GST (%)',
+      type: 'number',
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'GST (%)',
     colSpan: 6,
   },
   {
@@ -60,22 +86,11 @@ export const expenseFormFields = [
     kwargs: {
       placeholder: 'Total Amount',
       type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     customLabel: 'Total Amount',
-    colSpan: 6,
-  },
-  {
-    key: 'amount_exc_gst',
-    // rules: [{required: true, message: 'Please enter amount exc gst!'}],
-    kwargs: {
-      placeholder: 'Amount Excluding GST',
-      type: 'number',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Amount Excluding GST',
     colSpan: 6,
   },
   {
@@ -87,6 +102,17 @@ export const expenseFormFields = [
     type: FORM_ELEMENT_TYPES.SELECT,
     others: {selectOptions: transactionTypeOptions},
     customLabel: 'Transaction Type',
+    colSpan: 6,
+  },
+  {
+    key: 'status',
+    // rules: [{required: true, message: 'Please select transaction type!'}],
+    kwargs: {
+      placeholder: 'Select',
+    },
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: {selectOptions: statusOptions},
+    customLabel: 'Status',
     colSpan: 6,
   },
 ];

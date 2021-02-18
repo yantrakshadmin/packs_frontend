@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import {Form, Col, Row, Button, Divider, Spin, message} from 'antd';
 import {expenseFormFields, expenseFlowFormFields} from 'common/formFields/expense.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
@@ -93,6 +93,21 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
             form.setFieldsValue({transactions: []});
             setTTTouched(true);
           }
+          if (thisField === 'amount' || thisField === 'gst') {
+            if (form.getFieldValue('amount') && form.getFieldValue('gst')) {
+              form.setFieldsValue({
+                total_amount: _.round(
+                  parseFloat(form.getFieldValue('amount')) +
+                    parseFloat(form.getFieldValue('amount') * (form.getFieldValue('gst') / 100)),
+                  2,
+                ),
+              });
+            } else {
+              form.setFieldsValue({
+                total_amount: 0,
+              });
+            }
+          }
         }
       }
     },
@@ -104,6 +119,7 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
       <Divider orientation="left">Expense Details</Divider>
       <Form
         onFinish={preProcess}
+        initialValues={{status: 'Hold'}}
         form={form}
         layout="vertical"
         hideRequiredMark
@@ -132,14 +148,44 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
               </div>
             </Col>
           ))}
-          {expenseFormFields.slice(3, 6).map((item, idx) => (
+          {expenseFormFields.slice(3, 4).map((item, idx) => (
+            <Col span={item.colSpan}>
+              <div key={idx} className="p-2">
+                {formItem({
+                  ...item,
+                  kwargs: {
+                    ...item.kwargs,
+                    onChange(info) {
+                      const {fileList} = info;
+                      console.log(fileList);
+                      fileList.forEach((f) => {
+                        if (f.status === 'error') {
+                          message.error(`${f.name} file upload failed.`);
+                        }
+                      });
+                      // if (status !== 'uploading') {
+                      //   console.log(info.file, info.fileList);
+                      // }
+                      // if (status === 'done') {
+                      //   setFile(info.file);
+                      //   message.success(`${info.file.name} file uploaded successfully.`);
+                      // } else if (status === 'error') {
+                      //   message.error(`${info.file.name} file upload failed.`);
+                      // }
+                    },
+                  },
+                })}
+              </div>
+            </Col>
+          ))}
+          {expenseFormFields.slice(4, 7).map((item, idx) => (
             <Col span={item.colSpan}>
               <div key={idx} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
           ))}
-          {expenseFormFields.slice(6).map((item, idx) => (
+          {expenseFormFields.slice(7, 8).map((item, idx) => (
             <Col span={item.colSpan}>
               <div key={idx} className="p-2">
                 {formItem({
@@ -149,6 +195,13 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
                     disabled: id ? true : false,
                   },
                 })}
+              </div>
+            </Col>
+          ))}
+          {expenseFormFields.slice(8).map((item, idx) => (
+            <Col span={item.colSpan}>
+              <div key={idx} className="p-2">
+                {formItem(item)}
               </div>
             </Col>
           ))}

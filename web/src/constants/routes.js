@@ -60,6 +60,7 @@ export const outerRoutesClient = [
   {
     path: '/return-docket/',
     Component: lazy(() => import('components/ReturnDocket/ReturnDocket')),
+    props: {isClient: true},
   },
   {
     path: '/outward-docket/:id',
