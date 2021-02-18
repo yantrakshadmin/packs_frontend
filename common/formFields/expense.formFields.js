@@ -31,8 +31,11 @@ export const expenseFormFields = [
     // rules: [{required: true, message: 'Please select vendor!'}],
     kwargs: {
       placeholder: 'Select',
+      showSearch: true,
+      filterOption: (input, option) =>
+        option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
     },
-    type: FORM_ELEMENT_TYPES.DATE,
+    type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
     customLabel: 'Vendor',
     colSpan: 6,
@@ -90,10 +93,13 @@ export const expenseFormFields = [
 
 export const expenseFlowFormFields = [
   {
-    key: 'transaction_number',
-    // rules: [{required: true, message: 'Please select flow!'}],
+    key: 'transaction_no',
+    // rules: [{required: true, message: 'Please select vendor!'}],
     kwargs: {
       placeholder: 'Select',
+      showSearch: true,
+      // filterOption: (input, option) =>
+      //   option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
     },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
@@ -102,11 +108,13 @@ export const expenseFlowFormFields = [
   },
   {
     key: 'first_mile',
-    // rules: [{required: true, message: 'Please select kit!'}],
+    // rules: [{required: true, message: 'Please select quantity!'}],
     kwargs: {
-      placeholder: 'Select',
+      placeholder: 'First Mile',
+      type: 'number',
+      min: 0,
     },
-    type: FORM_ELEMENT_TYPES.SELECT,
+    type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     customLabel: 'First Mile',
     colSpan: 3,
