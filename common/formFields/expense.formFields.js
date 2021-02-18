@@ -97,9 +97,6 @@ export const expenseFlowFormFields = [
     // rules: [{required: true, message: 'Please select vendor!'}],
     kwargs: {
       placeholder: 'Select',
-      showSearch: true,
-      // filterOption: (input, option) =>
-      //   option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
     },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
