@@ -274,8 +274,8 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
 
   const tabs = [
     {
-      name: 'All Return Dockets',
-      key: 'allReturnDockets',
+      name: 'All Outward Dockets',
+      key: 'allOutwardDockets',
       data: filteredData,
       columns,
       loading,

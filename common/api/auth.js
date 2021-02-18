@@ -1145,3 +1145,10 @@ export const createMRStatus = (data) => {
     data,
   });
 };
+
+export const createExpense = (src) =>
+  loadAPI('/create-expense/', {
+    method: 'POST',
+    data: src,
+    secure: true,
+  });
