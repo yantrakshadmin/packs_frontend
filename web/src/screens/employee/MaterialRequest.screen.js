@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import materialEmployeecolumns from 'common/columns/materialEmployee.column';
-import { Link } from '@reach/router';
+import {Link} from '@reach/router';
 import {
   Button,
   Col,
@@ -13,30 +13,28 @@ import {
   Space,
   Typography,
 } from 'antd';
-import { connect } from 'react-redux';
-import { useTableSearch } from 'hooks/useTableSearch';
-import { deleteAddMr, retrieveEmployeeMrs } from 'common/api/auth';
+import {connect} from 'react-redux';
+import {useTableSearch} from 'hooks/useTableSearch';
+import {deleteAddMr, retrieveEmployeeMrsEfficient} from 'common/api/auth';
 import moment from 'moment';
-import {
-  ALLOTMENT_DOCKET_PASSWORD,
-} from 'common/constants/allotmentDocketPassword';
-import { EyeInvisibleOutlined, EyeTwoTone, } from '@ant-design/icons';
-import { loadAPI } from 'common/helpers/api';
-import { useAPI } from 'common/hooks/api';
-import { mergeArray, statusCheck } from 'common/helpers/mrHelper';
-import MaterialRequestsTable from '../../components/MaterialRequestsTable';
+import {ALLOTMENT_DOCKET_PASSWORD} from 'common/constants/allotmentDocketPassword';
+import {EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
+import {loadAPI} from 'common/helpers/api';
+import {useAPI} from 'common/hooks/api';
+import {mergeArray, statusCheck} from 'common/helpers/mrHelper';
+import ExpandTable from '../../components/MaterialRequestsTable';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import { AddMaterialRequestForm } from '../../forms/addMaterialRequest.form';
+import {AddMaterialRequestForm} from '../../forms/addMaterialRequest.form';
 import Edit from '../../icons/Edit';
-import { deleteHOC } from '../../hocs/deleteHoc';
+import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
-import { ActionsPopover } from '../../components/ActionsPopover';
-import { MRRejectionForm } from '../../forms/MRRejection.form';
+import {ActionsPopover} from '../../components/ActionsPopover';
+import {MRRejectionForm} from '../../forms/MRRejection.form';
 
-const { Search } = Input;
-const { Title } = Typography;
+const {Search} = Input;
+const {Title} = Typography;
 
-const ReceiverClientEmployeeScreen = ({ currentPage }) => {
+const ReceiverClientEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
@@ -45,96 +43,94 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
   const [rejectionVisible, setRejectionVisible] = useState(false);
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [popoverEditVisible, setPopoverEditVisible] = useState(false);
-  const { filteredData, loading, reload } = useTableSearch({
+  const {filteredData, loading, reload} = useTableSearch({
     searchVal,
-    retrieve: retrieveEmployeeMrs,
+    retrieve: retrieveEmployeeMrsEfficient,
   });
 
-  const { data:mrStatusData } = useAPI('list-mrstatus/')
+  const {data: mrStatusData} = useAPI('list-mrstatus/');
 
-  const [userData,setUserData] = useState({ password:'' })
+  const [userData, setUserData] = useState({password: ''});
 
   const PasswordPopUp = (
-    <Space direction='vertical'>
+    <Space direction="vertical">
       <Input.Password
         value={userData.password}
-        onChange={(e)=>{setUserData({ ...userData,password:e.target.value })}}
-        placeholder='input password'
-        iconRender={show => (show ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+        onChange={(e) => {
+          setUserData({...userData, password: e.target.value});
+        }}
+        placeholder="input password"
+        iconRender={(show) => (show ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
       />
-      <Button onClick={()=>{
-        if(userData.password === ALLOTMENT_DOCKET_PASSWORD){
-          setUserData({ password:'' });
-          if(editingId){
-            setPopoverEditVisible(false);
-          }else{
-            setPopoverVisible(false);
+      <Button
+        onClick={() => {
+          if (userData.password === ALLOTMENT_DOCKET_PASSWORD) {
+            setUserData({password: ''});
+            if (editingId) {
+              setPopoverEditVisible(false);
+            } else {
+              setPopoverVisible(false);
+            }
+            setMaterialReqVisible(true);
+          } else {
+            notification.error({
+              message: 'Invalid Password',
+            });
           }
-          setMaterialReqVisible(true);
-        }
-        else{
-          notification.error({
-            message:'Invalid Password'
-          })
-        }
-      }}>
+        }}>
         Proceed
       </Button>
     </Space>
   );
-  const getFilterOptions=()=>{
-    const arr=  [...new Set(
-      (filteredData|| []).map(item =>
-        (( `${item.owner.first_name  } ${  item.owner.last_name}`))))]
-    return arr.map(item=>({ text:item,value:item }))
-  }
+  const getFilterOptions = () => {
+    const arr = [...new Set((filteredData || []).map((item) => item.owner))];
+    return arr.map((item) => ({text: item, value: item}));
+  };
   useEffect(() => {
     if (filteredData) {
-      const csvd = [];
-      filteredData.forEach((d) => {
-        const temp = {
-          ...d,
-          'owner': d.owner.first_name + d.owner.last_name,
-          'delivery_required_on': d.delivery_required_on.slice(0, 10),
-        };
-        delete temp.flows;
-        csvd.push(temp);
-        d.flows.forEach((flo) => {
-          csvd.push({
-            FlowName: flo.flow.flow_name,
-            KitName: flo.kit.kit_name,
-            Quantity: flo.quantity,
-          });
-        });
-      });
+      // const csvd = [];
+      // filteredData.forEach((d) => {
+      //   const temp = {
+      //     ...d,
+      //     owner: d.owner.first_name + d.owner.last_name,
+      //     delivery_required_on: d.delivery_required_on.slice(0, 10),
+      //   };
+      //   delete temp.flows;
+      //   csvd.push(temp);
+      //   d.flows.forEach((flo) => {
+      //     csvd.push({
+      //       FlowName: flo.flow.flow_name,
+      //       KitName: flo.kit.kit_name,
+      //       Quantity: flo.quantity,
+      //     });
+      //   });
+      // });
       setFilterOptions(getFilterOptions());
-      setCsvData(csvd);
+      //setCsvData(csvd);
     }
   }, [filteredData]);
-
-
-
 
   const columns = [
     ...materialEmployeecolumns,
     {
-      title: 'Owner Name',
-      key: 'owner_name',
-      filters:filterOptions ||[],
-      onFilter: (value, record) =>
-        `${record.owner.first_name  } ${  record.owner.last_name}` === value,
+      title: 'Owner',
+      key: 'owner',
+      filters: filterOptions || [],
+      onFilter: (value, record) => record.owner === value,
       render: (text, record) => {
-        return `${record.owner.first_name  } ${  record.owner.last_name}`;
+        return record.owner;
       },
     },
     {
       title: 'Delivery Required On',
       key: 'delivery_required_on',
-      sorter: (a, b) => moment(a.delivery_required_on).unix() - moment(b.delivery_required_on).unix(),
+      sorter: (a, b) =>
+        moment(a.delivery_required_on).unix() - moment(b.delivery_required_on).unix(),
       render: (text, record) => {
         return moment(record.delivery_required_on).format('DD/MM/YYYY');
       },
-    },{
+    },
+    {
       title: 'Status',
       key: 'status',
       className: 'align-center',
@@ -146,17 +142,18 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
         {
           text: 'Pending',
           value: 'Pending',
-        },{
+        },
+        {
           text: 'Rejected',
           value: 'Rejected',
         },
       ],
-      onFilter: (value, record) => statusCheck(record.is_allocated,record.is_rejected) === value,
+      onFilter: (value, record) => statusCheck(record.is_allocated, record.is_rejected) === value,
       render: (text, record) => {
-        if (record.is_allocated && (!record.is_rejected) )
+        if (record.is_allocated && !record.is_rejected)
           return (
             <Button
-              type='primary'
+              type="primary"
               style={{
                 backgroundColor: '#00FF00',
                 outline: 'none',
@@ -167,10 +164,10 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
               Allocated
             </Button>
           );
-        if((!record.is_allocated) && (!record.is_rejected)){
+        if (!record.is_allocated && !record.is_rejected) {
           return (
             <Button
-              type='primary'
+              type="primary"
               style={{
                 backgroundColor: 'red',
                 outline: 'none',
@@ -184,34 +181,37 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
             </Button>
           );
         }
-        if((!record.is_allocated) && record.is_rejected){
-          return(
-            <Popover content={(
-              <div style={{ width:'20rem' }}>
-                <text>
-                  <b>Reason : </b>
-                  {record.reason}
-                </text>
-                <br />
-                {record.remarks?(
+        if (!record.is_allocated && record.is_rejected) {
+          return (
+            <Popover
+              content={
+                <div style={{width: '20rem'}}>
                   <text>
-                    <b>Remarks : </b>
-                    {record.remarks}
+                    <b>Reason : </b>
+                    {record.reason}
                   </text>
-                ):null}
-              </div>
-          )}>
-              <Button type='primary' danger>Rejected</Button>
+                  <br />
+                  {record.remarks ? (
+                    <text>
+                      <b>Remarks : </b>
+                      {record.remarks}
+                    </text>
+                  ) : null}
+                </div>
+              }>
+              <Button type="primary" danger>
+                Rejected
+              </Button>
             </Popover>
-          )
+          );
         }
-        return(<div />)}
-      ,
+        return <div />;
+      },
     },
     {
       title: 'Raised By',
       key: 'raised_by',
-      dataIndex: 'raised_by'
+      dataIndex: 'raised_by',
     },
     {
       title: 'Options',
@@ -219,42 +219,43 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
       width: '10vw',
       render: (text, record) => (
         <ActionsPopover
-          triggerTitle='Options'
-          buttonList={
-            [{
-              Component:()=>(
+          triggerTitle="Options"
+          buttonList={[
+            {
+              Component: () => (
                 <Button
-                  type='primary'
+                  type="primary"
                   disabled={record.is_allocated || record.is_rejected}
                   onClick={async (e) => {
-                    const response  = await loadAPI('reate-mrstatus/',
-                      {
-                        method:'Post',
-                        data:{ mr:record.id } });
-                    e.stopPropagation()
+                    const response = await loadAPI('reate-mrstatus/', {
+                      method: 'Post',
+                      data: {mr: record.id},
+                    });
+                    e.stopPropagation();
                   }}>
-                  <Link to='../create-allotment/' state={{ id: record.id }} key={record.id}>
+                  <Link to="../create-allotment/" state={{id: record.id}} key={record.id}>
                     Create Allotment Docket
                   </Link>
                 </Button>
-              )
+              ),
             },
             {
-              Component: ()=>(
+              Component: () => (
                 <Button
-                  className='mx-2'
-                  type='primary'
+                  className="mx-2"
+                  type="primary"
                   disabled={record.is_allocated || record.is_rejected}
                   onClick={(e) => {
                     setEditingId(record.id);
                     setRejectionVisible(true);
-                    e.stopPropagation()}}>
+                    e.stopPropagation();
+                  }}>
                   Reject
                 </Button>
-              )
-            }
-            ]
-          } />
+              ),
+            },
+          ]}
+        />
       ),
     },
     //     {
@@ -294,14 +295,15 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
       key: 'operation',
       width: '9vw',
       render: (text, record) => (
-        <div className='row justify-evenly'>
+        <div className="row justify-evenly">
           <Popover
             content={PasswordPopUp}
-            title='Verify'
-            trigger='click'
+            title="Verify"
+            trigger="click"
             visible={popoverEditVisible && record.id === editingId}
-            onVisibleChange={(e)=>{setPopoverEditVisible(e)}}
-          >
+            onVisibleChange={(e) => {
+              setPopoverEditVisible(e);
+            }}>
             <Button
               style={{
                 backgroundColor: 'transparent',
@@ -318,7 +320,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
             </Button>
           </Popover>
           <Popconfirm
-            title='Confirm Delete'
+            title="Confirm Delete"
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
               record,
@@ -347,13 +349,16 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
     {
       name: 'All Material Requests',
       key: 'allMaterialRequests',
-      data: mergeArray((filteredData||[]),(mrStatusData||[])),
+      data: mergeArray(filteredData || [], mrStatusData || []),
       columns,
       loading,
     },
   ];
 
-  const cancelEditing = () =>{ setEditingId(null);reload();};
+  const cancelEditing = () => {
+    setEditingId(null);
+    reload();
+  };
 
   return (
     <>
@@ -361,8 +366,8 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
         maskClosable={false}
         visible={materialReqVisible}
         destroyOnClose
-        style={{ minWidth: `80vw` }}
-        title='Add Material Request'
+        style={{minWidth: `80vw`}}
+        title="Add Material Request"
         onCancel={(e) => {
           setMaterialReqVisible(false);
           cancelEditing();
@@ -371,16 +376,22 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
         footer={null}>
         <AddMaterialRequestForm
           id={editingId}
-          onDone={()=>{reload();setMaterialReqVisible(false)}}
-          onCancel={()=>{reload();setMaterialReqVisible(false)}}
+          onDone={() => {
+            reload();
+            setMaterialReqVisible(false);
+          }}
+          onCancel={() => {
+            reload();
+            setMaterialReqVisible(false);
+          }}
         />
       </Modal>
       <Modal
         maskClosable={false}
         visible={rejectionVisible}
         destroyOnClose
-        style={{ minWidth: `80vw` }}
-        title='Reject Material Request'
+        style={{minWidth: `80vw`}}
+        title="Reject Material Request"
         onCancel={(e) => {
           setRejectionVisible(false);
           cancelEditing();
@@ -389,29 +400,34 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
         footer={null}>
         <MRRejectionForm
           mr={editingId}
-          onDone={()=>{setRejectionVisible(false)}}
-          onCancel={()=>{setRejectionVisible(false)}}
+          onDone={() => {
+            setRejectionVisible(false);
+          }}
+          onCancel={() => {
+            setRejectionVisible(false);
+          }}
         />
       </Modal>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
       </div>
       <br />
-      <Row justify='space-between'>
+      <Row justify="space-between">
         <Col>
           <Title level={3}>Material Requests</Title>
         </Col>
         <Col>
           <Popover
             content={PasswordPopUp}
-            title='Verify'
-            trigger='click'
+            title="Verify"
+            trigger="click"
             visible={popoverVisible}
-            onVisibleChange={(e)=>{setPopoverVisible(e)}}
-          >
-            <Button type='primary'>Add Material Request</Button>
+            onVisibleChange={(e) => {
+              setPopoverVisible(e);
+            }}>
+            <Button type="primary">Add Material Request</Button>
           </Popover>
         </Col>
       </Row>
@@ -419,23 +435,22 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size='middle'
-        title=''
-        // editingId={editingId}
-        // cancelEditing={cancelEditing}
-        ExpandBody={MaterialRequestsTable}
-        expandHandleKey='flows'
+        size="middle"
+        title=""
+        //editingId={editingId}
+        //cancelEditing={cancelEditing}
+        ExpandBody={ExpandTable}
         hideRightButton
-        expandParams={{ loading }}
-        csvdata={csvData}
-        csvname={`MRs${  searchVal  }.csv`}
+        //expandParams={{loading}}
+        //csvdata={csvData}
+        //csvname={`MRs${searchVal}.csv`}
       />
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  return { currentPage: state.page.currentPage };
+  return {currentPage: state.page.currentPage};
 };
 
 export default connect(mapStateToProps)(ReceiverClientEmployeeScreen);

@@ -8,7 +8,7 @@ import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
 import {MaterialRequestForm} from 'forms/materialRequest.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
-import MaterialRequestsTable from 'components/MaterialRequestsTable';
+import MaterialRequestsTable from 'components/MaterialRequestsTableClient';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';

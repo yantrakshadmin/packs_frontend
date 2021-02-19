@@ -589,6 +589,12 @@ export const retrieveEmployeeMrs = () =>
     secure: true,
   });
 
+export const retrieveEmployeeMrsEfficient = () =>
+  loadAPI('/allmrequest-table/', {
+    method: 'GET',
+    secure: true,
+  });
+
 export const createAllotment = ({
   transaction_no,
   dispatch_date,

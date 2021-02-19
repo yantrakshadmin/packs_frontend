@@ -46,8 +46,38 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
       data.transactions = newFlows;
     }
 
-    console.log(data);
-    submit(data);
+    let failed = false;
+    const {bill} = data;
+    if (bill) {
+      try {
+        const {fileList} = data.bill;
+        const newFileList = fileList.map((f) => {
+          if (f.status !== 'done') {
+            message.error(`${f.name} has not been uploaded yet!`);
+            failed = true;
+          } else {
+            return f.originFileObj;
+          }
+        });
+        if (!failed) {
+          data.bill = newFileList;
+          const req = new FormData();
+          for (const key in data) {
+            req.append(key.toString(), data[key]);
+          }
+          submit(req);
+        }
+      } catch (err) {
+        alert(err);
+        message.error(`Something went wrong!`);
+      }
+    } else {
+      const req = new FormData();
+      for (const key in data) {
+        req.append(key.toString(), data[key]);
+      }
+      submit(req);
+    }
   };
 
   const getTranastionSelectOptions = useCallback(() => {
