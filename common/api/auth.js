@@ -1157,4 +1157,7 @@ export const createExpense = (src) =>
     method: 'POST',
     data: src,
     secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
+    },
   });
