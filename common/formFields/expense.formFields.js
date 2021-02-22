@@ -7,7 +7,7 @@ const statusOptions = ['Approved', 'Hold', 'Rejected'];
 export const expenseFormFields = [
   {
     key: 'invoice_date',
-    // rules: [{required: true, message: 'Please select invoice date!'}],
+    rules: [{required: true, message: 'Please select invoice date!'}],
     kwargs: {
       placeholder: 'Select',
     },
@@ -18,7 +18,7 @@ export const expenseFormFields = [
   },
   {
     key: 'invoice_number',
-    // rules: [{required: true, message: 'Please enter invoice number!'}],
+    rules: [{required: true, message: 'Please enter invoice number!'}],
     kwargs: {
       placeholder: 'Invoice Number',
       type: 'number',
@@ -30,7 +30,7 @@ export const expenseFormFields = [
   },
   {
     key: 'vendor',
-    // rules: [{required: true, message: 'Please select vendor!'}],
+    rules: [{required: true, message: 'Please select vendor!'}],
     kwargs: {
       placeholder: 'Select',
       showSearch: true,
@@ -44,7 +44,7 @@ export const expenseFormFields = [
   },
   {
     key: 'bill',
-    // rules: [{required: true, message: 'Please upload bill!'}],
+    //rules: [{required: true, message: 'Please upload bill!'}],
     kwargs: {
       placeholder: 'Upload',
       multiple: true,
@@ -58,7 +58,7 @@ export const expenseFormFields = [
   },
   {
     key: 'amount',
-    // rules: [{required: true, message: 'Please enter amount exc gst!'}],
+    rules: [{required: true, message: 'Please enter amount exc gst!'}],
     kwargs: {
       placeholder: 'Amount',
       type: 'number',
@@ -70,7 +70,7 @@ export const expenseFormFields = [
   },
   {
     key: 'gst',
-    // rules: [{required: true, message: 'Please enter amount exc gst!'}],
+    rules: [{required: true, message: 'Please enter amount exc gst!'}],
     kwargs: {
       placeholder: 'GST (%)',
       type: 'number',
@@ -82,7 +82,7 @@ export const expenseFormFields = [
   },
   {
     key: 'total_amount',
-    // rules: [{required: true, message: 'Please enter total amount!'}],
+    rules: [{required: true, message: 'Please enter total amount!'}],
     kwargs: {
       placeholder: 'Total Amount',
       type: 'number',
@@ -95,7 +95,7 @@ export const expenseFormFields = [
   },
   {
     key: 'transaction_type',
-    // rules: [{required: true, message: 'Please select transaction type!'}],
+    rules: [{required: true, message: 'Please select transaction type!'}],
     kwargs: {
       placeholder: 'Select',
     },
@@ -106,7 +106,7 @@ export const expenseFormFields = [
   },
   {
     key: 'status',
-    // rules: [{required: true, message: 'Please select transaction type!'}],
+    rules: [{required: true, message: 'Please select transaction type!'}],
     kwargs: {
       placeholder: 'Select',
     },
@@ -119,8 +119,8 @@ export const expenseFormFields = [
 
 export const expenseFlowFormFields = [
   {
-    key: 'transaction_no',
-    // rules: [{required: true, message: 'Please select vendor!'}],
+    key: 't_no',
+    rules: [{required: true, message: 'Please select vendor!'}],
     kwargs: {
       placeholder: 'Select',
     },
@@ -130,8 +130,8 @@ export const expenseFlowFormFields = [
     colSpan: 7,
   },
   {
-    key: 'first_mile',
-    // rules: [{required: true, message: 'Please select quantity!'}],
+    key: 'f_mile',
+    rules: [{required: true, message: 'Please select quantity!'}],
     kwargs: {
       placeholder: 'First Mile',
       type: 'number',
@@ -144,7 +144,7 @@ export const expenseFlowFormFields = [
   },
   {
     key: 'long_haul',
-    // rules: [{required: true, message: 'Please select quantity!'}],
+    rules: [{required: true, message: 'Please select quantity!'}],
     kwargs: {
       placeholder: 'Select',
       type: 'number',
@@ -156,8 +156,8 @@ export const expenseFlowFormFields = [
     colSpan: 3,
   },
   {
-    key: 'last_mile',
-    // rules: [{required: true, message: 'Please select quantity!'}],
+    key: 'l_mile',
+    rules: [{required: true, message: 'Please select quantity!'}],
     kwargs: {
       placeholder: 'Select',
       type: 'number',
@@ -170,7 +170,7 @@ export const expenseFlowFormFields = [
   },
   {
     key: 'labour',
-    // rules: [{required: true, message: 'Please select quantity!'}],
+    rules: [{required: true, message: 'Please select quantity!'}],
     kwargs: {
       placeholder: 'Select',
       type: 'number',
@@ -182,15 +182,15 @@ export const expenseFlowFormFields = [
     colSpan: 3,
   },
   {
-    key: 'other',
-    // rules: [{required: true, message: 'Please select quantity!'}],
+    key: 'others',
+    //rules: [{required: true, message: 'Please select quantity!'}],
     kwargs: {
       placeholder: 'Select',
       min: 0,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
-    customLabel: 'Other',
+    customLabel: 'Others',
     colSpan: 3,
   },
 ];
