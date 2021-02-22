@@ -1,32 +1,32 @@
-import React, { useState } from 'react';
-import { useAPI } from 'common/hooks/api';
-import { Button, Col, Form, Input, Popconfirm, Row } from 'antd';
+import React, {useState} from 'react';
+import {useAPI} from 'common/hooks/api';
+import {Button, Col, Form, Input, Popconfirm, Row} from 'antd';
 import formItem from 'hocs/formItem.hoc';
-import { FORM_ELEMENT_TYPES } from 'constants/formFields.constant';
-import { MasterHOC } from 'hocs/Master.hoc';
-import { createTestInv, deleteTestInv, retrieveTestInv } from 'common/api/auth';
-import { loadAPI } from 'common/helpers/api';
-import { TestInventoryDetailColumn } from 'common/columns/testInventoryDetail.column';
-import { useHandleForm } from '../../hooks/form';
-import { deleteHOC } from '../../hocs/deleteHoc';
+import {FORM_ELEMENT_TYPES} from 'constants/formFields.constant';
+import {MasterHOC} from 'hocs/Master.hoc';
+import {createTestInv, deleteTestInv, retrieveTestInv} from 'common/api/auth';
+import {loadAPI} from 'common/helpers/api';
+import {TestInventoryDetailColumn} from 'common/columns/testInventoryDetail.column';
+import {useHandleForm} from '../../hooks/form';
+import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
-import { useTableSearch } from '../../hooks/useTableSearch';
+import {useTableSearch} from '../../hooks/useTableSearch';
 
-const { Search } = Input;
+const {Search} = Input;
 
 export const TestInventoryScreen = () => {
-  const { data: products  } = useAPI('/products/', {});
-  const [details,setDetails] = useState([]);
-  const [detailsLoading,setDetailsLoading] = useState(false);
-  const [selectedProduct,setSelectedProduct] = useState('');
+  const {data: products} = useAPI('/products/', {});
+  const [details, setDetails] = useState([]);
+  const [detailsLoading, setDetailsLoading] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState('');
   const [searchVal, setSearchVal] = useState(null);
 
-  const { filteredData:invData, loading:invLoading, reload } = useTableSearch({
+  const {filteredData: invData, loading: invLoading, reload} = useTableSearch({
     searchVal,
     retrieve: retrieveTestInv,
   });
-  console.log(invData,'Ggg')
-  const { form, submit, loading } = useHandleForm({
+  console.log(invData, 'Ggg');
+  const {form, submit, loading} = useHandleForm({
     create: createTestInv,
     success: 'Inventory created/edited successfully.',
     failure: 'Error in creating/editing Inventory.',
@@ -36,46 +36,46 @@ export const TestInventoryScreen = () => {
     close: () => null,
   });
 
-
-
-  const column  = [
+  const column = [
     {
-      title:'Product',
-      key:'product',
-      dataIndex:'product',
-      render:(product)=><div>{product.short_code}</div>
+      title: 'Product',
+      key: 'product',
+      dataIndex: 'product',
+      render: (product) => <div>{product.short_code}</div>,
     },
     {
-      title:'Quantity',
-      key:'quantity',
-      dataIndex:'quantity'
+      title: 'Quantity',
+      key: 'quantity',
+      dataIndex: 'quantity',
     },
     {
-      title:'Product Info',
-      key:'product_info',
-      dataIndex:'product',
-      render:(product)=><div>{product.description}</div>
+      title: 'Product Info',
+      key: 'product_info',
+      dataIndex: 'product',
+      render: (product) => <div>{product.description}</div>,
     },
     {
       title: 'Action',
       key: 'operation',
       width: '9vw',
       render: (text, record) => (
-        <div className='row justify-evenly'>
+        <div className="row justify-evenly">
           <Button
-            type='primary'
+            type="primary"
             onClick={async (e) => {
               setSelectedProduct(record.product.short_code);
-              setDetailsLoading(true)
-              const { data } = await
-              loadAPI(`/ledger-items/?id=${record.product.id}`,{ method:'GET' });
+              setDetailsLoading(true);
+              const {data} = await loadAPI(`/ledger-items/?id=${record.product.short_code}`, {
+                method: 'GET',
+              });
               setDetails(data);
-              setDetailsLoading(false)
-              e.stopPropagation()}}>
+              setDetailsLoading(false);
+              e.stopPropagation();
+            }}>
             Details
           </Button>
           <Popconfirm
-            title='Confirm Delete'
+            title="Confirm Delete"
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
               record,
@@ -101,31 +101,28 @@ export const TestInventoryScreen = () => {
   ];
   const columnDetails = [
     {
-      title:'Product',
-      key:'product',
-      dataIndex:'product',
-      render:(product)=>(<div>{product.product}</div>)
+      title: 'Product',
+      key: 'product',
+      dataIndex: 'product',
+      render: (product) => <div>{product.product}</div>,
     },
     {
-      title:'Date',
-      key:'date',
-      dataIndex:'date',
-      render:(date)=><div>{date.slice(0,10)}</div>
-    }, ...TestInventoryDetailColumn ]
+      title: 'Date',
+      key: 'date',
+      dataIndex: 'date',
+      render: (date) => <div>{date.slice(0, 10)}</div>,
+    },
+    ...TestInventoryDetailColumn,
+  ];
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
       </div>
-      <Form
-        onFinish={submit}
-        form={form}
-        layout='vertical'
-        hideRequiredMark
-        autoComplete='off'>
-        <Row align='middle' gutter={32}>
+      <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
+        <Row align="middle" gutter={32}>
           <Col span={8}>
             {formItem({
               key: 'product',
@@ -156,7 +153,7 @@ export const TestInventoryScreen = () => {
             })}
           </Col>
           <Col span={4}>
-            <Button type='primary' htmlType='submit'>
+            <Button type="primary" htmlType="submit">
               Submit
             </Button>
           </Col>
@@ -164,25 +161,26 @@ export const TestInventoryScreen = () => {
       </Form>
 
       <Row gutter={32}>
-        <Col span={12}>
+        <Col lg={12}>
           <MasterHOC
             refresh={reload}
-            size='small'
+            size="small"
             data={invData}
             columns={column}
-            title='Inventory'
+            title="Inventory"
             hideRightButton
             loading={loading || invLoading}
-            />
+          />
         </Col>
-        <Col span={12}>
+        <Col lg={12}>
           <MasterHOC
-            size='small'
+            size="small"
             data={details}
             title={`${selectedProduct} Details`}
             hideRightButton
             loading={detailsLoading}
-            columns={columnDetails} />
+            columns={columnDetails}
+          />
         </Col>
       </Row>
     </div>
