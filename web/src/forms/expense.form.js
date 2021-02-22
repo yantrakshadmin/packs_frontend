@@ -33,17 +33,51 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
     done: onDone,
     close: onCancel,
     id,
-    dates: ['delivery_required_on'],
+    dates: ['invoice_date'],
   });
+
+  const toFormData = useCallback((data) => {
+    const req = new FormData();
+    let c = 0;
+    for (const key in data) {
+      if (key === 'transactions') {
+        req.append('transactions', JSON.stringify(data.transactions));
+      } else if (key === 'invoice_date') {
+        req.append(key.toString(), data[key].format());
+      } else if (key === 'bill') {
+        if (data[key]) {
+          req.append(key.toString(), data[key]);
+          data[key].forEach((el) => {
+            req.append(`bill${c}`, el);
+            c = c + 1;
+          });
+          req.set('no_of_bill_files', c);
+        }
+      } else {
+        req.append(key.toString(), data[key]);
+      }
+    }
+    return req;
+  }, []);
 
   const preProcess = (data) => {
     const {transactions} = data;
-    if (transactions) {
-      const newFlows = transactions.map((flo) => ({
-        ...flo,
-        transaction_no: Number(flo.transaction_no),
-      }));
-      data.transactions = newFlows;
+    const {transaction_type} = data;
+
+    if (transactions && transaction_type) {
+      if (transaction_type === 'Return') {
+        const newFlows = transactions.map((flo) => ({
+          ...flo,
+          r_t_no: Number(flo.t_no),
+        }));
+        data.transactions = newFlows;
+      } else {
+        const newFlows = transactions.map((flo) => ({
+          ...flo,
+          a_t_no: Number(flo.t_no),
+        }));
+        data.transactions = newFlows;
+      }
     }
 
     let failed = false;
@@ -61,22 +95,18 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
         });
         if (!failed) {
           data.bill = newFileList;
-          const req = new FormData();
-          for (const key in data) {
-            req.append(key.toString(), data[key]);
-          }
-          submit(req);
+          const finalData = toFormData(data);
+          console.log(finalData);
+          submit(finalData);
         }
       } catch (err) {
         alert(err);
         message.error(`Something went wrong!`);
       }
     } else {
-      const req = new FormData();
-      for (const key in data) {
-        req.append(key.toString(), data[key]);
-      }
-      submit(req);
+      const finalData = toFormData(data);
+      console.log(finalData);
+      submit(finalData);
     }
   };
 
@@ -126,10 +156,9 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
           if (thisField === 'amount' || thisField === 'gst') {
             if (form.getFieldValue('amount') && form.getFieldValue('gst')) {
               form.setFieldsValue({
-                total_amount: _.round(
+                total_amount: _.ceil(
                   parseFloat(form.getFieldValue('amount')) +
                     parseFloat(form.getFieldValue('amount') * (form.getFieldValue('gst') / 100)),
-                  2,
                 ),
               });
             } else {
