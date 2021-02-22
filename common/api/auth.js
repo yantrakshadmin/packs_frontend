@@ -589,6 +589,12 @@ export const retrieveEmployeeMrs = () =>
     secure: true,
   });
 
+export const retrieveEmployeeMrsEfficient = () =>
+  loadAPI('/allmrequest-table/', {
+    method: 'GET',
+    secure: true,
+  });
+
 export const createAllotment = ({
   transaction_no,
   dispatch_date,
@@ -1151,4 +1157,7 @@ export const createExpense = (src) =>
     method: 'POST',
     data: src,
     secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
+    },
   });

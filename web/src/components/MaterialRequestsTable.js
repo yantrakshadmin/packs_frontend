@@ -1,29 +1,45 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Table, Row, Col, Spin} from 'antd';
-import requestsTableColumns from 'common/columns/requestsTable.column';
+import {useAPI} from 'common/hooks/api';
 
-const MaterialRequestsTable = ({loading, flows}) => {
-  const [data, setData] = useState([]);
+const cols = [
+  {
+    title: 'Flow Name',
+    key: 'flow',
+    dataIndex: 'flow',
+  },
+  {
+    title: 'Kit Name',
+    key: 'kit',
+    dataIndex: 'kit',
+  },
+  {
+    title: 'Quantity',
+    key: 'quantity',
+    dataIndex: 'quantity',
+  },
+];
+
+const ExpandTable = (props) => {
+  const {data, loading} = useAPI(`mr-table-exp/?id=${props.id}`);
 
   useEffect(() => {
-    let temp = [];
-    temp = flows.map((record) => ({
-      quantity: record.quantity,
-      flow_name: record.flow.flow_name,
-      kit_name: record.kit.kit_name,
-    }));
-    setData(temp);
-  }, [flows]);
+    if (!loading) {
+      console.log(data);
+    }
+  }, [loading]);
 
   return (
-    <Spin spinning={loading}>
-      <Row align="center" style={{margin: '3vh'}}>
-        <Col span={24}>
-          <Table dataSource={data} columns={requestsTableColumns} size="small" pagination={false} />
-        </Col>
-      </Row>
-    </Spin>
+    <Row align="center" style={{margin: '3vh'}}>
+      <Col span={24}>
+        {loading ? (
+          <Spin spinning={loading} />
+        ) : (
+          <Table dataSource={data[0].flows} columns={cols} size="small" pagination={false} />
+        )}
+      </Col>
+    </Row>
   );
 };
 
-export default MaterialRequestsTable;
+export default ExpandTable;
