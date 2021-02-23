@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
-import materialRequestColumns from 'common/columns/materialRequest.column';
+import expenseColumns from 'common/columns/expense.column';
 import {Popconfirm, Button, Input, Popover} from 'antd';
-import {deleteMr, retrieveMrs} from 'common/api/auth';
+import {deleteExpense, retrieveExpenses} from 'common/api/auth';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
 import {ExpenseForm} from 'forms/expense.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
-import MaterialRequestsTable from 'components/MaterialRequestsTable';
+import ExpandTable from 'components/ExpenseExpandTable';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
@@ -19,146 +19,14 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveMrs});
+  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveExpenses});
   const {data: mrStatusData} = useAPI('list-mrstatus/');
   const cancelEditing = () => {
     setEditingId(null);
   };
 
   const columns = [
-    ...materialRequestColumns,
-
-    {
-      title: 'Status',
-      key: 'status',
-      className: 'align-center',
-      render: (text, record) => {
-        if (record.is_allocated && !record.is_rejected)
-          return (
-            <Button
-              type="primary"
-              style={{
-                backgroundColor: '#00FF00',
-                outline: 'none',
-                border: 'none',
-                borderRadius: '7%',
-              }}
-              onClick={(e) => e.stopPropagation()}>
-              Allocated
-            </Button>
-          );
-        if (!record.is_allocated && !record.is_rejected) {
-          return (
-            <Button
-              type="primary"
-              style={{
-                backgroundColor: 'red',
-                outline: 'none',
-                border: 'none',
-                borderRadius: '7%',
-                color: 'rgba(255,255,255,0.9)',
-              }}
-              onClick={(e) => e.stopPropagation()}>
-              Pending
-              {'  '}
-            </Button>
-          );
-        }
-        if (!record.is_allocated && record.is_rejected) {
-          return (
-            // <Popover
-            //   content={
-            //     <div style={{width: '20rem'}}>
-            //       <text>
-            //         <b>Reason : </b>
-            //         {record.reason}
-            //       </text>
-            //       <br />
-            //       {record.remarks ? (
-            //         <text>
-            //           <b>Remarks : </b>
-            //           {record.remarks}
-            //         </text>
-            //       ) : null}
-            //     </div>
-            //   }>
-            //   <Button type="primary" danger>
-            //     Rejected
-            //   </Button>
-            // </Popover>
-            <Button type="primary" danger>
-              Rejected
-            </Button>
-          );
-        }
-        return <div />;
-      },
-    },
-    {
-      title: 'Reason',
-      key: 'reason',
-      className: 'align-center',
-      render: (text, record) => {
-        if (record.is_allocated && !record.is_rejected) return '-';
-        if (!record.is_allocated && !record.is_rejected) {
-          return '-';
-        }
-        if (!record.is_allocated && record.is_rejected) {
-          return record.reason;
-        }
-        return <div />;
-      },
-    },
-    {
-      title: 'Remarks',
-      key: 'remarks',
-      className: 'align-center',
-      render: (text, record) => {
-        if (record.is_allocated && !record.is_rejected) return '-';
-        if (!record.is_allocated && !record.is_rejected) {
-          return '-';
-        }
-        if (!record.is_allocated && record.is_rejected) {
-          return record.remarks;
-        }
-        return <div />;
-      },
-    },
-    // {
-    //   title:'Request Status',
-    //   key:'is_rejected',
-    //   render:(row)=>(
-    //     <div>
-    //       {/* eslint-disable-next-line no-nested-ternary */}
-    //       {row.is_rejected?(
-    //         <Popover content={(
-    //           <div style={{ width:'20rem' }}>
-    //             <text>
-    //               <b>Reason : </b>
-    //               {row.reason}
-    //             </text>
-    //             <br />
-    //             {row.remarks?(
-    //               <text>
-    //                 <b>Remarks : </b>
-    //                 {row.remarks}
-    //               </text>
-    //             ):null}
-    //           </div>
-    //         )}>
-    //           <Button type='primary' danger>Rejected</Button>
-    //         </Popover>
-    //       ):row.is_rejected === undefined?(
-    //         <Button>Not Created</Button>
-    //       ):<div><Button type='primary'>Approved</Button></div>}
-    //     </div>
-    //   )
-    // },
-    {
-      title: 'Raised By',
-      key: 'raised_by',
-      dataIndex: 'raised_by',
-    },
+    ...expenseColumns,
     {
       title: 'Action',
       key: 'operation',
@@ -183,7 +51,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
             onConfirm={deleteHOC({
               record,
               reload,
-              api: deleteMr,
+              api: deleteExpense,
               success: 'Deleted Material Request successfully',
               failure: 'Error in deleting Material request',
             })}>
@@ -232,9 +100,9 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         modalBody={ExpenseForm}
         modalWidth={80}
         formParams={{isEmployee}}
-        expandHandleKey="flows"
-        expandParams={{loading}}
-        ExpandBody={MaterialRequestsTable}
+        //expandHandleKey="transactions"
+        //expandParams={{loading}}
+        //ExpandBody={ExpandTable}
       />
     </>
   );

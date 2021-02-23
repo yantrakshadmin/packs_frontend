@@ -1,9 +1,9 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {Form, Col, Row, Button, Divider, Spin, message} from 'antd';
+import {Form, Col, Row, Button, Divider, Spin, message, Alert} from 'antd';
 import {expenseFormFields, expenseFlowFormFields} from 'common/formFields/expense.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {createExpense, editMr, retrieveMr} from 'common/api/auth';
+import {createExpense, editExpense, retrieveExpense} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 import {useControlledSelect} from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
@@ -24,17 +24,34 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
 
   const {form, submit, loading} = useHandleForm({
     create: createExpense,
-    edit: editMr,
-    retrieve: retrieveMr,
-    success: isEmployee
-      ? 'Material Request created/edited successfully.'
-      : 'Your material request has been placed successfully. We shall process the request within 12 working hours.',
-    failure: 'Error in creating/editing Material Request.',
+    edit: editExpense,
+    retrieve: retrieveExpense,
+    success: 'Expense created/edited successfully',
+    failure: 'Error in creating/editing Expense.',
     done: onDone,
     close: onCancel,
     id,
     dates: ['invoice_date'],
   });
+
+  useEffect(() => {
+    if (id && !loading) {
+      const transactions = form.getFieldValue('transactions');
+      const newT = transactions.map((t) => ({
+        ...t,
+        t_no: t.a_t_no ? t.a_t_no : t.r_t_no,
+      }));
+      form.setFieldsValue({transactions: newT});
+    }
+  }, [loading]);
+
+  const renderAlert = useCallback(() => {
+    if (id && !loading) {
+      return (
+        <Alert message="Your previous bill documents will be replaced!" type="warning" closable />
+      );
+    }
+  }, [loading]);
 
   const toFormData = useCallback((data) => {
     const req = new FormData();
@@ -114,12 +131,14 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
   const getTranastionSelectOptions = useCallback(() => {
     const tt = form.getFieldValue('transaction_type');
     if (tt === 'Allot') {
-      return allotExp.map((i) => ({...i, dispatch_date: moment(i.dispatch_date).format('L')}));
+      if (allotExp)
+        return allotExp.map((i) => ({...i, dispatch_date: moment(i.dispatch_date).format('L')}));
     } else if (tt === 'Return') {
-      return returnExp.map((i) => ({
-        ...i,
-        transaction_date: moment(i.transaction_date).format('L'),
-      }));
+      if (returnExp)
+        return returnExp.map((i) => ({
+          ...i,
+          transaction_date: moment(i.transaction_date).format('L'),
+        }));
     }
     return [];
   }, [form, allotExp, returnExp]);
@@ -177,6 +196,7 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
   return (
     <Spin spinning={loading}>
       <Divider orientation="left">Expense Details</Divider>
+      {renderAlert()}
       <Form
         onFinish={preProcess}
         initialValues={{status: 'Hold'}}

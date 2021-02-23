@@ -1161,3 +1161,28 @@ export const createExpense = (src) =>
       'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
+
+export const retrieveExpenses = () =>
+  loadAPI('/expenses/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteExpense = (id) =>
+  loadAPI(`/edit-expense/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const retrieveExpense = (id) =>
+  loadAPI(`/edit-expense/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const editExpense = (id, src) =>
+  loadAPI(`/edit-expense/${id}/`, {
+    method: 'PATCH',
+    data: src,
+    secure: true,
+  });
