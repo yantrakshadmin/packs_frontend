@@ -38,7 +38,6 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
 
   const toFormData = useCallback((data) => {
     const req = new FormData();
-    let c = 0;
     for (const key in data) {
       if (key === 'transactions') {
         req.append('transactions', JSON.stringify(data.transactions));
@@ -46,6 +45,7 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
         req.append(key.toString(), data[key].format());
       } else if (key === 'bill') {
         if (data[key]) {
+          let c = 0;
           req.append(key.toString(), data[key]);
           data[key].forEach((el) => {
             req.append(`bill${c}`, el);
@@ -105,6 +105,7 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
       }
     } else {
       const finalData = toFormData(data);
+      finalData.append('no_of_bill_files', 0);
       console.log(finalData);
       submit(finalData);
     }
