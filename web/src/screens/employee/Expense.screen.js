@@ -13,6 +13,8 @@ import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
 
+import _ from 'lodash';
+
 const {Search} = Input;
 
 const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
@@ -21,12 +23,23 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
 
   const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveExpenses});
   const {data: mrStatusData} = useAPI('list-mrstatus/');
+  const {data: vendors} = useAPI('/vendors-exp/', {});
   const cancelEditing = () => {
     setEditingId(null);
   };
 
   const columns = [
-    ...expenseColumns,
+    ...expenseColumns.slice(0, 3),
+    {
+      title: 'Vendor',
+      key: 'vendor',
+      dataIndex: 'vendor',
+      render: (text, record) => {
+        const thisV = _.find(vendors, (v) => v.id === record.vendor);
+        return thisV ? thisV.name : '-';
+      },
+    },
+    ...expenseColumns.slice(4),
     {
       title: 'Action',
       key: 'operation',
