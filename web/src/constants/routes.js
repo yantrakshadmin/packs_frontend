@@ -197,12 +197,12 @@ export const employeeRoutes = [
     path: '/grn/',
     Component: lazy(() => import('screens/employee/GRN.screen')),
   },
-  {
-    name: 'Inventory',
-    icon: ['fas', 'boxes'],
-    path: '/inventory/',
-    Component: lazy(() => import('screens/employee/inventory.screen')),
-  },
+  // {
+  //   name: 'Inventory',
+  //   icon: ['fas', 'boxes'],
+  //   path: '/inventory/',
+  //   Component: lazy(() => import('screens/employee/inventory.screen')),
+  // },
   {
     name: 'Inventory',
     icon: ['fas', 'boxes'],

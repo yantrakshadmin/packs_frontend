@@ -2,9 +2,14 @@ import moment from 'moment';
 
 export default [
   {
-    title: 'ID',
-    key: 'id',
-    dataIndex: 'id',
+    title: 'Sr. No.',
+    key: 'no.',
+    render: (record, text, index) => index + 1,
+  },
+  {
+    title: 'Invoice No.',
+    key: 'invoice_number',
+    dataIndex: 'invoice_number',
   },
   {
     title: 'Invoice Date',
@@ -15,9 +20,14 @@ export default [
     },
   },
   {
-    title: 'Transaction Type',
-    key: 'transaction_type',
-    dataIndex: 'transaction_type',
+    title: 'Vendor',
+    key: 'vendor',
+    dataIndex: 'vendor',
+  },
+  {
+    title: 'Amount',
+    key: 'total_amount',
+    dataIndex: 'total_amount',
   },
   {
     title: 'Status',
