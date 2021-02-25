@@ -12,7 +12,12 @@ import ExpandTable from 'components/ExpenseExpandTable';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
+import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
+import {yantraColors} from '../../helpers/yantraColors';
+import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
+import {loadAPI} from 'common/helpers/api';
 import _ from 'lodash';
 
 const {Search} = Input;
@@ -23,29 +28,44 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
 
   const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveExpenses});
   const {data: mrStatusData} = useAPI('list-mrstatus/');
-  const {data: vendors} = useAPI('/vendors-exp/', {});
   const cancelEditing = () => {
     setEditingId(null);
   };
 
   const columns = [
-    ...expenseColumns.slice(0, 3),
-    {
-      title: 'Vendor',
-      key: 'vendor',
-      dataIndex: 'vendor',
-      render: (text, record) => {
-        const thisV = _.find(vendors, (v) => v.id === record.vendor);
-        return thisV ? thisV.name : '-';
-      },
-    },
-    ...expenseColumns.slice(4),
+    ...expenseColumns,
     {
       title: 'Action',
       key: 'operation',
       width: '7vw',
       render: (text, record) => (
         <div className="row justify-evenly">
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            onClick={async (e) => {
+              e.stopPropagation();
+              const {data: req} = await loadAPI(
+                `${DEFAULT_BASE_URL}/edit-expense/${record.id}`,
+                {},
+              );
+              if (req) {
+                if (req.bill) {
+                  req.bill.forEach((f) => {
+                    window.open(f.document);
+                  });
+                }
+              }
+
+              e.stopPropagation();
+            }}>
+            <FontAwesomeIcon icon={faEye} style={{fontSize: 20, color: yantraColors['primary']}} />
+          </Button>
+
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -115,7 +135,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         formParams={{isEmployee}}
         //expandHandleKey="transactions"
         //expandParams={{loading}}
-        //ExpandBody={ExpandTable}
+        ExpandBody={ExpandTable}
       />
     </>
   );

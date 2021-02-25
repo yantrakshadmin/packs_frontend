@@ -1186,3 +1186,13 @@ export const editExpense = (id, src) =>
     data: src,
     secure: true,
   });
+
+export const editExpenseTest = (id, src) =>
+  loadAPI(`/ed-expense/${id}/`, {
+    method: 'PATCH',
+    data: src,
+    secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
+    },
+  });

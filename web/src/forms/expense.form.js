@@ -3,7 +3,7 @@ import {Form, Col, Row, Button, Divider, Spin, message, Alert} from 'antd';
 import {expenseFormFields, expenseFlowFormFields} from 'common/formFields/expense.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {createExpense, editExpense, retrieveExpense} from 'common/api/auth';
+import {createExpense, editExpenseTest, retrieveExpense} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 import {useControlledSelect} from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
@@ -24,7 +24,7 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
 
   const {form, submit, loading} = useHandleForm({
     create: createExpense,
-    edit: editExpense,
+    edit: editExpenseTest,
     retrieve: retrieveExpense,
     success: 'Expense created/edited successfully',
     failure: 'Error in creating/editing Expense.',
@@ -77,22 +77,43 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
     return req;
   }, []);
 
+  const toFormDataForNoBillFiles = useCallback((data) => {
+    const req = new FormData();
+    for (const key in data) {
+      if (key === 'transactions') {
+        req.append('transactions', JSON.stringify(data.transactions));
+      } else if (key === 'invoice_date') {
+        req.append(key.toString(), data[key].format());
+      } else if (key === 'bill') {
+      } else {
+        req.append(key.toString(), data[key]);
+      }
+    }
+    return req;
+  }, []);
+
   const preProcess = (data) => {
     const {transactions} = data;
     const {transaction_type} = data;
 
     if (transactions && transaction_type) {
       if (transaction_type === 'Return') {
-        const newFlows = transactions.map((flo) => ({
-          ...flo,
-          r_t_no: Number(flo.t_no),
-        }));
+        const newFlows = transactions.map((flo) => {
+          if ('a_t_no' in flo) delete flo['a_t_no'];
+          return {
+            ...flo,
+            r_t_no: Number(flo.t_no),
+          };
+        });
         data.transactions = newFlows;
       } else {
-        const newFlows = transactions.map((flo) => ({
-          ...flo,
-          a_t_no: Number(flo.t_no),
-        }));
+        const newFlows = transactions.map((flo) => {
+          if ('r_t_no' in flo) delete flo['r_t_no'];
+          return {
+            ...flo,
+            a_t_no: Number(flo.t_no),
+          };
+        });
         data.transactions = newFlows;
       }
     }
@@ -102,19 +123,25 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
     if (bill) {
       try {
         const {fileList} = data.bill;
-        const newFileList = fileList.map((f) => {
-          if (f.status !== 'done') {
-            message.error(`${f.name} has not been uploaded yet!`);
-            failed = true;
-          } else {
-            return f.originFileObj;
-          }
-        });
-        if (!failed) {
+        if (fileList) {
+          const newFileList = fileList.map((f) => {
+            if (f.status !== 'done') {
+              message.error(`${f.name} has not been uploaded yet!`);
+              failed = true;
+            } else {
+              return f.originFileObj;
+            }
+          });
           data.bill = newFileList;
-          const finalData = toFormData(data);
-          console.log(finalData);
-          submit(finalData);
+          if (!failed) {
+            const finalData = toFormData(data);
+            submit(finalData);
+          }
+        } else {
+          if (!failed) {
+            const finalData = toFormDataForNoBillFiles(data);
+            submit(finalData);
+          }
         }
       } catch (err) {
         alert(err);
@@ -233,6 +260,7 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
               <div key={idx} className="p-2">
                 {formItem({
                   ...item,
+                  rules: [{required: id ? false : true, message: 'Please upload bill!'}],
                   kwargs: {
                     ...item.kwargs,
                     onChange(info) {
