@@ -46,11 +46,15 @@ const CreateCPScreen = ({currentPage}) => {
     {
       title: 'Lead No.',
       key: 'lead_no',
+      sorter: (a, b) => a.pfep.lead_no - b.pfep.lead_no,
+      showSorterTooltip: false,
       render: (record) => <div>{record.pfep.lead_no}</div>,
     },
     {
       title: 'PFEP No.',
       key: 'pfep_no',
+      sorter: (a, b) => a.pfep.pfep_no - b.pfep.pfep_no,
+      showSorterTooltip: false,
       render: (record) => <div>{record.pfep.pfep_no}</div>,
     },
     {
@@ -61,6 +65,8 @@ const CreateCPScreen = ({currentPage}) => {
     {
       title: 'Emitter Location',
       key: 'emitter_location',
+      sorter: (a, b) => a.pfep.sender_location.localeCompare(b.pfep.sender_location),
+      showSorterTooltip: false,
       render: (record) => <div>{record.pfep.sender_location}</div>,
     },
     {

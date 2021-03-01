@@ -15,6 +15,7 @@ import {PFEPMainForm} from '../../forms/PFEP/PFEPMain.form';
 import {ActionsPopover} from '../../components/ActionsPopover';
 import {MainCreateCPForm} from '../../forms/CreateCP/mainCreateCP.form';
 import {UploadLeadForm} from '../../forms/uploadLead.form';
+import moment from 'moment';
 
 const {Search} = Input;
 
@@ -49,6 +50,8 @@ const PFEPEmployeeScreen = ({currentPage}) => {
       key: 'date',
       dataIndex: 'date',
       width: '7vw',
+      sorter: (a, b) => moment(a.date).unix() - moment(b.date).unix(),
+      showSorterTooltip: false,
       render: (text) => <div>{utcDateFormatter(text)}</div>,
     },
     {
