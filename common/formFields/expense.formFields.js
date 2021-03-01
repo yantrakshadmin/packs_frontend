@@ -105,7 +105,7 @@ export const expenseFormFields = [
   },
   {
     key: 'status',
-    rules: [{required: true, message: 'Please select transaction type!'}],
+    rules: [{required: true, message: 'Please select status!'}],
     kwargs: {
       placeholder: 'Select',
     },

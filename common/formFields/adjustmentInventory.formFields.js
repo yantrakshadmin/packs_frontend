@@ -4,6 +4,18 @@ const transactionTypeOptions = ['Allot', 'Return'];
 
 const statusOptions = ['Approved', 'Hold', 'Rejected'];
 
+const reasonOptions = [
+  'Stocktaking results',
+  'Stock on fire',
+  'Stolen goods',
+  'Damaged goods',
+  'Stock Written off',
+  'Inventory Revaluation',
+  "Proof wasn't submitted",
+  'Invalid proof',
+  'PV Audit',
+];
+
 export const adjustmentFormFields = [
   {
     key: 'reference_no',
@@ -17,28 +29,16 @@ export const adjustmentFormFields = [
     colSpan: 6,
   },
   {
-    key: 'invoice_date',
-    rules: [{required: true, message: 'Please select invoice date!'}],
+    key: 'date',
+    rules: [{required: true, message: 'date!'}],
     kwargs: {
       placeholder: 'Select',
     },
     type: FORM_ELEMENT_TYPES.DATE,
-    others: null,
-    customLabel: 'Invoice Date',
-    colSpan: 6,
-  },
-  {
-    key: 'vendor',
-    rules: [{required: true, message: 'Please select transport vendor!'}],
-    kwargs: {
-      placeholder: 'Select',
-      showSearch: true,
-      filterOption: (input, option) =>
-        option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+    others: {
+      style: {width: '100%'},
     },
-    type: FORM_ELEMENT_TYPES.SELECT,
-    others: null,
-    customLabel: 'Transport Vendor',
+    customLabel: 'Date',
     colSpan: 6,
   },
   {
@@ -56,155 +56,90 @@ export const adjustmentFormFields = [
     colSpan: 6,
   },
   {
-    key: 'amount',
-    rules: [{required: true, message: 'Please enter amount!'}],
+    key: 'remarks',
+    //rules: [{required: true, message: 'Required!'}],
     kwargs: {
-      placeholder: 'Amount',
-      type: 'number',
+      placeholder: 'Remarks',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
-    customLabel: 'Amount',
+    customLabel: 'Remarks',
     colSpan: 6,
   },
   {
-    key: 'gst',
-    rules: [{required: true, message: 'Please enter gst(%)!'}],
-    kwargs: {
-      placeholder: 'GST (%)',
-      type: 'number',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'GST (%)',
-    colSpan: 6,
-  },
-  {
-    key: 'total_amount',
-    //rules: [{required: true, message: 'Please enter total amount!'}],
-    kwargs: {
-      placeholder: 'Total Amount',
-      type: 'number',
-      disabled: true,
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Total Amount',
-    colSpan: 6,
-  },
-  {
-    key: 'transaction_type',
-    rules: [{required: true, message: 'Please select transaction type!'}],
+    key: 'warehouse',
+    rules: [{required: true, message: 'Please select reason!'}],
     kwargs: {
       placeholder: 'Select',
     },
     type: FORM_ELEMENT_TYPES.SELECT,
-    others: {selectOptions: transactionTypeOptions},
-    customLabel: 'Transaction Type',
-    colSpan: 6,
-  },
-  {
-    key: 'status',
-    rules: [{required: true, message: 'Please select transaction type!'}],
-    kwargs: {
-      placeholder: 'Select',
-    },
-    type: FORM_ELEMENT_TYPES.SELECT,
-    others: {selectOptions: statusOptions},
-    customLabel: 'Status',
+    customLabel: 'Warehouse/Client',
     colSpan: 6,
   },
 ];
 
 export const adjustmentFlowFormFields = [
   {
-    key: 't_no',
-    rules: [{required: true, message: 'Please select transaction!'}],
+    key: 'product',
+    rules: [{required: true, message: 'Please select product!'}],
     kwargs: {
       placeholder: 'Select',
     },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
-    customLabel: 'Transaction Number',
-    colSpan: 4,
+    customLabel: 'Product',
+    colSpan: 6,
   },
   {
-    key: 'f_mile',
+    key: 'quantity',
     //rules: [{required: true, message: 'Required!'}],
     kwargs: {
-      placeholder: 'First Mile',
-      type: 'number',
-      min: 0,
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'First Mile',
-    colSpan: 3,
-  },
-  {
-    key: 'long_haul',
-    //rules: [{required: true, message: 'Required!'}],
-    kwargs: {
-      placeholder: 'Long Haul',
-      type: 'number',
-      min: 0,
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Long Haul',
-    colSpan: 3,
-  },
-  {
-    key: 'l_mile',
-    //rules: [{required: true, message: 'Required!'}],
-    kwargs: {
-      placeholder: 'Last Mile',
-      type: 'number',
-      min: 0,
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Last Mile',
-    colSpan: 3,
-  },
-  {
-    key: 'labour',
-    //rules: [{required: true, message: 'Required!'}],
-    kwargs: {
-      placeholder: 'Labour',
-      type: 'number',
-      min: 0,
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Labour',
-    colSpan: 3,
-  },
-  {
-    key: 'others',
-    //rules: [{required: true, message: 'Please select quantity!'}],
-    kwargs: {
-      placeholder: 'Others',
-      type: 'number',
-      min: 0,
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Others',
-    colSpan: 3,
-  },
-  {
-    key: 'total_cost',
-    rules: [{required: true, message: 'Must be greater than 0!'}],
-    kwargs: {
-      placeholder: 'Total Cost',
+      placeholder: 'Quantity Available',
       type: 'number',
       min: 0,
       disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
-    customLabel: 'Total Cost',
-    colSpan: 3,
+    customLabel: 'Quantity Available',
+    colSpan: 4,
+  },
+  {
+    key: 'new_quantity',
+    //rules: [{required: true, message: 'Required!'}],
+    kwargs: {
+      placeholder: 'New Qty. in hand',
+      type: 'number',
+      min: 0,
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'New Qty. in hand',
+    colSpan: 4,
+  },
+  {
+    key: 'quantity_adjusted',
+    //rules: [{required: true, message: 'Required!'}],
+    kwargs: {
+      placeholder: 'Quantity Adjusted',
+      type: 'number',
+      min: 0,
+      disabled: true,
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Quantity Adjusted',
+    colSpan: 4,
+  },
+  {
+    key: 'reason',
+    rules: [{required: true, message: 'Please select reason!'}],
+    kwargs: {
+      placeholder: 'Select',
+    },
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: {selectOptions: reasonOptions},
+    customLabel: 'Reason',
+    colSpan: 4,
   },
 ];

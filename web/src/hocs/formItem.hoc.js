@@ -181,7 +181,10 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
           label={noLabel ? null : customLabel || key.charAt(0).toUpperCase() + key.slice(1)}
           name={key}
           rules={rules}>
-          <DatePicker onChange={(date) => console.log(date)} />
+          <DatePicker
+            onChange={(date) => console.log(date)}
+            style={others ? (others.style ? others.style : null) : null}
+          />
         </Form.Item>
       );
 
