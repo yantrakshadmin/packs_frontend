@@ -25,7 +25,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
   const [editingId, setEditingId] = useState(null);
 
   const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveExpenses});
-  const {data: mrStatusData} = useAPI('list-mrstatus/');
+  //const {data: mrStatusData} = useAPI('list-mrstatus/');
   const cancelEditing = () => {
     setEditingId(null);
   };
@@ -103,7 +103,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
     {
       name: 'All Expenses',
       key: 'allExpenses',
-      data: mergeArray(filteredData || [], mrStatusData || []),
+      data: filteredData || [],
       columns,
       loading,
     },

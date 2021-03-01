@@ -6,7 +6,7 @@ import {
 } from 'common/formFields/adjustmentInventory.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {createExpense, editExpenseTest, retrieveExpense} from 'common/api/auth';
+import {createAdjustment, editExpenseTest, retrieveExpense} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 import {useControlledSelect} from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
@@ -18,12 +18,12 @@ import moment from 'moment';
 import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
 
-export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
+export const AdjustmentForm = ({id, onCancel, onDone, isEmployee, warehouses}) => {
   // const [flowId, setFlowId] = useState(null);
 
   // const {data: flows} = useAPI('/myflows/', {});
   // const {data: kits} = useControlledSelect(flowId);
-  const {data: warehouses} = useAPI('/warehouse/', {});
+  //const {data: warehouses} = useAPI('/warehouse/', {});
   const {data: invItems} = useAPI('/inv-items/', {});
 
   const [products, setProducts] = useState([]);
@@ -41,7 +41,7 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
   }, [invItems]);
 
   const {form, submit, loading} = useHandleForm({
-    create: createExpense,
+    create: createAdjustment,
     edit: editExpenseTest,
     retrieve: retrieveExpense,
     success: 'Expense created/edited successfully',
@@ -65,9 +65,7 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
 
   const renderAlert = useCallback(() => {
     if (id && !loading) {
-      return (
-        <Alert message="Your previous bill documents will be replaced!" type="warning" closable />
-      );
+      return <Alert message="Your previous documents will be replaced!" type="warning" closable />;
     }
   }, [loading]);
 
@@ -76,17 +74,17 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
     for (const key in data) {
       if (key === 'items') {
         req.append('items', JSON.stringify(data.items));
-      } else if (key === 'invoice_date') {
+      } else if (key === 'date') {
         req.append(key.toString(), data[key].format());
-      } else if (key === 'bill') {
+      } else if (key === 'file') {
         if (data[key]) {
           let c = 0;
           req.append(key.toString(), data[key]);
           data[key].forEach((el) => {
-            req.append(`bill${c}`, el);
+            req.append(`file${c}`, el);
             c = c + 1;
           });
-          req.set('no_of_bill_files', c);
+          req.set('no_of_file_files', c);
         }
       } else {
         req.append(key.toString(), data[key]);
@@ -100,9 +98,9 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
     for (const key in data) {
       if (key === 'items') {
         req.append('items', JSON.stringify(data.items));
-      } else if (key === 'invoice_date') {
+      } else if (key === 'date') {
         req.append(key.toString(), data[key].format());
-      } else if (key === 'bill') {
+      } else if (key === 'file') {
       } else {
         req.append(key.toString(), data[key]);
       }
@@ -112,10 +110,10 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
 
   const preProcess = (data) => {
     let failed = false;
-    const {bill} = data;
-    if (bill) {
+    const {file} = data;
+    if (file) {
       try {
-        const {fileList} = data.bill;
+        const {fileList} = data.file;
         if (fileList) {
           const newFileList = fileList.map((f) => {
             if (f.status !== 'done') {
@@ -125,7 +123,7 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
               return f.originFileObj;
             }
           });
-          data.bill = newFileList;
+          data.file = newFileList;
           if (!failed) {
             const finalData = toFormData(data);
             submit(finalData);
@@ -142,7 +140,7 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
       }
     } else {
       const finalData = toFormData(data);
-      finalData.append('no_of_bill_files', 0);
+      finalData.append('no_of_file_files', 0);
       console.log(finalData);
       submit(finalData);
     }
@@ -218,7 +216,7 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
               <div key={idx} className="p-2">
                 {formItem({
                   ...item,
-                  rules: [{required: id ? false : true, message: 'Please upload bill!'}],
+                  rules: [{required: id ? false : true, message: 'Please upload file!'}],
                   kwargs: {
                     ...item.kwargs,
                     onChange(info) {

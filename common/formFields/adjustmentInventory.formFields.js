@@ -1,19 +1,19 @@
 import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
 
-const transactionTypeOptions = ['Allot', 'Return'];
+// const transactionTypeOptions = ['Allot', 'Return'];
 
-const statusOptions = ['Approved', 'Hold', 'Rejected'];
+// const statusOptions = ['Approved', 'Hold', 'Rejected'];
 
 const reasonOptions = [
-  'Stocktaking results',
-  'Stock on fire',
-  'Stolen goods',
-  'Damaged goods',
-  'Stock Written off',
-  'Inventory Revaluation',
-  "Proof wasn't submitted",
-  'Invalid proof',
-  'PV Audit',
+  {reason: 'SR', text: 'Stocktaking Results'},
+  {reason: 'SoF', text: 'Stock on Fire'},
+  {reason: 'SG', text: 'Stolen Goods'},
+  {reason: 'DG', text: 'Damaged Goods'},
+  {reason: 'SWO', text: 'Stock Written Off'},
+  {reason: 'IR', text: 'Inventory Revaluation'},
+  {reason: 'PwS', text: "Proof wasn't Submitted"},
+  {reason: 'IP', text: 'Invalid Proof'},
+  {reason: 'PVA', text: 'PV Audit'},
 ];
 
 export const adjustmentFormFields = [
@@ -42,7 +42,7 @@ export const adjustmentFormFields = [
     colSpan: 6,
   },
   {
-    key: 'bill',
+    key: 'file',
     //rules: [{required: true, message: 'Please upload bill!'}],
     kwargs: {
       placeholder: 'Upload',
@@ -52,7 +52,7 @@ export const adjustmentFormFields = [
     others: {
       //p1: 'Click or drag single/multiple files.',
     },
-    customLabel: 'Upload Bill',
+    customLabel: 'Upload File',
     colSpan: 6,
   },
   {
@@ -138,7 +138,11 @@ export const adjustmentFlowFormFields = [
       placeholder: 'Select',
     },
     type: FORM_ELEMENT_TYPES.SELECT,
-    others: {selectOptions: reasonOptions},
+    others: {
+      selectOptions: reasonOptions,
+      key: 'reason',
+      customTitle: 'text',
+    },
     customLabel: 'Reason',
     colSpan: 4,
   },

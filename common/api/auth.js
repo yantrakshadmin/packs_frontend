@@ -1196,3 +1196,19 @@ export const editExpenseTest = (id, src) =>
       'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
+
+export const createAdjustment = (src) =>
+  loadAPI('/create-adjustments/', {
+    method: 'POST',
+    data: src,
+    secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
+    },
+  });
+
+export const retrieveAdjustments = () =>
+  loadAPI('/adjustments/', {
+    method: 'GET',
+    secure: true,
+  });
