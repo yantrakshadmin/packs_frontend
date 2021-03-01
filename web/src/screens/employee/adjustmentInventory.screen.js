@@ -1,21 +1,23 @@
 import React, {useState} from 'react';
 import expenseColumns from 'common/columns/expense.column';
-import {Popconfirm, Button, Input} from 'antd';
+import {Popconfirm, Button, Input, Popover} from 'antd';
 import {deleteExpense, retrieveExpenses} from 'common/api/auth';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
-import {ExpenseForm} from 'forms/expense.form';
+import {AdjustmentForm} from 'forms/adjustmentInventory.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import ExpandTable from 'components/ExpenseExpandTable';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
+import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import {yantraColors} from '../../helpers/yantraColors';
 import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
+import {loadAPI} from 'common/helpers/api';
 import _ from 'lodash';
 
 const {Search} = Input;
@@ -47,18 +49,21 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
             }}
             onClick={async (e) => {
               e.stopPropagation();
-              try {
-                if (record.bill.length > 0) {
-                  record.bill.forEach((f) => {
+              const {data: req} = await loadAPI(
+                `${DEFAULT_BASE_URL}/edit-expense/${record.id}`,
+                {},
+              );
+              if (req) {
+                if (req.bill) {
+                  req.bill.forEach((f) => {
                     window.open(f.document);
                   });
                 }
-              } catch (err) {}
+              }
+
+              e.stopPropagation();
             }}>
-            <FontAwesomeIcon
-              icon={record.bill ? (record.bill.length > 0 ? faEye : faEyeSlash) : faEyeSlash}
-              style={{fontSize: 20, color: yantraColors['primary']}}
-            />
+            <FontAwesomeIcon icon={faEye} style={{fontSize: 20, color: yantraColors['primary']}} />
           </Button>
 
           <Button
@@ -101,8 +106,8 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
 
   const tabs = [
     {
-      name: 'All Expenses',
-      key: 'allExpenses',
+      name: 'All Adjustments',
+      key: 'allAdjustments',
       data: mergeArray(filteredData || [], mrStatusData || []),
       columns,
       loading,
@@ -122,10 +127,10 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         refresh={reload}
         tabs={tabs}
         size="middle"
-        title="Expenses"
+        title="Adjustments"
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={ExpenseForm}
+        modalBody={AdjustmentForm}
         modalWidth={80}
         formParams={{isEmployee}}
         //expandHandleKey="transactions"
