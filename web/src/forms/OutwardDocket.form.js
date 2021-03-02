@@ -226,6 +226,7 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
                                   key: 'id',
                                   dataKeys: ['components_per_kit', 'kit_info', 'kit_name'],
                                   customTitle: 'kit_name',
+                                  searchKeys: ['components_per_kit', 'kit_info'],
                                   formOptions: {
                                     ...field,
                                     name: [field.name, item.key],
