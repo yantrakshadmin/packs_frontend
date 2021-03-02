@@ -59,7 +59,7 @@ export const outwardDocketFormFields = [
   },
   {
     key: 'invoice_number',
-    rules: [{required: true, message: 'Please select Invoice Number!'}],
+    //rules: [{required: true, message: 'Please select Invoice Number!'}],
     kwargs: {
       placeholder: 'Invoice Number',
     },

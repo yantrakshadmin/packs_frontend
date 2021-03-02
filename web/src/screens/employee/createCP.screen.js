@@ -16,6 +16,7 @@ import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {MainCreateCPForm} from '../../forms/CreateCP/mainCreateCP.form';
 import Document from '../../icons/Document';
 import {ifNotStrReturnA} from 'common/helpers/mrHelper';
+import {GetUniqueValueNested} from 'common/helpers/getUniqueValues';
 
 const {Search} = Input;
 
@@ -62,9 +63,11 @@ const CreateCPScreen = ({currentPage}) => {
       title: 'Emitter',
       key: 'emitter',
       render: (record) => <div>{record.pfep.sender_client}</div>,
-      sorter: (a, b) =>
-        ifNotStrReturnA(a.pfep.sender_client).localeCompare(ifNotStrReturnA(b.pfep.sender_client)),
-      showSorterTooltip: false,
+      // sorter: (a, b) =>
+      //   ifNotStrReturnA(a.pfep.sender_client).localeCompare(ifNotStrReturnA(b.pfep.sender_client)),
+      // showSorterTooltip: false,
+      filters: GetUniqueValueNested(filteredData || [], 'pfep', 'sender_client'),
+      onFilter: (value, record) => record.pfep.sender_client === value,
     },
     {
       title: 'Emitter Location',
@@ -79,6 +82,11 @@ const CreateCPScreen = ({currentPage}) => {
       render: (record) => (
         <div>{record.pfep.receivers.length > 0 ? record.pfep.receivers[0].name : ''}</div>
       ),
+      sorter: (a, b) =>
+        ifNotStrReturnA(a.pfep.receivers[0]['name']).localeCompare(
+          ifNotStrReturnA(b.pfep.receivers[0]['name']),
+        ),
+      showSorterTooltip: false,
     },
     {
       title: 'Receiver Location',
@@ -86,6 +94,11 @@ const CreateCPScreen = ({currentPage}) => {
       render: (record) => (
         <div>{record.pfep.receivers.length > 0 ? record.pfep.receivers[0].location : ''}</div>
       ),
+      sorter: (a, b) =>
+        ifNotStrReturnA(a.pfep.receivers[0]['location']).localeCompare(
+          ifNotStrReturnA(b.pfep.receivers[0]['location']),
+        ),
+      showSorterTooltip: false,
     },
     ...CreateCPColumns,
     {

@@ -18,7 +18,7 @@ import {MainCreateCPForm} from '../../forms/CreateCP/mainCreateCP.form';
 import {UploadLeadForm} from '../../forms/uploadLead.form';
 import moment from 'moment';
 
-import {GetUniqueValue, GetUniqueValueNested} from 'common/helpers/getUniqueValues';
+import {GetUniqueValue} from 'common/helpers/getUniqueValues';
 import {ifNotStrReturnA} from 'common/helpers/mrHelper';
 
 const {Search} = Input;
