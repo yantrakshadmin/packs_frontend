@@ -1,3 +1,5 @@
+import {ifNotStrReturnA} from '../helpers/mrHelper';
+
 export const PFEPColumn = [
   {
     title: 'PFEP Number',
@@ -12,7 +14,7 @@ export const PFEPColumn = [
     key: 'part_name',
     dataIndex: 'part_name',
     width: '8vw',
-    sorter: (a, b) => a.part_name.localeCompare(b.part_name),
+    sorter: (a, b) => ifNotStrReturnA(a.part_name).localeCompare(ifNotStrReturnA(b.part_name)),
     showSorterTooltip: false,
   },
   {

@@ -15,6 +15,7 @@ import Edit from '../../icons/Edit';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {MainCreateCPForm} from '../../forms/CreateCP/mainCreateCP.form';
 import Document from '../../icons/Document';
+import {ifNotStrReturnA} from 'common/helpers/mrHelper';
 
 const {Search} = Input;
 
@@ -61,6 +62,9 @@ const CreateCPScreen = ({currentPage}) => {
       title: 'Emitter',
       key: 'emitter',
       render: (record) => <div>{record.pfep.sender_client}</div>,
+      sorter: (a, b) =>
+        ifNotStrReturnA(a.pfep.sender_client).localeCompare(ifNotStrReturnA(b.pfep.sender_client)),
+      showSorterTooltip: false,
     },
     {
       title: 'Emitter Location',

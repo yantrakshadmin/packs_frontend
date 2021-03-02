@@ -168,7 +168,7 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
         autoComplete="off"
         onFieldsChange={handleFieldsChange}>
         <Row>
-          {outwardDocketFormFields.slice(0, 3).map((item, idx) => (
+          {outwardDocketFormFields.slice(0, 2).map((item, idx) => (
             <Col span={6}>
               <div key={idx.toString()} className="p-2">
                 {formItem(item)}
@@ -190,8 +190,6 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
               </div>
             </Col>
           ))}
-        </Row>
-        <Row>
           {outwardDocketFormFields.slice(4, 8).map((item, idx) => (
             <Col span={6}>
               <div key={idx.toString()} className="p-2">
@@ -211,7 +209,7 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
                     {fields.map((field, index) => (
                       <Row align="middle">
                         {outwardDocketKitFormFields.slice(0, 1).map((item) => (
-                          <Col span={6}>
+                          <Col span={10}>
                             <div className="p-2">
                               {formItem({
                                 ...item,
@@ -256,31 +254,33 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
                             </div>
                           </Col>
                         ))}
-                        <Button
-                          type="danger"
-                          style={index != 0 ? {top: '-2vh'} : null}
-                          onClick={() => {
-                            // console.log(field.name);
-                            const temp = pcc.filter((p, idx) => idx != field.name);
-                            const temp1 = temp.map((t) => {
-                              if (t > field.name) {
-                                const tdata = form.getFieldValue([`items${t}`]);
-                                form.setFields([
-                                  {
-                                    name: [`items${t - 1}`],
-                                    value: tdata,
-                                  },
-                                ]);
-                                return --t;
-                              }
-                              return t;
-                            });
-                            form.resetFields([`items${pcc.length - 1}`]);
-                            setPcc([...temp1]);
-                            remove(field.name);
-                          }}>
-                          <MinusCircleOutlined /> Delete
-                        </Button>
+                        <Col span={2}>
+                          <Button
+                            type="danger"
+                            style={index != 0 ? {top: '-2vh'} : null}
+                            onClick={() => {
+                              // console.log(field.name);
+                              const temp = pcc.filter((p, idx) => idx != field.name);
+                              const temp1 = temp.map((t) => {
+                                if (t > field.name) {
+                                  const tdata = form.getFieldValue([`items${t}`]);
+                                  form.setFields([
+                                    {
+                                      name: [`items${t - 1}`],
+                                      value: tdata,
+                                    },
+                                  ]);
+                                  return --t;
+                                }
+                                return t;
+                              });
+                              form.resetFields([`items${pcc.length - 1}`]);
+                              setPcc([...temp1]);
+                              remove(field.name);
+                            }}>
+                            <MinusCircleOutlined />
+                          </Button>
+                        </Col>
                       </Row>
                     ))}
                     <Form.Item>

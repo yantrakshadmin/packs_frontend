@@ -27,8 +27,6 @@ export default [
     key: 'email',
     dataIndex: 'email',
     width: '12vw',
-    sorter: (a, b) => a.email.localeCompare(b.email),
-    showSorterTooltip: false,
   },
   {
     title: 'Company Address',

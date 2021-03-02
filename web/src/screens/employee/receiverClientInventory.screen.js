@@ -11,9 +11,9 @@ import {FORM_ELEMENT_TYPES} from '../../constants/formFields.constant';
 const TransitInventoryScreen = ({currentPage}) => {
   const [cid, setCid] = useState(null);
 
-  const {data: clients} = useAPI('/clients/', {});
+  const {data: clients} = useAPI('/receiverclients/', {});
 
-  const {data: clientInv, loading, reload} = useAPI(`/client-inv/?id=${cid}`, {
+  const {data: clientInv, loading, reload} = useAPI(`/rclient-inv/?id=${cid}`, {
     method: 'GET',
     secure: true,
   });
@@ -22,8 +22,8 @@ const TransitInventoryScreen = ({currentPage}) => {
 
   const tabs = [
     {
-      name: 'Client Inventory',
-      key: 'clientInventory',
+      name: 'Receiver Client Inventory',
+      key: 'receiverClientInventory',
       data: getReformattedData(clientInv),
       columns: transitInventoryColumn,
       loading,
@@ -49,12 +49,12 @@ const TransitInventoryScreen = ({currentPage}) => {
               },
               others: {
                 selectOptions: clients || [],
-                key: 'user',
-                customTitle: 'client_name',
-                dataKeys: ['client_shipping_address'],
+                key: 'id',
+                customTitle: 'name',
+                dataKeys: ['address'],
               },
               type: FORM_ELEMENT_TYPES.SELECT,
-              customLabel: 'Client',
+              customLabel: 'Receiver Client',
             })}
           </Col>
           <Col span={4}>
@@ -70,7 +70,7 @@ const TransitInventoryScreen = ({currentPage}) => {
             refresh={reload}
             tabs={tabs}
             size="small"
-            title="Client Inventory"
+            title="Receiver Client Inventory"
             hideRightButton
           />
         </Col>
