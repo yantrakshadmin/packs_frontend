@@ -25,7 +25,6 @@ const {Search} = Input;
 const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
-  const {data: warehouses} = useAPI('/warehouse/', {});
 
   const {filteredData, loading, reload} = useTableSearch({
     searchVal,
@@ -42,10 +41,10 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
       title: 'Warehouse/Client',
       key: 'warehouse',
       dataIndex: 'warehouse',
-      render: (text, record) => {
-        const w = _.find(warehouses, (i) => i.id === record.warehouse);
-        return w ? w.name : '-';
-      },
+      // render: (text, record) => {
+      //   const w = _.find(warehouses, (i) => i.id === record.warehouse);
+      //   return w ? w.name : '-';
+      // },
     },
     ...adjustmentColumns.slice(4),
     {
@@ -143,7 +142,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         cancelEditing={cancelEditing}
         modalBody={AdjustmentForm}
         modalWidth={80}
-        formParams={{isEmployee, warehouses}}
+        formParams={{isEmployee}}
         //expandHandleKey="transactions"
         expandParams={{loading}}
         ExpandBody={ExpandTable}

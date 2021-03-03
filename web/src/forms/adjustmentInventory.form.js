@@ -18,12 +18,12 @@ import moment from 'moment';
 import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
 
-export const AdjustmentForm = ({id, onCancel, onDone, isEmployee, warehouses}) => {
+export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
   // const [flowId, setFlowId] = useState(null);
 
   // const {data: flows} = useAPI('/myflows/', {});
   // const {data: kits} = useControlledSelect(flowId);
-  //const {data: warehouses} = useAPI('/warehouse/', {});
+  const {data: warehouses} = useAPI('/warehouse/', {});
   const {data: invItems} = useAPI('/inv-items/', {});
 
   const [products, setProducts] = useState([]);
