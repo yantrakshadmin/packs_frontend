@@ -16,6 +16,7 @@ import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import {yantraColors} from '../../helpers/yantraColors';
 import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {uploadAdjustmentDocument} from 'common/api/auth';
 
 import {loadAPI} from 'common/helpers/api';
 import _ from 'lodash';
@@ -36,7 +37,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
   };
 
   const columns = [
-    ...adjustmentColumns.slice(0, 3),
+    ...adjustmentColumns.slice(1, 3),
     {
       title: 'Warehouse/Client',
       key: 'warehouse',
@@ -146,6 +147,9 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         //expandHandleKey="transactions"
         expandParams={{loading}}
         ExpandBody={ExpandTable}
+        uploadLink={true}
+        uploadLinkTitle={'Upload Document'}
+        uploadLinkFunc={uploadAdjustmentDocument}
       />
     </>
   );

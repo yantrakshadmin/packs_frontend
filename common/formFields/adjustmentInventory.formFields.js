@@ -4,7 +4,7 @@ import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
 
 // const statusOptions = ['Approved', 'Hold', 'Rejected'];
 
-const reasonOptions = [
+export const reasonOptions = [
   {reason: 'SR', text: 'Stocktaking Results'},
   {reason: 'SoF', text: 'Stock on Fire'},
   {reason: 'SG', text: 'Stolen Goods'},
