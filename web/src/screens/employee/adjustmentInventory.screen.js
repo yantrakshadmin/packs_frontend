@@ -1,21 +1,23 @@
 import React, {useState} from 'react';
-import expenseColumns from 'common/columns/expense.column';
-import {Popconfirm, Button, Input} from 'antd';
-import {deleteExpense, retrieveExpenses} from 'common/api/auth';
+import adjustmentColumns from 'common/columns/adjustment.column';
+import {Popconfirm, Button, Input, Popover} from 'antd';
+import {deleteExpense, retrieveAdjustments} from 'common/api/auth';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
-import {ExpenseForm} from 'forms/expense.form';
+import {AdjustmentForm} from 'forms/adjustmentInventory.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
-import ExpandTable from 'components/ExpenseExpandTable';
+import ExpandTable from 'components/AdjustmentExpandTable';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
+import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import {yantraColors} from '../../helpers/yantraColors';
 import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
+import {loadAPI} from 'common/helpers/api';
 import _ from 'lodash';
 
 const {Search} = Input;
@@ -24,14 +26,27 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveExpenses});
+  const {filteredData, loading, reload} = useTableSearch({
+    searchVal,
+    retrieve: retrieveAdjustments,
+  });
   //const {data: mrStatusData} = useAPI('list-mrstatus/');
   const cancelEditing = () => {
     setEditingId(null);
   };
 
   const columns = [
-    ...expenseColumns,
+    ...adjustmentColumns.slice(0, 3),
+    {
+      title: 'Warehouse/Client',
+      key: 'warehouse',
+      dataIndex: 'warehouse',
+      // render: (text, record) => {
+      //   const w = _.find(warehouses, (i) => i.id === record.warehouse);
+      //   return w ? w.name : '-';
+      // },
+    },
+    ...adjustmentColumns.slice(4),
     {
       title: 'Action',
       key: 'operation',
@@ -48,20 +63,20 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
             onClick={async (e) => {
               e.stopPropagation();
               try {
-                if (record.bill.length > 0) {
-                  record.bill.forEach((f) => {
+                if (record.files.length > 0) {
+                  record.files.forEach((f) => {
                     window.open(f.document);
                   });
                 }
               } catch (err) {}
             }}>
             <FontAwesomeIcon
-              icon={record.bill ? (record.bill.length > 0 ? faEye : faEyeSlash) : faEyeSlash}
+              icon={record.files ? (record.files.length > 0 ? faEye : faEyeSlash) : faEyeSlash}
               style={{fontSize: 20, color: yantraColors['primary']}}
             />
           </Button>
 
-          <Button
+          {/* <Button
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -93,7 +108,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
               onClick={(e) => e.stopPropagation()}>
               <Delete />
             </Button>
-          </Popconfirm>
+          </Popconfirm> */}
         </div>
       ),
     },
@@ -101,8 +116,8 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
 
   const tabs = [
     {
-      name: 'All Expenses',
-      key: 'allExpenses',
+      name: 'All Adjustments',
+      key: 'allAdjustments',
       data: filteredData || [],
       columns,
       loading,
@@ -122,14 +137,14 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         refresh={reload}
         tabs={tabs}
         size="middle"
-        title="Expenses"
+        title="Adjustments"
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={ExpenseForm}
+        modalBody={AdjustmentForm}
         modalWidth={80}
         formParams={{isEmployee}}
         //expandHandleKey="transactions"
-        //expandParams={{loading}}
+        expandParams={{loading}}
         ExpandBody={ExpandTable}
       />
     </>

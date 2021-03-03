@@ -21,7 +21,6 @@ export const expenseFormFields = [
     rules: [{required: true, message: 'Please enter invoice number!'}],
     kwargs: {
       placeholder: 'Invoice Number',
-      type: 'number',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -30,7 +29,7 @@ export const expenseFormFields = [
   },
   {
     key: 'vendor',
-    rules: [{required: true, message: 'Please select vendor!'}],
+    rules: [{required: true, message: 'Please select transport vendor!'}],
     kwargs: {
       placeholder: 'Select',
       showSearch: true,
@@ -39,7 +38,7 @@ export const expenseFormFields = [
     },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
-    customLabel: 'Vendor',
+    customLabel: 'Transport Vendor',
     colSpan: 6,
   },
   {
@@ -58,7 +57,7 @@ export const expenseFormFields = [
   },
   {
     key: 'amount',
-    rules: [{required: true, message: 'Please enter amount exc gst!'}],
+    rules: [{required: true, message: 'Please enter amount!'}],
     kwargs: {
       placeholder: 'Amount',
       type: 'number',
@@ -70,7 +69,7 @@ export const expenseFormFields = [
   },
   {
     key: 'gst',
-    rules: [{required: true, message: 'Please enter amount exc gst!'}],
+    rules: [{required: true, message: 'Please enter gst(%)!'}],
     kwargs: {
       placeholder: 'GST (%)',
       type: 'number',
@@ -82,7 +81,7 @@ export const expenseFormFields = [
   },
   {
     key: 'total_amount',
-    rules: [{required: true, message: 'Please enter total amount!'}],
+    //rules: [{required: true, message: 'Please enter total amount!'}],
     kwargs: {
       placeholder: 'Total Amount',
       type: 'number',
@@ -106,7 +105,7 @@ export const expenseFormFields = [
   },
   {
     key: 'status',
-    rules: [{required: true, message: 'Please select transaction type!'}],
+    rules: [{required: true, message: 'Please select status!'}],
     kwargs: {
       placeholder: 'Select',
     },
@@ -120,18 +119,18 @@ export const expenseFormFields = [
 export const expenseFlowFormFields = [
   {
     key: 't_no',
-    rules: [{required: true, message: 'Please select vendor!'}],
+    rules: [{required: true, message: 'Please select transaction!'}],
     kwargs: {
       placeholder: 'Select',
     },
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
     customLabel: 'Transaction Number',
-    colSpan: 7,
+    colSpan: 4,
   },
   {
     key: 'f_mile',
-    rules: [{required: true, message: 'Please select quantity!'}],
+    //rules: [{required: true, message: 'Required!'}],
     kwargs: {
       placeholder: 'First Mile',
       type: 'number',
@@ -144,9 +143,9 @@ export const expenseFlowFormFields = [
   },
   {
     key: 'long_haul',
-    rules: [{required: true, message: 'Please select quantity!'}],
+    //rules: [{required: true, message: 'Required!'}],
     kwargs: {
-      placeholder: 'Select',
+      placeholder: 'Long Haul',
       type: 'number',
       min: 0,
     },
@@ -157,9 +156,9 @@ export const expenseFlowFormFields = [
   },
   {
     key: 'l_mile',
-    rules: [{required: true, message: 'Please select quantity!'}],
+    //rules: [{required: true, message: 'Required!'}],
     kwargs: {
-      placeholder: 'Select',
+      placeholder: 'Last Mile',
       type: 'number',
       min: 0,
     },
@@ -170,9 +169,9 @@ export const expenseFlowFormFields = [
   },
   {
     key: 'labour',
-    rules: [{required: true, message: 'Please select quantity!'}],
+    //rules: [{required: true, message: 'Required!'}],
     kwargs: {
-      placeholder: 'Select',
+      placeholder: 'Labour',
       type: 'number',
       min: 0,
     },
@@ -185,12 +184,27 @@ export const expenseFlowFormFields = [
     key: 'others',
     //rules: [{required: true, message: 'Please select quantity!'}],
     kwargs: {
-      placeholder: 'Select',
+      placeholder: 'Others',
+      type: 'number',
       min: 0,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     customLabel: 'Others',
+    colSpan: 3,
+  },
+  {
+    key: 'total_cost',
+    rules: [{required: true, message: 'Must be greater than 0!'}],
+    kwargs: {
+      placeholder: 'Total Cost',
+      type: 'number',
+      min: 0,
+      disabled: true,
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Total Cost',
     colSpan: 3,
   },
 ];

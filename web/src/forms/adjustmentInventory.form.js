@@ -1,9 +1,12 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import {Form, Col, Row, Button, Divider, Spin, message, Alert} from 'antd';
-import {expenseFormFields, expenseFlowFormFields} from 'common/formFields/expense.formFields';
+import {
+  adjustmentFormFields,
+  adjustmentFlowFormFields,
+} from 'common/formFields/adjustmentInventory.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {createExpense, editExpenseTest, retrieveExpense} from 'common/api/auth';
+import {createAdjustment, editExpenseTest, retrieveExpense} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 import {useControlledSelect} from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
@@ -15,17 +18,30 @@ import moment from 'moment';
 import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
 
-export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
+export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
   // const [flowId, setFlowId] = useState(null);
 
   // const {data: flows} = useAPI('/myflows/', {});
   // const {data: kits} = useControlledSelect(flowId);
-  const {data: vendors} = useAPI('/vendors-exp/', {});
-  const {data: allotExp} = useAPI('/allot-exp/', {});
-  const {data: returnExp} = useAPI('/return-exp/', {});
+  const {data: warehouses} = useAPI('/warehouse/', {});
+  const {data: invItems} = useAPI('/inv-items/', {});
+
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    if (invItems) {
+      const temp = invItems.map((i) => ({
+        id: i.product.id,
+        short_code: i.product.short_code,
+        description: i.product.description,
+        quantity: i.quantity,
+      }));
+      setProducts(temp);
+    }
+  }, [invItems]);
 
   const {form, submit, loading} = useHandleForm({
-    create: createExpense,
+    create: createAdjustment,
     edit: editExpenseTest,
     retrieve: retrieveExpense,
     success: 'Expense created/edited successfully',
@@ -33,44 +49,42 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
     done: onDone,
     close: onCancel,
     id,
-    dates: ['invoice_date'],
+    dates: ['date'],
   });
 
-  useEffect(() => {
-    if (id && !loading) {
-      const transactions = form.getFieldValue('transactions');
-      const newT = transactions.map((t) => ({
-        ...t,
-        t_no: t.a_t_no ? t.a_t_no : t.r_t_no,
-      }));
-      form.setFieldsValue({transactions: newT});
-    }
-  }, [loading]);
+  //   useEffect(() => {
+  //     if (id && !loading) {
+  //       const transactions = form.getFieldValue('transactions');
+  //       const newT = transactions.map((t) => ({
+  //         ...t,
+  //         t_no: t.a_t_no ? t.a_t_no : t.r_t_no,
+  //       }));
+  //       form.setFieldsValue({transactions: newT});
+  //     }
+  //   }, [loading]);
 
   const renderAlert = useCallback(() => {
     if (id && !loading) {
-      return (
-        <Alert message="Your previous bill documents will be replaced!" type="warning" closable />
-      );
+      return <Alert message="Your previous documents will be replaced!" type="warning" closable />;
     }
   }, [loading]);
 
   const toFormData = useCallback((data) => {
     const req = new FormData();
     for (const key in data) {
-      if (key === 'transactions') {
-        req.append('transactions', JSON.stringify(data.transactions));
-      } else if (key === 'invoice_date') {
+      if (key === 'items') {
+        req.append('items', JSON.stringify(data.items));
+      } else if (key === 'date') {
         req.append(key.toString(), data[key].format());
-      } else if (key === 'bill') {
+      } else if (key === 'file') {
         if (data[key]) {
           let c = 0;
           req.append(key.toString(), data[key]);
           data[key].forEach((el) => {
-            req.append(`bill${c}`, el);
+            req.append(`file${c}`, el);
             c = c + 1;
           });
-          req.set('no_of_bill_files', c);
+          req.set('no_of_file_files', c);
         }
       } else {
         req.append(key.toString(), data[key]);
@@ -82,11 +96,11 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
   const toFormDataForNoBillFiles = useCallback((data) => {
     const req = new FormData();
     for (const key in data) {
-      if (key === 'transactions') {
-        req.append('transactions', JSON.stringify(data.transactions));
-      } else if (key === 'invoice_date') {
+      if (key === 'items') {
+        req.append('items', JSON.stringify(data.items));
+      } else if (key === 'date') {
         req.append(key.toString(), data[key].format());
-      } else if (key === 'bill') {
+      } else if (key === 'file') {
       } else {
         req.append(key.toString(), data[key]);
       }
@@ -95,36 +109,11 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
   }, []);
 
   const preProcess = (data) => {
-    const {transactions} = data;
-    const {transaction_type} = data;
-
-    if (transactions && transaction_type) {
-      if (transaction_type === 'Return') {
-        const newFlows = transactions.map((flo) => {
-          if ('a_t_no' in flo) delete flo['a_t_no'];
-          return {
-            ...flo,
-            r_t_no: Number(flo.t_no),
-          };
-        });
-        data.transactions = newFlows;
-      } else {
-        const newFlows = transactions.map((flo) => {
-          if ('r_t_no' in flo) delete flo['r_t_no'];
-          return {
-            ...flo,
-            a_t_no: Number(flo.t_no),
-          };
-        });
-        data.transactions = newFlows;
-      }
-    }
-
     let failed = false;
-    const {bill} = data;
-    if (bill) {
+    const {file} = data;
+    if (file) {
       try {
-        const {fileList} = data.bill;
+        const {fileList} = data.file;
         if (fileList) {
           const newFileList = fileList.map((f) => {
             if (f.status !== 'done') {
@@ -134,7 +123,7 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
               return f.originFileObj;
             }
           });
-          data.bill = newFileList;
+          data.file = newFileList;
           if (!failed) {
             const finalData = toFormData(data);
             submit(finalData);
@@ -151,46 +140,11 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
       }
     } else {
       const finalData = toFormData(data);
-      finalData.append('no_of_bill_files', 0);
+      finalData.append('no_of_file_files', 0);
       console.log(finalData);
       submit(finalData);
     }
   };
-
-  const getTranastionSelectOptions = useCallback(() => {
-    const tt = form.getFieldValue('transaction_type');
-    if (tt === 'Allot') {
-      if (allotExp)
-        return allotExp.map((i) => ({...i, dispatch_date: moment(i.dispatch_date).format('L')}));
-    } else if (tt === 'Return') {
-      if (returnExp)
-        return returnExp.map((i) => ({
-          ...i,
-          transaction_date: moment(i.transaction_date).format('L'),
-        }));
-    }
-    return [];
-  }, [form, allotExp, returnExp]);
-
-  const getDataKeys = useCallback(() => {
-    const tt = form.getFieldValue('transaction_type');
-    if (tt === 'Allot') {
-      return ['dispatch_date'];
-    } else if (tt === 'Return') {
-      return ['transaction_date'];
-    }
-    return [];
-  }, [form]);
-
-  const [ttTouched, setTTTouched] = useState(false);
-
-  useEffect(() => {
-    if (id && !loading) {
-      if (form.getFieldValue('transaction_type')) {
-        setTTTouched(true);
-      }
-    }
-  }, [loading]);
 
   const handleFieldsChange = useCallback(
     (data) => {
@@ -198,97 +152,71 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
         if (data[0].name) {
           const thisField = data[0].name[0];
           console.log(thisField);
-          if (thisField === 'transaction_type') {
-            form.setFieldsValue({transactions: []});
-            setTTTouched(true);
-          }
-          if (thisField === 'amount' || thisField === 'gst') {
-            if (form.getFieldValue('amount') && form.getFieldValue('gst')) {
-              form.setFieldsValue({
-                total_amount: _.ceil(
-                  parseFloat(form.getFieldValue('amount')) +
-                    parseFloat(form.getFieldValue('amount') * (form.getFieldValue('gst') / 100)),
-                ),
-              });
-            } else {
-              form.setFieldsValue({
-                total_amount: 0,
-              });
-            }
-          }
-          if (thisField === 'transactions') {
+          if (thisField === 'items') {
+            const items = form.getFieldValue('items');
+            const fieldKey = data[0].name[1];
             const thisListField = data[0].name[2];
-            if (
-              thisListField === 'f_mile' ||
-              thisListField === 'long_haul' ||
-              thisListField === 'l_mile' ||
-              thisListField === 'labour' ||
-              thisListField === 'others'
-            ) {
+            if (thisListField === 'product') {
               try {
-                const fieldKey = data[0].name[1];
-                const transactions = form.getFieldValue('transactions');
-                console.log(data[0].name);
-                const t =
-                  ifNanReturnZero(form.getFieldValue(['transactions', fieldKey, 'f_mile'])) +
-                  ifNanReturnZero(form.getFieldValue(['transactions', fieldKey, 'long_haul'])) +
-                  ifNanReturnZero(form.getFieldValue(['transactions', fieldKey, 'l_mile'])) +
-                  ifNanReturnZero(form.getFieldValue(['transactions', fieldKey, 'labour'])) +
-                  ifNanReturnZero(form.getFieldValue(['transactions', fieldKey, 'others']));
-                Object.assign(transactions[fieldKey], {
-                  total_cost: t === 0 ? null : t,
+                const v = data[0].value;
+                const thisProduct = _.find(products, (p) => parseInt(p.id) === parseInt(v));
+                Object.assign(items[fieldKey], {
+                  quantity: thisProduct.quantity,
+                  quantity_adjusted: items[fieldKey]['new_quantity']
+                    ? parseInt(items[fieldKey]['new_quantity']) - parseInt(thisProduct.quantity)
+                    : null,
                 });
-                form.setFieldsValue({transactions});
+                form.setFieldsValue({items});
+              } catch (err) {}
+            }
+            if (thisListField === 'new_quantity') {
+              try {
+                const q = items[fieldKey]['quantity'];
+                const v = data[0].value;
+                Object.assign(items[fieldKey], {
+                  quantity_adjusted: parseInt(v) - parseInt(q),
+                });
+                form.setFieldsValue({items});
               } catch (err) {}
             }
           }
         }
       }
     },
-    [ttTouched],
+    [form, products],
   );
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Expense Details</Divider>
       {renderAlert()}
       <Form
         onFinish={preProcess}
-        initialValues={{status: 'Hold', gst: 0}}
         form={form}
         layout="vertical"
         hideRequiredMark
         autoComplete="off"
         onFieldsChange={handleFieldsChange}>
         <Row style={{justifyContent: 'left'}}>
-          {expenseFormFields.slice(0, 2).map((item, idx) => (
+          {adjustmentFormFields.slice(0, 2).map((item, idx) => (
             <Col span={item.colSpan}>
               <div key={idx} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
           ))}
-          {expenseFormFields.slice(2, 3).map((item, idx) => (
+          {adjustmentFormFields.slice(3, 4).map((item, idx) => (
             <Col span={item.colSpan}>
               <div key={idx} className="p-2">
-                {formItem({
-                  ...item,
-                  others: {
-                    selectOptions: filterActive(_, vendors) || [],
-                    key: 'id',
-                    dataKeys: ['code'],
-                    customTitle: 'name',
-                  },
-                })}
+                {formItem(item)}
               </div>
             </Col>
           ))}
-          {expenseFormFields.slice(3, 4).map((item, idx) => (
+          {adjustmentFormFields.slice(2, 3).map((item, idx) => (
             <Col span={item.colSpan}>
               <div key={idx} className="p-2">
                 {formItem({
                   ...item,
-                  rules: [{required: id ? false : true, message: 'Please upload bill!'}],
+                  rules: [{required: id ? false : true, message: 'Please upload file!'}],
                   kwargs: {
                     ...item.kwargs,
                     onChange(info) {
@@ -314,44 +242,38 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
               </div>
             </Col>
           ))}
-          {expenseFormFields.slice(4, 7).map((item, idx) => (
-            <Col span={item.colSpan}>
-              <div key={idx} className="p-2">
-                {formItem(item)}
-              </div>
-            </Col>
-          ))}
-          {expenseFormFields.slice(7, 8).map((item, idx) => (
+          {adjustmentFormFields.slice(4, 5).map((item, idx) => (
             <Col span={item.colSpan}>
               <div key={idx} className="p-2">
                 {formItem({
                   ...item,
                   kwargs: {
                     ...item.kwargs,
-                    disabled: id ? true : false,
+                    showSearch: true,
+                    filterOption: (input, option) =>
+                      option.search.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                  },
+                  others: {
+                    selectOptions: filterActive(_, warehouses),
+                    key: 'id',
+                    customTitle: 'name',
+                    dataKeys: ['address'],
                   },
                 })}
               </div>
             </Col>
           ))}
-          {expenseFormFields.slice(8).map((item, idx) => (
-            <Col span={item.colSpan}>
-              <div key={idx} className="p-2">
-                {formItem(item)}
-              </div>
-            </Col>
-          ))}
         </Row>
 
-        <Divider orientation="left">Transaction Details</Divider>
+        <Divider orientation="left">Product Details</Divider>
 
-        <Form.List name="transactions">
+        <Form.List name="items">
           {(fields, {add, remove}) => {
             return (
               <div>
                 {fields.map((field, index) => (
                   <Row align="middle">
-                    {expenseFlowFormFields.slice(0, 1).map((item, idx) => (
+                    {adjustmentFlowFormFields.slice(0, 1).map((item, idx) => (
                       <Col key={idx} span={item.colSpan}>
                         <div className="p-2">
                           {formItem({
@@ -367,10 +289,10 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
                                   .indexOf(input.toLowerCase()) >= 0,
                             },
                             others: {
-                              selectOptions: getTranastionSelectOptions(),
+                              selectOptions: products,
                               key: 'id',
-                              customTitle: 'transaction_no',
-                              dataKeys: getDataKeys(),
+                              customTitle: 'short_code',
+                              dataKeys: ['description'],
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],
@@ -381,13 +303,14 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
                         </div>
                       </Col>
                     ))}
-                    {expenseFlowFormFields.slice(1).map((item, idx) => (
+                    {adjustmentFlowFormFields.slice(1).map((item, idx) => (
                       <Col key={idx} span={item.colSpan}>
                         <div className="p-2">
                           {formItem({
                             ...item,
                             noLabel: index != 0,
                             others: {
+                              ...item.others,
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],
@@ -417,8 +340,7 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
                     onClick={() => {
                       add();
                     }}
-                    block
-                    disabled={ttTouched ? false : true}>
+                    block>
                     <PlusOutlined /> Add Item
                   </Button>
                 </Form.Item>

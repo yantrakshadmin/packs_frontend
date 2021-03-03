@@ -5,13 +5,17 @@ export const outwardDocketFormFields = [
     customLabel: 'Transaction Date',
     key: 'transaction_date',
     type: FORM_ELEMENT_TYPES.DATE,
-    others: null,
+    others: {
+      style: {width: '100%'},
+    },
   },
   {
     customLabel: 'Dispatch Date',
     key: 'dispatch_date',
     type: FORM_ELEMENT_TYPES.DATE,
-    others: null,
+    others: {
+      style: {width: '100%'},
+    },
   },
   {
     key: 'transaction_no',
@@ -26,12 +30,12 @@ export const outwardDocketFormFields = [
   },
   {
     key: 'sending_location',
-    rules: [{required: true, message: 'Please select Sender Client!'}],
+    rules: [{required: true, message: 'Please select Receiver Client!'}],
     type: FORM_ELEMENT_TYPES.SELECT,
     kwargs: {
-      placeholder: 'Sender Client',
+      placeholder: 'Receiver Client',
     },
-    customLabel: 'Sender Client',
+    customLabel: 'Receiver Client',
   },
   {
     key: 'transporter_name',
@@ -55,7 +59,7 @@ export const outwardDocketFormFields = [
   },
   {
     key: 'invoice_number',
-    rules: [{required: true, message: 'Please select Invoice Number!'}],
+    //rules: [{required: true, message: 'Please select Invoice Number!'}],
     kwargs: {
       placeholder: 'Invoice Number',
     },

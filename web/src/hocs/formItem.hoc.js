@@ -24,6 +24,18 @@ const CheckboxGroup = Checkbox.Group;
 //     resolve(url);
 //   });
 
+const getFinalStringForSearch = (searchKeys, customTitle, item) => {
+  let s = '';
+  if (item[customTitle]) s = s.concat(item[customTitle]);
+  searchKeys.forEach((i) => {
+    if (item[i]) {
+      s = s.concat(' ');
+      s = s.concat(item[i]);
+    }
+  });
+  return s;
+};
+
 const onCustomRequest = (file) => {
   return new Promise((resolve, reject) => {
     const ajaxResponseWasFine = true;
@@ -135,7 +147,11 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
             {others.selectOptions.map((item, index) => (
               <Option
                 key={index.toString()}
-                search={item[others.customTitle]}
+                search={
+                  others.searchKeys
+                    ? getFinalStringForSearch(others.searchKeys, others.customTitle, item)
+                    : item[others.customTitle]
+                }
                 value={item.value || item[others.key] || item}>
                 {others.customTitle ? (
                   <text style={{fontSize: 13, fontWeight: 'bold'}}>{item[others.customTitle]}</text>
@@ -181,7 +197,10 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
           label={noLabel ? null : customLabel || key.charAt(0).toUpperCase() + key.slice(1)}
           name={key}
           rules={rules}>
-          <DatePicker onChange={(date) => console.log(date)} />
+          <DatePicker
+            onChange={(date) => console.log(date)}
+            style={others ? (others.style ? others.style : null) : null}
+          />
         </Form.Item>
       );
 

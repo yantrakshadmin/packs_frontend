@@ -33,3 +33,7 @@ export const filterActive = (_, data) => {
 export const ifNanReturnZero = (num) => {
   return parseInt(num) ? parseInt(num) : 0;
 };
+
+export const ifNotStrReturnA = (s) => {
+  return String(s) ? String(s) : 'a';
+};
