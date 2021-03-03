@@ -267,46 +267,50 @@ const TableWithTabHOC = ({
             <Tabs defaultActiveKey={tabs[0].key} onChange={callback}>
               {tabs.map((tab) => (
                 <TabPane tab={tab.name} key={tab.key}>
-                  <Table
-                    id="mastertable"
-                    bordered
-                    rowKey={rowKey}
-                    expandRowByClick
-                    expandIconColumnIndex={-1}
-                    pagination={{
-                      // pageSize: pageSize || 10,
-                      position: ['bottomRight'],
-                      onChange(current) {
-                        changePage(current);
-                      },
-                    }}
-                    size={size}
-                    scroll={scroll}
-                    rowClassName="no-vertical"
-                    expandIcon={({expanded, onExpand, record}) => null}
-                    rowSelection={
-                      customRowSelectionType
-                        ? {...rowSelection, type: customRowSelectionType[tab.key]}
-                        : rowSelection
-                    }
-                    expandable={
-                      ExpandBody
-                        ? {
-                            expandedRowRender: (record) => (
-                              <p style={{margin: 0}}>
-                                <ExpandBody {...expandParams} {...record} />
-                              </p>
-                            ),
-                            rowExpandable: (record) =>
-                              expandHandleKey ? !!record[expandHandleKey].length : true,
-                            expandRowByClick: true,
-                          }
-                        : null
-                    }
-                    dataSource={tab.data}
-                    loading={tab.loading}
-                    columns={tab.columns}
-                  />
+                  {tab.hasCustomModel ? (
+                    <tab.CustomModel />
+                  ) : (
+                    <Table
+                      id="mastertable"
+                      bordered
+                      rowKey={rowKey}
+                      expandRowByClick
+                      expandIconColumnIndex={-1}
+                      pagination={{
+                        // pageSize: pageSize || 10,
+                        position: ['bottomRight'],
+                        onChange(current) {
+                          changePage(current);
+                        },
+                      }}
+                      size={size}
+                      scroll={scroll}
+                      rowClassName="no-vertical"
+                      expandIcon={({expanded, onExpand, record}) => null}
+                      rowSelection={
+                        customRowSelectionType
+                          ? {...rowSelection, type: customRowSelectionType[tab.key]}
+                          : rowSelection
+                      }
+                      expandable={
+                        ExpandBody
+                          ? {
+                              expandedRowRender: (record) => (
+                                <p style={{margin: 0}}>
+                                  <ExpandBody {...expandParams} {...record} />
+                                </p>
+                              ),
+                              rowExpandable: (record) =>
+                                expandHandleKey ? !!record[expandHandleKey].length : true,
+                              expandRowByClick: true,
+                            }
+                          : null
+                      }
+                      dataSource={tab.data}
+                      loading={tab.loading}
+                      columns={tab.columns}
+                    />
+                  )}
                 </TabPane>
               ))}
             </Tabs>

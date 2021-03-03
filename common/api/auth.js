@@ -1222,3 +1222,10 @@ export const uploadAdjustmentDocument = (src) =>
       'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
+
+export const createClientAdjustment = (src) =>
+  loadAPI('/create-clientadjust/', {
+    method: 'POST',
+    data: src,
+    secure: true,
+  });

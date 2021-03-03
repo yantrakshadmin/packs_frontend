@@ -7,6 +7,7 @@ import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
 import {AdjustmentForm} from 'forms/adjustmentInventory.form';
+import {AdjustmentClientForm} from 'forms/adjustmentClientInventory.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import ExpandTable from 'components/AdjustmentExpandTable';
 import {deleteHOC} from 'hocs/deleteHoc';
@@ -122,6 +123,12 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
       data: filteredData || [],
       columns,
       loading,
+    },
+    {
+      name: 'Client Adjustments',
+      key: 'clientAdjustments',
+      hasCustomModel: true,
+      CustomModel: AdjustmentClientForm,
     },
   ];
 
