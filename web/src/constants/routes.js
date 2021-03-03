@@ -210,7 +210,7 @@ export const employeeRoutes = [
     isSubMenu: true,
     subMenu: [
       {
-        name: 'Yantra Inventory',
+        name: 'Warehouse Inventory',
         path: '/main-inventory/yantra-inventory/',
         Component: lazy(() => import('screens/employee/yantraInventory.screen.employee')),
       },
@@ -220,12 +220,12 @@ export const employeeRoutes = [
         Component: lazy(() => import('screens/employee/transitInventory.screen')),
       },
       {
-        name: 'Client Inventory',
+        name: 'Sender Client',
         path: '/main-inventory/inventory-clients/',
         Component: lazy(() => import('screens/employee/clientInventory.screen')),
       },
       {
-        name: 'Receiver Client Inventory',
+        name: 'Receiver Client',
         path: '/main-inventory/inventory-rclients/',
         Component: lazy(() => import('screens/employee/receiverClientInventory.screen')),
       },

@@ -22,7 +22,7 @@ const TransitInventoryScreen = ({currentPage}) => {
 
   const tabs = [
     {
-      name: 'Client Inventory',
+      name: 'Sender Client',
       key: 'clientInventory',
       data: getReformattedData(clientInv),
       columns: transitInventoryColumn,
@@ -70,7 +70,7 @@ const TransitInventoryScreen = ({currentPage}) => {
             refresh={reload}
             tabs={tabs}
             size="small"
-            title="Client Inventory"
+            title="Sender Client"
             hideRightButton
           />
         </Col>
