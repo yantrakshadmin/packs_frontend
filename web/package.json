@@ -23,6 +23,7 @@
     "lodash": "^4.17.20",
     "react": "^16.13.1",
     "react-chartjs-2": "^2.7.6",
+    "react-csv": "^2.0.3",
     "react-dom": "^16.13.1",
     "react-iframe": "^1.8.0",
     "react-redux": "^7.2.0",

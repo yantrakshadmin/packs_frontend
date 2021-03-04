@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {useAPI} from 'common/hooks/api';
 import {Button, Col, Form, Input, Popconfirm, Row} from 'antd';
 import formItem from 'hocs/formItem.hoc';
@@ -11,6 +11,7 @@ import {useHandleForm} from '../../hooks/form';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import {useTableSearch} from '../../hooks/useTableSearch';
+import {CSVLink} from 'react-csv';
 
 const {Search} = Input;
 
@@ -25,6 +26,42 @@ export const TestInventoryScreen = () => {
     searchVal,
     retrieve: retrieveTestInv,
   });
+
+  const generateCSVData = useCallback(() => {
+    if (!invLoading) {
+      const temp = invData.map((i) => {
+        return {
+          quantity: i.quantity,
+          product: i.product.short_code,
+          product_info: i.product.description || '-',
+        };
+      });
+      return {
+        headers: [
+          {label: 'Product', key: 'product'},
+          {label: 'Product Info', key: 'product_info'},
+          {label: 'Quantity', key: 'quantity'},
+        ],
+        data: temp,
+      };
+    }
+    return {
+      headers: [],
+      data: [],
+    };
+  }, [invData, invLoading]);
+
+  const DownloadCSVButton = useCallback(() => {
+    const t = generateCSVData();
+    return (
+      <Button>
+        <CSVLink filename={'warehouse-inventory.csv'} data={t.data} headers={t.headers}>
+          Download CSV
+        </CSVLink>
+      </Button>
+    );
+  }, [invData, generateCSVData]);
+
   console.log(invData, 'Ggg');
   const {form, submit, loading} = useHandleForm({
     create: createTestInv,
@@ -168,6 +205,7 @@ export const TestInventoryScreen = () => {
             data={invData}
             columns={column}
             title="Inventory"
+            ExtraButtonNextToTitle={DownloadCSVButton}
             hideRightButton
             loading={loading || invLoading}
           />
