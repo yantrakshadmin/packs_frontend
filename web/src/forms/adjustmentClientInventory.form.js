@@ -9,17 +9,14 @@ import formItem from '../hocs/formItem.hoc';
 import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
 
-export const AdjustmentClientForm = ({id, onCancel, onDone, isEmployee}) => {
-  const {data: clients} = useAPI('/clients/', {});
-  const {data: kits} = useAPI('/kits/', {});
-
+export const AdjustmentClientForm = (props) => {
   const [selectedClientID, setSelectedClientID] = useState(null);
   const [selectedKits, setSelectedKits] = useState([]);
 
   useEffect(() => {
     if (selectedClientID) {
       try {
-        setSelectedKits(_.filter(kits, (k) => k.kit_client.user === selectedClientID));
+        setSelectedKits(_.filter(props.kits, (k) => k.kit_client.user === selectedClientID));
       } catch (err) {
         setSelectedKits([]);
       }
@@ -31,7 +28,13 @@ export const AdjustmentClientForm = ({id, onCancel, onDone, isEmployee}) => {
     success: 'Client Adjustment created successfully',
     failure: 'Error in creating Client Adjustment.',
     close: () => {},
-    done: () => {},
+    done: () => {
+      form.setFieldsValue({
+        client: null,
+        kit: null,
+        quantity: null,
+      });
+    },
   });
 
   const preProcess = (data) => {
@@ -66,7 +69,7 @@ export const AdjustmentClientForm = ({id, onCancel, onDone, isEmployee}) => {
                   },
                   others: {
                     ...item.others,
-                    selectOptions: filterActive(_, clients) || [],
+                    selectOptions: filterActive(_, props.clients) || [],
                     key: 'user',
                     customTitle: 'client_name',
                     dataKeys: ['client_shipping_address'],
