@@ -34,6 +34,7 @@ export const AdjustmentClientForm = (props) => {
         kit: null,
         quantity: null,
       });
+      props.reload();
     },
   });
 
@@ -63,6 +64,9 @@ export const AdjustmentClientForm = (props) => {
                   ...item,
                   kwargs: {
                     ...item.kwargs,
+                    showSearch: true,
+                    filterOption: (input, option) =>
+                      option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                     onChange: (val) => {
                       setSelectedClientID(val);
                     },
@@ -73,6 +77,7 @@ export const AdjustmentClientForm = (props) => {
                     key: 'user',
                     customTitle: 'client_name',
                     dataKeys: ['client_shipping_address'],
+                    searchKeys: ['client_shipping_address'],
                   },
                 })}
               </div>
@@ -85,6 +90,9 @@ export const AdjustmentClientForm = (props) => {
                   ...item,
                   kwargs: {
                     ...item.kwargs,
+                    showSearch: true,
+                    filterOption: (input, option) =>
+                      option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                     onChange: (val) => {
                       setSelectedClientID(val);
                     },
@@ -95,6 +103,7 @@ export const AdjustmentClientForm = (props) => {
                     key: 'id',
                     customTitle: 'kit_name',
                     dataKeys: ['kit_info', 'components_per_kit'],
+                    searchKeys: ['kit_info', 'components_per_kit'],
                   },
                 })}
               </div>
