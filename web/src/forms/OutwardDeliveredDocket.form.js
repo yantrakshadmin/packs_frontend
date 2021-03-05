@@ -16,7 +16,7 @@ import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 import formItem from '../hocs/formItem.hoc';
 
 export const OutwardDeliveredDocketForm = ({id, onCancel, onDone, transaction_no}) => {
-  const [delivered, setDelivered] = useState(false);
+  const [delivered, setDelivered] = useState(true);
   const [reqDlvd, setReqDlvd] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -46,6 +46,7 @@ export const OutwardDeliveredDocketForm = ({id, onCancel, onDone, transaction_no
 
   useEffect(() => {
     form.setFieldsValue({transaction_no});
+    form.setFieldsValue({delivered: true});
   }, [form]);
 
   useEffect(() => {
@@ -56,7 +57,7 @@ export const OutwardDeliveredDocketForm = ({id, onCancel, onDone, transaction_no
         if (dlvd) {
           setDeliveryId(dlvd.id);
         } else {
-          form.setFieldsValue({delivered: true});
+          // form.setFieldsValue({delivered: true});
         }
       }
     };
