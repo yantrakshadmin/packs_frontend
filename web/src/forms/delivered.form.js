@@ -16,7 +16,7 @@ import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 import formItem from '../hocs/formItem.hoc';
 
 export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
-  const [delivered, setDelivered] = useState(false);
+  const [delivered, setDelivered] = useState(true);
   const [reqDlvd, setReqDlvd] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -38,6 +38,7 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
 
   useEffect(() => {
     form.setFieldsValue({transaction_no});
+    form.setFieldsValue({delivered: true});
   }, [form]);
 
   useEffect(() => {
@@ -47,8 +48,11 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
         const dlvd = data.filter((d) => d.allotment === id)[0];
         if (dlvd) {
           setDeliveryId(dlvd.id);
+          // form.setFieldsValue({delivered: true});
+          // setDelivered(true);
         } else {
-          form.setFieldsValue({delivered: true});
+          // form.setFieldsValue({delivered: false});
+          // setDelivered(false);
         }
       }
     };
@@ -179,6 +183,10 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
   const preProcess = (data) => {
     data.allotment = allotment;
     data.delivered = delivered;
+
+    if (data.delivered === true) {
+      if ('items' in data) delete data.items;
+    }
 
     let failed = false;
     const {document} = data;
