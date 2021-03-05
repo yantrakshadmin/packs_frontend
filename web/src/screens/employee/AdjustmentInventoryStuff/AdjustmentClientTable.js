@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {Table, Row, Col, Spin} from 'antd';
 import {useAPI} from 'common/hooks/api';
+import {changePage} from 'common/actions/changePage';
+import {connect} from 'react-redux';
 
 const cols = [
   {
@@ -27,11 +29,22 @@ const ExpandTable = ({data, loading}) => {
         {loading ? (
           <Spin spinning={loading} />
         ) : (
-          <Table dataSource={data} columns={cols} size="small" pagination={false} />
+          <Table
+            dataSource={data}
+            columns={cols}
+            size="small"
+            pagination={{
+              // pageSize: pageSize || 10,
+              position: ['bottomRight'],
+              onChange(current) {
+                changePage(current);
+              },
+            }}
+          />
         )}
       </Col>
     </Row>
   );
 };
 
-export default ExpandTable;
+export default connect(null, {changePage})(ExpandTable);

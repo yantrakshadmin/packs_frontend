@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import adjustmentColumns from 'common/columns/adjustment.column';
 import {Popconfirm, Button, Input, Popover} from 'antd';
-import {deleteExpense, retrieveAdjustments} from 'common/api/auth';
+import {retrieveAdjustments} from 'common/api/auth';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
@@ -32,23 +32,13 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
     searchVal,
     retrieve: retrieveAdjustments,
   });
-  //const {data: mrStatusData} = useAPI('list-mrstatus/');
+
   const cancelEditing = () => {
     setEditingId(null);
   };
 
   const columns = [
-    ...adjustmentColumns.slice(1, 3),
-    {
-      title: 'Warehouse/Client',
-      key: 'warehouse',
-      dataIndex: 'warehouse',
-      // render: (text, record) => {
-      //   const w = _.find(warehouses, (i) => i.id === record.warehouse);
-      //   return w ? w.name : '-';
-      // },
-    },
-    ...adjustmentColumns.slice(4),
+    ...adjustmentColumns,
     {
       title: 'Action',
       key: 'operation',
@@ -129,6 +119,9 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
       key: 'clientAdjustments',
       hasCustomModel: true,
       CustomModel: AdjustmentClientTab,
+      customModelProps: {
+        searchVal: searchVal,
+      },
     },
   ];
 

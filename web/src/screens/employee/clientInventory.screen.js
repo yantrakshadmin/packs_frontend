@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {Row, Col, Form, Button} from 'antd';
 import {connect} from 'react-redux';
 import {useAPI} from 'common/hooks/api';
@@ -7,6 +7,7 @@ import {transitInventoryColumn} from 'common/columns/transitInventory.column';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import formItem from '../../hocs/formItem.hoc';
 import {FORM_ELEMENT_TYPES} from '../../constants/formFields.constant';
+import {CSVLink} from 'react-csv';
 
 const TransitInventoryScreen = ({currentPage}) => {
   const [cid, setCid] = useState(null);
@@ -33,6 +34,42 @@ const TransitInventoryScreen = ({currentPage}) => {
   const onSubmit = async (data) => {
     setCid(data.cid);
   };
+
+  const generateCSVData = useCallback(() => {
+    if (clientInv) {
+      const temp = getReformattedData(clientInv).map((i) => {
+        console.log(i);
+        return {
+          quantity: i.quantity || '-',
+          product: i.short_code || '-',
+          product_info: i.description || '-',
+        };
+      });
+      return {
+        headers: [
+          {label: 'Product', key: 'product'},
+          {label: 'Product Info', key: 'product_info'},
+          {label: 'Quantity', key: 'quantity'},
+        ],
+        data: temp,
+      };
+    }
+    return {
+      headers: [],
+      data: [],
+    };
+  }, [clientInv]);
+
+  const DownloadCSVButton = useCallback(() => {
+    const t = generateCSVData();
+    return (
+      <Button disabled={clientInv ? false : true}>
+        <CSVLink filename={'warehouse-inventory.csv'} data={t.data} headers={t.headers}>
+          Download CSV
+        </CSVLink>
+      </Button>
+    );
+  }, [clientInv, generateCSVData]);
 
   return (
     <>
@@ -68,6 +105,7 @@ const TransitInventoryScreen = ({currentPage}) => {
         <Col span={12}>
           <TableWithTabHOC
             refresh={reload}
+            ExtraButtonNextToTitle={DownloadCSVButton}
             tabs={tabs}
             size="small"
             title="Sender Client"

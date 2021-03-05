@@ -66,6 +66,7 @@ const UploadFormBody = ({uploadLinkFunc, onDone, onCancel}) => {
 
 const TableWithTabHOC = ({
   title,
+  ExtraButtonNextToTitle,
   newPage,
   tabs,
   modelTitle,
@@ -172,7 +173,9 @@ const TableWithTabHOC = ({
 
       <Row justify="space-between" align="middle">
         <Col>
-          <Title level={3}>{title}</Title>
+          <Title level={3}>
+            {title} {ExtraButtonNextToTitle ? <ExtraButtonNextToTitle /> : null}
+          </Title>
           {csvdata ? (
             <>
               <CSVLink
@@ -268,7 +271,7 @@ const TableWithTabHOC = ({
               {tabs.map((tab) => (
                 <TabPane tab={tab.name} key={tab.key}>
                   {tab.hasCustomModel ? (
-                    <tab.CustomModel />
+                    <tab.CustomModel {...tab.customModelProps} />
                   ) : (
                     <Table
                       id="mastertable"

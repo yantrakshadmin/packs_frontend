@@ -1213,6 +1213,12 @@ export const retrieveAdjustments = () =>
     secure: true,
   });
 
+export const retrieveAdjustmentClients = () =>
+  loadAPI('/clientadjust/', {
+    method: 'GET',
+    secure: true,
+  });
+
 export const uploadAdjustmentDocument = (src) =>
   loadAPI('/upload-audit/', {
     method: 'POST',
