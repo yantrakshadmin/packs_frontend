@@ -163,7 +163,7 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
         onFinish={handleSubmit}
         form={form}
         layout="vertical"
-        initialValues={{transaction_date: moment(), dispatch_date: moment(), transaction_no: 0}}
+        initialValues={{transaction_date: moment(), dispatch_date: moment()}}
         hideRequiredMark
         autoComplete="off"
         onFieldsChange={handleFieldsChange}>

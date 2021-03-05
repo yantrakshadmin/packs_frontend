@@ -1212,3 +1212,26 @@ export const retrieveAdjustments = () =>
     method: 'GET',
     secure: true,
   });
+
+export const retrieveAdjustmentClients = () =>
+  loadAPI('/clientadjust/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const uploadAdjustmentDocument = (src) =>
+  loadAPI('/upload-audit/', {
+    method: 'POST',
+    data: src,
+    secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
+    },
+  });
+
+export const createClientAdjustment = (src) =>
+  loadAPI('/create-clientadjust/', {
+    method: 'POST',
+    data: src,
+    secure: true,
+  });

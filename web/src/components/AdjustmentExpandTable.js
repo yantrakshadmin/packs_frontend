@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {Table, Row, Col, Spin} from 'antd';
-import {useAPI} from 'common/hooks/api';
+import _ from 'lodash';
+import {reasonOptions} from 'common/formFields/adjustmentInventory.formFields';
 
 const cols = [
   {
@@ -26,7 +27,11 @@ const cols = [
   {
     title: 'Reason',
     key: 'reason',
-    dataIndex: 'reason',
+    //dataIndex: 'reason',
+    render: (text, record) => {
+      const r = _.find(reasonOptions, (i) => i.reason === record.reason);
+      return r ? r.text : '-';
+    },
   },
 ];
 

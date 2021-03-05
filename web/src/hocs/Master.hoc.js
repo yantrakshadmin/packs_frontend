@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Typography, Button, Divider, Row, Col, Table, Modal } from 'antd';
+import React, {useEffect, useState} from 'react';
+import {Typography, Button, Divider, Row, Col, Table, Modal} from 'antd';
 
-const { Title } = Typography;
+const {Title} = Typography;
 
 export const MasterHOC = ({
   title,
@@ -17,6 +17,7 @@ export const MasterHOC = ({
   refresh = () => {},
   customRightButtonLabel,
   loading = false,
+  ExtraButtonNextToTitle,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -41,7 +42,7 @@ export const MasterHOC = ({
           visible={modalVisible}
           onCancel={onCancel}
           maskClosable={false}
-          style={{ minWidth: '80vw' }}
+          style={{minWidth: '80vw'}}
           title={customModalTitle || customRightButtonLabel || `Add ${title}`}
           footer={null}>
           <ModalBody
@@ -51,15 +52,17 @@ export const MasterHOC = ({
           />
         </Modal>
       )}
-      <Row justify='space-between'>
+      <Row justify="space-between">
         <Col>
-          <Title level={3}>{title}</Title>
+          <Title level={3}>
+            {title} {ExtraButtonNextToTitle ? <ExtraButtonNextToTitle /> : null}
+          </Title>
         </Col>
         <Col>
           {hideRightButton ? null : (
             <Button
-              className='m-2'
-              type='primary'
+              className="m-2"
+              type="primary"
               onClick={() => {
                 setModalVisible(true);
               }}>
@@ -68,7 +71,7 @@ export const MasterHOC = ({
           )}
         </Col>
       </Row>
-      <Divider style={{ margin: 0, padding: 0 }} />
+      <Divider style={{margin: 0, padding: 0}} />
       <Row>
         <Col span={24}>
           <Table
@@ -78,7 +81,8 @@ export const MasterHOC = ({
             columns={columns}
             loading={loading}
             {...tableOptions}
-            size={size} />
+            size={size}
+          />
         </Col>
       </Row>
     </div>

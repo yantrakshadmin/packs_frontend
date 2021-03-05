@@ -4,7 +4,7 @@ import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
 
 // const statusOptions = ['Approved', 'Hold', 'Rejected'];
 
-const reasonOptions = [
+export const reasonOptions = [
   {reason: 'SR', text: 'Stocktaking Results'},
   {reason: 'SoF', text: 'Stock on Fire'},
   {reason: 'SG', text: 'Stolen Goods'},
@@ -144,6 +144,44 @@ export const adjustmentFlowFormFields = [
       customTitle: 'text',
     },
     customLabel: 'Reason',
+    colSpan: 4,
+  },
+];
+
+export const adjustmentClientEnvFormFields = [
+  {
+    key: 'client',
+    rules: [{required: true, message: 'Please select Client!'}],
+    kwargs: {
+      placeholder: 'Select',
+    },
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: null,
+    customLabel: 'Client',
+    colSpan: 6,
+  },
+  {
+    key: 'kit',
+    rules: [{required: true, message: 'Please select Kit!'}],
+    kwargs: {
+      placeholder: 'Select',
+    },
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: null,
+    customLabel: 'Kit',
+    colSpan: 6,
+  },
+  {
+    key: 'quantity',
+    rules: [{required: true, message: 'Required!'}],
+    kwargs: {
+      placeholder: 'Quantity Available',
+      type: 'number',
+      min: 0,
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Quantity Available',
     colSpan: 4,
   },
 ];

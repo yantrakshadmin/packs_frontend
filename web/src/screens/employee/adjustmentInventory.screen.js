@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import adjustmentColumns from 'common/columns/adjustment.column';
 import {Popconfirm, Button, Input, Popover} from 'antd';
-import {deleteExpense, retrieveAdjustments} from 'common/api/auth';
+import {retrieveAdjustments} from 'common/api/auth';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
 import {AdjustmentForm} from 'forms/adjustmentInventory.form';
+import AdjustmentClientTab from './AdjustmentInventoryStuff/AdjustmentClientTab';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import ExpandTable from 'components/AdjustmentExpandTable';
 import {deleteHOC} from 'hocs/deleteHoc';
@@ -16,6 +17,7 @@ import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import {yantraColors} from '../../helpers/yantraColors';
 import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {uploadAdjustmentDocument} from 'common/api/auth';
 
 import {loadAPI} from 'common/helpers/api';
 import _ from 'lodash';
@@ -30,23 +32,13 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
     searchVal,
     retrieve: retrieveAdjustments,
   });
-  //const {data: mrStatusData} = useAPI('list-mrstatus/');
+
   const cancelEditing = () => {
     setEditingId(null);
   };
 
   const columns = [
-    ...adjustmentColumns.slice(0, 3),
-    {
-      title: 'Warehouse/Client',
-      key: 'warehouse',
-      dataIndex: 'warehouse',
-      // render: (text, record) => {
-      //   const w = _.find(warehouses, (i) => i.id === record.warehouse);
-      //   return w ? w.name : '-';
-      // },
-    },
-    ...adjustmentColumns.slice(4),
+    ...adjustmentColumns,
     {
       title: 'Action',
       key: 'operation',
@@ -122,6 +114,15 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
       columns,
       loading,
     },
+    {
+      name: 'Client Adjustments',
+      key: 'clientAdjustments',
+      hasCustomModel: true,
+      CustomModel: AdjustmentClientTab,
+      customModelProps: {
+        searchVal: searchVal,
+      },
+    },
   ];
 
   return (
@@ -146,6 +147,9 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         //expandHandleKey="transactions"
         expandParams={{loading}}
         ExpandBody={ExpandTable}
+        uploadLink={true}
+        uploadLinkTitle={'Upload Document'}
+        uploadLinkFunc={uploadAdjustmentDocument}
       />
     </>
   );
