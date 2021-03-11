@@ -111,13 +111,16 @@ const ReturnForm = ({location}) => {
       });
       setProducts(prods);
       console.log(kitss);
-      setKits(kitss);
+      setKits(_.uniqBy(kitss, 'id'));
     };
     if (receiverClient) fetchKits();
   }, [receiverClient]);
 
+  const [addDisabled, setAddDisabled] = useState(false);
+
   const handleFieldsChange = async (data) => {
     // console.log(data, kitID);
+    setAddDisabled(false);
     if (data)
       if (data[0])
         if (data[0].name)
@@ -132,17 +135,19 @@ const ReturnForm = ({location}) => {
               // console.log(data[0].name);
               if (kitID) {
                 console.log(kitID);
-                const rk = kits.filter((k) => k.id === kitID)[0];
-                const produces = [];
-                rk.products.forEach((p) => {
-                  produces.push({product: p.product.id, product_quantity: p.quantity});
-                });
-                form.setFields([
-                  {
-                    name: [`items${data[0].name[1]}`],
-                    value: produces,
-                  },
-                ]);
+                const rk = _.find(kits, (k) => k.id === kitID);
+                if (rk) {
+                  const produces = [];
+                  rk.products.forEach((p) => {
+                    produces.push({product: p.product.id, product_quantity: p.quantity});
+                  });
+                  form.setFields([
+                    {
+                      name: [`items${data[0].name[1]}`],
+                      value: produces,
+                    },
+                  ]);
+                }
               }
             }
             if (data[0].name[2] === 'quantity') {
@@ -166,6 +171,18 @@ const ReturnForm = ({location}) => {
                   },
                 ]);
                 // console.log(rk);
+              }
+            }
+
+            if (data[0].name[2] === 'kit' || data[0].name[2] === 'quantity') {
+              const kts = form.getFieldValue('kits');
+              const lastK = kts[kts.length - 1];
+              if (lastK) {
+                if (lastK.kit && lastK.quantity) {
+                  setAddDisabled(false);
+                } else {
+                  setAddDisabled(true);
+                }
               }
             }
           }
@@ -407,8 +424,10 @@ const ReturnForm = ({location}) => {
                           const temp = pcc;
                           setPcc([...pcc, pcc.length]);
                           add();
+                          setAddDisabled(true);
                         }}
-                        block>
+                        block
+                        disabled={addDisabled ? true : false}>
                         <PlusOutlined /> Add Item
                       </Button>
                     </Form.Item>
