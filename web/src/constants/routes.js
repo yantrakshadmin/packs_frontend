@@ -225,6 +225,11 @@ export const employeeRoutes = [
         Component: lazy(() => import('screens/employee/clientInventory.screen')),
       },
       {
+        name: 'Sender Client II',
+        path: '/main-inventory/sc-inventory-2/',
+        Component: lazy(() => import('screens/employee/clientInventory2.screen')),
+      },
+      {
         name: 'Receiver Client',
         path: '/main-inventory/inventory-rclients/',
         Component: lazy(() => import('screens/employee/receiverClientInventory.screen')),

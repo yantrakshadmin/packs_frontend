@@ -1144,6 +1144,28 @@ export const deleteTestInv = (id) =>
     secure: true,
   });
 
+export const retrieveSC2TestInv = (data) => {
+  return loadAPI('sc-inv-items/', {
+    method: 'GET',
+    secure: true,
+    data,
+  });
+};
+
+export const createSC2TestInv = (data) => {
+  return loadAPI('create-sc-inv/', {
+    method: 'POST',
+    secure: true,
+    data,
+  });
+};
+
+export const deleteSC2TestInv = (id) =>
+  loadAPI(`/edit-sc-inv/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
 export const createMRStatus = (data) => {
   return loadAPI('create-mrstatus/', {
     method: 'POST',

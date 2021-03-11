@@ -16,6 +16,9 @@ const StockingReport = ({currentPage}) => {
   const [fromDate, setFromDate] = useState(null);
   const [form] = Form.useForm();
 
+  const {data: rClients} = useAPI('/receiverclients/', {});
+  const [selectedClientID, setSelectedClientID] = useState(null);
+  const [selectAllClients, setSelectAllClients] = useState(false);
   //const {data: clients} = useAPI('/clients/', {});
 
   const onChange = async () => {
@@ -55,6 +58,42 @@ const StockingReport = ({currentPage}) => {
         </Row> */}
 
         <Row gutter={10}>
+          <Col span={2}>
+            {formItem({
+              key: 'select_all_clients',
+              kwargs: {
+                onChange: (val) => {
+                  setSelectAllClients(val);
+                },
+              },
+              type: FORM_ELEMENT_TYPES.SWITCH,
+              customLabel: 'Select All',
+            })}
+          </Col>
+          {!selectAllClients ? (
+            <Col span={10}>
+              {formItem({
+                key: 'rid',
+                kwargs: {
+                  placeholder: 'Select',
+                  onChange: (val) => {
+                    setSelectedClientID(val);
+                  },
+                },
+                others: {
+                  selectOptions: rClients || [],
+                  key: 'id',
+                  customTitle: 'name',
+                  dataKeys: ['address'],
+                },
+                type: FORM_ELEMENT_TYPES.SELECT,
+                customLabel: 'Receiver Client',
+              })}
+            </Col>
+          ) : null}
+        </Row>
+
+        <Row gutter={10}>
           <Col span={4}>
             {formItem({
               key: 'dateFrom',
@@ -84,7 +123,11 @@ const StockingReport = ({currentPage}) => {
         </Row>
         <Row>
           <Button
-            href={`${DEFAULT_BASE_URL}/return-loss/?to=${toDate}&from=${fromDate}`}
+            href={
+              selectAllClients
+                ? `${DEFAULT_BASE_URL}/return-loss/?to=${toDate}&from=${fromDate}`
+                : `${DEFAULT_BASE_URL}/return-loss/?to=${toDate}&from=${fromDate}&rid=${selectedClientID}`
+            }
             rel="noopener noreferrer"
             target="blank">
             Download CSV
