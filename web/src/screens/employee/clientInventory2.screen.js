@@ -32,16 +32,16 @@ export const TestInventoryScreen = () => {
     if (!invLoading) {
       const temp = invData.map((i) => {
         return {
+          client: i.client,
           quantity: i.quantity,
           product: i.product,
-          client: i.client || '-',
         };
       });
       return {
         headers: [
+          {label: 'Client', key: 'client'},
           {label: 'Product', key: 'product'},
           {label: 'Quantity', key: 'quantity'},
-          {label: 'Client', key: 'client'},
         ],
         data: temp,
       };
@@ -76,6 +76,12 @@ export const TestInventoryScreen = () => {
 
   const column = [
     {
+      title: 'Client',
+      key: 'client',
+      dataIndex: 'client',
+      //render: (product) => <div>{product.description}</div>,
+    },
+    {
       title: 'Product',
       key: 'product',
       dataIndex: 'product',
@@ -85,12 +91,6 @@ export const TestInventoryScreen = () => {
       title: 'Quantity',
       key: 'quantity',
       dataIndex: 'quantity',
-    },
-    {
-      title: 'Client',
-      key: 'client',
-      dataIndex: 'client',
-      //render: (product) => <div>{product.description}</div>,
     },
     {
       title: 'Action',
@@ -149,25 +149,6 @@ export const TestInventoryScreen = () => {
         <Row align="middle" gutter={32}>
           <Col span={8}>
             {formItem({
-              key: 'product',
-              kwargs: {
-                placeholder: 'Select',
-                showSearch: true,
-                filterOption: (input, option) =>
-                  option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-              },
-              others: {
-                selectOptions: products || [],
-                key: 'id',
-                dataKeys: ['name', 'description', 'category'],
-                customTitle: 'short_code',
-              },
-              type: FORM_ELEMENT_TYPES.SELECT,
-              customLabel: 'Product',
-            })}
-          </Col>
-          <Col span={8}>
-            {formItem({
               key: 'client',
               kwargs: {
                 placeholder: 'Select',
@@ -183,6 +164,25 @@ export const TestInventoryScreen = () => {
               },
               type: FORM_ELEMENT_TYPES.SELECT,
               customLabel: 'Client',
+            })}
+          </Col>
+          <Col span={8}>
+            {formItem({
+              key: 'product',
+              kwargs: {
+                placeholder: 'Select',
+                showSearch: true,
+                filterOption: (input, option) =>
+                  option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+              },
+              others: {
+                selectOptions: products || [],
+                key: 'id',
+                dataKeys: ['name', 'description', 'category'],
+                customTitle: 'short_code',
+              },
+              type: FORM_ELEMENT_TYPES.SELECT,
+              customLabel: 'Product',
             })}
           </Col>
           <Col span={4}>
