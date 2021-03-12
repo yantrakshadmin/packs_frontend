@@ -104,20 +104,23 @@ export const TestInventoryScreen = () => {
       width: '9vw',
       render: (text, record) => (
         <div className="row justify-evenly">
-          {/* <Button
+          <Button
             type="primary"
             onClick={async (e) => {
               setSelectedProduct(record.product.short_code);
               setDetailsLoading(true);
-              const {data} = await loadAPI(`/ledger-items/?id=${record.product.short_code}`, {
-                method: 'GET',
-              });
+              const {data} = await loadAPI(
+                `/sc-ledger-items/?id=${record.product.short_code}&cname=${record.client}`,
+                {
+                  method: 'GET',
+                },
+              );
               setDetails(data);
               setDetailsLoading(false);
               e.stopPropagation();
             }}>
             Details
-          </Button> */}
+          </Button>
           <Popconfirm
             title="Confirm Delete"
             onCancel={(e) => e.stopPropagation()}
@@ -152,7 +155,7 @@ export const TestInventoryScreen = () => {
         </div>
       </div>
       <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
-        <Row align="middle" gutter={32}>
+        <Row align="middle" gutter={10}>
           <Col span={8}>
             {formItem({
               key: 'client',
@@ -209,7 +212,7 @@ export const TestInventoryScreen = () => {
         </Row>
       </Form>
 
-      <Row gutter={32}>
+      <Row gutter={10}>
         <Col lg={12}>
           <MasterHOC
             refresh={reload}
