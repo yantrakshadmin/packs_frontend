@@ -33,15 +33,15 @@ export const TestInventoryScreen = () => {
       const temp = invData.map((i) => {
         return {
           quantity: i.quantity,
-          product: i.product.short_code,
-          product_info: i.product.description || '-',
+          product: i.product,
+          client: i.client || '-',
         };
       });
       return {
         headers: [
           {label: 'Product', key: 'product'},
-          {label: 'Product Info', key: 'product_info'},
           {label: 'Quantity', key: 'quantity'},
+          {label: 'Client', key: 'client'},
         ],
         data: temp,
       };
