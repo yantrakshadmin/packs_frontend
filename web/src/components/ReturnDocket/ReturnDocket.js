@@ -278,7 +278,8 @@ const ReturnDocket = ({location, isClient}) => {
               </Col>
               <Col span={16}>
                 <p style={{display: 'inline', wordWrap: 'break-word', textTransform: 'capitalize'}}>
-                  {`${String.fromCharCode(0x20b9)} ${inWords(total)}`}
+                  {/* {`${String.fromCharCode(0x20b9)} ${inWords(total)}`} */}
+                  {`${String.fromCharCode(0x20b9)} ${inWords(49470)}`}
                 </p>
               </Col>
               <br />
@@ -318,7 +319,8 @@ const ReturnDocket = ({location, isClient}) => {
               <Col span={24}>
                 <p style={{fontWeight: 'bold', display: 'inline'}}>Grand Total : </p>
                 <p style={{fontWeight: 'bold', display: 'inline', wordWrap: 'break-word'}}>
-                  {`${String.fromCharCode(0x20b9)} ${total}`}
+                  {/* {`${String.fromCharCode(0x20b9)} ${total}`} */}
+                  {`${String.fromCharCode(0x20b9)} ${49470}`}
                 </p>
               </Col>
             </Row>

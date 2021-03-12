@@ -233,10 +233,7 @@ const TableWithTabHOC = ({
           {hideRightButton && RightBody ? <RightBody /> : null}
           {hideRightButton ? null : newPage ? (
             <Link to={newPage}>
-              <Button type="primary">
-                Add
-                {title}
-              </Button>
+              <Button type="primary">{`Add ${title}`}</Button>
             </Link>
           ) : (
             <>
@@ -256,7 +253,7 @@ const TableWithTabHOC = ({
                 onClick={() => {
                   if (!newPage) setModalVisible(true);
                 }}>
-                Add {title}
+                {`Add ${title}`}
               </Button>
             </>
           )}

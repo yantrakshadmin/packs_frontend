@@ -48,7 +48,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
   const [reqData, setReqData] = useState([]);
   const [TN, setTN] = useState(null);
   const [visible, setVisible] = useState(false);
-  const {data: allotments, loading} = useAPI('/allotments-table/', {});
+  const {data: allotments, loading, reload: reloadFull} = useAPI('/allotments-table/', {});
   const {data: count} = useAPI('/mr-count/', {});
   const [altId, setAltId] = useState(null);
   const {filteredData, reload} = useTableSearch({
@@ -144,7 +144,13 @@ const AllotmentDocketsScreen = ({currentPage}) => {
                 if (req.document) {
                   window.open(req.document);
                 }
-              e.stopPropagation();
+              try {
+                if (req.pod.length > 0) {
+                  req.pod.forEach((f) => {
+                    window.open(f.document);
+                  });
+                }
+              } catch (err) {}
             }}>
             <FontAwesomeIcon
               icon={record.is_delivered ? faEye : faEyeSlash}
@@ -164,7 +170,8 @@ const AllotmentDocketsScreen = ({currentPage}) => {
               setTN(record.transaction_no);
               setDeliveryId(record.id);
               e.stopPropagation();
-            }}>
+            }}
+            disabled={record.is_delivered ? true : false}>
             <Delivery color={record.is_delivered ? '#7CFC00' : null} />
           </Button>
           <Button
@@ -282,7 +289,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
 
       <TableWithTabHOC
         rowKey={(record) => record.id}
-        refresh={reload}
+        refresh={reloadFull}
         tabs={tabs}
         size="middle"
         title=""

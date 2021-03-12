@@ -6,7 +6,7 @@ import {Link} from '@reach/router';
 import {useAPI} from 'common/hooks/api';
 import {deleteOutward} from 'common/api/auth';
 import {outwardDocketColumn} from 'common/columns/outwardDocket.column';
-import {GetUniqueValueNested} from 'common/helpers/getUniqueValues';
+import {GetUniqueValue} from 'common/helpers/getUniqueValues';
 import {loadAPI} from 'common/helpers/api';
 import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
@@ -77,13 +77,8 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
       dataIndex: 'sending_location',
       key: 'sending_location',
       width: 400,
-      render: (location) => (
-        <div>
-          {location.name} - {location.address}
-        </div>
-      ),
-      filters: GetUniqueValueNested(filteredData || [], 'sending_location', 'name'),
-      onFilter: (value, record) => record.sending_location.name === value,
+      filters: GetUniqueValue(filteredData || [], 'sending_location'),
+      onFilter: (value, record) => record.sending_location === value,
     },
     // {
     //   title: 'Sender Client',
@@ -91,7 +86,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
     //   key: 'owner',
     //   width: 400,
     //   render: (i) => <div>{i.client_name}</div>,
-    //   filters: GetUniqueValueNested(filteredData || [], 'owner', 'client_name'),
+    //   filters: GetUniqueValue(filteredData || [], 'owner', 'client_name'),
     //   onFilter: (value, record) => record.owner.client_name === value.client_name,
     // },
     ...outwardDocketColumn,
