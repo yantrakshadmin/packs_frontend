@@ -6,7 +6,7 @@ import {FORM_ELEMENT_TYPES} from 'constants/formFields.constant';
 import {MasterHOC} from 'hocs/Master.hoc';
 import {createSC2TestInv, deleteSC2TestInv, retrieveSC2TestInv} from 'common/api/auth';
 import {loadAPI} from 'common/helpers/api';
-import {TestInventoryDetailColumn} from 'common/columns/testInventoryDetail.column';
+import {TestSC2InventoryDetailColumn} from 'common/columns/testInventoryDetail.column';
 import {useHandleForm} from '../../hooks/form';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
@@ -85,7 +85,13 @@ export const TestInventoryScreen = () => {
       title: 'Product',
       key: 'product',
       dataIndex: 'product',
-      //render: (product) => <div>{product.short_code}</div>,
+      render: (product) => <div>{product.short_code}</div>,
+    },
+    {
+      title: 'Product Info',
+      key: 'description',
+      dataIndex: 'description',
+      render: (product) => <div>{product.description}</div>,
     },
     {
       title: 'Quantity',
@@ -214,6 +220,16 @@ export const TestInventoryScreen = () => {
             ExtraButtonNextToTitle={DownloadCSVButton}
             hideRightButton
             loading={loading || invLoading}
+          />
+        </Col>
+        <Col lg={12}>
+          <MasterHOC
+            size="small"
+            data={details}
+            title={`${selectedProduct} Details`}
+            hideRightButton
+            loading={detailsLoading}
+            columns={TestSC2InventoryDetailColumn}
           />
         </Col>
       </Row>
