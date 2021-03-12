@@ -19,17 +19,16 @@ export const TestInventoryDetailColumn = [
 ];
 
 export const TestSC2InventoryDetailColumn = [
-  {
-    title: 'Client',
-    key: 'client',
-    dataIndex: 'client',
-    //render: (product) => <div>{product.description}</div>,
-  },
-  {
-    title: 'Product',
-    key: 'product',
-    dataIndex: 'product',
-  },
+  // {
+  //   title: 'Client',
+  //   key: 'client',
+  //   dataIndex: 'client',
+  // },
+  // {
+  //   title: 'Product',
+  //   key: 'product',
+  //   dataIndex: 'product',
+  // },
   {
     title: 'Date',
     key: 'date',

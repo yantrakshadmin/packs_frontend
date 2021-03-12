@@ -12,6 +12,8 @@ import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import {useTableSearch} from '../../hooks/useTableSearch';
 import {CSVLink} from 'react-csv';
+import {ifNotStrReturnA} from 'common/helpers/mrHelper';
+import {GetUniqueValue} from 'common/helpers/getUniqueValues';
 
 const {Search} = Input;
 
@@ -20,7 +22,7 @@ export const TestInventoryScreen = () => {
   const {data: sClients} = useAPI('/clients/', {});
   const [details, setDetails] = useState([]);
   const [detailsLoading, setDetailsLoading] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState({short_code: '', client: ''});
   const [searchVal, setSearchVal] = useState(null);
 
   const {filteredData: invData, loading: invLoading, reload} = useTableSearch({
@@ -80,23 +82,30 @@ export const TestInventoryScreen = () => {
       key: 'client',
       dataIndex: 'client',
       //render: (product) => <div>{product.description}</div>,
+      filters: GetUniqueValue(invData || [], 'client'),
+      onFilter: (value, record) => record.client === value,
     },
     {
       title: 'Product',
       key: 'product',
       dataIndex: 'product',
-      render: (product) => <div>{product.short_code}</div>,
+      render: (text, record) => record.product.short_code,
+      sorter: (a, b) =>
+        ifNotStrReturnA(a.product.short_code).localeCompare(ifNotStrReturnA(b.product.short_code)),
+      showSorterTooltip: false,
     },
     {
       title: 'Product Info',
       key: 'description',
       dataIndex: 'description',
-      render: (product) => <div>{product.description}</div>,
+      render: (text, record) => record.product.description,
     },
     {
       title: 'Quantity',
       key: 'quantity',
       dataIndex: 'quantity',
+      sorter: (a, b) => a.quantity - b.quantity,
+      showSorterTooltip: false,
     },
     {
       title: 'Action',
@@ -107,7 +116,7 @@ export const TestInventoryScreen = () => {
           <Button
             type="primary"
             onClick={async (e) => {
-              setSelectedProduct(record.product.short_code);
+              setSelectedProduct({short_code: record.product.short_code, client: record.client});
               setDetailsLoading(true);
               const {data} = await loadAPI(
                 `/sc-ledger-items/?id=${record.product.short_code}&cname=${record.client}`,
@@ -229,7 +238,7 @@ export const TestInventoryScreen = () => {
           <MasterHOC
             size="small"
             data={details}
-            title={`${selectedProduct} Details`}
+            title={`${selectedProduct.short_code} - ${selectedProduct.client}`}
             hideRightButton
             loading={detailsLoading}
             columns={TestSC2InventoryDetailColumn}
