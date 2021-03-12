@@ -17,6 +17,7 @@ const {Search} = Input;
 
 export const TestInventoryScreen = () => {
   const {data: products} = useAPI('/products/', {});
+  const {data: sClients} = useAPI('/clients/', {});
   const [details, setDetails] = useState([]);
   const [detailsLoading, setDetailsLoading] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState('');
@@ -78,7 +79,7 @@ export const TestInventoryScreen = () => {
       title: 'Product',
       key: 'product',
       dataIndex: 'product',
-      render: (product) => <div>{product.short_code}</div>,
+      //render: (product) => <div>{product.short_code}</div>,
     },
     {
       title: 'Quantity',
@@ -86,10 +87,10 @@ export const TestInventoryScreen = () => {
       dataIndex: 'quantity',
     },
     {
-      title: 'Product Info',
-      key: 'product_info',
-      dataIndex: 'product',
-      render: (product) => <div>{product.description}</div>,
+      title: 'Client',
+      key: 'client',
+      dataIndex: 'client',
+      //render: (product) => <div>{product.description}</div>,
     },
     {
       title: 'Action',
@@ -97,7 +98,7 @@ export const TestInventoryScreen = () => {
       width: '9vw',
       render: (text, record) => (
         <div className="row justify-evenly">
-          <Button
+          {/* <Button
             type="primary"
             onClick={async (e) => {
               setSelectedProduct(record.product.short_code);
@@ -110,7 +111,7 @@ export const TestInventoryScreen = () => {
               e.stopPropagation();
             }}>
             Details
-          </Button>
+          </Button> */}
           <Popconfirm
             title="Confirm Delete"
             onCancel={(e) => e.stopPropagation()}
@@ -166,6 +167,25 @@ export const TestInventoryScreen = () => {
             })}
           </Col>
           <Col span={8}>
+            {formItem({
+              key: 'client',
+              kwargs: {
+                placeholder: 'Select',
+                showSearch: true,
+                filterOption: (input, option) =>
+                  option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+              },
+              others: {
+                selectOptions: sClients || [],
+                key: 'user',
+                dataKeys: ['client_city'],
+                customTitle: 'client_name',
+              },
+              type: FORM_ELEMENT_TYPES.SELECT,
+              customLabel: 'Client',
+            })}
+          </Col>
+          <Col span={4}>
             {formItem({
               key: 'quantity',
               kwargs: {
