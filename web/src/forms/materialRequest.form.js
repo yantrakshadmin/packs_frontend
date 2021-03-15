@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form, Col, Row, Button, Divider, Spin} from 'antd';
 import {
   materialRequestFormFields,
@@ -14,7 +14,7 @@ import formItem from '../hocs/formItem.hoc';
 import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
 
-export const MaterialRequestForm = ({id, onCancel, onDone}) => {
+export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
   const [flowId, setFlowId] = useState(null);
 
   const {data: flows} = useAPI('/myflows/', {});
@@ -24,7 +24,9 @@ export const MaterialRequestForm = ({id, onCancel, onDone}) => {
     create: createMr,
     edit: editMr,
     retrieve: retrieveMr,
-    success: 'Material Request created/edited successfully.',
+    success: isEmployee
+      ? 'Material Request created/edited successfully.'
+      : 'Your material request has been placed successfully. We shall process the request within 12 working hours.',
     failure: 'Error in creating/editing Material Request.',
     done: onDone,
     close: onCancel,

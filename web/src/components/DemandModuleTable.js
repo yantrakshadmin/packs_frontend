@@ -16,8 +16,8 @@ const dMTableColumns = [
   },
   {
     title: 'Required Kit/Month',
-    key: 'monthly_quantity',
-    dataIndex: 'monthly_quantity',
+    key: 'req_kit_pm',
+    dataIndex: 'req_kit_pm',
   },
   {
     title: 'Required Pool',
@@ -46,11 +46,15 @@ const DemandModuleTable = ({loading, demand_flows}) => {
 
   useEffect(() => {
     let temp = [];
+    console.log(demand_flows);
     temp = demand_flows.map((record) => ({
-      monthly_quantity: record.monthly_quantity,
+      ...record,
+      req_kit_pm: _.ceil(record.monthly_quantity / record.components_per_kit),
       flow: record.flow.flow_name,
       kit: record.kit.kit_name,
-      required_pool: _.ceil((record.flow.flow_days / 30) * record.monthly_quantity),
+      required_pool: _.ceil(
+        (record.flow.flow_days / 30) * (record.monthly_quantity / record.components_per_kit),
+      ),
       deployed_pool: record.deployed_pool ? record.deployed_pool : '-',
       alloted: record.alloted ? record.alloted : '-',
       balance: record.balance ? record.balance : '-',

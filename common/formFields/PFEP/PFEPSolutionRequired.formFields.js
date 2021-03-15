@@ -148,4 +148,15 @@ export const PREPSolutionRequiredFormFields = [
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Parts/PM',
   },
+  {
+    key: 'solution_stacking_nesting',
+    kwargs: {
+      placeholder: 'Stacking or Nesting of parts',
+    },
+    others: {
+      formOptions: {noStyle: true},
+    },
+    type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Stacking or Nesting of parts',
+  },
 ];

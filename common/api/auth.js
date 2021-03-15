@@ -565,6 +565,12 @@ export const retrieveDms = () =>
     secure: true,
   });
 
+export const retrieveDmsClient = () =>
+  loadAPI('/client-demands/', {
+    method: 'GET',
+    secure: true,
+  });
+
 export const deleteDm = (id) =>
   loadAPI(`/edit-demand/${id}/`, {
     method: 'DELETE',
@@ -579,6 +585,12 @@ export const deleteAddDm = (id) =>
 
 export const retrieveEmployeeMrs = () =>
   loadAPI('/allmrequest/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const retrieveEmployeeMrsEfficient = () =>
+  loadAPI('/allmrequest-table/', {
     method: 'GET',
     secure: true,
   });
@@ -1132,6 +1144,50 @@ export const deleteTestInv = (id) =>
     secure: true,
   });
 
+export const retrieveSC2TestInv = (data) => {
+  return loadAPI('sc-inv-items/', {
+    method: 'GET',
+    secure: true,
+    data,
+  });
+};
+
+export const createSC2TestInv = (data) => {
+  return loadAPI('create-sc-inv/', {
+    method: 'POST',
+    secure: true,
+    data,
+  });
+};
+
+export const deleteSC2TestInv = (id) =>
+  loadAPI(`/edit-sc-inv/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const retrieveRC2TestInv = (data) => {
+  return loadAPI('rc-inv-items/', {
+    method: 'GET',
+    secure: true,
+    data,
+  });
+};
+
+export const createRC2TestInv = (data) => {
+  return loadAPI('create-rc-inv/', {
+    method: 'POST',
+    secure: true,
+    data,
+  });
+};
+
+export const deleteRC2TestInv = (id) =>
+  loadAPI(`/edit-rc-inv/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
 export const createMRStatus = (data) => {
   return loadAPI('create-mrstatus/', {
     method: 'POST',
@@ -1139,3 +1195,87 @@ export const createMRStatus = (data) => {
     data,
   });
 };
+
+export const createExpense = (src) =>
+  loadAPI('/create-expense/', {
+    method: 'POST',
+    data: src,
+    secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
+    },
+  });
+
+export const retrieveExpenses = () =>
+  loadAPI('/expenses/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteExpense = (id) =>
+  loadAPI(`/edit-expense/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const retrieveExpense = (id) =>
+  loadAPI(`/edit-expense/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const editExpense = (id, src) =>
+  loadAPI(`/edit-expense/${id}/`, {
+    method: 'PATCH',
+    data: src,
+    secure: true,
+  });
+
+export const editExpenseTest = (id, src) =>
+  loadAPI(`/ed-expense/${id}/`, {
+    method: 'PATCH',
+    data: src,
+    secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
+    },
+  });
+
+export const createAdjustment = (src) =>
+  loadAPI('/create-adjustments/', {
+    method: 'POST',
+    data: src,
+    secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
+    },
+  });
+
+export const retrieveAdjustments = () =>
+  loadAPI('/adjustments/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const retrieveAdjustmentClients = () =>
+  loadAPI('/clientadjust/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const uploadAdjustmentDocument = (src) =>
+  loadAPI('/upload-audit/', {
+    method: 'POST',
+    data: src,
+    secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
+    },
+  });
+
+export const createClientAdjustment = (src) =>
+  loadAPI('/create-clientadjust/', {
+    method: 'POST',
+    data: src,
+    secure: true,
+  });

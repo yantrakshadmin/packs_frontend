@@ -1,35 +1,37 @@
 import React from 'react';
-import { Row,Col } from 'antd';
-import { connect } from 'react-redux';
-import { useAPI } from 'common/hooks/api';
-import { transitInventoryAllotmentColumn,transitInventoryReturnColumn }
-  from 'common/columns/transitInventory.column';
-import { getReformattedAllotmentData,getReformattedReturnData } from 'common/helpers/inventory';
+import {Row, Col} from 'antd';
+import {connect} from 'react-redux';
+import {useAPI} from 'common/hooks/api';
+import {
+  transitInventoryAllotmentColumn,
+  transitInventoryReturnColumn,
+} from 'common/columns/transitInventory.column';
+import {getReformattedAllotmentData, getReformattedReturnData} from 'common/helpers/inventory';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 
-const TransitInventoryScreen = ({ currentPage }) => {
-  const { data:returnInTransit, loading:rLoading, reload:rReload } = useAPI('/r-intransit/', {
+const TransitInventoryScreen = ({currentPage}) => {
+  const {data: returnInTransit, loading: rLoading, reload: rReload} = useAPI('/r-intransit/', {
     method: 'GET',
     secure: true,
-  })
-  const { data:deliveredInTransit, loading:dLoading, reload:dReload } = useAPI('/d-intransit/', {
+  });
+  const {data: deliveredInTransit, loading: dLoading, reload: dReload} = useAPI('/d-intransit/', {
     method: 'GET',
     secure: true,
-  })
-
+  });
 
   const tabs = [
     {
       name: 'Allotment In-Transit',
       key: 'allotmentInTransit',
       data: getReformattedAllotmentData(deliveredInTransit),
-      columns:transitInventoryAllotmentColumn,
+      columns: transitInventoryAllotmentColumn,
       dLoading,
-    },{
+    },
+    {
       name: 'Return In-Transit',
       key: 'returnInTransit',
       data: getReformattedReturnData(returnInTransit),
-      columns:transitInventoryReturnColumn,
+      columns: transitInventoryReturnColumn,
       rLoading,
     },
   ];
@@ -39,12 +41,15 @@ const TransitInventoryScreen = ({ currentPage }) => {
       <Row>
         <Col span={12}>
           <TableWithTabHOC
-            refresh={()=>{rReload(); dReload()}}
+            refresh={() => {
+              rReload();
+              dReload();
+            }}
             tabs={tabs}
-            size='small'
-            title='InTransits'
+            size="small"
+            title="InTransits"
             hideRightButton
-      />
+          />
         </Col>
       </Row>
     </>
@@ -52,7 +57,7 @@ const TransitInventoryScreen = ({ currentPage }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { currentPage: state.page.currentPage };
+  return {currentPage: state.page.currentPage};
 };
 
 export default connect(mapStateToProps)(TransitInventoryScreen);

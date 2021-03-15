@@ -31,7 +31,7 @@ import Delivery from 'icons/Delivery';
 import Document from 'icons/Document';
 import {BarcodeAllotmentDocket} from 'components/barcodeAllotmentDocket';
 import {GetUniqueValue} from 'common/helpers/getUniqueValues';
-import {EyeTwoTone, EyeInvisibleOutlined, UserOutlined} from '@ant-design/icons';
+import FilesViewModal from '../../components/FilesViewModal';
 
 import ExpandTable from '../../components/AllotmentsExpandTable';
 
@@ -48,7 +48,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
   const [reqData, setReqData] = useState([]);
   const [TN, setTN] = useState(null);
   const [visible, setVisible] = useState(false);
-  const {data: allotments, loading} = useAPI('/allotments-table/', {});
+  const {data: allotments, loading, reload: reloadFull} = useAPI('/allotments-table/', {});
   const {data: count} = useAPI('/mr-count/', {});
   const [altId, setAltId] = useState(null);
   const {filteredData, reload} = useTableSearch({
@@ -126,7 +126,29 @@ const AllotmentDocketsScreen = ({currentPage}) => {
           {/*  target='_blank' */}
           {/*  rel='noopener noreferrer' */}
           {/* > */}
-          <Button
+          <FilesViewModal
+            documentAvail={record.is_delivered ? true : false}
+            getDocuments={async () => {
+              const {data: req} = await loadAPI(
+                `${DEFAULT_BASE_URL}/delivered-docket/?pk=${record.id}`,
+                {},
+              );
+              if (req)
+                if (req.document) {
+                  return [{document: req.document, span: 24}];
+                }
+              try {
+                if (req.pod.length > 0) {
+                  let d = [];
+                  req.pod.forEach((f) => {
+                    d.push({document: f.document, span: req.pod.length > 1 ? 12 : 24});
+                  });
+                  return d;
+                }
+              } catch (err) {}
+            }}
+          />
+          {/* <Button
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -135,6 +157,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
             }}
             // disabled={!record.document}
             onClick={async (e) => {
+              e.stopPropagation();
               const {data: req} = await loadAPI(
                 `${DEFAULT_BASE_URL}/delivered-docket/?pk=${record.id}`,
                 {},
@@ -143,15 +166,19 @@ const AllotmentDocketsScreen = ({currentPage}) => {
                 if (req.document) {
                   window.open(req.document);
                 }
-              e.stopPropagation();
+              try {
+                if (req.pod.length > 0) {
+                  req.pod.forEach((f) => {
+                    window.open(f.document);
+                  });
+                }
+              } catch (err) {}
             }}>
             <FontAwesomeIcon
               icon={record.is_delivered ? faEye : faEyeSlash}
               style={{fontSize: 20, color: yantraColors['primary']}}
             />
-            {/* <Document color={record.document ? '#7CFC00' : null} /> */}
-          </Button>
-          {/* </a> */}
+          </Button> */}
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -163,7 +190,8 @@ const AllotmentDocketsScreen = ({currentPage}) => {
               setTN(record.transaction_no);
               setDeliveryId(record.id);
               e.stopPropagation();
-            }}>
+            }}
+            disabled={record.is_delivered ? true : false}>
             <Delivery color={record.is_delivered ? '#7CFC00' : null} />
           </Button>
           <Button
@@ -281,7 +309,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
 
       <TableWithTabHOC
         rowKey={(record) => record.id}
-        refresh={reload}
+        refresh={reloadFull}
         tabs={tabs}
         size="middle"
         title=""

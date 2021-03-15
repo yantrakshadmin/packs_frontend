@@ -4,42 +4,45 @@ import {Button, Col, Form, Input, Popconfirm, Row} from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import {FORM_ELEMENT_TYPES} from 'constants/formFields.constant';
 import {MasterHOC} from 'hocs/Master.hoc';
-import {createTestInv, deleteTestInv, retrieveTestInv} from 'common/api/auth';
+import {createRC2TestInv, deleteRC2TestInv, retrieveRC2TestInv} from 'common/api/auth';
 import {loadAPI} from 'common/helpers/api';
-import {TestInventoryDetailColumn} from 'common/columns/testInventoryDetail.column';
+import {TestSC2InventoryDetailColumn} from 'common/columns/testInventoryDetail.column';
 import {useHandleForm} from '../../hooks/form';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import {useTableSearch} from '../../hooks/useTableSearch';
 import {CSVLink} from 'react-csv';
+import {ifNotStrReturnA} from 'common/helpers/mrHelper';
+import {GetUniqueValue} from 'common/helpers/getUniqueValues';
 
 const {Search} = Input;
 
 export const TestInventoryScreen = () => {
   const {data: products} = useAPI('/products/', {});
+  const {data: rClients} = useAPI('/receiverclients/', {});
   const [details, setDetails] = useState([]);
   const [detailsLoading, setDetailsLoading] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState({short_code: '', client: ''});
   const [searchVal, setSearchVal] = useState(null);
 
   const {filteredData: invData, loading: invLoading, reload} = useTableSearch({
     searchVal,
-    retrieve: retrieveTestInv,
+    retrieve: retrieveRC2TestInv,
   });
 
   const generateCSVData = useCallback(() => {
     if (!invLoading) {
       const temp = invData.map((i) => {
         return {
+          client: i.client,
           quantity: i.quantity,
-          product: i.product.short_code,
-          product_info: i.product.description || '-',
+          product: i.product,
         };
       });
       return {
         headers: [
+          {label: 'Client', key: 'client'},
           {label: 'Product', key: 'product'},
-          {label: 'Product Info', key: 'product_info'},
           {label: 'Quantity', key: 'quantity'},
         ],
         data: temp,
@@ -64,7 +67,7 @@ export const TestInventoryScreen = () => {
 
   console.log(invData, 'Ggg');
   const {form, submit, loading} = useHandleForm({
-    create: createTestInv,
+    create: createRC2TestInv,
     success: 'Inventory created/edited successfully.',
     failure: 'Error in creating/editing Inventory.',
     done: () => {
@@ -75,21 +78,34 @@ export const TestInventoryScreen = () => {
 
   const column = [
     {
+      title: 'Client',
+      key: 'client',
+      dataIndex: 'client',
+      //render: (product) => <div>{product.description}</div>,
+      filters: GetUniqueValue(invData || [], 'client'),
+      onFilter: (value, record) => record.client === value,
+    },
+    {
       title: 'Product',
       key: 'product',
       dataIndex: 'product',
-      render: (product) => <div>{product.short_code}</div>,
+      render: (text, record) => record.product.short_code,
+      sorter: (a, b) =>
+        ifNotStrReturnA(a.product.short_code).localeCompare(ifNotStrReturnA(b.product.short_code)),
+      showSorterTooltip: false,
+    },
+    {
+      title: 'Product Info',
+      key: 'description',
+      dataIndex: 'description',
+      render: (text, record) => record.product.description,
     },
     {
       title: 'Quantity',
       key: 'quantity',
       dataIndex: 'quantity',
-    },
-    {
-      title: 'Product Info',
-      key: 'product_info',
-      dataIndex: 'product',
-      render: (product) => <div>{product.description}</div>,
+      sorter: (a, b) => a.quantity - b.quantity,
+      showSorterTooltip: false,
     },
     {
       title: 'Action',
@@ -100,11 +116,14 @@ export const TestInventoryScreen = () => {
           <Button
             type="primary"
             onClick={async (e) => {
-              setSelectedProduct(record.product.short_code);
+              setSelectedProduct({short_code: record.product.short_code, client: record.client});
               setDetailsLoading(true);
-              const {data} = await loadAPI(`/ledger-items/?id=${record.product.short_code}`, {
-                method: 'GET',
-              });
+              const {data} = await loadAPI(
+                `/sc-ledger-items/?id=${record.product.short_code}&cname=${record.client}`,
+                {
+                  method: 'GET',
+                },
+              );
               setDetails(data);
               setDetailsLoading(false);
               e.stopPropagation();
@@ -117,7 +136,7 @@ export const TestInventoryScreen = () => {
             onConfirm={deleteHOC({
               record,
               reload,
-              api: deleteTestInv,
+              api: deleteRC2TestInv,
               success: 'Deleted Inventory Successfully',
               failure: 'Error in deleting Inventory',
             })}>
@@ -136,21 +155,7 @@ export const TestInventoryScreen = () => {
       ),
     },
   ];
-  const columnDetails = [
-    {
-      title: 'Product',
-      key: 'product',
-      dataIndex: 'product',
-      render: (product) => <div>{product.product}</div>,
-    },
-    {
-      title: 'Date',
-      key: 'date',
-      dataIndex: 'date',
-      render: (date) => <div>{date.slice(0, 10)}</div>,
-    },
-    ...TestInventoryDetailColumn,
-  ];
+
   return (
     <div>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
@@ -159,7 +164,26 @@ export const TestInventoryScreen = () => {
         </div>
       </div>
       <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
-        <Row align="middle" gutter={32}>
+        <Row align="middle" gutter={10}>
+          <Col span={8}>
+            {formItem({
+              key: 'client',
+              kwargs: {
+                placeholder: 'Select',
+                showSearch: true,
+                filterOption: (input, option) =>
+                  option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+              },
+              others: {
+                selectOptions: rClients || [],
+                key: 'id',
+                dataKeys: ['city'],
+                customTitle: 'name',
+              },
+              type: FORM_ELEMENT_TYPES.SELECT,
+              customLabel: 'Client',
+            })}
+          </Col>
           <Col span={8}>
             {formItem({
               key: 'product',
@@ -179,7 +203,7 @@ export const TestInventoryScreen = () => {
               customLabel: 'Product',
             })}
           </Col>
-          <Col span={8}>
+          <Col span={4}>
             {formItem({
               key: 'quantity',
               kwargs: {
@@ -197,7 +221,7 @@ export const TestInventoryScreen = () => {
         </Row>
       </Form>
 
-      <Row gutter={32}>
+      <Row gutter={10}>
         <Col lg={12}>
           <MasterHOC
             refresh={reload}
@@ -214,10 +238,10 @@ export const TestInventoryScreen = () => {
           <MasterHOC
             size="small"
             data={details}
-            title={`${selectedProduct} Details`}
+            title={`${selectedProduct.short_code} - ${selectedProduct.client}`}
             hideRightButton
             loading={detailsLoading}
-            columns={columnDetails}
+            columns={TestSC2InventoryDetailColumn}
           />
         </Col>
       </Row>

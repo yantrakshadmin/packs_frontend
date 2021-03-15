@@ -1,18 +1,72 @@
 import React, {useState} from 'react';
 import {Link} from '@reach/router';
-import {Typography, Button, Divider, Row, Col, Table, Modal, Tabs} from 'antd';
+import {Typography, Button, Divider, Row, Col, Table, Modal, Tabs, Form, message} from 'antd';
 import {connect} from 'react-redux';
 import {changePage} from 'common/actions/changePage';
 import {CSVLink} from 'react-csv';
 import CsvDownload from 'react-json-to-csv';
+import formItem from './formItem.hoc';
+import {useHandleForm} from 'hooks/form';
 
 import './table.styles.scss';
 
 const {Title} = Typography;
 const {TabPane} = Tabs;
 
+const UploadFormBody = ({uploadLinkFunc, onDone, onCancel}) => {
+  const {form, submit, loading} = useHandleForm({
+    create: uploadLinkFunc,
+    success: 'Document Uploaded successfully',
+    failure: 'Something went wrong',
+    done: onDone,
+    close: onCancel,
+  });
+
+  const onFinish = (data) => {
+    const {file} = data.document;
+    const newFile = file.originFileObj;
+    data.document = newFile;
+    const req = new FormData();
+    for (const key in data) {
+      if (key === 'document') {
+        req.append(key.toString(), data[key]);
+      }
+    }
+    submit(req);
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    message.error(`Something went wrong. Please try again`);
+  };
+
+  return (
+    <Form
+      name="basic"
+      initialValues={{remember: true}}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}>
+      {formItem({
+        key: 'document',
+        kwargs: {
+          placeholder: 'Upload',
+        },
+        rules: [{required: true, message: 'Please upload File!'}],
+        type: 'file-drag-drop',
+        customLabel: 'Upload File',
+      })}
+
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
+  );
+};
+
 const TableWithTabHOC = ({
   title,
+  ExtraButtonNextToTitle,
   newPage,
   tabs,
   modelTitle,
@@ -28,6 +82,9 @@ const TableWithTabHOC = ({
   formParams,
   scroll,
   size,
+  uploadLink,
+  uploadLinkTitle,
+  uploadLinkFunc,
   downloadLink,
   downloadLink2,
   downloadLinkButtonTitle,
@@ -66,6 +123,17 @@ const TableWithTabHOC = ({
     onCancel();
   };
 
+  const [modalVisible2, setModalVisible2] = useState(false);
+
+  const onCancel2 = () => {
+    setModalVisible2(false);
+  };
+
+  const onDone2 = () => {
+    refresh();
+    onCancel2();
+  };
+
   const getIndex = () => {
     let activeIndex = 0;
     tabs.filter((i, index) => {
@@ -90,9 +158,24 @@ const TableWithTabHOC = ({
         <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} {...formParams} />
       </Modal>
 
+      {uploadLink ? (
+        <Modal
+          maskClosable={false}
+          visible={modalVisible2}
+          destroyOnClose
+          style={{minWidth: `30vw`}}
+          title={uploadLinkTitle}
+          onCancel={onCancel2}
+          footer={null}>
+          <UploadFormBody uploadLinkFunc={uploadLinkFunc} onDone={onDone2} onCancel={onCancel2} />
+        </Modal>
+      ) : null}
+
       <Row justify="space-between" align="middle">
         <Col>
-          <Title level={3}>{title}</Title>
+          <Title level={3}>
+            {title} {ExtraButtonNextToTitle ? <ExtraButtonNextToTitle /> : null}
+          </Title>
           {csvdata ? (
             <>
               <CSVLink
@@ -150,19 +233,29 @@ const TableWithTabHOC = ({
           {hideRightButton && RightBody ? <RightBody /> : null}
           {hideRightButton ? null : newPage ? (
             <Link to={newPage}>
-              <Button type="primary">
-                Add
-                {title}
-              </Button>
+              <Button type="primary">{`Add ${title}`}</Button>
             </Link>
           ) : (
-            <Button
-              type="primary"
-              onClick={() => {
-                if (!newPage) setModalVisible(true);
-              }}>
-              Add {title}
-            </Button>
+            <>
+              {uploadLink ? (
+                <>
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      setModalVisible2(true);
+                    }}>
+                    {uploadLinkTitle}
+                  </Button>{' '}
+                </>
+              ) : null}
+              <Button
+                type="primary"
+                onClick={() => {
+                  if (!newPage) setModalVisible(true);
+                }}>
+                {`Add ${title}`}
+              </Button>
+            </>
           )}
         </Col>
       </Row>
@@ -174,46 +267,50 @@ const TableWithTabHOC = ({
             <Tabs defaultActiveKey={tabs[0].key} onChange={callback}>
               {tabs.map((tab) => (
                 <TabPane tab={tab.name} key={tab.key}>
-                  <Table
-                    id="mastertable"
-                    bordered
-                    rowKey={rowKey}
-                    expandRowByClick
-                    expandIconColumnIndex={-1}
-                    pagination={{
-                      // pageSize: pageSize || 10,
-                      position: ['bottomRight'],
-                      onChange(current) {
-                        changePage(current);
-                      },
-                    }}
-                    size={size}
-                    scroll={scroll}
-                    rowClassName="no-vertical"
-                    expandIcon={({expanded, onExpand, record}) => null}
-                    rowSelection={
-                      customRowSelectionType
-                        ? {...rowSelection, type: customRowSelectionType[tab.key]}
-                        : rowSelection
-                    }
-                    expandable={
-                      ExpandBody
-                        ? {
-                            expandedRowRender: (record) => (
-                              <p style={{margin: 0}}>
-                                <ExpandBody {...expandParams} {...record} />
-                              </p>
-                            ),
-                            rowExpandable: (record) =>
-                              expandHandleKey ? !!record[expandHandleKey].length : true,
-                            expandRowByClick: true,
-                          }
-                        : null
-                    }
-                    dataSource={tab.data}
-                    loading={tab.loading}
-                    columns={tab.columns}
-                  />
+                  {tab.hasCustomModel ? (
+                    <tab.CustomModel {...tab.customModelProps} />
+                  ) : (
+                    <Table
+                      id="mastertable"
+                      bordered
+                      rowKey={rowKey}
+                      expandRowByClick
+                      expandIconColumnIndex={-1}
+                      pagination={{
+                        // pageSize: pageSize || 10,
+                        position: ['bottomRight'],
+                        onChange(current) {
+                          changePage(current);
+                        },
+                      }}
+                      size={size}
+                      scroll={scroll}
+                      rowClassName="no-vertical"
+                      expandIcon={({expanded, onExpand, record}) => null}
+                      rowSelection={
+                        customRowSelectionType
+                          ? {...rowSelection, type: customRowSelectionType[tab.key]}
+                          : rowSelection
+                      }
+                      expandable={
+                        ExpandBody
+                          ? {
+                              expandedRowRender: (record) => (
+                                <p style={{margin: 0}}>
+                                  <ExpandBody {...expandParams} {...record} />
+                                </p>
+                              ),
+                              rowExpandable: (record) =>
+                                expandHandleKey ? !!record[expandHandleKey].length : true,
+                              expandRowByClick: true,
+                            }
+                          : null
+                      }
+                      dataSource={tab.data}
+                      loading={tab.loading}
+                      columns={tab.columns}
+                    />
+                  )}
                 </TabPane>
               ))}
             </Tabs>

@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Divider, Form, message, Row, Spin } from 'antd';
-import {
-  ReceivedFormFields,
-  ReceivedProductFormFields,
-} from 'common/formFields/received.formFields';
-import { useHandleForm } from 'hooks/form';
+import React, {useEffect, useState, useCallback} from 'react';
+import {Button, Col, Divider, Form, message, Row, Spin} from 'antd';
+import {ReceivedFormFields, ReceivedProductFormFields} from 'common/formFields/received.formFields';
+import {useHandleForm} from 'hooks/form';
 import {
   createReceived,
   editReceived,
@@ -12,10 +9,10 @@ import {
   retrieveReceived,
   retrieveReturns,
 } from 'common/api/auth';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import {MinusCircleOutlined, PlusOutlined} from '@ant-design/icons';
 import formItem from '../hocs/formItem.hoc';
 
-export const ReceivedForm = ({ id, onCancel, onDone }) => {
+export const ReceivedForm = ({id, onCancel, onDone}) => {
   const [loading, setLoading] = useState(true);
   const [received, setReceived] = useState(false);
   const [reqFile, setFile] = useState(null);
@@ -23,7 +20,7 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
   const [products, setProducts] = useState(null);
   const [receivedId, setReceivedId] = useState(null);
 
-  const { form, submit } = useHandleForm({
+  const {form, submit} = useHandleForm({
     create: createReceived,
     success: 'Request created/edited successfully.',
     failure: 'Error in creating/editing request.',
@@ -32,20 +29,19 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
     edit: editReceived,
     retrieve: retrieveReceived,
     id: receivedId,
-    dates:['receiving_date']
+    dates: ['receiving_date'],
   });
-
 
   useEffect(() => {
     const fetchDelivered = async () => {
-      const { data } = await allReceived();
-      console.log(data,'REceived form')
+      const {data} = await allReceived();
+      console.log(data, 'REceived form');
       if (data) {
         const dlvd = data.filter((d) => d.returndocket === id)[0];
         if (dlvd) {
           setReceivedId(dlvd.id);
         } else {
-          form.setFieldsValue({ delivered: true });
+          form.setFieldsValue({delivered: true});
         }
       }
     };
@@ -54,17 +50,16 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
     }
   }, [id]);
 
-
   useEffect(() => {
     const fetchReturn = async () => {
-      const { data } = await retrieveReturns(id);
+      const {data} = await retrieveReturns(id);
       if (data) {
         setLoading(false);
         const reqdlvd = data;
         if (reqdlvd) {
           setReturn(reqdlvd);
         } else {
-          form.setFieldsValue({ delivered: true });
+          form.setFieldsValue({delivered: true});
         }
       }
       // if (data) {
@@ -102,7 +97,7 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
 
   useEffect(() => {
     const reqProds = [];
-    if (returnn){
+    if (returnn) {
       setReceived(returnn.id);
       returnn.kits.forEach((item) => {
         item.kit.products.forEach((prod) => {
@@ -114,65 +109,145 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
     }
   }, [returnn]);
 
-  const toFormData=(obj, form, namespace)=> {
-    const fd = form || new FormData();
-    let formKey;
+  // const toFormData = (obj, form, namespace) => {
+  //   const fd = form || new FormData();
+  //   let formKey;
 
-    for (const property in obj) {
-      if (obj.hasOwnProperty(property) && obj[property]) {
-        if (namespace) {
-          formKey = `${namespace  }[${  property  }]`;
-        } else {
-          formKey = property;
+  //   for (const property in obj) {
+  //     if (obj.hasOwnProperty(property) && obj[property]) {
+  //       if (namespace) {
+  //         formKey = `${namespace}[${property}]`;
+  //       } else {
+  //         formKey = property;
+  //       }
+  //       // nested
+  //       if (property === 'items') fd.append('items', JSON.stringify(obj.items));
+  //       // if the property is an object, but not a File, use recursivity.
+  //       else if (obj[property] instanceof Date) {
+  //         fd.append(formKey, obj[property].toISOString());
+  //       } else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+  //         toFormData(obj[property], fd, formKey);
+  //       } else {
+  //         // if it's a string or a File object
+  //         fd.append(formKey, obj[property]);
+  //       }
+  //     }
+  //   }
+  //   return fd;
+  // };
+
+  const toFormData = useCallback((data) => {
+    const req = new FormData();
+    for (const key in data) {
+      if (key === 'items') {
+        req.append('items', JSON.stringify(data.items));
+      } else if (key === 'receiving_date') {
+        req.append(key.toString(), data[key].format());
+      } else if (key === 'document') {
+        if (data[key]) {
+          let c = 0;
+          req.append(key.toString(), data[key]);
+          data[key].forEach((el) => {
+            req.append(`document${c}`, el);
+            c = c + 1;
+          });
+          req.set('no_of_document_files', c);
         }
-        // nested
-        if (property === 'items') fd.append('items', JSON.stringify(obj.items));
-        // if the property is an object, but not a File, use recursivity.
-        else if (obj[property] instanceof Date) {
-          fd.append(formKey, obj[property].toISOString());
-        } else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
-          toFormData(obj[property], fd, formKey);
-        } else {
-          // if it's a string or a File object
-          fd.append(formKey, obj[property]);
-        }
+      } else {
+        req.append(key.toString(), data[key]);
       }
     }
-    return fd;
-  }
+    return req;
+  }, []);
+
+  const toFormDataForNoDocumentFiles = useCallback((data) => {
+    const req = new FormData();
+    for (const key in data) {
+      if (key === 'items') {
+        req.append('items', JSON.stringify(data.items));
+      } else if (key === 'receiving_date') {
+        req.append(key.toString(), data[key].format());
+      } else if (key === 'document') {
+      } else {
+        req.append(key.toString(), data[key]);
+      }
+    }
+    return req;
+  }, []);
 
   const preProcess = async (data) => {
     data.returndocket = returnn.id;
     data.received = received;
-    if (reqFile) {
-      data.document = reqFile.originFileObj;
-    } else delete data.document;
-    const req = toFormData(data);
 
-    await submit(req);
+    if (data.delivered === true) {
+      if ('items' in data) delete data.items;
+    }
+
+    // if (reqFile) {
+    //   data.document = reqFile.originFileObj;
+    // } else delete data.document;
+    // const req = toFormData(data);
+
+    // await submit(req);
+
+    let failed = false;
+    const {document} = data;
+    if (document) {
+      try {
+        const {fileList} = data.document;
+        if (fileList) {
+          const newFileList = fileList.map((f) => {
+            if (f.status !== 'done') {
+              message.error(`${f.name} has not been uploaded yet!`);
+              failed = true;
+            } else {
+              return f.originFileObj;
+            }
+          });
+          data.document = newFileList;
+          if (!failed) {
+            const finalData = toFormData(data);
+            submit(finalData);
+          }
+        } else {
+          if (!failed) {
+            const finalData = toFormDataForNoDocumentFiles(data);
+            submit(finalData);
+          }
+        }
+      } catch (err) {
+        alert(err);
+        message.error(`Something went wrong!`);
+      }
+    } else {
+      const finalData = toFormData(data);
+      finalData.append('no_of_document_files', 0);
+      console.log(finalData);
+      submit(finalData);
+    }
   };
   return (
     <Spin spinning={loading}>
-      <Divider orientation='left'>Delivery Details</Divider>
-      <Form onFinish={preProcess} form={form} layout='vertical' hideRequiredMark autoComplete='off'>
-        <Row style={{ justifyContent: 'left' }}>
+      <Divider orientation="left">Delivery Details</Divider>
+      <Form onFinish={preProcess} form={form} layout="vertical" hideRequiredMark autoComplete="off">
+        <Row style={{justifyContent: 'left'}}>
           {ReceivedFormFields.slice(0, 1).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className='p-2'>
+              <div key={idx} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
           ))}
           {ReceivedFormFields.slice(2, 3).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className='p-2'>
+              <div key={idx} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
           ))}
           {ReceivedFormFields.slice(1, 2).map((item, idx) => (
             <Col span={6}>
-              <div key={idx} className='p-2'>
+              <div key={idx} className="p-2">
                 {formItem({
                   ...item,
                   kwargs: {
@@ -183,25 +258,32 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
             </Col>
           ))}
         </Row>
-        <Row style={{ justifyContent: 'left' }}>
+        <Row style={{justifyContent: 'left'}}>
           {ReceivedFormFields.slice(3, 4).map((item, idx) => (
-            <Col span={24} style={{ justifyContent: 'center' }}>
-              <div key={idx} className='p-2'>
+            <Col span={24} style={{justifyContent: 'center'}}>
+              <div key={idx} className="p-2">
                 {formItem({
                   ...item,
                   kwargs: {
-                    multiple:true,
+                    multiple: true,
                     onChange(info) {
-                      const { status } = info.file;
-                      if (status !== 'uploading') {
-                        console.log(info.file, info.fileList);
-                      }
-                      if (status === 'done') {
-                        setFile(info.file);
-                        message.success(`${info.file.name} file uploaded successfully.`);
-                      } else if (status === 'error') {
-                        message.error(`${info.file.name} file upload failed.`);
-                      }
+                      const {fileList} = info;
+                      console.log(fileList);
+                      fileList.forEach((f) => {
+                        if (f.status === 'error') {
+                          message.error(`${f.name} file upload failed.`);
+                        }
+                      });
+                      // const {status} = info.file;
+                      // if (status !== 'uploading') {
+                      //   console.log(info.file, info.fileList);
+                      // }
+                      // if (status === 'done') {
+                      //   setFile(info.file);
+                      //   message.success(`${info.file.name} file uploaded successfully.`);
+                      // } else if (status === 'error') {
+                      //   message.error(`${info.file.name} file upload failed.`);
+                      // }
                     },
                   },
                 })}
@@ -209,17 +291,17 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
             </Col>
           ))}
         </Row>
-        <Divider orientation='left'>Discrepancy Details</Divider>
+        <Divider orientation="left">Discrepancy Details</Divider>
 
-        <Form.List name='items'>
-          {(fields, { add, remove }) => {
+        <Form.List name="items">
+          {(fields, {add, remove}) => {
             return (
               <div>
                 {fields.map((field, index) => (
-                  <Row align='middle'>
+                  <Row align="middle">
                     {ReceivedProductFormFields.slice(0, 1).map((item) => (
                       <Col span={7}>
-                        <div className='p-2'>
+                        <div className="p-2">
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -248,7 +330,7 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
                     ))}
                     {ReceivedProductFormFields.slice(1, 2).map((item) => (
                       <Col span={7}>
-                        <div className='p-2'>
+                        <div className="p-2">
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -270,7 +352,7 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
                     ))}
                     {ReceivedProductFormFields.slice(2, 3).map((item) => (
                       <Col span={7}>
-                        <div className='p-2'>
+                        <div className="p-2">
                           {formItem({
                             ...item,
                             noLabel: index != 0,
@@ -279,8 +361,15 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
                               disabled: received,
                             },
                             others: {
-                              selectOptions: ['Repairable', 'Return', 'Damage',
-                                'Swap Return','Excess','Lost','Others',],
+                              selectOptions: [
+                                'Repairable',
+                                'Return',
+                                'Damage',
+                                'Swap Return',
+                                'Excess',
+                                'Lost',
+                                'Others',
+                              ],
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],
@@ -292,29 +381,25 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
                       </Col>
                     ))}
                     <Button
-                      type='danger'
-                      style={index != 0 ? { top: '-2vh' } : null}
+                      type="danger"
+                      style={index != 0 ? {top: '-2vh'} : null}
                       disabled={received}
                       onClick={() => {
                         remove(field.name);
                       }}>
-                      <MinusCircleOutlined />
-                      {' '}
-                      Delete
+                      <MinusCircleOutlined /> Delete
                     </Button>
                   </Row>
                 ))}
                 <Form.Item>
                   <Button
-                    type='dashed'
+                    type="dashed"
                     disabled={received}
                     onClick={() => {
                       add();
                     }}
                     block>
-                    <PlusOutlined />
-                    {' '}
-                    Add Item
+                    <PlusOutlined /> Add Item
                   </Button>
                 </Form.Item>
               </div>
@@ -322,11 +407,11 @@ export const ReceivedForm = ({ id, onCancel, onDone }) => {
           }}
         </Form.List>
         <Row>
-          <Button type='primary' htmlType='submit'>
+          <Button type="primary" htmlType="submit">
             Save
           </Button>
-          <div className='p-2' />
-          <Button type='primary' onClick={onCancel}>
+          <div className="p-2" />
+          <Button type="primary" onClick={onCancel}>
             Cancel
           </Button>
         </Row>

@@ -1,37 +1,70 @@
 import React, {useState} from 'react';
-import demandModuleColumns from 'common/columns/demandModule.column';
-import {Popconfirm, Button, Input, Popover} from 'antd';
-import {deleteDm, retrieveDmsClient} from 'common/api/auth';
+import expenseColumns from 'common/columns/expense.column';
+import {Popconfirm, Button, Input} from 'antd';
+import {deleteExpense, retrieveExpenses} from 'common/api/auth';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
-import {DemandModuleForm} from 'forms/demandModule.form';
+import {ExpenseForm} from 'forms/expense.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
-import DemandModuleTable from 'components/DemandModuleTable';
+import ExpandTable from 'components/ExpenseExpandTable';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
+import {yantraColors} from '../../helpers/yantraColors';
+import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import FilesViewModal from '../../components/FilesViewModal';
+
+import _ from 'lodash';
 
 const {Search} = Input;
 
-const MaterialRequestEmployeeScreen = ({currentPage}) => {
+const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveDmsClient});
+  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveExpenses});
+  //const {data: mrStatusData} = useAPI('list-mrstatus/');
   const cancelEditing = () => {
     setEditingId(null);
   };
 
   const columns = [
-    ...demandModuleColumns,
+    ...expenseColumns,
     {
       title: 'Action',
       key: 'operation',
-      width: '9vw',
+      width: '7vw',
       render: (text, record) => (
         <div className="row justify-evenly">
+          <FilesViewModal
+            documentAvail={record.bill ? (record.bill.length > 0 ? true : false) : false}
+            getDocuments={() => record.bill}
+          />
+          {/* <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            onClick={async (e) => {
+              e.stopPropagation();
+              try {
+                if (record.bill.length > 0) {
+                  record.bill.forEach((f) => {
+                    window.open(f.document);
+                  });
+                }
+              } catch (err) {}
+            }}>
+            <FontAwesomeIcon
+              icon={record.bill ? (record.bill.length > 0 ? faEye : faEyeSlash) : faEyeSlash}
+              style={{fontSize: 20, color: yantraColors['primary']}}
+            />
+          </Button> */}
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -50,9 +83,9 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
             onConfirm={deleteHOC({
               record,
               reload,
-              api: deleteDm,
-              success: 'Deleted Volume Plan successfully',
-              failure: 'Error in deleting Volume Plan',
+              api: deleteExpense,
+              success: 'Deleted Material Request successfully',
+              failure: 'Error in deleting Material request',
             })}>
             <Button
               style={{
@@ -72,8 +105,8 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
 
   const tabs = [
     {
-      name: 'All Volume Plans',
-      key: 'allVolumePlans',
+      name: 'All Expenses',
+      key: 'allExpenses',
       data: filteredData || [],
       columns,
       loading,
@@ -93,14 +126,15 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
         refresh={reload}
         tabs={tabs}
         size="middle"
-        title="Volume Plan (Beta)"
+        title="Expenses"
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={DemandModuleForm}
-        modalWidth={98}
-        expandHandleKey="demand_flows"
-        expandParams={{loading}}
-        ExpandBody={DemandModuleTable}
+        modalBody={ExpenseForm}
+        modalWidth={80}
+        formParams={{isEmployee}}
+        //expandHandleKey="transactions"
+        //expandParams={{loading}}
+        ExpandBody={ExpandTable}
       />
     </>
   );
@@ -110,4 +144,4 @@ const mapStateToProps = (state) => {
   return {currentPage: state.page.currentPage};
 };
 
-export default connect(mapStateToProps)(MaterialRequestEmployeeScreen);
+export default connect(mapStateToProps)(ExpenseEmployeeScreen);

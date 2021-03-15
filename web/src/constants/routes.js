@@ -60,6 +60,7 @@ export const outerRoutesClient = [
   {
     path: '/return-docket/',
     Component: lazy(() => import('components/ReturnDocket/ReturnDocket')),
+    props: {isClient: true},
   },
   {
     path: '/outward-docket/:id',
@@ -90,6 +91,29 @@ export const employeeRoutes = [
     icon: ['fas', 'home'],
     path: '/dashboard/',
     Component: lazy(() => import('screens/employee/dashboard.screen')),
+  },
+  {
+    name: 'Sales',
+    icon: ['fas', 'user-friends'],
+    path: '/reports/',
+    isSubMenu: true,
+    subMenu: [
+      {
+        name: 'Leads',
+        path: '/pfep/leads/',
+        Component: lazy(() => import('screens/employee/Leads.screen')),
+      },
+      {
+        name: 'PFEP',
+        path: '/pfep/create/',
+        Component: lazy(() => import('screens/employee/PFEP.screen')),
+      },
+      {
+        name: 'CP',
+        path: '/cp/',
+        Component: lazy(() => import('screens/employee/createCP.screen')),
+      },
+    ],
   },
   {
     name: 'Masters',
@@ -137,22 +161,29 @@ export const employeeRoutes = [
     ],
   },
   {
-    name: 'Material Requests',
-    icon: ['fas', 'notes-medical'],
-    path: '/material-request/',
-    Component: lazy(() => import('screens/employee/MaterialRequest.screen')),
-  },
-  {
     name: 'Volume Plan',
     icon: ['far', 'calendar-alt'],
     path: '/demands/',
     Component: lazy(() => import('screens/employee/DemandModule.screen')),
   },
   {
+    name: 'Material Requests',
+    icon: ['fas', 'notes-medical'],
+    path: '/material-request/',
+    Component: lazy(() => import('screens/employee/MaterialRequest.screen')),
+  },
+  {
     name: 'Allotment Dockets',
     icon: ['fas', 'truck-loading'],
     path: '/allotment-dockets/',
     Component: lazy(() => import('screens/employee/AllotmentDockets.screen.js')),
+  },
+  {
+    name: 'Outward Docket',
+    icon: ['fas', 'sign-out-alt'],
+    path: '/outward-docket/',
+    Component: lazy(() => import('screens/client/outwardDocket.screen')),
+    props: {isEmployee: true},
   },
   {
     name: 'Return Dockets',
@@ -166,28 +197,62 @@ export const employeeRoutes = [
     path: '/grn/',
     Component: lazy(() => import('screens/employee/GRN.screen')),
   },
+  // {
+  //   name: 'Inventory',
+  //   icon: ['fas', 'boxes'],
+  //   path: '/inventory/',
+  //   Component: lazy(() => import('screens/employee/inventory.screen')),
+  // },
   {
-    name: 'Sales',
-    icon: ['fas', 'user-friends'],
-    path: '/reports/',
+    name: 'Inventory',
+    icon: ['fas', 'boxes'],
+    path: '/main-inventory/',
     isSubMenu: true,
     subMenu: [
       {
-        name: 'Leads',
-        path: '/pfep/leads/',
-        Component: lazy(() => import('screens/employee/Leads.screen')),
+        name: 'Warehouse Inventory',
+        path: '/main-inventory/yantra-inventory/',
+        Component: lazy(() => import('screens/employee/yantraInventory.screen.employee')),
       },
       {
-        name: 'PFEP',
-        path: '/pfep/create/',
-        Component: lazy(() => import('screens/employee/PFEP.screen')),
+        name: 'InTransits',
+        path: '/main-inventory/inventory-in-transits/',
+        Component: lazy(() => import('screens/employee/transitInventory.screen')),
       },
       {
-        name: 'CP',
-        path: '/cp/',
-        Component: lazy(() => import('screens/employee/createCP.screen')),
+        name: 'Sender Client',
+        path: '/main-inventory/inventory-clients/',
+        Component: lazy(() => import('screens/employee/clientInventory.screen')),
+      },
+      {
+        name: 'Sender Client II',
+        path: '/main-inventory/sc-inventory-2/',
+        Component: lazy(() => import('screens/employee/clientInventory2.screen')),
+      },
+      {
+        name: 'Receiver Client',
+        path: '/main-inventory/inventory-rclients/',
+        Component: lazy(() => import('screens/employee/receiverClientInventory.screen')),
+      },
+      {
+        name: 'Receiver Client II',
+        path: '/main-inventory/rc-inventory-2/',
+        Component: lazy(() => import('screens/employee/receiverClientInventory2.screen')),
+      },
+      {
+        name: 'Adjustments',
+        path: '/adjustments/',
+        Component: lazy(() => import('screens/employee/adjustmentInventory.screen')),
+        props: {isEmployee: false},
       },
     ],
+  },
+  {
+    name: 'Expense',
+    icon: ['fas', 'money-check-alt'],
+    path: '/expense/',
+    Component: lazy(() => import('screens/employee/Expense.screen')),
+    props: {isEmployee: false},
   },
   {
     name: 'Reports',
@@ -235,43 +300,12 @@ export const employeeRoutes = [
         path: '/reports/return-count/',
         Component: lazy(() => import('components/Reports/returnCount')),
       },
-    ],
-  },
-  {
-    name: 'Inventory',
-    icon: ['fas', 'boxes'],
-    path: '/inventory/',
-    Component: lazy(() => import('screens/employee/inventory.screen')),
-  },
-  {
-    name: 'Inventory',
-    icon: ['fas', 'boxes'],
-    path: '/main-inventory/',
-    isSubMenu: true,
-    subMenu: [
       {
-        name: 'Yantra Inventory',
-        path: '/main-inventory/yantra-inventory/',
-        Component: lazy(() => import('screens/employee/yantraInventory.screen.employee')),
-      },
-      {
-        name: 'InTransits',
-        path: '/main-inventory/inventory-in-transits/',
-        Component: lazy(() => import('screens/employee/transitInventory.screen')),
-      },
-      {
-        name: 'Client Inventory',
-        path: '/main-inventory/inventory-clients/',
-        Component: lazy(() => import('screens/employee/clientInventory.screen')),
+        name: 'Loss/Excess',
+        path: '/reports/loss-excess/',
+        Component: lazy(() => import('components/Reports/LossExcess.js')),
       },
     ],
-  },
-  {
-    name: 'Outward Docket',
-    icon: ['fas', 'sign-out-alt'],
-    path: '/outward-docket/',
-    Component: lazy(() => import('screens/client/outwardDocket.screen')),
-    props: {isEmployee: true},
   },
 ];
 
@@ -302,6 +336,7 @@ export const clientRoutes = [
     icon: ['fas', 'notes-medical'],
     path: '/material-request/',
     Component: lazy(() => import('screens/client/MaterialRequest.screen')),
+    props: {isEmployee: false},
   },
   {
     name: 'Volume Plan',

@@ -8,14 +8,15 @@ import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
 import {MaterialRequestForm} from 'forms/materialRequest.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
-import MaterialRequestsTable from 'components/MaterialRequestsTable';
+import MaterialRequestsTable from 'components/MaterialRequestsTableClient';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
+import ExpandTable from '../../components/MaterialRequestsTable';
 
 const {Search} = Input;
 
-const MaterialRequestEmployeeScreen = ({currentPage}) => {
+const MaterialRequestEmployeeScreen = ({currentPage, isEmployee}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
@@ -231,9 +232,10 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
         cancelEditing={cancelEditing}
         modalBody={MaterialRequestForm}
         modalWidth={80}
-        expandHandleKey="flows"
-        expandParams={{loading}}
-        ExpandBody={MaterialRequestsTable}
+        formParams={{isEmployee}}
+        //expandHandleKey="flows"
+        //expandParams={{loading}}
+        ExpandBody={ExpandTable}
       />
     </>
   );

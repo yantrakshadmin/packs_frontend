@@ -15,11 +15,13 @@ export default [
     title: 'Client Shipping City',
     key: 'client_shipping_city',
     dataIndex: 'client_shipping_city',
+    width:'10vw',
   },
   {
     title: 'Client Shipping Pincode',
     key: 'client_shipping_pincode',
     dataIndex: 'client_shipping_pincode',
+    width:'10vw',
   },
   {
     title: 'Client Email',

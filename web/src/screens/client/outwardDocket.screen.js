@@ -6,7 +6,7 @@ import {Link} from '@reach/router';
 import {useAPI} from 'common/hooks/api';
 import {deleteOutward} from 'common/api/auth';
 import {outwardDocketColumn} from 'common/columns/outwardDocket.column';
-import {GetUniqueValueNested} from 'common/helpers/getUniqueValues';
+import {GetUniqueValue} from 'common/helpers/getUniqueValues';
 import {loadAPI} from 'common/helpers/api';
 import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
@@ -19,6 +19,7 @@ import Download from '../../icons/Download';
 import {OutwardDeliveredDocketForm} from '../../forms/OutwardDeliveredDocket.form';
 import Document from '../../icons/Document';
 import TableWithTabHoc from '../../hocs/TableWithTab.hoc';
+import moment from 'moment';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBarcode, faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
@@ -59,34 +60,35 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
       title: 'Transaction Date',
       dataIndex: 'transaction_date',
       key: 'transaction_date',
+      sorter: (a, b) => moment(a.transaction_date).unix() - moment(b.transaction_date).unix(),
+      showSorterTooltip: false,
       render: (text) => <div>{text.slice(0, 10)}</div>,
     },
     {
       title: 'Dispatch Date',
       dataIndex: 'dispatch_date',
       key: 'dispatch_date',
+      sorter: (a, b) => moment(a.dispatch_date).unix() - moment(b.dispatch_date).unix(),
+      showSorterTooltip: false,
       render: (text) => <div>{text.slice(0, 10)}</div>,
     },
     {
-      title: 'Sending Location',
+      title: 'Receiver Client',
       dataIndex: 'sending_location',
       key: 'sending_location',
       width: 400,
-      render: (location) => (
-        <div>
-          {location.name} - {location.address}
-        </div>
-      ),
+      filters: GetUniqueValue(filteredData || [], 'sending_location'),
+      onFilter: (value, record) => record.sending_location === value,
     },
-    {
-      title: 'Client Name',
-      dataIndex: 'owner',
-      key: 'owner',
-      width: 400,
-      render: (i) => <div>{i.client_name}</div>,
-      filters: GetUniqueValueNested(filteredData || [], 'owner', 'client_name'),
-      onFilter: (value, record) => record.owner.client_name === value.client_name,
-    },
+    // {
+    //   title: 'Sender Client',
+    //   dataIndex: 'owner',
+    //   key: 'owner',
+    //   width: 400,
+    //   render: (i) => <div>{i.client_name}</div>,
+    //   filters: GetUniqueValue(filteredData || [], 'owner', 'client_name'),
+    //   onFilter: (value, record) => record.owner.client_name === value.client_name,
+    // },
     ...outwardDocketColumn,
     // {
     //   title:'kit',
@@ -267,8 +269,8 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
 
   const tabs = [
     {
-      name: 'All Return Dockets',
-      key: 'allReturnDockets',
+      name: 'All Outward Dockets',
+      key: 'allOutwardDockets',
       data: filteredData,
       columns,
       loading,
@@ -301,7 +303,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
         loading={loading}
         size="middle"
         noNewPageCSV
-        downloadLink={isEmployee ? null : `${DEFAULT_BASE_URL}outward-reportClient/`}
+        downloadLink={isEmployee ? null : `${DEFAULT_BASE_URL}outward-reportClient/?c_id=${user}`}
         editingId={editingId || deliveryId}
         title={deliveryId ? 'Delivered Docket ' : 'Outward Docket '}
         modalBody={deliveryId ? OutwardDeliveredDocketForm : OutwardDocketForm}
