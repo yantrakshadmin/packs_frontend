@@ -15,6 +15,7 @@ import Edit from 'icons/Edit';
 import {yantraColors} from '../../helpers/yantraColors';
 import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import FilesViewModal from '../../components/FilesViewModal';
 
 import _ from 'lodash';
 
@@ -38,7 +39,11 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
       width: '7vw',
       render: (text, record) => (
         <div className="row justify-evenly">
-          <Button
+          <FilesViewModal
+            documentAvail={record.bill ? (record.bill.length > 0 ? true : false) : false}
+            getDocuments={() => record.bill}
+          />
+          {/* <Button
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -59,8 +64,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
               icon={record.bill ? (record.bill.length > 0 ? faEye : faEyeSlash) : faEyeSlash}
               style={{fontSize: 20, color: yantraColors['primary']}}
             />
-          </Button>
-
+          </Button> */}
           <Button
             style={{
               backgroundColor: 'transparent',
