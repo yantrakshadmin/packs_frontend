@@ -1166,6 +1166,28 @@ export const deleteSC2TestInv = (id) =>
     secure: true,
   });
 
+export const retrieveRC2TestInv = (data) => {
+  return loadAPI('rc-inv-items/', {
+    method: 'GET',
+    secure: true,
+    data,
+  });
+};
+
+export const createRC2TestInv = (data) => {
+  return loadAPI('create-rc-inv/', {
+    method: 'POST',
+    secure: true,
+    data,
+  });
+};
+
+export const deleteRC2TestInv = (id) =>
+  loadAPI(`/edit-rc-inv/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
 export const createMRStatus = (data) => {
   return loadAPI('create-mrstatus/', {
     method: 'POST',
