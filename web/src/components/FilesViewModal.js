@@ -81,15 +81,7 @@ const FilesViewModal = ({documentAvail, getDocuments}) => {
           {documents.map((d) => {
             return (
               <Col span={d.span ? d.span : 12} style={{marginBottom: '10px'}}>
-                <Card
-                  title={d.document}
-                  extra={
-                    <a target="_blank" href={d.document}>
-                      Open
-                    </a>
-                  }>
-                  {renderThumbnail(d.document)}
-                </Card>
+                <Card>{renderThumbnail(d.document)}</Card>
               </Col>
             );
           })}
