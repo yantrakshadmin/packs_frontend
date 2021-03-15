@@ -17,6 +17,11 @@ import {ActionsPopover} from '../../components/ActionsPopover';
 import {MainCreateCPForm} from '../../forms/CreateCP/mainCreateCP.form';
 import {UploadLeadForm} from '../../forms/uploadLead.form';
 import moment from 'moment';
+import {loadAPI} from 'common/helpers/api';
+import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
+
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 
 import {GetUniqueValue} from 'common/helpers/getUniqueValues';
 import {ifNotStrReturnA} from 'common/helpers/mrHelper';
@@ -171,9 +176,36 @@ const PFEPEmployeeScreen = ({currentPage}) => {
       title: 'Action',
       key: 'operation',
       fixed: 'right',
-      width: '8vw',
+      width: '12vw',
       render: (text, record) => (
         <div className="row align-center justify-evenly">
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            onClick={async (e) => {
+              const {data: req} = await loadAPI(
+                `${DEFAULT_BASE_URL}/tp-file/?pfep=${record.id}`,
+                {},
+              );
+              if (req) {
+                console.log(req);
+                if (req[0]) {
+                  if (req[0].document) {
+                    window.open(req[0].document);
+                  }
+                }
+              }
+              e.stopPropagation();
+            }}>
+            <FontAwesomeIcon
+              icon={record.document_uploaded ? faEye : faEyeSlash}
+              style={{fontSize: 20, color: '#20a8d8'}}
+            />
+          </Button>
           <ActionsPopover
             // popover={popover}
             // setPopover={setPopover}
@@ -214,6 +246,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
                 onClick: (e) => {
                   // setPopover(false);
                   setUploadTP(true);
+                  setLead(record.id);
                   e.stopPropagation();
                 },
               },
@@ -228,7 +261,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
             }}
             onClick={(e) => {
               setEditingId(record.id);
-              setLead(record.lead_no);
+              setLead(record.id);
               dispatch({type: ADD_PFEP_DATA, data: record});
               e.stopPropagation();
             }}>
@@ -317,9 +350,11 @@ const PFEPEmployeeScreen = ({currentPage}) => {
           }}
           onDone={() => {
             setUploadTP(false);
+            reload();
           }}
           lead={lead}
           create={tpFileUpload}
+          varName="pfep"
         />
       </Modal>
       <TableWithTabHOC
