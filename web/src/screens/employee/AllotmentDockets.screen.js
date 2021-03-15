@@ -135,13 +135,13 @@ const AllotmentDocketsScreen = ({currentPage}) => {
               );
               if (req)
                 if (req.document) {
-                  return [{document: req.document}];
+                  return [{document: req.document, span: 24}];
                 }
               try {
                 if (req.pod.length > 0) {
                   let d = [];
                   req.pod.forEach((f) => {
-                    d.push({document: f.document});
+                    d.push({document: f.document, span: req.pod.length > 1 ? 12 : 24});
                   });
                   return d;
                 }

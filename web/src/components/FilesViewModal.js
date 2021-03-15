@@ -80,7 +80,7 @@ const FilesViewModal = ({documentAvail, getDocuments}) => {
         <Row gutter={10}>
           {documents.map((d) => {
             return (
-              <Col span={12} style={{marginBottom: '10px'}}>
+              <Col span={d.span ? d.span : 12} style={{marginBottom: '10px'}}>
                 <Card
                   title={d.document}
                   extra={
