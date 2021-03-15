@@ -160,17 +160,19 @@ const ReturnForm = ({location}) => {
               if (kitID) {
                 const q = data[0].value;
                 // let temp = form.getFieldValue(`items${data[0].name[1]}`);
-                const rk = kits.filter((k) => k.id === kitID)[0];
-                form.setFields([
-                  {
-                    name: [`items${data[0].name[1]}`],
-                    value: rk.products.map((p) => {
-                      // console.log(p.product_quantity, q);
-                      return {product: p.product.id, product_quantity: p.quantity * q};
-                    }),
-                  },
-                ]);
-                // console.log(rk);
+                //const rk = kits.filter((k) => k.id === kitID)[0];
+                const rk = _.find(kits, (k) => k.id === kitID);
+                if (rk) {
+                  form.setFields([
+                    {
+                      name: [`items${data[0].name[1]}`],
+                      value: rk.products.map((p) => {
+                        // console.log(p.product_quantity, q);
+                        return {product: p.product.id, product_quantity: p.quantity * q};
+                      }),
+                    },
+                  ]);
+                }
               }
             }
 

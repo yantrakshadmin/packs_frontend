@@ -12,6 +12,7 @@ import MaterialRequestsTable from 'components/MaterialRequestsTableClient';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
+import ExpandTable from '../../components/MaterialRequestsTable';
 
 const {Search} = Input;
 
@@ -232,9 +233,9 @@ const MaterialRequestEmployeeScreen = ({currentPage, isEmployee}) => {
         modalBody={MaterialRequestForm}
         modalWidth={80}
         formParams={{isEmployee}}
-        expandHandleKey="flows"
-        expandParams={{loading}}
-        ExpandBody={MaterialRequestsTable}
+        //expandHandleKey="flows"
+        //expandParams={{loading}}
+        ExpandBody={ExpandTable}
       />
     </>
   );

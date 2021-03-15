@@ -1,6 +1,8 @@
+import _ from 'lodash';
+
 export const mergeArray = (a, b) => {
   return a.map((item) => {
-    const obj = b.filter((i) => i.mr === item.id)[0];
+    const obj = _.find(b, (i) => i.mr === item.id);
     if (obj) {
       return {
         ...item,
