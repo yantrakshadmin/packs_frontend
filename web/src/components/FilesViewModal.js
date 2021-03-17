@@ -46,6 +46,16 @@ const FilesViewModal = ({documentAvail, getDocuments}) => {
       if (fType === 'pdf') {
         return <object width="100%" height="400" data={url} type="application/pdf" />;
       }
+      if (fType === 'ppt' || fType === 'pptx') {
+        return (
+          <iframe
+            src={`https://view.officeapps.live.com/op/embed.aspx?src=${url}`}
+            width="100%"
+            height="400"
+            frameBorder="0"
+          />
+        );
+      }
       return (
         <a target="_blank" href={url}>
           {url}

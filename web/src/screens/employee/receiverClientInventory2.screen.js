@@ -72,10 +72,10 @@ export const TestInventoryScreen = () => {
     failure: 'Error in creating/editing Inventory.',
     done: () => {
       form.setFieldsValue({
-        'client': null,
-        'product': null,
-        'quantity': null  
-      })
+        client: null,
+        product: null,
+        quantity: null,
+      });
       reload();
     },
     close: () => null,
@@ -83,7 +83,7 @@ export const TestInventoryScreen = () => {
 
   const column = [
     {
-      title: 'Client',
+      title: 'Receiver Client',
       key: 'client',
       dataIndex: 'client',
       //render: (product) => <div>{product.description}</div>,
@@ -186,7 +186,7 @@ export const TestInventoryScreen = () => {
                 customTitle: 'name',
               },
               type: FORM_ELEMENT_TYPES.SELECT,
-              customLabel: 'Client',
+              customLabel: 'Receiver Client',
             })}
           </Col>
           <Col span={8}>

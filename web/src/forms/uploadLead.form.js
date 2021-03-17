@@ -15,10 +15,19 @@ const item = {
   customLabel: 'Upload Your File',
 };
 
-export const UploadLeadForm = ({id, onCancel, lead,isReUpload, onDone,recreate, create, varName}) => {
+export const UploadLeadForm = ({
+  id,
+  onCancel,
+  lead,
+  isReUpload,
+  onDone,
+  recreate,
+  create,
+  varName,
+}) => {
   const [reqFile, setFile] = useState(null);
 
-  const [newID,setNewID] = useState(null);
+  const [newID, setNewID] = useState(null);
 
   useEffect(() => {
     const getInfo = async () => {
@@ -28,23 +37,19 @@ export const UploadLeadForm = ({id, onCancel, lead,isReUpload, onDone,recreate, 
           setNewID(req[0].id);
         } catch (err) {}
       }
-    }
+    };
     getInfo();
-  },[isReUpload])
-
-  useEffect(() => {
-    if (newID) console.log(newID)
-  },[newID])
+  }, [isReUpload]);
 
   const {form, submit, loading} = useHandleForm({
-    create: create,
+    create,
     edit: isReUpload ? recreate : () => {},
     retrieve: false,
     success: 'Uploaded successfully.',
     failure: 'Error in Uploading.',
     done: onDone,
     close: onCancel,
-    id: isReUpload ? newID ? newID : id : id,
+    id: isReUpload ? (newID ? newID : id) : id,
   });
 
   function toFormData(obj) {
