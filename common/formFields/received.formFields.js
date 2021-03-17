@@ -1,4 +1,4 @@
-import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
+import {FORM_ELEMENT_TYPES} from 'web/src/constants/formFields.constant';
 
 export const ReceivedFormFields = [
   {
@@ -28,7 +28,7 @@ export const ReceivedFormFields = [
   },
   {
     key: 'document',
-    rules: [{ required: true, message: 'File is Required!' }],
+    //rules: [{ required: true, message: 'File is Required!' }],
     type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
     others: null,
     customLabel: 'Document',
