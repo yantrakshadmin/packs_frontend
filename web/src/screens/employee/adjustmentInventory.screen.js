@@ -8,6 +8,8 @@ import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
 import {AdjustmentForm} from 'forms/adjustmentInventory.form';
 import AdjustmentClientTab from './AdjustmentInventoryStuff/AdjustmentClientTab';
+import ReceiverClientTab from './AdjustmentInventoryStuff/ReceiverClientTab';
+import SenderClientTab from './AdjustmentInventoryStuff/SenderClientTab';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import ExpandTable from 'components/AdjustmentExpandTable';
 import {deleteHOC} from 'hocs/deleteHoc';
@@ -119,6 +121,24 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
       key: 'clientAdjustments',
       hasCustomModel: true,
       CustomModel: AdjustmentClientTab,
+      customModelProps: {
+        searchVal: searchVal,
+      },
+    },
+    {
+      name: 'Sender Client Adjustments',
+      key: 'sclientAdjustments',
+      hasCustomModel: true,
+      CustomModel: SenderClientTab,
+      customModelProps: {
+        searchVal: searchVal,
+      },
+    },
+    {
+      name: 'Receiver Client Adjustments',
+      key: 'rclientAdjustments',
+      hasCustomModel: true,
+      CustomModel: ReceiverClientTab,
       customModelProps: {
         searchVal: searchVal,
       },
