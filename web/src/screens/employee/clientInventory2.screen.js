@@ -71,6 +71,11 @@ export const TestInventoryScreen = () => {
     success: 'Inventory created/edited successfully.',
     failure: 'Error in creating/editing Inventory.',
     done: () => {
+      form.setFieldsValue({
+        'client': null,
+        'product': null,
+        'quantity': null  
+      })
       reload();
     },
     close: () => null,

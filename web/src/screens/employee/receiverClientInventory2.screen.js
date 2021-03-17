@@ -58,7 +58,7 @@ export const TestInventoryScreen = () => {
     const t = generateCSVData();
     return (
       <Button>
-        <CSVLink filename={'warehouse-inventory.csv'} data={t.data} headers={t.headers}>
+        <CSVLink filename={'rc-inventory.csv'} data={t.data} headers={t.headers}>
           Download CSV
         </CSVLink>
       </Button>
@@ -71,6 +71,11 @@ export const TestInventoryScreen = () => {
     success: 'Inventory created/edited successfully.',
     failure: 'Error in creating/editing Inventory.',
     done: () => {
+      form.setFieldsValue({
+        'client': null,
+        'product': null,
+        'quantity': null  
+      })
       reload();
     },
     close: () => null,
@@ -119,7 +124,7 @@ export const TestInventoryScreen = () => {
               setSelectedProduct({short_code: record.product.short_code, client: record.client});
               setDetailsLoading(true);
               const {data} = await loadAPI(
-                `/sc-ledger-items/?id=${record.product.short_code}&cname=${record.client}`,
+                `/rc-ledger-items/?id=${record.product.short_code}&cname=${record.client}`,
                 {
                   method: 'GET',
                 },

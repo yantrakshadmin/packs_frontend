@@ -3,7 +3,7 @@ import {Popconfirm, Tag, Button, Input, Modal} from 'antd';
 import {PlusCircleOutlined, MinusCircleOutlined} from '@ant-design/icons';
 import {connect, useDispatch} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
-import {retrievePFEP, deletePFEP, tpFileUpload} from 'common/api/auth';
+import {retrievePFEP, deletePFEP, tpFileUpload, tpFileReUpload} from 'common/api/auth';
 import Delete from 'icons/Delete';
 import {PFEPColumn} from 'common/columns/PFEP.column';
 import {utcDateFormatter} from 'common/helpers/dateFomatter';
@@ -56,6 +56,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [lead, setLead] = useState(null);
+  const [isReUpload, setIsReUpload] = useState(false);
   const [csvData, setCsvData] = useState(null);
   const [createCPVisible, setCreateCPVisible] = useState(false);
   const [uploadTPVisible, setUploadTP] = useState(false);
@@ -199,7 +200,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
               e.stopPropagation();
             }}>
             <FontAwesomeIcon
-              icon={record.document_uploaded ? faEye : faEyeSlash}
+              icon={record.file_uploaded ? faEye : faEyeSlash}
               style={{fontSize: 20, color: '#20a8d8'}}
             />
           </Button>
@@ -239,11 +240,12 @@ const PFEPEmployeeScreen = ({currentPage}) => {
               },
               {
                 Icon: ToTopOutlined,
-                title: 'Upload TP',
+                title: record.file_uploaded ? 'Re-Upload TP' : 'Upload TP',
                 onClick: (e) => {
                   // setPopover(false);
                   setUploadTP(true);
                   setLead(record.id);
+                  setIsReUpload(!!record.file_uploaded);
                   e.stopPropagation();
                 },
               },
@@ -350,6 +352,8 @@ const PFEPEmployeeScreen = ({currentPage}) => {
             reload();
           }}
           lead={lead}
+          isReUpload={isReUpload}
+          recreate={tpFileReUpload}
           create={tpFileUpload}
           varName="pfep"
         />
