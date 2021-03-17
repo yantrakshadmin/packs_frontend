@@ -4,7 +4,7 @@ import {Button, Col, Form, Input, Popconfirm, Row} from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import {FORM_ELEMENT_TYPES} from 'constants/formFields.constant';
 import {MasterHOC} from 'hocs/Master.hoc';
-import {createSC2TestInv, deleteSC2TestInv, retrieveSC2TestInv} from 'common/api/auth';
+import {createRC2TestInv, deleteRC2TestInv, retrieveRC2TestInv} from 'common/api/auth';
 import {loadAPI} from 'common/helpers/api';
 import {TestSC2InventoryDetailColumn} from 'common/columns/testInventoryDetail.column';
 import {useHandleForm} from '../../hooks/form';
@@ -19,7 +19,7 @@ const {Search} = Input;
 
 export const TestInventoryScreen = () => {
   const {data: products} = useAPI('/products/', {});
-  const {data: sClients} = useAPI('/clients/', {});
+  const {data: rClients} = useAPI('/receiverclients/', {});
   const [details, setDetails] = useState([]);
   const [detailsLoading, setDetailsLoading] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState({short_code: '', client: ''});
@@ -27,7 +27,7 @@ export const TestInventoryScreen = () => {
 
   const {filteredData: invData, loading: invLoading, reload} = useTableSearch({
     searchVal,
-    retrieve: retrieveSC2TestInv,
+    retrieve: retrieveRC2TestInv,
   });
 
   const generateCSVData = useCallback(() => {
@@ -58,7 +58,7 @@ export const TestInventoryScreen = () => {
     const t = generateCSVData();
     return (
       <Button>
-        <CSVLink filename={'warehouse-inventory.csv'} data={t.data} headers={t.headers}>
+        <CSVLink filename={'rc-inventory.csv'} data={t.data} headers={t.headers}>
           Download CSV
         </CSVLink>
       </Button>
@@ -67,15 +67,15 @@ export const TestInventoryScreen = () => {
 
   console.log(invData, 'Ggg');
   const {form, submit, loading} = useHandleForm({
-    create: createSC2TestInv,
+    create: createRC2TestInv,
     success: 'Inventory created/edited successfully.',
     failure: 'Error in creating/editing Inventory.',
     done: () => {
       form.setFieldsValue({
-        'client': null,
-        'product': null,
-        'quantity': null  
-      })
+        client: null,
+        product: null,
+        quantity: null,
+      });
       reload();
     },
     close: () => null,
@@ -83,7 +83,7 @@ export const TestInventoryScreen = () => {
 
   const column = [
     {
-      title: 'Client',
+      title: 'Receiver Client',
       key: 'client',
       dataIndex: 'client',
       //render: (product) => <div>{product.description}</div>,
@@ -124,7 +124,7 @@ export const TestInventoryScreen = () => {
               setSelectedProduct({short_code: record.product.short_code, client: record.client});
               setDetailsLoading(true);
               const {data} = await loadAPI(
-                `/sc-ledger-items/?id=${record.product.short_code}&cname=${record.client}`,
+                `/rc-ledger-items/?id=${record.product.short_code}&cname=${record.client}`,
                 {
                   method: 'GET',
                 },
@@ -141,7 +141,7 @@ export const TestInventoryScreen = () => {
             onConfirm={deleteHOC({
               record,
               reload,
-              api: deleteSC2TestInv,
+              api: deleteRC2TestInv,
               success: 'Deleted Inventory Successfully',
               failure: 'Error in deleting Inventory',
             })}>
@@ -180,13 +180,13 @@ export const TestInventoryScreen = () => {
                   option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
               },
               others: {
-                selectOptions: sClients || [],
-                key: 'user',
-                dataKeys: ['client_city'],
-                customTitle: 'client_name',
+                selectOptions: rClients || [],
+                key: 'id',
+                dataKeys: ['city'],
+                customTitle: 'name',
               },
               type: FORM_ELEMENT_TYPES.SELECT,
-              customLabel: 'Client',
+              customLabel: 'Receiver Client',
             })}
           </Col>
           <Col span={8}>

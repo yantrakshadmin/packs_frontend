@@ -814,6 +814,17 @@ export const tpFileUpload = (req) =>
       'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
     },
   });
+
+  export const tpFileReUpload = (id,req) =>
+  loadAPI(`/reupload-tp/${id}/`, {
+    method: 'PATCH',
+    data: req,
+    secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
+    },
+  });
+
 export const createReturn = (data) =>
   loadAPI('/create-return/', {
     method: 'POST',
@@ -1162,6 +1173,28 @@ export const createSC2TestInv = (data) => {
 
 export const deleteSC2TestInv = (id) =>
   loadAPI(`/edit-sc-inv/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const retrieveRC2TestInv = (data) => {
+  return loadAPI('rc-inv-items/', {
+    method: 'GET',
+    secure: true,
+    data,
+  });
+};
+
+export const createRC2TestInv = (data) => {
+  return loadAPI('create-rc-inv/', {
+    method: 'POST',
+    secure: true,
+    data,
+  });
+};
+
+export const deleteRC2TestInv = (id) =>
+  loadAPI(`/edit-rc-inv/${id}/`, {
     method: 'DELETE',
     secure: true,
   });

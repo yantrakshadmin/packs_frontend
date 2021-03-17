@@ -46,6 +46,16 @@ const FilesViewModal = ({documentAvail, getDocuments}) => {
       if (fType === 'pdf') {
         return <object width="100%" height="400" data={url} type="application/pdf" />;
       }
+      if (fType === 'ppt' || fType === 'pptx') {
+        return (
+          <iframe
+            src={`https://view.officeapps.live.com/op/embed.aspx?src=${url}`}
+            width="100%"
+            height="400"
+            frameBorder="0"
+          />
+        );
+      }
       return (
         <a target="_blank" href={url}>
           {url}
@@ -80,16 +90,8 @@ const FilesViewModal = ({documentAvail, getDocuments}) => {
         <Row gutter={10}>
           {documents.map((d) => {
             return (
-              <Col span={12} style={{marginBottom: '10px'}}>
-                <Card
-                  title={d.document}
-                  extra={
-                    <a target="_blank" href={d.document}>
-                      Open
-                    </a>
-                  }>
-                  {renderThumbnail(d.document)}
-                </Card>
+              <Col span={d.span ? d.span : 12} style={{marginBottom: '10px'}}>
+                <Card>{renderThumbnail(d.document)}</Card>
               </Col>
             );
           })}

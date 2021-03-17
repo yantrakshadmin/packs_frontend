@@ -5,16 +5,6 @@ import _ from 'lodash';
 const { Title,Paragraph } = Typography
 
 
-// part_name:record.pfep.part_name,
-//   receiver_location: record.pfep.receivers.length>0?record.pfep.receivers[0].location:'',
-//   proposed_solution_proposal:record.standard_assets,
-//   component_per_solution:record.component_perkit,
-//   price_per_component:_.round(record.trip_cost/record.component_perkit, 2),
-//   trip_cost:record.trip_cost,
-//   parts_volume_per_month :record.volume_pm,
-//   cycle_days:record.pfep.min_cycle_days,
-
-
 export const PrintCp = ({ location }) => {
   const { state, } = location;
   // const { receiverDetails} = state;
@@ -200,12 +190,7 @@ export const PrintCp = ({ location }) => {
           ,key:'reveiverDetails' }].map((i,key)=>(
             <Row key={i.key}>
               <Col span={24} className='px-2'>
-                {state.receiverDetails.length>1?state.receiverDetails.map(item=>(
-                  <div>
-                    {item.receiver_name}
-                    <br />
-                  </div>
-                )):i.value}
+                {state.receiverDetails.length>1?state.receiverDetails[0].receiver_name:i.value}
               </Col>
             </Row>
         ))

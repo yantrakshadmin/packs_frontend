@@ -189,6 +189,22 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
       if (form.getFieldValue('transaction_type')) {
         setTTTouched(true);
       }
+      try {
+        const tr = form.getFieldValue('transactions');
+        const newTr = tr.map((t) => {
+          const s =
+            ifNanReturnZero(t.f_mile) +
+            ifNanReturnZero(t.long_haul) +
+            ifNanReturnZero(t.l_mile) +
+            ifNanReturnZero(t.labour) +
+            ifNanReturnZero(t.others);
+          return {
+            ...t,
+            total_cost: s,
+          };
+        });
+        form.setFieldsValue({transactions: newTr});
+      } catch (err) {}
     }
   }, [loading]);
 

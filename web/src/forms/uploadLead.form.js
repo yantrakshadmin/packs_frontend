@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form, Col, Row, Button, Divider, Spin, message} from 'antd';
 import {useHandleForm} from 'hooks/form';
 import {createVendor, editVendor, leadFileUpload, retrieveVendor} from 'common/api/auth';
 import formItem from '../hocs/formItem.hoc';
 import {FORM_ELEMENT_TYPES} from '../constants/formFields.constant';
+import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
+import {loadAPI} from 'common/helpers/api';
 
 const item = {
   key: 'document',
@@ -13,18 +15,41 @@ const item = {
   customLabel: 'Upload Your File',
 };
 
-export const UploadLeadForm = ({id, onCancel, lead, onDone, create, varName}) => {
+export const UploadLeadForm = ({
+  id,
+  onCancel,
+  lead,
+  isReUpload,
+  onDone,
+  recreate,
+  create,
+  varName,
+}) => {
   const [reqFile, setFile] = useState(null);
+
+  const [newID, setNewID] = useState(null);
+
+  useEffect(() => {
+    const getInfo = async () => {
+      if (isReUpload) {
+        try {
+          const {data: req} = await loadAPI(`${DEFAULT_BASE_URL}/tp-file/?id=${lead}`, {});
+          setNewID(req[0].id);
+        } catch (err) {}
+      }
+    };
+    getInfo();
+  }, [isReUpload]);
 
   const {form, submit, loading} = useHandleForm({
     create,
-    edit: () => {},
-    retrieve: () => {},
+    edit: isReUpload ? recreate : () => {},
+    retrieve: false,
     success: 'Uploaded successfully.',
     failure: 'Error in Uploading.',
     done: onDone,
     close: onCancel,
-    id,
+    id: isReUpload ? (newID ? newID : id) : id,
   });
 
   function toFormData(obj) {
