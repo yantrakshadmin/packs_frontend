@@ -6,9 +6,8 @@ import {
 } from 'common/formFields/adjustmentInventory.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {createAdjustment, editExpenseTest, retrieveExpense} from 'common/api/auth';
+import {createAdjustment} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
-import {useControlledSelect} from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
 
 import {ifNanReturnZero} from 'common/helpers/mrHelper';
@@ -16,36 +15,54 @@ import {ifNanReturnZero} from 'common/helpers/mrHelper';
 import moment from 'moment';
 
 import _ from 'lodash';
-import {filterActive} from 'common/helpers/mrHelper';
 
 export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
   // const [flowId, setFlowId] = useState(null);
 
   // const {data: flows} = useAPI('/myflows/', {});
   // const {data: kits} = useControlledSelect(flowId);
-  const {data: warehouses} = useAPI('/warehouse/', {});
-  const {data: invItems} = useAPI('/inv-items/', {});
 
-  const [products, setProducts] = useState([]);
+  //const {data: warehouses} = useAPI('/warehouse/', {});
+  //   const {data: invItems} = useAPI('/inv-items/', {});
+
+  //   const [products, setProducts] = useState([]);
+
+  const {data: scInvItems} = useAPI('/rc-inv-items/', {});
+
+  const [scInvClients, setScInvClients] = useState([]);
+  const [selectedScClient, setSelectedScClient] = useState(null);
+  const [selectedProducts, setSelectedProducts] = useState([]);
 
   useEffect(() => {
-    if (invItems) {
-      const temp = invItems.map((i) => ({
-        id: i.product.id,
-        short_code: i.product.short_code,
-        description: i.product.description,
-        quantity: i.quantity,
+    if (scInvItems) {
+      const temp = scInvItems.map((i) => ({
+        id: i.client.pk,
+        client_name: i.client.name,
       }));
-      setProducts(temp);
+      setScInvClients(_.uniqBy(temp, 'id'));
     }
-  }, [invItems]);
+  }, [scInvItems]);
+
+  useEffect(() => {
+    if (scInvItems && selectedScClient) {
+      const temp = _.filter(scInvItems, (o) => o.client.pk === selectedScClient);
+      const temp2 = temp.map((o) => ({
+        id: o.product.id,
+        short_code: o.product.short_code,
+        description: o.product.description,
+        quantity: o.quantity,
+      }));
+      console.log(temp2);
+      setSelectedProducts(temp2 || []);
+    }
+  }, [scInvItems, selectedScClient]);
 
   const {form, submit, loading} = useHandleForm({
     create: createAdjustment,
-    edit: editExpenseTest,
-    retrieve: retrieveExpense,
-    success: 'Expense created/edited successfully',
-    failure: 'Error in creating/editing Expense.',
+    edit: () => {},
+    retrieve: () => {},
+    success: 'RC Adjustment created/edited successfully',
+    failure: 'Error in creating/editing RC Adjustment.',
     done: onDone,
     close: onCancel,
     id,
@@ -159,7 +176,7 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
             if (thisListField === 'product') {
               try {
                 const v = data[0].value;
-                const thisProduct = _.find(products, (p) => parseInt(p.id) === parseInt(v));
+                const thisProduct = _.find(selectedProducts, (p) => parseInt(p.id) === parseInt(v));
                 Object.assign(items[fieldKey], {
                   quantity: thisProduct.quantity,
                   quantity_adjusted: items[fieldKey]['new_quantity']
@@ -183,7 +200,7 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
         }
       }
     },
-    [form, products],
+    [form, selectedProducts],
   );
 
   return (
@@ -216,7 +233,7 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
               <div key={idx} className="p-2">
                 {formItem({
                   ...item,
-                  rules: [{required: id ? false : true, message: 'Please upload file!'}],
+                  //rules: [{required: id ? false : true, message: 'Please upload file!'}],
                   kwargs: {
                     ...item.kwargs,
                     onChange(info) {
@@ -243,21 +260,25 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
             </Col>
           ))}
           {adjustmentFormFields.slice(4, 5).map((item, idx) => (
-            <Col span={item.colSpan}>
+            <Col span={8}>
               <div key={idx} className="p-2">
                 {formItem({
                   ...item,
+                  key: 'client',
+                  customLabel: 'Receiver Client',
                   kwargs: {
                     ...item.kwargs,
                     showSearch: true,
                     filterOption: (input, option) =>
                       option.search.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0,
+                    onChange: (val) => {
+                      setSelectedScClient(val);
+                    },
                   },
                   others: {
-                    selectOptions: filterActive(_, warehouses),
+                    selectOptions: scInvClients,
                     key: 'id',
-                    customTitle: 'name',
-                    dataKeys: ['address'],
+                    customTitle: 'client_name',
                   },
                 })}
               </div>
@@ -289,7 +310,7 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
                                   .indexOf(input.toLowerCase()) >= 0,
                             },
                             others: {
-                              selectOptions: products,
+                              selectOptions: selectedProducts,
                               key: 'id',
                               customTitle: 'short_code',
                               dataKeys: ['description'],

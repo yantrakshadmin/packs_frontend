@@ -13,7 +13,7 @@ import Delete from '../../icons/Delete';
 import {useTableSearch} from '../../hooks/useTableSearch';
 import {CSVLink} from 'react-csv';
 import {ifNotStrReturnA} from 'common/helpers/mrHelper';
-import {GetUniqueValue} from 'common/helpers/getUniqueValues';
+import {GetUniqueValueNested} from 'common/helpers/getUniqueValues';
 
 const {Search} = Input;
 
@@ -34,9 +34,9 @@ export const TestInventoryScreen = () => {
     if (!invLoading) {
       const temp = invData.map((i) => {
         return {
-          client: i.client,
+          client: i.client.name,
           quantity: i.quantity,
-          product: i.product,
+          product: i.product.short_code,
         };
       });
       return {
@@ -86,9 +86,9 @@ export const TestInventoryScreen = () => {
       title: 'Receiver Client',
       key: 'client',
       dataIndex: 'client',
-      //render: (product) => <div>{product.description}</div>,
-      filters: GetUniqueValue(invData || [], 'client'),
-      onFilter: (value, record) => record.client === value,
+      render: (text, record) => record.client.name,
+      filters: GetUniqueValueNested(invData || [], 'client', 'name'),
+      onFilter: (value, record) => record.client.name === value,
     },
     {
       title: 'Product',
@@ -121,10 +121,13 @@ export const TestInventoryScreen = () => {
           <Button
             type="primary"
             onClick={async (e) => {
-              setSelectedProduct({short_code: record.product.short_code, client: record.client});
+              setSelectedProduct({
+                short_code: record.product.short_code,
+                client: record.client.name,
+              });
               setDetailsLoading(true);
               const {data} = await loadAPI(
-                `/rc-ledger-items/?id=${record.product.short_code}&cname=${record.client}`,
+                `/rc-ledger-items/?id=${record.product.short_code}&cname=${record.client.name}`,
                 {
                   method: 'GET',
                 },

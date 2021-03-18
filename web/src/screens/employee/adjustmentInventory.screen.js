@@ -138,7 +138,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         refresh={reload}
         tabs={tabs}
         size="middle"
-        title="Adjustments"
+        title="Warehouse Adjustments"
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={AdjustmentForm}

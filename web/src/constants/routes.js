@@ -248,13 +248,13 @@ export const employeeRoutes = [
     ],
   },
   {
-    name: 'Adjustments',
+    name: 'Adjustments Inventory',
     icon: ['fas', 'boxes'],
     path: '/adjustments-inventory/',
     isSubMenu: true,
     subMenu: [
       {
-        name: 'All Adjustments',
+        name: 'Warehouse Adjustments',
         path: '/adjustments-inventory/adjustments/',
         Component: lazy(() => import('screens/employee/adjustmentInventory.screen')),
         props: {isEmployee: false},

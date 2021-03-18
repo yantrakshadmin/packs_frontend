@@ -13,7 +13,7 @@ import Delete from '../../icons/Delete';
 import {useTableSearch} from '../../hooks/useTableSearch';
 import {CSVLink} from 'react-csv';
 import {ifNotStrReturnA} from 'common/helpers/mrHelper';
-import {GetUniqueValue} from 'common/helpers/getUniqueValues';
+import {GetUniqueValueNested} from 'common/helpers/getUniqueValues';
 
 const {Search} = Input;
 
@@ -34,7 +34,7 @@ export const TestInventoryScreen = () => {
     if (!invLoading) {
       const temp = invData.map((i) => {
         return {
-          client: i.client,
+          client: i.client.client_name,
           quantity: i.quantity,
           product: i.product,
         };
@@ -72,10 +72,10 @@ export const TestInventoryScreen = () => {
     failure: 'Error in creating/editing Inventory.',
     done: () => {
       form.setFieldsValue({
-        'client': null,
-        'product': null,
-        'quantity': null  
-      })
+        client: null,
+        product: null,
+        quantity: null,
+      });
       reload();
     },
     close: () => null,
@@ -86,9 +86,9 @@ export const TestInventoryScreen = () => {
       title: 'Client',
       key: 'client',
       dataIndex: 'client',
-      //render: (product) => <div>{product.description}</div>,
-      filters: GetUniqueValue(invData || [], 'client'),
-      onFilter: (value, record) => record.client === value,
+      render: (text, record) => record.client.client_name,
+      filters: GetUniqueValueNested(invData || [], 'client', 'client_name'),
+      onFilter: (value, record) => record.client.client_name === value,
     },
     {
       title: 'Product',
@@ -121,10 +121,13 @@ export const TestInventoryScreen = () => {
           <Button
             type="primary"
             onClick={async (e) => {
-              setSelectedProduct({short_code: record.product.short_code, client: record.client});
+              setSelectedProduct({
+                short_code: record.product.short_code,
+                client: record.client.client_name,
+              });
               setDetailsLoading(true);
               const {data} = await loadAPI(
-                `/sc-ledger-items/?id=${record.product.short_code}&cname=${record.client}`,
+                `/sc-ledger-items/?id=${record.product.short_code}&cname=${record.client.client_name}`,
                 {
                   method: 'GET',
                 },
