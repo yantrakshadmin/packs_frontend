@@ -51,7 +51,7 @@ const FilesViewModal = ({documentAvail, getDocuments}) => {
           <iframe
             src={`https://view.officeapps.live.com/op/embed.aspx?src=${url}`}
             width="100%"
-            height="400"
+            height="500"
             frameBorder="0"
           />
         );
@@ -87,7 +87,7 @@ const FilesViewModal = ({documentAvail, getDocuments}) => {
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}>
-        <Row gutter={10}>
+        <Row gutter={10} justify="center">
           {documents.map((d) => {
             return (
               <Col span={d.span ? d.span : 12} style={{marginBottom: '10px'}}>
