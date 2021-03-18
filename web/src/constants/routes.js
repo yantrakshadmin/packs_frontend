@@ -241,8 +241,34 @@ export const employeeRoutes = [
       },
       {
         name: 'Adjustments',
-        path: '/adjustments/',
+        path: '/main-inventory/adjustments/',
         Component: lazy(() => import('screens/employee/adjustmentInventory.screen')),
+        props: {isEmployee: false},
+      },
+    ],
+  },
+  {
+    name: 'Adjustments',
+    icon: ['fas', 'boxes'],
+    path: '/adjustments-inventory/',
+    isSubMenu: true,
+    subMenu: [
+      {
+        name: 'All Adjustments',
+        path: '/adjustments-inventory/adjustments/',
+        Component: lazy(() => import('screens/employee/adjustmentInventory.screen')),
+        props: {isEmployee: false},
+      },
+      {
+        name: 'Sender Client Adjustments',
+        path: '/adjustments-inventory/sc-adjustments/',
+        Component: lazy(() => import('screens/employee/adjustmentSCInventory.screen')),
+        props: {isEmployee: false},
+      },
+      {
+        name: 'Receiver Client Adjustments',
+        path: '/adjustments-inventory/rc-adjustments/',
+        Component: lazy(() => import('screens/employee/adjustmentRCInventory.screen')),
         props: {isEmployee: false},
       },
     ],

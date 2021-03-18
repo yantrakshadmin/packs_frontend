@@ -114,15 +114,15 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
       columns,
       loading,
     },
-    {
-      name: 'Client Adjustments',
-      key: 'clientAdjustments',
-      hasCustomModel: true,
-      CustomModel: AdjustmentClientTab,
-      customModelProps: {
-        searchVal: searchVal,
-      },
-    },
+    // {
+    //   name: 'Client Adjustments',
+    //   key: 'clientAdjustments',
+    //   hasCustomModel: true,
+    //   CustomModel: AdjustmentClientTab,
+    //   customModelProps: {
+    //     searchVal: searchVal,
+    //   },
+    // },
   ];
 
   return (
@@ -138,7 +138,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         refresh={reload}
         tabs={tabs}
         size="middle"
-        title="Adjustments"
+        title="Sender Client Adjustments"
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={AdjustmentForm}
