@@ -35,8 +35,10 @@ const StockingReport = ({currentPage}) => {
   }, [selectedClientID]);
 
   const onChange = async () => {
-    const tempFrom = moment(form.getFieldValue('dateFrom')).format('YYYY-MM-DD+HH:MM');
-    const tempTo = moment(form.getFieldValue('dateTo')).format('YYYY-MM-DD+HH:MM');
+    const tempFrom = moment(form.getFieldValue('dateFrom'))
+      .startOf('date')
+      .format('YYYY-MM-DD+HH:MM');
+    const tempTo = moment(form.getFieldValue('dateTo')).endOf('date').format('YYYY-MM-DD+HH:MM');
     setToDate(tempTo);
     setFromDate(tempFrom);
     setClient(form.getFieldValue('cname'));

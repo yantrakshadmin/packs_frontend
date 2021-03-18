@@ -1,18 +1,18 @@
-import React, { useState ,useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
 import moment from 'moment';
-import { DEFAULT_BASE_URL } from 'common/constants/enviroment';
-import { useAPI } from 'common/hooks/api';
-import { Row, Col, Form, Button } from 'antd';
-import { retrieveReturnReport } from 'common/api/auth';
+import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
+import {useAPI} from 'common/hooks/api';
+import {Row, Col, Form, Button} from 'antd';
+import {retrieveReturnReport} from 'common/api/auth';
 import returnColumns from 'common/columns/Return.column';
 import TableWithTabHoc from 'hocs/TableWithTab.hoc';
-import { FORM_ELEMENT_TYPES } from '../../constants/formFields.constant';
-import { RetKitTable } from '../RetKitExp';
+import {FORM_ELEMENT_TYPES} from '../../constants/formFields.constant';
+import {RetKitTable} from '../RetKitExp';
 
 import formItem from '../../hocs/formItem.hoc';
 
-const AllotmentReport = ({ currentPage }) => {
+const AllotmentReport = ({currentPage}) => {
   const [all, setAll] = useState(false);
   const [loading, setLoading] = useState(false);
   const [csvData, setCsvData] = useState(null);
@@ -24,11 +24,11 @@ const AllotmentReport = ({ currentPage }) => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    data.to = moment(data.to).format('YYYY-MM-DD HH:MM');
-    data.from = moment(data.from).format('YYYY-MM-DD HH:MM');
+    data.to = moment(data.to).endOf('date').format('YYYY-MM-DD HH:MM');
+    data.from = moment(data.from).startOf('date').format('YYYY-MM-DD HH:MM');
     setTo(data.to);
     setFrom(data.from);
-    const { data: report } = await retrieveReturnReport(data);
+    const {data: report} = await retrieveReturnReport(data);
     if (report) {
       console.log(report);
       setLoading(false);
@@ -97,12 +97,12 @@ const AllotmentReport = ({ currentPage }) => {
 
   return (
     <>
-      <Form onFinish={onSubmit} form={form} layout='vertical' hideRequiredMark autoComplete='off'>
+      <Form onFinish={onSubmit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
         <Row>
           <Col span={3}>
             {formItem({
               key: 'from',
-              rules: [{ required: true, message: 'Please select From date!' }],
+              rules: [{required: true, message: 'Please select From date!'}],
               kwargs: {
                 placeholder: 'Select',
                 type: 'number',
@@ -116,7 +116,7 @@ const AllotmentReport = ({ currentPage }) => {
           <Col span={3}>
             {formItem({
               key: 'to',
-              rules: [{ required: true, message: 'Please select To date!' }],
+              rules: [{required: true, message: 'Please select To date!'}],
               kwargs: {
                 placeholder: 'Select',
                 type: 'number',
@@ -128,7 +128,7 @@ const AllotmentReport = ({ currentPage }) => {
           </Col>
         </Row>
         <Row>
-          <Button type='primary' htmlType='submit'>
+          <Button type="primary" htmlType="submit">
             Submit
           </Button>
         </Row>
@@ -136,14 +136,14 @@ const AllotmentReport = ({ currentPage }) => {
       <br />
       <TableWithTabHoc
         tabs={tabs}
-        size='middle'
-        title='Return Dockets'
+        size="middle"
+        title="Return Dockets"
         hideRightButton
         downloadLink={`${DEFAULT_BASE_URL}/return-reportsdownload/?to=${to}&from=${from}`}
-        rowKey='id'
-        expandHandleKey='kits'
+        rowKey="id"
+        expandHandleKey="kits"
         ExpandBody={RetKitTable}
-        expandParams={{ loading }}
+        expandParams={{loading}}
         // csvdata={csvData}
         // csvname={'Allotments' + clientName + '.csv'}
       />
@@ -152,7 +152,7 @@ const AllotmentReport = ({ currentPage }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { currentPage: state.page.currentPage };
+  return {currentPage: state.page.currentPage};
 };
 
 export default connect(mapStateToProps)(AllotmentReport);
