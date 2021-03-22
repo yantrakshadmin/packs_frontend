@@ -225,7 +225,7 @@ export const DashboardScreen = () => {
       ],
       datasets: [
         {
-          label: 'Allotments by Months',
+          label: 'Returns by Months',
           ...chartConfigs,
           data: yearFilteredChartReturn[rYearSelected],
         },
