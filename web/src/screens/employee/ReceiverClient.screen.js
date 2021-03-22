@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import receiverColumns from 'common/columns/Receiver.column';
-import { Popconfirm, Button, Input } from 'antd';
-import { deleteReceiverClient, retieveReceiverClients } from 'common/api/auth';
-import { connect } from 'react-redux';
-import { useTableSearch } from 'hooks/useTableSearch';
-import { GetUniqueValue, GetUniqueValueNested } from 'common/helpers/getUniqueValues';
-import { deleteHOC } from '../../hocs/deleteHoc';
+import {Popconfirm, Button, Input} from 'antd';
+import {deleteReceiverClient, retieveReceiverClients} from 'common/api/auth';
+import {connect} from 'react-redux';
+import {useTableSearch} from 'hooks/useTableSearch';
+import {GetUniqueValue, GetUniqueValueNested} from 'common/helpers/getUniqueValues';
+import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import { ReceiverForm } from '../../forms/receiver.form';
+import {ReceiverForm} from '../../forms/receiver.form';
 
-const { Search } = Input;
+const {Search} = Input;
 
-const ReceiverClientEmployeeScreen = ({ currentPage }) => {
+const ReceiverClientEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const { filteredData, loading, reload } = useTableSearch({
+  const {filteredData, loading, reload} = useTableSearch({
     searchVal,
     retrieve: retieveReceiverClients,
   });
@@ -28,7 +28,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
       const csvd = [];
       filteredData.forEach((d) => {
         delete d.owner;
-        csvd.push({ ...d, 'emitter': d.emitter.client_name });
+        csvd.push({...d, emitter: d.emitter.client_name});
       });
       setCsvData(csvd);
     }
@@ -49,14 +49,14 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
       title: 'City',
       key: 'city',
       dataIndex: 'city',
-      filters: GetUniqueValue(filteredData || [],'city'),
+      filters: GetUniqueValue(filteredData || [], 'city'),
       onFilter: (value, record) => record.city === value,
     },
     ...receiverColumns,
     {
       title: 'Emitter',
       key: 'emitter',
-      filters: GetUniqueValueNested(filteredData||[],'emitter','client_name')||[],
+      filters: GetUniqueValueNested(filteredData || [], 'emitter', 'client_name') || [],
       onFilter: (value, record) => record.emitter.client_name === value,
       render: (text, record) => record.emitter.client_name,
     },
@@ -65,7 +65,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
       key: 'operation',
       width: '7vw',
       render: (text, record) => (
-        <div className='row align-center justify-evenly'>
+        <div className="row align-center justify-evenly">
           <Button
             // disabled
             style={{
@@ -80,7 +80,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
             }}>
             <Edit />
           </Button>
-          <Popconfirm
+          {/* <Popconfirm
             // disabled
             title='Confirm Delete'
             onConfirm={deleteHOC({
@@ -101,7 +101,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
               onClick={(e) => e.stopPropagation()}>
               <Delete />
             </Button>
-          </Popconfirm>
+          </Popconfirm> */}
         </div>
       ),
     },
@@ -121,9 +121,9 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
       </div>
       <br />
@@ -131,22 +131,22 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size='middle'
-        title='Receiver Clients'
+        size="middle"
+        title="Receiver Clients"
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={ReceiverForm}
         modalWidth={45}
-        expandParams={{ loading }}
+        expandParams={{loading}}
         csvdata={csvData}
-        csvname={`ReceiverClients${  searchVal  }.csv`}
+        csvname={`ReceiverClients${searchVal}.csv`}
       />
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  return { currentPage: state.page.currentPage };
+  return {currentPage: state.page.currentPage};
 };
 
 export default connect(mapStateToProps)(ReceiverClientEmployeeScreen);
