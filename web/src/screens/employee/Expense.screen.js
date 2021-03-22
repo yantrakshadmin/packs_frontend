@@ -16,6 +16,8 @@ import {yantraColors} from '../../helpers/yantraColors';
 import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import FilesViewModal from '../../components/FilesViewModal';
+import DeleteWithPassword from '../../components/DeleteWithPassword';
+import {DEFAULT_PASSWORD} from 'common/constants/passwords';
 
 import _ from 'lodash';
 
@@ -78,7 +80,17 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
             }}>
             <Edit />
           </Button>
-          <Popconfirm
+          <DeleteWithPassword
+            password={DEFAULT_PASSWORD}
+            deleteHOC={deleteHOC({
+              record,
+              reload,
+              api: deleteExpense,
+              success: 'Deleted Expense successfully',
+              failure: 'Error in deleting Expense',
+            })}
+          />
+          {/* <Popconfirm
             title="Confirm Delete"
             onConfirm={deleteHOC({
               record,
@@ -97,7 +109,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
               onClick={(e) => e.stopPropagation()}>
               <Delete />
             </Button>
-          </Popconfirm>
+          </Popconfirm> */}
         </div>
       ),
     },

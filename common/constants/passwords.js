@@ -1,0 +1,2 @@
+export const DEFAULT_PASSWORD = 'HELLOWORLD';
+export const ALLOTMENT_DOCKET_PASSWORD = 'YNTMR';
