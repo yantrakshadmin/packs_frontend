@@ -73,7 +73,7 @@ export const adjustmentFormFields = [
       placeholder: 'Select',
     },
     type: FORM_ELEMENT_TYPES.SELECT,
-    customLabel: 'Warehouse/Client',
+    customLabel: 'Warehouse',
     colSpan: 6,
   },
 ];

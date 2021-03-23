@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import warehouseColumns from 'common/columns/Warehouse.column';
-import { Popconfirm, Button, Input } from 'antd';
-import { deleteWarehouse, retrieveWarehouses } from 'common/api/auth';
-import { connect } from 'react-redux';
-import { useTableSearch } from 'hooks/useTableSearch';
-import { WareHouseForm } from '../../forms/warehouse.form';
+import {Popconfirm, Button, Input} from 'antd';
+import {deleteWarehouse, retrieveWarehouses} from 'common/api/auth';
+import {connect} from 'react-redux';
+import {useTableSearch} from 'hooks/useTableSearch';
+import {WareHouseForm} from '../../forms/warehouse.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import { deleteHOC } from '../../hocs/deleteHoc';
+import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import Document from '../../icons/Document';
 
-const { Search } = Input;
+const {Search} = Input;
 
-const WarehouseEmployeeScreen = ({ currentPage }) => {
+const WarehouseEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const { filteredData, loading, reload } = useTableSearch({ searchVal, retrieve: retrieveWarehouses });
+  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveWarehouses});
 
   useEffect(() => {
     if (filteredData) {
@@ -44,8 +44,8 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
       fixed: 'right',
       width: '7vw',
       render: (text, record) => (
-        <div className='row align-center justify-evenly'>
-          <a href={record.document} target='_blank' rel="noopener noreferrer">
+        <div className="row align-center justify-evenly">
+          <a href={record.document} target="_blank" rel="noopener noreferrer">
             <Button
               style={{
                 backgroundColor: 'transparent',
@@ -72,7 +72,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
             }}>
             <Edit />
           </Button>
-          <Popconfirm
+          {/* <Popconfirm
             // disabled
             title='Confirm Delete'
             onConfirm={deleteHOC({
@@ -93,7 +93,7 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
               onClick={(e) => e.stopPropagation()}>
               <Delete />
             </Button>
-          </Popconfirm>
+          </Popconfirm> */}
         </div>
       ),
     },
@@ -113,9 +113,9 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
       </div>
       <br />
@@ -123,22 +123,22 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size='middle'
-        title='Warehouses'
+        size="middle"
+        title="Warehouses"
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={WareHouseForm}
         modalWidth={45}
-        expandParams={{ loading }}
+        expandParams={{loading}}
         csvdata={csvData}
-        csvname={`Warehouses${  searchVal  }.csv`}
+        csvname={`Warehouses${searchVal}.csv`}
       />
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  return { currentPage: state.page.currentPage };
+  return {currentPage: state.page.currentPage};
 };
 
 export default connect(mapStateToProps)(WarehouseEmployeeScreen);

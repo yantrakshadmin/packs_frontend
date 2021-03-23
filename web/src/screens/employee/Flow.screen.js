@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import flowsColumns from 'common/columns/Flows.column';
-import { Popconfirm, Button, Input } from 'antd';
-import { deleteFlow, retreiveFlows } from 'common/api/auth';
-import { connect } from 'react-redux';
-import { useTableSearch } from 'hooks/useTableSearch';
-import { FlowForm } from '../../forms/flow.form';
+import {Popconfirm, Button, Input} from 'antd';
+import {deleteFlow, retreiveFlows} from 'common/api/auth';
+import {connect} from 'react-redux';
+import {useTableSearch} from 'hooks/useTableSearch';
+import {FlowForm} from '../../forms/flow.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import KitsTable from '../../components/KitsTable';
-import { deleteHOC } from '../../hocs/deleteHoc';
+import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
-import { GetUniqueValueNested } from 'common/helpers/getUniqueValues';
+import {GetUniqueValueNested} from 'common/helpers/getUniqueValues';
 
-const { Search } = Input;
+const {Search} = Input;
 
-const FlowEmployeeScreen = ({ currentPage }) => {
+const FlowEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const { filteredData, loading, reload } = useTableSearch({ searchVal, retrieve: retreiveFlows });
+  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retreiveFlows});
 
   useEffect(() => {
     if (filteredData) {
@@ -27,8 +27,8 @@ const FlowEmployeeScreen = ({ currentPage }) => {
       filteredData.forEach((d) => {
         const temp = {
           ...d,
-          'sender_client': d.sender_client.client_name,
-          'receiver_client': d.receiver_client.name,
+          sender_client: d.sender_client.client_name,
+          receiver_client: d.receiver_client.name,
         };
         delete temp.kits;
         delete temp.owner;
@@ -62,19 +62,18 @@ const FlowEmployeeScreen = ({ currentPage }) => {
       key: 'flow_days',
       dataIndex: 'flow_days',
       sorter: (a, b) => a.flow_days - b.flow_days,
-
     },
     {
       title: 'Sender Client',
       key: 'sender_client',
-      filters: GetUniqueValueNested(filteredData || [],'sender_client','client_name'),
+      filters: GetUniqueValueNested(filteredData || [], 'sender_client', 'client_name'),
       onFilter: (value, record) => record.sender_client.client_name === value,
       render: (text, record) => record.sender_client.client_name,
     },
     {
       title: 'Receiver Client',
       key: 'receiver_client',
-      filters: GetUniqueValueNested(filteredData || [],'receiver_client','name'),
+      filters: GetUniqueValueNested(filteredData || [], 'receiver_client', 'name'),
       onFilter: (value, record) => record.receiver_client.name === value,
       render: (text, record) => record.receiver_client.name,
     },
@@ -83,7 +82,7 @@ const FlowEmployeeScreen = ({ currentPage }) => {
       key: 'operation',
       width: '7vw',
       render: (text, record) => (
-        <div className='row justify-evenly'>
+        <div className="row justify-evenly">
           <Button
             // disabled
             style={{
@@ -98,7 +97,7 @@ const FlowEmployeeScreen = ({ currentPage }) => {
             }}>
             <Edit />
           </Button>
-          <Popconfirm
+          {/* <Popconfirm
             // disabled
             title='Confirm Delete'
             onConfirm={deleteHOC({
@@ -119,7 +118,7 @@ const FlowEmployeeScreen = ({ currentPage }) => {
               onClick={(e) => e.stopPropagation()}>
               <Delete />
             </Button>
-          </Popconfirm>
+          </Popconfirm> */}
         </div>
       ),
     },
@@ -137,9 +136,9 @@ const FlowEmployeeScreen = ({ currentPage }) => {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
-          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder='Search' enterButton />
+      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+          <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
       </div>
       <br />
@@ -147,24 +146,24 @@ const FlowEmployeeScreen = ({ currentPage }) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size='middle'
-        title='Flows'
+        size="middle"
+        title="Flows"
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={FlowForm}
         modalWidth={50}
-        expandHandleKey='kits'
-        expandParams={{ loading }}
+        expandHandleKey="kits"
+        expandParams={{loading}}
         ExpandBody={KitsTable}
         csvdata={csvData}
-        csvname={`Flows${  searchVal  }.csv`}
+        csvname={`Flows${searchVal}.csv`}
       />
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  return { currentPage: state.page.currentPage };
+  return {currentPage: state.page.currentPage};
 };
 
 export default connect(mapStateToProps)(FlowEmployeeScreen);

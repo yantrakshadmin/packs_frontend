@@ -241,27 +241,29 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
             disabled={isEmployee ? true : false}>
             <Edit />
           </Button>
-          <Popconfirm
-            title="Confirm Delete"
-            onConfirm={deleteHOC({
-              record,
-              reload,
-              api: deleteOutward,
-              success: 'Deleted Outward Docket Successfully',
-              failure: 'Error in deleting Outward Docket',
-            })}>
-            <Button
-              style={{
-                backgroundColor: 'transparent',
-                boxShadow: 'none',
-                border: 'none',
-                padding: '1px',
-              }}
-              onClick={(e) => e.stopPropagation()}
-              disabled={isEmployee ? true : false}>
-              <Delete />
-            </Button>
-          </Popconfirm>
+          {isEmployee ? null : (
+            <Popconfirm
+              title="Confirm Delete"
+              onConfirm={deleteHOC({
+                record,
+                reload,
+                api: deleteOutward,
+                success: 'Deleted Outward Docket Successfully',
+                failure: 'Error in deleting Outward Docket',
+              })}>
+              <Button
+                style={{
+                  backgroundColor: 'transparent',
+                  boxShadow: 'none',
+                  border: 'none',
+                  padding: '1px',
+                }}
+                onClick={(e) => e.stopPropagation()}
+                disabled={isEmployee ? true : false}>
+                <Delete />
+              </Button>
+            </Popconfirm>
+          )}
         </div>
       ),
     },

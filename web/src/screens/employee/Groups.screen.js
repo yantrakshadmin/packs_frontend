@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
-import {ExpenseForm} from 'forms/expense.form';
+import {GroupForm} from 'forms/Group.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import ExpandTable from 'components/ExpenseExpandTable';
 import {deleteHOC} from 'hocs/deleteHoc';
@@ -117,8 +117,8 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
 
   const tabs = [
     {
-      name: 'All Expenses',
-      key: 'allExpenses',
+      name: 'All Groups',
+      key: 'allGroups',
       data: filteredData || [],
       columns,
       loading,
@@ -138,10 +138,10 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         refresh={reload}
         tabs={tabs}
         size="middle"
-        title="Expenses"
+        title="Groups"
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={ExpenseForm}
+        modalBody={GroupForm}
         modalWidth={80}
         formParams={{isEmployee}}
         //expandHandleKey="transactions"

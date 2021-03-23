@@ -38,6 +38,8 @@ import ExpandTable from '../../components/AllotmentsExpandTable';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {LineGraph} from '../../components/graphComponent/lineGraph';
+import DeleteWithPassword from '../../components/DeleteWithPassword';
+import {DEFAULT_PASSWORD} from 'common/constants/passwords';
 
 const {Search} = Input;
 const {Title} = Typography;
@@ -207,7 +209,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
             }}>
             <Edit />
           </Button>
-          <Popconfirm
+          {/* <Popconfirm
             title="Confirm Delete"
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
@@ -227,7 +229,17 @@ const AllotmentDocketsScreen = ({currentPage}) => {
               onClick={(e) => e.stopPropagation()}>
               <Delete />
             </Button>
-          </Popconfirm>
+          </Popconfirm> */}
+          <DeleteWithPassword
+            password={DEFAULT_PASSWORD}
+            deleteHOC={deleteHOC({
+              record,
+              reload,
+              api: deleteAllotment,
+              success: 'Deleted Allotment successfully',
+              failure: 'Error in deleting Allotment',
+            })}
+          />
         </div>
       ),
     },

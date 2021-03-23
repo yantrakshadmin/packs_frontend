@@ -17,7 +17,7 @@ import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {deleteAddMr, retrieveEmployeeMrsEfficient} from 'common/api/auth';
 import moment from 'moment';
-import {ALLOTMENT_DOCKET_PASSWORD} from 'common/constants/allotmentDocketPassword';
+import {ALLOTMENT_DOCKET_PASSWORD} from 'common/constants/passwords';
 import {EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
 import {loadAPI} from 'common/helpers/api';
 import {useAPI} from 'common/hooks/api';
@@ -30,6 +30,8 @@ import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import {ActionsPopover} from '../../components/ActionsPopover';
 import {MRRejectionForm} from '../../forms/MRRejection.form';
+import DeleteWithPassword from '../../components/DeleteWithPassword';
+import {DEFAULT_PASSWORD} from 'common/constants/passwords';
 
 const {Search} = Input;
 const {Title} = Typography;
@@ -319,7 +321,17 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
               <Edit />
             </Button>
           </Popover>
-          <Popconfirm
+          <DeleteWithPassword
+            password={DEFAULT_PASSWORD}
+            deleteHOC={deleteHOC({
+              record,
+              reload,
+              api: deleteAddMr,
+              success: 'Deleted MR successfully',
+              failure: 'Error in deleting MR',
+            })}
+          />
+          {/* <Popconfirm
             title="Confirm Delete"
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
@@ -339,7 +351,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
               onClick={(e) => e.stopPropagation()}>
               <Delete />
             </Button>
-          </Popconfirm>
+          </Popconfirm> */}
         </div>
       ),
     },

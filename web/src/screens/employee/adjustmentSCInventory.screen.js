@@ -1,24 +1,24 @@
 import React, {useState} from 'react';
-import expenseColumns from 'common/columns/expense.column';
-import {Popconfirm, Button, Input} from 'antd';
-import {deleteExpense, retrieveExpenses} from 'common/api/auth';
+import adjustmentColumns from 'common/columns/adjustment.column';
+import {Popconfirm, Button, Input, Popover} from 'antd';
+import {retrieveAdjustments} from 'common/api/auth';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
-import {ExpenseForm} from 'forms/expense.form';
+import {AdjustmentForm} from 'forms/adjustmentSC.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
-import ExpandTable from 'components/ExpenseExpandTable';
+import ExpandTable from 'components/AdjustmentExpandTable';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
+import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import {yantraColors} from '../../helpers/yantraColors';
 import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import FilesViewModal from '../../components/FilesViewModal';
-import DeleteWithPassword from '../../components/DeleteWithPassword';
-import {DEFAULT_PASSWORD} from 'common/constants/passwords';
+import {uploadAdjustmentDocument} from 'common/api/auth';
 
+import {loadAPI} from 'common/helpers/api';
 import _ from 'lodash';
 
 const {Search} = Input;
@@ -27,25 +27,24 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveExpenses});
-  //const {data: mrStatusData} = useAPI('list-mrstatus/');
+  const {filteredData, loading, reload} = useTableSearch({
+    searchVal,
+    retrieve: retrieveAdjustments,
+  });
+
   const cancelEditing = () => {
     setEditingId(null);
   };
 
   const columns = [
-    ...expenseColumns,
+    ...adjustmentColumns,
     {
       title: 'Action',
       key: 'operation',
       width: '7vw',
       render: (text, record) => (
         <div className="row justify-evenly">
-          <FilesViewModal
-            documentAvail={record.bill ? (record.bill.length > 0 ? true : false) : false}
-            getDocuments={() => record.bill}
-          />
-          {/* <Button
+          <Button
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -55,19 +54,20 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
             onClick={async (e) => {
               e.stopPropagation();
               try {
-                if (record.bill.length > 0) {
-                  record.bill.forEach((f) => {
+                if (record.files.length > 0) {
+                  record.files.forEach((f) => {
                     window.open(f.document);
                   });
                 }
               } catch (err) {}
             }}>
             <FontAwesomeIcon
-              icon={record.bill ? (record.bill.length > 0 ? faEye : faEyeSlash) : faEyeSlash}
+              icon={record.files ? (record.files.length > 0 ? faEye : faEyeSlash) : faEyeSlash}
               style={{fontSize: 20, color: yantraColors['primary']}}
             />
-          </Button> */}
-          <Button
+          </Button>
+
+          {/* <Button
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -80,17 +80,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
             }}>
             <Edit />
           </Button>
-          <DeleteWithPassword
-            password={DEFAULT_PASSWORD}
-            deleteHOC={deleteHOC({
-              record,
-              reload,
-              api: deleteExpense,
-              success: 'Deleted Expense successfully',
-              failure: 'Error in deleting Expense',
-            })}
-          />
-          {/* <Popconfirm
+          <Popconfirm
             title="Confirm Delete"
             onConfirm={deleteHOC({
               record,
@@ -117,12 +107,21 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
 
   const tabs = [
     {
-      name: 'All Expenses',
-      key: 'allExpenses',
+      name: 'All Adjustments',
+      key: 'allAdjustments',
       data: filteredData || [],
       columns,
       loading,
     },
+    // {
+    //   name: 'Client Adjustments',
+    //   key: 'clientAdjustments',
+    //   hasCustomModel: true,
+    //   CustomModel: AdjustmentClientTab,
+    //   customModelProps: {
+    //     searchVal: searchVal,
+    //   },
+    // },
   ];
 
   return (
@@ -138,15 +137,18 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         refresh={reload}
         tabs={tabs}
         size="middle"
-        title="Expenses"
+        title="Sender Client Adjustments"
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={ExpenseForm}
+        modalBody={AdjustmentForm}
         modalWidth={80}
         formParams={{isEmployee}}
         //expandHandleKey="transactions"
-        //expandParams={{loading}}
+        expandParams={{loading}}
         ExpandBody={ExpandTable}
+        uploadLink={true}
+        uploadLinkTitle={'Upload Document'}
+        uploadLinkFunc={uploadAdjustmentDocument}
       />
     </>
   );

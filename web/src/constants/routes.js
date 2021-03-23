@@ -241,9 +241,35 @@ export const employeeRoutes = [
       },
       {
         name: 'Adjustments',
-        path: '/adjustments/',
+        path: '/main-inventory/adjustments/',
         Component: lazy(() => import('screens/employee/adjustmentInventory.screen')),
-        props: {isEmployee: false},
+        props: {isEmployee: true},
+      },
+    ],
+  },
+  {
+    name: 'Adjustments Inventory',
+    icon: ['fas', 'boxes'],
+    path: '/adjustments-inventory/',
+    isSubMenu: true,
+    subMenu: [
+      {
+        name: 'Warehouse Adjustments',
+        path: '/adjustments-inventory/adjustments/',
+        Component: lazy(() => import('screens/employee/adjustmentInventory.screen')),
+        props: {isEmployee: true},
+      },
+      {
+        name: 'Sender Client Adjustments',
+        path: '/adjustments-inventory/sc-adjustments/',
+        Component: lazy(() => import('screens/employee/adjustmentSCInventory.screen')),
+        props: {isEmployee: true},
+      },
+      {
+        name: 'Receiver Client Adjustments',
+        path: '/adjustments-inventory/rc-adjustments/',
+        Component: lazy(() => import('screens/employee/adjustmentRCInventory.screen')),
+        props: {isEmployee: true},
       },
     ],
   },
@@ -252,7 +278,7 @@ export const employeeRoutes = [
     icon: ['fas', 'money-check-alt'],
     path: '/expense/',
     Component: lazy(() => import('screens/employee/Expense.screen')),
-    props: {isEmployee: false},
+    props: {isEmployee: true},
   },
   {
     name: 'Reports',
@@ -306,6 +332,13 @@ export const employeeRoutes = [
         Component: lazy(() => import('components/Reports/LossExcess.js')),
       },
     ],
+  },
+  {
+    name: 'Groups',
+    icon: ['fas', 'money-check-alt'],
+    path: '/groups/',
+    Component: lazy(() => import('screens/employee/Groups.screen')),
+    props: {isEmployee: true},
   },
 ];
 

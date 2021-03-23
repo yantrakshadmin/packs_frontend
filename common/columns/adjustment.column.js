@@ -20,7 +20,7 @@ export default [
     },
   },
   {
-    title: 'Warehouse/Client',
+    title: 'Warehouse',
     key: 'warehouse',
     dataIndex: 'warehouse',
   },

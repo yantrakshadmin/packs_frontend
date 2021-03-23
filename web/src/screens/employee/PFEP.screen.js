@@ -25,6 +25,7 @@ import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 
 import {GetUniqueValue} from 'common/helpers/getUniqueValues';
 import {ifNotStrReturnA} from 'common/helpers/mrHelper';
+import FilesViewModal from '../../components/FilesViewModal';
 
 const {Search} = Input;
 
@@ -180,7 +181,20 @@ const PFEPEmployeeScreen = ({currentPage}) => {
       width: '12vw',
       render: (text, record) => (
         <div className="row align-center justify-evenly">
-          <Button
+          <FilesViewModal
+            documentAvail={record.file_uploaded ? true : false}
+            getDocuments={async () => {
+              const {data: req} = await loadAPI(`${DEFAULT_BASE_URL}/tp-file/?id=${record.id}`, {});
+              if (req) {
+                if (req[0]) {
+                  if (req[0].document) {
+                    return [{document: req[0].document, span: 20}];
+                  }
+                }
+              }
+            }}
+          />
+          {/* <Button
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -190,7 +204,6 @@ const PFEPEmployeeScreen = ({currentPage}) => {
             onClick={async (e) => {
               const {data: req} = await loadAPI(`${DEFAULT_BASE_URL}/tp-file/?id=${record.id}`, {});
               if (req) {
-                console.log(req);
                 if (req[0]) {
                   if (req[0].document) {
                     window.open(req[0].document);
@@ -203,7 +216,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
               icon={record.file_uploaded ? faEye : faEyeSlash}
               style={{fontSize: 20, color: '#20a8d8'}}
             />
-          </Button>
+          </Button> */}
           <ActionsPopover
             // popover={popover}
             // setPopover={setPopover}

@@ -40,8 +40,8 @@ const AllotmentReport = ({currentPage}) => {
       });
       setClientName(reqC);
     }
-    data.to = moment(data.to).format('YYYY-MM-DD HH:MM');
-    data.from = moment(data.from).format('YYYY-MM-DD HH:MM');
+    data.to = moment(data.to).endOf('date').format('YYYY-MM-DD HH:MM');
+    data.from = moment(data.from).startOf('date').format('YYYY-MM-DD HH:MM');
     setTo(data.to);
     setFrom(data.from);
     const {data: report} = await retrieveAllotmentReport(data);
