@@ -815,7 +815,7 @@ export const tpFileUpload = (req) =>
     },
   });
 
-  export const tpFileReUpload = (id,req) =>
+export const tpFileReUpload = (id, req) =>
   loadAPI(`/reupload-tp/${id}/`, {
     method: 'PATCH',
     data: req,
@@ -1287,6 +1287,38 @@ export const uploadAdjustmentDocument = (src) =>
 export const createClientAdjustment = (src) =>
   loadAPI('/create-clientadjust/', {
     method: 'POST',
+    data: src,
+    secure: true,
+  });
+
+export const createGroup = (src) =>
+  loadAPI('/create-group/', {
+    method: 'POST',
+    data: src,
+    secure: true,
+  });
+
+export const retrieveGroups = () =>
+  loadAPI('/group/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteGroup = (id) =>
+  loadAPI(`/edit-group/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const retrieveGroup = (id) =>
+  loadAPI(`/edit-group/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const editGroup = (id, src) =>
+  loadAPI(`/edit-group/${id}/`, {
+    method: 'PATCH',
     data: src,
     secure: true,
   });
