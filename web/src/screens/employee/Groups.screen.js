@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
-import expenseColumns from 'common/columns/expense.column';
+import groupColumns from 'common/columns/group.column';
 import {Popconfirm, Button, Input} from 'antd';
-import {deleteExpense, retrieveExpenses} from 'common/api/auth';
+import {deleteGroup, retrieveGroups} from 'common/api/auth';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
 import {mergeArray} from 'common/helpers/mrHelper';
 import {GroupForm} from 'forms/Group.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
-import ExpandTable from 'components/ExpenseExpandTable';
+import GroupExpandTable from 'components/GroupExpandTable';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
@@ -27,24 +27,20 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveExpenses});
+  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveGroups});
   //const {data: mrStatusData} = useAPI('list-mrstatus/');
   const cancelEditing = () => {
     setEditingId(null);
   };
 
   const columns = [
-    ...expenseColumns,
+    ...groupColumns,
     {
       title: 'Action',
       key: 'operation',
       width: '7vw',
       render: (text, record) => (
         <div className="row justify-evenly">
-          <FilesViewModal
-            documentAvail={record.bill ? (record.bill.length > 0 ? true : false) : false}
-            getDocuments={() => record.bill}
-          />
           {/* <Button
             style={{
               backgroundColor: 'transparent',
@@ -85,9 +81,9 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
             deleteHOC={deleteHOC({
               record,
               reload,
-              api: deleteExpense,
-              success: 'Deleted Expense successfully',
-              failure: 'Error in deleting Expense',
+              api: deleteGroup,
+              success: 'Deleted Group successfully',
+              failure: 'Error in deleting Group',
             })}
           />
           {/* <Popconfirm
@@ -95,7 +91,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
             onConfirm={deleteHOC({
               record,
               reload,
-              api: deleteExpense,
+              api: deleteGroup,
               success: 'Deleted Material Request successfully',
               failure: 'Error in deleting Material request',
             })}>
@@ -144,9 +140,9 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         modalBody={GroupForm}
         modalWidth={80}
         formParams={{isEmployee}}
-        //expandHandleKey="transactions"
-        //expandParams={{loading}}
-        ExpandBody={ExpandTable}
+        expandHandleKey="models"
+        expandParams={{loading}}
+        ExpandBody={GroupExpandTable}
       />
     </>
   );

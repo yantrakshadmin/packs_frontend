@@ -3,7 +3,7 @@ import {Form, Col, Row, Button, Divider, Spin, message, Alert, Card} from 'antd'
 import {groupFormFields, groupModelChoices} from 'common/formFields/group.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {createGroup, editExpenseTest, retrieveExpense} from 'common/api/auth';
+import {createGroup, editGroup, retrieveGroup} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 import {useControlledSelect} from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
@@ -17,27 +17,35 @@ import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
 
 export const GroupForm = ({id, onCancel, onDone, isEmployee}) => {
-  const [selectedModels, setSelectedModels] = useState([]);
-
-  useEffect(() => {
-    console.log(selectedModels);
-  }, [selectedModels]);
-
-  // const {data: flows} = useAPI('/myflows/', {});
-  // const {data: kits} = useControlledSelect(flowId);
   const {data: employees} = useAPI('/employees/', {});
+
+  const [selectedModels, setSelectedModels] = useState([]);
 
   const {form, submit, loading} = useHandleForm({
     create: createGroup,
-    edit: editExpenseTest,
-    retrieve: retrieveExpense,
-    success: 'Expense created/edited successfully',
-    failure: 'Error in creating/editing Expense.',
+    edit: editGroup,
+    retrieve: retrieveGroup,
+    success: 'Group created/edited successfully',
+    failure: 'Error in creating/editing Group.',
     done: onDone,
     close: onCancel,
     id,
     dates: ['invoice_date'],
   });
+
+  useEffect(() => {
+    if (id && !loading) {
+      const temp = form.getFieldValue('models');
+      const smTemp = selectedModels;
+      temp.forEach((m) => {
+        smTemp.push(m.model);
+        form.setFieldsValue({
+          [m.model]: true,
+        });
+      });
+      setSelectedModels(smTemp);
+    }
+  }, [id, loading]);
 
   const preProcess = useCallback(
     (data) => {
@@ -45,7 +53,8 @@ export const GroupForm = ({id, onCancel, onDone, isEmployee}) => {
       const temp = {};
       temp.name = name;
       temp.emp = emp;
-      temp.models = selectedModels;
+      temp.models = selectedModels.map((sm) => ({model: sm}));
+      console.log(temp);
       submit(temp);
     },
     [selectedModels],
