@@ -17,6 +17,8 @@ const StockingReport = ({currentPage}) => {
   const [fromDate, setFromDate] = useState(null);
   const [form] = Form.useForm();
 
+  const [btnLoading, setBtnLoading] = useState(false);
+
   const {data: clients} = useAPI('/clients/', {});
 
   const onChange = async () => {
@@ -89,6 +91,7 @@ const StockingReport = ({currentPage}) => {
           <Button
             //href={`${DEFAULT_BASE_URL}/demandvallot-report/?cname=${client}`}
             onClick={async () => {
+              await setBtnLoading(true);
               const d = await loadAPI(`/demandvallot-report/?cname=${client}`);
               if (d.status === 403) {
                 notification.error({
@@ -96,11 +99,17 @@ const StockingReport = ({currentPage}) => {
                   description: 'You do not have permissions to access this module.',
                 });
               } else {
-                console.log(d);
+                let hiddenElement = document.createElement('a');
+                hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(d.data);
+                hiddenElement.target = '_blank';
+                hiddenElement.download = 'vp-report.csv';
+                hiddenElement.click();
               }
+              setBtnLoading(false);
             }}
             rel="noopener noreferrer"
-            target="blank">
+            target="blank"
+            loading={btnLoading}>
             Download CSV
           </Button>
         </Row>
