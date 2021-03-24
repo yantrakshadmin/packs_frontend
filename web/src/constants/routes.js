@@ -333,10 +333,10 @@ export const employeeRoutes = [
     ],
   },
   {
-    name: 'Groups',
+    name: 'Roles',
     icon: ['fas', 'money-check-alt'],
-    path: '/groups/',
-    Component: lazy(() => import('screens/employee/Groups.screen')),
+    path: '/roles/',
+    Component: lazy(() => import('screens/employee/Roles.screen')),
     props: {isEmployee: true},
   },
 ];

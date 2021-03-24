@@ -18,6 +18,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import FilesViewModal from '../../components/FilesViewModal';
 import DeleteWithPassword from '../../components/DeleteWithPassword';
 import {DEFAULT_PASSWORD} from 'common/constants/passwords';
+import NoPermissionAlert from 'components/NoPermissionAlert';
 
 import _ from 'lodash';
 
@@ -27,7 +28,10 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveExpenses});
+  const {filteredData, loading, reload, hasPermission} = useTableSearch({
+    searchVal,
+    retrieve: retrieveExpenses,
+  });
   //const {data: mrStatusData} = useAPI('list-mrstatus/');
   const cancelEditing = () => {
     setEditingId(null);
@@ -126,7 +130,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
   ];
 
   return (
-    <>
+    <NoPermissionAlert hasPermission={hasPermission}>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
         <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
@@ -148,7 +152,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         //expandParams={{loading}}
         ExpandBody={ExpandTable}
       />
-    </>
+    </NoPermissionAlert>
   );
 };
 

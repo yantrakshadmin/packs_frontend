@@ -24,6 +24,7 @@ import moment from 'moment';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBarcode, faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {yantraColors} from '../../helpers/yantraColors';
+import NoPermissionAlert from 'components/NoPermissionAlert';
 
 const {Search} = Input;
 
@@ -36,7 +37,10 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
   const user = useSelector((s) => s.user.userMeta.id);
   console.log(user, isEmployee, 'Props');
 
-  const {data: outwards, loading, reload} = useAPI(isEmployee ? 'emp-outwards/' : '/outwards/', {});
+  const {data: outwards, loading, reload, status} = useAPI(
+    isEmployee ? 'emp-outwards/' : '/outwards/',
+    {},
+  );
   const {filteredData} = useTableSearch({
     searchVal,
     reqData,
@@ -291,7 +295,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
   };
 
   return (
-    <>
+    <NoPermissionAlert hasPermission={isEmployee ? (status === 403 ? false : true) : true}>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
         <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
@@ -313,7 +317,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
         formParams={{transaction_no: TN}}
         cancelEditing={cancelEditing}
       />
-    </>
+    </NoPermissionAlert>
   );
 };
 

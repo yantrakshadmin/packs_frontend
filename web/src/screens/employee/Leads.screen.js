@@ -15,6 +15,7 @@ import {LeadsForm} from 'forms/leads.form';
 import {PFEPMainForm} from 'forms/PFEP/PFEPMain.form';
 import {UploadLeadForm} from 'forms/uploadLead.form';
 import {ActionsPopover} from 'components/ActionsPopover';
+import NoPermissionAlert from 'components/NoPermissionAlert';
 
 const {Search} = Input;
 
@@ -27,7 +28,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
   const [lead, setLead] = useState(null);
   const [popover, setPopover] = useState(false);
 
-  const {filteredData, loading, reload} = useTableSearch({
+  const {filteredData, loading, reload, hasPermission} = useTableSearch({
     searchVal,
     retrieve: retrieveLeads,
   });
@@ -132,7 +133,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
   const cancelEditing = () => setEditingId(null);
 
   return (
-    <>
+    <NoPermissionAlert hasPermission={hasPermission}>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
         <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
@@ -199,7 +200,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
         csvdata={csvData}
         csvname={`Leads${searchVal}.csv`}
       />
-    </>
+    </NoPermissionAlert>
   );
 };
 

@@ -26,6 +26,7 @@ import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {GetUniqueValue} from 'common/helpers/getUniqueValues';
 import {ifNotStrReturnA} from 'common/helpers/mrHelper';
 import FilesViewModal from '../../components/FilesViewModal';
+import NoPermissionAlert from 'components/NoPermissionAlert';
 
 const {Search} = Input;
 
@@ -63,7 +64,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
   const [uploadTPVisible, setUploadTP] = useState(false);
   const dispatch = useDispatch();
 
-  const {filteredData, loading, reload} = useTableSearch({
+  const {filteredData, loading, reload, hasPermission} = useTableSearch({
     searchVal,
     retrieve: retrievePFEP,
   });
@@ -322,7 +323,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
     setCreateCPVisible(false);
   };
   return (
-    <>
+    <NoPermissionAlert hasPermission={hasPermission}>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
         <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
@@ -396,7 +397,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
         csvdata={csvData}
         csvname={`PFEP${searchVal}.csv`}
       />
-    </>
+    </NoPermissionAlert>
   );
 };
 

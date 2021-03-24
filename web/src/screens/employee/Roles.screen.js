@@ -113,8 +113,8 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
 
   const tabs = [
     {
-      name: 'All Groups',
-      key: 'allGroups',
+      name: 'All Roles',
+      key: 'allRoles',
       data: filteredData || [],
       columns,
       loading,
@@ -134,7 +134,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         refresh={reload}
         tabs={tabs}
         size="middle"
-        title="Groups"
+        title="Roles"
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={GroupForm}

@@ -11,6 +11,7 @@ import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import {GetUniqueValueNested} from 'common/helpers/getUniqueValues';
+import NoPermissionAlert from 'components/NoPermissionAlert';
 
 const {Search} = Input;
 
@@ -19,7 +20,10 @@ const KitEmployeeScreen = ({currentPage}) => {
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveKits});
+  const {filteredData, loading, reload, hasPermission} = useTableSearch({
+    searchVal,
+    retrieve: retrieveKits,
+  });
 
   useEffect(() => {
     if (filteredData) {
@@ -126,7 +130,7 @@ const KitEmployeeScreen = ({currentPage}) => {
   ];
 
   return (
-    <>
+    <NoPermissionAlert hasPermission={hasPermission}>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
         <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
@@ -149,7 +153,7 @@ const KitEmployeeScreen = ({currentPage}) => {
         csvdata={csvData}
         csvname={`Kits${searchVal}.csv`}
       />
-    </>
+    </NoPermissionAlert>
   );
 };
 

@@ -32,6 +32,7 @@ import {ActionsPopover} from '../../components/ActionsPopover';
 import {MRRejectionForm} from '../../forms/MRRejection.form';
 import DeleteWithPassword from '../../components/DeleteWithPassword';
 import {DEFAULT_PASSWORD} from 'common/constants/passwords';
+import NoPermissionAlert from 'components/NoPermissionAlert';
 
 const {Search} = Input;
 const {Title} = Typography;
@@ -45,7 +46,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
   const [rejectionVisible, setRejectionVisible] = useState(false);
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [popoverEditVisible, setPopoverEditVisible] = useState(false);
-  const {filteredData, loading, reload} = useTableSearch({
+  const {filteredData, loading, reload, hasPermission} = useTableSearch({
     searchVal,
     retrieve: retrieveEmployeeMrsEfficient,
   });
@@ -373,7 +374,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
   };
 
   return (
-    <>
+    <NoPermissionAlert hasPermission={hasPermission}>
       <Modal
         maskClosable={false}
         visible={materialReqVisible}
@@ -457,7 +458,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         //csvdata={csvData}
         //csvname={`MRs${searchVal}.csv`}
       />
-    </>
+    </NoPermissionAlert>
   );
 };
 

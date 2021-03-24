@@ -17,6 +17,7 @@ import {MainCreateCPForm} from '../../forms/CreateCP/mainCreateCP.form';
 import Document from '../../icons/Document';
 import {ifNotStrReturnA} from 'common/helpers/mrHelper';
 import {GetUniqueValueNested} from 'common/helpers/getUniqueValues';
+import NoPermissionAlert from 'components/NoPermissionAlert';
 
 const {Search} = Input;
 
@@ -28,7 +29,7 @@ const CreateCPScreen = ({currentPage}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const {filteredData, loading, reload} = useTableSearch({
+  const {filteredData, loading, reload, hasPermission} = useTableSearch({
     searchVal,
     retrieve: retrieveCP,
   });
@@ -225,7 +226,7 @@ const CreateCPScreen = ({currentPage}) => {
     }),
   };
   return (
-    <>
+    <NoPermissionAlert hasPermission={hasPermission}>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
         <Button
           className="mx-2"
@@ -276,7 +277,7 @@ const CreateCPScreen = ({currentPage}) => {
         csvdata={csvData}
         csvname={`CP${searchVal}.csv`}
       />
-    </>
+    </NoPermissionAlert>
   );
 };
 

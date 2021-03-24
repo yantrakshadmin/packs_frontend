@@ -3,7 +3,8 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import {useAPI} from 'common/hooks/api';
-import {Row, Col, Form, Button, Typography} from 'antd';
+import {loadAPI} from 'common/helpers/api';
+import {Row, Col, Form, Button, Typography, notification} from 'antd';
 import {FORM_ELEMENT_TYPES} from '../../constants/formFields.constant';
 import _ from 'lodash';
 
@@ -86,7 +87,18 @@ const StockingReport = ({currentPage}) => {
         </Row> */}
         <Row>
           <Button
-            href={`${DEFAULT_BASE_URL}/demandvallot-report/?cname=${client}`}
+            //href={`${DEFAULT_BASE_URL}/demandvallot-report/?cname=${client}`}
+            onClick={async () => {
+              const d = await loadAPI(`/demandvallot-report/?cname=${client}`);
+              if (d.status === 403) {
+                notification.error({
+                  message: 'Access Denied',
+                  description: 'You do not have permissions to access this module.',
+                });
+              } else {
+                console.log(d);
+              }
+            }}
             rel="noopener noreferrer"
             target="blank">
             Download CSV

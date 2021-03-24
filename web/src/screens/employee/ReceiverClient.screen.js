@@ -10,6 +10,7 @@ import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {ReceiverForm} from '../../forms/receiver.form';
+import NoPermissionAlert from 'components/NoPermissionAlert';
 
 const {Search} = Input;
 
@@ -18,7 +19,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({
+  const {filteredData, loading, reload, hasPermission} = useTableSearch({
     searchVal,
     retrieve: retieveReceiverClients,
   });
@@ -120,7 +121,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
   const cancelEditing = () => setEditingId(null);
 
   return (
-    <>
+    <NoPermissionAlert hasPermission={hasPermission}>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
         <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
@@ -141,7 +142,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         csvdata={csvData}
         csvname={`ReceiverClients${searchVal}.csv`}
       />
-    </>
+    </NoPermissionAlert>
   );
 };
 

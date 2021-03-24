@@ -33,6 +33,7 @@ import ExpandTable from '../../components/ReturnsExpandTable';
 
 import DeleteWithPassword from '../../components/DeleteWithPassword';
 import {DEFAULT_PASSWORD} from 'common/constants/passwords';
+import NoPermissionAlert from 'components/NoPermissionAlert';
 
 const {Search} = Input;
 
@@ -46,7 +47,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
   const [TN, setTN] = useState(null);
   const navigate = useNavigate();
 
-  const {data: returns, loading, reload: reloadFull} = useAPI('/return-table/', {});
+  const {data: returns, loading, reload: reloadFull, status} = useAPI('/return-table/', {});
 
   const {filteredData, reload} = useTableSearch({
     searchVal,
@@ -241,7 +242,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
   const pendingCount = (reqData || []).length - deliveredCount;
 
   return (
-    <>
+    <NoPermissionAlert hasPermission={status === 403 ? false : true}>
       <Row className="mr-auto ml-auto" gutter={24}>
         <Col span={6}>
           <LineGraph {...{tagName: 'Total Return', count: (reqData || []).length, width: 230}} />
@@ -296,7 +297,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
         editingId={editingId || deliveryId}
         cancelEditing={cancelEditing}
       />
-    </>
+    </NoPermissionAlert>
   );
 };
 
