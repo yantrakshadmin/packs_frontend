@@ -30,7 +30,7 @@ const RootRouter = ({user}) => {
       case 'employee':
         return (
           <PrivateRoutes
-            routes={employeeRoutes}
+            routes={user.username === 'yantraksh' ? employeeRoutes : employeeRoutes.slice(0, -1)}
             extraRoutes={extraRoutesEmployee}
             outerRoutes={outerRoutesEmployee}
             user={user}

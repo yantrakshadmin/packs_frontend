@@ -137,7 +137,6 @@ export const employeeRoutes = [
         path: '/master/flows/',
         Component: lazy(() => import('screens/employee/Flow.screen')),
       },
-
       {
         name: 'Sender Clients',
         path: '/master/clients/',
