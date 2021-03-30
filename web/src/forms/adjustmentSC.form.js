@@ -264,7 +264,7 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
               <div key={idx} className="p-2">
                 {formItem({
                   ...item,
-                  key: 'client',
+                  key: 'sender_client',
                   customLabel: 'Sender Client',
                   kwargs: {
                     ...item.kwargs,
