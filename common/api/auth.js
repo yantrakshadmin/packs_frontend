@@ -1322,3 +1322,19 @@ export const editGroup = (id, src) =>
     data: src,
     secure: true,
   });
+
+export const createSCAdjustment = (src) =>
+  loadAPI('/create-sc-adjustments/', {
+    method: 'POST',
+    data: src,
+    secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
+    },
+  });
+
+export const retrieveSCAdjustments = () =>
+  loadAPI('/sc-adjustments/', {
+    method: 'GET',
+    secure: true,
+  });

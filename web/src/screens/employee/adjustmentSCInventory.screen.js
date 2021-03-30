@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import adjustmentColumns from 'common/columns/adjustment.column';
 import {Popconfirm, Button, Input, Popover} from 'antd';
-import {retrieveAdjustments} from 'common/api/auth';
+import {retrieveSCAdjustments} from 'common/api/auth';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
@@ -29,7 +29,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
 
   const {filteredData, loading, reload} = useTableSearch({
     searchVal,
-    retrieve: retrieveAdjustments,
+    retrieve: retrieveSCAdjustments,
   });
 
   const cancelEditing = () => {
