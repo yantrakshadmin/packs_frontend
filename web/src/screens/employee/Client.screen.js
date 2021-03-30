@@ -68,6 +68,8 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
       key: 'client_category',
       dataIndex: 'client_category',
       width: '8vw',
+      filters: GetUniqueValue(filteredData || [], 'client_category'),
+      onFilter: (value, record) => record.client_category === value,
     },
     // {
     //   title: 'Client Product User Type',

@@ -11,6 +11,7 @@ import Edit from '../../icons/Edit';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {ReceiverForm} from '../../forms/receiver.form';
 import NoPermissionAlert from 'components/NoPermissionAlert';
+import {ifNotStrReturnA} from 'common/helpers/mrHelper';
 
 const {Search} = Input;
 
@@ -45,6 +46,8 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
       title: 'Name',
       key: 'name',
       dataIndex: 'name',
+      sorter: (a, b) => ifNotStrReturnA(a.name).localeCompare(ifNotStrReturnA(b.name)),
+      showSorterTooltip: false,
     },
     {
       title: 'City',
