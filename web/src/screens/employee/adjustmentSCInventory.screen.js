@@ -37,7 +37,13 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
   };
 
   const columns = [
-    ...adjustmentColumns,
+    ...adjustmentColumns.slice(0, 3),
+    {
+      title: 'Sender Client',
+      key: 'sender_client',
+      dataIndex: 'sender_client',
+    },
+    ...adjustmentColumns.slice(4),
     {
       title: 'Action',
       key: 'operation',
