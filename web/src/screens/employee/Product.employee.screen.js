@@ -11,6 +11,7 @@ import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import Document from '../../icons/Document';
 import {GetUniqueValue} from 'common/helpers/getUniqueValues';
+import NoPermissionAlert from 'components/NoPermissionAlert';
 
 const {Search} = Input;
 
@@ -19,7 +20,10 @@ const ProductEmployeeScreen = ({currentPage}) => {
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveProducts});
+  const {filteredData, loading, reload, hasPermission} = useTableSearch({
+    searchVal,
+    retrieve: retrieveProducts,
+  });
 
   useEffect(() => {
     if (filteredData) {
@@ -121,7 +125,7 @@ const ProductEmployeeScreen = ({currentPage}) => {
   const cancelEditing = () => setEditingId(null);
 
   return (
-    <>
+    <NoPermissionAlert hasPermission={hasPermission}>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
         <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
@@ -142,7 +146,7 @@ const ProductEmployeeScreen = ({currentPage}) => {
         csvdata={csvData}
         csvname={`Products${searchVal}.csv`}
       />
-    </>
+    </NoPermissionAlert>
   );
 };
 

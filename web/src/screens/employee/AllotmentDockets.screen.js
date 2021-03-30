@@ -40,6 +40,7 @@ import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {LineGraph} from '../../components/graphComponent/lineGraph';
 import DeleteWithPassword from '../../components/DeleteWithPassword';
 import {DEFAULT_PASSWORD} from 'common/constants/passwords';
+import NoPermissionAlert from 'components/NoPermissionAlert';
 
 const {Search} = Input;
 const {Title} = Typography;
@@ -50,7 +51,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
   const [reqData, setReqData] = useState([]);
   const [TN, setTN] = useState(null);
   const [visible, setVisible] = useState(false);
-  const {data: allotments, loading, reload: reloadFull} = useAPI('/allotments-table/', {});
+  const {data: allotments, loading, reload: reloadFull, status} = useAPI('/allotments-table/', {});
   const {data: count} = useAPI('/mr-count/', {});
   const [altId, setAltId] = useState(null);
   const {filteredData, reload} = useTableSearch({
@@ -271,7 +272,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
   });
   const pendingCount = reqData.length - deliveredCount;
   return (
-    <>
+    <NoPermissionAlert hasPermission={status === 403 ? false : true}>
       <Row className="mr-auto ml-auto" gutter={24}>
         <Col span={6}>
           <LineGraph {...{tagName: materialRequest, count, width: 230}} />
@@ -333,7 +334,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
         cancelEditing={cancelEditing}
         hideRightButton
       />
-    </>
+    </NoPermissionAlert>
   );
 };
 

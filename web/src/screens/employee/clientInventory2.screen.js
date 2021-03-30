@@ -58,7 +58,7 @@ export const TestInventoryScreen = () => {
     const t = generateCSVData();
     return (
       <Button>
-        <CSVLink filename={'warehouse-inventory.csv'} data={t.data} headers={t.headers}>
+        <CSVLink filename={'client-inventory.csv'} data={t.data} headers={t.headers}>
           Download CSV
         </CSVLink>
       </Button>

@@ -137,7 +137,6 @@ export const employeeRoutes = [
         path: '/master/flows/',
         Component: lazy(() => import('screens/employee/Flow.screen')),
       },
-
       {
         name: 'Sender Clients',
         path: '/master/clients/',
@@ -334,10 +333,10 @@ export const employeeRoutes = [
     ],
   },
   {
-    name: 'Groups',
+    name: 'Roles',
     icon: ['fas', 'money-check-alt'],
-    path: '/groups/',
-    Component: lazy(() => import('screens/employee/Groups.screen')),
+    path: '/roles/',
+    Component: lazy(() => import('screens/employee/Roles.screen')),
     props: {isEmployee: true},
   },
 ];

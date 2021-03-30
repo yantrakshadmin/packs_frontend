@@ -1,6 +1,10 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import {Form, Col, Row, Button, Divider, Spin, message, Alert, Card} from 'antd';
-import {groupFormFields, groupModelChoices} from 'common/formFields/group.formFields';
+import {
+  groupFormFields,
+  groupModelChoices,
+  groupModelChoicesGrouped,
+} from 'common/formFields/group.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
 import {createGroup, editGroup, retrieveGroup} from 'common/api/auth';
@@ -21,6 +25,10 @@ export const GroupForm = ({id, onCancel, onDone, isEmployee}) => {
 
   const [selectedModels, setSelectedModels] = useState([]);
 
+  useEffect(() => {
+    console.log(selectedModels);
+  }, [selectedModels]);
+
   const {form, submit, loading} = useHandleForm({
     create: createGroup,
     edit: editGroup,
@@ -38,10 +46,13 @@ export const GroupForm = ({id, onCancel, onDone, isEmployee}) => {
       const temp = form.getFieldValue('models');
       const smTemp = selectedModels;
       temp.forEach((m) => {
-        smTemp.push(m.model);
-        form.setFieldsValue({
-          [m.model]: true,
-        });
+        const k = _.findKey(groupModelChoicesGrouped, (o) => o.includes(m.model));
+        if (!smTemp.includes(k)) {
+          smTemp.push(k);
+          form.setFieldsValue({
+            [k]: true,
+          });
+        }
       });
       setSelectedModels(smTemp);
     }
@@ -53,7 +64,14 @@ export const GroupForm = ({id, onCancel, onDone, isEmployee}) => {
       const temp = {};
       temp.name = name;
       temp.emp = emp;
-      temp.models = selectedModels.map((sm) => ({model: sm}));
+      let s = [];
+      selectedModels.forEach((i) => {
+        groupModelChoicesGrouped[i].forEach((j) => {
+          s.push({model: j});
+        });
+      });
+      //temp.models = selectedModels.map((sm) => ({model: sm}));
+      temp.models = s;
       console.log(temp);
       submit(temp);
     },
@@ -118,7 +136,7 @@ export const GroupForm = ({id, onCancel, onDone, isEmployee}) => {
         <Divider orientation="left">Model Details</Divider>
 
         <Row style={{justifyContent: 'left'}}>
-          {groupModelChoices.map((modelName, modelIdx) => (
+          {_.keys(groupModelChoicesGrouped).map((modelName, modelIdx) => (
             <Col span={8} key={modelIdx}>
               <Card>
                 <Row gutter={10}>

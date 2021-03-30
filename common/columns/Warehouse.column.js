@@ -1,8 +1,12 @@
+import {ifNotStrReturnA} from '../helpers/mrHelper';
+
 export default [
   {
     title: 'Name',
     key: 'name',
     dataIndex: 'name',
+    sorter: (a, b) => ifNotStrReturnA(a.name).localeCompare(ifNotStrReturnA(b.name)),
+    showSorterTooltip: false,
   },
   {
     title: 'Email',
@@ -23,6 +27,8 @@ export default [
     title: 'City',
     key: 'city',
     dataIndex: 'city',
+    sorter: (a, b) => ifNotStrReturnA(a.city).localeCompare(ifNotStrReturnA(b.city)),
+    showSorterTooltip: false,
   },
   {
     title: 'Pincode',
@@ -33,6 +39,8 @@ export default [
     title: 'State',
     key: 'state',
     dataIndex: 'state',
+    sorter: (a, b) => ifNotStrReturnA(a.state).localeCompare(ifNotStrReturnA(b.state)),
+    showSorterTooltip: false,
   },
   {
     title: 'PAN',
@@ -48,7 +56,7 @@ export default [
     title: 'Status',
     key: 'active',
     render: (text, record) => {
-      return record.active ? "Active" : "Inactive" ;
+      return record.active ? 'Active' : 'Inactive';
     },
     dataIndex: 'active',
   },

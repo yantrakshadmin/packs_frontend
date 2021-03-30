@@ -6,6 +6,7 @@ export const useTableSearch = ({searchVal, retrieve, reqData}) => {
   const [searchIndex, setSearchIndex] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(0);
+  const [hasPermission, setHasPermission] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -20,10 +21,15 @@ export const useTableSearch = ({searchVal, retrieve, reqData}) => {
     const fetchData = async () => {
       let fullData = null;
       if (!reqData && retrieve) {
-        const {data} = await retrieve();
-        fullData = data;
-        setOrigData(data);
-        setFilteredData(data);
+        const {data, status} = await retrieve();
+        if (status === 403) {
+          setHasPermission(false);
+        } else {
+          fullData = data;
+          setOrigData(data);
+          setFilteredData(data);
+          setHasPermission(true);
+        }
       } else {
         fullData = reqData;
         setOrigData(reqData);
@@ -61,5 +67,5 @@ export const useTableSearch = ({searchVal, retrieve, reqData}) => {
     setFilteredData(origData);
   };
 
-  return {filteredData, loading, reload};
+  return {filteredData, loading, reload, hasPermission};
 };

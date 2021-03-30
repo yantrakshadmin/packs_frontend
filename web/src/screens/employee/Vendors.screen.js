@@ -10,6 +10,7 @@ import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {VendorForm} from '../../forms/vendor.form';
+import NoPermissionAlert from 'components/NoPermissionAlert';
 
 const {Search} = Input;
 
@@ -18,7 +19,10 @@ const VendorEmployeeScreen = ({currentPage}) => {
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveVendors});
+  const {filteredData, loading, reload, hasPermission} = useTableSearch({
+    searchVal,
+    retrieve: retrieveVendors,
+  });
 
   useEffect(() => {
     if (filteredData) {
@@ -117,7 +121,7 @@ const VendorEmployeeScreen = ({currentPage}) => {
   const cancelEditing = () => setEditingId(null);
 
   return (
-    <>
+    <NoPermissionAlert hasPermission={hasPermission}>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
         <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
@@ -139,7 +143,7 @@ const VendorEmployeeScreen = ({currentPage}) => {
         csvdata={csvData}
         csvname={`Vendors${searchVal}.csv`}
       />
-    </>
+    </NoPermissionAlert>
   );
 };
 

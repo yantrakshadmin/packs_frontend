@@ -21,6 +21,7 @@ import TableWithTabHoc from '../../hocs/TableWithTab.hoc';
 
 import DeleteWithPassword from '../../components/DeleteWithPassword';
 import {DEFAULT_PASSWORD} from 'common/constants/passwords';
+import NoPermissionAlert from 'components/NoPermissionAlert';
 
 const {Search} = Input;
 
@@ -32,7 +33,7 @@ const KitEmployeeScreen = ({currentPage}) => {
   const [barLoading, setBarLoading] = useState(false);
   const [barID, setBarID] = useState(null);
 
-  const {data: grns, loading, reload} = useAPI('/grns/', {});
+  const {data: grns, loading, reload, status} = useAPI('/grns/', {});
 
   const {filteredData} = useTableSearch({
     searchVal,
@@ -226,7 +227,7 @@ const KitEmployeeScreen = ({currentPage}) => {
   ];
 
   return (
-    <>
+    <NoPermissionAlert hasPermission={status === 403 ? false : true}>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
         <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
@@ -251,7 +252,7 @@ const KitEmployeeScreen = ({currentPage}) => {
 
         // csvname={`GRNs${  searchVal  } .csv`}
       />
-    </>
+    </NoPermissionAlert>
   );
 };
 

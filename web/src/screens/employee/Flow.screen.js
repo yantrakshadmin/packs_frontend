@@ -11,6 +11,7 @@ import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import {GetUniqueValueNested} from 'common/helpers/getUniqueValues';
+import NoPermissionAlert from 'components/NoPermissionAlert';
 
 const {Search} = Input;
 
@@ -19,7 +20,10 @@ const FlowEmployeeScreen = ({currentPage}) => {
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retreiveFlows});
+  const {filteredData, loading, reload, hasPermission} = useTableSearch({
+    searchVal,
+    retrieve: retreiveFlows,
+  });
 
   useEffect(() => {
     if (filteredData) {
@@ -135,7 +139,7 @@ const FlowEmployeeScreen = ({currentPage}) => {
   ];
 
   return (
-    <>
+    <NoPermissionAlert hasPermission={hasPermission}>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
         <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
@@ -158,7 +162,7 @@ const FlowEmployeeScreen = ({currentPage}) => {
         csvdata={csvData}
         csvname={`Flows${searchVal}.csv`}
       />
-    </>
+    </NoPermissionAlert>
   );
 };
 

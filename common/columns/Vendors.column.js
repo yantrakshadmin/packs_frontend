@@ -1,15 +1,19 @@
+import {ifNotStrReturnA} from '../helpers/mrHelper';
+
 export default [
   {
     title: 'Name',
     key: 'name',
     dataIndex: 'name',
-    width:'16vw',
+    width: '16vw',
+    sorter: (a, b) => ifNotStrReturnA(a.name).localeCompare(ifNotStrReturnA(b.name)),
+    showSorterTooltip: false,
   },
 
   {
     title: 'Email',
     key: 'email',
-    width:'16vw',
+    width: '16vw',
     dataIndex: 'email',
   },
   // {

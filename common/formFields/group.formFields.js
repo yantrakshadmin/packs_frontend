@@ -31,6 +31,30 @@ export const groupModelChoices = [
   'Commercial Proposal',
 ];
 
+export const groupModelChoicesGrouped = {
+  Demand: ['Demand'],
+  Expense: ['Expense'],
+  GRN: ['GRN'],
+  Leads: ['Leads'],
+  PFEP: ['PFEP'],
+  'Commercial Proposal': ['Commercial Proposal'],
+  Allotment: ['Material Request', 'Allotment', 'Delivered'],
+  Return: ['Return', 'Received'],
+  Outward: ['Outward', 'Inward'],
+  'Warehouse Inventory': ['Inventory', 'Inventory Ledger', 'Inventory Adjustments - Warehouse'],
+  'Sender Inventory': [
+    'Sender Client Inventory',
+    'Sender Client Inventory Ledger',
+    'Sender Client Inventory Adjustments',
+  ],
+  'Receiver Inventory': [
+    'Receiver Client Inventory',
+    'Receiver Client Inventory Ledger',
+    'Receiver Client Inventory Adjustments',
+  ],
+  Masters: ['Product', 'Kit', 'Flow', 'Vendor', 'Warehouse', 'Receiver Client'],
+};
+
 export const groupFormFields = [
   {
     key: 'name',

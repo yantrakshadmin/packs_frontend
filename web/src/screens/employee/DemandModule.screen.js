@@ -9,6 +9,7 @@ import {mergeArray} from 'common/helpers/mrHelper';
 import {DemandModuleForm} from 'forms/demandModuleEmployee.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import DemandModuleTable from 'components/DemandModuleTable';
+import NoPermissionAlert from 'components/NoPermissionAlert';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
@@ -20,7 +21,10 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveDms});
+  const {filteredData, loading, reload, hasPermission} = useTableSearch({
+    searchVal,
+    retrieve: retrieveDms,
+  });
   const cancelEditing = () => {
     setEditingId(null);
   };
@@ -68,7 +72,7 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
   ];
 
   return (
-    <>
+    <NoPermissionAlert hasPermission={hasPermission}>
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
         <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
@@ -91,7 +95,7 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
         expandParams={{loading}}
         ExpandBody={DemandModuleTable}
       />
-    </>
+    </NoPermissionAlert>
   );
 };
 
