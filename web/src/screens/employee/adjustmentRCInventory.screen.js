@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import adjustmentColumns from 'common/columns/adjustment.column';
 import {Popconfirm, Button, Input, Popover} from 'antd';
-import {retrieveAdjustments} from 'common/api/auth';
+import {retrieveRCAdjustments} from 'common/api/auth';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
@@ -29,7 +29,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
 
   const {filteredData, loading, reload} = useTableSearch({
     searchVal,
-    retrieve: retrieveAdjustments,
+    retrieve: retrieveRCAdjustments,
   });
 
   const cancelEditing = () => {
@@ -37,7 +37,13 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
   };
 
   const columns = [
-    ...adjustmentColumns,
+    ...adjustmentColumns.slice(0, 3),
+    {
+      title: 'Receiver Client',
+      key: 'receiver_client',
+      dataIndex: 'receiver_client',
+    },
+    ...adjustmentColumns.slice(4),
     {
       title: 'Action',
       key: 'operation',

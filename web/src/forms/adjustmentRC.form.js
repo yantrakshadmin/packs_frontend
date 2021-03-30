@@ -6,7 +6,7 @@ import {
 } from 'common/formFields/adjustmentInventory.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
-import {createAdjustment} from 'common/api/auth';
+import {createRCAdjustment} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 import formItem from '../hocs/formItem.hoc';
 
@@ -58,7 +58,7 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
   }, [scInvItems, selectedScClient]);
 
   const {form, submit, loading} = useHandleForm({
-    create: createAdjustment,
+    create: createRCAdjustment,
     edit: () => {},
     retrieve: () => {},
     success: 'RC Adjustment created/edited successfully',
@@ -264,7 +264,7 @@ export const AdjustmentForm = ({id, onCancel, onDone, isEmployee}) => {
               <div key={idx} className="p-2">
                 {formItem({
                   ...item,
-                  key: 'client',
+                  key: 'receiver_client',
                   customLabel: 'Receiver Client',
                   kwargs: {
                     ...item.kwargs,

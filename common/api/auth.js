@@ -1338,3 +1338,19 @@ export const retrieveSCAdjustments = () =>
     method: 'GET',
     secure: true,
   });
+
+export const createRCAdjustment = (src) =>
+  loadAPI('/create-rc-adjustments/', {
+    method: 'POST',
+    data: src,
+    secure: true,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
+    },
+  });
+
+export const retrieveRCAdjustments = () =>
+  loadAPI('/rc-adjustments/', {
+    method: 'GET',
+    secure: true,
+  });
