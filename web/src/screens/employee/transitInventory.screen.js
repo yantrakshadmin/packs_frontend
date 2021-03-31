@@ -46,7 +46,7 @@ const TransitInventoryScreen = ({currentPage}) => {
     {
       name: 'Product Level',
       key: 'allotmentPInTransit',
-      data: getReformattedAllotmentData(deliveredPInTransit),
+      data: getReformattedProductInfoData(deliveredPInTransit),
       columns: transitInventoryProductLevelColumn,
       dPLoading,
     },
@@ -63,7 +63,7 @@ const TransitInventoryScreen = ({currentPage}) => {
     {
       name: 'Product Level',
       key: 'returnPInTransit',
-      data: getReformattedReturnData(returnPInTransit),
+      data: getReformattedProductInfoData(returnPInTransit),
       columns: transitInventoryProductLevelColumn,
       rPLoading,
     },
