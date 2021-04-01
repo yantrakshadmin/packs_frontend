@@ -55,6 +55,10 @@ export const outerRoutesEmployee = [
     path: '/outward-docket/:id',
     Component: lazy(() => import('components/OutwardsDocket/outward-docket')),
   },
+  {
+    path: '/relocation-docket/:id',
+    Component: lazy(() => import('components/RelocationDocket/RelocationDocket')),
+  },
 ];
 export const outerRoutesClient = [
   {

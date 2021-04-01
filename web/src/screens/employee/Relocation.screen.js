@@ -12,6 +12,7 @@ import ExpandTable from 'components/ExpenseExpandTable';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
+import Download from 'icons/Download';
 import {yantraColors} from '../../helpers/yantraColors';
 import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -39,6 +40,22 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
 
   const columns = [
     ...relocationColumn,
+    {
+      title: 'Docket',
+      key: 'docket',
+      render: (text, record) => {
+        return (
+          <div className="row align-center justify-evenly">
+            <a
+              href={`../relocation-docket/${record.transaction_no}`}
+              target="_blank"
+              rel="noreferrer">
+              <Download />
+            </a>
+          </div>
+        );
+      },
+    },
     {
       title: 'Action',
       key: 'operation',
@@ -150,7 +167,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         formParams={{isEmployee}}
         //expandHandleKey="transactions"
         //expandParams={{loading}}
-        ExpandBody={ExpandTable}
+        //ExpandBody={ExpandTable}
       />
     </NoPermissionAlert>
   );

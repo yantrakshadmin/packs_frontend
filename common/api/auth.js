@@ -1389,3 +1389,9 @@ export const editRelocation = (id, src) =>
     data: src,
     secure: true,
   });
+
+export const retrieveRelocationDocketData = (tno) =>
+  loadAPI(`/relocation-template/?tno=${tno}`, {
+    method: 'GET',
+    secure: false,
+  });
