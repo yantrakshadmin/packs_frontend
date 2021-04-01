@@ -127,7 +127,9 @@ export const TestInventoryScreen = () => {
               });
               setDetailsLoading(true);
               const {data} = await loadAPI(
-                `/sc-ledger-items/?id=${record.product.short_code}&cname=${record.client.client_name}`,
+                `/sc-ledger-items/?id=${
+                  record.product.short_code
+                }&cname=${record.client.client_name.replaceAll('&', '%26')}`,
                 {
                   method: 'GET',
                 },
