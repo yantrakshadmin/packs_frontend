@@ -191,6 +191,13 @@ export const employeeRoutes = [
     Component: lazy(() => import('screens/employee/Return.screen')),
   },
   {
+    name: 'Relocation Docket',
+    icon: ['fas', 'money-check-alt'],
+    path: '/relocation/',
+    Component: lazy(() => import('screens/employee/Relocation.screen')),
+    props: {isEmployee: true},
+  },
+  {
     name: 'GRN',
     icon: ['fas', 'cart-arrow-down'],
     path: '/grn/',

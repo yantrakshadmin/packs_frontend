@@ -1354,3 +1354,38 @@ export const retrieveRCAdjustments = () =>
     method: 'GET',
     secure: true,
   });
+
+export const createRelocation = (src) =>
+  loadAPI('/create-relocation/', {
+    method: 'POST',
+    data: src,
+    secure: true,
+    // headers: {
+    //   'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
+    // },
+  });
+
+export const retrieveRelocations = () =>
+  loadAPI('/relocations/', {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteRelocation = (id) =>
+  loadAPI(`/edit-relocation/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const retrieveRelocation = (id) =>
+  loadAPI(`/edit-relocation/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const editRelocation = (id, src) =>
+  loadAPI(`/edit-relocation/${id}/`, {
+    method: 'PATCH',
+    data: src,
+    secure: true,
+  });
