@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {Form, Col, Row, Button, Divider, Spin, message, Alert} from 'antd';
+import {Form, Col, Row, Button, Divider, Spin, Input, Alert} from 'antd';
 import {
   relocationFormFields,
   relocationFlowFormFields,
@@ -17,15 +17,36 @@ import moment from 'moment';
 
 import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
+import {parse} from '@fortawesome/fontawesome-svg-core';
 
 export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
   // const [flowId, setFlowId] = useState(null);
+
+  const [kits, setKits] = useState([]);
 
   // const {data: flows} = useAPI('/myflows/', {});
   // const {data: kits} = useControlledSelect(flowId);
   const {data: vendors} = useAPI('/vendors-exp/', {});
   const {data: products} = useAPI('/products/', {});
+  const {data: kitsFull, loading: kloading} = useAPI('/kits/', {});
   const {data: warehouses} = useAPI('/warehouse/', {});
+
+  useEffect(() => {
+    if (!kloading) {
+      const temp = kitsFull.map((k) => ({
+        id: k.id,
+        active: k.active,
+        kit_name: k.kit_name,
+        kit_info: k.kit_info,
+        products: k.products.map((p) => ({
+          id: p.product.id,
+          short_code: p.product.short_code,
+          quantity: p.quantity,
+        })),
+      }));
+      setKits(temp);
+    }
+  }, [kloading]);
 
   const {form, submit, loading} = useHandleForm({
     create: createRelocation,
@@ -39,11 +60,6 @@ export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
     dates: ['transaction_date'],
   });
 
-  useEffect(() => {
-    if (id && !loading) {
-    }
-  }, [loading]);
-
   const preProcess = useCallback(
     (data) => {
       submit(data);
@@ -51,22 +67,74 @@ export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
     [submit],
   );
 
-  const handleFieldsChange = useCallback((data) => {
-    if (data[0]) {
-      if (data[0].name) {
-        const thisField = data[0].name[0];
-        console.log(thisField);
-      }
+  const [selectedPK, setSelectedPK] = useState('Products');
+  const [kitItems, setKitItems] = useState([]);
+
+  useEffect(() => {
+    console.log(kitItems);
+  }, [kitItems]);
+
+  useEffect(() => {
+    if (id && !loading) {
+      const temp = form.getFieldValue('products_or_kits');
+      if (temp === true || temp === false) setSelectedPK(temp);
     }
-  }, []);
+  }, [loading]);
+
+  const handleFieldsChange = useCallback(
+    (data) => {
+      if (data[0]) {
+        if (data[0].name) {
+          const thisField = data[0].name[0];
+          if (thisField === 'products_or_kits') {
+            form.setFieldsValue({items: []});
+            form.setFieldsValue({items_kits: []});
+            setKitItems([]);
+          }
+          if (
+            data[0].name[0] === 'items_kits' &&
+            data[0].name[2] === 'quantity_parts' &&
+            form.getFieldValue(['items_kits', data[0].name[1], 'kit'])
+          ) {
+            const kitID = form.getFieldValue(['items_kits', data[0].name[1], 'kit']);
+            const thisKit = _.find(kits, (k) => k.id === kitID);
+            const fieldName = data[0].name[1];
+            const val = data[0].value;
+            if (val > 0) {
+              const temp = [...kitItems];
+              temp[fieldName] = thisKit.products.map((k) => ({
+                ...k,
+                quantity: parseInt(k.quantity) * parseInt(val),
+              }));
+              setKitItems(temp);
+            }
+          }
+        }
+      }
+    },
+    [form, kitItems],
+  );
+
+  const handleKitItemQtyChange = useCallback(
+    (ev, idx, jdx) => {
+      const temp = [...kitItems];
+      if (ev.target.value === '' || ev.target.value < 0) {
+        temp[idx][jdx].quantity = 0;
+      } else {
+        temp[idx][jdx].quantity = ev.target.value;
+      }
+      setKitItems(temp);
+    },
+    [kitItems],
+  );
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Expense Details</Divider>
+      <Divider orientation="left">Relocation Details</Divider>
       <Form
         onFinish={preProcess}
-        initialValues={{status: 'Hold', gst: 0}}
         form={form}
+        initialValues={{products_or_kits: 'Products'}}
         layout="vertical"
         hideRequiredMark
         autoComplete="off"
@@ -110,106 +178,240 @@ export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
               </div>
             </Col>
           ))}
-          {relocationFormFields.slice(4, 7).map((item, idx) => (
+          {relocationFormFields.slice(4, 11).map((item, idx) => (
             <Col span={item.colSpan}>
               <div key={idx} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
           ))}
-
-          {relocationFormFields.slice(8).map((item, idx) => (
+          {relocationFormFields.slice(11).map((item, idx) => (
             <Col span={item.colSpan}>
               <div key={idx} className="p-2">
-                {formItem(item)}
+                {formItem({
+                  ...item,
+                  kwargs: {
+                    ...item.kwargs,
+                    disabled: id ? true : false,
+                    onChange: (v) => setSelectedPK(v),
+                  },
+                })}
               </div>
             </Col>
           ))}
         </Row>
 
-        <Divider orientation="left">Products Details</Divider>
+        <Divider orientation="left">
+          {selectedPK === 'Products' ? 'Products Details' : 'Kits Details'}
+        </Divider>
 
-        <Form.List name="items">
-          {(fields, {add, remove}) => {
-            return (
-              <div>
-                {fields.map((field, index) => (
-                  <Row align="middle">
-                    {relocationFlowFormFields.slice(0, 1).map((item, idx) => (
-                      <Col key={idx} span={item.colSpan}>
-                        <div className="p-2">
-                          {formItem({
-                            ...item,
-                            noLabel: index != 0,
-                            kwargs: {
-                              ...item.kwargs,
-                              showSearch: true,
-                              filterOption: (input, option) =>
-                                option.search
-                                  .toString()
-                                  .toLowerCase()
-                                  .indexOf(input.toLowerCase()) >= 0,
-                            },
-                            others: {
-                              ...item.others,
-                              selectOptions: filterActive(_, products) || [],
-                              key: 'id',
-                              customTitle: 'short_code',
-                              dataKeys: ['description'],
-                              formOptions: {
-                                ...field,
-                                name: [field.name, item.key],
-                                fieldKey: [field.fieldKey, item.key],
+        {selectedPK === 'Products' ? (
+          <Form.List name="items">
+            {(fields, {add, remove}) => {
+              return (
+                <div>
+                  {fields.map((field, index) => (
+                    <Row align="middle">
+                      {relocationFlowFormFields.slice(0, 1).map((item, idx) => (
+                        <Col key={idx} span={item.colSpan}>
+                          <div className="p-2">
+                            {formItem({
+                              ...item,
+                              noLabel: index != 0,
+                              kwargs: {
+                                ...item.kwargs,
+                                showSearch: true,
+                                filterOption: (input, option) =>
+                                  option.search
+                                    .toString()
+                                    .toLowerCase()
+                                    .indexOf(input.toLowerCase()) >= 0,
                               },
-                            },
-                          })}
-                        </div>
-                      </Col>
-                    ))}
-                    {relocationFlowFormFields.slice(1).map((item, idx) => (
-                      <Col key={idx} span={item.colSpan}>
-                        <div className="p-2">
-                          {formItem({
-                            ...item,
-                            noLabel: index != 0,
-                            others: {
-                              formOptions: {
-                                ...field,
-                                name: [field.name, item.key],
-                                fieldKey: [field.fieldKey, item.key],
+                              others: {
+                                ...item.others,
+                                selectOptions: filterActive(_, products) || [],
+                                key: 'id',
+                                customTitle: 'short_code',
+                                dataKeys: ['description'],
+                                formOptions: {
+                                  ...field,
+                                  name: [field.name, item.key],
+                                  fieldKey: [field.fieldKey, item.key],
+                                },
                               },
-                            },
-                          })}
-                        </div>
+                            })}
+                          </div>
+                        </Col>
+                      ))}
+                      {relocationFlowFormFields.slice(1).map((item, idx) => (
+                        <Col key={idx} span={item.colSpan}>
+                          <div className="p-2">
+                            {formItem({
+                              ...item,
+                              noLabel: index != 0,
+                              others: {
+                                formOptions: {
+                                  ...field,
+                                  name: [field.name, item.key],
+                                  fieldKey: [field.fieldKey, item.key],
+                                },
+                              },
+                            })}
+                          </div>
+                        </Col>
+                      ))}
+                      <Col span={2}>
+                        <Button
+                          // style={{ width: '9vw' }}
+                          style={index != 0 ? {top: '-2vh'} : null}
+                          type="danger"
+                          onClick={() => {
+                            remove(field.name);
+                          }}>
+                          <MinusCircleOutlined />
+                        </Button>
                       </Col>
+                    </Row>
+                  ))}
+                  <Form.Item>
+                    <Button
+                      type="dashed"
+                      onClick={() => {
+                        add();
+                      }}
+                      block>
+                      <PlusOutlined /> Add Item
+                    </Button>
+                  </Form.Item>
+                </div>
+              );
+            }}
+          </Form.List>
+        ) : (
+          <Row gutter={20}>
+            <Col span={12}>
+              <Form.List name="items_kits">
+                {(fields, {add, remove}) => {
+                  return (
+                    <div>
+                      {fields.map((field, index) => (
+                        <Row align="middle">
+                          {relocationFlowFormFields.slice(0, 1).map((item, idx) => (
+                            <Col key={idx} span={item.colSpan}>
+                              <div className="p-2">
+                                {formItem({
+                                  ...item,
+                                  key: 'kit',
+                                  noLabel: index != 0,
+                                  kwargs: {
+                                    ...item.kwargs,
+                                    showSearch: true,
+                                    filterOption: (input, option) =>
+                                      option.search
+                                        .toString()
+                                        .toLowerCase()
+                                        .indexOf(input.toLowerCase()) >= 0,
+                                    onChange: (v) => {
+                                      const thisKit = _.find(kits, (k) => k.id === v);
+                                      const temp = [...kitItems];
+                                      temp[field.name] = thisKit.products;
+                                      setKitItems(temp);
+                                    },
+                                  },
+                                  others: {
+                                    ...item.others,
+                                    selectOptions: filterActive(_, kits) || [],
+                                    key: 'id',
+                                    customTitle: 'kit_name',
+                                    dataKeys: ['kit_info'],
+                                    formOptions: {
+                                      ...field,
+                                      name: [field.name, 'kit'],
+                                      fieldKey: [field.fieldKey, 'kit'],
+                                    },
+                                  },
+                                  customLabel: 'Kit',
+                                })}
+                              </div>
+                            </Col>
+                          ))}
+                          {relocationFlowFormFields.slice(1).map((item, idx) => (
+                            <Col key={idx} span={item.colSpan}>
+                              <div className="p-2">
+                                {formItem({
+                                  ...item,
+                                  noLabel: index != 0,
+                                  others: {
+                                    formOptions: {
+                                      ...field,
+                                      name: [field.name, item.key],
+                                      fieldKey: [field.fieldKey, item.key],
+                                    },
+                                  },
+                                })}
+                              </div>
+                            </Col>
+                          ))}
+                          <Col span={2}>
+                            <Button
+                              // style={{ width: '9vw' }}
+                              style={index != 0 ? {top: '-2vh'} : null}
+                              type="danger"
+                              onClick={() => {
+                                remove(field.name);
+                                setKitItems(kitItems.filter((i, idx) => idx !== field.name));
+                              }}>
+                              <MinusCircleOutlined />
+                            </Button>
+                          </Col>
+                        </Row>
+                      ))}
+                      <Form.Item>
+                        <Button
+                          type="dashed"
+                          onClick={() => {
+                            add();
+                          }}
+                          block>
+                          <PlusOutlined /> Add Item
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  );
+                }}
+              </Form.List>
+            </Col>
+            <Col span={12}>
+              {kitItems.map((i, idx) => {
+                return (
+                  <>
+                    <Row>
+                      <Col span={12}>Product</Col>
+                      <Col span={12}>Quantity</Col>
+                    </Row>
+                    {i.map((j, jdx) => (
+                      <Input.Group compact>
+                        <Input
+                          style={{width: '50%'}}
+                          value={kitItems[idx][jdx].short_code}
+                          disabled
+                        />
+                        <Input
+                          style={{width: '50%'}}
+                          type="number"
+                          onChange={(ev) => handleKitItemQtyChange(ev, idx, jdx)}
+                          value={kitItems[idx][jdx].quantity}
+                        />
+                      </Input.Group>
                     ))}
-                    <Col span={2}>
-                      <Button
-                        // style={{ width: '9vw' }}
-                        style={index != 0 ? {top: '-2vh'} : null}
-                        type="danger"
-                        onClick={() => {
-                          remove(field.name);
-                        }}>
-                        <MinusCircleOutlined />
-                      </Button>
-                    </Col>
-                  </Row>
-                ))}
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => {
-                      add();
-                    }}
-                    block>
-                    <PlusOutlined /> Add Item
-                  </Button>
-                </Form.Item>
-              </div>
-            );
-          }}
-        </Form.List>
+                    <br />
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
+        )}
+
         <Row>
           <Button type="primary" htmlType="submit">
             Save

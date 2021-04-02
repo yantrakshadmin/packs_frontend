@@ -1,6 +1,6 @@
 import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
 
-const transactionTypeOptions = ['Allot', 'Return'];
+const productsOrKitsOptions = ['Products', 'Kits'];
 
 const statusOptions = ['Approved', 'Hold', 'Rejected'];
 
@@ -152,6 +152,17 @@ export const relocationFormFields = [
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     customLabel: 'Remarks',
+    colSpan: 6,
+  },
+  {
+    key: 'products_or_kits',
+    rules: [{required: true, message: 'Please select!'}],
+    kwargs: {
+      placeholder: 'Select',
+    },
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: {selectOptions: productsOrKitsOptions},
+    customLabel: 'Products/Kits',
     colSpan: 6,
   },
 ];
