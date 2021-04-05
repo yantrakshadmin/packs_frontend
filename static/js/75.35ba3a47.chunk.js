@@ -1,2 +1,0 @@
-(this.webpackJsonpweb=this.webpackJsonpweb||[]).push([[75],{802:function(e,t,n){"use strict";n.r(t);var a=n(0),r=n.n(a),s=n(36);t.default=function(){return r.a.createElement(s.b,{to:"/client/material-request/"})}}}]);
-//# sourceMappingURL=75.35ba3a47.chunk.js.map
