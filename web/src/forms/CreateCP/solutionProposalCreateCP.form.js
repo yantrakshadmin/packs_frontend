@@ -11,7 +11,7 @@ import {
   getFieldsByColumn,
   getDefaultMonthValue,
 } from 'common/constants/solutionproposalCreateCP';
-import {ifNanReturnZeroFloat} from 'common/helpers/mrHelper';
+import {ifNanReturnZeroFloat, numberWithCommas} from 'common/helpers/mrHelper';
 
 import _ from 'lodash';
 
@@ -37,6 +37,7 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
 
   const [totalCostPerKit, setTotalCostPerKit] = useState(0);
   const [projectCost, setProjectCost] = useState(0);
+  const [totalDeptCost, setTotalDeptCost] = useState(0);
 
   const updateCostPerKit = useCallback(() => {
     let q = [];
@@ -76,6 +77,19 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
     });
     setProjectCost(_.round(temp, 2));
   }, [form, projectCost, setProjectCost]);
+
+  const updateTotalDeptCost = useCallback(() => {
+    const depCostCols = getFieldsByColumn(
+      form.getFieldValue('standard_assets'),
+      form.getFieldValue('insert_type'),
+      'dep_cost',
+    );
+    let temp = 0;
+    depCostCols.forEach((i) => {
+      temp += ifNanReturnZeroFloat(form.getFieldValue(i));
+    });
+    setTotalDeptCost(_.round(temp, 2));
+  }, [form, totalDeptCost, setTotalDeptCost]);
 
   // useEffect(() => {
   // 	if (form.getFieldValue("standard_assets") && form.getFieldValue("insert_type")) {
@@ -140,6 +154,7 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
     updateMonthCols();
     updateCostPerKit();
     updateProjectCost();
+    updateTotalDeptCost();
   }, [form]);
 
   const handleFieldsChange = useCallback(
@@ -247,6 +262,7 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
           }
           updateCostPerKit();
           updateProjectCost();
+          updateTotalDeptCost();
         }
       }
     },
@@ -433,11 +449,11 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
           <Col span={3}></Col>
           <Col span={3}></Col>
           <Col span={3}></Col>
-          <Col span={3}>{`Total Cost/Kit: ${totalCostPerKit}`}</Col>
+          <Col span={3}>{`Total Cost/Kit: ${numberWithCommas(totalCostPerKit)}`}</Col>
           <Col span={3}></Col>
-          <Col span={3}>{`Project Cost: ${projectCost}`}</Col>
+          <Col span={3}>{`Project Cost: ${numberWithCommas(projectCost)}`}</Col>
           <Col span={3}></Col>
-          <Col span={3}></Col>
+          <Col span={3}>{`Total Dept Cost: ${numberWithCommas(totalDeptCost)}`}</Col>
         </Row>
         {/* <Form.List name='solutions'> */}
         {/*  {(fields, { add, remove }) => { */}

@@ -43,3 +43,7 @@ export const ifNanReturnZeroFloat = (num) => {
 export const ifNotStrReturnA = (s) => {
   return String(s) ? String(s) : 'a';
 };
+
+export const numberWithCommas = (x) => {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
