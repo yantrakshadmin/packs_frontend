@@ -36,8 +36,8 @@ const getKitItems = (data, setPcc) => {
 };
 
 export const OutwardDocketForm = ({id, onCancel, onDone}) => {
-  const {data: flows} = useAPI('/client-flows/');
-  const {data: kits} = useAPI('/client-kits/');
+  const {data: flows} = useAPI('/client-flows-wo/');
+  const {data: kits} = useAPI('/client-kits-wo/');
   const [receiverClients, setReceiverClients] = useState([]);
   const [pcc, setPcc] = useState([]);
   const [products, setProducts] = useState(null);
