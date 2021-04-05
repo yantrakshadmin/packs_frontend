@@ -37,7 +37,7 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
 
   const [totalCostPerKit, setTotalCostPerKit] = useState(0);
   const [projectCost, setProjectCost] = useState(0);
-  const [totalDeptCost, setTotalDeptCost] = useState(0);
+  const [directCost, setDirectCost] = useState(0);
 
   const updateCostPerKit = useCallback(() => {
     let q = [];
@@ -78,7 +78,7 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
     setProjectCost(_.round(temp, 2));
   }, [form, projectCost, setProjectCost]);
 
-  const updateTotalDeptCost = useCallback(() => {
+  const updateDirectCost = useCallback(() => {
     const depCostCols = getFieldsByColumn(
       form.getFieldValue('standard_assets'),
       form.getFieldValue('insert_type'),
@@ -88,8 +88,9 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
     depCostCols.forEach((i) => {
       temp += ifNanReturnZeroFloat(form.getFieldValue(i));
     });
-    setTotalDeptCost(_.round(temp, 2));
-  }, [form, totalDeptCost, setTotalDeptCost]);
+    temp /= form.getFieldValue('kit_based_on_usage_ratio');
+    setDirectCost(_.round(temp, 2));
+  }, [form, directCost, setDirectCost]);
 
   // useEffect(() => {
   // 	if (form.getFieldValue("standard_assets") && form.getFieldValue("insert_type")) {
@@ -106,18 +107,12 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
   }, [active]);
 
   const updateTotalKitQtysCols = useCallback(() => {
-    console.log(
-      form.getFieldValue('kit_based_on_usage_ratio'),
-      'kit based on',
-      state.kit_based_on_usage_ratio,
-    );
     if (form.getFieldValue('kit_based_on_usage_ratio')) {
       const totalKitQtysCols = getFieldsByColumn(
         form.getFieldValue('standard_assets'),
         form.getFieldValue('insert_type'),
         'quantity',
       );
-      console.log(totalKitQtysCols, 'Totl wuanti');
       totalKitQtysCols.forEach((i) => {
         if (!form.getFieldValue(i)) {
           if (i !== 'mould_quantity') {
@@ -154,7 +149,7 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
     updateMonthCols();
     updateCostPerKit();
     updateProjectCost();
-    updateTotalDeptCost();
+    updateDirectCost();
   }, [form]);
 
   const handleFieldsChange = useCallback(
@@ -262,7 +257,7 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
           }
           updateCostPerKit();
           updateProjectCost();
-          updateTotalDeptCost();
+          updateDirectCost();
         }
       }
     },
@@ -453,7 +448,7 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
           <Col span={3}></Col>
           <Col span={3}>{`Project Cost: ${numberWithCommas(projectCost)}`}</Col>
           <Col span={3}></Col>
-          <Col span={3}>{`Total Dept Cost: ${numberWithCommas(totalDeptCost)}`}</Col>
+          <Col span={3}>{`Direct Cost: ${numberWithCommas(directCost)}`}</Col>
         </Row>
         {/* <Form.List name='solutions'> */}
         {/*  {(fields, { add, remove }) => { */}
