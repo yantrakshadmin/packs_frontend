@@ -235,7 +235,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
             password={DEFAULT_PASSWORD}
             deleteHOC={deleteHOC({
               record,
-              reload,
+              reloadFull,
               api: deleteAllotment,
               success: 'Deleted Allotment successfully',
               failure: 'Error in deleting Allotment',

@@ -9,6 +9,7 @@ const DeleteWithPasswordContent = ({password, deleteHOC, popoverVisible, setPopo
   return (
     <Space direction="vertical">
       <Input
+        type="password"
         value={text}
         onChange={(e) => {
           setText(e.target.value);
