@@ -36,6 +36,14 @@ export const ifNanReturnZero = (num) => {
   return parseInt(num) ? parseInt(num) : 0;
 };
 
+export const ifNanReturnZeroFloat = (num) => {
+  return parseFloat(num) ? parseFloat(num) : 0;
+};
+
 export const ifNotStrReturnA = (s) => {
   return String(s) ? String(s) : 'a';
+};
+
+export const numberWithCommas = (x) => {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };

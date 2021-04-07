@@ -55,6 +55,10 @@ export const outerRoutesEmployee = [
     path: '/outward-docket/:id',
     Component: lazy(() => import('components/OutwardsDocket/outward-docket')),
   },
+  {
+    path: '/relocation-docket/:id',
+    Component: lazy(() => import('components/RelocationDocket/RelocationDocket')),
+  },
 ];
 export const outerRoutesClient = [
   {
@@ -189,6 +193,13 @@ export const employeeRoutes = [
     icon: ['fas', 'undo-alt'],
     path: '/return-dockets/',
     Component: lazy(() => import('screens/employee/Return.screen')),
+  },
+  {
+    name: 'Relocation Docket',
+    icon: ['fas', 'money-check-alt'],
+    path: '/relocation/',
+    Component: lazy(() => import('screens/employee/Relocation.screen')),
+    props: {isEmployee: true},
   },
   {
     name: 'GRN',

@@ -11,6 +11,7 @@ import {
   getFieldsByColumn,
   getDefaultMonthValue,
 } from 'common/constants/solutionproposalCreateCP';
+import {ifNanReturnZeroFloat, numberWithCommas} from 'common/helpers/mrHelper';
 
 import _ from 'lodash';
 
@@ -34,6 +35,63 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
     }
   };
 
+  const [totalCostPerKit, setTotalCostPerKit] = useState(0);
+  const [projectCost, setProjectCost] = useState(0);
+  const [directCost, setDirectCost] = useState(0);
+
+  const updateCostPerKit = useCallback(() => {
+    let q = [];
+    let r = [];
+    const qtyPerKitCols = getFieldsByColumn(
+      form.getFieldValue('standard_assets'),
+      form.getFieldValue('insert_type'),
+      'quantity_perkit',
+    );
+    const rateCols = getFieldsByColumn(
+      form.getFieldValue('standard_assets'),
+      form.getFieldValue('insert_type'),
+      'rate',
+    );
+    qtyPerKitCols.forEach((i) => {
+      q.push(ifNanReturnZeroFloat(form.getFieldValue(i)));
+    });
+    rateCols.forEach((i) => {
+      r.push(ifNanReturnZeroFloat(form.getFieldValue(i)));
+    });
+    let sum = 0;
+    for (let i = 0; i < q.length; i++) {
+      sum += q[i] * r[i];
+    }
+    setTotalCostPerKit(_.round(sum, 2));
+  }, [form, totalCostPerKit, setTotalCostPerKit]);
+
+  const updateProjectCost = useCallback(() => {
+    const totalCostCols = getFieldsByColumn(
+      form.getFieldValue('standard_assets'),
+      form.getFieldValue('insert_type'),
+      'total_cost',
+    );
+    let temp = 0;
+    totalCostCols.forEach((i) => {
+      temp += ifNanReturnZeroFloat(form.getFieldValue(i));
+    });
+    setProjectCost(_.round(temp, 2));
+  }, [form, projectCost, setProjectCost]);
+
+  const updateDirectCost = useCallback(() => {
+    const depCostCols = getFieldsByColumn(
+      form.getFieldValue('standard_assets'),
+      form.getFieldValue('insert_type'),
+      'dep_cost',
+    );
+    let temp = 0;
+    depCostCols.forEach((i) => {
+      temp += ifNanReturnZeroFloat(form.getFieldValue(i));
+    });
+    temp /= form.getFieldValue('kit_based_on_usage_ratio');
+    setDirectCost(_.round(temp, 2));
+  }, [form, directCost, setDirectCost]);
+
   // useEffect(() => {
   // 	if (form.getFieldValue("standard_assets") && form.getFieldValue("insert_type")) {
   // 		setFields(getFields(form.getFieldValue('standard_assets'),form.getFieldValue('insert_type')));
@@ -48,21 +106,13 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
     }
   }, [active]);
 
-  console.log(state, 'state');
-
   const updateTotalKitQtysCols = useCallback(() => {
-    console.log(
-      form.getFieldValue('kit_based_on_usage_ratio'),
-      'kit based on',
-      state.kit_based_on_usage_ratio,
-    );
     if (form.getFieldValue('kit_based_on_usage_ratio')) {
       const totalKitQtysCols = getFieldsByColumn(
         form.getFieldValue('standard_assets'),
         form.getFieldValue('insert_type'),
         'quantity',
       );
-      console.log(totalKitQtysCols, 'Totl wuanti');
       totalKitQtysCols.forEach((i) => {
         if (!form.getFieldValue(i)) {
           if (i !== 'mould_quantity') {
@@ -97,6 +147,9 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
   useEffect(() => {
     updateTotalKitQtysCols();
     updateMonthCols();
+    updateCostPerKit();
+    updateProjectCost();
+    updateDirectCost();
   }, [form]);
 
   const handleFieldsChange = useCallback(
@@ -202,6 +255,9 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
               }
             });
           }
+          updateCostPerKit();
+          updateProjectCost();
+          updateDirectCost();
         }
       }
     },
@@ -383,6 +439,16 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
               </div>
             </Col>
           ))}
+        </Row>
+        <Row className="text-center">
+          <Col span={3}></Col>
+          <Col span={3}></Col>
+          <Col span={3}></Col>
+          <Col span={3}>{`Total Cost/Kit: ${numberWithCommas(totalCostPerKit)}`}</Col>
+          <Col span={3}></Col>
+          <Col span={3}>{`Project Cost: ${numberWithCommas(projectCost)}`}</Col>
+          <Col span={3}></Col>
+          <Col span={3}>{`Direct Cost: ${numberWithCommas(directCost)}`}</Col>
         </Row>
         {/* <Form.List name='solutions'> */}
         {/*  {(fields, { add, remove }) => { */}

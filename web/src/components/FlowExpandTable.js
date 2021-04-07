@@ -7,31 +7,35 @@ const cols = [
     title: 'Kit Name',
     key: 'kit_name',
     render: (text, record) => {
-      return record.kit;
+      return record.kit.kit_name;
     },
   },
   {
-    title: 'Asked Quantity',
-    key: 'asked_quantity',
-    dataIndex: 'asked_quantity',
-  },
-  {
-    title: 'Alloted Quantity',
-    key: 'alloted_quantity',
-    dataIndex: 'alloted_quantity',
-  },
-  {
-    title: 'Flow Name',
-    key: 'flow_name',
+    title: 'Quantity',
+    key: 'quantity',
     render: (text, record) => {
-      return record.flow;
+      return record.quantity;
+    },
+  },
+  {
+    title: 'Component PM',
+    key: 'component_pm',
+    render: (text, record) => {
+      return record.component_pm;
+    },
+  },
+  {
+    title: 'Trip Cost',
+    key: 'trip_cost',
+    render: (text, record) => {
+      return record.trip_cost;
     },
   },
 ];
 
 const ExpandTable = (props) => {
   //   const [loading, setLoading] = useState(true);
-  const {data, loading} = useAPI(`allotments-table-exp/?id=${props.id}`);
+  const {data, loading} = useAPI(`client-flows-exp/?id=${props.id}`);
 
   return (
     <Row align="center" style={{margin: '3vh'}}>
@@ -40,7 +44,7 @@ const ExpandTable = (props) => {
           <Spin spinning={loading} />
         ) : (
           <Table
-            dataSource={data[0] ? data[0].flows || [] : []}
+            dataSource={data[0] ? data[0].kits || [] : []}
             columns={cols}
             size="small"
             pagination={false}

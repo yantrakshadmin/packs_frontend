@@ -4,34 +4,44 @@ import {useAPI} from 'common/hooks/api';
 
 const cols = [
   {
-    title: 'Kit Name',
-    key: 'kit_name',
+    title: 'Name',
+    key: 'name',
     render: (text, record) => {
-      return record.kit;
+      return record.product.name;
     },
   },
   {
-    title: 'Asked Quantity',
-    key: 'asked_quantity',
-    dataIndex: 'asked_quantity',
+    title: 'Quantity',
+    key: 'quantity',
+    dataIndex: 'quantity',
   },
   {
-    title: 'Alloted Quantity',
-    key: 'alloted_quantity',
-    dataIndex: 'alloted_quantity',
-  },
-  {
-    title: 'Flow Name',
-    key: 'flow_name',
+    title: 'Short Code',
+    key: 'short_code',
     render: (text, record) => {
-      return record.flow;
+      return record.product.short_code;
+    },
+  },
+
+  {
+    title: 'Category',
+    key: 'category',
+    render: (text, record) => {
+      return record.product.category;
+    },
+  },
+  {
+    title: 'Price Per Unit',
+    key: 'priceperunit',
+    render: (text, record) => {
+      return record.product.priceperunit;
     },
   },
 ];
 
 const ExpandTable = (props) => {
   //   const [loading, setLoading] = useState(true);
-  const {data, loading} = useAPI(`allotments-table-exp/?id=${props.id}`);
+  const {data, loading} = useAPI(`client-kits-exp/?id=${props.id}`);
 
   return (
     <Row align="center" style={{margin: '3vh'}}>
@@ -40,7 +50,7 @@ const ExpandTable = (props) => {
           <Spin spinning={loading} />
         ) : (
           <Table
-            dataSource={data[0] ? data[0].flows || [] : []}
+            dataSource={data[0] ? data[0].products || [] : []}
             columns={cols}
             size="small"
             pagination={false}
