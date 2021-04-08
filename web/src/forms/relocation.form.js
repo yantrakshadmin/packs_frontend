@@ -425,21 +425,23 @@ export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
                       <Col span={12}>Product</Col>
                       <Col span={12}>Quantity</Col>
                     </Row>
-                    {i.map((j, jdx) => (
-                      <Input.Group compact>
-                        <Input
-                          style={{width: '50%'}}
-                          value={kitItems[idx][jdx].short_code}
-                          disabled
-                        />
-                        <Input
-                          style={{width: '50%'}}
-                          type="number"
-                          onChange={(ev) => handleKitItemQtyChange(ev, idx, jdx)}
-                          value={kitItems[idx][jdx].quantity}
-                        />
-                      </Input.Group>
-                    ))}
+                    {i
+                      ? i.map((j, jdx) => (
+                          <Input.Group compact>
+                            <Input
+                              style={{width: '50%'}}
+                              value={kitItems[idx][jdx].short_code}
+                              disabled
+                            />
+                            <Input
+                              style={{width: '50%'}}
+                              type="number"
+                              onChange={(ev) => handleKitItemQtyChange(ev, idx, jdx)}
+                              value={kitItems[idx][jdx].quantity}
+                            />
+                          </Input.Group>
+                        ))
+                      : null}
                     <br />
                   </>
                 );
