@@ -83,9 +83,6 @@ export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
           items: kitItems[idx],
         }));
         data.items_kits = temp;
-        data.items = [];
-      } else if (data.productORkits === 'Products') {
-        data.items_kits = [];
       }
       //console.log(data);
       submit(data);
