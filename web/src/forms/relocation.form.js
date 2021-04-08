@@ -27,7 +27,7 @@ export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
   // const {data: flows} = useAPI('/myflows/', {});
   // const {data: kits} = useControlledSelect(flowId);
   const {data: vendors} = useAPI('/vendors-exp/', {});
-  const {data: products} = useAPI('/products/', {});
+  const {data: products, loading: ploading} = useAPI('/products/', {});
   const {data: kitsFull, loading: kloading} = useAPI('/kits/', {});
   const {data: warehouses} = useAPI('/warehouse/', {});
 
@@ -70,9 +70,31 @@ export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
   useEffect(() => {
     if (id && !loading) {
       const temp = form.getFieldValue('productORkits');
-      if (temp === true || temp === false) setSelectedPK(temp);
+      setSelectedPK(temp);
     }
   }, [loading]);
+
+  useEffect(() => {
+    if (id && !loading && !ploading) {
+      const temp = form.getFieldValue('productORkits');
+      if (temp === 'Kits') {
+        const ki = [...kitItems];
+        const iks = form.getFieldValue('items_kits');
+        iks.forEach((i, idx) => {
+          const x = i.items.map((j) => {
+            const thisProduct = _.find(products, (p) => p.id === j.product);
+            return {
+              product: j.product,
+              quantity: j.quantity,
+              short_code: thisProduct.short_code,
+            };
+          });
+          ki[idx] = x;
+        });
+        setKitItems(ki);
+      }
+    }
+  }, [loading, ploading]);
 
   const preProcess = useCallback(
     (data) => {
@@ -403,21 +425,23 @@ export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
                       <Col span={12}>Product</Col>
                       <Col span={12}>Quantity</Col>
                     </Row>
-                    {i.map((j, jdx) => (
-                      <Input.Group compact>
-                        <Input
-                          style={{width: '50%'}}
-                          value={kitItems[idx][jdx].short_code}
-                          disabled
-                        />
-                        <Input
-                          style={{width: '50%'}}
-                          type="number"
-                          onChange={(ev) => handleKitItemQtyChange(ev, idx, jdx)}
-                          value={kitItems[idx][jdx].quantity}
-                        />
-                      </Input.Group>
-                    ))}
+                    {i
+                      ? i.map((j, jdx) => (
+                          <Input.Group compact>
+                            <Input
+                              style={{width: '50%'}}
+                              value={kitItems[idx][jdx].short_code}
+                              disabled
+                            />
+                            <Input
+                              style={{width: '50%'}}
+                              type="number"
+                              onChange={(ev) => handleKitItemQtyChange(ev, idx, jdx)}
+                              value={kitItems[idx][jdx].quantity}
+                            />
+                          </Input.Group>
+                        ))
+                      : null}
                     <br />
                   </>
                 );
