@@ -109,7 +109,7 @@ export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
       //console.log(data);
       submit(data);
     },
-    [submit],
+    [submit, kitItems],
   );
 
   const handleFieldsChange = useCallback(
@@ -129,26 +129,28 @@ export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
           ) {
             const kitID = form.getFieldValue(['items_kits', data[0].name[1], 'kit']);
             const thisKit = _.find(kits, (k) => k.id === kitID);
-            const fieldName = data[0].name[1];
-            const val = data[0].value;
-            const temp = [...kitItems];
-            if (val > 0) {
-              temp[fieldName] = thisKit.products.map((k) => ({
-                ...k,
-                quantity: parseInt(k.quantity) * parseInt(val),
-              }));
-            } else if (val === '0' || val === '') {
-              temp[fieldName] = thisKit.products.map((k) => ({
-                ...k,
-                quantity: 0,
-              }));
+            if (thisKit) {
+              const fieldName = data[0].name[1];
+              const val = data[0].value;
+              const temp = [...kitItems];
+              if (val > 0) {
+                temp[fieldName] = thisKit.products.map((k) => ({
+                  ...k,
+                  quantity: parseInt(k.quantity) * parseInt(val),
+                }));
+              } else if (val === '0' || val === '') {
+                temp[fieldName] = thisKit.products.map((k) => ({
+                  ...k,
+                  quantity: 0,
+                }));
+              }
+              setKitItems(temp);
             }
-            setKitItems(temp);
           }
         }
       }
     },
-    [form, kitItems],
+    [form, kitItems, kits],
   );
 
   const handleKitItemQtyChange = useCallback(
