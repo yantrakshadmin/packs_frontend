@@ -84,6 +84,16 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
       filters: GetUniqueValue(filteredData || [], 'sending_location'),
       onFilter: (value, record) => record.sending_location === value,
     },
+    isEmployee
+      ? {
+          title: 'Sender Client',
+          dataIndex: 'owner',
+          key: 'owner',
+          width: 400,
+          filters: GetUniqueValue(filteredData || [], 'owner'),
+          onFilter: (value, record) => record.owner === value,
+        }
+      : {},
     // {
     //   title: 'Sender Client',
     //   dataIndex: 'owner',
