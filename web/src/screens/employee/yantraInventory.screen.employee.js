@@ -138,10 +138,9 @@ export const TestInventoryScreen = () => {
   ];
   const columnDetails = [
     {
-      title: 'Product',
-      key: 'product',
-      dataIndex: 'product',
-      render: (product) => <div>{product.product}</div>,
+      title: 'Transaction No',
+      key: 'transaction_no',
+      dataIndex: 'transaction_no',
     },
     {
       title: 'Date',

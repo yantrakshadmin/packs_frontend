@@ -39,7 +39,7 @@ export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
         kit_name: k.kit_name,
         kit_info: k.kit_info,
         products: k.products.map((p) => ({
-          id: p.product.id,
+          product: p.product.id,
           short_code: p.product.short_code,
           quantity: p.quantity,
         })),
@@ -60,13 +60,6 @@ export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
     dates: ['transaction_date'],
   });
 
-  const preProcess = useCallback(
-    (data) => {
-      submit(data);
-    },
-    [submit],
-  );
-
   const [selectedPK, setSelectedPK] = useState('Products');
   const [kitItems, setKitItems] = useState([]);
 
@@ -76,24 +69,43 @@ export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
 
   useEffect(() => {
     if (id && !loading) {
-      const temp = form.getFieldValue('products_or_kits');
+      const temp = form.getFieldValue('productORkits');
       if (temp === true || temp === false) setSelectedPK(temp);
     }
   }, [loading]);
+
+  const preProcess = useCallback(
+    (data) => {
+      if (data.productORkits === 'Kits') {
+        const {items_kits} = data;
+        const temp = items_kits.map((ik, idx) => ({
+          ...ik,
+          items: kitItems[idx],
+        }));
+        data.items_kits = temp;
+        data.items = [];
+      } else if (data.productORkits === 'Products') {
+        data.items_kits = [];
+      }
+      //console.log(data);
+      submit(data);
+    },
+    [submit],
+  );
 
   const handleFieldsChange = useCallback(
     (data) => {
       if (data[0]) {
         if (data[0].name) {
           const thisField = data[0].name[0];
-          if (thisField === 'products_or_kits') {
+          if (thisField === 'productORkits') {
             form.setFieldsValue({items: []});
             form.setFieldsValue({items_kits: []});
             setKitItems([]);
           }
           if (
             data[0].name[0] === 'items_kits' &&
-            data[0].name[2] === 'quantity_parts' &&
+            data[0].name[2] === 'quantity' &&
             form.getFieldValue(['items_kits', data[0].name[1], 'kit'])
           ) {
             const kitID = form.getFieldValue(['items_kits', data[0].name[1], 'kit']);
@@ -139,7 +151,7 @@ export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
       <Form
         onFinish={preProcess}
         form={form}
-        initialValues={{products_or_kits: 'Products'}}
+        initialValues={{productORkits: 'Products'}}
         layout="vertical"
         hideRequiredMark
         autoComplete="off"

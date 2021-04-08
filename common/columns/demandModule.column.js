@@ -27,7 +27,7 @@ export default [
     sorter: (a, b) => moment(a.delivery_month).unix() - moment(b.delivery_month).unix(),
     showSorterTooltip: false,
     render: (text, record) => {
-      return moment(record.delivery_month).format('MM/YYYY');
+      return moment(record.delivery_month).format('MMMM YYYY');
     },
   },
   {

@@ -155,7 +155,7 @@ export const relocationFormFields = [
     colSpan: 6,
   },
   {
-    key: 'products_or_kits',
+    key: 'productORkits',
     rules: [{required: true, message: 'Please select!'}],
     kwargs: {
       placeholder: 'Select',
@@ -180,7 +180,7 @@ export const relocationFlowFormFields = [
     colSpan: 10,
   },
   {
-    key: 'quantity_parts',
+    key: 'quantity',
     rules: [{required: true, message: 'Required!'}],
     kwargs: {
       placeholder: 'Quantity Parts',
