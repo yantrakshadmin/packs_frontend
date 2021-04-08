@@ -181,7 +181,7 @@ export const relocationFlowFormFields = [
   },
   {
     key: 'quantity_parts',
-    //rules: [{required: true, message: 'Required!'}],
+    rules: [{required: true, message: 'Required!'}],
     kwargs: {
       placeholder: 'Quantity Parts',
       type: 'number',

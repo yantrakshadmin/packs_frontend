@@ -100,14 +100,19 @@ export const RelocationForm = ({id, onCancel, onDone, isEmployee}) => {
             const thisKit = _.find(kits, (k) => k.id === kitID);
             const fieldName = data[0].name[1];
             const val = data[0].value;
+            const temp = [...kitItems];
             if (val > 0) {
-              const temp = [...kitItems];
               temp[fieldName] = thisKit.products.map((k) => ({
                 ...k,
                 quantity: parseInt(k.quantity) * parseInt(val),
               }));
-              setKitItems(temp);
+            } else if (val === '0' || val === '') {
+              temp[fieldName] = thisKit.products.map((k) => ({
+                ...k,
+                quantity: 0,
+              }));
             }
+            setKitItems(temp);
           }
         }
       }

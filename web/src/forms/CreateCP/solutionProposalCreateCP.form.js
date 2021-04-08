@@ -88,9 +88,10 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
     depCostCols.forEach((i) => {
       temp += ifNanReturnZeroFloat(form.getFieldValue(i));
     });
-    temp /= form.getFieldValue('kit_based_on_usage_ratio');
+    // temp /= form.getFieldValue('kit_based_on_usage_ratio');
+    temp /= state.kit_based_on_usage_ratio;
     setDirectCost(_.round(temp, 2));
-  }, [form, directCost, setDirectCost]);
+  }, [form, state, directCost, setDirectCost]);
 
   // useEffect(() => {
   // 	if (form.getFieldValue("standard_assets") && form.getFieldValue("insert_type")) {
@@ -106,28 +107,101 @@ export const SolutionProposalCreateCPForm = ({id, onCancel, lead, onNext, active
     }
   }, [active]);
 
+  const updateRemainingDisabledCols = useCallback(() => {
+    const totalKitQtysCols = getFieldsByColumn(
+      form.getFieldValue('standard_assets'),
+      form.getFieldValue('insert_type'),
+      'quantity',
+    );
+    const qtyPerKitCols = getFieldsByColumn(
+      form.getFieldValue('standard_assets'),
+      form.getFieldValue('insert_type'),
+      'quantity_perkit',
+    );
+    const rateCols = getFieldsByColumn(
+      form.getFieldValue('standard_assets'),
+      form.getFieldValue('insert_type'),
+      'rate',
+    );
+    const totalMatReqCols = getFieldsByColumn(
+      form.getFieldValue('standard_assets'),
+      form.getFieldValue('insert_type'),
+      'tot_mat_req',
+    );
+    const totalCostCols = getFieldsByColumn(
+      form.getFieldValue('standard_assets'),
+      form.getFieldValue('insert_type'),
+      'total_cost',
+    );
+    const monthCols = getFieldsByColumn(
+      form.getFieldValue('standard_assets'),
+      form.getFieldValue('insert_type'),
+      'month',
+    );
+    const depCostCols = getFieldsByColumn(
+      form.getFieldValue('standard_assets'),
+      form.getFieldValue('insert_type'),
+      'dep_cost',
+    );
+
+    qtyPerKitCols.forEach((i, idx) => {
+      if (form.getFieldValue(totalKitQtysCols[idx]) && form.getFieldValue(qtyPerKitCols[idx])) {
+        const totalMatReqVal =
+          form.getFieldValue(totalKitQtysCols[idx]) * form.getFieldValue(qtyPerKitCols[idx]);
+        form.setFieldsValue({
+          [totalMatReqCols[idx]]: totalMatReqVal,
+          [totalCostCols[idx]]: form.getFieldValue(rateCols[idx]) * totalMatReqVal,
+        });
+      } else {
+        form.setFieldsValue({
+          [totalMatReqCols[idx]]: 0,
+          [totalCostCols[idx]]: 0,
+        });
+      }
+
+      if (
+        form.getFieldValue(totalCostCols[idx]) &&
+        form.getFieldValue(monthCols[idx]) &&
+        form.getFieldValue('yantra_cycle')
+      ) {
+        form.setFieldsValue({
+          [depCostCols[idx]]: _.round(
+            (form.getFieldValue(totalCostCols[idx]) / form.getFieldValue(monthCols[idx]) / 30) *
+              form.getFieldValue('yantra_cycle'),
+            2,
+          ),
+        });
+      } else {
+        form.setFieldsValue({
+          [depCostCols[idx]]: 0,
+        });
+      }
+    });
+  }, [form]);
+
   const updateTotalKitQtysCols = useCallback(() => {
-    if (form.getFieldValue('kit_based_on_usage_ratio')) {
+    if (state.kit_based_on_usage_ratio) {
       const totalKitQtysCols = getFieldsByColumn(
         form.getFieldValue('standard_assets'),
         form.getFieldValue('insert_type'),
         'quantity',
       );
+      let temp = {};
       totalKitQtysCols.forEach((i) => {
-        if (!form.getFieldValue(i)) {
-          if (i !== 'mould_quantity') {
-            form.setFieldsValue({
-              [i]: form.getFieldValue('kit_based_on_usage_ratio'),
-            });
-          } else {
-            form.setFieldsValue({
-              mould_quantity: 1,
-            });
-          }
+        if (i !== 'mould_quantity') {
+          form.setFieldsValue({
+            [i]: state.kit_based_on_usage_ratio,
+          });
+        } else {
+          form.setFieldsValue({
+            mould_quantity: 1,
+          });
         }
       });
+      form.setFieldsValue({...temp});
+      updateRemainingDisabledCols();
     }
-  }, [form]);
+  }, [form, state]);
 
   const updateMonthCols = useCallback(() => {
     const monthCols = getFieldsByColumn(

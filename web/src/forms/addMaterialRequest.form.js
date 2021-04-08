@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {Form, Col, Row, Button, Divider, Spin} from 'antd';
 import {
   materialRequestFormFields,
@@ -19,8 +19,17 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
   const [flowId, setFlowId] = useState(null);
   const [selectedClient, setSelectedClient] = useState({name: 'Select Client', id: null});
   const {data: flows} = useAPI(`/c-flows/?id=${selectedClient.id}`, {});
-  const {data: kits} = useControlledSelect(flowId);
+  const [selectedKits, setSelectedKits] = useState([]);
+  //const {data: kits} = useControlledSelect(flowId);
   const {data: clients} = useAPI('/clients/', {});
+
+  useEffect(() => {
+    if (flowId) {
+      const selectedFlow = _.find(flows, (f) => f.id === flowId);
+      const temp = (selectedFlow.kits || []).map((k) => k.kit);
+      setSelectedKits(temp);
+    }
+  }, [flowId]);
 
   const {form, submit, loading} = useHandleForm({
     create: createMr,
@@ -50,19 +59,47 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
     submit(data);
   };
 
-  const handleFieldsChange = (data) => {
-    if (data) {
-      if (data[0]) {
-        if (data[0].name[0] === 'client_id') {
-          const filtered = clients.filter((item) => item.user === data[0].value);
-          setSelectedClient({name: filtered[0].client_name, id: filtered[0].user});
+  const [disableAdd, setDisableAdd] = useState(false);
+
+  const handleFieldsChange = useCallback(
+    (data) => {
+      if (data) {
+        if (data[0]) {
+          if (data[0].name[0] === 'client_id') {
+            const sc = _.find(clients, (item) => item.user === data[0].value);
+            setSelectedClient({name: sc.client_name, id: sc.user});
+          }
+        }
+
+        const flowsList = form.getFieldValue('flows');
+        if (flowsList) {
+          if (flowsList.length > 0) {
+            if (flowsList[flowsList.length - 1]) {
+              if (
+                'flow' in flowsList[flowsList.length - 1] &&
+                'kit' in flowsList[flowsList.length - 1] &&
+                'quantity' in flowsList[flowsList.length - 1]
+              ) {
+                setDisableAdd(false);
+              } else {
+                setDisableAdd(true);
+              }
+            } else {
+              if (flowsList.length > 1) {
+                let flowsX = form.getFieldValue('flows');
+                flowsX[flowsX.length - 1] = {flow: flowsX[flowsX.length - 2].flow};
+                form.setFieldsValue({flows: flowsX});
+              }
+            }
+          } else {
+            setDisableAdd(false);
+          }
         }
       }
-    }
-  };
-  // useEffect(()=>{
-  //   console.log('flows',newflows,flows);
-  // },[ newflows])
+    },
+    [clients, selectedClient, setSelectedClient],
+  );
+
   return (
     <Spin spinning={loading}>
       <Divider orientation="left">Material Request Details</Divider>
@@ -97,7 +134,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
             </Col>
           ))}
         </Row>
-        <Divider orientation="left">Flow and Kit Details</Divider>
+        <Divider orientation="left">Flows and Kit Details</Divider>
         <Form.List name="flows">
           {(fields, {add, remove}) => {
             return (
@@ -105,7 +142,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                 {fields.map((field, index) => (
                   <Row align="middle">
                     {materialRequestFlowFormFields.slice(0, 1).map((item) => (
-                      <Col span={13}>
+                      <Col span={10}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -135,7 +172,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                       </Col>
                     ))}
                     {materialRequestFlowFormFields.slice(1, 2).map((item) => (
-                      <Col span={4}>
+                      <Col span={7}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -145,19 +182,20 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                               showSearch: true,
                               filterOption: (input, option) =>
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-                              onFocus: () => {
-                                const data = form.getFieldValue(['flows', field.name, 'flow']);
-                                if (data) {
-                                  console.log(data);
-                                  setFlowId(data);
-                                }
-                              },
+                              // onFocus: () => {
+                              //   const data = form.getFieldValue(['flows', field.name, 'flow']);
+                              //   if (data) {
+                              //     console.log(data);
+                              //     setFlowId(data);
+                              //   }
+                              // },
                             },
                             others: {
-                              selectOptions: filterActive(_, kits) || [],
+                              selectOptions: filterActive(_, selectedKits) || [],
                               key: 'id',
-                              dataKeys: ['kit_name', 'kit_info', 'components_per_kit'],
+                              dataKeys: ['kit_info', 'components_per_kit'],
                               customTitle: 'kit_name',
+                              searchKeys: ['kit_info', 'part_name', 'components_per_kit'],
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],
@@ -193,7 +231,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                         onClick={() => {
                           remove(field.name);
                         }}>
-                        <MinusCircleOutlined /> Delete
+                        <MinusCircleOutlined />
                       </Button>
                     </Col>
                   </Row>
@@ -203,8 +241,10 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                     type="dashed"
                     onClick={() => {
                       add();
+                      setDisableAdd(true);
                     }}
-                    block>
+                    block
+                    disabled={disableAdd}>
                     <PlusOutlined /> Add Item
                   </Button>
                 </Form.Item>

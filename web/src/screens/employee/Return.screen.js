@@ -203,7 +203,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
             password={DEFAULT_PASSWORD}
             deleteHOC={deleteHOC({
               record,
-              reload,
+              reloadFull,
               api: deleteReturn,
               success: 'Deleted Return successfully',
               failure: 'Error in deleting Return',
@@ -231,7 +231,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
 
   const handleDone = () => {
     cancelEditing();
-    reload();
+    reloadFull();
   };
 
   let deliveredCount = 0;
