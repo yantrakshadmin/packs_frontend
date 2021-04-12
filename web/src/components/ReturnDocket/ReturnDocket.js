@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {Row, Col, Typography, Spin} from 'antd';
 import {Table} from 'react-bootstrap';
+import {useAPI} from 'common/hooks/api';
 import moment from 'moment';
+import _ from 'lodash';
 
 import {retrieveReturnDocket, retrieveReturnDocketCaleder} from 'common/api/auth';
 
@@ -15,8 +17,9 @@ const ReturnDocket = ({location, isClient}) => {
   const [total, setTotal] = useState(0);
   const [weight, setWeight] = useState(0);
 
+  const {data: clientKits, loading: ckLoading} = useAPI('/client-kits/', {});
+
   useEffect(() => {
-    console.log(isClient);
     const fetchReturn = async () => {
       if (location.state) {
         console.log(location.state);
@@ -43,7 +46,6 @@ const ReturnDocket = ({location, isClient}) => {
           k.items.map((item) => {
             tot += item.quantity * item.product.priceperunit;
             wt += item.product.volumetric_weight * item.quantity;
-            console.log(item.product);
           });
         });
       }
@@ -232,40 +234,66 @@ const ReturnDocket = ({location, isClient}) => {
             </thead>
             <tbody>
               {reqReturn.kits.map((kit) => {
-                return (
-                  <tr>
-                    <td>{kit.kit}</td>
-                    <td>{kit.quantity}</td>
-                    {/* <td>
-                      {kit.items.map((prod) => (
-                        <div style={{display: 'flex', flexDirection: 'column'}}>
-                          <p>{prod.product.hsn_code}</p>
-                        </div>
-                      ))}
-                    </td> */}
-                    <td>
-                      {kit.items.map((prod) => (
-                        <div style={{display: 'flex', flexDirection: 'column'}}>
-                          <p>{prod.product.short_code}</p>
-                        </div>
-                      ))}
-                    </td>
-                    <td>
-                      {kit.items.map((prod) => (
-                        <div style={{display: 'flex', flexDirection: 'column'}}>
-                          <p>{prod.product.name}</p>
-                        </div>
-                      ))}
-                    </td>
-                    <td>
-                      {kit.items.map((prod) => (
-                        <div style={{display: 'flex', flexDirection: 'column'}}>
-                          <p>{prod.quantity}</p>
-                        </div>
-                      ))}
-                    </td>
-                  </tr>
-                );
+                if (isClient && !ckLoading) {
+                  const temp = _.find(clientKits, (ck) => ck.kit_name === kit.kit);
+                  if (temp) {
+                    return (
+                      <tr>
+                        <td>{kit.kit}</td>
+                        <td>{kit.quantity}</td>
+                        <td>
+                          {kit.items.map((prod) => (
+                            <div style={{display: 'flex', flexDirection: 'column'}}>
+                              <p>{prod.product.short_code}</p>
+                            </div>
+                          ))}
+                        </td>
+                        <td>
+                          {kit.items.map((prod) => (
+                            <div style={{display: 'flex', flexDirection: 'column'}}>
+                              <p>{prod.product.name}</p>
+                            </div>
+                          ))}
+                        </td>
+                        <td>
+                          {kit.items.map((prod) => (
+                            <div style={{display: 'flex', flexDirection: 'column'}}>
+                              <p>{prod.quantity}</p>
+                            </div>
+                          ))}
+                        </td>
+                      </tr>
+                    );
+                  }
+                } else {
+                  return (
+                    <tr>
+                      <td>{kit.kit}</td>
+                      <td>{kit.quantity}</td>
+                      <td>
+                        {kit.items.map((prod) => (
+                          <div style={{display: 'flex', flexDirection: 'column'}}>
+                            <p>{prod.product.short_code}</p>
+                          </div>
+                        ))}
+                      </td>
+                      <td>
+                        {kit.items.map((prod) => (
+                          <div style={{display: 'flex', flexDirection: 'column'}}>
+                            <p>{prod.product.name}</p>
+                          </div>
+                        ))}
+                      </td>
+                      <td>
+                        {kit.items.map((prod) => (
+                          <div style={{display: 'flex', flexDirection: 'column'}}>
+                            <p>{prod.quantity}</p>
+                          </div>
+                        ))}
+                      </td>
+                    </tr>
+                  );
+                }
               })}
             </tbody>
           </Table>

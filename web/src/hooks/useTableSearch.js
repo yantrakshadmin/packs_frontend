@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-export const useTableSearch = ({searchVal, retrieve, reqData}) => {
+export const useTableSearch = ({searchVal, retrieve, reqData, retrieveParams}) => {
   const [filteredData, setFilteredData] = useState([]);
   const [origData, setOrigData] = useState(null);
   const [searchIndex, setSearchIndex] = useState([]);
@@ -21,7 +21,7 @@ export const useTableSearch = ({searchVal, retrieve, reqData}) => {
     const fetchData = async () => {
       let fullData = null;
       if (!reqData && retrieve) {
-        const {data, status} = await retrieve();
+        const {data, status} = await retrieve(retrieveParams || null);
         if (status === 403) {
           setHasPermission(false);
         } else {

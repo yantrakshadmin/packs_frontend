@@ -1155,6 +1155,13 @@ export const deleteTestInv = (id) =>
     secure: true,
   });
 
+export const retrieveSC2TestInvClientSide = (rp) => {
+  return loadAPI(`sc-inv-items/?id=${rp.id}`, {
+    method: 'GET',
+    secure: true,
+  });
+};
+
 export const retrieveSC2TestInv = (data) => {
   return loadAPI('sc-inv-items/', {
     method: 'GET',

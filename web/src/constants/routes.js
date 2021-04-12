@@ -406,4 +406,10 @@ export const clientRoutes = [
     path: '/return-reports/',
     Component: lazy(() => import('screens/client/returnReports.screen')),
   },
+  {
+    name: 'Inventory',
+    icon: ['fas', 'boxes'],
+    path: '/main-inventory/sc-inventory-2/',
+    Component: lazy(() => import('screens/client/clientInventory2.screen')),
+  },
 ];
