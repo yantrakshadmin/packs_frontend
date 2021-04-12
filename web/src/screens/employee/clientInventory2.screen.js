@@ -36,7 +36,7 @@ export const TestInventoryScreen = () => {
         return {
           client: i.client.client_name,
           quantity: i.quantity,
-          product: i.product,
+          product: i.product.short_code,
         };
       });
       return {

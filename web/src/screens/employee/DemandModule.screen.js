@@ -10,11 +10,12 @@ import {DemandModuleForm} from 'forms/demandModuleEmployee.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import DemandModuleTable from 'components/DemandModuleTable';
 import NoPermissionAlert from 'components/NoPermissionAlert';
-import {GetUniqueValueFullName} from 'common/helpers/getUniqueValues';
+import {GetUniqueValueFullName, GetUniqueValueMonth} from 'common/helpers/getUniqueValues';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
 import Modal from './DemandModuleStuff/Modal';
+import moment from 'moment';
 
 const {Search} = Input;
 
@@ -31,7 +32,20 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
   };
 
   const columns = [
-    ...demandModuleColumns.slice(0, 2),
+    ...demandModuleColumns.slice(0, 1),
+    {
+      title: 'Month',
+      key: 'delivery_month',
+      sorter: (a, b) => moment(a.delivery_month).unix() - moment(b.delivery_month).unix(),
+      showSorterTooltip: false,
+      render: (text, record) => {
+        return moment(record.delivery_month).format('MMMM YYYY');
+      },
+      filters: GetUniqueValueMonth(filteredData || [], 'delivery_month'),
+      onFilter: (value, record) => {
+        return moment(record.delivery_month).format('MMMM YYYY') === value;
+      },
+    },
     {
       title: 'Raised By',
       key: 'raised_by',
