@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form, Col, Row, Button, Divider, Spin, Alert} from 'antd';
 import {flowFormFields} from 'common/formFields/flow.formFields';
 import {flowKitsFormFields} from 'common/formFields/flowKit.formFields';
@@ -12,10 +12,12 @@ import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
 
 export const FlowForm = ({id, onCancel, onDone}) => {
-  const {data: receiverClients} = useAPI('/receiverclients/', {});
-  const {data: clients} = useAPI('/clients/', {});
-  const {data: kits} = useAPI('/kits/', {});
-  const {data: flows} = useAPI('/flows/', {});
+  const {data: receiverClients, loading: rcLoading} = useAPI('/receiverclients/', {});
+  const {data: clients, loading: cLoading} = useAPI('/clients/', {});
+  const {data: kits, loading: kLoading} = useAPI('/kits/', {});
+  const {data: flows, loading: fLoading} = useAPI('/flows/', {});
+
+  const [showAllKits, setShowAllKits] = useState(true);
 
   const [kitCp, setKitCp] = useState(null);
   const [kitQty, setKitQty] = useState(null);
@@ -32,6 +34,14 @@ export const FlowForm = ({id, onCancel, onDone}) => {
   });
 
   const [formValid, setFormValid] = useState(true);
+
+  useEffect(() => {
+    if (!loading && !kLoading) {
+      setInterval(() => {
+        setShowAllKits(false);
+      }, 1000);
+    }
+  }, [loading, kLoading]);
 
   const handleFieldsChange = async (data) => {
     if (data)
@@ -106,7 +116,7 @@ export const FlowForm = ({id, onCancel, onDone}) => {
   };
 
   return (
-    <Spin spinning={loading}>
+    <Spin spinning={loading || rcLoading || cLoading || fLoading || kLoading}>
       {!formValid ? (
         <Alert message="Flow with these details already exists!" type="warning" />
       ) : null}
@@ -206,7 +216,7 @@ export const FlowForm = ({id, onCancel, onDone}) => {
                             },
                             form,
                             others: {
-                              selectOptions: filterActive(_, kits) || [],
+                              selectOptions: (showAllKits ? kits : filterActive(_, kits)) || [],
                               key: 'id',
                               dataKeys: ['components_per_kit', 'kit_info', 'kit_name'],
                               customTitle: 'kit_name',
