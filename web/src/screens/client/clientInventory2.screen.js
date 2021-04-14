@@ -1,10 +1,9 @@
 import React, {useState, useCallback} from 'react';
 import {useAPI} from 'common/hooks/api';
 import {Button, Col, Form, Input, Popconfirm, Row} from 'antd';
-import formItem from 'hocs/formItem.hoc';
 import {FORM_ELEMENT_TYPES} from 'constants/formFields.constant';
 import {MasterHOC} from 'hocs/Master.hoc';
-import {createSC2TestInv, deleteSC2TestInv, retrieveSC2TestInv} from 'common/api/auth';
+import {createSC2TestInv, deleteSC2TestInv, retrieveSC2TestInvClientSide} from 'common/api/auth';
 import {loadAPI} from 'common/helpers/api';
 import {TestSC2InventoryDetailColumn} from 'common/columns/testInventoryDetail.column';
 import {useHandleForm} from '../../hooks/form';
@@ -14,12 +13,11 @@ import {useTableSearch} from '../../hooks/useTableSearch';
 import {CSVLink} from 'react-csv';
 import {ifNotStrReturnA} from 'common/helpers/mrHelper';
 import {GetUniqueValueNested} from 'common/helpers/getUniqueValues';
+import {connect} from 'react-redux';
 
 const {Search} = Input;
 
-export const TestInventoryScreen = () => {
-  const {data: products} = useAPI('/products/', {});
-  const {data: sClients} = useAPI('/clients/', {});
+export const TestInventoryScreen = ({user}) => {
   const [details, setDetails] = useState([]);
   const [detailsLoading, setDetailsLoading] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState({short_code: '', client: ''});
@@ -27,7 +25,8 @@ export const TestInventoryScreen = () => {
 
   const {filteredData: invData, loading: invLoading, reload} = useTableSearch({
     searchVal,
-    retrieve: retrieveSC2TestInv,
+    retrieve: retrieveSC2TestInvClientSide,
+    retrieveParams: {id: user.id},
   });
 
   const generateCSVData = useCallback(() => {
@@ -65,31 +64,30 @@ export const TestInventoryScreen = () => {
     );
   }, [invData, generateCSVData]);
 
-  console.log(invData, 'Ggg');
-  const {form, submit, loading} = useHandleForm({
-    create: createSC2TestInv,
-    success: 'Inventory created/edited successfully.',
-    failure: 'Error in creating/editing Inventory.',
-    done: () => {
-      form.setFieldsValue({
-        client: null,
-        product: null,
-        quantity: null,
-      });
-      reload();
-    },
-    close: () => null,
-  });
+  // const {form, submit, loading} = useHandleForm({
+  //   create: createSC2TestInv,
+  //   success: 'Inventory created/edited successfully.',
+  //   failure: 'Error in creating/editing Inventory.',
+  //   done: () => {
+  //     form.setFieldsValue({
+  //       client: null,
+  //       product: null,
+  //       quantity: null,
+  //     });
+  //     reload();
+  //   },
+  //   close: () => null,
+  // });
 
   const column = [
-    {
-      title: 'Client',
-      key: 'client',
-      dataIndex: 'client',
-      render: (text, record) => record.client.client_name,
-      filters: GetUniqueValueNested(invData || [], 'client', 'client_name'),
-      onFilter: (value, record) => record.client.client_name === value,
-    },
+    // {
+    //   title: 'Client',
+    //   key: 'client',
+    //   dataIndex: 'client',
+    //   render: (text, record) => record.client.client_name,
+    //   filters: GetUniqueValueNested(invData || [], 'client', 'client_name'),
+    //   onFilter: (value, record) => record.client.client_name === value,
+    // },
     {
       title: 'Product',
       key: 'product',
@@ -140,7 +138,7 @@ export const TestInventoryScreen = () => {
             }}>
             Details
           </Button>
-          <Popconfirm
+          {/* <Popconfirm
             title="Confirm Delete"
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
@@ -160,7 +158,7 @@ export const TestInventoryScreen = () => {
               onClick={(e) => e.stopPropagation()}>
               <Delete />
             </Button>
-          </Popconfirm>
+          </Popconfirm> */}
         </div>
       ),
     },
@@ -173,64 +171,7 @@ export const TestInventoryScreen = () => {
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
       </div>
-      <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
-        <Row align="middle" gutter={10}>
-          <Col span={8}>
-            {formItem({
-              key: 'client',
-              kwargs: {
-                placeholder: 'Select',
-                showSearch: true,
-                filterOption: (input, option) =>
-                  option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-              },
-              others: {
-                selectOptions: sClients || [],
-                key: 'user',
-                dataKeys: ['client_city'],
-                customTitle: 'client_name',
-              },
-              type: FORM_ELEMENT_TYPES.SELECT,
-              customLabel: 'Client',
-            })}
-          </Col>
-          <Col span={8}>
-            {formItem({
-              key: 'product',
-              kwargs: {
-                placeholder: 'Select',
-                showSearch: true,
-                filterOption: (input, option) =>
-                  option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
-              },
-              others: {
-                selectOptions: products || [],
-                key: 'id',
-                dataKeys: ['name', 'description', 'category'],
-                customTitle: 'short_code',
-              },
-              type: FORM_ELEMENT_TYPES.SELECT,
-              customLabel: 'Product',
-            })}
-          </Col>
-          <Col span={4}>
-            {formItem({
-              key: 'quantity',
-              kwargs: {
-                placeholder: 'Quantity',
-              },
-              type: FORM_ELEMENT_TYPES.INPUT,
-              customLabel: 'Quantity',
-            })}
-          </Col>
-          <Col span={4}>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Col>
-        </Row>
-      </Form>
-
+      <br />
       <Row gutter={10}>
         <Col lg={12}>
           <MasterHOC
@@ -241,7 +182,7 @@ export const TestInventoryScreen = () => {
             title="Inventory"
             ExtraButtonNextToTitle={DownloadCSVButton}
             hideRightButton
-            loading={loading || invLoading}
+            loading={invLoading}
           />
         </Col>
         <Col lg={12}>
@@ -258,4 +199,9 @@ export const TestInventoryScreen = () => {
     </div>
   );
 };
-export default TestInventoryScreen;
+
+const mapStateToProps = (state) => {
+  return {user: state.user.userMeta};
+};
+
+export default connect(mapStateToProps)(TestInventoryScreen);

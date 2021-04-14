@@ -401,6 +401,12 @@ export const retieveReceiverClients = (id) =>
     secure: true,
   });
 
+export const retieveReceiverClientsClientSide = () =>
+  loadAPI(`/client-reciever-client/`, {
+    method: 'GET',
+    secure: true,
+  });
+
 export const createFlow = ({
   flow_name,
   flow_info,
@@ -1154,6 +1160,13 @@ export const deleteTestInv = (id) =>
     method: 'DELETE',
     secure: true,
   });
+
+export const retrieveSC2TestInvClientSide = (rp) => {
+  return loadAPI(`sc-inv-items/?id=${rp.id}`, {
+    method: 'GET',
+    secure: true,
+  });
+};
 
 export const retrieveSC2TestInv = (data) => {
   return loadAPI('sc-inv-items/', {

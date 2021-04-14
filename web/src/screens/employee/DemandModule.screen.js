@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import demandModuleColumns from 'common/columns/demandModule.column';
+import demandModuleColumns, {getFullName} from 'common/columns/demandModule.column';
 import {Popconfirm, Button, Input, Popover} from 'antd';
 import {deleteMr, retrieveDms} from 'common/api/auth';
 import {connect} from 'react-redux';
@@ -10,10 +10,12 @@ import {DemandModuleForm} from 'forms/demandModuleEmployee.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import DemandModuleTable from 'components/DemandModuleTable';
 import NoPermissionAlert from 'components/NoPermissionAlert';
+import {GetUniqueValueFullName, GetUniqueValueMonth} from 'common/helpers/getUniqueValues';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
 import Modal from './DemandModuleStuff/Modal';
+import moment from 'moment';
 
 const {Search} = Input;
 
@@ -30,7 +32,32 @@ const MaterialRequestEmployeeScreen = ({currentPage}) => {
   };
 
   const columns = [
-    ...demandModuleColumns,
+    ...demandModuleColumns.slice(0, 1),
+    {
+      title: 'Month',
+      key: 'delivery_month',
+      sorter: (a, b) => moment(a.delivery_month).unix() - moment(b.delivery_month).unix(),
+      showSorterTooltip: false,
+      render: (text, record) => {
+        return moment(record.delivery_month).format('MMMM YYYY');
+      },
+      filters: GetUniqueValueMonth(filteredData || [], 'delivery_month'),
+      onFilter: (value, record) => {
+        return moment(record.delivery_month).format('MMMM YYYY') === value;
+      },
+    },
+    {
+      title: 'Raised By',
+      key: 'raised_by',
+      dataIndex: 'raised_by',
+      render: (text, record) =>
+        record.owner ? getFullName(record.owner.first_name, record.owner.last_name) : '-',
+      filters: GetUniqueValueFullName(filteredData || [], 'owner', 'first_name', 'last_name'),
+      onFilter: (value, record) => {
+        return getFullName(record.owner.first_name, record.owner.last_name) === value;
+      },
+    },
+    ...demandModuleColumns.slice(3),
     {
       title: 'Action',
       key: 'operation',

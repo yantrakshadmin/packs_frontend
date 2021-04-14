@@ -18,10 +18,22 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
   const [flowId, setFlowId] = useState(null);
   const [selectedKits, setSelectedKits] = useState([]);
 
-  const {data: flows} = useAPI('/myflows/', {});
+  const {data: flows, loading: loadingF} = useAPI('/myflows/', {});
   //const {data: kitsAll} = useAPI('/kits/', {});
 
   //const {data: kits} = useControlledSelect(flowId);
+
+  useEffect(() => {
+    if (!loadingF && id) {
+      const temp = [];
+      flows.forEach((f) => {
+        f.kits.forEach((k) => {
+          temp.push(k.kit);
+        });
+      });
+      setSelectedKits(_.uniqBy(temp, 'id'));
+    }
+  }, [loadingF]);
 
   useEffect(() => {
     if (flowId) {
@@ -80,6 +92,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
                 if (flowsList.length > 1) {
                   let flowsX = form.getFieldValue('flows');
                   flowsX[flowsX.length - 1] = {flow: flowsX[flowsX.length - 2].flow};
+                  setFlowId(flowsX[flowsX.length - 2].flow);
                   form.setFieldsValue({flows: flowsX});
                 }
               }

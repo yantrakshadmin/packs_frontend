@@ -367,10 +367,15 @@ export const clientRoutes = [
         Component: lazy(() => import('screens/client/kits.screen')),
       },
       {
-        name: 'Client Flows',
+        name: 'Flows',
         icon: ['fas', 'layer-group'],
         path: '/client-flows/',
         Component: lazy(() => import('screens/client/clientFlows.screen')),
+      },
+      {
+        name: 'Clients',
+        path: '/master/clients/',
+        Component: lazy(() => import('screens/client/ReceiverClient.screen')),
       },
     ],
   },
@@ -401,9 +406,43 @@ export const clientRoutes = [
     Component: lazy(() => import('screens/client/outwardDocket.screen')),
   },
   {
-    name: 'Return Reports',
+    name: 'Return Docket',
     icon: ['fas', 'chart-pie'],
-    path: '/return-reports/',
+    path: '/return-dockets/',
     Component: lazy(() => import('screens/client/returnReports.screen')),
   },
+  {
+    name: 'Inventory',
+    icon: ['fas', 'boxes'],
+    path: '/main-inventory/sc-inventory-2/',
+    Component: lazy(() => import('screens/client/clientInventory2.screen')),
+  },
+  // {
+  //   name: 'Reports',
+  //   icon: ['fas', 'chart-pie'],
+  //   path: '/reports/',
+  //   isSubMenu: true,
+  //   subMenu: [
+  //     {
+  //       name: 'Volume Plan',
+  //       path: '/reports/demands/',
+  //       Component: lazy(() => import('components/Reports/Demand.js')),
+  //     },
+  //     {
+  //       name: 'Allotments',
+  //       path: '/reports/allotments/',
+  //       Component: lazy(() => import('components/Reports/Allotment.js')),
+  //     },
+  //     {
+  //       name: 'Returns',
+  //       path: '/reports/returns/',
+  //       Component: lazy(() => import('components/Reports/Return.js')),
+  //     },
+  //     {
+  //       name: 'Outwards',
+  //       path: '/reports/outwards/',
+  //       Component: lazy(() => import('components/Reports/Outward.js')),
+  //     },
+  //   ],
+  // },
 ];
