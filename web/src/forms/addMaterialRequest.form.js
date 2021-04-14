@@ -175,6 +175,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                               key: 'id',
                               dataKeys: ['flow_name', 'flow_info', 'flow_type'],
                               customTitle: 'flow_name',
+                              searchKeys: ['flow_info'],
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],
