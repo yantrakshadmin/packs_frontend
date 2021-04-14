@@ -367,7 +367,7 @@ export const clientRoutes = [
         Component: lazy(() => import('screens/client/kits.screen')),
       },
       {
-        name: 'Client Flows',
+        name: 'Flows',
         icon: ['fas', 'layer-group'],
         path: '/client-flows/',
         Component: lazy(() => import('screens/client/clientFlows.screen')),
@@ -401,9 +401,9 @@ export const clientRoutes = [
     Component: lazy(() => import('screens/client/outwardDocket.screen')),
   },
   {
-    name: 'Return Reports',
+    name: 'Return Docket',
     icon: ['fas', 'chart-pie'],
-    path: '/return-reports/',
+    path: '/return-dockets/',
     Component: lazy(() => import('screens/client/returnReports.screen')),
   },
   {
