@@ -401,6 +401,12 @@ export const retieveReceiverClients = (id) =>
     secure: true,
   });
 
+export const retieveReceiverClientsClientSide = () =>
+  loadAPI(`/client-reciever-client/`, {
+    method: 'GET',
+    secure: true,
+  });
+
 export const createFlow = ({
   flow_name,
   flow_info,
