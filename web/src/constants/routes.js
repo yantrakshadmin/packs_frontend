@@ -448,6 +448,11 @@ export const clientRoutes = [
         path: '/reports/floating/',
         Component: lazy(() => import('components/Reports/StockingClientSide.js')),
       },
+      {
+        name: 'Loss/Excess',
+        path: '/reports/loss-excess/',
+        Component: lazy(() => import('components/Reports/LossExcessClientSide.js')),
+      },
     ],
   },
 ];

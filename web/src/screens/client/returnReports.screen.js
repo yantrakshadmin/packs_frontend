@@ -96,10 +96,10 @@ const ReturnReportsScreen = ({currentPage, isEmployee}) => {
         size="middle"
         title="Return Docket"
         newPage="./return/"
-        downloadLink={
-          isEmployee ? null : `${DEFAULT_BASE_URL}client-return-reportsdownload/?cname=${user}`
-        }
-        downloadLinkButtonTitle="Download Reports"
+        // downloadLink={
+        //   isEmployee ? null : `${DEFAULT_BASE_URL}/client-return-reportsdownload/?cname=${user}`
+        // }
+        // downloadLinkButtonTitle="Download Reports"
         separate={!deliveryId}
         modalWidth={60}
         cancelEditing={cancelEditing}

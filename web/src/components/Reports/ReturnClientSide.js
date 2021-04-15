@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import {useAPI} from 'common/hooks/api';
-import {Row, Col, Form, Button} from 'antd';
-import {retrieveReturnReport} from 'common/api/auth';
+import {loadAPI} from 'common/helpers/api';
+import {Row, Col, Form, Button, notification} from 'antd';
 import returnColumns from 'common/columns/Return.column';
 import TableWithTabHoc from 'hocs/TableWithTab.hoc';
 import {FORM_ELEMENT_TYPES} from '../../constants/formFields.constant';
@@ -13,37 +13,55 @@ import {RetKitTable} from '../RetKitExp';
 import formItem from '../../hocs/formItem.hoc';
 
 const AllotmentReport = ({currentPage, user}) => {
-  const [all, setAll] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [csvData, setCsvData] = useState(null);
-  const [reportData, setReportData] = useState(null);
-  const [reqReturns, setReqAllotments] = useState(null);
   const [to, setTo] = useState(null);
   const [from, setFrom] = useState(null);
   const [form] = Form.useForm();
 
-  const onSubmit = async (data) => {
-    setLoading(true);
-    data.to = moment(data.to).endOf('date').format('YYYY-MM-DD HH:MM');
-    data.from = moment(data.from).startOf('date').format('YYYY-MM-DD HH:MM');
-    setTo(data.to);
-    setFrom(data.from);
-    const {data: report} = await retrieveReturnReport(data);
-    if (report) {
-      console.log(report);
-      setLoading(false);
-      setReportData(report);
-    }
-  };
+  const [btnLoading, setBtnLoading] = useState(false);
 
-  useEffect(() => {
-    if (reportData) {
-      const reqD = reportData.map((ret) => ({
-        ...ret,
-      }));
-      setReqAllotments(reqD);
-    }
-  }, [reportData]);
+  const DownloadCSVButton = useCallback(() => {
+    return (
+      <Button
+        onClick={async () => {}}
+        rel="noopener noreferrer"
+        target="blank"
+        loading={btnLoading}>
+        Download Reports
+      </Button>
+    );
+  }, [btnLoading, user]);
+
+  const onSubmit = useCallback(
+    async (data) => {
+      // data.to = moment(data.to).endOf('date').format('YYYY-MM-DD HH:MM');
+      // data.from = moment(data.from).startOf('date').format('YYYY-MM-DD HH:MM');
+      // setTo(data.to);
+      // setFrom(data.from);
+
+      await setBtnLoading(true);
+      const d = await loadAPI(
+        `/client-return-reportsdownload/?cname=${user.id}&to=${moment(data.to)
+          .endOf('date')
+          .format('YYYY-MM-DD HH:MM')}&from=${moment(data.from)
+          .startOf('date')
+          .format('YYYY-MM-DD HH:MM')}`,
+      );
+      if (d.status === 403) {
+        notification.error({
+          message: 'Access Denied',
+          description: 'You do not have permissions to access this module.',
+        });
+      } else {
+        let hiddenElement = document.createElement('a');
+        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(d.data);
+        hiddenElement.target = '_blank';
+        hiddenElement.download = 'vp-report.csv';
+        hiddenElement.click();
+      }
+      setBtnLoading(false);
+    },
+    [to, from, btnLoading, user],
+  );
 
   // useEffect(() => {
   //   if (reqReturns) {
@@ -75,25 +93,6 @@ const AllotmentReport = ({currentPage, user}) => {
   //     setCsvData(csvd);
   //   }
   // }, [reqReturns]);
-
-  const columns = [
-    {
-      title: 'Sr. No.',
-      key: 'srno',
-      render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
-    },
-    ...returnColumns,
-  ];
-
-  const tabs = [
-    {
-      name: 'Return Dockets',
-      key: 'Return Dockets',
-      data: reqReturns || [],
-      columns,
-      loading,
-    },
-  ];
 
   return (
     <>
@@ -128,31 +127,17 @@ const AllotmentReport = ({currentPage, user}) => {
           </Col>
         </Row>
         <Row>
-          <Button type="primary" htmlType="submit">
-            Submit
+          <Button loading={btnLoading} type="primary" htmlType="submit">
+            Download Reports
           </Button>
         </Row>
       </Form>
-      <br />
-      <TableWithTabHoc
-        tabs={tabs}
-        size="middle"
-        title="Return Dockets"
-        hideRightButton
-        downloadLink={`${DEFAULT_BASE_URL}/return-reportsdownload/?to=${to}&from=${from}`}
-        rowKey="id"
-        expandHandleKey="kits"
-        ExpandBody={RetKitTable}
-        expandParams={{loading}}
-        // csvdata={csvData}
-        // csvname={'Allotments' + clientName + '.csv'}
-      />
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  return {currentPage: state.page.currentPage, user: state.user.userMeta};
+  return {user: state.user.userMeta};
 };
 
 export default connect(mapStateToProps)(AllotmentReport);
