@@ -433,15 +433,20 @@ export const clientRoutes = [
         path: '/reports/allotments/',
         Component: lazy(() => import('components/Reports/AllotmentClientSide.js')),
       },
-      // {
-      //   name: 'Returns',
-      //   path: '/reports/returns/',
-      //   Component: lazy(() => import('components/Reports/ReturnClientSide.js')),
-      // },
+      {
+        name: 'Returns',
+        path: '/reports/returns/',
+        Component: lazy(() => import('components/Reports/ReturnClientSide.js')),
+      },
       {
         name: 'Outwards',
         path: '/reports/outwards/',
         Component: lazy(() => import('components/Reports/OutwardClientSide.js')),
+      },
+      {
+        name: 'Floating',
+        path: '/reports/floating/',
+        Component: lazy(() => import('components/Reports/StockingClientSide.js')),
       },
     ],
   },
