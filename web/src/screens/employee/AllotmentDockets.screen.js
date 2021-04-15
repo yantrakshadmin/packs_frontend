@@ -70,6 +70,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
         vehicle_number: alt.vehicle_number,
         transport_by: alt.transport_by,
         is_delivered: alt.is_delivered,
+        document_available: alt.document_available,
       }));
       setReqData(reqD);
     }
@@ -124,6 +125,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
       width: '9vw',
       render: (text, record) => (
         <div className="row justify-evenly">
+          {console.log(record)}
           {/* <a */}
           {/*  href={`${DEFAULT_BASE_URL  }/delivered-docket/?pk=${record.id}`} */}
           {/*  target='_blank' */}
