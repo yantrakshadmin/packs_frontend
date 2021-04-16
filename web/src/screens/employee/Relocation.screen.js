@@ -10,7 +10,7 @@ import {RelocationForm} from 'forms/relocation.form';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import ExpandTable from 'components/ExpenseExpandTable';
 import {deleteHOC} from 'hocs/deleteHoc';
-import Delete from 'icons/Delete';
+import Delivery from 'icons/Delivery';
 import Edit from 'icons/Edit';
 import Download from 'icons/Download';
 import {yantraColors} from '../../helpers/yantraColors';
@@ -20,6 +20,7 @@ import FilesViewModal from '../../components/FilesViewModal';
 import DeleteWithPassword from '../../components/DeleteWithPassword';
 import {DEFAULT_PASSWORD} from 'common/constants/passwords';
 import NoPermissionAlert from 'components/NoPermissionAlert';
+import {DeliveredForm} from 'forms/relocationDelivered.form';
 
 import _ from 'lodash';
 
@@ -28,6 +29,8 @@ const {Search} = Input;
 const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [deliveryId, setDeliveryId] = useState(null);
+  const [TN, setTN] = useState(null);
 
   const {filteredData, loading, reload, hasPermission} = useTableSearch({
     searchVal,
@@ -36,6 +39,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
   //const {data: mrStatusData} = useAPI('list-mrstatus/');
   const cancelEditing = () => {
     setEditingId(null);
+    setDeliveryId(null);
   };
 
   const columns = [
@@ -66,28 +70,6 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
             documentAvail={record.bill ? (record.bill.length > 0 ? true : false) : false}
             getDocuments={() => record.bill}
           />
-          {/* <Button
-            style={{
-              backgroundColor: 'transparent',
-              border: 'none',
-              boxShadow: 'none',
-              padding: '1px',
-            }}
-            onClick={async (e) => {
-              e.stopPropagation();
-              try {
-                if (record.bill.length > 0) {
-                  record.bill.forEach((f) => {
-                    window.open(f.document);
-                  });
-                }
-              } catch (err) {}
-            }}>
-            <FontAwesomeIcon
-              icon={record.bill ? (record.bill.length > 0 ? faEye : faEyeSlash) : faEyeSlash}
-              style={{fontSize: 20, color: yantraColors['primary']}}
-            />
-          </Button> */}
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -96,6 +78,23 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
               padding: '1px',
             }}
             onClick={(e) => {
+              setEditingId(null);
+              setTN(record.transaction_no);
+              setDeliveryId(record.id);
+              e.stopPropagation();
+            }}
+            disabled={record.is_delivered ? true : false}>
+            <Delivery color={record.is_delivered ? '#7CFC00' : null} />
+          </Button>
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            onClick={(e) => {
+              setDeliveryId(null);
               setEditingId(record.id);
               e.stopPropagation();
             }}>
@@ -160,11 +159,11 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         tabs={tabs}
         size="middle"
         title="Relocation Docket"
-        editingId={editingId}
+        editingId={editingId || deliveryId}
         cancelEditing={cancelEditing}
-        modalBody={RelocationForm}
+        modalBody={deliveryId ? DeliveredForm : RelocationForm}
         modalWidth={80}
-        formParams={{isEmployee}}
+        formParams={{isEmployee, transaction_no: TN}}
         //expandHandleKey="transactions"
         //expandParams={{loading}}
         //ExpandBody={ExpandTable}
