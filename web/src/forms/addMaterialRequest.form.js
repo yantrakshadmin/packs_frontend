@@ -173,7 +173,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                             others: {
                               selectOptions: filterActive(_, flows) || [],
                               key: 'id',
-                              dataKeys: ['flow_name', 'flow_info', 'flow_type'],
+                              dataKeys: ['flow_info'],
                               customTitle: 'flow_name',
                               searchKeys: ['flow_info'],
                               formOptions: {
@@ -210,6 +210,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                               key: 'id',
                               dataKeys: ['kit_info', 'components_per_kit'],
                               customTitle: 'kit_name',
+                              customTitleInfo: 'kit_info',
                               searchKeys: ['kit_info', 'part_name', 'components_per_kit'],
                               formOptions: {
                                 ...field,

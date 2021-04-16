@@ -154,7 +154,10 @@ const FormItem = ({key, rules, kwargs, type, others, customLabel, noLabel}) => {
                 }
                 value={item.value || item[others.key] || item}>
                 {others.customTitle ? (
-                  <text style={{fontSize: 13, fontWeight: 'bold'}}>{item[others.customTitle]}</text>
+                  <text style={{fontSize: 13, fontWeight: 'bold'}}>
+                    {item[others.customTitle]}
+                    {others.customTitleInfo ? ` - ${item[others.customTitleInfo]}` : null}
+                  </text>
                 ) : (
                   item.label || item[others.key] || item
                 )}

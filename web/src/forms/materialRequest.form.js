@@ -152,7 +152,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
                             others: {
                               selectOptions: filterActive(_, flows) || [],
                               key: 'id',
-                              dataKeys: ['flow_name', 'flow_info', 'flow_type'],
+                              dataKeys: ['flow_info'],
                               customTitle: 'flow_name',
                               searchKeys: ['flow_info'],
                               formOptions: {

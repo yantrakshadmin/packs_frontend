@@ -11,6 +11,8 @@ import {
   outerRoutesClient,
 } from 'web/src/constants/routes';
 
+import {ADMIN_USERNAME_ARRAY} from 'web/src/constants/adminUsernames';
+
 import {PrivateRoutes} from 'components/PrivateRoutes';
 import {NotFound404Screen} from 'screens/404.screen';
 
@@ -30,7 +32,11 @@ const RootRouter = ({user}) => {
       case 'employee':
         return (
           <PrivateRoutes
-            routes={user.username === 'yantraksh' ? employeeRoutes : employeeRoutes.slice(0, -1)}
+            routes={
+              ADMIN_USERNAME_ARRAY.includes(user.username)
+                ? employeeRoutes
+                : employeeRoutes.slice(0, -1)
+            }
             extraRoutes={extraRoutesEmployee}
             outerRoutes={outerRoutesEmployee}
             user={user}
