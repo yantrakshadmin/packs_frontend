@@ -60,7 +60,7 @@ const StockingReport = ({currentPage}) => {
         </Row> */}
 
         <Row gutter={10}>
-          <Col span={2}>
+          {/* <Col span={2}>
             {formItem({
               key: 'select_all_clients',
               kwargs: {
@@ -71,7 +71,7 @@ const StockingReport = ({currentPage}) => {
               type: FORM_ELEMENT_TYPES.SWITCH,
               customLabel: 'Select All',
             })}
-          </Col>
+          </Col> */}
           {!selectAllClients ? (
             <Col span={10}>
               {formItem({

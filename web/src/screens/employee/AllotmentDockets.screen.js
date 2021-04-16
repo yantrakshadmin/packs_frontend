@@ -125,7 +125,6 @@ const AllotmentDocketsScreen = ({currentPage}) => {
       width: '9vw',
       render: (text, record) => (
         <div className="row justify-evenly">
-          {console.log(record)}
           {/* <a */}
           {/*  href={`${DEFAULT_BASE_URL  }/delivered-docket/?pk=${record.id}`} */}
           {/*  target='_blank' */}
@@ -196,7 +195,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
               setDeliveryId(record.id);
               e.stopPropagation();
             }}
-            disabled={record.is_delivered ? true : false}>
+            disabled={record.is_delivered && record.document_available ? true : false}>
             <Delivery color={record.is_delivered ? '#7CFC00' : null} />
           </Button>
           <Button

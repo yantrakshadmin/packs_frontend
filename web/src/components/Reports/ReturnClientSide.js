@@ -55,7 +55,7 @@ const AllotmentReport = ({currentPage, user}) => {
         let hiddenElement = document.createElement('a');
         hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(d.data);
         hiddenElement.target = '_blank';
-        hiddenElement.download = 'vp-report.csv';
+        hiddenElement.download = 'return-report.csv';
         hiddenElement.click();
       }
       setBtnLoading(false);
