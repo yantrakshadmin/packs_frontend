@@ -232,23 +232,33 @@ export const employeeRoutes = [
       {
         name: 'Sender Client',
         path: '/main-inventory/inventory-clients/',
-        Component: lazy(() => import('screens/employee/clientInventory.screen')),
+        Component: lazy(() => import('screens/employee/scInventoryMain.screen')),
       },
-      {
-        name: 'Sender Client II',
-        path: '/main-inventory/sc-inventory-2/',
-        Component: lazy(() => import('screens/employee/clientInventory2.screen')),
-      },
+      // {
+      //   name: 'Sender Client',
+      //   path: '/main-inventory/inventory-clients/',
+      //   Component: lazy(() => import('screens/employee/clientInventory.screen')),
+      // },
+      // {
+      //   name: 'Sender Client II',
+      //   path: '/main-inventory/sc-inventory-2/',
+      //   Component: lazy(() => import('screens/employee/clientInventory2.screen')),
+      // },
       {
         name: 'Receiver Client',
         path: '/main-inventory/inventory-rclients/',
-        Component: lazy(() => import('screens/employee/receiverClientInventory.screen')),
+        Component: lazy(() => import('screens/employee/rcInventoryMain.screen')),
       },
-      {
-        name: 'Receiver Client II',
-        path: '/main-inventory/rc-inventory-2/',
-        Component: lazy(() => import('screens/employee/receiverClientInventory2.screen')),
-      },
+      // {
+      //   name: 'Receiver Client',
+      //   path: '/main-inventory/inventory-rclients/',
+      //   Component: lazy(() => import('screens/employee/receiverClientInventory.screen')),
+      // },
+      // {
+      //   name: 'Receiver Client II',
+      //   path: '/main-inventory/rc-inventory-2/',
+      //   Component: lazy(() => import('screens/employee/receiverClientInventory2.screen')),
+      // },
       {
         name: 'Adjustments',
         path: '/main-inventory/adjustments/',

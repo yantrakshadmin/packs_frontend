@@ -156,7 +156,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                 {fields.map((field, index) => (
                   <Row align="middle">
                     {materialRequestFlowFormFields.slice(0, 1).map((item) => (
-                      <Col span={10}>
+                      <Col span={7}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -187,7 +187,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                       </Col>
                     ))}
                     {materialRequestFlowFormFields.slice(1, 2).map((item) => (
-                      <Col span={7}>
+                      <Col span={11}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -239,7 +239,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                         </div>
                       </Col>
                     ))}
-                    <Col span={3}>
+                    <Col span={2}>
                       <Button
                         // style={{ width: '9vw' }}
                         style={index != 0 ? {top: '-2vh'} : null}
