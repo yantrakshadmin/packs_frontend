@@ -111,7 +111,7 @@ export const TestInventoryScreen = () => {
             }}>
             Details
           </Button>
-          <Popconfirm
+          {/* <Popconfirm
             title="Confirm Delete"
             onCancel={(e) => e.stopPropagation()}
             onConfirm={deleteHOC({
@@ -131,7 +131,7 @@ export const TestInventoryScreen = () => {
               onClick={(e) => e.stopPropagation()}>
               <Delete />
             </Button>
-          </Popconfirm>
+          </Popconfirm> */}
         </div>
       ),
     },
@@ -157,7 +157,7 @@ export const TestInventoryScreen = () => {
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
       </div>
-      <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
+      {/* <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
         <Row align="middle" gutter={32}>
           <Col span={8}>
             {formItem({
@@ -194,7 +194,7 @@ export const TestInventoryScreen = () => {
             </Button>
           </Col>
         </Row>
-      </Form>
+      </Form> */}
 
       <Row gutter={32}>
         <Col lg={12}>
