@@ -71,7 +71,7 @@ const DemandModuleTable = ({id, loading, demand_flows}) => {
           ...record,
           req_kit_pm: _.ceil(record.monthly_quantity / record.components_per_kit),
           flow: record.flow.flow_name,
-          kit: record.kit.kit_name,
+          kit: `${record.kit.kit_name} - ${record.kit.kit_info}`,
           required_pool: _.ceil(
             (record.flow.flow_days / 30) * (record.monthly_quantity / record.components_per_kit),
           ),

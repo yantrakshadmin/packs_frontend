@@ -7,7 +7,9 @@ export default [
   {
     title: 'Kit Name',
     key: 'kit_name',
-    dataIndex: 'kit_name',
+    render: (text, record) => {
+      return `${record.kit_name} - ${record.kit_info}`;
+    },
   },
   {
     title: 'Quantity',
