@@ -6,16 +6,16 @@ import ProductLevel from './clientInventory2.screen';
 const ExpenseEmployeeScreen = () => {
   const tabs = [
     {
-      name: 'Kit Level',
-      key: 'kitLevel',
-      hasCustomModel: true,
-      CustomModel: KitLevel,
-    },
-    {
       name: 'Product Level',
       key: 'productLevel',
       hasCustomModel: true,
       CustomModel: ProductLevel,
+    },
+    {
+      name: 'Kit Level',
+      key: 'kitLevel',
+      hasCustomModel: true,
+      CustomModel: KitLevel,
     },
   ];
 

@@ -259,12 +259,12 @@ export const employeeRoutes = [
       //   path: '/main-inventory/rc-inventory-2/',
       //   Component: lazy(() => import('screens/employee/receiverClientInventory2.screen')),
       // },
-      {
-        name: 'Adjustments',
-        path: '/main-inventory/adjustments/',
-        Component: lazy(() => import('screens/employee/adjustmentInventory.screen')),
-        props: {isEmployee: true},
-      },
+      // {
+      //   name: 'Adjustments',
+      //   path: '/main-inventory/adjustments/',
+      //   Component: lazy(() => import('screens/employee/adjustmentInventory.screen')),
+      //   props: {isEmployee: true},
+      // },
     ],
   },
   {
