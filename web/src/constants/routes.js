@@ -2,6 +2,11 @@ import {lazy} from 'react';
 
 export const publicRoutes = [
   {Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')), path: '/'},
+  {Component: lazy(() => import('../components/forgetPassword')), path: '/forgot-password'},
+  {
+    Component: lazy(() => import('../components/confirmPassword')),
+    path: '/confirm-password/:uname',
+  },
   {
     Component: lazy(() => import('../components/SignUp/sign-up-client.component')),
     path: '/sign-up/client/',
@@ -74,7 +79,7 @@ export const outerRoutesClient = [
 export const extraRoutesEmployee = [
   {
     path: '/edit-profile/',
-    Component: lazy(() => import('screens/404.screen')),
+    Component: lazy(() => import('screens/employee/EditProfile.screen')),
   },
   {
     path: '/return-dockets/return/',
