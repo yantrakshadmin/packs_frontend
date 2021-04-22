@@ -11,7 +11,9 @@ const cols = [
   {
     title: 'Kit Name',
     key: 'kit',
-    dataIndex: 'kit',
+    render: (text, record) => {
+      return `${record.kit.kit_name} - ${record.kit.part_name}`;
+    },
   },
   {
     title: 'Quantity',

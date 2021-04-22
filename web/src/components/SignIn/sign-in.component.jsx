@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {Form, Button, Input, Checkbox, notification} from 'antd';
+import {Form, Button, Input, Checkbox, notification, Row, Col} from 'antd';
 import {ACCESS_TOKEN, REFRESH_TOKEN} from 'common/constants/storage';
 import {getJWTTokens} from 'common/api/auth';
 import {getUserMeta} from 'common/helpers/auth';
 import {useDispatch} from 'react-redux';
 import {connect} from 'react-redux';
+import {navigate} from '@reach/router';
 
 import './sign-in.styles.scss';
 
@@ -103,6 +104,13 @@ const SignIn = ({user}) => {
             </Button>
           </Form.Item>
         </Form>
+        <Row align="middle" justify="center">
+            <Col span={8}>
+            <Button type="link" onClick={() => {navigate('/forgot-password');}}>
+              Forgot Password?
+            </Button>
+            </Col>
+        </Row>
       </div>
     );
   }

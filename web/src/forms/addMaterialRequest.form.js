@@ -156,7 +156,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                 {fields.map((field, index) => (
                   <Row align="middle">
                     {materialRequestFlowFormFields.slice(0, 1).map((item) => (
-                      <Col span={10}>
+                      <Col span={7}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -173,7 +173,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                             others: {
                               selectOptions: filterActive(_, flows) || [],
                               key: 'id',
-                              dataKeys: ['flow_name', 'flow_info', 'flow_type'],
+                              dataKeys: ['flow_info'],
                               customTitle: 'flow_name',
                               searchKeys: ['flow_info'],
                               formOptions: {
@@ -187,7 +187,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                       </Col>
                     ))}
                     {materialRequestFlowFormFields.slice(1, 2).map((item) => (
-                      <Col span={7}>
+                      <Col span={11}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -210,6 +210,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                               key: 'id',
                               dataKeys: ['kit_info', 'components_per_kit'],
                               customTitle: 'kit_name',
+                              customTitleInfo: 'kit_info',
                               searchKeys: ['kit_info', 'part_name', 'components_per_kit'],
                               formOptions: {
                                 ...field,
@@ -238,7 +239,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                         </div>
                       </Col>
                     ))}
-                    <Col span={3}>
+                    <Col span={2}>
                       <Button
                         // style={{ width: '9vw' }}
                         style={index != 0 ? {top: '-2vh'} : null}

@@ -7,7 +7,7 @@ const cols = [
     title: 'Kit Name',
     key: 'kit_name',
     render: (text, record) => {
-      return record.kit;
+      return `${record.kit.kit_name} - ${record.kit.kit_info}`;
     },
   },
   {

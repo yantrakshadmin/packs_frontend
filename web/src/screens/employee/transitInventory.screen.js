@@ -37,35 +37,35 @@ const TransitInventoryScreen = ({currentPage}) => {
 
   const tabs = [
     {
-      name: 'Kit Level',
-      key: 'allotmentInTransit',
-      data: getReformattedAllotmentData(deliveredInTransit),
-      columns: transitInventoryAllotmentColumn,
-      dLoading,
-    },
-    {
       name: 'Product Level',
       key: 'allotmentPInTransit',
       data: getReformattedProductInfoData(deliveredPInTransit),
       columns: transitInventoryProductLevelColumn,
       dPLoading,
     },
+    {
+      name: 'Kit Level',
+      key: 'allotmentInTransit',
+      data: getReformattedAllotmentData(deliveredInTransit),
+      columns: transitInventoryAllotmentColumn,
+      dLoading,
+    },
   ];
 
   const tabs2 = [
-    {
-      name: 'Kit Level',
-      key: 'returnInTransit',
-      data: getReformattedReturnData(returnInTransit),
-      columns: transitInventoryReturnColumn,
-      rLoading,
-    },
     {
       name: 'Product Level',
       key: 'returnPInTransit',
       data: getReformattedProductInfoData(returnPInTransit),
       columns: transitInventoryProductLevelColumn,
       rPLoading,
+    },
+    {
+      name: 'Kit Level',
+      key: 'returnInTransit',
+      data: getReformattedReturnData(returnInTransit),
+      columns: transitInventoryReturnColumn,
+      rLoading,
     },
   ];
 

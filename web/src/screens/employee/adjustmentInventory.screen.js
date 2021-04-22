@@ -108,21 +108,21 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
 
   const tabs = [
     {
-      name: 'All Adjustments',
+      name: 'Warehouse Adjustments',
       key: 'allAdjustments',
       data: filteredData || [],
       columns,
       loading,
     },
-    {
-      name: 'Client Adjustments',
-      key: 'clientAdjustments',
-      hasCustomModel: true,
-      CustomModel: AdjustmentClientTab,
-      customModelProps: {
-        searchVal: searchVal,
-      },
-    },
+    // {
+    //   name: 'Client Adjustments',
+    //   key: 'clientAdjustments',
+    //   hasCustomModel: true,
+    //   CustomModel: AdjustmentClientTab,
+    //   customModelProps: {
+    //     searchVal: searchVal,
+    //   },
+    // },
   ];
 
   return (

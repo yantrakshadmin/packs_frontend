@@ -368,6 +368,22 @@ export const retrieveClientProfile = (id) =>
     secure: true,
   });
 
+export const editEmployeeProfile = (id, req) =>
+  loadAPI(`/emp-profile/${id}/`, {
+    method: 'PATCH',
+    secure: true,
+    data: req,
+    headers: {
+      'Content-Type': `multipart/form-data  boundary=${Math.random().toString().substr(2)}`,
+    },
+  });
+
+export const retrieveEmployeeProfile = (id) =>
+  loadAPI(`/emp-profile/${id}`, {
+    method: 'GET',
+    secure: true,
+  });
+
 export const createReceiverClient = ({name, city, address, emitter, pan, gst, active}) =>
   loadAPI('/create-receiverclient/', {
     method: 'POST',
@@ -1406,5 +1422,19 @@ export const editRelocation = (id, src) =>
 export const retrieveRelocationDocketData = (tno) =>
   loadAPI(`/relocation-template/?tno=${tno}`, {
     method: 'GET',
+    secure: false,
+  });
+
+export const forgotPassword = (src) =>
+  loadAPI('/password-reset/', {
+    method: 'POST',
+    data: src,
+    secure: false,
+  });
+
+export const confirmPassword = (src) =>
+  loadAPI('/password-reset/confirm/', {
+    method: 'POST',
+    data: src,
     secure: false,
   });

@@ -97,9 +97,9 @@ export const PREPSolutionRequiredFormFields = [
     key: 'mul_parts_single_pocket',
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
-      placeholder: 'Multiple Parts in Single Packet',
+      placeholder: 'Multiple Parts in Single Pocket',
     },
-    customLabel: 'Multiple Parts in Single Packet',
+    customLabel: 'Multiple Parts in Single Pocket',
     others: {
       formOptions: {noStyle: true},
     },

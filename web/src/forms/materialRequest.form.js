@@ -135,7 +135,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
                 {fields.map((field, index) => (
                   <Row align="middle">
                     {materialRequestFlowFormFields.slice(0, 1).map((item) => (
-                      <Col span={10}>
+                      <Col span={7}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -152,7 +152,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
                             others: {
                               selectOptions: filterActive(_, flows) || [],
                               key: 'id',
-                              dataKeys: ['flow_name', 'flow_info', 'flow_type'],
+                              dataKeys: ['flow_info'],
                               customTitle: 'flow_name',
                               searchKeys: ['flow_info'],
                               formOptions: {
@@ -166,7 +166,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
                       </Col>
                     ))}
                     {materialRequestFlowFormFields.slice(1, 2).map((item) => (
-                      <Col span={7}>
+                      <Col span={11}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -216,7 +216,7 @@ export const MaterialRequestForm = ({id, onCancel, onDone, isEmployee}) => {
                         </div>
                       </Col>
                     ))}
-                    <Col span={3}>
+                    <Col span={2}>
                       <Button
                         // style={{ width: '9vw' }}
                         style={index != 0 ? {top: '-2vh'} : null}
