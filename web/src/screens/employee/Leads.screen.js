@@ -13,6 +13,7 @@ import Edit from 'icons/Edit';
 import TableWithTabHOC from 'hocs/TableWithTab.hoc';
 import {LeadsForm} from 'forms/leads.form';
 import {PFEPMainForm} from 'forms/PFEP/PFEPMain.form';
+import {SCSMainForm} from 'forms/PFEP/SCSMain.form';
 import {UploadLeadForm} from 'forms/uploadLead.form';
 import {ActionsPopover} from 'components/ActionsPopover';
 import NoPermissionAlert from 'components/NoPermissionAlert';
@@ -24,6 +25,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
   const [visible, setVisible] = useState(false);
+  const [visibleSCS, setVisibleSCS] = useState(false);
   const [visibleUpload, setVisibleUpload] = useState(false);
   const [lead, setLead] = useState(null);
   const [popover, setPopover] = useState(false);
@@ -59,6 +61,16 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
             setPopover={setPopover}
             triggerTitle="Options"
             buttonList={[
+              {
+                Icon: DiffOutlined,
+                title: 'Create SCS (Beta)',
+                onClick: (e) => {
+                  setPopover(false);
+                  setLead(record.lead_no);
+                  setVisibleSCS(true);
+                  e.stopPropagation();
+                },
+              },
               {
                 Icon: DiffOutlined,
                 title: 'Create PFEP',
@@ -140,6 +152,27 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
         </div>
       </div>
       <br />
+      <Modal
+        maskClosable={false}
+        visible={visibleSCS}
+        destroyOnClose
+        style={{minWidth: `98vw`}}
+        title=""
+        onCancel={() => {
+          dispatch({type: CLEAN_PFEP_DATA});
+          setVisibleSCS(false);
+        }}
+        footer={null}>
+        <SCSMainForm
+          onCancel={() => {
+            setVisibleSCS(false);
+          }}
+          onDone={() => {
+            setVisibleSCS(false);
+          }}
+          lead={lead}
+        />
+      </Modal>
       <Modal
         maskClosable={false}
         visible={visible}

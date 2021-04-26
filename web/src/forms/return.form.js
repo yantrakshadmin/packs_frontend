@@ -357,11 +357,12 @@ const ReturnForm = ({location}) => {
                                   option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                               },
                               others: {
-                                selectOptions: kits || [],
+                                selectOptions: filterActive(_, kits) || [],
                                 key: 'id',
-                                dataKeys: ['kit_name'],
-                                customTitle: 'kit_info',
-                                searchKeys: ['kit_name'],
+                                //dataKeys: ['kit_name'],
+                                customTitle: 'kit_name',
+                                customTitleInfo: 'kit_info',
+                                searchKeys: ['kit_info'],
                                 formOptions: {
                                   ...field,
                                   name: [field.name, item.key],
