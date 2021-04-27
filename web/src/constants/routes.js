@@ -190,7 +190,7 @@ export const employeeRoutes = [
     name: 'Outward Docket',
     icon: ['fas', 'sign-out-alt'],
     path: '/outward-docket/',
-    Component: lazy(() => import('screens/client/outwardDocket.screen')),
+    Component: lazy(() => import('screens/employee/outwardDocket.screen')),
     props: {isEmployee: true},
   },
   {

@@ -20,7 +20,7 @@ const SCSBasicDetailsForm = ({id, onCancel, lead, onNext, active}) => {
   const submit = async (data) => {
     setLoading(true);
     await dispatch({
-      type: id ? ADD_PFEP_DATA : ADD_PFEP_BASIC_DATA,
+      type: ADD_PFEP_DATA,
       data: {...data, lead_no: lead},
     });
     setLoading(false);
