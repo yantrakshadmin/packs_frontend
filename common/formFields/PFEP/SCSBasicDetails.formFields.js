@@ -99,57 +99,57 @@ export const SCSProductDetailsFormFields = [
     },
     type: FORM_ELEMENT_TYPES.INPUT,
   },
-  {
-    key: 'volume_pm',
-    rules: [{required: true, message: 'Please enter Volume Per Month!'}],
-    kwargs: {
-      type: 'number',
-      placeholder: 'Volume Per Month',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Volume Per Month',
-  },
-  {
-    key: 'dispatch_frequency',
-    kwargs: {
-      placeholder: 'Dispatch Frequency',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Dispatch Frequency',
-  },
+  // {
+  //   key: 'volume_pm',
+  //   rules: [{required: true, message: 'Please enter Volume Per Month!'}],
+  //   kwargs: {
+  //     type: 'number',
+  //     placeholder: 'Volume Per Month',
+  //   },
+  //   type: FORM_ELEMENT_TYPES.INPUT,
+  //   customLabel: 'Volume Per Month',
+  // },
+  // {
+  //   key: 'dispatch_frequency',
+  //   kwargs: {
+  //     placeholder: 'Dispatch Frequency',
+  //   },
+  //   type: FORM_ELEMENT_TYPES.INPUT,
+  //   customLabel: 'Dispatch Frequency',
+  // },
 
-  {
-    key: 'highest_mv',
-    kwargs: {
-      placeholder: 'Highest Monthly Volume',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Highest Monthly Volume',
-  },
-  {
-    key: 'lowest_mv',
-    kwargs: {
-      placeholder: 'Lowest Monthly Volume',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Lowest Monthly Volume',
-  },
-  {
-    key: 'average_dispatchlotsize',
-    kwargs: {
-      placeholder: 'Average Dispatch Lot Size',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Average Dispatch Lot Size',
-  },
-  {
-    key: 'transportation_mode',
-    kwargs: {
-      placeholder: 'Current Transportation Mode',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Current Transportation Mode',
-  },
+  // {
+  //   key: 'highest_mv',
+  //   kwargs: {
+  //     placeholder: 'Highest Monthly Volume',
+  //   },
+  //   type: FORM_ELEMENT_TYPES.INPUT,
+  //   customLabel: 'Highest Monthly Volume',
+  // },
+  // {
+  //   key: 'lowest_mv',
+  //   kwargs: {
+  //     placeholder: 'Lowest Monthly Volume',
+  //   },
+  //   type: FORM_ELEMENT_TYPES.INPUT,
+  //   customLabel: 'Lowest Monthly Volume',
+  // },
+  // {
+  //   key: 'average_dispatchlotsize',
+  //   kwargs: {
+  //     placeholder: 'Average Dispatch Lot Size',
+  //   },
+  //   type: FORM_ELEMENT_TYPES.INPUT,
+  //   customLabel: 'Average Dispatch Lot Size',
+  // },
+  // {
+  //   key: 'transportation_mode',
+  //   kwargs: {
+  //     placeholder: 'Current Transportation Mode',
+  //   },
+  //   type: FORM_ELEMENT_TYPES.INPUT,
+  //   customLabel: 'Current Transportation Mode',
+  // },
   {
     key: 'critical_area',
     kwargs: {
@@ -196,7 +196,7 @@ export const SCSProductDetailsFormFields = [
     customLabel: 'Precautions or Special Measures?',
   },
   {
-    key: 'remarks',
+    key: 'remarks1',
     kwargs: {
       placeholder: 'Remark',
     },

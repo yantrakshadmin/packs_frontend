@@ -71,13 +71,13 @@ const SCSBasicDetailsForm = ({id, onCancel, lead, onNext, active}) => {
               </div>
             </Col>
           ))}
-          <Col span={24}>
+          <Col span={6}>
             <div className="p-2">
               {formItem({
-                key: 'bill',
+                key: 'fileA',
                 type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
-                customLabel: 'Upload Bill',
-                rules: [{required: id ? false : true, message: 'Please upload bill!'}],
+                customLabel: 'Upload Files',
+                rules: [{required: id ? false : true, message: 'Please upload Files!'}],
                 kwargs: {
                   placeholder: 'Upload',
                   multiple: true,

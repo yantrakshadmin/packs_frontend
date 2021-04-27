@@ -40,7 +40,7 @@ export const PFEPStockKeepingForm = ({id, onCancel, onDone, onNext, active}) => 
         autoComplete="off">
         <Divider orientation="left">Stock Keeping</Divider>
 
-        <Form.List name="insert_types">
+        <Form.List name="sks">
           {(fields, {add, remove}) => {
             return (
               <>
@@ -75,6 +75,7 @@ export const PFEPStockKeepingForm = ({id, onCancel, onDone, onNext, active}) => 
                     </Row>
                   </Card>
                 ))}
+                <br />
                 <Form.Item>
                   <Button
                     type="dashed"
@@ -82,7 +83,7 @@ export const PFEPStockKeepingForm = ({id, onCancel, onDone, onNext, active}) => 
                       add();
                     }}
                     block>
-                    <PlusOutlined /> Add Insert Type
+                    <PlusOutlined /> Add
                   </Button>
                 </Form.Item>
               </>

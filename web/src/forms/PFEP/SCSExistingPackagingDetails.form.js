@@ -69,131 +69,132 @@ export const PFEPProductDetailsForm = ({id, onCancel, active, onNext}) => {
               </div>
             </Col>
           ))}
-          {newPack
-            ? Row01FF.slice(1, 2).map((item, idx) => (
+        </Row>
+
+        {newPack ? (
+          <>
+            <Row style={{justifyContent: 'left'}}>
+              {Row02FF.slice(0, 1).map((item, idx) => (
+                <Col span={6}>
+                  <div key={idx.toString()} className="p-2">
+                    {formItem({
+                      ...item,
+                      kwargs: {
+                        ...item.kwargs,
+                        onChange: (v) => {
+                          setInnerPart(v);
+                        },
+                      },
+                    })}
+                  </div>
+                </Col>
+              ))}
+            </Row>
+            {innerPart ? (
+              <Form.List name="insert_types">
+                {(fields, {add, remove}) => {
+                  return (
+                    <div>
+                      {fields.map((field, index) => (
+                        <Row align="middle">
+                          <Col span={3}>
+                            <Button
+                              type="danger"
+                              style={index !== 0 ? {top: '-2vh'} : null}
+                              block
+                              disabled>
+                              {`Insert Type ${index + 1}`}
+                            </Button>
+                          </Col>
+                          {Row02FF.slice(1).map((item) => (
+                            <Col span={item.colSpan}>
+                              <div className="p-2">
+                                {formItem({
+                                  ...item,
+                                  noLabel: index !== 0,
+                                  form,
+                                  others: {
+                                    formOptions: {
+                                      ...field,
+                                      name: [field.name, item.key],
+                                      fieldKey: [field.fieldKey, item.key],
+                                    },
+                                  },
+                                })}
+                              </div>
+                            </Col>
+                          ))}
+                          <Col span={1}>
+                            <Button
+                              type="danger"
+                              style={index !== 0 ? {top: '-2vh'} : null}
+                              onClick={() => {
+                                remove(field.name);
+                              }}
+                              block>
+                              <MinusCircleOutlined />
+                            </Button>
+                          </Col>
+                        </Row>
+                      ))}
+                      <Form.Item>
+                        <Button
+                          type="dashed"
+                          onClick={() => {
+                            add();
+                          }}
+                          block>
+                          <PlusOutlined /> Add Insert Type
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  );
+                }}
+              </Form.List>
+            ) : null}
+
+            <Divider orientation="left" />
+
+            <Row style={{justifyContent: 'left'}}>
+              {Row01FF.slice(1, 2).map((item, idx) => (
                 <Col span={6}>
                   <div key={idx.toString()} className="p-2">
                     {formItem(item)}
                   </div>
                 </Col>
-              ))
-            : null}
-        </Row>
-
-        <Row style={{justifyContent: 'left'}}>
-          {Row02FF.slice(0, 1).map((item, idx) => (
-            <Col span={6}>
-              <div key={idx.toString()} className="p-2">
-                {formItem({
-                  ...item,
-                  kwargs: {
-                    ...item.kwargs,
-                    onChange: (v) => {
-                      setInnerPart(v);
+              ))}
+              {Row03FF.map((item, idx) => (
+                <Col span={6}>
+                  <div key={idx.toString()} className="p-2">
+                    {formItem(item)}
+                  </div>
+                </Col>
+              ))}
+              <Col span={6}>
+                <div className="p-2">
+                  {formItem({
+                    key: 'fileB',
+                    type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
+                    customLabel: 'Upload Files',
+                    rules: [{required: id ? false : true, message: 'Please upload Files!'}],
+                    kwargs: {
+                      placeholder: 'Upload',
+                      multiple: true,
+                      onChange(info) {
+                        const {fileList} = info;
+                        fileList.forEach((f) => {
+                          if (f.status === 'error') {
+                            message.error(`${f.name} file upload failed.`);
+                          }
+                        });
+                      },
                     },
-                  },
-                })}
-              </div>
-            </Col>
-          ))}
-        </Row>
-
-        {innerPart ? (
-          <Form.List name="insert_types">
-            {(fields, {add, remove}) => {
-              return (
-                <div>
-                  {fields.map((field, index) => (
-                    <Row align="middle">
-                      <Col span={3}>
-                        <Button
-                          type="danger"
-                          style={index !== 0 ? {top: '-2vh'} : null}
-                          block
-                          disabled>
-                          {`Insert Type ${index + 1}`}
-                        </Button>
-                      </Col>
-                      {Row02FF.slice(1).map((item) => (
-                        <Col span={item.colSpan}>
-                          <div className="p-2">
-                            {formItem({
-                              ...item,
-                              noLabel: index !== 0,
-                              form,
-                              others: {
-                                formOptions: {
-                                  ...field,
-                                  name: [field.name, item.key],
-                                  fieldKey: [field.fieldKey, item.key],
-                                },
-                              },
-                            })}
-                          </div>
-                        </Col>
-                      ))}
-                      <Col span={1}>
-                        <Button
-                          type="danger"
-                          style={index !== 0 ? {top: '-2vh'} : null}
-                          onClick={() => {
-                            remove(field.name);
-                          }}
-                          block>
-                          <MinusCircleOutlined />
-                        </Button>
-                      </Col>
-                    </Row>
-                  ))}
-                  <Form.Item>
-                    <Button
-                      type="dashed"
-                      onClick={() => {
-                        add();
-                      }}
-                      block>
-                      <PlusOutlined /> Add Insert Type
-                    </Button>
-                  </Form.Item>
+                  })}
                 </div>
-              );
-            }}
-          </Form.List>
+              </Col>
+            </Row>
+          </>
         ) : null}
-
-        <Divider orientation="left" />
-
-        <Row style={{justifyContent: 'left'}}>
-          {Row03FF.map((item, idx) => (
-            <Col span={6}>
-              <div key={idx.toString()} className="p-2">
-                {formItem(item)}
-              </div>
-            </Col>
-          ))}
-          <Col span={24}>
-            <div className="p-2">
-              {formItem({
-                key: 'bill',
-                type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
-                customLabel: 'Upload Bill',
-                rules: [{required: id ? false : true, message: 'Please upload bill!'}],
-                kwargs: {
-                  placeholder: 'Upload',
-                  multiple: true,
-                  onChange(info) {
-                    const {fileList} = info;
-                    fileList.forEach((f) => {
-                      if (f.status === 'error') {
-                        message.error(`${f.name} file upload failed.`);
-                      }
-                    });
-                  },
-                },
-              })}
-            </div>
-          </Col>
-        </Row>
 
         <Row justify="space-between">
           <div className="row">
