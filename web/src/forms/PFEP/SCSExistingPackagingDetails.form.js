@@ -71,7 +71,7 @@ export const PFEPProductDetailsForm = ({id, onCancel, active, onNext}) => {
           ))}
         </Row>
 
-        {newPack ? (
+        {!newPack ? (
           <>
             <Row style={{justifyContent: 'left'}}>
               {Row02FF.slice(0, 1).map((item, idx) => (
