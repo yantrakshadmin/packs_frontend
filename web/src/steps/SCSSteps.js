@@ -16,11 +16,11 @@ export const SCSSteps = [
     icon: 'file-protect',
     component: lazy(() => import('web/src/forms/PFEP/SCSExistingPackagingDetails.form')),
   },
-  //   {
-  //     title: 'Solution Required',
-  //     icon: 'user-add',
-  //     component: lazy(() => import('web/src/forms/PFEP/PFEPSolutionRequired.form')),
-  //   },
+  {
+    title: 'Solution Required',
+    icon: 'user-add',
+    component: lazy(() => import('web/src/forms/PFEP/SCSSolutionRequired.form')),
+  },
   //   {
   //     title: 'Status',
   //     icon: 'file-protect',

@@ -194,10 +194,11 @@ export const Row03FF = [
     customLabel: 'Price Per Unit',
   },
   {
-    key: 'remarks1',
+    key: 'remarks2',
     kwargs: {
       placeholder: 'Remark',
     },
+    customLabel: 'Remarks',
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
   },
