@@ -45,10 +45,13 @@ export const PFEPProductDetailsForm = ({id, onCancel, active, onNext}) => {
   }, [active]);
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Product Details Form</Divider>
+      <Divider orientation="left">Packaging Details</Divider>
       <Form
         onFinish={submit}
-        initialValues={{...state, np_ef: state.np_ef ? state.np_ef : 'New Part'}}
+        initialValues={{
+          ...state,
+          current_packaging: state.current_packaging ? state.current_packaging : 'Returnable',
+        }}
         form={form}
         layout="vertical"
         // hideRequiredMark
@@ -176,7 +179,7 @@ export const PFEPProductDetailsForm = ({id, onCancel, active, onNext}) => {
                     key: 'fileB',
                     type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
                     customLabel: 'Upload Files',
-                    rules: [{required: id ? false : true, message: 'Please upload Files!'}],
+                    //rules: [{required: id ? false : true, message: 'Please upload Files!'}],
                     kwargs: {
                       placeholder: 'Upload',
                       multiple: true,

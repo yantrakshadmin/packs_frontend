@@ -210,7 +210,21 @@ export const employeeRoutes = [
     name: 'GRN',
     icon: ['fas', 'cart-arrow-down'],
     path: '/grn/',
-    Component: lazy(() => import('screens/employee/GRN.screen')),
+    isSubMenu: true,
+    subMenu: [
+      {
+        name: 'GRN',
+        path: '/grn/grns',
+        Component: lazy(() => import('screens/employee/GRN.screen')),
+        props: {isEmployee: true},
+      },
+      {
+        name: 'Regenerate GRN',
+        path: '/grn/regenerate-grn',
+        Component: lazy(() => import('screens/employee/GRNStuff/RegenerateGRN.screen')),
+        props: {isEmployee: true},
+      },
+    ],
   },
   // {
   //   name: 'Inventory',
