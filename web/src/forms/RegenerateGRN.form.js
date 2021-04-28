@@ -76,7 +76,7 @@ export const GRNForm = ({id, onCancel, onDone}) => {
                 {fields.map((field, index) => (
                   <Row align="middle">
                     {GRNItemFormFields.slice(0, 1).map((item) => (
-                      <Col span={5}>
+                      <Col span={7}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -103,8 +103,8 @@ export const GRNForm = ({id, onCancel, onDone}) => {
                         </div>
                       </Col>
                     ))}
-                    {GRNItemFormFields.slice(1, 4).map((item) => (
-                      <Col span={5}>
+                    {GRNItemFormFields.slice(1, 2).map((item) => (
+                      <Col span={7}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -120,14 +120,33 @@ export const GRNForm = ({id, onCancel, onDone}) => {
                         </div>
                       </Col>
                     ))}
-                    <Button
-                      type="danger"
-                      style={index != 0 ? {top: '-2vh'} : null}
-                      onClick={() => {
-                        remove(field.name);
-                      }}>
-                      <MinusCircleOutlined /> Delete
-                    </Button>
+                    {GRNItemFormFields.slice(3).map((item) => (
+                      <Col span={7}>
+                        <div className="p-2">
+                          {formItem({
+                            ...item,
+                            noLabel: index != 0,
+                            others: {
+                              formOptions: {
+                                ...field,
+                                name: [field.name, item.key],
+                                fieldKey: [field.fieldKey, item.key],
+                              },
+                            },
+                          })}
+                        </div>
+                      </Col>
+                    ))}
+                    <Col span={3}>
+                      <Button
+                        type="danger"
+                        style={index != 0 ? {top: '-2vh'} : null}
+                        onClick={() => {
+                          remove(field.name);
+                        }}>
+                        <MinusCircleOutlined /> Delete
+                      </Button>
+                    </Col>
                   </Row>
                 ))}
                 <Form.Item>
