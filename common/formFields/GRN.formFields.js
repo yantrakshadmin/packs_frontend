@@ -173,7 +173,7 @@ export const GRNItemFormFields = [
     kwargs: {
       placeholder: 'Enter',
       type: 'number',
-      min : 0,
+      min: 0,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -200,5 +200,26 @@ export const GRNItemFormFields = [
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     customLabel: 'Label Name',
+  },
+];
+
+export const RegenerateGRNFields01 = [
+  {
+    key: 'date',
+    type: FORM_ELEMENT_TYPES.DATE,
+    others: {
+      style: {width: '100%'},
+    },
+    customLabel: 'Date',
+  },
+  {
+    key: 'warehouse',
+    rules: [{required: true, message: 'Please select warehouse!'}],
+    kwargs: {
+      placeholder: 'Select',
+    },
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: null,
+    customLabel: 'Warehouse',
   },
 ];

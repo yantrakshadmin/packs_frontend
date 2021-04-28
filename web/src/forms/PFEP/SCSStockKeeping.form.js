@@ -38,7 +38,7 @@ export const PFEPStockKeepingForm = ({id, onCancel, onDone, onNext, active}) => 
         layout="vertical"
         // hideRequiredMark
         autoComplete="off">
-        <Divider orientation="left">Stock Keeping</Divider>
+        <Divider orientation="left">Supply chain details</Divider>
 
         <Form.List name="sks">
           {(fields, {add, remove}) => {

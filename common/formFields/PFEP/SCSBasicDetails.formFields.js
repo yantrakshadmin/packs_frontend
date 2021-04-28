@@ -48,7 +48,7 @@ export const SCSBasicDetailsFormFields = [
 export const SCSProductDetailsFormFields = [
   {
     key: 'part_name',
-    rules: [{required: true, message: 'Please enter Part Name!'}],
+    //rules: [{required: true, message: 'Please enter Part Name!'}],
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     kwargs: {
@@ -66,7 +66,7 @@ export const SCSProductDetailsFormFields = [
   },
   {
     key: 'weight',
-    rules: [{required: true, message: 'Please enter Weight(Kgs) !'}],
+    //rules: [{required: true, message: 'Please enter Weight(Kgs) !'}],
     kwargs: {
       type: 'number',
       placeholder: 'Weight',

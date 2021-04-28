@@ -62,7 +62,7 @@ const SCSBasicDetailsForm = ({id, onCancel, lead, onNext, active}) => {
             </Col>
           ))}
         </Row>
-        <Divider orientation="left">SCS Creation</Divider>
+        <Divider orientation="left">Part Details</Divider>
         <Row style={{justifyContent: 'left'}}>
           {SCSProductDetailsFormFields.map((item, idx) => (
             <Col span={8}>
@@ -77,7 +77,7 @@ const SCSBasicDetailsForm = ({id, onCancel, lead, onNext, active}) => {
                 key: 'fileA',
                 type: FORM_ELEMENT_TYPES.FILE_DRAG_DROP,
                 customLabel: 'Upload Files',
-                rules: [{required: id ? false : true, message: 'Please upload Files!'}],
+                //rules: [{required: id ? false : true, message: 'Please upload Files!'}],
                 kwargs: {
                   placeholder: 'Upload',
                   multiple: true,
