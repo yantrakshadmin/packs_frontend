@@ -37,10 +37,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
   const user = useSelector((s) => s.user.userMeta.id);
   console.log(user, isEmployee, 'Props');
 
-  const {data: outwards, loading, reload, status} = useAPI(
-    isEmployee ? 'emp-outwards/' : '/outwards/',
-    {},
-  );
+  const {data: outwards, loading, reload, status} = useAPI('emp-outwards/', {});
   const {filteredData} = useTableSearch({
     searchVal,
     reqData,
@@ -83,6 +80,14 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
       width: 400,
       filters: GetUniqueValue(filteredData || [], 'sending_location'),
       onFilter: (value, record) => record.sending_location === value,
+    },
+    {
+      title: 'Sender Client',
+      dataIndex: 'owner',
+      key: 'owner',
+      width: 400,
+      filters: GetUniqueValue(filteredData || [], 'owner'),
+      onFilter: (value, record) => record.owner === value,
     },
     // {
     //   title: 'Sender Client',

@@ -42,9 +42,9 @@ const MaterialRequestEmployeeScreen = ({currentPage, isEmployee}) => {
                 backgroundColor: '#00FF00',
                 outline: 'none',
                 border: 'none',
-                borderRadius: '7%',
               }}
-              onClick={(e) => e.stopPropagation()}>
+              onClick={(e) => e.stopPropagation()}
+              block>
               Allocated
             </Button>
           );
@@ -56,10 +56,10 @@ const MaterialRequestEmployeeScreen = ({currentPage, isEmployee}) => {
                 backgroundColor: 'red',
                 outline: 'none',
                 border: 'none',
-                borderRadius: '7%',
                 color: 'rgba(255,255,255,0.9)',
               }}
-              onClick={(e) => e.stopPropagation()}>
+              onClick={(e) => e.stopPropagation()}
+              block>
               Pending
               {'  '}
             </Button>
@@ -87,7 +87,7 @@ const MaterialRequestEmployeeScreen = ({currentPage, isEmployee}) => {
             //     Rejected
             //   </Button>
             // </Popover>
-            <Button type="primary" danger>
+            <Button type="primary" danger block>
               Rejected
             </Button>
           );
@@ -95,36 +95,36 @@ const MaterialRequestEmployeeScreen = ({currentPage, isEmployee}) => {
         return <div />;
       },
     },
-    {
-      title: 'Reason',
-      key: 'reason',
-      className: 'align-center',
-      render: (text, record) => {
-        if (record.is_allocated && !record.is_rejected) return '-';
-        if (!record.is_allocated && !record.is_rejected) {
-          return '-';
-        }
-        if (!record.is_allocated && record.is_rejected) {
-          return record.reason;
-        }
-        return <div />;
-      },
-    },
-    {
-      title: 'Remarks',
-      key: 'remarks',
-      className: 'align-center',
-      render: (text, record) => {
-        if (record.is_allocated && !record.is_rejected) return '-';
-        if (!record.is_allocated && !record.is_rejected) {
-          return '-';
-        }
-        if (!record.is_allocated && record.is_rejected) {
-          return record.remarks;
-        }
-        return <div />;
-      },
-    },
+    // {
+    //   title: 'Reason',
+    //   key: 'reason',
+    //   className: 'align-center',
+    //   render: (text, record) => {
+    //     if (record.is_allocated && !record.is_rejected) return '-';
+    //     if (!record.is_allocated && !record.is_rejected) {
+    //       return '-';
+    //     }
+    //     if (!record.is_allocated && record.is_rejected) {
+    //       return record.reason;
+    //     }
+    //     return <div />;
+    //   },
+    // },
+    // {
+    //   title: 'Remarks',
+    //   key: 'remarks',
+    //   className: 'align-center',
+    //   render: (text, record) => {
+    //     if (record.is_allocated && !record.is_rejected) return '-';
+    //     if (!record.is_allocated && !record.is_rejected) {
+    //       return '-';
+    //     }
+    //     if (!record.is_allocated && record.is_rejected) {
+    //       return record.remarks;
+    //     }
+    //     return <div />;
+    //   },
+    // },
     // {
     //   title:'Request Status',
     //   key:'is_rejected',

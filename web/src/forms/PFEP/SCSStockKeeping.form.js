@@ -45,7 +45,7 @@ export const PFEPStockKeepingForm = ({id, onCancel, onDone, onNext, active}) => 
             return (
               <>
                 {fields.map((field, index) => (
-                  <Card>
+                  <Card title={`Flow ${index + 1}`}>
                     <Row gutter={5} align="middle">
                       {Row01FF.map((item) => (
                         <Col span={item.colSpan}>
