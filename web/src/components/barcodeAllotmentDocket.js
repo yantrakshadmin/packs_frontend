@@ -18,14 +18,6 @@ export const BarcodeAllotmentDocket = ({transaction, allot, setVisible}) => {
   );
   const [inputValue, setInputValue] = useState('');
 
-  // useEffect(() => {
-  //   console.log(barcodes);
-  // }, [barcodes]);
-
-  // useEffect(() => {
-  //   console.log(productDetails);
-  // }, [productDetails]);
-
   useEffect(() => {
     if (!altLoading && fetchedBarcodes) {
       setEditId(fetchedBarcodes.id);
@@ -92,6 +84,7 @@ export const BarcodeAllotmentDocket = ({transaction, allot, setVisible}) => {
       newArr.push({
         product: key,
         quantity: productDetails[key],
+        total_limit: limitsData[key],
       }),
     );
     return newArr;
@@ -104,9 +97,14 @@ export const BarcodeAllotmentDocket = ({transaction, allot, setVisible}) => {
       key: 'product',
     },
     {
-      title: 'Quantity',
+      title: 'Scanned Quantity',
       dataIndex: 'quantity',
       key: 'quantity',
+    },
+    {
+      title: 'Alloted Quantity',
+      dataIndex: 'total_limit',
+      key: 'total_limit',
     },
   ];
 
