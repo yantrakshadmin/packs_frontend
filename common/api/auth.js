@@ -1144,6 +1144,14 @@ export const postAltBarcodes = (data) => {
   });
 };
 
+export const patchAltBarcodes = (data, id) => {
+  return loadAPI(`/dispatch-allotment-upd/${id}/`, {
+    method: 'PATCH',
+    secure: true,
+    data,
+  });
+};
+
 export const postReturnBarcodes = (data) => {
   return loadAPI('dispatch-return/', {
     method: 'POST',

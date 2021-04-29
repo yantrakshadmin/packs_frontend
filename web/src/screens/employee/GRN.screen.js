@@ -201,7 +201,7 @@ const KitEmployeeScreen = ({currentPage}) => {
               <Delete />
             </Button>
           </Popconfirm> */}
-          <DeleteWithPassword
+          {/* <DeleteWithPassword
             password={DEFAULT_PASSWORD}
             deleteHOC={deleteHOC({
               record,
@@ -210,7 +210,7 @@ const KitEmployeeScreen = ({currentPage}) => {
               success: 'Deleted GRN successfully',
               failure: 'Error in deleting GRN',
             })}
-          />
+          /> */}
         </div>
       ),
     },

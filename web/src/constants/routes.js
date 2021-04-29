@@ -219,7 +219,7 @@ export const employeeRoutes = [
         props: {isEmployee: true},
       },
       {
-        name: 'Regenerate GRN',
+        name: 'Regenerate Barcodes',
         path: '/grn/regenerate-grn',
         Component: lazy(() => import('screens/employee/GRNStuff/RegenerateGRN.screen')),
         props: {isEmployee: true},
