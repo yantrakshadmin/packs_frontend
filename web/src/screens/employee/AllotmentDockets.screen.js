@@ -108,7 +108,8 @@ const AllotmentDocketsScreen = ({currentPage}) => {
             <FontAwesomeIcon
               className="mx-2 icon-bg"
               icon={faBarcode}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 setTN(record.transaction_no);
                 setAltId(record.id);
                 setVisible(true);

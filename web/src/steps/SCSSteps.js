@@ -7,7 +7,7 @@ export const SCSSteps = [
     component: lazy(() => import('web/src/forms/PFEP/SCSBasicDetails.form')),
   },
   {
-    title: 'Stock Keeping',
+    title: 'Supply Chain Study (SCS)',
     icon: 'solution',
     component: lazy(() => import('web/src/forms/PFEP/SCSStockKeeping.form')),
   },

@@ -129,7 +129,7 @@ const KitEmployeeScreen = ({currentPage}) => {
               <Document />
             </Button>
           </a>
-          <Button
+          {/* <Button
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -148,9 +148,9 @@ const KitEmployeeScreen = ({currentPage}) => {
               }
             }}>
             <Download />
-          </Button>
+          </Button> */}
           <a
-            href={`${DEFAULT_BASE_URL}/print-barcodes/${record.id}/`}
+            href={`${DEFAULT_BASE_URL}/print-rebarcodes/${record.id}/`}
             target="_blank"
             rel="noopener noreferrer">
             <Button
@@ -177,7 +177,7 @@ const KitEmployeeScreen = ({currentPage}) => {
             }}>
             <Edit />
           </Button>
-          <DeleteWithPassword
+          {/* <DeleteWithPassword
             password={DEFAULT_PASSWORD}
             deleteHOC={deleteHOC({
               record,
@@ -186,7 +186,7 @@ const KitEmployeeScreen = ({currentPage}) => {
               success: 'Deleted GRN successfully',
               failure: 'Error in deleting GRN',
             })}
-          />
+          /> */}
         </div>
       ),
     },
@@ -194,7 +194,7 @@ const KitEmployeeScreen = ({currentPage}) => {
 
   const tabs = [
     {
-      name: 'Regenerated GRNs',
+      name: 'Regenerated Barcodes',
       key: 'allGRNs',
       data: filteredData,
       columns,
@@ -215,7 +215,7 @@ const KitEmployeeScreen = ({currentPage}) => {
         refresh={reload}
         tabs={tabs}
         size="middle"
-        title="Regenerate GRN"
+        title="Regenerate Barcode"
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={GRNForm}
