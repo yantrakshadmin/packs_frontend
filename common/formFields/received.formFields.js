@@ -49,12 +49,18 @@ export const ReceivedProductFormFields = [
     key: 'quantity',
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
-    customLabel: 'Quantity',
+    customLabel: 'Received Quantity',
   },
   {
     key: 'fault',
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
     customLabel: 'Fault',
+  },
+  {
+    key: 'actual_quantity',
+    type: FORM_ELEMENT_TYPES.INPUT,
+    others: null,
+    customLabel: 'Actual Quantity',
   },
 ];

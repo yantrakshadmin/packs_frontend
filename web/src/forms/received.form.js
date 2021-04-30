@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import {Button, Col, Divider, Form, message, Row, Spin} from 'antd';
 import {ReceivedFormFields, ReceivedProductFormFields} from 'common/formFields/received.formFields';
+import {loadAPI} from 'common/helpers/api';
 import {useHandleForm} from 'hooks/form';
 import {
   createReceived,
@@ -11,14 +12,17 @@ import {
 } from 'common/api/auth';
 import {MinusCircleOutlined, PlusOutlined} from '@ant-design/icons';
 import formItem from '../hocs/formItem.hoc';
+import _ from 'lodash';
 
 export const ReceivedForm = ({id, onCancel, onDone}) => {
   const [loading, setLoading] = useState(true);
-  const [received, setReceived] = useState(false);
+  const [received, setReceived] = useState(true);
   const [reqFile, setFile] = useState(null);
   const [returnn, setReturn] = useState(null);
   const [products, setProducts] = useState(null);
   const [receivedId, setReceivedId] = useState(null);
+
+  const [limitsData, setLimitsData] = useState({});
 
   const {form, submit} = useHandleForm({
     create: createReceived,
@@ -31,6 +35,18 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
     id: receivedId,
     dates: ['receiving_date'],
   });
+
+  console.log(received);
+
+  useEffect(() => {
+    const fetch = async () => {
+      if (id) {
+        const {data} = await loadAPI(`dispatch-return-validate/?id=${id}`);
+        setLimitsData(data);
+      }
+    };
+    fetch();
+  }, [id]);
 
   useEffect(() => {
     const fetchDelivered = async () => {
@@ -59,7 +75,7 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
         if (reqdlvd) {
           setReturn(reqdlvd);
         } else {
-          form.setFieldsValue({delivered: true});
+          //form.setFieldsValue({delivered: true});
         }
       }
       // if (data) {
@@ -226,10 +242,43 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
       submit(finalData);
     }
   };
+
+  const handleFieldsChange = useCallback(
+    (data) => {
+      if (data[0]) {
+        if (data[0].name) {
+          const thisField = data[0].name[0];
+          if (thisField === 'delivered') {
+            if (data[0].value === false) {
+              const temp = [];
+              _.values(limitsData).forEach((v) => {
+                temp.push({
+                  product: v[1],
+                  actual_quantity: v[0],
+                });
+              });
+              form.setFieldsValue({items: temp});
+            } else {
+              form.setFieldsValue({items: []});
+            }
+          }
+        }
+      }
+    },
+    [form, limitsData],
+  );
+
   return (
     <Spin spinning={loading}>
       <Divider orientation="left">Delivery Details</Divider>
-      <Form onFinish={preProcess} form={form} layout="vertical" hideRequiredMark autoComplete="off">
+      <Form
+        onFinish={preProcess}
+        form={form}
+        layout="vertical"
+        hideRequiredMark
+        autoComplete="off"
+        initialValues={{delivered: true}}
+        onFieldsChange={handleFieldsChange}>
         <Row style={{justifyContent: 'left'}}>
           {ReceivedFormFields.slice(0, 1).map((item, idx) => (
             <Col span={6}>
@@ -292,7 +341,6 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
           ))}
         </Row>
         <Divider orientation="left">Discrepancy Details</Divider>
-
         <Form.List name="items">
           {(fields, {add, remove}) => {
             return (
@@ -300,15 +348,14 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
                 {fields.map((field, index) => (
                   <Row align="middle">
                     {ReceivedProductFormFields.slice(0, 1).map((item) => (
-                      <Col span={7}>
+                      <Col span={6}>
                         <div className="p-2">
                           {formItem({
                             ...item,
                             noLabel: index != 0,
                             kwargs: {
                               placeholder: 'Select',
-                              type: 'number',
-                              disabled: received,
+                              disabled: true,
                               showSearch: true,
                               filterOption: (input, option) =>
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
@@ -316,8 +363,29 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
                             others: {
                               selectOptions: products || [],
                               key: 'id',
-                              dataKeys: ['short_code', 'description', 'category'],
-                              customTitle: 'name',
+                              customTitle: 'short_code',
+                              formOptions: {
+                                ...field,
+                                name: [field.name, item.key],
+                                fieldKey: [field.fieldKey, item.key],
+                              },
+                            },
+                          })}
+                        </div>
+                      </Col>
+                    ))}
+                    {ReceivedProductFormFields.slice(3, 4).map((item) => (
+                      <Col span={5}>
+                        <div className="p-2">
+                          {formItem({
+                            ...item,
+                            noLabel: index != 0,
+                            kwargs: {
+                              placeholder: 'Enter',
+                              disabled: true,
+                              type: 'number',
+                            },
+                            others: {
                               formOptions: {
                                 ...field,
                                 name: [field.name, item.key],
@@ -329,7 +397,7 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
                       </Col>
                     ))}
                     {ReceivedProductFormFields.slice(1, 2).map((item) => (
-                      <Col span={7}>
+                      <Col span={5}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -337,7 +405,6 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
                             kwargs: {
                               placeholder: 'Enter',
                               type: 'number',
-                              disabled: received,
                             },
                             others: {
                               formOptions: {
@@ -351,14 +418,13 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
                       </Col>
                     ))}
                     {ReceivedProductFormFields.slice(2, 3).map((item) => (
-                      <Col span={7}>
+                      <Col span={6}>
                         <div className="p-2">
                           {formItem({
                             ...item,
                             noLabel: index != 0,
                             kwargs: {
                               placeholder: 'Select',
-                              disabled: received,
                             },
                             others: {
                               selectOptions: [
@@ -380,21 +446,23 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
                         </div>
                       </Col>
                     ))}
-                    <Button
-                      type="danger"
-                      style={index != 0 ? {top: '-2vh'} : null}
-                      disabled={received}
-                      onClick={() => {
-                        remove(field.name);
-                      }}>
-                      <MinusCircleOutlined /> Delete
-                    </Button>
+                    <Col span={2}>
+                      <Button
+                        type="danger"
+                        style={index != 0 ? {top: '-2vh'} : null}
+                        disabled={received}
+                        onClick={() => {
+                          remove(field.name);
+                        }}>
+                        <MinusCircleOutlined />
+                      </Button>
+                    </Col>
                   </Row>
                 ))}
                 <Form.Item>
                   <Button
                     type="dashed"
-                    disabled={received}
+                    disabled={true}
                     onClick={() => {
                       add();
                     }}
