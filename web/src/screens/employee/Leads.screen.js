@@ -28,6 +28,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
   const [visibleSCS, setVisibleSCS] = useState(false);
   const [visibleUpload, setVisibleUpload] = useState(false);
   const [lead, setLead] = useState(null);
+  const [leadID, setLeadID] = useState(null);
   const [popover, setPopover] = useState(false);
 
   const {filteredData, loading, reload, hasPermission} = useTableSearch({
@@ -67,6 +68,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
                 onClick: (e) => {
                   setPopover(false);
                   setLead(record.lead_no);
+                  setLeadID(record.id);
                   setVisibleSCS(true);
                   e.stopPropagation();
                 },
@@ -170,7 +172,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
           onDone={() => {
             setVisibleSCS(false);
           }}
-          lead={lead}
+          lead={leadID}
         />
       </Modal>
       <Modal

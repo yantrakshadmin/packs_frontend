@@ -1180,6 +1180,14 @@ export const editPFEP = (id, data) =>
     data,
   });
 
+export const createSCS = (data) => {
+  return loadAPI('create-scs/', {
+    method: 'POST',
+    secure: true,
+    data,
+  });
+};
+
 export const createCP = (data) => {
   return loadAPI('create-cp/', {
     method: 'POST',
