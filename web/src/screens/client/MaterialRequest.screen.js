@@ -12,6 +12,7 @@ import MaterialRequestsTable from 'components/MaterialRequestsTableClient';
 import {deleteHOC} from 'hocs/deleteHoc';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
+import moment from 'moment';
 import ExpandTable from '../../components/MaterialRequestsTable';
 
 const {Search} = Input;
@@ -28,7 +29,6 @@ const MaterialRequestEmployeeScreen = ({currentPage, isEmployee}) => {
 
   const columns = [
     ...materialRequestColumns,
-
     {
       title: 'Status',
       key: 'status',
@@ -159,6 +159,14 @@ const MaterialRequestEmployeeScreen = ({currentPage, isEmployee}) => {
       title: 'Raised By',
       key: 'raised_by',
       dataIndex: 'raised_by',
+    },
+    {
+      title: 'Created at',
+      key: 'created_at',
+      sorter: (a, b) => moment(a.created_at).unix() - moment(b.created_at).unix(),
+      render: (text, record) => {
+        return moment(record.created_at).format('DD/MM/YYYY, h:mm:ss a');
+      },
     },
     {
       title: 'Action',

@@ -5,13 +5,16 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ADD_PFEP_DATA, STOP_STEP_LOADING} from 'common/actions';
 import {CloseOutlined, DownOutlined, ArrowRightOutlined} from '@ant-design/icons';
 import {createPFEP, editPFEP} from 'common/api/auth';
+
 import {Row01FF, Row02FF} from 'common/formFields/PFEP/SCSSolutionRequired.formFields';
+import {PFEPStatusFormFields} from 'common/formFields/PFEP/PFEPStatus.formFields';
 
 const {Item} = Menu;
 
 export const PFEPStatusForm = ({id, onCancel, active, onDone}) => {
   const [loading, setLoading] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [dropdownVisible2, setDropdownVisible2] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const state = useSelector((e) => e.data.pfepData);
@@ -104,6 +107,7 @@ export const PFEPStatusForm = ({id, onCancel, active, onDone}) => {
       dispatch({type: STOP_STEP_LOADING});
     }
   }, [active]);
+
   const menu = (
     <Menu
       onClick={(e) => {
@@ -127,6 +131,31 @@ export const PFEPStatusForm = ({id, onCancel, active, onDone}) => {
       ))}
     </Menu>
   );
+
+  const menuStatus = (
+    <Menu
+      onClick={(e) => {
+        if (e.key === 'close') {
+          setDropdownVisible(false);
+        }
+      }}>
+      <Item key="close">
+        <div className="row justify-between align-center">
+          Close
+          <CloseOutlined />
+        </div>
+      </Item>
+      {PFEPStatusFormFields.slice(0, 11).map((item, idx) => (
+        <Item key={idx.toString()}>
+          <div className="row justify-between">
+            <div style={{flexWrap: 'wrap', marginRight: '5px'}}>{item.customLabel} </div>
+            {formItem(item)}
+          </div>
+        </Item>
+      ))}
+    </Menu>
+  );
+
   return (
     <Spin spinning={loading}>
       <Divider orientation="left">Solution Required</Divider>
@@ -162,6 +191,23 @@ export const PFEPStatusForm = ({id, onCancel, active, onDone}) => {
               </div>
             </Col>
           ))}
+          <Col span={6}>
+            <div className="p-2">
+              <Form.Item label={'Status'}>
+                <Dropdown
+                  trigger={['click']}
+                  overlay={menuStatus}
+                  onVisibleChange={(e) => {
+                    setDropdownVisible2(e);
+                  }}
+                  visible={dropdownVisible2}>
+                  <Button className="ant-dropdown-link" onClick={(e) => e.preventDefault()} block>
+                    Select <DownOutlined />
+                  </Button>
+                </Dropdown>
+              </Form.Item>
+            </div>
+          </Col>
         </Row>
         <Row justify="space-between">
           <div className="row">

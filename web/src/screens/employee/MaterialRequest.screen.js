@@ -217,6 +217,14 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
       dataIndex: 'raised_by',
     },
     {
+      title: 'Created at',
+      key: 'created_at',
+      sorter: (a, b) => moment(a.created_at).unix() - moment(b.created_at).unix(),
+      render: (text, record) => {
+        return moment(record.created_at).format('DD/MM/YYYY, h:mm:ss a');
+      },
+    },
+    {
       title: 'Options',
       key: 'options',
       width: '10vw',
