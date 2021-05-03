@@ -4,7 +4,7 @@ import formItem from 'hocs/formItem.hoc';
 import {useDispatch, useSelector} from 'react-redux';
 import {ADD_PFEP_DATA, STOP_STEP_LOADING} from 'common/actions';
 import {CloseOutlined, DownOutlined, ArrowRightOutlined} from '@ant-design/icons';
-import {createPFEP, editPFEP} from 'common/api/auth';
+import {createSCS, editPFEP} from 'common/api/auth';
 
 import {Row01FF, Row02FF} from 'common/formFields/PFEP/SCSSolutionRequired.formFields';
 import {PFEPStatusFormFields} from 'common/formFields/PFEP/PFEPStatus.formFields';
@@ -23,11 +23,17 @@ export const PFEPStatusForm = ({id, onCancel, active, onDone}) => {
     const req = new FormData();
     for (const key in data) {
       if (key === 'insert_types') {
-        req.append('insert_types', JSON.stringify(data.insert_types));
+        if (data[key]) {
+          req.append('insert_types', JSON.stringify(data.insert_types));
+        }
       } else if (key === 'sks') {
-        req.append('sks', JSON.stringify(data.sks));
+        if (data[key]) {
+          req.append('sks', JSON.stringify(data.sks));
+        }
       } else if (key === 'date') {
-        req.append(key.toString(), data[key].format());
+        if (data[key]) {
+          req.append(key.toString(), data[key].format());
+        }
       } else if (key === 'fileA') {
         if (data[key]) {
           const newFileList = data[key].fileList.map((f) => {
@@ -65,7 +71,9 @@ export const PFEPStatusForm = ({id, onCancel, active, onDone}) => {
           req.set('no_of_fileB_files', c);
         }
       } else {
-        req.append(key.toString(), data[key]);
+        if (data[key]) {
+          req.append(key.toString(), data[key]);
+        }
       }
     }
     return req;
@@ -88,14 +96,17 @@ export const PFEPStatusForm = ({id, onCancel, active, onDone}) => {
           onDone();
         }
       } else {
-        const {error} = await createPFEP(toFormData({...state, ...data}));
+        const {error} = await createSCS(toFormData({...state, ...data}));
         if (error) {
           notification.warning({
             message: 'Unable To Create.',
-            description: 'Something went wrong PFEP creation failed.',
+            description: error,
           });
-          onCancel();
+          //onCancel();
         } else {
+          notification.success({
+            message: 'Created SCS successfully',
+          });
           onDone();
         }
       }
