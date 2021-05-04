@@ -6,7 +6,7 @@ import {useTableSearch} from 'hooks/useTableSearch';
 import {retrieveSCSs, deleteSCS, tpFileUpload, tpFileReUpload} from 'common/api/auth';
 import Delete from 'icons/Delete';
 import {SCSColumn} from 'common/columns/PFEP.column';
-import {utcDateFormatter} from 'common/helpers/dateFomatter';
+
 import {ADD_CREATE_CP_BASIC_DATA, ADD_PFEP_DATA, CLEAN_PFEP_DATA} from 'common/actions';
 import {DiffOutlined, ToTopOutlined} from '@ant-design/icons';
 import {deleteHOC} from '../../hocs/deleteHoc';
@@ -16,15 +16,7 @@ import {SCSMainForm} from '../../forms/PFEP/SCSMain.form';
 import {ActionsPopover} from '../../components/ActionsPopover';
 import {MainCreateCPForm} from '../../forms/CreateCP/mainCreateCP.form';
 import {UploadLeadForm} from '../../forms/uploadLead.form';
-import moment from 'moment';
-import {loadAPI} from 'common/helpers/api';
-import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
-
-import {GetUniqueValue} from 'common/helpers/getUniqueValues';
-import {ifNotStrReturnA} from 'common/helpers/mrHelper';
 import FilesViewModal from '../../components/FilesViewModal';
 import NoPermissionAlert from 'components/NoPermissionAlert';
 
@@ -58,6 +50,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [lead, setLead] = useState(null);
+  const [cpSCSid, setCpSCSid] = useState(null);
   const [isReUpload, setIsReUpload] = useState(false);
   const [csvData, setCsvData] = useState(null);
   const [createCPVisible, setCreateCPVisible] = useState(false);
@@ -223,22 +216,23 @@ const PFEPEmployeeScreen = ({currentPage}) => {
                 title: 'Create CP',
                 onClick: async (e) => {
                   setCreateCPVisible(true);
+                  setCpSCSid(record.id);
                   await dispatch({
                     type: ADD_CREATE_CP_BASIC_DATA,
                     data: {
                       ...record,
                       remarks: '',
-                      receiver: record.receivers
-                        ? record.receivers[0]
-                          ? record.receivers[0].name
-                          : ''
-                        : '',
-                      receiver_location: record.receivers
-                        ? record.receivers[0]
-                          ? record.receivers[0].location
-                          : ''
-                        : '',
-                      component_perkit: record.parts_pm,
+                      // receiver: record.receivers
+                      //   ? record.receivers[0]
+                      //     ? record.receivers[0].name
+                      //     : ''
+                      //   : '',
+                      // receiver_location: record.receivers
+                      //   ? record.receivers[0]
+                      //     ? record.receivers[0].location
+                      //     : ''
+                      //   : '',
+                      // component_perkit: record.parts_pm,
                       //total_comp_weight_perkit: record.weight,
                       pfep: record.id,
                       solution_crate: record.solution_crate,
@@ -322,6 +316,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
   const createCPCancel = () => {
     setEditingId(null);
     setLead(null);
+    setCpSCSid(null);
     setCreateCPVisible(false);
   };
   return (
@@ -344,6 +339,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
         footer={null}>
         <MainCreateCPForm
           id={editingId}
+          scs={cpSCSid}
           lead={lead}
           onCancel={createCPCancel}
           onDone={createCPCancel}
