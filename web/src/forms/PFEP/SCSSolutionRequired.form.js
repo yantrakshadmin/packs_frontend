@@ -4,7 +4,7 @@ import formItem from 'hocs/formItem.hoc';
 import {useDispatch, useSelector} from 'react-redux';
 import {ADD_PFEP_DATA, STOP_STEP_LOADING} from 'common/actions';
 import {CloseOutlined, DownOutlined, ArrowRightOutlined} from '@ant-design/icons';
-import {createSCS, editPFEP} from 'common/api/auth';
+import {createSCS, editSCS} from 'common/api/auth';
 
 import {Row01FF, Row02FF} from 'common/formFields/PFEP/SCSSolutionRequired.formFields';
 import {PFEPStatusFormFields} from 'common/formFields/PFEP/PFEPStatus.formFields';
@@ -85,7 +85,7 @@ export const PFEPStatusForm = ({id, onCancel, active, onDone}) => {
     setLoading(false);
     if (active === 3) {
       if (id) {
-        const {error} = await editPFEP(id, toFormData({...state, ...data}));
+        const {error} = await editSCS(id, toFormData({...state, ...data}));
         if (error) {
           notification.warning({
             message: 'Unable To Edit.',
@@ -100,7 +100,7 @@ export const PFEPStatusForm = ({id, onCancel, active, onDone}) => {
         if (error) {
           notification.warning({
             message: 'Unable To Create.',
-            description: error,
+            description: 'Please Recheck. Something is wrong',
           });
           //onCancel();
         } else {

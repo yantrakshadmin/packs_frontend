@@ -34,3 +34,46 @@ export const PFEPColumn = [
     showSorterTooltip: false,
   },
 ];
+
+export const SCSColumn = [
+  {
+    title: 'SCS Number',
+    key: 'scsNo',
+    dataIndex: 'scs_no',
+    width: '5vw',
+    sorter: (a, b) => a.scs - b.scs,
+    showSorterTooltip: false,
+  },
+  {
+    title: 'Lead Number',
+    key: 'leadNo',
+    dataIndex: 'lead_no',
+    width: '5vw',
+    sorter: (a, b) => a.lead_no - b.lead_no,
+    showSorterTooltip: false,
+  },
+  {
+    title: 'Part Name',
+    key: 'part_name',
+    dataIndex: 'part_name',
+    width: '8vw',
+    sorter: (a, b) => ifNotStrReturnA(a.part_name).localeCompare(ifNotStrReturnA(b.part_name)),
+    showSorterTooltip: false,
+  },
+  {
+    title: 'Part Number',
+    key: 'part_number',
+    dataIndex: 'part_number',
+    width: '5vw',
+    sorter: (a, b) => a.part_number - b.part_number,
+    showSorterTooltip: false,
+  },
+  {
+    title: 'Contact Person',
+    key: 'contact_person',
+    dataIndex: 'contact_person',
+    width: '5vw',
+    sorter: (a, b) => a.contact_person - b.contact_person,
+    showSorterTooltip: false,
+  },
+];

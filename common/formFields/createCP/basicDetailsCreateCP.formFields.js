@@ -1,20 +1,20 @@
-import { FORM_ELEMENT_TYPES } from 'web/src/constants/formFields.constant';
+import {FORM_ELEMENT_TYPES} from 'web/src/constants/formFields.constant';
 
 export const basicDetailCreateCPFormFields = [
   {
     key: 'sender_client',
-    type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
-      placeholder: 'Emitter',
-      disabled : true,
+      placeholder: 'Sender',
     },
-    customLabel: 'Emitter'
+    type: FORM_ELEMENT_TYPES.SELECT,
+    customLabel: 'Sender',
   },
+
   {
     key: 'sender_location',
     kwargs: {
       placeholder: 'Emitter Location',
-      disabled : true,
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Emitter Location',
@@ -24,15 +24,15 @@ export const basicDetailCreateCPFormFields = [
     type: FORM_ELEMENT_TYPES.INPUT,
     kwargs: {
       placeholder: 'Receiver',
-      disabled : true,
+      disabled: true,
     },
-    customLabel: 'Receiver'
+    customLabel: 'Receiver',
   },
   {
     key: 'receiver_location',
     kwargs: {
       placeholder: 'Receiver Location',
-      disabled : true,
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     customLabel: 'Receiver Location',
@@ -41,7 +41,7 @@ export const basicDetailCreateCPFormFields = [
     key: 'part_name',
     kwargs: {
       placeholder: 'Part Name',
-      disabled : true,
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -63,7 +63,7 @@ export const basicDetailCreateCPFormFields = [
     key: 'total_comp_weight_perkit',
     kwargs: {
       placeholder: 'Total Component Weight/Kit',
-      type:'number',
+      type: 'number',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -74,8 +74,8 @@ export const basicDetailCreateCPFormFields = [
     key: 'volume_pm',
     kwargs: {
       placeholder: 'Total Component/Month',
-      disabled : true,
-      type:'number',
+      disabled: true,
+      type: 'number',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -83,10 +83,10 @@ export const basicDetailCreateCPFormFields = [
   },
   {
     // key: 'total_component_per_kit',
-    key:'component_perkit',
+    key: 'component_perkit',
     kwargs: {
       placeholder: 'Total Component/Kit',
-      type:'number',
+      type: 'number',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -97,8 +97,8 @@ export const basicDetailCreateCPFormFields = [
     key: 'kit_pm',
     kwargs: {
       placeholder: 'Total Kit/Month',
-      type:'number',
-      disabled : true,
+      type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -108,8 +108,8 @@ export const basicDetailCreateCPFormFields = [
     key: 'yantra_cycle',
     kwargs: {
       placeholder: 'Yantra Cycle Time',
-      type:'number',
-      disabled : true,
+      type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -119,8 +119,8 @@ export const basicDetailCreateCPFormFields = [
     key: 'buffer',
     kwargs: {
       placeholder: 'Buffer',
-      type:'number',
-      min:0,
+      type: 'number',
+      min: 0,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -130,8 +130,8 @@ export const basicDetailCreateCPFormFields = [
     key: 'kit_usage_ratio',
     kwargs: {
       placeholder: 'Kit Usage Ratio',
-      type:'number',
-      disabled : true,
+      type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -141,11 +141,11 @@ export const basicDetailCreateCPFormFields = [
     key: 'kit_based_on_usage_ratio',
     kwargs: {
       placeholder: 'Number of Kit based on Usage Ratio',
-      type:'number',
-      disabled : true,
+      type: 'number',
+      disabled: true,
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     customLabel: 'Number of Kit based on Usage Ratio',
   },
-]
+];
