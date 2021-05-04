@@ -1117,6 +1117,12 @@ export const retrievePFEP = () =>
     secure: true,
   });
 
+export const retrieveSCSs = () =>
+  loadAPI('/scs/', {
+    method: 'GET',
+    secure: true,
+  });
+
 export const editLead = (id, data) =>
   loadAPI(`/edit-leads/${id}/`, {
     method: 'PATCH',
@@ -1187,6 +1193,25 @@ export const createSCS = (data) => {
     data,
   });
 };
+
+export const retrieveSCS = (id) =>
+  loadAPI(`/edit-scs/${id}/`, {
+    method: 'GET',
+    secure: true,
+  });
+
+export const deleteSCS = (id) =>
+  loadAPI(`/edit-scs/${id}/`, {
+    method: 'DELETE',
+    secure: true,
+  });
+
+export const editSCS = (id, data) =>
+  loadAPI(`/ed-scs/${id}/`, {
+    method: 'PATCH',
+    secure: true,
+    data,
+  });
 
 export const createCP = (data) => {
   return loadAPI('create-cp/', {
