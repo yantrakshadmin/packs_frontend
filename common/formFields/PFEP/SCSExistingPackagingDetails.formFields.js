@@ -57,12 +57,12 @@ export const Row02FF = [
     key: 'dimension',
     //rules: [{required: true, message: 'Required!'}],
     kwargs: {
-      placeholder: 'Dimension (mm)',
+      placeholder: 'Dimension',
       type: 'number',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
-    customLabel: 'Dimension (mm)',
+    customLabel: 'Dimension',
     colSpan: 4,
   },
   {
@@ -170,7 +170,7 @@ export const Row03FF = [
     type: FORM_ELEMENT_TYPES.SELECT,
     others: {
       defaultValue: 'Returnable',
-      selectOptions: ['Returnable', 'Non Returnable'],
+      selectOptions: ['Returnable', 'Non-Returnable'],
     },
     customLabel: 'Current Packaging Type',
   },

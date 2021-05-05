@@ -69,35 +69,37 @@ export const SCSProductDetailsFormFields = [
     //rules: [{required: true, message: 'Please enter Weight(Kgs) !'}],
     kwargs: {
       type: 'number',
-      placeholder: 'Weight',
+      placeholder: 'Weight (Kg)',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Weight (Kg)',
   },
   {
     key: 'length',
     kwargs: {
       type: 'number',
-      placeholder: 'Length',
+      placeholder: 'Length (mm)',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Length',
+    customLabel: 'Length (mm)',
   },
   {
     key: 'breadth',
     kwargs: {
       type: 'number',
-      placeholder: 'Breadth',
+      placeholder: 'Breadth (mm)',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
-    customLabel: 'Breadth',
+    customLabel: 'Breadth (mm)',
   },
   {
     key: 'height',
     kwargs: {
       type: 'number',
-      placeholder: 'Height',
+      placeholder: 'Height (mm)',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
+    customLabel: 'Height (mm)',
   },
   // {
   //   key: 'volume_pm',

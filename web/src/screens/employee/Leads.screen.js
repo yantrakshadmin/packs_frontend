@@ -64,7 +64,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
             buttonList={[
               {
                 Icon: DiffOutlined,
-                title: 'Create SCS (Beta)',
+                title: 'Create SCS',
                 onClick: (e) => {
                   setPopover(false);
                   setLead(record.lead_no);
@@ -73,19 +73,19 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
                   e.stopPropagation();
                 },
               },
-              {
-                Icon: DiffOutlined,
-                title: 'Create PFEP',
-                onClick: (e) => {
-                  setPopover(false);
-                  setLead(record.lead_no);
-                  setVisible(true);
-                  e.stopPropagation();
-                },
-              },
+              // {
+              //   Icon: DiffOutlined,
+              //   title: 'Create PFEP',
+              //   onClick: (e) => {
+              //     setPopover(false);
+              //     setLead(record.lead_no);
+              //     setVisible(true);
+              //     e.stopPropagation();
+              //   },
+              // },
               {
                 Icon: ToTopOutlined,
-                title: 'Upload PFEP',
+                title: 'Upload SCS',
                 onClick: (e) => {
                   setPopover(false);
                   setLead(record.lead_no);

@@ -5,7 +5,7 @@ export const Row01FF = [
     key: 'sender',
     //rules: [{required: true, message: 'Required!'}],
     kwargs: {
-      placeholder: 'Sender',
+      placeholder: 'Name & Location',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
@@ -16,7 +16,7 @@ export const Row01FF = [
     key: 'receiver',
     //rules: [{required: true, message: 'Required!'}],
     kwargs: {
-      placeholder: 'Receiver',
+      placeholder: 'Name & Location',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
