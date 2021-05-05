@@ -57,12 +57,11 @@ export const Row02FF = [
     key: 'dimension',
     //rules: [{required: true, message: 'Required!'}],
     kwargs: {
-      placeholder: 'Dimension',
-      type: 'number',
+      placeholder: 'Dimension (mm)',
     },
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
-    customLabel: 'Dimension',
+    customLabel: 'Dimension (mm)',
     colSpan: 4,
   },
   {
