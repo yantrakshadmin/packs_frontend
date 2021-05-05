@@ -22,7 +22,7 @@ import NoPermissionAlert from 'components/NoPermissionAlert';
 
 const {Search} = Input;
 
-const HideShowTag = ({children}) => {
+export const HideShowTag = ({children}) => {
   const [show, setShow] = useState(false);
 
   const handClick = useCallback(
@@ -202,7 +202,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
               e.stopPropagation();
             }}>
             <FontAwesomeIcon
-              icon={record.file_uploaded ? faEye : faEyeSlash}
+              icon={record.tp_uploaded ? faEye : faEyeSlash}
               style={{fontSize: 20, color: '#20a8d8'}}
             />
           </Button> */}
@@ -222,18 +222,6 @@ const PFEPEmployeeScreen = ({currentPage}) => {
                     data: {
                       ...record,
                       remarks: '',
-                      // receiver: record.receivers
-                      //   ? record.receivers[0]
-                      //     ? record.receivers[0].name
-                      //     : ''
-                      //   : '',
-                      // receiver_location: record.receivers
-                      //   ? record.receivers[0]
-                      //     ? record.receivers[0].location
-                      //     : ''
-                      //   : '',
-                      // component_perkit: record.parts_pm,
-                      //total_comp_weight_perkit: record.weight,
                       pfep: record.id,
                       solution_crate: record.solution_crate,
                       solution_flc: record.solution_flc,
@@ -251,12 +239,12 @@ const PFEPEmployeeScreen = ({currentPage}) => {
               },
               {
                 Icon: ToTopOutlined,
-                title: record.file_uploaded ? 'Re-Upload TP' : 'Upload TP',
+                title: record.tp_uploaded ? 'Re-Upload TP' : 'Upload TP',
                 onClick: (e) => {
                   // setPopover(false);
                   setUploadTP(true);
                   setLead(record.id);
-                  setIsReUpload(!!record.file_uploaded);
+                  setIsReUpload(!!record.tp_uploaded);
                   e.stopPropagation();
                 },
               },
@@ -367,7 +355,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
           isReUpload={isReUpload}
           recreate={tpFileReUpload}
           create={tpFileUpload}
-          varName="pfep"
+          varName="scs"
         />
       </Modal>
       <TableWithTabHOC

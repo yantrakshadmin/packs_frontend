@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Form, Col, Row, Button, Divider, Spin, message} from 'antd';
 import {useHandleForm} from 'hooks/form';
-import {createVendor, editVendor, leadFileUpload, retrieveVendor} from 'common/api/auth';
 import formItem from '../hocs/formItem.hoc';
 import {FORM_ELEMENT_TYPES} from '../constants/formFields.constant';
 import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
@@ -49,7 +48,7 @@ export const UploadLeadForm = ({
     failure: 'Error in Uploading.',
     done: onDone,
     close: onCancel,
-    id: isReUpload ? (newID ? newID : id) : id,
+    id: isReUpload ? newID : id,
   });
 
   function toFormData(obj) {
