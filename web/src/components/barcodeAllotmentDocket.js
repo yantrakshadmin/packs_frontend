@@ -1,25 +1,49 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Row, Col, Input, Typography, notification, Table, Tag, Button, Spin} from 'antd';
 import {loadAPI} from 'common/helpers/api';
 import {postAltBarcodes, patchAltBarcodes} from 'common/api/auth';
 import {useAPI} from 'common/hooks/api';
+import _ from 'lodash';
 
 const {Title} = Typography;
+
+const tableFields = [
+  {
+    title: 'Product Name',
+    dataIndex: 'product',
+    key: 'product',
+  },
+  {
+    title: 'Scanned Quantity',
+    dataIndex: 'quantity',
+    key: 'quantity',
+  },
+  {
+    title: 'Alloted Quantity',
+    dataIndex: 'total_limit',
+    key: 'total_limit',
+  },
+];
 
 export const BarcodeAllotmentDocket = ({transaction, allot, setVisible}) => {
   const [editId, setEditId] = useState(null);
 
   const [barcodes, setBarcodes] = useState([]);
-  const [limitsData, setLimitsData] = useState({});
+
   const [productDetails, setProductDetails] = useState({});
 
   const {data: fetchedBarcodes, error: altError, loading: altLoading} = useAPI(
     `dispatch-allotment-fetch/?allot=${allot}`,
   );
+
+  const {data: limitsData, error: limError, loading: limLoading} = useAPI(
+    `dispatch-allotment-validate/?id=${allot}`,
+  );
+
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    if (!altLoading && fetchedBarcodes) {
+    if (!altLoading && !limLoading && fetchedBarcodes && limitsData) {
       setEditId(fetchedBarcodes.id);
 
       const {bar_details} = fetchedBarcodes;
@@ -30,55 +54,64 @@ export const BarcodeAllotmentDocket = ({transaction, allot, setVisible}) => {
       setBarcodes(tempA);
 
       const tempB = {};
+      Object.keys(limitsData).forEach((ld) => {
+        tempB[ld] = 0;
+      });
+
       bar_details.forEach((bd, idx) => {
-        tempB[bd] = (tempB[bd] ? tempB[bd] : 0) + 1;
+        tempB[bd] = tempB[bd] + 1;
+      });
+
+      setProductDetails(tempB);
+    } else if (!altLoading && !limLoading && limitsData) {
+      const tempB = {};
+      Object.keys(limitsData).forEach((ld) => {
+        tempB[ld] = 0;
       });
       setProductDetails(tempB);
     }
-  }, [altLoading]);
+  }, [altLoading, limLoading]);
 
-  useEffect(() => {
-    const fetch = async () => {
-      if (allot) {
-        const {data} = await loadAPI(`dispatch-allotment-validate/?id=${allot}`);
-        setLimitsData(data);
-      }
-    };
-    fetch();
-  }, [allot]);
+  const addItem = useCallback(
+    async (value) => {
+      const filtered = barcodes.filter((i) => i.barcode === (value || inputValue));
+      const {data} = await loadAPI(`check-bar/?code=${value || inputValue}`);
 
-  const addItem = async (value) => {
-    const filtered = barcodes.filter((i) => i.barcode === (value || inputValue));
-    const {data} = await loadAPI(`check-bar/?code=${value || inputValue}`);
-
-    if (filtered.length === 0 && !!data) {
-      const shouldAdd =
-        limitsData[data.name] >= 1 + (productDetails[data.name] ? productDetails[data.name] : 0);
-      if (shouldAdd) {
-        setBarcodes([...barcodes, {barcode: value || inputValue, name: data.name}]);
-        setProductDetails({
-          ...productDetails,
-          [data.name]: (productDetails[data.name] ? productDetails[data.name] : 0) + 1,
-        });
+      if (filtered.length === 0 && !!data) {
+        const shouldAdd =
+          limitsData[data.name] >= 1 + (productDetails[data.name] ? productDetails[data.name] : 0);
+        if (shouldAdd) {
+          setBarcodes([...barcodes, {barcode: value || inputValue, name: data.name}]);
+          setProductDetails({
+            ...productDetails,
+            [data.name]: (productDetails[data.name] ? productDetails[data.name] : 0) + 1,
+          });
+        } else {
+          notification.warning({
+            message: `Limit Exceed`,
+            description: `Sorry! No More ${data.name} can be added`,
+          });
+        }
       } else {
         notification.warning({
-          message: `Limit Exceed`,
-          description: `Sorry! No More ${data.name} can be added`,
+          message: 'Barcode Already Exist or Invalid',
+          description: 'The item you are trying to add is already exist or it is invalid',
         });
       }
-    } else {
-      notification.warning({
-        message: 'Barcode Already Exist or Invalid',
-        description: 'The item you are trying to add is already exist or it is invalid',
-      });
-    }
-    setInputValue('');
-  };
-  const onChange = async (e) => {
-    const {value} = e.target;
-    setInputValue(value);
-  };
-  const getTableArray = () => {
+      setInputValue('');
+    },
+    [barcodes, inputValue, limitsData, productDetails],
+  );
+
+  const onChange = useCallback(
+    (e) => {
+      const {value} = e.target;
+      setInputValue(value);
+    },
+    [inputValue],
+  );
+
+  const getTableArray = useCallback(() => {
     const newArr = [];
     Object.keys(productDetails).map((key) =>
       newArr.push({
@@ -88,44 +121,45 @@ export const BarcodeAllotmentDocket = ({transaction, allot, setVisible}) => {
       }),
     );
     return newArr;
-  };
+  }, [productDetails]);
 
-  const tableFields = [
-    {
-      title: 'Product Name',
-      dataIndex: 'product',
-      key: 'product',
-    },
-    {
-      title: 'Scanned Quantity',
-      dataIndex: 'quantity',
-      key: 'quantity',
-    },
-    {
-      title: 'Alloted Quantity',
-      dataIndex: 'total_limit',
-      key: 'total_limit',
-    },
-  ];
-
-  const removeItem = (value, name) => {
-    if (barcodes.length) {
-      setBarcodes([...barcodes.filter((i) => i.barcode !== value)]);
-      if (productDetails[name] === 1) {
-        delete productDetails[name];
-      } else {
-        setProductDetails({...productDetails, [name]: productDetails[name] - 1});
+  const removeItem = useCallback(
+    (value, name) => {
+      if (barcodes.length) {
+        setBarcodes([...barcodes.filter((i) => i.barcode !== value)]);
+        if (productDetails[name] <= 1) {
+          setProductDetails({...productDetails, [name]: 0});
+        } else {
+          setProductDetails({...productDetails, [name]: productDetails[name] - 1});
+        }
       }
-    }
-  };
-  const getReqBarcodeArray = () => {
+    },
+    [barcodes, productDetails],
+  );
+
+  const getReqBarcodeArray = useCallback(() => {
     return barcodes.map((i) => i.barcode);
-  };
-  const reqSubmit = async () => {
+  }, [barcodes]);
+
+  const reqSubmit = useCallback(async () => {
+    let allotSum = 0;
+    let limitSum = 0;
+
+    getTableArray().forEach((i) => {
+      allotSum = allotSum + i.quantity;
+    });
+
+    _.values(limitsData).forEach((i) => {
+      limitSum = limitSum + i;
+    });
+
+    const status = allotSum === limitSum ? 'complete' : 'incomplete';
+
     if (editId) {
       var {error} = await patchAltBarcodes(
         {
           barcodes: getReqBarcodeArray(),
+          status,
           transaction,
           allot,
         },
@@ -134,6 +168,7 @@ export const BarcodeAllotmentDocket = ({transaction, allot, setVisible}) => {
     } else {
       var {error} = await postAltBarcodes({
         barcodes: getReqBarcodeArray(),
+        status,
         transaction,
         allot,
       });
@@ -149,7 +184,7 @@ export const BarcodeAllotmentDocket = ({transaction, allot, setVisible}) => {
       });
       setVisible(false);
     }
-  };
+  }, [editId, getTableArray]);
 
   return (
     <Spin spinning={altLoading}>
@@ -208,7 +243,7 @@ export const BarcodeAllotmentDocket = ({transaction, allot, setVisible}) => {
             type="primary"
             disabled={Object.keys(productDetails).length === 0}
             onClick={reqSubmit}>
-            Submit
+            Dispatch
           </Button>
         </Col>
       </Row>
