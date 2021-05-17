@@ -41,7 +41,7 @@ export const SCSColumn = [
     key: 'scsNo',
     dataIndex: 'scs_no',
     width: '5vw',
-    sorter: (a, b) => a.scs - b.scs,
+    sorter: (a, b) => a.scs_no - b.scs_no,
     showSorterTooltip: false,
   },
   {

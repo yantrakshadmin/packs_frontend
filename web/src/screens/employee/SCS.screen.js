@@ -222,7 +222,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
                     data: {
                       ...record,
                       remarks: '',
-                      pfep: record.id,
+                      scs_id: record.id,
                       solution_crate: record.solution_crate,
                       solution_flc: record.solution_flc,
                       solution_fsc: record.solution_fsc,
@@ -271,8 +271,8 @@ const PFEPEmployeeScreen = ({currentPage}) => {
               record,
               reload,
               api: deleteSCS,
-              success: 'Deleted PFEP Successfully',
-              failure: 'Error in deleting PFEP',
+              success: 'Deleted SCS Successfully',
+              failure: 'Error in deleting SCS',
             })}>
             <Button
               style={{
