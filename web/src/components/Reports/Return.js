@@ -22,8 +22,17 @@ const AllotmentReport = ({currentPage}) => {
   const [from, setFrom] = useState(null);
   const [form] = Form.useForm();
 
+  const [client, setClient] = useState('');
+
+  const {data: clients} = useAPI('/clients/', {});
+
   const onSubmit = async (data) => {
     setLoading(true);
+
+    if (data.cname) {
+      setClient(data.cname);
+    }
+
     data.to = moment(data.to).endOf('date').format('YYYY-MM-DD HH:MM');
     data.from = moment(data.from).startOf('date').format('YYYY-MM-DD HH:MM');
     setTo(data.to);
@@ -99,6 +108,24 @@ const AllotmentReport = ({currentPage}) => {
     <>
       <Form onFinish={onSubmit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
         <Row>
+          <Col span={10}>
+            {formItem({
+              key: 'cname',
+              kwargs: {
+                placeholder: 'Select',
+              },
+              others: {
+                selectOptions: clients || [],
+                key: 'user',
+                customTitle: 'client_name',
+                dataKeys: ['client_shipping_address'],
+              },
+              type: FORM_ELEMENT_TYPES.SELECT,
+              customLabel: 'Client',
+            })}
+          </Col>
+        </Row>
+        <Row>
           <Col span={3}>
             {formItem({
               key: 'from',
@@ -139,7 +166,7 @@ const AllotmentReport = ({currentPage}) => {
         size="middle"
         title="Return Dockets"
         hideRightButton
-        downloadLink={`${DEFAULT_BASE_URL}/return-reportsdownload/?to=${to}&from=${from}`}
+        downloadLink={`${DEFAULT_BASE_URL}/return-reportsdownload/?cname=${client}&to=${to}&from=${from}`}
         rowKey="id"
         expandHandleKey="kits"
         ExpandBody={RetKitTable}

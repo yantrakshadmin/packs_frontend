@@ -170,6 +170,7 @@ const CreateCPScreen = ({currentPage}) => {
                 data: {
                   ...record,
                   scs_id: record.scs_id.id,
+                  part_name: record.scs_id.part_name,
                   // part_name: record.pfep.part_name ? record.pfep.part_name : '',
                   // sender_client: record.pfep.sender_client ? record.pfep.sender_client : '',
                   // sender_location: record.pfep.sender_location ? record.pfep.sender_location : '',
@@ -240,9 +241,7 @@ const CreateCPScreen = ({currentPage}) => {
     hideSelectAll: true,
     getCheckboxProps: (record) => ({
       disabled:
-        selectedCP.length <= 0
-          ? false
-          : record.pfep.sender_client !== selectedCP[0].pfep.sender_client,
+        selectedCP.length <= 0 ? false : record.sender_client !== selectedCP[0].sender_client,
     }),
   };
   return (
@@ -251,19 +250,29 @@ const CreateCPScreen = ({currentPage}) => {
         <Button
           className="mx-2"
           type="primary"
-          disabled={selectedCP.length <= 0}
+          //disabled={selectedCP.length <= 0}
+          disabled={true}
           onClick={(e) => {
             const receiverDetails = selectedCP.map((record) => ({
-              part_name: record.pfep.part_name,
-              receiver_name: record.pfep.receivers.length > 0 ? record.pfep.receivers[0].name : '',
-              receiver_location:
-                record.pfep.receivers.length > 0 ? record.pfep.receivers[0].location : '',
+              ...record,
+              part_name: record.scs_id.part_name,
               proposed_solution_proposal: getSolutionProposal(record),
               component_per_solution: record.component_perkit,
               price_per_component: _.round(record.trip_cost / record.component_perkit, 2),
               trip_cost: record.trip_cost,
               parts_volume_per_month: record.volume_pm,
-              cycle_days: record.pfep.min_cycle_days,
+              cycle_days: getCycleTime(record.scs_id.sks, record.sender_client),
+
+              // part_name: record.pfep.part_name,
+              // receiver_name: record.pfep.receivers.length > 0 ? record.pfep.receivers[0].name : '',
+              // receiver_location:
+              //   record.pfep.receivers.length > 0 ? record.pfep.receivers[0].location : '',
+              // proposed_solution_proposal: getSolutionProposal(record),
+              // component_per_solution: record.component_perkit,
+              // price_per_component: _.round(record.trip_cost / record.component_perkit, 2),
+              // trip_cost: record.trip_cost,
+              // parts_volume_per_month: record.volume_pm,
+              // cycle_days: record.pfep.min_cycle_days,
             }));
             navigate(`../print-cp/${selectedCP[0].id}`, {
               state: {...selectedCP[0], receiverDetails},
