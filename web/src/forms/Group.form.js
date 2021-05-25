@@ -79,7 +79,7 @@ export const GroupForm = ({id, onCancel, onDone}) => {
         s.push({model: 'Warehouse'});
       }
 
-      temp.models = s;
+      temp.groupmodels = s;
       submit(temp);
     },
     [selectedModels],
