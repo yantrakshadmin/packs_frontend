@@ -169,7 +169,7 @@ export const PFEPStatusForm = ({id, onCancel, active, onDone}) => {
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Solution Required</Divider>
+      <Divider orientation="left">Solution</Divider>
       <Form
         onFinish={submit}
         form={form}

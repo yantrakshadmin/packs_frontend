@@ -1,12 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {Form, Col, Row, Button, Divider, Spin, Card} from 'antd';
 import formItem from 'hocs/formItem.hoc';
 import {useDispatch, useSelector} from 'react-redux';
 import {ADD_PFEP_DATA, STOP_STEP_LOADING} from 'common/actions';
-import {PREPStockKeepingFormFields} from 'common/formFields/PFEP/PFEPStockKeeping.formFields';
 import {ArrowRightOutlined, MinusCircleOutlined, PlusOutlined} from '@ant-design/icons';
 import {Row01FF} from 'common/formFields/PFEP/SCSStockKeeping.formFields';
-import {PREPTouchPointsFormFields} from 'common/formFields/PFEP/PFEPTouchPoints.formFields';
+import {ifNanReturnZero} from 'common/helpers/mrHelper';
 
 export const PFEPStockKeepingForm = ({id, onCancel, onDone, onNext, active}) => {
   const [loading, setLoading] = useState(false);
@@ -22,12 +21,53 @@ export const PFEPStockKeepingForm = ({id, onCancel, onDone, onNext, active}) => 
       onNext();
     }
   };
+
   useEffect(() => {
     if (active !== 1) {
       form.submit();
       dispatch({type: STOP_STEP_LOADING});
     }
   }, [active]);
+
+  const handleFieldsChange = useCallback(
+    (data) => {
+      if (data[0]) {
+        if (data[0].name) {
+          if (data[0].name[2]) {
+            const formListName = data[0].name[0];
+            const fieldKey = data[0].name[1];
+            const thisField = data[0].name[2];
+            if (
+              thisField === 'sender_inventory' ||
+              thisField === 'sender_warehouse' ||
+              thisField === 'transit_time' ||
+              thisField === 'receiver_inventory' ||
+              thisField === 'receiver_warehouse' ||
+              thisField === 'return_tat'
+            ) {
+              const temp =
+                ifNanReturnZero(form.getFieldValue([formListName, fieldKey, 'sender_inventory'])) +
+                ifNanReturnZero(form.getFieldValue([formListName, fieldKey, 'sender_warehouse'])) +
+                ifNanReturnZero(form.getFieldValue([formListName, fieldKey, 'transit_time'])) +
+                ifNanReturnZero(
+                  form.getFieldValue([formListName, fieldKey, 'receiver_inventory']),
+                ) +
+                ifNanReturnZero(
+                  form.getFieldValue([formListName, fieldKey, 'receiver_warehouse']),
+                ) +
+                ifNanReturnZero(form.getFieldValue([formListName, fieldKey, 'return_tat']));
+              const flowsX = form.getFieldValue(formListName);
+              Object.assign(flowsX[fieldKey], {
+                total_cycle_time: temp,
+              });
+              form.setFieldsValue({formListName: flowsX});
+            }
+          }
+        }
+      }
+    },
+    [form],
+  );
 
   return (
     <Spin spinning={loading}>
@@ -36,6 +76,7 @@ export const PFEPStockKeepingForm = ({id, onCancel, onDone, onNext, active}) => 
         initialValues={state}
         form={form}
         layout="vertical"
+        onFieldsChange={handleFieldsChange}
         // hideRequiredMark
         autoComplete="off">
         <Divider orientation="left">Supply chain details</Divider>

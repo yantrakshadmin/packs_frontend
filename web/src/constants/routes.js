@@ -118,10 +118,15 @@ export const employeeRoutes = [
         Component: lazy(() => import('screens/employee/SCS.screen')),
       },
       {
-        name: 'PFEP',
-        path: '/pfep/create/',
-        Component: lazy(() => import('screens/employee/PFEP.screen')),
+        name: 'TP',
+        path: '/pfep/tp/',
+        Component: lazy(() => import('screens/employee/TP.screen')),
       },
+      // {
+      //   name: 'PFEP',
+      //   path: '/pfep/create/',
+      //   Component: lazy(() => import('screens/employee/PFEP.screen')),
+      // },
       {
         name: 'CP',
         path: '/cp/',

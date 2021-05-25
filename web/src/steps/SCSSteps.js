@@ -17,7 +17,7 @@ export const SCSSteps = [
     component: lazy(() => import('web/src/forms/PFEP/SCSExistingPackagingDetails.form')),
   },
   {
-    title: 'Solution Required',
+    title: 'Solution',
     icon: 'user-add',
     component: lazy(() => import('web/src/forms/PFEP/SCSSolutionRequired.form')),
   },

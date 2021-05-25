@@ -41,15 +41,30 @@ export const SCSColumn = [
     key: 'scsNo',
     dataIndex: 'scs_no',
     width: '5vw',
-    sorter: (a, b) => a.scs - b.scs,
+    sorter: (a, b) => a.scs_no - b.scs_no,
     showSorterTooltip: false,
   },
   {
     title: 'Lead Number',
     key: 'leadNo',
-    dataIndex: 'lead_no',
+    render: (text, record) => {
+      return record.lead_no.lead_no;
+    },
     width: '5vw',
-    sorter: (a, b) => a.lead_no - b.lead_no,
+    sorter: (a, b) => a.lead_no.lead_no - b.lead_no.lead_no,
+    showSorterTooltip: false,
+  },
+  {
+    title: 'Client',
+    key: 'client',
+    render: (text, record) => {
+      return record.lead_no.company_name;
+    },
+    width: '10vw',
+    sorter: (a, b) =>
+      ifNotStrReturnA(a.lead_no.company_name).localeCompare(
+        ifNotStrReturnA(b.lead_no.company_name),
+      ),
     showSorterTooltip: false,
   },
   {

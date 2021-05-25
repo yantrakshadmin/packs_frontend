@@ -31,9 +31,11 @@ export const BasicDetailsCreateCPForm = ({id, onCancel, scsData, onNext, active}
           console.log(currentInputField);
 
           if (currentInputField === 'sender_client') {
-            const temp = _.find(scsData.sks, (i) => i.sender === data[0].value);
+            const temp = _.find(
+              scsData.sks,
+              (i) => `${i.sender} - ${i.receiver}` === data[0].value,
+            );
             form.setFieldsValue({
-              receiver: temp.receiver,
               volume_pm: temp.peak_volume,
               yantra_cycle: temp.total_cycle_time,
             });
@@ -103,10 +105,11 @@ export const BasicDetailsCreateCPForm = ({id, onCancel, scsData, onNext, active}
         <Divider orientation="left">Basic Details</Divider>
         <Row style={{justifyContent: 'left'}}>
           {basicDetailCreateCPFormFields.slice(0, 1).map((item, idx) => (
-            <Col span={12}>
+            <Col span={24}>
               <div key={idx.toString()} className="p-2">
                 {formItem({
                   ...item,
+                  customLabel: 'Sender - Receiver',
                   kwargs: {
                     ...item.kwargs,
                     showSearch: true,
@@ -114,21 +117,23 @@ export const BasicDetailsCreateCPForm = ({id, onCancel, scsData, onNext, active}
                       option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                   },
                   others: {
-                    selectOptions: scsData.sks || [],
-                    key: 'sender',
-                    customTitle: 'sender',
+                    selectOptions: scsData.sks
+                      ? scsData.sks.map((i) => ({...i, new_id: `${i.sender} - ${i.receiver}`}))
+                      : [],
+                    key: 'new_id',
+                    customTitle: 'new_id',
                   },
                 })}
               </div>
             </Col>
           ))}
-          {basicDetailCreateCPFormFields.slice(2, 3).map((item, idx) => (
+          {/* {basicDetailCreateCPFormFields.slice(2, 3).map((item, idx) => (
             <Col span={12}>
               <div key={idx.toString()} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
-          ))}
+          ))} */}
         </Row>
         <Divider orientation="left">Part Details</Divider>
         <Row style={{justifyContent: 'left'}}>

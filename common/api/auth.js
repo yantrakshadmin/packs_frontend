@@ -885,6 +885,12 @@ export const tpFileReUpload = (id, req) =>
     },
   });
 
+export const retrieveTPs = () =>
+  loadAPI('/tp-list/', {
+    method: 'GET',
+    secure: true,
+  });
+
 export const createReturn = (data) =>
   loadAPI('/create-return/', {
     method: 'POST',
