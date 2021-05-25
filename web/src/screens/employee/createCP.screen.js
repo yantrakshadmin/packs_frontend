@@ -241,7 +241,9 @@ const CreateCPScreen = ({currentPage}) => {
     hideSelectAll: true,
     getCheckboxProps: (record) => ({
       disabled:
-        selectedCP.length <= 0 ? false : record.sender_client !== selectedCP[0].sender_client,
+        selectedCP.length <= 0
+          ? false
+          : record.scs_id.lead_no.lead_no !== selectedCP[0].scs_id.lead_no.lead_no,
     }),
   };
   return (
@@ -250,8 +252,7 @@ const CreateCPScreen = ({currentPage}) => {
         <Button
           className="mx-2"
           type="primary"
-          //disabled={selectedCP.length <= 0}
-          disabled={true}
+          disabled={selectedCP.length <= 0}
           onClick={(e) => {
             const receiverDetails = selectedCP.map((record) => ({
               ...record,

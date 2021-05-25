@@ -140,7 +140,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         modalBody={GroupForm}
         modalWidth={90}
         formParams={{isEmployee}}
-        expandHandleKey="models"
+        expandHandleKey="groupmodels"
         expandParams={{loading}}
         ExpandBody={GroupExpandTable}
       />

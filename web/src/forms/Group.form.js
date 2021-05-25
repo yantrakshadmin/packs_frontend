@@ -19,10 +19,6 @@ export const GroupForm = ({id, onCancel, onDone}) => {
 
   const [selectedModels, setSelectedModels] = useState([]);
 
-  useEffect(() => {
-    console.log(selectedModels);
-  }, [selectedModels]);
-
   const {form, submit, loading} = useHandleForm({
     create: createGroup,
     edit: editGroup,
@@ -37,7 +33,7 @@ export const GroupForm = ({id, onCancel, onDone}) => {
 
   useEffect(() => {
     if (id && !loading) {
-      const temp = form.getFieldValue('models');
+      const temp = form.getFieldValue('groupmodels');
       const smTemp = selectedModels;
       temp.forEach((m) => {
         const k = _.findKey(groupModelChoicesGrouped, (o) => o.includes(m.model));
@@ -67,9 +63,9 @@ export const GroupForm = ({id, onCancel, onDone}) => {
         });
       });
 
-      if (temp.sender_clients.length > 0) {
-        s.push({model: 'Sender Client'});
-      }
+      // if (temp.sender_clients.length > 0) {
+      //   s.push({model: 'Sender Client'});
+      // }
 
       if (temp.receiver_clients.length > 0) {
         s.push({model: 'Receiver Client'});
@@ -196,8 +192,8 @@ export const GroupForm = ({id, onCancel, onDone}) => {
                                   customTitle: 'client_name',
                                   formOptions: {
                                     ...field,
-                                    name: [field.name, 'user'],
-                                    fieldKey: [field.fieldKey, 'user'],
+                                    name: [field.name, 'id'],
+                                    fieldKey: [field.fieldKey, 'id'],
                                   },
                                 },
                               })}
@@ -262,8 +258,8 @@ export const GroupForm = ({id, onCancel, onDone}) => {
                                   customTitle: 'name',
                                   formOptions: {
                                     ...field,
-                                    name: [field.name, 'user'],
-                                    fieldKey: [field.fieldKey, 'user'],
+                                    name: [field.name, 'id'],
+                                    fieldKey: [field.fieldKey, 'id'],
                                   },
                                 },
                               })}
@@ -328,8 +324,8 @@ export const GroupForm = ({id, onCancel, onDone}) => {
                                   customTitle: 'name',
                                   formOptions: {
                                     ...field,
-                                    name: [field.name, 'user'],
-                                    fieldKey: [field.fieldKey, 'user'],
+                                    name: [field.name, 'id'],
+                                    fieldKey: [field.fieldKey, 'id'],
                                   },
                                 },
                               })}
