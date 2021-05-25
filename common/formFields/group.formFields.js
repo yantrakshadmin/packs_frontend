@@ -52,7 +52,7 @@ export const groupModelChoicesGrouped = {
     'Receiver Client Inventory Ledger',
     'Receiver Client Inventory Adjustments',
   ],
-  Masters: ['Product', 'Kit', 'Flow', 'Vendor', 'Warehouse', 'Receiver Client'],
+  Masters: ['Product', 'Kit', 'Flow', 'Vendor'],
 };
 
 export const groupFormFields = [

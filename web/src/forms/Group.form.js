@@ -1,27 +1,21 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {Form, Col, Row, Button, Divider, Spin, message, Alert, Card} from 'antd';
-import {
-  groupFormFields,
-  groupModelChoices,
-  groupModelChoicesGrouped,
-} from 'common/formFields/group.formFields';
+import {Form, Col, Row, Button, Divider, Spin, Card} from 'antd';
+import {groupFormFields, groupModelChoicesGrouped} from 'common/formFields/group.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
 import {createGroup, editGroup, retrieveGroup} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
-import {useControlledSelect} from '../hooks/useControlledSelect';
 import formItem from '../hocs/formItem.hoc';
 import {FORM_ELEMENT_TYPES} from '../constants/formFields.constant';
 
-import {ifNanReturnZero} from 'common/helpers/mrHelper';
-
-import moment from 'moment';
-
 import _ from 'lodash';
-import {filterActive} from 'common/helpers/mrHelper';
 
-export const GroupForm = ({id, onCancel, onDone, isEmployee}) => {
+export const GroupForm = ({id, onCancel, onDone}) => {
   const {data: employees} = useAPI('/employees/', {});
+
+  const {data: sender_clients} = useAPI('/clients/', {});
+  const {data: receiver_clients} = useAPI('/receiverclients/', {});
+  const {data: warehouses} = useAPI('/warehouse/', {});
 
   const [selectedModels, setSelectedModels] = useState([]);
 
@@ -60,32 +54,36 @@ export const GroupForm = ({id, onCancel, onDone, isEmployee}) => {
 
   const preProcess = useCallback(
     (data) => {
-      const {name, emp} = data;
       const temp = {};
-      temp.name = name;
-      temp.emp = emp;
+      temp.name = data.name;
+      temp.emp = data.emp;
+      temp.sender_clients = data.sender_clients || [];
+      temp.receiver_clients = data.receiver_clients || [];
+      temp.warehouses = data.warehouses || [];
       let s = [];
       selectedModels.forEach((i) => {
         groupModelChoicesGrouped[i].forEach((j) => {
           s.push({model: j});
         });
       });
-      //temp.models = selectedModels.map((sm) => ({model: sm}));
+
+      if (temp.sender_clients.length > 0) {
+        s.push({model: 'Sender Client'});
+      }
+
+      if (temp.receiver_clients.length > 0) {
+        s.push({model: 'Receiver Client'});
+      }
+
+      if (temp.warehouses.length > 0) {
+        s.push({model: 'Warehouse'});
+      }
+
       temp.models = s;
-      console.log(temp);
       submit(temp);
     },
     [selectedModels],
   );
-
-  const handleFieldsChange = useCallback((data) => {
-    if (data[0]) {
-      if (data[0].name) {
-        const thisField = data[0].name[0];
-        //console.log(thisField);
-      }
-    }
-  }, []);
 
   return (
     <Spin spinning={loading}>
@@ -96,8 +94,7 @@ export const GroupForm = ({id, onCancel, onDone, isEmployee}) => {
         form={form}
         layout="vertical"
         hideRequiredMark
-        autoComplete="off"
-        onFieldsChange={handleFieldsChange}>
+        autoComplete="off">
         <Row style={{justifyContent: 'left'}}>
           {groupFormFields.slice(0, 1).map((item, idx) => (
             <Col span={item.colSpan}>
@@ -165,6 +162,209 @@ export const GroupForm = ({id, onCancel, onDone, isEmployee}) => {
               </Card>
             </Col>
           ))}
+        </Row>
+
+        <br />
+
+        <Row gutter={10}>
+          <Col span={8}>
+            <Card title="Sender Clients">
+              <Form.List name="sender_clients">
+                {(fields, {add, remove}) => {
+                  return (
+                    <div>
+                      {fields.map((field, index) => (
+                        <Row align="middle">
+                          <Col span={20}>
+                            <div className="p-2">
+                              {formItem({
+                                type: FORM_ELEMENT_TYPES.SELECT,
+                                noLabel: true,
+                                kwargs: {
+                                  placeholder: 'Select Sender Client',
+                                  showSearch: true,
+                                  filterOption: (input, option) =>
+                                    option.search
+                                      .toString()
+                                      .toLowerCase()
+                                      .indexOf(input.toLowerCase()) >= 0,
+                                },
+                                others: {
+                                  selectOptions: sender_clients || [],
+                                  key: 'user',
+                                  dataKeys: ['client_email'],
+                                  customTitle: 'client_name',
+                                  formOptions: {
+                                    ...field,
+                                    name: [field.name, 'user'],
+                                    fieldKey: [field.fieldKey, 'user'],
+                                  },
+                                },
+                              })}
+                            </div>
+                          </Col>
+                          <Col span={4}>
+                            <Button
+                              // style={{ width: '9vw' }}
+                              style={{top: '-2vh'}}
+                              type="danger"
+                              onClick={() => {
+                                remove(field.name);
+                              }}
+                              block>
+                              <MinusCircleOutlined />
+                            </Button>
+                          </Col>
+                        </Row>
+                      ))}
+                      <Form.Item>
+                        <Button
+                          type="dashed"
+                          onClick={() => {
+                            add();
+                          }}
+                          block>
+                          <PlusOutlined /> Add Item
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  );
+                }}
+              </Form.List>
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card title="Receiver Clients">
+              <Form.List name="receiver_clients">
+                {(fields, {add, remove}) => {
+                  return (
+                    <div>
+                      {fields.map((field, index) => (
+                        <Row align="middle">
+                          <Col span={20}>
+                            <div className="p-2">
+                              {formItem({
+                                type: FORM_ELEMENT_TYPES.SELECT,
+                                noLabel: true,
+                                kwargs: {
+                                  placeholder: 'Select Receiver Client',
+                                  showSearch: true,
+                                  filterOption: (input, option) =>
+                                    option.search
+                                      .toString()
+                                      .toLowerCase()
+                                      .indexOf(input.toLowerCase()) >= 0,
+                                },
+                                others: {
+                                  selectOptions: receiver_clients || [],
+                                  key: 'id',
+                                  dataKeys: ['address'],
+                                  customTitle: 'name',
+                                  formOptions: {
+                                    ...field,
+                                    name: [field.name, 'user'],
+                                    fieldKey: [field.fieldKey, 'user'],
+                                  },
+                                },
+                              })}
+                            </div>
+                          </Col>
+                          <Col span={4}>
+                            <Button
+                              // style={{ width: '9vw' }}
+                              style={{top: '-2vh'}}
+                              type="danger"
+                              onClick={() => {
+                                remove(field.name);
+                              }}
+                              block>
+                              <MinusCircleOutlined />
+                            </Button>
+                          </Col>
+                        </Row>
+                      ))}
+                      <Form.Item>
+                        <Button
+                          type="dashed"
+                          onClick={() => {
+                            add();
+                          }}
+                          block>
+                          <PlusOutlined /> Add Item
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  );
+                }}
+              </Form.List>
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card title="Warehouses">
+              <Form.List name="warehouses">
+                {(fields, {add, remove}) => {
+                  return (
+                    <div>
+                      {fields.map((field, index) => (
+                        <Row align="middle">
+                          <Col span={20}>
+                            <div className="p-2">
+                              {formItem({
+                                type: FORM_ELEMENT_TYPES.SELECT,
+                                noLabel: true,
+                                kwargs: {
+                                  placeholder: 'Select Warehouse',
+                                  showSearch: true,
+                                  filterOption: (input, option) =>
+                                    option.search
+                                      .toString()
+                                      .toLowerCase()
+                                      .indexOf(input.toLowerCase()) >= 0,
+                                },
+                                others: {
+                                  selectOptions: warehouses || [],
+                                  key: 'id',
+                                  dataKeys: ['address'],
+                                  customTitle: 'name',
+                                  formOptions: {
+                                    ...field,
+                                    name: [field.name, 'user'],
+                                    fieldKey: [field.fieldKey, 'user'],
+                                  },
+                                },
+                              })}
+                            </div>
+                          </Col>
+                          <Col span={4}>
+                            <Button
+                              // style={{ width: '9vw' }}
+                              style={{top: '-2vh'}}
+                              type="danger"
+                              onClick={() => {
+                                remove(field.name);
+                              }}
+                              block>
+                              <MinusCircleOutlined />
+                            </Button>
+                          </Col>
+                        </Row>
+                      ))}
+                      <Form.Item>
+                        <Button
+                          type="dashed"
+                          onClick={() => {
+                            add();
+                          }}
+                          block>
+                          <PlusOutlined /> Add Item
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  );
+                }}
+              </Form.List>
+            </Card>
+          </Col>
         </Row>
 
         <br />
