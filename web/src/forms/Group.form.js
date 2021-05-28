@@ -37,7 +37,7 @@ export const GroupForm = ({id, onCancel, onDone}) => {
       const smTemp = selectedModels;
       temp.forEach((m) => {
         const k = _.findKey(groupModelChoicesGrouped, (o) => o.includes(m.model));
-        if (!smTemp.includes(k)) {
+        if (k && !smTemp.includes(k)) {
           smTemp.push(k);
           form.setFieldsValue({
             [k]: true,
@@ -192,8 +192,8 @@ export const GroupForm = ({id, onCancel, onDone}) => {
                                   customTitle: 'client_name',
                                   formOptions: {
                                     ...field,
-                                    name: [field.name, 'id'],
-                                    fieldKey: [field.fieldKey, 'id'],
+                                    name: [field.name, 'pk'],
+                                    fieldKey: [field.fieldKey, 'pk'],
                                   },
                                 },
                               })}
@@ -258,8 +258,8 @@ export const GroupForm = ({id, onCancel, onDone}) => {
                                   customTitle: 'name',
                                   formOptions: {
                                     ...field,
-                                    name: [field.name, 'id'],
-                                    fieldKey: [field.fieldKey, 'id'],
+                                    name: [field.name, 'pk'],
+                                    fieldKey: [field.fieldKey, 'pk'],
                                   },
                                 },
                               })}
@@ -324,8 +324,8 @@ export const GroupForm = ({id, onCancel, onDone}) => {
                                   customTitle: 'name',
                                   formOptions: {
                                     ...field,
-                                    name: [field.name, 'id'],
-                                    fieldKey: [field.fieldKey, 'id'],
+                                    name: [field.name, 'pk'],
+                                    fieldKey: [field.fieldKey, 'pk'],
                                   },
                                 },
                               })}
