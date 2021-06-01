@@ -856,7 +856,7 @@ export const deleteOutwardDeliveredDocket = (id) =>
   });
 
 export const leadFileUpload = (req) =>
-  loadAPI('/upload-pfep/', {
+  loadAPI('/upload-scs/', {
     method: 'POST',
     data: req,
     secure: true,
