@@ -89,6 +89,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
                 onClick: (e) => {
                   setPopover(false);
                   setLead(record.lead_no);
+                  setLeadID(record.id);
                   setVisibleUpload(true);
                   e.stopPropagation();
                 },
@@ -213,7 +214,7 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
           onDone={() => {
             setVisibleUpload(false);
           }}
-          lead={lead}
+          lead={leadID}
           create={leadFileUpload}
           varName="lead_no"
         />
