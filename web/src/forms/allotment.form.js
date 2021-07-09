@@ -12,13 +12,12 @@ import { navigate } from '@reach/router';
 import formItem from '../hocs/formItem.hoc';
 
 const AllotmentForm = ({ location }) => {
-  const [dat, setDat] = useState(null);
+  const [flows, setFlows] = useState([]);
+  const [kits, setKits] = useState([]);
 
-  const { data: mrs } = useAPI('/allmrequest/', {});
+  const { data: flowFetched } = useAPI(`/mr-table-exp-allot/?id=${location.state.id || ''}`, {});
   const { data: warehouses } = useAPI('/warehouse/', {});
   const { data: vendors } = useAPI('/vendors/', {});
-  const { data: kits } = useAPI('/kits/', {});
-  const { data: flows } = useAPI('/flows/', {});
 
   const onDone = () => {
     navigate('./material-request/');
@@ -34,30 +33,36 @@ const AllotmentForm = ({ location }) => {
 
   useEffect(() => {
     const fetchFlows = async () => {
-      if (location.state.id && mrs && form) {
-        form.setFieldsValue({ model: 'Rent', vehicle_type: 'Part Load' });
-        const reqData = mrs.filter((d) => d.id === location.state.id);
-        setDat(reqData[0].delivery_required_on);
-        const { flows: flos } = reqData[0];
-        const reqFlows = flos.map((flo) => ({
-          flow: flo.flow.id,
-          kit: flo.kit.id,
-          asked_quantity: flo.quantity,
-        }));
+      if (location.state.id && flowFetched && flowFetched[0] && form) {
+        const tempKits = [];
+        const tempFlows = [];
+        const reqFlows = (flowFetched[0].flows || []).map(item => {
+          tempFlows.push(item.flow);
+          tempKits.push(item.kit);
+          return {
+            flow: item.flow.id,
+            kit: item.kit.id,
+            asked_quantity: item.quantity,
+          };
+        });
         const finalFlows = {
           flows: reqFlows,
         };
-        form.setFieldsValue({ ...finalFlows, sales_order: location.state.id });
+        setFlows(tempFlows);
+        setKits(tempKits);
+        form.setFieldsValue({
+          ...finalFlows,
+          model: 'Rent',
+          vehicle_type: 'Part Load',
+          sales_order: location.state.id,
+          dispatch_date: moment(flowFetched[0].delivery_required_on),
+          expected_delivery: moment(flowFetched[0].delivery_required_on),
+        });
       }
+      console.log(flows, kits, 'this', flowFetched);
     };
     fetchFlows();
-  }, [location.state.id, mrs, form]);
-
-  useEffect(() => {
-    if (dat) {
-      form.setFieldsValue({ dispatch_date: moment(dat), expected_delivery: moment(dat) });
-    }
-  }, [dat]);
+  }, [location.state.id, flowFetched, form]);
 
   const preProcess = (data) => {
     submit(data);
