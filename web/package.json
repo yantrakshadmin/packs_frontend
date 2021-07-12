@@ -20,7 +20,7 @@
     "common": "0.0.1",
     "customize-cra": "^1.0.0",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "react": "^16.13.1",
     "react-chartjs-2": "^2.7.6",
     "react-csv": "^2.0.3",
