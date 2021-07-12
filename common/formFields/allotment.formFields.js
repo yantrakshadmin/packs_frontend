@@ -117,15 +117,6 @@ export const allotmentFormFields = [
     customLabel: 'Transport By',
   },
   {
-    key: 'remarks',
-    kwargs: {
-      placeholder: 'Enter',
-    },
-    type: FORM_ELEMENT_TYPES.INPUT,
-    others: null,
-    customLabel: 'Remarks',
-  },
-  {
     key: 'dispatch_date',
     rules: [{required: true, message: 'Please enter dispatch date!'}],
     kwargs: {

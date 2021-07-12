@@ -9,11 +9,13 @@ import { useAPI } from 'common/hooks/api';
 import { useHandleForm } from 'hooks/form';
 import { createAllotment } from 'common/api/auth';
 import { navigate } from '@reach/router';
+import Creatable from 'react-select/creatable';
 import formItem from '../hocs/formItem.hoc';
 
 const AllotmentForm = ({ location }) => {
   const [flows, setFlows] = useState([]);
   const [kits, setKits] = useState([]);
+  const [remarks, setRemarks] = useState({ value: '', label: '' });
 
   const { data: flowFetched } = useAPI(`/mr-table-exp-allot/?id=${location.state.id || ''}`, {});
   const { data: warehouses } = useAPI('/warehouse/', {});
@@ -65,7 +67,7 @@ const AllotmentForm = ({ location }) => {
   }, [location.state.id, flowFetched, form]);
 
   const preProcess = (data) => {
-    submit(data);
+    submit({...data,remarks:remarks.value});
   };
 
   return (
@@ -120,13 +122,29 @@ const AllotmentForm = ({ location }) => {
             </div>
           </Col>
           <Col span={6}>
-            <div key={10} className='p-2'>
-              {formItem(allotmentFormFields[10])}
+            <div className='p-2'>
+              <p className='p-0' style={{ marginBottom: '5px' }}>
+                Remarks
+              </p>
+              <Creatable
+                id='remarks'
+                isClearable
+                value={remarks}
+                defaultValue={remarks}
+                onChange={(value) => {
+                  console.log(value, '...');
+                  setRemarks(value);
+                }}
+                options={[
+                  { value: 'Returnable', label: 'Returnable' },
+                  { value: 'Non Returnable', label: 'Non Returnable' },
+                ]}
+              />
             </div>
           </Col>
         </Row>
         <Row>
-          {allotmentFormFields.slice(11, 13).map((item, idx) => (
+          {allotmentFormFields.slice(10, 12).map((item, idx) => (
             <Col span={4}>
               <div key={idx} className='p-2'>
                 {formItem(item)}
