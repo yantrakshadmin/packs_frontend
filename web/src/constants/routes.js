@@ -360,21 +360,21 @@ export const employeeRoutes = [
         path: '/reports/stocking/',
         Component: lazy(() => import('components/Reports/Stocking.js')),
       },
-      {
-        name: 'GRN Count',
-        path: '/reports/grn-count/',
-        Component: lazy(() => import('components/Reports/grnCount')),
-      },
-      {
-        name: 'Allotment Count',
-        path: '/reports/allotment-count/',
-        Component: lazy(() => import('components/Reports/allotmentCount')),
-      },
-      {
-        name: 'Return Count',
-        path: '/reports/return-count/',
-        Component: lazy(() => import('components/Reports/returnCount')),
-      },
+      // {
+      //   name: 'GRN Count',
+      //   path: '/reports/grn-count/',
+      //   Component: lazy(() => import('components/Reports/grnCount')),
+      // },
+      // {
+      //   name: 'Allotment Count',
+      //   path: '/reports/allotment-count/',
+      //   Component: lazy(() => import('components/Reports/allotmentCount')),
+      // },
+      // {
+      //   name: 'Return Count',
+      //   path: '/reports/return-count/',
+      //   Component: lazy(() => import('components/Reports/returnCount')),
+      // },
       {
         name: 'Loss/Excess',
         path: '/reports/loss-excess/',
