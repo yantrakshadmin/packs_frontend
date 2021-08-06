@@ -33,7 +33,7 @@ export const GRNFormFields = [
   },
   {
     key: 'reference_no',
-    rules: [{required: true, message: 'Please enter reference number!'}],
+    rules: [{ message: 'Please enter reference number!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -43,7 +43,7 @@ export const GRNFormFields = [
   },
   {
     key: 'driver_number',
-    rules: [{required: true, message: 'Please enter driver number!'}],
+    rules: [{ message: 'Please enter driver number!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -53,7 +53,7 @@ export const GRNFormFields = [
   },
   {
     key: 'vehicle_number',
-    rules: [{required: true, message: 'Please enter vehicle number!'}],
+    rules: [{ message: 'Please enter vehicle number!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -63,7 +63,7 @@ export const GRNFormFields = [
   },
   {
     key: 'vehicle_type',
-    rules: [{required: true, message: 'Please enter vehicle type!'}],
+    rules: [{ message: 'Please enter vehicle type!'}],
     kwargs: {
       placeholder: 'Select',
     },
@@ -96,7 +96,7 @@ export const GRNFormFields = [
   },
   {
     key: 'invoice_amount',
-    rules: [{required: true, message: 'Please enter invoice amount!'}],
+    rules: [{ required: true,message: 'Please enter invoice amount!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -106,7 +106,7 @@ export const GRNFormFields = [
   },
   {
     key: 'freight_charges',
-    rules: [{required: true, message: 'Please enter freight charges!'}],
+    rules: [{ message: 'Please enter freight charges!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -116,7 +116,7 @@ export const GRNFormFields = [
   },
   {
     key: 'remarks',
-    rules: [{required: true, message: 'Please enter remarks!'}],
+    rules: [{ message: 'Please enter remarks!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -126,7 +126,7 @@ export const GRNFormFields = [
   },
   {
     key: 'reciever',
-    rules: [{required: true, message: 'Please enter receiver!'}],
+    rules: [{ message: 'Please enter receiver!'}],
     kwargs: {
       placeholder: 'Enter',
     },
@@ -192,7 +192,7 @@ export const GRNItemFormFields = [
   },
   {
     key: 'label_name',
-    rules: [{required: true, message: 'Please enter Label Name!'}],
+    rules: [{ message: 'Please enter Label Name!'}],
     kwargs: {
       placeholder: 'Enter',
       maxLength: 20,
