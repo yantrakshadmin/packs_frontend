@@ -13,8 +13,8 @@ export const getUserMeta = async (dispatch) => {
     const {data: meta} = await getUserMetaAPI();
 
     if (meta) {
-      const {category: type, name, email, username, id, dp} = meta;
-      dispatch(userAuthenticated({name, type, email, username, id, dp}));
+      const {category: type, name, email, username, id, dp,active} = meta;
+      dispatch(userAuthenticated({name, type, email, username, id, dp, active}));
       return false;
     }
 
