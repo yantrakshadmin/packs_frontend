@@ -268,7 +268,8 @@ const ReturnDocket = ({location, isClient}) => {
                 } else {
                   return (
                     <tr>
-                      <td>{kit.kit}</td>
+                      {console.log(kit, "kit wala cnsole")}
+                      <td>{kit.kit.kit_name}</td>
                       <td>{kit.quantity}</td>
                       <td>
                         {kit.items.map((prod) => (
