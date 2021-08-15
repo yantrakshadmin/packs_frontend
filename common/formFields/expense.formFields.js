@@ -1,6 +1,6 @@
 import {FORM_ELEMENT_TYPES} from '../../web/src/constants/formFields.constant';
 
-const transactionTypeOptions = ['Allot', 'Return'];
+const transactionTypeOptions = ['Allot', 'Return', 'GRN'];
 
 const statusOptions = ['Approved', 'Hold', 'Rejected'];
 
@@ -93,17 +93,6 @@ export const expenseFormFields = [
     colSpan: 6,
   },
   {
-    key: 'transaction_type',
-    rules: [{required: true, message: 'Please select transaction type!'}],
-    kwargs: {
-      placeholder: 'Select',
-    },
-    type: FORM_ELEMENT_TYPES.SELECT,
-    others: {selectOptions: transactionTypeOptions},
-    customLabel: 'Transaction Type',
-    colSpan: 6,
-  },
-  {
     key: 'status',
     rules: [{required: true, message: 'Please select status!'}],
     kwargs: {
@@ -118,6 +107,17 @@ export const expenseFormFields = [
 
 export const expenseFlowFormFields = [
   {
+    key: 'transaction_type',
+    rules: [{required: true, message: 'Please select transaction type!'}],
+    kwargs: {
+      placeholder: 'Select',
+    },
+    type: FORM_ELEMENT_TYPES.SELECT,
+    others: {selectOptions: transactionTypeOptions},
+    customLabel: 'Transaction Type',
+    colSpan: 3,
+  },
+  {
     key: 't_no',
     rules: [{required: true, message: 'Please select transaction!'}],
     kwargs: {
@@ -126,7 +126,7 @@ export const expenseFlowFormFields = [
     type: FORM_ELEMENT_TYPES.SELECT,
     others: null,
     customLabel: 'Transaction Number',
-    colSpan: 4,
+    colSpan: 3,
   },
   {
     key: 'f_mile',
@@ -205,6 +205,6 @@ export const expenseFlowFormFields = [
     type: FORM_ELEMENT_TYPES.INPUT,
     others: null,
     customLabel: 'Total Cost',
-    colSpan: 3,
+    colSpan: 2,
   },
 ];
