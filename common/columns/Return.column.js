@@ -7,9 +7,9 @@ export default [
     dataIndex: 'warehouse',
   },
   {
-    title: 'Flow',
-    key: 'flow',
-    dataIndex: 'flow',
+    title: 'Client',
+    key: 'receiver_client',
+    dataIndex: 'receiver_client',
   },
   {
     title: 'Transaction Date',
