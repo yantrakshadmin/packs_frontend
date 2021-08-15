@@ -191,6 +191,8 @@ const ReturnDocket = ({location, isClient}) => {
                 <Col span={10}>
                   <p style={{fontWeight: 'bold'}}>Receiver's Address : </p>
                 </Col>
+
+
                 <Col span={12} style={{wordWrap: 'break-word'}}>
                   {`${reqReturn.warehouse.address}, ${reqReturn.warehouse.city}, ${reqReturn.warehouse.state}, ${reqReturn.warehouse.pincode}`}
                 </Col>
@@ -235,11 +237,12 @@ const ReturnDocket = ({location, isClient}) => {
             <tbody>
               {reqReturn.kits.map((kit) => {
                 if (isClient && !ckLoading) {
-                  const temp = _.find(clientKits, (ck) => ck.kit_name === kit.kit);
-                  if (temp) {
+
+                  const temp = _.find(clientKits, (ck) =>{return(ck.kit_name === kit.kit.kit_name)} );
+                  if (temp) { console.log(temp,kit, "console temp");
                     return (
                       <tr>
-                        <td>{kit.kit}</td>
+                        <td>{kit.kit.kit_name}</td>
                         <td>{kit.quantity}</td>
                         <td>
                           {kit.items.map((prod) => (
@@ -268,7 +271,7 @@ const ReturnDocket = ({location, isClient}) => {
                 } else {
                   return (
                     <tr>
-                      {console.log(kit, "kit wala cnsole")}
+                      {console.log( "kit wala cnsole")}
                       <td>{kit.kit.kit_name}</td>
                       <td>{kit.quantity}</td>
                       <td>
@@ -316,7 +319,7 @@ const ReturnDocket = ({location, isClient}) => {
             <Row>
               <Col span={24}>
                 <p style={{fontWeight: 'bold', display: 'inline'}}>Charged Weight : </p>
-                <p style={{fontWeight: 'bold', display: 'inline'}}>{weight} Kg</p>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>{weight?.toFixed(2)} Kg</p>
               </Col>
             </Row>
             {!isClient ? (
