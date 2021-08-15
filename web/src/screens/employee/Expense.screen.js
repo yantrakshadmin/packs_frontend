@@ -146,7 +146,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={ExpenseForm}
-        modalWidth={80}
+        modalWidth={98}
         formParams={{isEmployee}}
         //expandHandleKey="transactions"
         //expandParams={{loading}}
