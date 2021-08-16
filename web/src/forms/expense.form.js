@@ -137,6 +137,7 @@ export const ExpenseForm = ({ id, onCancel, onDone, isEmployee }) => {
      })
       data.transactions = newFlows;
     }
+
     let failed = false;
     const { bill } = data;
     if (bill) {
@@ -187,7 +188,7 @@ export const ExpenseForm = ({ id, onCancel, onDone, isEmployee }) => {
     } else if(tt === 'GRN'){
       return grnExp.map((i) => ({
         ...i,
-        invoice_date: moment(i.invoice_date).format('L'),
+        inward_date: moment(i.inward_date).format('L'),
       }));
     }
     return [];
@@ -203,7 +204,7 @@ export const ExpenseForm = ({ id, onCancel, onDone, isEmployee }) => {
       return ['transaction_date'];
     }
     if(tt ==='GRN') {
-       return ['invoice_date']
+       return ['inward_date']
     }
 
 
@@ -217,7 +218,7 @@ export const ExpenseForm = ({ id, onCancel, onDone, isEmployee }) => {
       return ['transaction_no'];
     }
     if(tt ==='GRN') {
-       return ['invoice_number']
+       return ['invoice_no']
     }
 
 
