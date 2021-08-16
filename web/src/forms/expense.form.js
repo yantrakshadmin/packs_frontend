@@ -99,27 +99,27 @@ export const ExpenseForm = ({ id, onCancel, onDone, isEmployee }) => {
     const { transactions } = data;
     const { transaction_type } = data;
 
-    if (transactions && transaction_type) {
-      if (transaction_type === 'Return') {
-        const newFlows = transactions.map((flo) => {
-          if ('a_t_no' in flo) delete flo.a_t_no;
-          return {
-            ...flo,
-            r_t_no: Number(flo.t_no),
-          };
-        });
-        data.transactions = newFlows;
-      } else {
-        const newFlows = transactions.map((flo) => {
-          if ('r_t_no' in flo) delete flo.r_t_no;
-          return {
-            ...flo,
-            a_t_no: Number(flo.t_no),
-          };
-        });
-        data.transactions = newFlows;
-      }
-    }
+    // if (transactions && transaction_type) {
+    //   if (transaction_type === 'Return') {
+    //     const newFlows = transactions.map((flo) => {
+    //       if ('a_t_no' in flo) delete flo.a_t_no;
+    //       return {
+    //         ...flo,
+    //         r_t_no: Number(flo.t_no),
+    //       };
+    //     });
+    //     data.transactions = newFlows;
+    //   } else {
+    //     const newFlows = transactions.map((flo) => {
+    //       if ('r_t_no' in flo) delete flo.r_t_no;
+    //       return {
+    //         ...flo,
+    //         a_t_no: Number(flo.t_no),
+    //       };
+    //     });
+    //     data.transactions = newFlows;
+    //   }
+    // }
 
     let failed = false;
     const { bill } = data;
@@ -172,7 +172,7 @@ export const ExpenseForm = ({ id, onCancel, onDone, isEmployee }) => {
     } else if(tt === 'GRN'){
       return grnExp.map((i) => ({
         ...i,
-        invoice_date: moment(i.invoice_date).format('L'),
+        inward_date: moment(i.inward_date).format('L'),
       }));
     }
     return [];
@@ -188,7 +188,7 @@ export const ExpenseForm = ({ id, onCancel, onDone, isEmployee }) => {
       return ['transaction_date'];
     }
     if(tt ==='GRN') {
-       return ['invoice_date']
+       return ['inward_date']
     }
 
 
@@ -202,7 +202,7 @@ export const ExpenseForm = ({ id, onCancel, onDone, isEmployee }) => {
       return ['transaction_no'];
     }
     if(tt ==='GRN') {
-       return ['invoice_number']
+       return ['invoice_no']
     }
 
 
