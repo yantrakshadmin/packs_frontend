@@ -42,7 +42,7 @@ export const ExpenseForm = ({ id, onCancel, onDone, isEmployee }) => {
       const transactions = form.getFieldValue('transactions');
       const newT = transactions.map((t) => ({
         ...t,
-        t_no: t.a_t_no ? t.a_t_no : t.r_t_no,
+        t_no: t.a_t_no || t.r_t_no || t.g_t_no,
       }));
       form.setFieldsValue({ transactions: newT });
     }
@@ -97,30 +97,46 @@ export const ExpenseForm = ({ id, onCancel, onDone, isEmployee }) => {
 
   const preProcess = (data) => {
     const { transactions } = data;
-    const { transaction_type } = data;
-
-    if (transactions && transaction_type) {
-      if (transaction_type === 'Return') {
-        const newFlows = transactions.map((flo) => {
-          if ('a_t_no' in flo) delete flo.a_t_no;
-          return {
-            ...flo,
-            r_t_no: Number(flo.t_no),
-          };
-        });
-        data.transactions = newFlows;
-      } else {
-        const newFlows = transactions.map((flo) => {
-          if ('r_t_no' in flo) delete flo.r_t_no;
-          return {
-            ...flo,
-            a_t_no: Number(flo.t_no),
-          };
-        });
-        data.transactions = newFlows;
-      }
+    if(transactions) {
+     const newFlows = transactions.map((flo)=>{
+       if(flo.transaction_type === 'Allot'){
+         if('r_t_no' in flo){
+           delete flo.r_t_no;
+         }
+         if('g_t_no' in flo){
+           delete flo.g_t_no;
+         }
+         return {
+           ...flo,
+           a_t_no:Number(flo.t_no),
+         }
+       }else if(flo.transaction_type === 'Return'){
+         if('a_t_no' in flo){
+           delete flo.a_t_no;
+         }
+         if('g_t_no' in flo){
+           delete flo.g_t_no;
+         }
+         return {
+           ...flo,
+           r_t_no:Number(flo.t_no),
+         }
+       }
+       else if(flo.transaction_type === 'GRN'){
+         if('r_t_no' in flo){
+           delete flo.r_t_no;
+         }
+         if('a_t_no' in flo){
+           delete flo.a_t_no;
+         }
+         return {
+           ...flo,
+           g_t_no:Number(flo.t_no),
+         }
+       }
+     })
+      data.transactions = newFlows;
     }
-
     let failed = false;
     const { bill } = data;
     if (bill) {
@@ -159,7 +175,6 @@ export const ExpenseForm = ({ id, onCancel, onDone, isEmployee }) => {
   const getTranastionSelectOptions = useCallback((index) => {
     const transactions = form.getFieldValue('transactions');
     const tt = transactions[index]?.transaction_type;
-    console.log(tt,transactions, grnExp)
     if (tt === 'Allot') {
       if (allotExp)
         return allotExp.map((i) => ({ ...i, dispatch_date: moment(i.dispatch_date).format('L') }));
@@ -397,7 +412,7 @@ export const ExpenseForm = ({ id, onCancel, onDone, isEmployee }) => {
                               showSearch: true,
                               filterOption: (input, option) =>
                                 option.search
-                                  .toString()
+                                  ?.toString()
                                   .toLowerCase()
                                   .indexOf(input.toLowerCase()) >= 0,
                             },
@@ -429,7 +444,7 @@ export const ExpenseForm = ({ id, onCancel, onDone, isEmployee }) => {
                               showSearch: true,
                               filterOption: (input, option) =>
                                 option.search
-                                  .toString()
+                                  ?.toString()
                                   .toLowerCase()
                                   .indexOf(input.toLowerCase()) >= 0,
                             },
@@ -509,3 +524,4 @@ export const ExpenseForm = ({ id, onCancel, onDone, isEmployee }) => {
     </Spin>
   );
 };
+
