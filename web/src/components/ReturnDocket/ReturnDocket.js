@@ -227,6 +227,7 @@ const ReturnDocket = ({location, isClient}) => {
             <thead>
               <tr>
                 <th>Kit ID</th>
+                <th>Kit Info</th>
                 <th>Quantity</th>
                 {/* <th>HSN/SAC</th> */}
                 <th>Product Code</th>
@@ -243,6 +244,7 @@ const ReturnDocket = ({location, isClient}) => {
                     return (
                       <tr>
                         <td>{kit.kit.kit_name}</td>
+                        <td>{kit.kit.kit_info}</td>
                         <td>{kit.quantity}</td>
                         <td>
                           {kit.items.map((prod) => (
@@ -273,6 +275,7 @@ const ReturnDocket = ({location, isClient}) => {
                     <tr>
                       {console.log( "kit wala cnsole")}
                       <td>{kit.kit.kit_name}</td>
+                      <td>{kit.kit.kit_info}</td>
                       <td>{kit.quantity}</td>
                       <td>
                         {kit.items.map((prod) => (
