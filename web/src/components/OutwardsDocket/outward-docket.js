@@ -296,6 +296,7 @@ const OutwardDocket = ({location, match}) => {
               <tr>
                 <th>Kit ID</th>
                 <th>Kit Name</th>
+                <th>Kit Info</th>
                 <th>Kit Quantity</th>
                 <th>Quantity Parts</th>
                 <th>Kit Info</th>
@@ -306,11 +307,14 @@ const OutwardDocket = ({location, match}) => {
               </tr>
             </thead>
             <tbody>
-              {[...allotment.kits].map((kit) => {
+              {[...allotment.kits].map((kit, ) => {
+
                 return (
                   <tr>
+
                     <td>{kit.kit.id}</td>
                     <td>{kit.kit.kit_name}</td>
+                    <td>{kit.kit.kit_info}</td>
                     <td>{kit.quantity_kit}</td>
                     <td>{kit.quantity_parts}</td>
                     <td>{kit.kit.kit_info}</td>

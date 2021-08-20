@@ -186,13 +186,13 @@ export const ExpenseForm = ({ id, onCancel, onDone, isEmployee }) => {
           transaction_date: moment(i.transaction_date).format('L'),
         }));
     } else if(tt === 'GRN'){
-      return grnExp.map((i) => ({
+      if (grnExp){return grnExp.map((i) => ({
         ...i,
         inward_date: moment(i.inward_date).format('L'),
-      }));
+      }));}
     }
     return [];
-  }, [form, allotExp, returnExp, refreshTransactionNumber]);
+  }, [form, allotExp, returnExp, grnExp, refreshTransactionNumber]);
 
   const getDataKeys = useCallback((index) => {
     const transactions = form.getFieldValue('transactions');
