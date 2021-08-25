@@ -212,12 +212,14 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
       try {
         const {fileList} = data.document;
         if (fileList) {
-          const newFileList = fileList.map((f) => {
+          const newFileList = fileList.map((f, index) => {
+            const myNewFile = new File([f.originFileObj],
+                `${returnn.transaction_no}-${index+1}.${f.type.split('/')[1]||'jpg'}`, {type: f.type});
             if (f.status !== 'done') {
               message.error(`${f.name} has not been uploaded yet!`);
               failed = true;
             } else {
-              return f.originFileObj;
+              return myNewFile;
             }
           });
           data.document = newFileList;
