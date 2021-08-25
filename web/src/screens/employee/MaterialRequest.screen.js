@@ -115,6 +115,15 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
 
   const columns = [
     ...materialEmployeecolumns,
+      {
+      title: 'Linked',
+      key: 'linked',
+      filters: filterOptions || [],
+      onFilter: (value, record) => record.linked === value,
+      render: (text, record) => {
+        return record.linked;
+      },
+    },
     {
       title: 'Owner',
       key: 'owner',
