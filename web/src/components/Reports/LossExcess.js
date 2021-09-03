@@ -21,6 +21,10 @@ const StockingReport = ({currentPage}) => {
   const [selectAllClients, setSelectAllClients] = useState(false);
   //const {data: clients} = useAPI('/clients/', {});
 
+  useEffect(() => {
+    console.log('r clients', rClients);
+  }, [rClients]);
+
   const onChange = async () => {
     const tempFrom = moment(form.getFieldValue('dateFrom'))
       .startOf('date')

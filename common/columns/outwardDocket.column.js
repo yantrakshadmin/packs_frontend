@@ -2,11 +2,11 @@ import React from 'react';
 import {dateFormatter} from '../helpers/dateFomatter';
 
 export const outwardDocketColumn = [
-  {
-    title: 'Transaction Number',
-    dataIndex: 'transaction_no',
-    key: 'transaction_no',
-  },
+  // {
+  //   title: 'Transaction Number',
+  //   dataIndex: 'transaction_no',
+  //   key: 'transaction_no',
+  // },
   // {
   //   title:'Quantity Parts',
   //   dataIndex:'quantity_parts',
@@ -26,9 +26,9 @@ export const outwardDocketColumn = [
     dataIndex: 'vehicle_details',
     key: 'vehicle_details',
   },
-  {
-    title: 'Invoice Number',
-    dataIndex: 'invoice_number',
-    key: 'invoice_number',
-  },
+  // {
+  //   title: 'Invoice Number',
+  //   dataIndex: 'invoice_number',
+  //   key: 'invoice_number',
+  // },
 ];

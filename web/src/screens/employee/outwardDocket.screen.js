@@ -58,6 +58,11 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
       render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
     },
     {
+      title: 'Transaction Number',
+      dataIndex: 'transaction_no',
+      key: 'transaction_no',
+    },
+    {
       title: 'Transaction Date',
       dataIndex: 'transaction_date',
       key: 'transaction_date',
@@ -72,6 +77,11 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
       sorter: (a, b) => moment(a.dispatch_date).unix() - moment(b.dispatch_date).unix(),
       showSorterTooltip: false,
       render: (text) => <div>{text.slice(0, 10)}</div>,
+    },
+    {
+      title: 'Invoice Number',
+      dataIndex: 'invoice_number',
+      key: 'invoice_number',
     },
     {
       title: 'Receiver Client',
@@ -123,14 +133,15 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
           //     <Download />
           //   </a>
           <div className="row align-center justify-evenly">
-            <Link
-              to={`../outward-docket/${record.id}`}
+            <a
+              href={`../outward-docket/${record.id}`}
               target="_blank"
+              rel="noreferrer"
               state={{id: record.id}}
               key={record.id}
               style={{textDecoration: 'none'}}>
               <Download />
-            </Link>
+            </a>
           </div>
         );
       },

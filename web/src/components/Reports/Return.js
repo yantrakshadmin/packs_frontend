@@ -24,11 +24,14 @@ const AllotmentReport = ({currentPage}) => {
 
   const [client, setClient] = useState('');
 
-  const {data: clients} = useAPI('/clients/', {});
+  const {data: clients} = useAPI('/receiverclients/', {});
+
+  useEffect(() => {
+    console.log('clients are', clients);
+  }, [clients]);
 
   const onSubmit = async (data) => {
     setLoading(true);
-
     if (data.cname) {
       setClient(data.cname);
     }
@@ -116,9 +119,9 @@ const AllotmentReport = ({currentPage}) => {
               },
               others: {
                 selectOptions: clients || [],
-                key: 'user',
-                customTitle: 'client_name',
-                dataKeys: ['client_shipping_address'],
+                key: 'id',
+                customTitle: 'name',
+                dataKeys: ['address'],
               },
               type: FORM_ELEMENT_TYPES.SELECT,
               customLabel: 'Client',

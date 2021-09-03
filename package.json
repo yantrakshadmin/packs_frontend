@@ -41,7 +41,8 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.2.6",
     "prettier": "^2.0.5",
-    "pretty-quick": "^2.0.1"
+    "pretty-quick": "^2.0.1",
+    "react-dev-utils": "^11.0.4"
   },
   "husky": {
     "hooks": {}
@@ -63,6 +64,7 @@
     "moment": "^2.27.0",
     "node-sass": "^4.14.1",
     "popper": "^1.0.1",
+    "react-app-rewired": "^2.1.8",
     "react-bootstrap": "^1.0.1",
     "react-csv": "^2.0.3",
     "react-flexmonster": "^2.8.11-1",

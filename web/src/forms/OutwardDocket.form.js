@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Divider, Form, Row, Spin } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { useHandleForm } from 'hooks/form';
-import { createOutward, editOutward, retrieveOutward } from 'common/api/auth';
-import { outwardDocketFormFields } from 'common/formFields/outwardDocket.formFields';
-import { outwardDocketKitFormFields } from 'common/formFields/outwardDocketKits.formFields';
-import { useAPI } from 'common/hooks/api';
-import { getUniqueObject } from 'common/helpers/getUniqueValues';
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Divider, Form, Row, Spin} from 'antd';
+import {MinusCircleOutlined, PlusOutlined} from '@ant-design/icons';
+import {useHandleForm} from 'hooks/form';
+import {createOutward, editOutward, retrieveOutward} from 'common/api/auth';
+import {outwardDocketFormFields} from 'common/formFields/outwardDocket.formFields';
+import {outwardDocketKitFormFields} from 'common/formFields/outwardDocketKits.formFields';
+import {useAPI} from 'common/hooks/api';
+import {getUniqueObject} from 'common/helpers/getUniqueValues';
 
 import moment from 'moment';
 
 import _ from 'lodash';
-import { filterActive } from 'common/helpers/mrHelper';
-import { outwardProductFormFields } from 'common/formFields/return.formFields';
+import {filterActive} from 'common/helpers/mrHelper';
+import {outwardProductFormFields} from 'common/formFields/return.formFields';
 import Creatable from 'react-select/creatable/dist/react-select.esm';
 import formItem from '../hocs/formItem.hoc';
 
@@ -36,14 +36,14 @@ const getKitItems = (data, setPcc) => {
   return temp;
 };
 
-export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
-  const { data: flows } = useAPI('/client-flows-wo/');
-  const { data: kits } = useAPI('/client-kits-wo/');
+export const OutwardDocketForm = ({id, onCancel, onDone}) => {
+  const {data: flows} = useAPI('/client-flows-wo/');
+  const {data: kits} = useAPI('/client-kits-wo/');
   const [receiverClients, setReceiverClients] = useState([]);
   const [pcc, setPcc] = useState([]);
   const [products, setProducts] = useState(null);
   const [kitID, setKitID] = useState(null);
-  const [remarks, setRemarks] = useState({ value: '', label: '' });
+  const [remarks, setRemarks] = useState({value: '', label: ''});
 
   useEffect(() => {
     if (flows) {
@@ -63,16 +63,16 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
     console.log(pcc);
   }, [pcc]);
 
-  const { form, submit, loading } = useHandleForm({
+  const {form, submit, loading} = useHandleForm({
     create: createOutward,
     edit: editOutward,
     retrieve: async (fetchId) => {
       const response = await retrieveOutward(fetchId);
-      const { data } = response;
+      const {data} = response;
       const temp = getKits(data.kits);
       const kitItems = getKitItems(data.kits, setPcc);
-      setRemarks({ value: data.remarks, label: data.remarks });
-      return { ...response, data: { ...data, kits: temp, ...kitItems } };
+      setRemarks({value: data.remarks, label: data.remarks});
+      return {...response, data: {...data, kits: temp, ...kitItems}};
     },
     success: 'Outward Docket created/edited successfully.',
     failure: 'Error in creating/editing Outward Docket.',
@@ -111,7 +111,7 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
               {
                 name: [`items${data[0].name[1]}`],
                 value: rk.products.map((p) => {
-                  return { product: p.product.id, quantity: p.quantity * q };
+                  return {product: p.product.id, quantity: p.quantity * q};
                 }),
               },
             ]);
@@ -129,7 +129,7 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
             const rk = kits.filter((k) => k.id === kitID)[0];
             const produces = [];
             rk.products.forEach((p) => {
-              produces.push({ product: p.product.id, quantity: p.quantity });
+              produces.push({product: p.product.id, quantity: p.quantity});
             });
             form.setFields([
               {
@@ -150,37 +150,37 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
       return {
         ...k,
         items: items.map((i) => {
-          return { product: i.product, quantity: i.quantity };
+          return {product: i.product, quantity: i.quantity};
         }),
       };
     });
-    const reqD = { ...data, kits: tempkits, remarks: remarks.value };
+    const reqD = {...data, kits: tempkits, remarks: remarks.value};
     // console.log(reqD);
     submit(reqD);
   };
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation='left'>Outward Docket</Divider>
+      <Divider orientation="left">Outward Docket</Divider>
       <Form
         onFinish={handleSubmit}
         form={form}
-        layout='vertical'
-        initialValues={{ transaction_date: moment(), dispatch_date: moment() }}
+        layout="vertical"
+        initialValues={{transaction_date: moment(), dispatch_date: moment()}}
         hideRequiredMark
-        autoComplete='off'
+        autoComplete="off"
         onFieldsChange={handleFieldsChange}>
         <Row>
           {outwardDocketFormFields.slice(0, 2).map((item, idx) => (
             <Col span={6}>
-              <div key={idx.toString()} className='p-2'>
+              <div key={idx.toString()} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
           ))}
           {outwardDocketFormFields.slice(3, 4).map((item, idx) => (
             <Col span={6}>
-              <div key={idx.toString()} className='p-2'>
+              <div key={idx.toString()} className="p-2">
                 {formItem({
                   ...item,
                   others: {
@@ -195,18 +195,18 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
           ))}
           {outwardDocketFormFields.slice(4, 7).map((item, idx) => (
             <Col span={6}>
-              <div key={idx.toString()} className='p-2'>
+              <div key={idx.toString()} className="p-2">
                 {formItem(item)}
               </div>
             </Col>
           ))}
           <Col span={6}>
-            <div className='p-2'>
-              <p className='p-0' style={{ marginBottom: '5px' }}>
+            <div className="p-2">
+              <p className="p-0" style={{marginBottom: '5px'}}>
                 Remarks
               </p>
               <Creatable
-                id='remarks'
+                id="remarks"
                 isClearable
                 value={remarks}
                 defaultValue={remarks}
@@ -214,26 +214,26 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
                   setRemarks(value);
                 }}
                 options={[
-                  { value: 'Returnable', label: 'Returnable' },
-                  { value: 'Non Returnable', label: 'Non Returnable' },
+                  {value: 'Returnable', label: 'Returnable'},
+                  {value: 'Non Returnable', label: 'Non Returnable'},
                 ]}
               />
             </div>
           </Col>
         </Row>
 
-        <Divider orientation='left'>Kit Details</Divider>
+        <Divider orientation="left">Kit Details</Divider>
         <Row>
           <Col span={12}>
-            <Form.List name='kits'>
-              {(fields, { add, remove }) => {
+            <Form.List name="kits">
+              {(fields, {add, remove}) => {
                 return (
                   <div>
                     {fields.map((field, index) => (
-                      <Row align='middle'>
+                      <Row align="middle">
                         {outwardDocketKitFormFields.slice(0, 1).map((item) => (
                           <Col span={10}>
-                            <div className='p-2'>
+                            <div className="p-2">
                               {formItem({
                                 ...item,
                                 noLabel: index != 0,
@@ -262,7 +262,7 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
                         ))}
                         {outwardDocketKitFormFields.slice(1, 3).map((item) => (
                           <Col span={6}>
-                            <div className='p-2'>
+                            <div className="p-2">
                               {formItem({
                                 ...item,
                                 noLabel: index != 0,
@@ -280,8 +280,8 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
                         ))}
                         <Col span={2}>
                           <Button
-                            type='danger'
-                            style={index != 0 ? { top: '-2vh' } : null}
+                            type="danger"
+                            style={index != 0 ? {top: '-2vh'} : null}
                             onClick={() => {
                               // console.log(field.name);
                               const temp = pcc.filter((p, idx) => idx != field.name);
@@ -309,7 +309,7 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
                     ))}
                     <Form.Item>
                       <Button
-                        type='dashed'
+                        type="dashed"
                         onClick={() => {
                           setPcc([...pcc, pcc.length]);
                           add();
@@ -327,14 +327,14 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
           <Col span={11}>
             {pcc.map((p, idx) => (
               <Form.List name={`items${p}`}>
-                {(fields, { add, remove }) => {
+                {(fields, {add, remove}) => {
                   return (
                     <div>
                       {fields.map((field, ind) => (
-                        <Row align='middle'>
+                        <Row align="middle">
                           {outwardProductFormFields.slice(0, 1).map((item) => (
                             <Col span={12}>
-                              <div className='p-2'>
+                              <div className="p-2">
                                 {formItem({
                                   ...item,
                                   noLabel: ind != 0,
@@ -354,7 +354,7 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
                           ))}
                           {outwardProductFormFields.slice(1, 2).map((item) => (
                             <Col span={12}>
-                              <div className='p-2'>
+                              <div className="p-2">
                                 {formItem({
                                   ...item,
                                   noLabel: ind != 0,
@@ -379,11 +379,11 @@ export const OutwardDocketForm = ({ id, onCancel, onDone }) => {
           </Col>
         </Row>
         <Row>
-          <Button type='primary' htmlType='submit'>
+          <Button type="primary" htmlType="submit">
             Save
           </Button>
-          <div className='p-2' />
-          <Button type='primary' onClick={onCancel}>
+          <div className="p-2" />
+          <Button type="primary" onClick={onCancel}>
             Cancel
           </Button>
         </Row>

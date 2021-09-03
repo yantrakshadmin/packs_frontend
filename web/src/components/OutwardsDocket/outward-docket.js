@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Row, Col, Typography, Spin} from 'antd';
+import {useParams} from '@reach/router';
 import {Table} from 'react-bootstrap';
 
 import moment from 'moment';
@@ -77,6 +78,13 @@ const {Title} = Typography;
 const OutwardDocket = ({location, match}) => {
   const [allotment, setAllotment] = useState(null);
   const [total, setTotal] = useState(0);
+  const {id} = useParams();
+  // location.state.key = id;
+  console.log('location is', location, id);
+
+  useEffect(() => {
+    location = {...location, state: {id: id, key: id}};
+  }, []);
 
   useEffect(() => {
     const fetchAllotment = async () => {
@@ -307,11 +315,9 @@ const OutwardDocket = ({location, match}) => {
               </tr>
             </thead>
             <tbody>
-              {[...allotment.kits].map((kit, ) => {
-
+              {[...allotment.kits].map((kit) => {
                 return (
                   <tr>
-
                     <td>{kit.kit.id}</td>
                     <td>{kit.kit.kit_name}</td>
                     <td>{kit.kit.kit_info}</td>
