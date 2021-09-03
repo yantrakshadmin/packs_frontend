@@ -229,7 +229,7 @@ const TableWithTabHOC = ({
             ) : null
           ) : null}
         </Col>
-        {/* <Col>
+        <Col>
           {hideRightButton && RightBody ? <RightBody /> : null}
           {hideRightButton ? null : newPage ? (
             <Link to={newPage}>
@@ -257,7 +257,7 @@ const TableWithTabHOC = ({
               </Button>
             </>
           )}
-        </Col> */}
+        </Col>
       </Row>
       <Divider style={{margin: 0, padding: 0}} />
       <Row />
