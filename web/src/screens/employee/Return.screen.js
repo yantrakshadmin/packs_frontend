@@ -296,6 +296,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
         modalWidth={60}
         editingId={editingId || deliveryId}
         cancelEditing={cancelEditing}
+        scroll={{x: 1200}}
       />
     </NoPermissionAlert>
   );

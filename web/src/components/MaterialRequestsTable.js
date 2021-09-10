@@ -27,7 +27,7 @@ const ExpandTable = (props) => {
 
   useEffect(() => {
     if (!loading) {
-      console.log(data);
+      console.log('data is', data);
     }
   }, [loading]);
 

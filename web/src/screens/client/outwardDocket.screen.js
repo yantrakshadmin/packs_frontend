@@ -25,7 +25,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBarcode, faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {yantraColors} from '../../helpers/yantraColors';
 import NoPermissionAlert from 'components/NoPermissionAlert';
-
+//client side
 const {Search} = Input;
 
 const OutwardDocketScreen = ({currentPage, isEmployee}) => {
@@ -37,10 +37,12 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
   const user = useSelector((s) => s.user.userMeta.id);
   console.log(user, isEmployee, 'Props');
 
-  const {data: outwards, loading, reload, status} = useAPI(
-    isEmployee ? 'emp-outwards/' : '/outwards/',
-    {},
-  );
+  const {
+    data: outwards,
+    loading,
+    reload,
+    status,
+  } = useAPI(isEmployee ? 'emp-outwards/' : '/outwards/', {});
   const {filteredData} = useTableSearch({
     searchVal,
     reqData,
@@ -75,6 +77,11 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
       sorter: (a, b) => moment(a.dispatch_date).unix() - moment(b.dispatch_date).unix(),
       showSorterTooltip: false,
       render: (text) => <div>{text.slice(0, 10)}</div>,
+    },
+    {
+      title: 'Invoice Number',
+      dataIndex: 'invoice_number',
+      key: 'invoice_number',
     },
     {
       title: 'Receiver Client',
@@ -118,14 +125,15 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
           //     <Download />
           //   </a>
           <div className="row align-center justify-evenly">
-            <Link
-              to={`../outward-docket/${record.id}`}
+            <a
+              href={`../outward-docket/${record.id}`}
               target="_blank"
+              rel="noreferrer"
               state={{id: record.id}}
               key={record.id}
               style={{textDecoration: 'none'}}>
               <Download />
-            </Link>
+            </a>
           </div>
         );
       },
@@ -316,6 +324,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
         modalWidth={98}
         formParams={{transaction_no: TN}}
         cancelEditing={cancelEditing}
+        scroll={{x: 1200}}
       />
     </NoPermissionAlert>
   );

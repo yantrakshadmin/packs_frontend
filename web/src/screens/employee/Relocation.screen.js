@@ -167,6 +167,7 @@ const ExpenseEmployeeScreen = ({currentPage, isEmployee}) => {
         //expandHandleKey="transactions"
         //expandParams={{loading}}
         //ExpandBody={ExpandTable}
+        scroll={{x: 1200}}
       />
     </NoPermissionAlert>
   );

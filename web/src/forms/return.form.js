@@ -268,7 +268,7 @@ const ReturnForm = ({location}) => {
               })}
             </div>
           </Col>
-          <Col span={8}>
+          {/* <Col span={8}>
             <div key={3} className="p-2">
               {formItem({
                 ...returnFormFields[4],
@@ -286,7 +286,7 @@ const ReturnForm = ({location}) => {
                 },
               })}
             </div>
-          </Col>
+          </Col> */}
         </Row>
         <Row style={{justifyContent: 'left'}}>
           {returnFormFields.slice(5, 9).map((item, idx) => (

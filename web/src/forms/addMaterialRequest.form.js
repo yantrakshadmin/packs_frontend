@@ -71,10 +71,15 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
     submit(data);
   };
 
-  const [disableAdd, setDisableAdd] = useState(false);
+  const [disableAdd, setDisableAdd] = useState(true);
 
   const handleFieldsChange = useCallback(
     (data) => {
+      console.log('lots of pussies', data[0]);
+      if (data[0].name[0] === 'delivery_required_on') {
+        if (data[0].value === null) setDisableAdd(true);
+        else setDisableAdd(false);
+      }
       if (data) {
         if (data[0]) {
           if (data[0].name[0] === 'client_id') {

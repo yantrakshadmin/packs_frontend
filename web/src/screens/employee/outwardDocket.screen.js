@@ -149,7 +149,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
     {
       title: 'Action',
       key: 'operation',
-      width: '7vw',
+      width: '12vw',
       render: (text, record) => (
         // <div className="row justify-evenly">
         //   <Button
@@ -330,8 +330,10 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
         title={deliveryId ? 'Delivered Docket ' : 'Outward Docket '}
         modalBody={deliveryId ? OutwardDeliveredDocketForm : OutwardDocketForm}
         modalWidth={98}
+        scroll={{x: 1200}}
         formParams={{transaction_no: TN}}
         cancelEditing={cancelEditing}
+        outwardEmployee={true}
       />
     </NoPermissionAlert>
   );

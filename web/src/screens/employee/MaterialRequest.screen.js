@@ -115,7 +115,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
 
   const columns = [
     ...materialEmployeecolumns,
-      {
+    {
       title: 'Linked',
       key: 'linked',
       filters: filterOptions || [],

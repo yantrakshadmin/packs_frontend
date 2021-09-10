@@ -6,6 +6,7 @@ import {useTableSearch} from 'hooks/useTableSearch';
 import {Link} from '@reach/router';
 import {useAPI} from 'common/hooks/api';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
+import ExpandTable from '../../components/ReturnsExpandTable';
 
 import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 
@@ -96,6 +97,7 @@ const ReturnReportsScreen = ({currentPage, isEmployee}) => {
         size="middle"
         title="Return Docket"
         newPage="./return/"
+        ExpandBody={ExpandTable}
         // downloadLink={
         //   isEmployee ? null : `${DEFAULT_BASE_URL}/client-return-reportsdownload/?cname=${user}`
         // }
