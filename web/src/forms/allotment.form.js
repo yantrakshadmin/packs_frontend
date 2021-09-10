@@ -36,6 +36,7 @@ const AllotmentForm = ({location}) => {
       );
     }
   }, [kits]);
+
   useEffect(() => {
     console.log('kits with info', kitsWithInfo);
   }, [kitsWithInfo]);

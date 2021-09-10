@@ -101,10 +101,11 @@ const TableWithTabHOC = ({
   ExpandBody,
   expandParams,
   changePage,
+  outwardEmployee,
 }) => {
   const [modalVisible, setModalVisible] = useState(!!editingId);
   const [activeTab, setActiveTab] = useState(tabs[0].key);
-
+  console.log('tabas data is', tabs);
   const callback = (key) => {
     if (reset) reset();
     setActiveTab(key);
@@ -248,13 +249,15 @@ const TableWithTabHOC = ({
                   </Button>{' '}
                 </>
               ) : null}
-              <Button
-                type="primary"
-                onClick={() => {
-                  if (!newPage) setModalVisible(true);
-                }}>
-                {`Add ${title}`}
-              </Button>
+              {outwardEmployee === undefined ? (
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    if (!newPage) setModalVisible(true);
+                  }}>
+                  {`Add ${title}`}
+                </Button>
+              ) : null}
             </>
           )}
         </Col>

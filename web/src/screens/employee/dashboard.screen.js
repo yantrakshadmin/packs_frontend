@@ -12,7 +12,23 @@ import {MasterHOC} from '../../hocs/Master.hoc';
 import _ from 'lodash';
 
 const {Paragraph} = Typography;
-const kitTypes = ['FLC', 'FSC', 'Crate', 'PP Box'];
+const kitTypes = [
+  'FLC',
+  'FSC',
+  'Crate',
+  'PP Box',
+  'CRT6412',
+  'CRT6418',
+  'CRT6423',
+  'CRT6435',
+  'Palletized CRT6412',
+  'Palletized CRT6418',
+  'Palletized CRT6423',
+  'Palletized CRT6435',
+  'Palletized PP Box',
+  'Plastic Pallet',
+  'Wooden Pallet',
+];
 
 export const DashboardScreen = () => {
   const [allotmentChartData, setAllotmentChartData] = useState(

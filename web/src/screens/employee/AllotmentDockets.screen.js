@@ -335,6 +335,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
         formParams={{transaction_no: TN}}
         cancelEditing={cancelEditing}
         hideRightButton
+        scroll={{x: 1200}}
       />
     </NoPermissionAlert>
   );

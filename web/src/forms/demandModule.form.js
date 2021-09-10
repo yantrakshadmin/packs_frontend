@@ -86,7 +86,6 @@ export const DemandModuleForm = ({id, onCancel, onDone}) => {
 
   const handleFieldsChange = useCallback(
     (data) => {
-      console.log(data);
       setDMTouched(true);
       try {
         if (data[0].name[0] === 'demand_flows') {
