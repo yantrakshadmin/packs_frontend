@@ -119,7 +119,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
             });
             if (cnt)
               setErrorMessage(
-                'One or More of the KITS have already been requested on the same date',
+                'Material requests for this kit already exist. Please update or delete the pending material request.',
               );
             else setErrorMessage('');
           });
