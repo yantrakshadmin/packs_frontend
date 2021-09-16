@@ -78,11 +78,11 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
       showSorterTooltip: false,
       render: (text) => <div>{text.slice(0, 10)}</div>,
     },
-    {
-      title: 'Invoice Number',
-      dataIndex: 'invoice_number',
-      key: 'invoice_number',
-    },
+    // {
+    //   title: 'Invoice Number',
+    //   dataIndex: 'invoice_number',
+    //   key: 'invoice_number',
+    // },
     {
       title: 'Receiver Client',
       dataIndex: 'sending_location',
@@ -108,7 +108,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
     //   filters: GetUniqueValue(filteredData || [], 'owner', 'client_name'),
     //   onFilter: (value, record) => record.owner.client_name === value.client_name,
     // },
-    ...outwardDocketColumn,
+    // ...outwardDocketColumn,
     // {
     //   title:'kit',
     //   dataIndex:'kit',
@@ -149,7 +149,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
     {
       title: 'Action',
       key: 'operation',
-      width: '12vw',
+      width: '10vw',
       render: (text, record) => (
         // <div className="row justify-evenly">
         //   <Button

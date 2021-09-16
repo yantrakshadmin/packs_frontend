@@ -4,6 +4,7 @@ import {Table} from 'react-bootstrap';
 import {useAPI} from 'common/hooks/api';
 import moment from 'moment';
 import _ from 'lodash';
+import {useParams} from '@reach/router';
 
 import {retrieveReturnDocket, retrieveReturnDocketCaleder} from 'common/api/auth';
 
@@ -18,6 +19,11 @@ const ReturnDocket = ({location, isClient}) => {
   const [weight, setWeight] = useState(0);
 
   const {data: clientKits, loading: ckLoading} = useAPI('/client-kits/', {});
+  const {id} = useParams();
+
+  useEffect(() => {
+    location = {...location, state: {id: id, key: id}};
+  }, []);
 
   useEffect(() => {
     const fetchReturn = async () => {
@@ -192,7 +198,6 @@ const ReturnDocket = ({location, isClient}) => {
                   <p style={{fontWeight: 'bold'}}>Receiver's Address : </p>
                 </Col>
 
-
                 <Col span={12} style={{wordWrap: 'break-word'}}>
                   {`${reqReturn.warehouse.address}, ${reqReturn.warehouse.city}, ${reqReturn.warehouse.state}, ${reqReturn.warehouse.pincode}`}
                 </Col>
@@ -238,9 +243,11 @@ const ReturnDocket = ({location, isClient}) => {
             <tbody>
               {reqReturn.kits.map((kit) => {
                 if (isClient && !ckLoading) {
-
-                  const temp = _.find(clientKits, (ck) =>{return(ck.kit_name === kit.kit.kit_name)} );
-                  if (temp) { console.log(temp,kit, "console temp");
+                  const temp = _.find(clientKits, (ck) => {
+                    return ck.kit_name === kit.kit.kit_name;
+                  });
+                  if (temp) {
+                    console.log(temp, kit, 'console temp');
                     return (
                       <tr>
                         <td>{kit.kit.kit_name}</td>
@@ -273,7 +280,7 @@ const ReturnDocket = ({location, isClient}) => {
                 } else {
                   return (
                     <tr>
-                      {console.log( "kit wala cnsole")}
+                      {console.log('kit wala cnsole')}
                       <td>{kit.kit.kit_name}</td>
                       <td>{kit.kit.kit_info}</td>
                       <td>{kit.quantity}</td>

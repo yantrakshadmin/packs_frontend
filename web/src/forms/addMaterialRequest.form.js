@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import {Form, Col, Row, Button, Divider, Spin, Alert, Space} from 'antd';
 import {
   materialRequestFormFields,
   materialRequestFlowFormFields,
@@ -14,6 +14,8 @@ import {FORM_ELEMENT_TYPES} from '../constants/formFields.constant';
 
 import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
+import {getAllFlows} from 'common/api/auth';
+import moment from 'moment';
 
 export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
   const [flowId, setFlowId] = useState(null);
@@ -22,6 +24,19 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
   const [selectedKits, setSelectedKits] = useState([]);
   //const {data: kits} = useControlledSelect(flowId);
   const {data: clients} = useAPI('/clients/', {});
+  const [disableAdd, setDisableAdd] = useState(true);
+  const [kitdata, setKitData] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  //code to fetch kitdata whenever client or date is changed or selected
+  useEffect(() => {
+    if (selectedClient.id !== null && selectedDate !== null) {
+      getAllFlows({cname: selectedClient.id, date: selectedDate}).then((response) => {
+        setKitData(response.data);
+      });
+    }
+  }, [selectedClient, selectedDate]);
 
   useEffect(() => {
     if (flows && !loadingF && id) {
@@ -71,14 +86,17 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
     submit(data);
   };
 
-  const [disableAdd, setDisableAdd] = useState(true);
-
   const handleFieldsChange = useCallback(
     (data) => {
-      console.log('lots of pussies', data[0]);
       if (data[0].name[0] === 'delivery_required_on') {
-        if (data[0].value === null) setDisableAdd(true);
-        else setDisableAdd(false);
+        if (data[0].value === null) {
+          setDisableAdd(true);
+          setSelectedDate(null);
+        } else {
+          const d = moment(data[0].value).startOf('date').format('YYYY-MM-DD HH:MM');
+          setSelectedDate(d);
+          setDisableAdd(false);
+        }
       }
       if (data) {
         if (data[0]) {
@@ -89,6 +107,24 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
         }
 
         const flowsList = form.getFieldValue('flows');
+        if (kitdata !== null) {
+          kitdata.forEach((singleData) => {
+            const tempKitID = singleData.flows[0].kit.id;
+            let cnt = 0;
+            flowsList.forEach((singleFlow) => {
+              if (singleFlow !== undefined)
+                if (singleFlow.kit === tempKitID) {
+                  cnt = 1;
+                }
+            });
+            if (cnt)
+              setErrorMessage(
+                'One or More of the KITS have already been requested on the same date',
+              );
+            else setErrorMessage('');
+          });
+        }
+
         if (flowsList) {
           if (flowsList.length > 0) {
             if (flowsList[flowsList.length - 1]) {
@@ -115,7 +151,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
         }
       }
     },
-    [clients, selectedClient, setSelectedClient],
+    [clients, selectedClient, setSelectedClient, kitdata],
   );
 
   return (
@@ -154,6 +190,13 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
           ))}
         </Row>
         <Divider orientation="left">Flows and Kit Details</Divider>
+        {errorMessage && (
+          <Row justify="center" gutter={[0, 30]} style={{marginBottom: '1rem'}}>
+            <Col>
+              <Alert message={errorMessage} type="warning" />
+            </Col>
+          </Row>
+        )}
         <Form.List name="flows">
           {(fields, {add, remove}) => {
             return (
@@ -274,7 +317,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
           }}
         </Form.List>
         <Row>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" disabled={errorMessage ? true : false}>
             Save
           </Button>
           <div className="p-2" />
