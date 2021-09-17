@@ -19,23 +19,21 @@ const ReturnDocket = ({location, isClient}) => {
   const [weight, setWeight] = useState(0);
 
   const {data: clientKits, loading: ckLoading} = useAPI('/client-kits/', {});
-  const {id} = useParams();
-
+  let {id} = useParams();
   useEffect(() => {
-    location = {...location, state: {id: id, key: id}};
+    if (isClient) location = {...location, state: {id: id, key: id}};
   }, []);
 
   useEffect(() => {
     const fetchReturn = async () => {
       if (location.state) {
-        console.log(location.state);
         if (location.state.id) {
           const {data} = await retrieveReturnDocket(location.state.id);
           if (data) setReqReturn(data);
         }
       } else {
         const len = location.pathname.length;
-        const id = location.pathname.slice(24, len);
+        id = location.pathname.slice(24, len);
         const {data} = await retrieveReturnDocketCaleder(id);
         if (data) setReqReturn(data);
       }
