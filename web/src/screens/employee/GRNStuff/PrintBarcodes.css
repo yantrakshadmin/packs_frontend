@@ -1,0 +1,58 @@
+@media print {
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  padding: 0;
+  margin: 0;
+}
+
+.grid-container {
+  width: 21cm;
+  /* display: flex;
+    flex-direction: column;
+    justify-content: space-between; */
+}
+
+.page {
+  width: 21cm;
+  height: 29.7cm;
+  padding-top: 1.57cm;
+  padding-bottom: 1.57cm;
+  padding-left: 0.5122cm;
+  padding-right: 0.5122cm;
+  break-after: always;
+  page-break-after: always;
+}
+
+.grid-row {
+  display: flex;
+  height: 3.7552cm;
+}
+
+.grid-col {
+  margin-left: 0.0854cm;
+  margin-right: 0.0854cm;
+  width: 9.906cm;
+  height: 3.84cm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.box {
+  /* width: 4.5388cm; */
+  width: 7cm;
+  height: 1.4011cm;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}

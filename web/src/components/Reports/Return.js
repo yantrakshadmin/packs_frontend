@@ -23,8 +23,8 @@ const AllotmentReport = ({currentPage}) => {
   const [form] = Form.useForm();
 
   const [client, setClient] = useState('');
-
   const {data: clients} = useAPI('/receiverclients/', {});
+  const [selectAllClients, setSelectAllClients] = useState(false);
 
   useEffect(() => {
     console.log('clients are', clients);
@@ -35,14 +35,16 @@ const AllotmentReport = ({currentPage}) => {
     if (data.cname) {
       setClient(data.cname);
     }
-
+    console.log('data is ', data);
     data.to = moment(data.to).endOf('date').format('YYYY-MM-DD HH:MM');
     data.from = moment(data.from).startOf('date').format('YYYY-MM-DD HH:MM');
+    console.log('data is after ', data);
     setTo(data.to);
     setFrom(data.from);
+    delete data.select_all_clients;
     const {data: report} = await retrieveReturnReport(data);
     if (report) {
-      console.log(report);
+      console.log('report is', report);
       setLoading(false);
       setReportData(report);
     }
@@ -111,22 +113,36 @@ const AllotmentReport = ({currentPage}) => {
     <>
       <Form onFinish={onSubmit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
         <Row>
-          <Col span={10}>
+          <Col span={2}>
             {formItem({
-              key: 'cname',
+              key: 'select_all_clients',
               kwargs: {
-                placeholder: 'Select',
+                onChange: (val) => {
+                  setSelectAllClients(val);
+                },
               },
-              others: {
-                selectOptions: clients || [],
-                key: 'id',
-                customTitle: 'name',
-                dataKeys: ['address'],
-              },
-              type: FORM_ELEMENT_TYPES.SELECT,
-              customLabel: 'Client',
+              type: FORM_ELEMENT_TYPES.SWITCH,
+              customLabel: 'Select All',
             })}
           </Col>
+          {selectAllClients ? null : (
+            <Col span={10}>
+              {formItem({
+                key: 'cname',
+                kwargs: {
+                  placeholder: 'Select',
+                },
+                others: {
+                  selectOptions: clients || [],
+                  key: 'id',
+                  customTitle: 'name',
+                  dataKeys: ['address'],
+                },
+                type: FORM_ELEMENT_TYPES.SELECT,
+                customLabel: 'Client',
+              })}
+            </Col>
+          )}
         </Row>
         <Row>
           <Col span={3}>

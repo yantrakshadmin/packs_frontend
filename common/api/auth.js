@@ -1523,3 +1523,24 @@ export const confirmPassword = (src) =>
     data: src,
     secure: false,
   });
+
+export const getAllFlows = (data) => {
+  return loadAPI('/mr-check/', {
+    method: 'GET',
+    secure: true,
+    params: data,
+  });
+};
+
+export const getMap = () => {
+  return loadAPI('/dash-map/', {
+    method: 'GET',
+  });
+};
+
+export const getBarcodes = (data) => {
+  return loadAPI('/grn-print/', {
+    method: 'GET',
+    params: data,
+  });
+};

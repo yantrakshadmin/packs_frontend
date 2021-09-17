@@ -153,7 +153,8 @@ const KitEmployeeScreen = ({currentPage}) => {
             <Download />
           </Button>
           <a
-            href={`${DEFAULT_BASE_URL}/print-barcodes/${record.id}/`}
+            // href={`${DEFAULT_BASE_URL}/print-barcodes/${record.id}/`}
+            href={`../print-rebarcodes/${record.id}`}
             target="_blank"
             rel="noopener noreferrer">
             <Button

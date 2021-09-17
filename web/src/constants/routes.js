@@ -64,10 +64,21 @@ export const outerRoutesEmployee = [
     path: '/relocation-docket/:id',
     Component: lazy(() => import('components/RelocationDocket/RelocationDocket')),
   },
+  {
+    name: 'Print Barcodes',
+    path: '/print-rebarcodes/:id',
+    Component: lazy(() => import('screens/employee/GRNStuff/PrintBarcodes')),
+    props: {isEmployee: true},
+  },
 ];
 export const outerRoutesClient = [
   {
     path: '/return-docket/',
+    Component: lazy(() => import('components/ReturnDocket/ReturnDocket')),
+    props: {isClient: true},
+  },
+  {
+    path: '/return-docket/:id',
     Component: lazy(() => import('components/ReturnDocket/ReturnDocket')),
     props: {isClient: true},
   },
@@ -236,6 +247,7 @@ export const employeeRoutes = [
       },
     ],
   },
+
   // {
   //   name: 'Inventory',
   //   icon: ['fas', 'boxes'],

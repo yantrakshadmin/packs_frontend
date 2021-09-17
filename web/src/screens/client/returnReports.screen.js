@@ -49,13 +49,15 @@ const ReturnReportsScreen = ({currentPage, isEmployee}) => {
       render: (text, record) => {
         return (
           <Button type="primary">
-            <Link
-              to="../return-docket/"
+            <a
+              href={`../return-docket/${record.id}`}
+              target="_blank"
+              rel="noreferrer"
               state={{id: record.id}}
               key={record.id}
               style={{textDecoration: 'none'}}>
               View Docket
-            </Link>
+            </a>
           </Button>
         );
       },
