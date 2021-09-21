@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import GRNColumns from 'common/columns/GRN.column';
-import {Popconfirm, Button, Input} from 'antd';
+import {Popconfirm, Button, Input, Space} from 'antd';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {useAPI} from 'common/hooks/api';
@@ -18,12 +18,14 @@ import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {GRNForm} from '../../forms/GRN.form';
 import {GetUniqueValue} from 'common/helpers/getUniqueValues';
 import TableWithTabHoc from '../../hocs/TableWithTab.hoc';
-
+import {Select} from 'antd';
 import DeleteWithPassword from '../../components/DeleteWithPassword';
 import {DEFAULT_PASSWORD} from 'common/constants/passwords';
 import NoPermissionAlert from 'components/NoPermissionAlert';
+import {Popover} from 'antd';
 
 const {Search} = Input;
+const {Option} = Select;
 
 const KitEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
@@ -32,6 +34,7 @@ const KitEmployeeScreen = ({currentPage}) => {
   const [csvData, setCsvData] = useState(null);
   const [barLoading, setBarLoading] = useState(false);
   const [barID, setBarID] = useState(null);
+  const [pageValue, setPageValue] = useState(7);
 
   const {data: grns, loading, reload, status} = useAPI('/grns/', {});
 
@@ -93,9 +96,43 @@ const KitEmployeeScreen = ({currentPage}) => {
       document.body.removeChild(elem);
     }
   };
-
   const cancelEditing = () => {
     setEditingId(null);
+  };
+
+  // 7 8 10 12 16
+  const popContent = (x) => {
+    return (
+      <Space direction="vertical">
+        <Select
+          defaultValue="7"
+          style={{width: 150}}
+          onChange={(value) => setPageValue(parseInt(value))}>
+          <Option value="4">4 X 2</Option>
+          <Option value="6">6 X 2</Option>
+          <Option value="7">7 X 2</Option>
+          <Option value="8">8 X 2</Option>
+          <Option value="10">10 X 2</Option>
+        </Select>
+        <a
+          // href={`${DEFAULT_BASE_URL}/print-barcodes/${record.id}/`}
+          href={`../print-rebarcodes/${x}/${pageValue}`}
+          target="_blank"
+          rel="noopener noreferrer">
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              padding: '1px',
+            }}
+            onClick={(e) => e.stopPropagation()}>
+            {/* <Print /> */}
+            Proceed
+          </Button>
+        </a>
+      </Space>
+    );
   };
 
   const columns = [
@@ -152,7 +189,7 @@ const KitEmployeeScreen = ({currentPage}) => {
             }}>
             <Download />
           </Button>
-          <a
+          {/* <a
             // href={`${DEFAULT_BASE_URL}/print-barcodes/${record.id}/`}
             href={`../print-rebarcodes/${record.id}`}
             target="_blank"
@@ -167,7 +204,19 @@ const KitEmployeeScreen = ({currentPage}) => {
               onClick={(e) => e.stopPropagation()}>
               <Print />
             </Button>
-          </a>
+          </a> */}
+          <Popover content={() => popContent(record.id)} title="Select Layout" trigger="click">
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                boxShadow: 'none',
+                padding: '1px',
+              }}
+              onClick={(e) => e.stopPropagation()}>
+              <Print />
+            </Button>
+          </Popover>
           <Button
             style={{
               backgroundColor: 'transparent',
