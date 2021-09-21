@@ -107,16 +107,19 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
         }
 
         const flowsList = form.getFieldValue('flows');
-        if (kitdata !== null) {
+
+        if (kitdata !== null && kitdata.detail === undefined) {
           kitdata.forEach((singleData) => {
             const tempKitID = singleData.flows[0].kit.id;
             let cnt = 0;
-            flowsList.forEach((singleFlow) => {
-              if (singleFlow !== undefined)
-                if (singleFlow.kit === tempKitID) {
-                  cnt = 1;
-                }
-            });
+            if (flowsList !== null && flowsList !== undefined) {
+              flowsList.forEach((singleFlow) => {
+                if (singleFlow !== undefined)
+                  if (singleFlow.kit === tempKitID) {
+                    cnt = 1;
+                  }
+              });
+            }
             if (cnt)
               setErrorMessage(
                 'Material requests for this kit already exist. Please update or delete the pending material request.',
