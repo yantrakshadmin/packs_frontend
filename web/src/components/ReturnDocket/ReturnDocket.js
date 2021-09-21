@@ -17,7 +17,7 @@ const ReturnDocket = ({location, isClient}) => {
   const [reqReturn, setReqReturn] = useState(null);
   const [total, setTotal] = useState(0);
   const [weight, setWeight] = useState(0);
-
+  console.log('location is ', location);
   const {data: clientKits, loading: ckLoading} = useAPI('/client-kits/', {});
   let {id} = useParams();
   useEffect(() => {
