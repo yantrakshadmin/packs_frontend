@@ -34,11 +34,41 @@ html {
   height: 3.7552cm;
 }
 
-.grid-col {
+.grid-col-4 {
+  margin-left: 0.0854cm;
+  margin-right: 0.0854cm;
+  width: 13.9cm;
+  height: 9.9cm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid-col-6 {
+  margin-left: 0.0854cm;
+  margin-right: 0.0854cm;
+  width: 9.91cm;
+  height: 9.34cm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid-col-7 {
+  margin-left: 0.0854cm;
+  margin-right: 0.0854cm;
+  width: 9.91cm;
+  height: 3.84cm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid-col-8 {
   margin-left: 0.0854cm;
   margin-right: 0.0854cm;
   width: 9.906cm;
-  height: 3.84cm;
+  height: 3.14cm;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,7 +76,7 @@ html {
 
 .box {
   /* width: 4.5388cm; */
-  width: 7cm;
+  width: 7.7cm;
   height: 1.4011cm;
   margin-left: auto;
   margin-right: auto;

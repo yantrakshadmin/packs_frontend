@@ -66,7 +66,7 @@ export const outerRoutesEmployee = [
   },
   {
     name: 'Print Barcodes',
-    path: '/print-rebarcodes/:id',
+    path: '/print-rebarcodes/:id/:gridValue',
     Component: lazy(() => import('screens/employee/GRNStuff/PrintBarcodes')),
     props: {isEmployee: true},
   },

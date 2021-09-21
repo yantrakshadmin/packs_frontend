@@ -229,34 +229,83 @@ const Docket = ({location, match}) => {
           </Row>
         </div>
         <Row className="table-docket">
-          <Table bordered size="sm">
-            <thead>
-              <tr>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Description</th>
-                <th>HSN/SAC</th>
-                <th>Product Qty</th>
-              </tr>
-            </thead>
-            <tbody>
-              {allotment.items.map((item) => {
-                if (item.quantity_parts > 0) {
+          {allotment.items.length > 0 ? (
+            <Table bordered size="sm">
+              <thead>
+                <tr>
+                  <th>Product ID</th>
+                  <th>Product Name</th>
+                  <th>Description</th>
+                  <th>HSN/SAC</th>
+                  <th>Product Qty</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allotment.items.map((item) => {
+                  if (item.quantity > 0) {
+                    return (
+                      <tr>
+                        <td>{item.product.short_code}</td>
+                        <td>{item.product.name}</td>
+                        <td>{item.product.description}</td>
+                        <td>{item.product.hsn_code}</td>
+                        <td>{item.quantity}</td>
+                      </tr>
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
+              </tbody>
+            </Table>
+          ) : (
+            <Table bordered>
+              <thead>
+                <tr>
+                  <th>Kit ID</th>
+                  <th>Kit Info</th>
+                  <th>Quantity</th>
+                  {/* <th>HSN/SAC</th> */}
+                  <th>Product Code</th>
+                  <th>Product Name</th>
+                  <th>Product Qty</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allotment.items_kits.map((kit) => {
                   return (
                     <tr>
-                      <td>{item.product.short_code}</td>
-                      <td>{item.product.name}</td>
-                      <td>{item.product.description}</td>
-                      <td>{item.product.hsn_code}</td>
-                      <td>{item.quantity_parts}</td>
+                      {console.log('kit wala cnsole')}
+                      <td>{kit.kit.kit_name}</td>
+                      <td>{kit.kit.kit_info}</td>
+                      <td>{kit.quantity}</td>
+                      <td>
+                        {kit.items.map((prod) => (
+                          <div style={{display: 'flex', flexDirection: 'column'}}>
+                            <p>{prod.product.short_code}</p>
+                          </div>
+                        ))}
+                      </td>
+                      <td>
+                        {kit.items.map((prod) => (
+                          <div style={{display: 'flex', flexDirection: 'column'}}>
+                            <p>{prod.product.name}</p>
+                          </div>
+                        ))}
+                      </td>
+                      <td>
+                        {kit.items.map((prod) => (
+                          <div style={{display: 'flex', flexDirection: 'column'}}>
+                            <p>{prod.quantity}</p>
+                          </div>
+                        ))}
+                      </td>
                     </tr>
                   );
-                } else {
-                  return null;
-                }
-              })}
-            </tbody>
-          </Table>
+                })}
+              </tbody>
+            </Table>
+          )}
         </Row>
         <Row className="final-docket">
           <Col span={12}>

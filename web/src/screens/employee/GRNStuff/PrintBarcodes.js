@@ -2,12 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {getBarcodes} from 'common/api/auth';
 import {useParams} from '@reach/router';
 import './PrintBarcodes.css';
-
+const varnew = 10;
 const PrintBarcodes = () => {
   const {id} = useParams();
+  const {gridValue} = useParams();
   const [barcodes, setBarcodes] = useState(null);
   useEffect(() => {
-    getBarcodes({pk: id}).then((response) => {
+    getBarcodes({pk: id, grid: gridValue}).then((response) => {
       setBarcodes(response.error);
       console.log('response is', response);
     });
@@ -18,26 +19,26 @@ const PrintBarcodes = () => {
     if (singlePageData !== undefined) {
       return singlePageData.map((b, index) => {
         return (
-          <div class="grid-row" key={index}>
-            <div class="grid-col">
+          <div className="grid-row" key={index}>
+            <div className={`grid-col-${gridValue}`}>
               <span style={{textAlign: 'center'}}>
                 <br />
                 Yantraksh Logistics Pvt Ltd
                 <br />
-                <div class="box">
-                  <img src={`data:image/png;base64,${b.image}`} alt="" srcset="" />
+                <div className="box">
+                  <img src={`data:image/png;base64,${b.image}`} alt="" srcSet="" />
                 </div>
                 {b.label} <br />
                 {b.lname ? b.lname : '_____'}
               </span>
             </div>
-            <div class="grid-col">
+            <div className={`grid-col-${gridValue}`}>
               <span style={{textAlign: 'center'}}>
                 <br />
                 Yantraksh Logistics Pvt Ltd
                 <br />
-                <div class="box">
-                  <img src={`data:image/png;base64,${b.image}`} alt="" srcset="" />
+                <div className="box">
+                  <img src={`data:image/png;base64,${b.image}`} alt="" srcSet="" />
                 </div>
                 {b.label} <br />
                 {b.lname ? b.lname : '_____'}
