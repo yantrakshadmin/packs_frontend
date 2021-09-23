@@ -234,6 +234,12 @@ export const employeeRoutes = [
     isSubMenu: true,
     subMenu: [
       {
+        name: 'Purchase Order',
+        path: '/grn/purchase-orders',
+        Component: lazy(() => import('screens/employee/PurchaseOrders')),
+        props: {isEmployee: true},
+      },
+      {
         name: 'GRN',
         path: '/grn/grns',
         Component: lazy(() => import('screens/employee/GRN.screen')),
