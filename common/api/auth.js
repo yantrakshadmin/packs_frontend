@@ -1565,11 +1565,10 @@ export const editPurchaseOrder = (id, data) =>
     // },
   });
 
-export const retrievePurchaseOrder = (id, data) =>
+export const retrievePurchaseOrder = (id) =>
   loadAPI(`/edit-po/${id}/`, {
     method: 'GET',
     secure: true,
-    data,
     // headers: {
     //   'Content-Type': 'multipart/form-data  boundary=' + Math.random().toString().substr(2),
     // },
@@ -1579,4 +1578,11 @@ export const retrievePurchaseOrders = () =>
   loadAPI(`/purchaseorders/`, {
     method: 'GET',
     secure: true,
+  });
+
+export const printPurchaseOrders = (id) =>
+  loadAPI(`/print-purchaseorders/`, {
+    method: 'GET',
+    secure: true,
+    params: {id},
   });

@@ -23,6 +23,7 @@ const StockingReport = ({currentPage}) => {
   const [selectedKits, setSelectedKits] = useState([]);
   const [selectAllKits, setSelectAllKits] = useState(false);
   const [selectAllClients, setSelectAllClients] = useState(false);
+  const [monthWise, setMonthWise] = useState(false);
 
   useEffect(() => {
     if (selectedClientID) {
@@ -48,11 +49,14 @@ const StockingReport = ({currentPage}) => {
       setKit('0');
     }
   };
-
+  const handleFinish = (data) => {
+    console.log('data is ', data);
+  };
   return (
     <>
       <Title level={3}>Floating Reports</Title>
       <Form
+        onFinish={handleFinish}
         onFieldsChange={onChange}
         form={form}
         layout="vertical"
@@ -132,6 +136,21 @@ const StockingReport = ({currentPage}) => {
         ) : null}
 
         <Row gutter={10}>
+          <Col span={2}>
+            {formItem({
+              key: 'month_wise',
+              kwargs: {
+                onChange: (val) => {
+                  setMonthWise(val);
+                },
+              },
+              type: FORM_ELEMENT_TYPES.SWITCH,
+              customLabel: 'Month Wise',
+            })}
+          </Col>
+        </Row>
+
+        <Row gutter={10}>
           <Col span={4}>
             {formItem({
               key: 'dateFrom',
@@ -162,7 +181,11 @@ const StockingReport = ({currentPage}) => {
         <Row>
           <Button
             href={
-              !selectAllClients
+              monthWise
+                ? !selectAllClients
+                  ? `${DEFAULT_BASE_URL}/floating-report-test/?to=${toDate}&from=${fromDate}&cname=${client}`
+                  : `${DEFAULT_BASE_URL}/floating-report-test/?to=${toDate}&from=${fromDate}&cname=${'all'}`
+                : !selectAllClients
                 ? !selectAllKits
                   ? `${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}&kit=${kit}`
                   : `${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}`

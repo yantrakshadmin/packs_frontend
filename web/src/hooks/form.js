@@ -13,6 +13,7 @@ export const useHandleForm = ({
   done,
   close,
   dates,
+  customHandling,
 }) => {
   const isEdit = !!id;
   const [form] = Form.useForm();
@@ -51,7 +52,12 @@ export const useHandleForm = ({
         if (dates) dates.map((date) => (data[date] = moment(data[date])));
         if (data) {
           console.log(data, 'retrive');
-          form.setFieldsValue(data);
+          if (customHandling !== undefined) {
+            const modifiedData = customHandling(data);
+            form.setFieldsValue(modifiedData);
+          } else {
+            form.setFieldsValue(data);
+          }
         }
         setApiData(data);
       }

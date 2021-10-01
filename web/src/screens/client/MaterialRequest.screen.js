@@ -30,6 +30,15 @@ const MaterialRequestEmployeeScreen = ({currentPage, isEmployee}) => {
   const columns = [
     ...materialRequestColumns,
     {
+      title: 'Linked',
+      key: 'linked',
+      filters: filteredData || [],
+      onFilter: (value, record) => record.linked === value,
+      render: (text, record) => {
+        return record.linked;
+      },
+    },
+    {
       title: 'Status',
       key: 'status',
       className: 'align-center',

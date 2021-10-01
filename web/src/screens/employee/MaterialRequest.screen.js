@@ -125,6 +125,15 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
       },
     },
     {
+      title: 'Allotment ID',
+      key: 'transaction_no',
+      filters: filterOptions || [],
+      onFilter: (value, record) => record.linked === value,
+      render: (text, record) => {
+        return record.transaction_no === null ? '-' : record.transaction_no;
+      },
+    },
+    {
       title: 'Owner',
       key: 'owner',
       filters: filterOptions || [],

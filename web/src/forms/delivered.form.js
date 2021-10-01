@@ -195,8 +195,11 @@ export const DeliveredForm = ({id, onCancel, onDone, transaction_no}) => {
         const {fileList} = data.document;
         if (fileList) {
           const newFileList = fileList.map((f, index) => {
-            const myNewFile = new File([f.originFileObj],
-                `${transaction_no}-${index+1}.${f.type.split('/')[1]||'jpg'}`, {type: f.type});
+            const myNewFile = new File(
+              [f.originFileObj],
+              `${transaction_no}-${index + 1}.${f.type.split('/')[1] || 'jpg'}`,
+              {type: f.type},
+            );
             if (f.status !== 'done') {
               message.error(`${f.name} has not been uploaded yet!`);
               failed = true;

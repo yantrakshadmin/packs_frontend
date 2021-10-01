@@ -70,6 +70,12 @@ export const outerRoutesEmployee = [
     Component: lazy(() => import('screens/employee/GRNStuff/PrintBarcodes')),
     props: {isEmployee: true},
   },
+  {
+    name: 'Purchase Order Print',
+    path: '/purchase-order/:id',
+    Component: lazy(() => import('screens/employee/GRNStuff/PurchaseOrderPrint')),
+    props: {isEmployee: true},
+  },
 ];
 export const outerRoutesClient = [
   {

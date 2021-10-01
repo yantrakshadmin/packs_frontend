@@ -150,6 +150,22 @@ const KitEmployeeScreen = ({currentPage}) => {
             }}>
             <Edit />
           </Button>
+          <a
+            // href={`${DEFAULT_BASE_URL}/print-barcodes/${record.id}/`}
+            href={`../purchase-order/${record.id}`}
+            target="_blank"
+            rel="noopener noreferrer">
+            <Button
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                boxShadow: 'none',
+                padding: '1px',
+              }}
+              onClick={(e) => e.stopPropagation()}>
+              <Print />
+            </Button>
+          </a>
         </div>
       ),
     },

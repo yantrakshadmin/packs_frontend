@@ -18,6 +18,12 @@ export const PurchaseOrderForm = ({id, onCancel, onDone}) => {
   const {data: vendors} = useAPI('/vendors/', {});
   const {data: warehouses} = useAPI('/warehouse/', {});
   const {data: products} = useAPI('/products/', {});
+
+  const preProcessData = (data) => {
+    const newdata = {...data, amount: data.amount.toString(), gst: data.gst.toString()};
+    return newdata;
+  };
+
   const {form, submit, loading} = useHandleForm({
     create: createPurchseOrder,
     edit: editPurchaseOrder,
@@ -28,7 +34,38 @@ export const PurchaseOrderForm = ({id, onCancel, onDone}) => {
     close: onCancel,
     id,
     dates: ['expected_delivery'],
+    customHandling: preProcessData,
   });
+
+  const checkfields = (data) => {
+    console.log('data inside change is ', data);
+    const d = form.getFieldValue('items');
+    const name = data[0].name[2];
+    const value = data[0].value;
+    const index = data[0].name[1];
+    let priceperunit;
+    if (products !== null && products !== undefined) {
+      products.forEach((prod) => {
+        if (prod.id === value && name === 'item') {
+          priceperunit = prod.priceperunit;
+        }
+      });
+    }
+    if (name === 'item') {
+      if (d) {
+        const newd = d.map((oned) => {
+          if (oned) {
+            if (oned.item === value) {
+              oned.item_price = priceperunit;
+              return oned;
+            }
+            return oned;
+          }
+        });
+        form.setFieldsValue('items', newd);
+      }
+    }
+  };
   //
   // const preProcess = (data) => {
   //   if (reqFile) {
@@ -50,8 +87,14 @@ export const PurchaseOrderForm = ({id, onCancel, onDone}) => {
 
   return (
     <Spin spinning={loading}>
-      <Divider orientation="left">Purchase Order Details Details</Divider>
-      <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
+      <Divider orientation="left">Purchase Order Details</Divider>
+      <Form
+        onFinish={submit}
+        form={form}
+        layout="vertical"
+        hideRequiredMark
+        autoComplete="off"
+        onFieldsChange={checkfields}>
         <Row style={{justifyContent: 'left'}}>
           {PurchaseOrdersFormFields.slice(0, 1).map((item, idx) => (
             <Col span={6}>
@@ -123,7 +166,7 @@ export const PurchaseOrderForm = ({id, onCancel, onDone}) => {
                 {fields.map((field, index) => (
                   <Row align="middle">
                     {PurchaseOrderItemFormFields.slice(0, 1).map((item) => (
-                      <Col span={5}>
+                      <Col span={7}>
                         <div className="p-2">
                           {formItem({
                             ...item,
@@ -151,7 +194,7 @@ export const PurchaseOrderForm = ({id, onCancel, onDone}) => {
                       </Col>
                     ))}
                     {PurchaseOrderItemFormFields.slice(1, 3).map((item) => (
-                      <Col span={5}>
+                      <Col span={7}>
                         <div className="p-2">
                           {formItem({
                             ...item,

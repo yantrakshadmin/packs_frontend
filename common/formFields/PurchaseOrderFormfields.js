@@ -53,7 +53,7 @@ export const PurchaseOrdersFormFields = [
     customLabel: 'Expected Devliery',
   },
   {
-    key: 'payment terms',
+    key: 'payment_terms',
     rules: [{message: 'Please enter payment terms!'}],
     kwargs: {
       placeholder: 'Enter',

@@ -203,7 +203,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
             password={DEFAULT_PASSWORD}
             deleteHOC={deleteHOC({
               record,
-              reloadFull,
+              reload: reloadFull,
               api: deleteReturn,
               success: 'Deleted Return successfully',
               failure: 'Error in deleting Return',

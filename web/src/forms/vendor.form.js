@@ -1,11 +1,13 @@
-import React from 'react';
-import {Form, Col, Row, Button, Divider, Spin} from 'antd';
+import React, {useEffect, useState} from 'react';
+import {Form, Col, Row, Button, Divider, Spin, Alert} from 'antd';
 import {vendorFormFields} from 'common/formFields/vendor.formFields';
 import {useHandleForm} from 'hooks/form';
-import {createVendor, editVendor, retrieveVendor} from 'common/api/auth';
+import {createVendor, editVendor, retrieveVendor, retrieveVendors} from 'common/api/auth';
 import formItem from '../hocs/formItem.hoc';
 
 export const VendorForm = ({id, onCancel, onDone}) => {
+  const [allvendors, setAllVendors] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
   const {form, submit, loading} = useHandleForm({
     create: createVendor,
     edit: editVendor,
@@ -17,17 +19,35 @@ export const VendorForm = ({id, onCancel, onDone}) => {
     id,
   });
 
+  useEffect(() => {
+    retrieveVendors().then((response) => {
+      setAllVendors(response.data);
+    });
+  }, []);
+
   const handleFieldsChange = (data) => {
     console.log(data);
 
     if (data)
       if (data[0])
         if (data[0].name)
-          if (data[0].name[0])
+          if (data[0].name[0]) {
             if (data[0].name[0] === 'gst' || data[0].name[0] === 'pan') {
               const val = data[0].value.toUpperCase();
               form.setFieldsValue({[data[0].name[0]]: val});
+            } else if (data[0].name[0] === 'code') {
+              let flag = 0;
+              if (allvendors) {
+                allvendors.forEach((element) => {
+                  if (element.code === data[0].value) {
+                    flag = 1;
+                  }
+                });
+                if (flag) setErrorMessage('Vendor With the Same Code Already Exists');
+                else setErrorMessage('');
+              }
             }
+          }
   };
 
   return (
@@ -54,6 +74,13 @@ export const VendorForm = ({id, onCancel, onDone}) => {
             </Col>
           ))}
         </Row>
+        {errorMessage && (
+          <Row justify="center" gutter={[0, 30]} style={{marginBottom: '1rem'}}>
+            <Col>
+              <Alert message={errorMessage} type="warning" />
+            </Col>
+          </Row>
+        )}
         <Row style={{justifyContent: 'left'}}>
           {vendorFormFields.slice(3, 7).map((item, idx) => (
             <Col span={6}>
@@ -93,7 +120,7 @@ export const VendorForm = ({id, onCancel, onDone}) => {
         </Row>
 
         <Row>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" disabled={errorMessage}>
             Save
           </Button>
           <div className="p-2" />
