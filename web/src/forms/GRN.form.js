@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {Form, Col, Row, Button, Divider, Spin, message} from 'antd';
-import {GRNFormFields, GRNItemFormFields} from 'common/formFields/GRN.formFields';
+import {GRNFormFields, GRNItemFormFields, PoGRNFields} from 'common/formFields/GRN.formFields';
 import {useAPI} from 'common/hooks/api';
 import {useHandleForm} from 'hooks/form';
 import {createGRN, editGRN, retrieveGRN} from 'common/api/auth';
+import {retrievePurchaseOrder} from 'common/api/auth';
 import {PlusOutlined, MinusCircleOutlined} from '@ant-design/icons';
 import moment from 'moment';
 import formItem from '../hocs/formItem.hoc';
@@ -11,23 +12,36 @@ import formItem from '../hocs/formItem.hoc';
 import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
 
-export const GRNForm = ({id, onCancel, onDone}) => {
+export const GRNForm = ({id, onCancel, onDone, createGrnWithPO}) => {
   const [reqFile, setFile] = useState(null);
 
   const {data: vendors} = useAPI('/vendors/', {});
   const {data: warehouses} = useAPI('/warehouse/', {});
   const {data: products} = useAPI('/products/', {});
 
+  const handleGrnWithPO = (data) => {
+    data['warehouse'] = data['delivered_to'];
+    delete data['delivered_to'];
+    let sum = 0;
+    data.items.forEach((i) => {
+      sum += i.item_price * i.item_quantity;
+    });
+    sum += (sum * parseInt(data.billing_gst)) / 100;
+    data.invoice_amount = sum;
+    return data;
+  };
+
   const {form, submit, loading} = useHandleForm({
     create: createGRN,
     edit: editGRN,
-    retrieve: retrieveGRN,
+    retrieve: createGrnWithPO ? retrievePurchaseOrder : retrieveGRN,
     success: 'GRN created/edited successfully.',
     failure: 'Error in creating/editing GRN.',
     done: onDone,
     close: onCancel,
     id,
     dates: ['inward_date'],
+    customHandling: createGrnWithPO ? handleGrnWithPO : undefined,
   });
   //
   // const preProcess = (data) => {
@@ -52,6 +66,17 @@ export const GRNForm = ({id, onCancel, onDone}) => {
     <Spin spinning={loading}>
       <Divider orientation="left">GRN Details</Divider>
       <Form onFinish={submit} form={form} layout="vertical" hideRequiredMark autoComplete="off">
+        <Row>
+          {PoGRNFields.slice(0, 2).map((item, idx) => (
+            <Col span={6}>
+              <div key={idx} className="p-2">
+                {formItem(item)}
+              </div>
+            </Col>
+          ))}
+        </Row>
+        <Divider orientation="left"></Divider>
+
         <Row style={{justifyContent: 'left'}}>
           {GRNFormFields.slice(0, 1).map((item, idx) => (
             <Col span={6}>

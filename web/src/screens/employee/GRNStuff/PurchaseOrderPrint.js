@@ -87,6 +87,8 @@ const Docket = ({location, match}) => {
           <div className="heading-docket">
             <Title level={2} style={{fontWeight: 'bold'}}>
               PURCHASE ORDER
+              <br />
+              {`#${allotment.po_number}`}
             </Title>
           </div>
         </div>
@@ -111,9 +113,9 @@ const Docket = ({location, match}) => {
           </Col>
         </Row>
         <br />
-        {allotment.material_vendor && (
-          <Row>
-            <Col>
+        <Row>
+          {allotment.material_vendor && (
+            <Col span={17}>
               <p>
                 Vendor Address
                 <br />
@@ -135,12 +137,9 @@ const Docket = ({location, match}) => {
                 <br />
               </p>
             </Col>
-          </Row>
-        )}
-        <br />
-        {allotment.delivered_to && (
-          <Row align="bottom">
-            <Col span={16}>
+          )}
+          {allotment.delivered_to && (
+            <Col>
               <p>
                 Delivered to
                 <br />
@@ -162,19 +161,23 @@ const Docket = ({location, match}) => {
                 <br />
               </p>
             </Col>
-            <Col span={7}>
-              <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                <p>Data: </p>
-                <p>{new Date().toLocaleDateString()}</p>
-              </div>
-              <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                <p>Delivery Date:</p>
-                <p>{`${allotment.expected_delivery.split('T')[0].split('-')[2]}/${
-                  allotment.expected_delivery.split('T')[0].split('-')[1]
-                }/${allotment.expected_delivery.split('T')[0].split('-')[0]}`}</p>
-              </div>
-            </Col>
-          </Row>
+          )}
+        </Row>
+        <br />
+        <Row align="end">
+          <Col span={7}>
+            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+              <p>Data: </p>
+              <p>{new Date().toLocaleDateString()}</p>
+            </div>
+            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+              <p>Delivery Date:</p>
+              <p>{`${allotment.expected_delivery.split('T')[0].split('-')[2]}/${
+                allotment.expected_delivery.split('T')[0].split('-')[1]
+              }/${allotment.expected_delivery.split('T')[0].split('-')[0]}`}</p>
+            </div>
+          </Col>
+        </Row>
         )}
         <br />
         <Row>

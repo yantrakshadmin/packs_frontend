@@ -82,6 +82,7 @@ const TableWithTabHOC = ({
   formParams,
   scroll,
   size,
+  createGrnWithPO,
   uploadLink,
   uploadLinkTitle,
   uploadLinkFunc,
@@ -156,7 +157,13 @@ const TableWithTabHOC = ({
         title={modelTitle || `Add ${title}`}
         onCancel={onCancel}
         footer={null}>
-        <ModalBody onCancel={onCancel} onDone={onDone} id={editingId} {...formParams} />
+        <ModalBody
+          onCancel={onCancel}
+          onDone={onDone}
+          id={editingId}
+          {...formParams}
+          createGrnWithPO={createGrnWithPO}
+        />
       </Modal>
 
       {uploadLink ? (

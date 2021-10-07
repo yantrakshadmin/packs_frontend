@@ -195,7 +195,10 @@ const ReturnDocketsScreen = ({currentPage}) => {
                 border: 'none',
                 padding: '1px',
               }}
-              onClick={(e) => e.stopPropagation()}>
+              onClick={(e) => e.stopPropagat
+              
+              
+              ion()}>
               <Delete />
             </Button>
           </Popconfirm> */}

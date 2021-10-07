@@ -55,6 +55,7 @@ export const useHandleForm = ({
           if (customHandling !== undefined) {
             const modifiedData = customHandling(data);
             form.setFieldsValue(modifiedData);
+            console.log('modified data is ', modifiedData);
           } else {
             form.setFieldsValue(data);
           }

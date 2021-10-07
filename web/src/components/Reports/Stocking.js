@@ -98,7 +98,7 @@ const StockingReport = ({currentPage}) => {
           ) : null}
         </Row>
 
-        {!selectAllClients ? (
+        {!monthWise && !selectAllClients ? (
           selectedKits.length > 0 ? (
             <Row gutter={10}>
               <Col span={2}>

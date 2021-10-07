@@ -16,6 +16,7 @@ import {deleteHOC} from '../../hocs/deleteHoc';
 import {ProductTable} from '../../components/GRNProductsTable';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {PurchaseOrderForm} from '../../forms/PurchaseOrderForms';
+import {GRNForm} from 'forms/GRN.form';
 import {GetUniqueValue} from 'common/helpers/getUniqueValues';
 import TableWithTabHoc from '../../hocs/TableWithTab.hoc';
 import {Select} from 'antd';
@@ -23,6 +24,7 @@ import DeleteWithPassword from '../../components/DeleteWithPassword';
 import {DEFAULT_PASSWORD} from 'common/constants/passwords';
 import NoPermissionAlert from 'components/NoPermissionAlert';
 import {Popover} from 'antd';
+import {FileAddOutlined} from '@ant-design/icons';
 
 const {Search} = Input;
 const {Option} = Select;
@@ -34,6 +36,7 @@ const KitEmployeeScreen = ({currentPage}) => {
   const [csvData, setCsvData] = useState(null);
   const [barLoading, setBarLoading] = useState(false);
   const [barID, setBarID] = useState(null);
+  const [createGrn, setCreateGrn] = useState(null);
 
   const {data: pos, loading, reload, status} = useAPI('/purchaseorders/', {});
 
@@ -77,6 +80,7 @@ const KitEmployeeScreen = ({currentPage}) => {
   };
   const cancelEditing = () => {
     setEditingId(null);
+    setCreateGrn(false);
   };
 
   const columns = [
@@ -166,6 +170,23 @@ const KitEmployeeScreen = ({currentPage}) => {
               <Print />
             </Button>
           </a>
+          <Button
+            type="primary"
+            shape="circle"
+            style={{
+              fontSize: '12px',
+              // backgroundColor: 'transparent',
+              // border: 'none',
+              // boxShadow: 'none',
+              // padding: '1px',
+            }}
+            onClick={(e) => {
+              setEditingId(record.id);
+              setCreateGrn(true);
+              e.stopPropagation();
+            }}>
+            GRN
+          </Button>
         </div>
       ),
     },
@@ -197,8 +218,9 @@ const KitEmployeeScreen = ({currentPage}) => {
         title="Purchase Orders  "
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={PurchaseOrderForm}
+        modalBody={createGrn ? GRNForm : PurchaseOrderForm}
         modalWidth={60}
+        createGrnWithPO={createGrn}
         // expandHandleKey="products"
         // expandParams={{loading}}
         // ExpandBody={ProductTable}
