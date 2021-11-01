@@ -143,8 +143,8 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         //modalBody={ReceiverForm}
         //modalWidth={45}
         expandParams={{loading}}
-        csvdata={csvData}
-        csvname={`Clients${searchVal}.csv`}
+        // csvdata={csvData}
+        // csvname={`Clients${searchVal}.csv`}
       />
     </NoPermissionAlert>
   );

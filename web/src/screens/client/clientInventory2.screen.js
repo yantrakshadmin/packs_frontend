@@ -180,7 +180,7 @@ export const TestInventoryScreen = ({user}) => {
             data={invData}
             columns={column}
             title="Inventory"
-            ExtraButtonNextToTitle={DownloadCSVButton}
+            // ExtraButtonNextToTitle={DownloadCSVButton}
             hideRightButton
             loading={invLoading}
           />

@@ -128,10 +128,10 @@ const AllotmentDocketsScreen = ({currentPage, isEmployee}) => {
         ExpandBody={ExpandTable}
         //csvdata={csvData}
         //csvname="MyAllotments.csv"
-        downloadLink={
-          isEmployee ? null : `${DEFAULT_BASE_URL}client-allotment-reportsdownload?cname=${user}`
-        }
-        downloadLinkButtonTitle="Download Reports"
+        // downloadLink={
+        //   isEmployee ? null : `${DEFAULT_BASE_URL}client-allotment-reportsdownload?cname=${user}`
+        // }
+        // downloadLinkButtonTitle="Download Reports"
         //expandParams={{loading}}
       />
     </>

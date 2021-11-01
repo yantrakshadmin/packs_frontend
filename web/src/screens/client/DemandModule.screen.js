@@ -143,7 +143,7 @@ const MaterialRequestEmployeeScreen = ({currentPage, user}) => {
         expandHandleKey="demand_flows"
         expandParams={{loading}}
         ExpandBody={DemandModuleTable}
-        ExtraButtonNextToTitle={DownloadCSVButton}
+        // ExtraButtonNextToTitle={DownloadCSVButton}
       />
     </>
   );
