@@ -102,7 +102,8 @@ export const returnFormFields = [
     others: {
       selectOptions: [
         'Part Load',
-        'Tata ACE / Pick-Up',
+        'Tata ACE',
+        'Pick-Up',
         'TATA-407',
         '17ft Vehicle',
         '19ft Vehicle',

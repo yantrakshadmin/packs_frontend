@@ -183,8 +183,8 @@ const AllotmentReport = ({currentPage}) => {
         size="middle"
         title="Allotment Dockets"
         hideRightButton
-        downloadLink={`${DEFAULT_BASE_URL}/allotment-reportsdownload/?cname=${client}&to=${to}&from=${from}`}
-        downloadLink2={`${DEFAULT_BASE_URL}/billing-annexure/?id=${client}&to=${to}&from=${from}`}
+        downloadLink={`${DEFAULT_BASE_URL}allotment-reportsdownload/?cname=${client}&to=${to}&from=${from}`}
+        downloadLink2={`${DEFAULT_BASE_URL}billing-annexure/?id=${client}&to=${to}&from=${from}`}
         rowKey="id"
         expandHandleKey="flows"
         ExpandBody={AllotFlowTable}

@@ -32,7 +32,7 @@ export const UploadLeadForm = ({
     const getInfo = async () => {
       if (isReUpload) {
         try {
-          const {data: req} = await loadAPI(`${DEFAULT_BASE_URL}/tp-file/?id=${lead}`, {});
+          const {data: req} = await loadAPI(`${DEFAULT_BASE_URL}tp-file/?id=${lead}`, {});
           setNewID(req[0].id);
         } catch (err) {}
       }

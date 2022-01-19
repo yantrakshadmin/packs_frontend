@@ -153,7 +153,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
         //     }}
         //     // disabled={!record.document}
         //     onClick={async (e) => {
-        //       const {data: req} = await loadAPI(`${DEFAULT_BASE_URL}/inward/?pk=${record.id}`, {});
+        //       const {data: req} = await loadAPI(`${DEFAULT_BASE_URL}inward/?pk=${record.id}`, {});
         //       if (req) {
         //         if (req[0]) {
         //           if (req[0].document) {
@@ -209,7 +209,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
             }}
             // disabled={!record.document}
             onClick={async (e) => {
-              const {data: req} = await loadAPI(`${DEFAULT_BASE_URL}/inward/?pk=${record.id}`, {});
+              const {data: req} = await loadAPI(`${DEFAULT_BASE_URL}inward/?pk=${record.id}`, {});
               if (req) {
                 if (req[0]) {
                   if (req[0].document) {

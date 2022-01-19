@@ -131,8 +131,8 @@ const StockingReport = ({currentPage}) => {
           <Button
             href={
               selectAllClients
-                ? `${DEFAULT_BASE_URL}/return-loss/?to=${toDate}&from=${fromDate}`
-                : `${DEFAULT_BASE_URL}/return-loss/?to=${toDate}&from=${fromDate}&rid=${selectedClientID}`
+                ? `${DEFAULT_BASE_URL}return-loss/?to=${toDate}&from=${fromDate}`
+                : `${DEFAULT_BASE_URL}return-loss/?to=${toDate}&from=${fromDate}&rid=${selectedClientID}`
             }
             rel="noopener noreferrer"
             target="blank">

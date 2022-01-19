@@ -162,9 +162,9 @@ const StockingReport = ({user}) => {
             href={
               !selectAllClients
                 ? !selectAllKits
-                  ? `${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}&kit=${kit}`
-                  : `${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${client}`
-                : `${DEFAULT_BASE_URL}/floating-report/?to=${toDate}&from=${fromDate}&cname=${'all'}`
+                  ? `${DEFAULT_BASE_URL}floating-report/?to=${toDate}&from=${fromDate}&cname=${client}&kit=${kit}`
+                  : `${DEFAULT_BASE_URL}floating-report/?to=${toDate}&from=${fromDate}&cname=${client}`
+                : `${DEFAULT_BASE_URL}floating-report/?to=${toDate}&from=${fromDate}&cname=${'all'}`
             }
             rel="noopener noreferrer"
             target="blank">

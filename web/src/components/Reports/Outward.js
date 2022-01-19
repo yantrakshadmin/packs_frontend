@@ -86,7 +86,7 @@ const StockingReport = ({currentPage}) => {
         </Row>
         <Row>
           <Button
-            href={`${DEFAULT_BASE_URL}/outward-report/?to=${toDate}&from=${fromDate}&cname=${client}`}
+            href={`${DEFAULT_BASE_URL}outward-report/?to=${toDate}&from=${fromDate}&cname=${client}`}
             rel="noopener noreferrer"
             target="blank">
             Download CSV

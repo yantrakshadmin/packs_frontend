@@ -91,7 +91,7 @@ const StockingReport = ({user}) => {
         </Row> */}
         <Row>
           <Button
-            //href={`${DEFAULT_BASE_URL}/demandvallot-report/?cname=${client}`}
+            //href={`${DEFAULT_BASE_URL}demandvallot-report/?cname=${client}`}
             onClick={async () => {
               await setBtnLoading(true);
               const d = await loadAPI(`/demandvallot-report/?cname=${client}`);

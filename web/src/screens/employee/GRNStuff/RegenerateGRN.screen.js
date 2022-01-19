@@ -150,7 +150,7 @@ const KitEmployeeScreen = ({currentPage}) => {
             <Download />
           </Button> */}
           <a
-            href={`${DEFAULT_BASE_URL}/print-rebarcodes/${record.id}/`}
+            href={`${DEFAULT_BASE_URL}print-rebarcodes/${record.id}/`}
             target="_blank"
             rel="noopener noreferrer">
             <Button
@@ -224,7 +224,7 @@ const KitEmployeeScreen = ({currentPage}) => {
         expandParams={{loading}}
         ExpandBody={ProductTable}
         // csvdata={csvData}
-        downloadLink={`${DEFAULT_BASE_URL}/grn-download/`}
+        downloadLink={`${DEFAULT_BASE_URL}grn-download/`}
 
         // csvname={`GRNs${  searchVal  } .csv`}
       />

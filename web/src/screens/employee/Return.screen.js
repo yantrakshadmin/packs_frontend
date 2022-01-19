@@ -124,7 +124,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
               onClick={async (e) => {
                 e.stopPropagation();
                 const {data: req} = await loadAPI(
-                  `${DEFAULT_BASE_URL}/received-docket/?pk=${record.id}`,
+                  `${DEFAULT_BASE_URL}received-docket/?pk=${record.id}`,
                   {},
                 );
                 if (req)

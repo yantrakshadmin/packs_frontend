@@ -135,7 +135,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
             documentAvail={record.document_available ? true : false}
             getDocuments={async () => {
               const {data: req} = await loadAPI(
-                `${DEFAULT_BASE_URL}/delivered-docket/?pk=${record.id}`,
+                `${DEFAULT_BASE_URL}delivered-docket/?pk=${record.id}`,
                 {},
               );
               if (req)
@@ -164,7 +164,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
             onClick={async (e) => {
               e.stopPropagation();
               const {data: req} = await loadAPI(
-                `${DEFAULT_BASE_URL}/delivered-docket/?pk=${record.id}`,
+                `${DEFAULT_BASE_URL}delivered-docket/?pk=${record.id}`,
                 {},
               );
               if (req)

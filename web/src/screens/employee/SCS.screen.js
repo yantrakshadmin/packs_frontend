@@ -191,7 +191,7 @@ const PFEPEmployeeScreen = ({currentPage}) => {
               padding: '1px',
             }}
             onClick={async (e) => {
-              const {data: req} = await loadAPI(`${DEFAULT_BASE_URL}/tp-file/?id=${record.id}`, {});
+              const {data: req} = await loadAPI(`${DEFAULT_BASE_URL}tp-file/?id=${record.id}`, {});
               if (req) {
                 if (req[0]) {
                   if (req[0].document) {

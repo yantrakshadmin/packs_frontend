@@ -185,7 +185,7 @@ const AllotmentReport = ({currentPage}) => {
         size="middle"
         title="Return Dockets"
         hideRightButton
-        downloadLink={`${DEFAULT_BASE_URL}/return-reportsdownload/?cname=${client}&to=${to}&from=${from}`}
+        downloadLink={`${DEFAULT_BASE_URL}return-reportsdownload/?cname=${client}&to=${to}&from=${from}`}
         rowKey="id"
         expandHandleKey="kits"
         ExpandBody={RetKitTable}
