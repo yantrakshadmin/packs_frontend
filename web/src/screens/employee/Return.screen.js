@@ -34,6 +34,7 @@ import ExpandTable from '../../components/ReturnsExpandTable';
 import DeleteWithPassword from '../../components/DeleteWithPassword';
 import {DEFAULT_PASSWORD} from 'common/constants/passwords';
 import NoPermissionAlert from 'components/NoPermissionAlert';
+import FilesViewModal from 'components/FilesViewModal';
 
 const {Search} = Input;
 
@@ -112,7 +113,30 @@ const ReturnDocketsScreen = ({currentPage}) => {
       width: '9vw',
       render: (text, record) => (
         <div className="row justify-evenly">
-          <a href={record.document} target="_blank" rel="noopener noreferrer">
+          {console.log(record, "record")}
+          <FilesViewModal
+            documentAvail={record.is_delivered ? true : false}
+            getDocuments={async () => {
+              const {data: req} = await loadAPI(
+                `${DEFAULT_BASE_URL}received-docket/?pk=${record.id}`,
+                {},
+              );
+              if (req)
+                if (req.document) {
+                  return [{document: req.document, span: 24}];
+                }
+              try {
+                if (req.pod.length > 0) {
+                  let d = [];
+                  req.pod.forEach((f) => {
+                    d.push({document: f.document, span: req.pod.length > 1 ? 12 : 24});
+                  });
+                  return d;
+                }
+              } catch (err) {}
+            }}
+          />
+          {/* <a href={record.document} target="_blank" rel="noopener noreferrer">
             <Button
               style={{
                 backgroundColor: 'transparent',
@@ -144,7 +168,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
                 style={{fontSize: 20, color: yantraColors['primary']}}
               />
             </Button>
-          </a>
+          </a> */}
           <Button
             style={{
               backgroundColor: 'transparent',
