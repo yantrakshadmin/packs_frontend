@@ -385,7 +385,7 @@ export const ExpenseForm = ({id, onCancel, onDone, isEmployee}) => {
                   ...item,
                   kwargs: {
                     ...item.kwargs,
-                    disabled: !!id,
+                    disabled: (id && form.getFieldValue('status') == 'Approved'),
                   },
                 })}
               </div>
