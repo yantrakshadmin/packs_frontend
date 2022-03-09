@@ -119,6 +119,19 @@ export const employeeRoutes = [
     Component: lazy(() => import('screens/employee/dashboard.screen')),
   },
   {
+    name: 'DEPS',
+    icon: ['fas', 'ticket-alt'],
+    path: '/deps/',
+    isSubMenu: true,
+    subMenu: [
+      {
+        name: 'Tickets',
+        path: '/deps/tickets/',
+        Component: lazy(() => import('screens/employee/Tickets.screen')),
+      },
+    ],
+  },
+  {
     name: 'Sales',
     icon: ['fas', 'user-friends'],
     path: '/reports/',

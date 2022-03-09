@@ -131,6 +131,14 @@ const Docket = ({location, match}) => {
             </Row>
             <Row>
               <Col span={22}>
+                <p style={{fontWeight: 'bold', display: 'inline'}}>Expected Delivery Date : </p>
+                <p style={{display: 'inline'}}>
+                  {moment(allotment.expected_delivery).format('DD/MM/YYYY')}
+                </p>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={22}>
                 <p style={{fontWeight: 'bold', display: 'inline'}}>Transaction Type : Allot</p>
               </Col>
             </Row>
