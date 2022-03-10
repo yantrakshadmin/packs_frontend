@@ -180,7 +180,17 @@ const ReturnDocketsScreen = ({currentPage}) => {
               setDeliveryId(record.id);
               e.stopPropagation();
             }}
-            disabled={record.is_delivered ? true : false}>
+            // disabled={record.is_delivered ? true : false}
+            >
+              {
+                async () => {
+                  const {data: req} = await loadAPI(
+                    `${DEFAULT_BASE_URL}received-docket/?pk=${record.id}`,
+                    {},
+                  );
+                  console.log(req)
+                }
+              }
             <Delivery color={record.is_delivered ? '#7CFC00' : null} />
           </Button>
           <Button
