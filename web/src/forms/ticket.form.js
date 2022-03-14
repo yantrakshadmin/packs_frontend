@@ -66,25 +66,37 @@ export const TicketForm = ({ id, onCancel, onDone, isAssigned }) => {
 
     setData()
     
-  }, [transactionType])
+  }, [transactionType, allotExp, returnExp, grnExp])
 
   useEffect(() => {
 
     const setData = async () => {
 
       if(transactionType == 'Allotment' && allotExp) {
+
         const {data: products} = await retrieveAllotments(transactionId)
         setTicketData(getUniqueObject(
           products.flows.map((flow) => flow.kit.products.map((item) => item.product)),
           'id',
         )[0])
+
       } else if(transactionType == 'Return' && returnExp) {
 
         const {data: products} = await loadAPI(`return-received/?id=${transactionId}`);
         const {data: allProducts} = await loadAPI(`/products/`);
 
-        const neededProducts = products.kits.map((kit) => kit.kit.products.map((item) => item.product))[0]
+        const prod = products.kits.map((kit) => kit.kit.products.map((item) => item.product))
 
+        var neededProducts = []
+
+        prod.map(pr => {
+          pr.map(p => {
+            neededProducts.push(p)
+          })
+        })
+
+        neededProducts = getUniqueObject( neededProducts, 'id')
+        
         const myArrayFiltered = allProducts.filter((el) => {
           return neededProducts.some((f) => {
             return f.id === el.id ;
@@ -106,7 +118,7 @@ export const TicketForm = ({ id, onCancel, onDone, isAssigned }) => {
 
     setData()
 
-  }, [transactionId])
+  }, [transactionId, allotExp, returnExp, grnExp])
 
   useEffect(() => {
     if(id && !loading){
@@ -252,7 +264,7 @@ export const TicketForm = ({ id, onCancel, onDone, isAssigned }) => {
         </Row>
 
         <Divider orientation='left'>Transaction Details</Divider>
-
+        {console.log(ticketData)}
         <Form.List name='items'>
           {(fields, { add, remove }) => {
             return (
