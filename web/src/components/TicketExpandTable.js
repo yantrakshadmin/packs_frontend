@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 
 import {Table, Row, Col, Spin} from 'antd';
 import {useAPI} from 'common/hooks/api';
-import { useSelector } from 'react-redux';
 
 const cols = [
   {
@@ -24,18 +23,14 @@ const cols = [
 
 const ExpandTable = ({items}) => {
 
-  const { user } = useSelector(s => s);
-  const {userMeta} = user;
-  const { viewType,companyId } = userMeta
+  console.log(items)
 
   const [data, setData] = useState([]);
 
-  const {data: products, loading} = useAPI(`/company-products/?id=${companyId}`);  
+  const {data: products, loading} = useAPI(`/products/`);  
 
     useEffect(() => {
         if(products){
-
-            console.log("hell")
 
             let arr=  []
 
