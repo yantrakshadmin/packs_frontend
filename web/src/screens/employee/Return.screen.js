@@ -113,7 +113,6 @@ const ReturnDocketsScreen = ({currentPage}) => {
       width: '9vw',
       render: (text, record) => (
         <div className="row justify-evenly">
-          {console.log(record, "record")}
           <FilesViewModal
             documentAvail={record.is_delivered ? true : false}
             getDocuments={async () => {

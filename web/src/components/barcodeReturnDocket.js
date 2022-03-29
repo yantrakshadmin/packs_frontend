@@ -1,26 +1,85 @@
 import React,{ useState } from 'react';
+import _ from 'lodash';
 import { Row,Col,Input,Typography,notification,Table,Tag,Button } from 'antd';
+
+import { useAPI } from 'common/hooks/api';
 import { loadAPI } from 'common/helpers/api';
 import { postReturnBarcodes } from 'common/api/auth';
 
 const { Title } = Typography;
 
 export const BarcodeReturnDocket = ({ transaction,returnNo,setVisible }) =>{
+  const [editId, setEditId] = useState(null);
   const [barcodes,setBarcodes] = useState([]);
   const [productDetails,setProductDetails] = useState({
   });
+
   // const { data:allotments ,error:altError,loading:altLoading } =
   //   useAPI(`dispatch-allotment-fetch/?return_no=${returnNo}`)
   const [inputValue,setInputValue] = useState('');
+  const {data: fetchedBarcodes, error: altError, loading: altLoading} = useAPI(
+    `dispatch-return-fetch/?ret=${returnNo}`,
+  );
+
+  const {data: limitsData, error: limError, loading: limLoading} = useAPI(
+    `dispatch-return-validate/?id=${returnNo}`,
+  );
+
+  
+  React.useEffect(() => {
+    if (!altLoading && !limLoading && fetchedBarcodes && limitsData) {
+      setEditId(fetchedBarcodes.id);
+
+      const {bar_details} = fetchedBarcodes;
+      const tempA = fetchedBarcodes.barcodes.map((b, idx) => ({
+        barcode: b,
+        name: bar_details[idx],
+      }));
+      setBarcodes(tempA);
+
+      const tempB = {};
+      Object.keys(limitsData).forEach((ld) => {
+        tempB[ld] = 0;
+      });
+
+      bar_details.forEach((bd, idx) => {
+        tempB[bd] = tempB[bd] + 1;
+      });
+
+      setProductDetails(tempB);
+    } else if (!altLoading && !limLoading && limitsData) {
+      const tempB = {};
+      Object.keys(limitsData).forEach((ld) => {
+        tempB[ld] = 0;
+      });
+      setProductDetails(tempB);
+    }
+  }, [altLoading, limLoading]);
 
   const addItem= async (value)=>{
     const filtered = barcodes.filter((i)=>(i.barcode === (value || inputValue)));
     const { data } = await loadAPI(`check-bar/?code=${value || inputValue}`);
-
-    if(filtered.length===0 && data !== 0){
-      setBarcodes([...barcodes,{ barcode:value || inputValue,name:data }])
-      setProductDetails({ ...productDetails,
-        [data]:((productDetails[data]?productDetails[data]:0)+1) })
+    console.log(data,'))))((((');
+    if (filtered.length === 0 && !!data) {
+      console.log(limitsData[data.name],(productDetails[data.name] ? productDetails[data.name] : 0))
+      const shouldAdd =
+        limitsData[data.name] >= 1 + (productDetails[data.name] ? productDetails[data.name] : 0);
+      if (shouldAdd) {
+        setBarcodes([...barcodes, {barcode: value || inputValue, name: data.name}]);
+        setProductDetails({
+          ...productDetails,
+          [data.name]: (productDetails[data.name] ? productDetails[data.name] : 0) + 1,
+        });
+      } else {
+        notification.warning({
+          message: `Limit Exceed`,
+          description: `Sorry! No More ${data.name} can be added`,
+        });
+      }
+    // if(filtered.length===0 && data !== 0){
+    //   setBarcodes([...barcodes,{ barcode:value || inputValue,name:data }])
+    //   setProductDetails({ ...productDetails,
+    //     [data]:((productDetails[data]?productDetails[data]:0)+1) })
     }
     else{
       notification.warning({
@@ -35,11 +94,13 @@ export const BarcodeReturnDocket = ({ transaction,returnNo,setVisible }) =>{
     const { value } = e.target;
     setInputValue(value);
   };
+
   const getTableArray = () =>{
     const newArr = [];
     Object.keys(productDetails).map(key=>(newArr.push({
-      product:key,
-      quantity:productDetails[key]
+      product: key,
+      quantity: productDetails[key],
+      total_limit: limitsData[key],
     })));
     return newArr;
   }
@@ -52,9 +113,14 @@ export const BarcodeReturnDocket = ({ transaction,returnNo,setVisible }) =>{
       key: 'product',
     },
     {
-      title: 'Quantity',
+      title: 'Scanned Quantity',
       dataIndex: 'quantity',
-      key: 'quantity',
+      key: 'quantity'
+    },
+    {
+      title: 'Quantity',
+      dataIndex: 'total_limit',
+      key: 'total_limit',
     }
   ]
 
@@ -72,10 +138,39 @@ export const BarcodeReturnDocket = ({ transaction,returnNo,setVisible }) =>{
     return barcodes.map(i=>(i.barcode));
   }
   const reqSubmit = async ()=>{
-    const { error }= await postReturnBarcodes({
-      barcodes:getReqBarcodeArray(),
-      transaction,
-      ret:returnNo })
+    let allotSum = 0;
+    let limitSum = 0;
+
+    getTableArray().forEach((i) => {
+      allotSum += i.quantity;
+    });
+
+    _.values(limitsData).forEach((i) => {
+      limitSum += i;
+    });
+
+    const status = allotSum === limitSum ? 'complete' : 'incomplete';
+    let error;
+    if (editId) {
+      const {error: newError } = await postReturnBarcodes(
+        {
+          barcodes: getReqBarcodeArray(),
+          status,
+          transaction,
+          ret:returnNo,
+        },
+        editId,
+      );
+      error = newError
+    } else {
+      const {error: newError } = await postReturnBarcodes({
+        barcodes: getReqBarcodeArray(),
+        status,
+        transaction,
+        ret:returnNo,
+      });
+      error = newError
+    }
     if(error !== undefined){
       notification.warning({
         message: 'Unknown Error in Submission.',

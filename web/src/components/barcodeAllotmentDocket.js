@@ -188,7 +188,7 @@ export const BarcodeAllotmentDocket = ({transaction, allot, setVisible}) => {
 
   return (
     <Spin spinning={altLoading}>
-      <Row align="middle">
+      <Row align='middle'>
         <Col span={6}>
           <Input
             value={inputValue}
@@ -198,7 +198,7 @@ export const BarcodeAllotmentDocket = ({transaction, allot, setVisible}) => {
                 addItem();
               }
             }}
-            placeholder="Enter Barcode"
+            placeholder='Enter Barcode'
           />
         </Col>
       </Row>
