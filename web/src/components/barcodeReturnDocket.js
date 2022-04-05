@@ -128,7 +128,7 @@ export const BarcodeReturnDocket = ({ transaction,returnNo,setVisible }) =>{
     if(barcodes.length){
       setBarcodes([...barcodes.filter(i=>(i.barcode !== value))])
       if(productDetails[name] === 1){
-        delete productDetails[name];
+        setProductDetails({...productDetails, [name]: 0});
       }else{
         setProductDetails({ ...productDetails,[name]:productDetails[name]-1 })
       }
@@ -241,8 +241,7 @@ export const BarcodeReturnDocket = ({ transaction,returnNo,setVisible }) =>{
           <Button
             type='primary'
             disabled={Object.keys(productDetails).length===0}
-            onClick={reqSubmit}
-          >
+            onClick={reqSubmit}>
             Submit
           </Button>
         </Col>
