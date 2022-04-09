@@ -61,7 +61,7 @@
     "bootstrap": "^4.5.0",
     "flexmonster": "^2.8.11-1",
     "jquery": "^3.5.1",
-    "moment": "^2.27.0",
+    "moment": "^2.29.2",
     "popper": "^1.0.1",
     "react-app-rewired": "^2.1.8",
     "react-bootstrap": "^1.0.1",
