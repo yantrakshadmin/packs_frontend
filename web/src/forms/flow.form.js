@@ -34,6 +34,7 @@ export const FlowForm = ({id, onCancel, onDone}) => {
   });
 
   const [formValid, setFormValid] = useState(true);
+  // console.log(formValid,"formValid");
 
   useEffect(() => {
     if (!loading && !kLoading) {
@@ -44,6 +45,9 @@ export const FlowForm = ({id, onCancel, onDone}) => {
   }, [loading, kLoading]);
 
   const handleFieldsChange = async (data) => {
+    console.log(data[0], "+++++++++++++");
+   
+
     if (data)
       if (data[0])
         if (data[0].name) {
@@ -61,7 +65,17 @@ export const FlowForm = ({id, onCancel, onDone}) => {
             }
           }
 
+          if (data[0].value == 'Static') {
+            form.setFieldsValue({
+              receiver_client : 0
+            }
+            )
+            
+          }
+          // getFieldValue('receiver_client') = null
+
           if (data[0].name[2]) {
+
             if (data[0].name[2] === 'quantity') {
               setKitQty(data[0].value);
               const kit_id = form.getFieldValue([data[0].name[0], data[0].name[1], 'kit']);
