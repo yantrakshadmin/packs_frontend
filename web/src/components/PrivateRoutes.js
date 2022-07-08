@@ -7,7 +7,7 @@ import { NotFound404Screen } from 'screens/404.screen';
 import { SuspendedAccount } from 'screens/suspendedAccount.screen';
 
 export const PrivateRoutes = ({ routes, extraRoutes, user, outerRoutes }) => {
-  console.log(user,'user')
+ 
   return (
     <Router>
       <Redirect path='/' user={user} />
