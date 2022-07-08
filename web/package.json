@@ -42,6 +42,7 @@
     "eject": "react-scripts eject",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build"
+    
   },
   "browserslist": {
     "production": [
