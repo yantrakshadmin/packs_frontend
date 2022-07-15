@@ -13,6 +13,7 @@ import {
 import {MinusCircleOutlined, PlusOutlined} from '@ant-design/icons';
 import formItem from '../hocs/formItem.hoc';
 import _ from 'lodash';
+import { useAPI } from 'common/hooks/api';
 
 export const ReceivedForm = ({id, onCancel, onDone}) => {
   const [loading, setLoading] = useState(true);
@@ -23,6 +24,7 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
   const [receivedId, setReceivedId] = useState(null);
 
   const [limitsData, setLimitsData] = useState({});
+  const [mainProduct, setMainProduct] = useState([])
 
   const {form, submit} = useHandleForm({
     create: createReceived,
@@ -36,22 +38,34 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
     dates: ['receiving_date'],
   });
 
-  console.log(received);
+  console.log(mainProduct, "mainProduct");
 
   useEffect(() => {
     const fetch = async () => {
       if (id) {
-        const {data} = await loadAPI(`dispatch-return-validate/?id=${id}`);
+        const { data } = await loadAPI(`/received-desc/?id=${id}`);
         setLimitsData(data);
+     
       }
     };
     fetch();
   }, [id]);
 
   useEffect(() => {
+    const fetch = async () => { 
+      const { data } = await loadAPI(`products`);
+      setMainProduct(data);
+    }
+    fetch();
+   
+   
+  }, [])
+  
+
+  useEffect(() => {
     const fetchDelivered = async () => {
       const {data} = await allReceived();
-      console.log(data, 'REceived form');
+      // console.log(data, 'REceived form');
       if (data) {
         const dlvd = data.filter((d) => d.returndocket === id)[0];
         if (dlvd) {
@@ -240,7 +254,7 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
     } else {
       const finalData = toFormData(data);
       finalData.append('no_of_document_files', 0);
-      console.log(finalData);
+      // console.log(finalData);
       submit(finalData);
     }
   };
@@ -253,10 +267,11 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
           if (thisField === 'delivered') {
             if (data[0].value === false) {
               const temp = [];
-              _.values(limitsData).forEach((v) => {
+              _.entries(limitsData).forEach((v) => {
+                console.log(v ,"mainProduct fi;terrrrrrrr")
                 temp.push({
-                  product: v[1],
-                  actual_quantity: v[0],
+                  product:( mainProduct || []).filter(f => f.id == parseInt(v[0])).map(e => e.short_code) ,
+                  actual_quantity: v[1],
                 });
               });
               form.setFieldsValue({items: temp});
@@ -299,6 +314,7 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
           {ReceivedFormFields.slice(1, 2).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className="p-2">
+             
                 {formItem({
                   ...item,
                   kwargs: {
@@ -319,7 +335,7 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
                     multiple: true,
                     onChange(info) {
                       const {fileList} = info;
-                      console.log(fileList);
+                      // console.log(fileList);
                       fileList.forEach((f) => {
                         if (f.status === 'error') {
                           message.error(`${f.name} file upload failed.`);
@@ -352,7 +368,9 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
                     {ReceivedProductFormFields.slice(0, 1).map((item) => (
                       <Col span={6}>
                         <div className="p-2">
-                          {formItem({
+                          {/* {console.log(item, " itemm of Producttt")} */}
+                          {formItem(
+                            {
                             ...item,
                             noLabel: index != 0,
                             kwargs: {
@@ -372,7 +390,8 @@ export const ReceivedForm = ({id, onCancel, onDone}) => {
                                 fieldKey: [field.fieldKey, item.key],
                               },
                             },
-                          })}
+                            }
+                          )}
                         </div>
                       </Col>
                     ))}
