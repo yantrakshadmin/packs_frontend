@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Input, Button, Popconfirm} from 'antd';
+import {Input, Button, Popconfirm, Modal} from 'antd';
 import {connect, useSelector} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {Link} from '@reach/router';
@@ -25,6 +25,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBarcode, faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {yantraColors} from '../../helpers/yantraColors';
 import NoPermissionAlert from 'components/NoPermissionAlert';
+import { OutwardDocketUploadForm } from 'forms/outwardDocketUpload.form';
 
 const {Search} = Input;
 
@@ -34,6 +35,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
   const [reqData, setReqData] = useState(null);
   const [deliveryId, setDeliveryId] = useState(null);
   const [TN, setTN] = useState(null);
+  const [uploadModal, setUploadModal] = useState(Boolean);
   const user = useSelector((s) => s.user.userMeta.id);
   console.log(user, isEmployee, 'Props');
 
@@ -312,12 +314,24 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
 
   return (
     <NoPermissionAlert hasPermission={isEmployee ? (status === 403 ? false : true) : true}>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+      <div style={{display: 'flex', flexDirection:'column', alignItems: 'flex-end',}}>
         <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
+        <Button onClick={() => setUploadModal(true)} type='primary' style={{ width: '14vw' , marginTop:'50px', marginBottom: '0px', }} >Upload Outward Docket</Button>
       </div>
       <br />
+      <Modal
+        maskClosable={false}
+        visible={uploadModal}
+        destroyOnClose
+        style={{ minWidth: `80vw` }}
+        title={'Upload outward'}
+        onCancel={() => { setUploadModal(false) }}
+        footer={null}>
+        <OutwardDocketUploadForm  onCancel={() => { setUploadModal(false) }} onDone={() => { setUploadModal(false) }} />
+      </Modal>
+
       <TableWithTabHOC
         rowKey={(record) => record.id}
         refresh={reload}

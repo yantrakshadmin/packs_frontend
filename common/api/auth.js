@@ -199,6 +199,16 @@ export const retrieveOutwardDocketEmp = (id) =>
     secure: true,
   });
 
+export const uploadOutwardDocket = ( src) =>
+  loadAPI(`/upload-outwards`, {
+    method: 'POST',
+    data: src,
+    secure: true,
+    // headers: {
+    //   emp: id,
+    // }
+  });
+
 export const createVendor = ({
   name,
   street,
