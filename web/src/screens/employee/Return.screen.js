@@ -64,6 +64,21 @@ const ReturnDocketsScreen = ({currentPage}) => {
     }
   }, [returns]);
 
+  const handleTruckIconColor = (deliveredAvail, recivedAvail) => {
+    if (recivedAvail && deliveredAvail) {
+      return '#7CFC00'
+    }
+    else if (!recivedAvail && deliveredAvail) {
+      return '#7CFC00'
+    }
+    else if (recivedAvail && !deliveredAvail) {
+      return '#7CFC00'
+    }
+    else {
+      return null
+    }
+  }
+
   const columns = [
     {
       title: 'Sr. No.',
@@ -114,7 +129,9 @@ const ReturnDocketsScreen = ({currentPage}) => {
       render: (text, record) => (
         <div className="row justify-evenly">
           <FilesViewModal
-            documentAvail={record.is_delivered ? true : false}
+            deliveredAvail={record.is_delivered ? true : false}
+            recivedAvail={record.is_recived ? true : false}
+
             getDocuments={async () => {
               const {data: req} = await loadAPI(
                 `${DEFAULT_BASE_URL}received-docket/?pk=${record.id}`,
@@ -190,7 +207,10 @@ const ReturnDocketsScreen = ({currentPage}) => {
                   console.log(req)
                 }
               }
-            <Delivery color={record.is_delivered ? '#7CFC00' : null} />
+            {/* <Delivery color={record.is_delivered ? '#7CFC00' : null} /> */}
+            <Delivery color={handleTruckIconColor(record?.is_delivered, record?.is_recived)} />
+            {/* <Delivery color={handleTruckIconColor(true, false)} /> */}
+
           </Button>
           <Button
             style={{

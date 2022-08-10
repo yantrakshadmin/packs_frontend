@@ -8,9 +8,11 @@ const getUrlExtension = (url) => {
   return url.split(/[#?]/)[0].split('.').pop().trim();
 };
 
-const FilesViewModal = ({documentAvail, getDocuments}) => {
+const FilesViewModal = ({ deliveredAvail, recivedAvail, getDocuments}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [documents, setDocuments] = useState([]);
+  // const deliveredAvail = false;
+  // const recivedAvail = true ;
 
   useEffect(() => {
     const fD = async () => {
@@ -36,7 +38,20 @@ const FilesViewModal = ({documentAvail, getDocuments}) => {
     e.stopPropagation();
     setIsModalVisible(false);
   };
-
+  const handleIcons = (deliveredAvail, recivedAvail) => {
+    if (recivedAvail && deliveredAvail ) {
+       return faEye
+    }
+    else if (!recivedAvail && deliveredAvail ) {
+      return faEye
+    }
+    else if (recivedAvail && !deliveredAvail ) {
+      return faEyeSlash
+    }
+    else {
+      return faEyeSlash
+    }
+  }
   const renderThumbnail = useCallback(
     (url) => {
       const fType = getUrlExtension(url).toLowerCase();
@@ -75,9 +90,10 @@ const FilesViewModal = ({documentAvail, getDocuments}) => {
           padding: '1px',
         }}
         onClick={showModal}
-        disabled={documentAvail ? false : true}>
+        disabled={deliveredAvail ? false : true}
+      >
         <FontAwesomeIcon
-          icon={documentAvail ? faEye : faEyeSlash}
+          icon={handleIcons(deliveredAvail, recivedAvail)} 
           style={{fontSize: 20, color: yantraColors['primary']}}
         />
       </Button>
