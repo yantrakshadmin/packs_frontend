@@ -4,7 +4,7 @@ import productColumns from 'common/columns/Products.column';
 import {Popconfirm, Button, Input} from 'antd';
 import {deleteProduct, retrieveProducts} from 'common/api/auth';
 import {useTableSearch} from 'hooks/useTableSearch';
-import {ProductForm} from '../../forms/createProduct.form';
+import ProductForm from '../../forms/CreateProduct.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
@@ -20,7 +20,7 @@ const ProductEmployeeScreen = ({currentPage}) => {
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload, hasPermission} = useTableSearch({
+  const {filteredData, loading, reload, hasPermission, paginationData} = useTableSearch({
     searchVal,
     retrieve: retrieveProducts,
   });
@@ -145,6 +145,10 @@ const ProductEmployeeScreen = ({currentPage}) => {
         expandParams={{loading}}
         csvdata={csvData}
         csvname={`Products${searchVal}.csv`}
+        totalRows={paginationData?.count}
+        // hideRightButton
+        // RightBody="kkkkk"
+        newPage='/employee/master/product/form/'
       />
     </NoPermissionAlert>
   );

@@ -81,6 +81,7 @@ export const OutwardDocketForm = ({id, onCancel, onDone}) => {
     id,
     dates: ['dispatch_date', 'transaction_date'],
   });
+  console.log(kits,"KItssss  ");
 
   useEffect(() => {
     const prods = [];

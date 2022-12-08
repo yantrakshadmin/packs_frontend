@@ -102,11 +102,13 @@ const TableWithTabHOC = ({
   ExpandBody,
   expandParams,
   changePage,
+  totalRows,
+  onPageChange,
   outwardEmployee,
 }) => {
   const [modalVisible, setModalVisible] = useState(!!editingId);
   const [activeTab, setActiveTab] = useState(tabs[0].key);
-  console.log('tabas data is', tabs);
+  // console.log('tabas data is', tabs);
   const callback = (key) => {
     if (reset) reset();
     setActiveTab(key);
@@ -275,6 +277,7 @@ const TableWithTabHOC = ({
         <Col span={24}>
           {tabs ? (
             <Tabs defaultActiveKey={tabs[0].key} onChange={callback}>
+              
               {tabs.map((tab) => (
                 <TabPane tab={tab.name} key={tab.key}>
                   {tab.hasCustomModel ? (
@@ -282,14 +285,18 @@ const TableWithTabHOC = ({
                   ) : (
                     <Table
                       id="mastertable"
-                      bordered
+                      // bordered
                       rowKey={rowKey}
                       expandRowByClick
                       expandIconColumnIndex={-1}
-                      pagination={{
-                        // pageSize: pageSize || 10,
+                        pagination={{
+                        total: totalRows,
+                        pageSize: pageSize || 10,
                         position: ['bottomRight'],
-                        onChange(current) {
+                          onChange(current) {
+                            if (onPageChange) {
+                            onPageChange( current)
+                          }
                           changePage(current);
                         },
                       }}

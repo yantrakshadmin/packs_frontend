@@ -51,7 +51,7 @@ export const useHandleForm = ({
         const {data} = await retrieve(id);
         if (dates) dates.map((date) => (data[date] = moment(data[date])));
         if (data) {
-          console.log(data, 'retrive');
+          // console.log(data, 'retrive');
           if (customHandling !== undefined) {
             const modifiedData = customHandling(data);
             form.setFieldsValue(modifiedData);

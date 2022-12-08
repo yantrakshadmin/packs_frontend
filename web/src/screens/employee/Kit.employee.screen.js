@@ -4,7 +4,7 @@ import {Popconfirm, Button, Input} from 'antd';
 import {deleteKit, retrieveKits} from 'common/api/auth';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
-import {KitForm} from '../../forms/createKit.form';
+import KitForm from '../../forms/createKit.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import ProductTable from '../../components/ProductsTable';
 import {deleteHOC} from '../../hocs/deleteHoc';
@@ -20,7 +20,7 @@ const KitEmployeeScreen = ({currentPage}) => {
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload, hasPermission} = useTableSearch({
+  const {filteredData, loading, reload, hasPermission, paginationData} = useTableSearch({
     searchVal,
     retrieve: retrieveKits,
   });
@@ -141,7 +141,7 @@ const KitEmployeeScreen = ({currentPage}) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size="middle"
+        size="small"
         title="Kits"
         editingId={editingId}
         cancelEditing={cancelEditing}
@@ -152,6 +152,8 @@ const KitEmployeeScreen = ({currentPage}) => {
         ExpandBody={ProductTable}
         csvdata={csvData}
         csvname={`Kits${searchVal}.csv`}
+        totalRows={paginationData?.count}
+        newPage='/employee/master/kit/form/'
       />
     </NoPermissionAlert>
   );

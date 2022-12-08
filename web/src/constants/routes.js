@@ -1,8 +1,13 @@
+import { render } from 'less';
 import {lazy} from 'react';
 
 export const publicRoutes = [
-  {Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')), path: '/'},
-  {Component: lazy(() => import('../components/forgetPassword')), path: '/forgot-password'},
+  {
+    Component: lazy(() => import('../components/SignInMaster/sign-in-master.component')), path: '/'
+  },
+  {
+    Component: lazy(() => import('../components/forgetPassword')), path: '/forgot-password'
+  },
   {
     Component: lazy(() => import('../components/confirmPassword')),
     path: '/confirm-password/:uname',
@@ -27,6 +32,7 @@ export const publicRoutes = [
     path: '/employee/return-docket/:id',
     Component: lazy(() => import('components/ReturnDocket/ReturnDocket')),
   },
+
 ];
 
 export const extraRoutesClient = [
@@ -97,6 +103,8 @@ export const extraRoutesEmployee = [
   {
     path: '/edit-profile/',
     Component: lazy(() => import('screens/employee/EditProfile.screen')),
+    // Component: lazy(() => import('forms/Demo')),
+
   },
   {
     path: '/return-dockets/return/',
@@ -110,6 +118,40 @@ export const extraRoutesEmployee = [
     path: '/create-allotment/',
     Component: lazy(() => import('forms/allotment.form')),
   },
+  {
+    path: '/master/product/form/',
+    Component: lazy(() => import('forms/CreateProduct.form'))
+  },
+  {
+    path: '/master/kit/form/',
+    Component: lazy(() => import('forms/createKit.form'))
+  },
+  {
+    path: '/master/flow/form/',
+    Component: lazy(() => import('forms/flow.form'))
+  },
+  {
+    path: '/master/sender-client/form/',
+    Component: lazy(() => import('forms/client.form'))
+  },
+  {
+    path: '/master/reciver-client/form/',
+    Component: lazy(() => import('forms/receiver.form'))
+  },
+  {
+    path: '/master/warehouse/form/',
+    Component: lazy(() => import('forms/warehouse.form'))
+  },
+  {
+    path: '/master/vendor/form/',
+    Component: lazy(() => import('forms/vendor.form'))
+  },
+  {
+    path: '/master/check/',
+    Component: lazy(() => import('forms/RestrictionMessage') )
+  }
+
+
 ];
 export const employeeRoutes = [
   {
@@ -208,6 +250,7 @@ export const employeeRoutes = [
       },
     ],
   },
+
   {
     name: 'Volume Plan',
     icon: ['far', 'calendar-alt'],

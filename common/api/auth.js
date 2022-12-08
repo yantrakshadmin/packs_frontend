@@ -36,8 +36,8 @@ export const createClient = ({username, email, password, first_name, last_name})
     secure: false,
   });
 
-export const retrieveClients = () =>
-  loadAPI('/clients/', {
+export const retrieveClients = ({page, pageSize}) =>
+  loadAPI(`/clients/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });
@@ -52,8 +52,8 @@ export const createProduct = (req) =>
     },
   });
 
-export const retrieveProducts = () =>
-  loadAPI('/products/', {
+export const retrieveProducts = ({page, pageSize}) =>
+  loadAPI(`/products/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });
@@ -138,8 +138,8 @@ export const editKit = (
     },
   });
 
-export const retrieveKits = () =>
-  loadAPI('/kits/', {
+export const retrieveKits = ({page, pageSize}) =>
+  loadAPI(`/kits/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });
@@ -318,8 +318,8 @@ export const retrieveVendor = (id) =>
     secure: true,
   });
 
-export const retrieveVendors = () =>
-  loadAPI(`/vendors/`, {
+export const retrieveVendors = ({page, pageSize}) =>
+  loadAPI(`/vendors/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });
@@ -356,8 +356,8 @@ export const retrieveWarehouse = (id) =>
     secure: true,
   });
 
-export const retrieveWarehouses = () =>
-  loadAPI('/warehouse/', {
+export const retrieveWarehouses = ({page, pageSize}) =>
+  loadAPI(`/warehouse/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });
@@ -421,8 +421,8 @@ export const retrieveReceiverClient = (id) =>
     secure: true,
   });
 
-export const retieveReceiverClients = (id) =>
-  loadAPI(`/receiverclients/`, {
+export const retieveReceiverClients = ({page, pageSize}) =>
+  loadAPI(`/receiverclients/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });
@@ -483,8 +483,8 @@ export const retreiveFlow = (id) =>
     secure: true,
   });
 
-export const retreiveFlows = () =>
-  loadAPI(`/flows/`, {
+export const retreiveFlows = ({page, pageSize}) =>
+  loadAPI(`/flows/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });
@@ -621,8 +621,8 @@ export const retrieveEmployeeMrs = () =>
     secure: true,
   });
 
-export const retrieveEmployeeMrsEfficient = () =>
-  loadAPI('/allmrequest-table/', {
+export const retrieveEmployeeMrsEfficient = ({page, pageSize}) =>
+  loadAPI(`/allmrequest-table/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });

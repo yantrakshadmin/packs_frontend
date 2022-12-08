@@ -11,7 +11,7 @@ import formItem from '../hocs/formItem.hoc';
 import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
 
-export const KitForm = ({id, onCancel, onDone}) => {
+ const KitForm = ({id, onCancel, onDone}) => {
   const {data: clients} = useAPI('/clients/', {});
   const {data: products} = useAPI('/products/', {});
 
@@ -78,7 +78,7 @@ export const KitForm = ({id, onCancel, onDone}) => {
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
-                  selectOptions: filterActive(_, clients) || [],
+                  selectOptions: filterActive(_, clients?.results) || [],
                   key: 'user',
                   customTitle: 'client_name',
                   dataKeys: ['client_shipping_address'],
@@ -118,7 +118,7 @@ export const KitForm = ({id, onCancel, onDone}) => {
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                             },
                             others: {
-                              selectOptions: filterActive(_, products) || [],
+                              selectOptions: filterActive(_, products?.results) || [],
                               key: 'id',
                               dataKeys: ['name', 'description', 'category'],
                               customTitle: 'short_code',
@@ -151,6 +151,7 @@ export const KitForm = ({id, onCancel, onDone}) => {
                     ))}
                     <Button
                       type="danger"
+                      disabled={fields.length === 1}
                       style={index != 0 ? {top: '-2vh'} : null}
                       onClick={() => {
                         remove(field.name);
@@ -178,11 +179,12 @@ export const KitForm = ({id, onCancel, onDone}) => {
             Save
           </Button>
           <div className="p-2" />
-          <Button type="primary" onClick={onCancel}>
+          {/* <Button type="primary" onClick={onCancel}>
             Cancel
-          </Button>
+          </Button> */}
         </Row>
       </Form>
     </Spin>
   );
-};
+ };
+export default KitForm;

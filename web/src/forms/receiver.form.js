@@ -9,7 +9,7 @@ import formItem from '../hocs/formItem.hoc';
 import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
 
-export const ReceiverForm = ({id, onCancel, onDone}) => {
+ const ReceiverForm = ({id, onCancel, onDone}) => {
   const {data} = useAPI('/clients/');
 
   const {form, submit, loading} = useHandleForm({
@@ -56,7 +56,7 @@ export const ReceiverForm = ({id, onCancel, onDone}) => {
                 {formItem({
                   ...item,
                   others: {
-                    selectOptions: filterActive(_, data) || [],
+                    selectOptions: filterActive(_, data?.results) || [],
                     key: 'user',
                     customTitle: 'client_name',
                     dataKeys: ['client_shipping_address'],
@@ -87,11 +87,13 @@ export const ReceiverForm = ({id, onCancel, onDone}) => {
             Save
           </Button>
           <div className="p-2" />
-          <Button type="primary" onClick={onCancel}>
+          {/* <Button type="primary" onClick={onCancel}>
             Cancel
-          </Button>
+          </Button> */}
         </Row>
       </Form>
     </Spin>
   );
 };
+
+export default ReceiverForm;

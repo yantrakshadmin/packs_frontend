@@ -1,36 +1,37 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import receiverColumns from 'common/columns/Receiver.column';
-import {Popconfirm, Button, Input} from 'antd';
-import {deleteReceiverClient, retieveReceiverClients} from 'common/api/auth';
-import {connect} from 'react-redux';
-import {useTableSearch} from 'hooks/useTableSearch';
-import {GetUniqueValue, GetUniqueValueNested} from 'common/helpers/getUniqueValues';
-import {deleteHOC} from '../../hocs/deleteHoc';
+import { Popconfirm, Button, Input } from 'antd';
+import { deleteReceiverClient, retieveReceiverClients } from 'common/api/auth';
+import { connect } from 'react-redux';
+import { useTableSearch } from 'hooks/useTableSearch';
+import { GetUniqueValue, GetUniqueValueNested } from 'common/helpers/getUniqueValues';
+import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import {ReceiverForm} from '../../forms/receiver.form';
+import  ReceiverForm  from '../../forms/receiver.form';
 import NoPermissionAlert from 'components/NoPermissionAlert';
-import {ifNotStrReturnA} from 'common/helpers/mrHelper';
+import { ifNotStrReturnA } from 'common/helpers/mrHelper';
 
-const {Search} = Input;
+const { Search } = Input;
 
-const ReceiverClientEmployeeScreen = ({currentPage}) => {
+const ReceiverClientEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload, hasPermission} = useTableSearch({
+  const { filteredData, loading, reload, hasPermission, paginationData } = useTableSearch({
     searchVal,
     retrieve: retieveReceiverClients,
   });
+  console.log({ filteredData });
 
   useEffect(() => {
     if (filteredData) {
       const csvd = [];
       filteredData.forEach((d) => {
         delete d.owner;
-        csvd.push({...d, emitter: d.emitter.client_name});
+        csvd.push({ ...d, emitter: d.emitter.client_name });
       });
       setCsvData(csvd);
     }
@@ -125,8 +126,8 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
 
   return (
     <NoPermissionAlert hasPermission={hasPermission}>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
       </div>
@@ -135,22 +136,24 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size="middle"
+        size="small"
         title="Receiver Clients"
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={ReceiverForm}
         modalWidth={45}
-        expandParams={{loading}}
+        expandParams={{ loading }}
         csvdata={csvData}
         csvname={`ReceiverClients${searchVal}.csv`}
+        totalRows={paginationData?.count}
+        newPage='/employee/master/reciver-client/form/'
       />
     </NoPermissionAlert>
   );
 };
 
 const mapStateToProps = (state) => {
-  return {currentPage: state.page.currentPage};
+  return { currentPage: state.page.currentPage };
 };
 
 export default connect(mapStateToProps)(ReceiverClientEmployeeScreen);

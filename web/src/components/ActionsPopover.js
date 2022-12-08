@@ -54,6 +54,7 @@ export const ActionsPopover= ({ buttonList,title,icon,triggerTitle,showCancel,di
       onVisibleChange={handleVisibleChange}
       >
       <Button
+        size='small'
         type='primary'
         style={{
           outline: 'none',

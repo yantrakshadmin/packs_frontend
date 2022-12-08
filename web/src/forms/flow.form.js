@@ -11,7 +11,7 @@ import formItem from '../hocs/formItem.hoc';
 import _ from 'lodash';
 import {filterActive} from 'common/helpers/mrHelper';
 
-export const FlowForm = ({id, onCancel, onDone}) => {
+ const FlowForm = ({id, onCancel, onDone}) => {
   const {data: receiverClients, loading: rcLoading} = useAPI('/receiverclients/', {});
   const {data: clients, loading: cLoading} = useAPI('/clients/', {});
   const {data: kits, loading: kLoading} = useAPI('/kits/', {});
@@ -171,7 +171,7 @@ export const FlowForm = ({id, onCancel, onDone}) => {
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
-                  selectOptions: filterActive(_, clients) || [],
+                  selectOptions: filterActive(_, clients?.results) || [],
                   key: 'user',
                   customTitle: 'client_name',
                   dataKeys: ['client_shipping_address'],
@@ -191,7 +191,7 @@ export const FlowForm = ({id, onCancel, onDone}) => {
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
-                  selectOptions: filterActive(_, receiverClients) || [],
+                  selectOptions: filterActive(_, receiverClients?.results) || [],
                   key: 'id',
                   customTitle: 'name',
                   dataKeys: ['city', 'address'],
@@ -230,7 +230,7 @@ export const FlowForm = ({id, onCancel, onDone}) => {
                             },
                             form,
                             others: {
-                              selectOptions: (showAllKits ? kits : filterActive(_, kits)) || [],
+                              selectOptions: (showAllKits ? kits?.results : filterActive(_, kits?.results)) || [],
                               key: 'id',
                               dataKeys: ['components_per_kit', 'kit_info', 'kit_name'],
                               customTitle: 'kit_name',
@@ -281,6 +281,7 @@ export const FlowForm = ({id, onCancel, onDone}) => {
                       </Col>
                     ))}
                     <Button
+                      disabled={fields.length === 1}
                       type="danger"
                       style={index != 0 ? {top: '-2vh'} : null}
                       onClick={() => {
@@ -309,11 +310,13 @@ export const FlowForm = ({id, onCancel, onDone}) => {
             Save
           </Button>
           <div className="p-2" />
-          <Button type="primary" onClick={onCancel}>
+          {/* <Button type="primary" onClick={onCancel}>
             Cancel
-          </Button>
+          </Button> */}
         </Row>
       </Form>
     </Spin>
   );
 };
+
+export default FlowForm;

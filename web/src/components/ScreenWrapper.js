@@ -60,7 +60,7 @@ const ScreenWrapper = ({routes, navigate, children, user, changePage}) => {
           </div>
         </Dropdown>
       </Header>
-      <Divider style={{margin: 0, padding: 0}} />
+      <Divider style={{ margin: 0, padding: 0}} />
       <Layout>
         <Sider
           // trigger={null}

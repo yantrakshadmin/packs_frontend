@@ -21,11 +21,18 @@ const MaterialRequestEmployeeScreen = ({currentPage, isEmployee}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({searchVal, retrieve: retrieveMrs});
+  const { filteredData, loading, reload } = useTableSearch({
+    searchVal,
+    retrieve: retrieveMrs,
+    pagination: true,
+    
+  });
   const {data: mrStatusData} = useAPI('list-mrstatus/');
   const cancelEditing = () => {
     setEditingId(null);
   };
+
+  console.log(filteredData,"filterrrrrdd");
 
   const columns = [
     ...materialRequestColumns,
@@ -225,7 +232,7 @@ const MaterialRequestEmployeeScreen = ({currentPage, isEmployee}) => {
     {
       name: 'All Material Requests',
       key: 'allMaterialRequests',
-      data: mergeArray(filteredData || [], mrStatusData || []),
+      data: [mergeArray(filteredData || [], mrStatusData?.results || [])],
       columns,
       loading,
     },
