@@ -1,25 +1,25 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import warehouseColumns from 'common/columns/Warehouse.column';
-import {Popconfirm, Button, Input} from 'antd';
-import {deleteWarehouse, retrieveWarehouses} from 'common/api/auth';
-import {connect} from 'react-redux';
-import {useTableSearch} from 'hooks/useTableSearch';
-import {WareHouseForm} from '../../forms/warehouse.form';
+import { Popconfirm, Button, Input } from 'antd';
+import { deleteWarehouse, retrieveWarehouses } from 'common/api/auth';
+import { connect } from 'react-redux';
+import { useTableSearch } from 'hooks/useTableSearch';
+import  WareHouseForm  from '../../forms/warehouse.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import {deleteHOC} from '../../hocs/deleteHoc';
+import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import Document from '../../icons/Document';
 import NoPermissionAlert from 'components/NoPermissionAlert';
 
-const {Search} = Input;
+const { Search } = Input;
 
-const WarehouseEmployeeScreen = ({currentPage}) => {
+const WarehouseEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload, hasPermission} = useTableSearch({
+  const { filteredData, loading, reload, hasPermission, paginationData } = useTableSearch({
     searchVal,
     retrieve: retrieveWarehouses,
   });
@@ -117,8 +117,8 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
 
   return (
     <NoPermissionAlert hasPermission={hasPermission}>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
       </div>
@@ -127,22 +127,24 @@ const WarehouseEmployeeScreen = ({currentPage}) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size="middle"
+        size="small"
         title="Warehouses"
         editingId={editingId}
         cancelEditing={cancelEditing}
         modalBody={WareHouseForm}
         modalWidth={45}
-        expandParams={{loading}}
+        expandParams={{ loading }}
         csvdata={csvData}
         csvname={`Warehouses${searchVal}.csv`}
+        totalRows={paginationData?.count}
+        newPage='/employee/master/warehouse/form/'
       />
     </NoPermissionAlert>
   );
 };
 
 const mapStateToProps = (state) => {
-  return {currentPage: state.page.currentPage};
+  return { currentPage: state.page.currentPage };
 };
 
 export default connect(mapStateToProps)(WarehouseEmployeeScreen);

@@ -8,6 +8,10 @@
   background-color: #daeafa;
   padding: 40px;
 }
+.disabled-row {
+  background-color: #dcdcdc;
+  pointer-events: none;
+}
 
 .row {
   display: flex;
@@ -145,16 +149,15 @@
   height: 150px;
   position: relative;
 }
-.chart-position{
+.chart-position {
   position: absolute;
-  bottom:0;
+  bottom: 0;
   flex-direction: column;
   justify-content: flex-end;
-
 }
 .chart-content {
   position: absolute;
-  top:0;
+  top: 0;
   left: 0;
   padding-top: 15px;
   padding-left: 15px;
@@ -162,16 +165,16 @@
 }
 
 .bg-chart1 {
-  box-shadow: 2px 2px 10px #CBC8CC;
-  background-color:#63c2de;
+  box-shadow: 2px 2px 10px #cbc8cc;
+  background-color: #63c2de;
 }
 .bg-chart2 {
-  background-color:#001529;
-  box-shadow: 2px 2px 10px #CBC8CC;
+  background-color: #001529;
+  box-shadow: 2px 2px 10px #cbc8cc;
 }
 .bg-chart3 {
   background-color: #ffc23d;
-  box-shadow: 2px 2px 10px #CBC8CC;
+  box-shadow: 2px 2px 10px #cbc8cc;
 }
 
 .bg-chart4 {
@@ -179,22 +182,22 @@
   box-shadow: 2px 2px 10px #cbc8cc;
 }
 
-.mx-2{
+.mx-2 {
   margin-left: 10px;
-  margin-right:10px;
+  margin-right: 10px;
 }
 
-.my-1{
+.my-1 {
   margin-top: 5px;
-  margin-bottom:5px;
+  margin-bottom: 5px;
 }
-.icon-bg:hover{
-  color:#20a8d8;
-  cursor:pointer;
+.icon-bg:hover {
+  color: #20a8d8;
+  cursor: pointer;
 }
-.barcode-tag-container{
+.barcode-tag-container {
   border: #acacaa solid 1px;
-  padding:5px;
+  padding: 5px;
   border-radius: 5px;
   margin-right: 20px;
 }
@@ -204,41 +207,40 @@
   /*margin-left: 30px;*/
   margin-top: 2vh;
 }
-.print-cp-gray{
-  background-color: #D1D5DB
-;
+.print-cp-gray {
+  background-color: #d1d5db;
 }
-.print-cp-border{
+.print-cp-border {
   border-width: 2px;
-  border-color:#000;
+  border-color: #000;
   border-style: solid;
 }
-.print-cp-container{
+.print-cp-container {
   /*padding:4rem;*/
   padding: 2vh 10vw;
 }
 
-.print-cp-divider{
+.print-cp-divider {
   /*background-color: #0b2e13;*/
-  width:2px;
+  width: 2px;
   background-color: black;
   min-height: 100%;
 }
 
-.px-2{
-  padding-right:10px;
+.px-2 {
+  padding-right: 10px;
   padding-left: 10px;
 }
-.py-2{
+.py-2 {
   padding-bottom: 10px;
-  padding-top:10px;
+  padding-top: 10px;
 }
 
-.px-1{
+.px-1 {
   padding-right: 5px;
   padding-left: 5px;
 }
-.py-1{
+.py-1 {
   padding-bottom: 5px;
-  padding-top:5px;
+  padding-top: 5px;
 }

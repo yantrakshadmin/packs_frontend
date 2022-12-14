@@ -4,12 +4,14 @@ import {Popconfirm, Button, Input} from 'antd';
 import {deleteFlow, retreiveFlows} from 'common/api/auth';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
-import {FlowForm} from '../../forms/flow.form';
+import FlowForm from '../../forms/flow.form';
+import RestrictionMessage from 'forms/RestrictionMessage';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import KitsTable from '../../components/KitsTable';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
+import { useAPI } from 'common/hooks/api';
 import {GetUniqueValueNested} from 'common/helpers/getUniqueValues';
 import NoPermissionAlert from 'components/NoPermissionAlert';
 
@@ -19,8 +21,13 @@ const FlowEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
+  // const [editingId, setEditingId] = useState(null)
 
-  const {filteredData, loading, reload, hasPermission} = useTableSearch({
+  const { data: restrictionCheck } = useAPI(`/flow-check/?pk=${editingId}`);
+  console.log({ restrictionCheck });
+  console.log({editingId});
+
+  const {filteredData, loading, reload, hasPermission, paginationData} = useTableSearch({
     searchVal,
     retrieve: retreiveFlows,
   });
@@ -150,17 +157,21 @@ const FlowEmployeeScreen = ({currentPage}) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size="middle"
+        size="small"
         title="Flows"
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={FlowForm}
+        modalBody={restrictionCheck ? RestrictionMessage : FlowForm}
         modalWidth={50}
         expandHandleKey="kits"
-        expandParams={{loading}}
+        expandParams={{ loading }}
         ExpandBody={KitsTable}
         csvdata={csvData}
         csvname={`Flows${searchVal}.csv`}
+        totalRows={paginationData?.count}
+        formParams={{title:'Flow'}}
+        newPage={'/employee/master/flow/form/'}
+
       />
     </NoPermissionAlert>
   );

@@ -57,6 +57,7 @@ const DeleteWithPassword = ({password, deleteHOC}) => {
       }}>
       <Button
         style={{
+        
           backgroundColor: 'transparent',
           border: 'none',
           boxShadow: 'none',

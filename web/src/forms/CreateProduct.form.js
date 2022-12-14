@@ -7,7 +7,7 @@ import {useHandleForm} from 'hooks/form';
 import {createProduct, retrieveProduct, editProduct} from 'common/api/auth';
 import formItem from '../hocs/formItem.hoc';
 
-export const ProductForm = ({id, onCancel, onDone}) => {
+ const ProductForm = ({id, onCancel, onDone}) => {
   const [reqFile, setFile] = useState(null);
 
   const {form, submit, loading} = useHandleForm({
@@ -110,11 +110,12 @@ export const ProductForm = ({id, onCancel, onDone}) => {
             Save
           </Button>
           <div className="p-2" />
-          <Button type="primary" onClick={onCancel}>
+          {/* <Button type="primary" onClick={onCancel}>
             Cancel
-          </Button>
+          </Button> */}
         </Row>
       </Form>
     </Spin>
   );
-};
+ };
+export default ProductForm;

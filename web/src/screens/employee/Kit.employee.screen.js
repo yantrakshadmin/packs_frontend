@@ -4,7 +4,7 @@ import {Popconfirm, Button, Input} from 'antd';
 import {deleteKit, retrieveKits} from 'common/api/auth';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
-import {KitForm} from '../../forms/createKit.form';
+import KitForm from '../../forms/createKit.form';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import ProductTable from '../../components/ProductsTable';
 import {deleteHOC} from '../../hocs/deleteHoc';
@@ -12,6 +12,8 @@ import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import {GetUniqueValueNested} from 'common/helpers/getUniqueValues';
 import NoPermissionAlert from 'components/NoPermissionAlert';
+import RestrictionMessage from 'forms/RestrictionMessage';
+import { useAPI } from 'common/hooks/api';
 
 const {Search} = Input;
 
@@ -20,7 +22,10 @@ const KitEmployeeScreen = ({currentPage}) => {
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload, hasPermission} = useTableSearch({
+  const { data: restrictionCheck } = useAPI(`/kits-check/?pk=${editingId}`);
+
+
+  const {filteredData, loading, reload, hasPermission, paginationData} = useTableSearch({
     searchVal,
     retrieve: retrieveKits,
   });
@@ -141,17 +146,20 @@ const KitEmployeeScreen = ({currentPage}) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size="middle"
+        size="small"
         title="Kits"
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={KitForm}
+        modalBody={restrictionCheck? RestrictionMessage: KitForm}
         modalWidth={45}
         expandHandleKey="products"
         expandParams={{loading}}
         ExpandBody={ProductTable}
         csvdata={csvData}
         csvname={`Kits${searchVal}.csv`}
+        totalRows={paginationData?.count}
+        formParams={{ title: "Kit" }}
+        newPage='/employee/master/kit/form/'
       />
     </NoPermissionAlert>
   );

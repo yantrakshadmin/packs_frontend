@@ -2,10 +2,10 @@ import React, {useState, useEffect} from 'react';
 import returnColumns from 'common/columns/Return.column';
 import ReturnForm from 'forms/return.form';
 import {ReceivedForm} from 'forms/received.form';
-import {Popconfirm, Input, Button, Row, Col, Modal} from 'antd';
+import { Input, Button, Row, Col, Modal} from 'antd';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
-import {deleteReturn} from 'common/api/auth';
+import { deleteReturn, retriveReturnTable } from 'common/api/auth';
 import {Link, useNavigate} from '@reach/router';
 import Delete from 'icons/Delete';
 import Edit from 'icons/Edit';
@@ -15,13 +15,7 @@ import Document from 'icons/Document';
 import {useAPI} from 'common/hooks/api';
 import {GetUniqueValue} from 'common/helpers/getUniqueValues';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {
-  faMoneyCheck,
-  faTruckLoading,
-  faBarcode,
-  faEye,
-  faEyeSlash,
-} from '@fortawesome/free-solid-svg-icons';
+import {faBarcode,} from '@fortawesome/free-solid-svg-icons';
 import {BarcodeReturnDocket} from 'components/barcodeReturnDocket';
 import {loadAPI} from 'common/helpers/api';
 import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
@@ -35,6 +29,7 @@ import DeleteWithPassword from '../../components/DeleteWithPassword';
 import {DEFAULT_PASSWORD} from 'common/constants/passwords';
 import NoPermissionAlert from 'components/NoPermissionAlert';
 import FilesViewModal from 'components/FilesViewModal';
+import RestrictionMessage from 'forms/RestrictionMessage';
 
 const {Search} = Input;
 
@@ -48,21 +43,25 @@ const ReturnDocketsScreen = ({currentPage}) => {
   const [TN, setTN] = useState(null);
   const navigate = useNavigate();
 
-  const {data: returns, loading, reload: reloadFull, status} = useAPI('/return-table/', {});
+  // const {data: returns, loading, reload: reloadFull, status} = useAPI('/return-table/', {});
+  const { data: adminCheck } = useAPI(`user/meta`);
+  console.log({ adminCheck });
 
-  const {filteredData, reload} = useTableSearch({
-    searchVal,
-    reqData,
+  const { filteredData, reload: reloadFull, loading, status , paginationData } = useTableSearch({
+    retrieve: retriveReturnTable,
+    // searchVal,
+    // reqData,
   });
+  console.log({ filteredData });
 
   useEffect(() => {
-    if (returns) {
-      const reqD = returns.map((ret) => ({
+    if (filteredData) {
+      const reqD = filteredData.map((ret) => ({
         ...ret,
       }));
       setReqData(reqD);
     }
-  }, [returns]);
+  }, [filteredData]);
 
   const handleTruckIconColor = (deliveredAvail, recivedAvail) => {
     if (recivedAvail && deliveredAvail) {
@@ -220,7 +219,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
               padding: '1px',
             }}
             onClick={(e) => {
-              navigate('./return/', {
+              navigate(adminCheck?.admin ? "./restrict-return/": './return/', {
                 state: {
                   id: record.id,
                   // onCancel: cancelEditing,
@@ -255,7 +254,7 @@ const ReturnDocketsScreen = ({currentPage}) => {
               <Delete />
             </Button>
           </Popconfirm> */}
-          <DeleteWithPassword
+          {/* <DeleteWithPassword
             password={DEFAULT_PASSWORD}
             deleteHOC={deleteHOC({
               record,
@@ -264,7 +263,17 @@ const ReturnDocketsScreen = ({currentPage}) => {
               success: 'Deleted Return successfully',
               failure: 'Error in deleting Return',
             })}
-          />
+          /> */}
+          <Button onClick={async (e) => {
+            loadAPI(`/void-return/?pk=${record.id}`, {
+            })
+            window.location.reload()
+          }
+          }
+            style={{ marginTop: '3px', marginLeft: '7px' }}
+            size='small' type='primary'>
+            Void
+          </Button>
         </div>
       ),
     },
@@ -345,14 +354,15 @@ const ReturnDocketsScreen = ({currentPage}) => {
         tabs={tabs}
         size="middle"
         title="Return Dockets"
-        modalBody={deliveryId ? ReceivedForm : ReturnForm}
+        modalBody={deliveryId ? ReceivedForm : adminCheck?.admin ? RestrictionMessage: ReturnForm}
         ExpandBody={ExpandTable}
-        newPage="./return/"
+        newPage={ "./return/"}
         separate={!deliveryId}
         modalWidth={60}
         editingId={editingId || deliveryId}
         cancelEditing={cancelEditing}
-        scroll={{x: 1200}}
+        scroll={{ x: 1200 }}
+        totalRows={paginationData?.count}
       />
     </NoPermissionAlert>
   );

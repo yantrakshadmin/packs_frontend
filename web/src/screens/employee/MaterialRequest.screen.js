@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import materialEmployeecolumns from 'common/columns/materialEmployee.column';
-import {Link} from '@reach/router';
+import { Link } from '@reach/router';
 import {
   Button,
   Col,
@@ -13,31 +13,34 @@ import {
   Space,
   Typography,
 } from 'antd';
-import {connect} from 'react-redux';
-import {useTableSearch} from 'hooks/useTableSearch';
-import {deleteAddMr, retrieveEmployeeMrsEfficient} from 'common/api/auth';
+import { connect } from 'react-redux';
+import { useTableSearch } from 'hooks/useTableSearch';
+import { deleteAddMr, retrieveEmployeeMrsEfficient } from 'common/api/auth';
 import moment from 'moment';
-import {ALLOTMENT_DOCKET_PASSWORD} from 'common/constants/passwords';
-import {EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
-import {loadAPI} from 'common/helpers/api';
-import {useAPI} from 'common/hooks/api';
-import {mergeArray, statusCheck} from 'common/helpers/mrHelper';
+import { ALLOTMENT_DOCKET_PASSWORD } from 'common/constants/passwords';
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { loadAPI } from 'common/helpers/api';
+import { useAPI } from 'common/hooks/api';
+import { mergeArray, statusCheck } from 'common/helpers/mrHelper';
 import ExpandTable from '../../components/MaterialRequestsTable';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
-import {AddMaterialRequestForm} from '../../forms/addMaterialRequest.form';
+import { AddMaterialRequestForm } from '../../forms/addMaterialRequest.form';
 import Edit from '../../icons/Edit';
-import {deleteHOC} from '../../hocs/deleteHoc';
+import { deleteHOC } from '../../hocs/deleteHoc';
 import Delete from '../../icons/Delete';
-import {ActionsPopover} from '../../components/ActionsPopover';
-import {MRRejectionForm} from '../../forms/MRRejection.form';
+import { ActionsPopover } from '../../components/ActionsPopover';
+import { MRRejectionForm } from '../../forms/MRRejection.form';
 import DeleteWithPassword from '../../components/DeleteWithPassword';
-import {DEFAULT_PASSWORD} from 'common/constants/passwords';
+import { DEFAULT_PASSWORD } from 'common/constants/passwords';
 import NoPermissionAlert from 'components/NoPermissionAlert';
+// import { loadAPI } from 'common/helpers/api';
+import { size } from 'lodash';
 
-const {Search} = Input;
-const {Title} = Typography;
+const { Search } = Input;
+const { Title } = Typography;
 
-const ReceiverClientEmployeeScreen = ({currentPage}) => {
+
+const ReceiverClientEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
@@ -46,21 +49,37 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
   const [rejectionVisible, setRejectionVisible] = useState(false);
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [popoverEditVisible, setPopoverEditVisible] = useState(false);
-  const {filteredData, loading, reload, hasPermission} = useTableSearch({
+
+  const { filteredData, loading, reload, hasPermission, paginationData } = useTableSearch({
     searchVal,
     retrieve: retrieveEmployeeMrsEfficient,
+    usePaginated: true
   });
 
-  const {data: mrStatusData} = useAPI('list-mrstatus/');
+  const { data: mrStatusData } = useAPI('list-mrstatus/');
 
-  const [userData, setUserData] = useState({password: ''});
+
+  const [userData, setUserData] = useState({ password: '' });
+
+  // useEffect(() => {
+  //   let temp= []
+  //   const tempData = (filteredData || []).map((item, idx) =>
+  //     temp.push(item?.void ? { ...item, enabled: 'true' } : { ...item, enabled: 'false' }))
+  //   // filteredData = temp;
+  //   console.log({ temp });
+  //   setNewFilteredData(temp);
+  // }, [filteredData])
+  // console.log({ newFilteredData });
+
+
+
 
   const PasswordPopUp = (
     <Space direction="vertical">
       <Input.Password
         value={userData.password}
         onChange={(e) => {
-          setUserData({...userData, password: e.target.value});
+          setUserData({ ...userData, password: e.target.value });
         }}
         placeholder="input password"
         iconRender={(show) => (show ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
@@ -68,7 +87,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
       <Button
         onClick={() => {
           if (userData.password === ALLOTMENT_DOCKET_PASSWORD) {
-            setUserData({password: ''});
+            setUserData({ password: '' });
             if (editingId) {
               setPopoverEditVisible(false);
             } else {
@@ -87,7 +106,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
   );
   const getFilterOptions = () => {
     const arr = [...new Set((filteredData || []).map((item) => item.owner))];
-    return arr.map((item) => ({text: item, value: item}));
+    return arr.map((item) => ({ text: item, value: item }));
   };
   useEffect(() => {
     if (filteredData) {
@@ -114,12 +133,17 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
   }, [filteredData]);
 
   const columns = [
+    {
+      title: 'Sr. No.',
+      key: 'srno',
+      render: (text, record, index) => (currentPage - 1) * 10 + index + 1,
+    },
     ...materialEmployeecolumns,
     {
       title: 'Linked',
       key: 'linked',
-      filters: filterOptions || [],
-      onFilter: (value, record) => record.linked === value,
+      // filters: filterOptions || [],
+      // onFilter: (value, record) => record.linked === value,
       render: (text, record) => {
         return record.linked;
       },
@@ -127,15 +151,20 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
     {
       title: 'Allotment ID',
       key: 'transaction_no',
-      filters: filterOptions || [],
-      onFilter: (value, record) => record.linked === value,
+      width: '4vw',
+      // filters: filterOptions || [],
+      // onFilter: (value, record) => record.linked === value,
       render: (text, record) => {
-        return record.transaction_no === null ? '-' : record.transaction_no;
+        return record.transaction_no === null ? '-' :
+          <a href={`../docket/${record.transaction_no}`} target='_blank' rel='noreferrer'>
+            {record.transaction_no === null ? '-' : record.transaction_no}
+          </a>
       },
     },
     {
       title: 'Owner',
       key: 'owner',
+      width: '19vw',
       filters: filterOptions || [],
       onFilter: (value, record) => record.owner === value,
       render: (text, record) => {
@@ -175,11 +204,13 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
           return (
             <Button
               type="primary"
+              size='small'
               style={{
                 backgroundColor: '#00FF00',
                 outline: 'none',
                 border: 'none',
-                borderRadius: '7%',
+                // borderRadius: '10%',
+                paddingTop: '4px', paddingBottom: '21px', paddingRight: '7px', paddingLeft: '7px'
               }}
               onClick={(e) => e.stopPropagation()}>
               Allocated
@@ -188,17 +219,22 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         if (!record.is_allocated && !record.is_rejected) {
           return (
             <Button
+              // style={{ paddingTop: '3px', paddingBottom: '21px', paddingRight: '7px', paddingLeft: '7px' }},
+              // size={'small'},
+
               type="primary"
+              size='small'
               style={{
                 backgroundColor: 'red',
                 outline: 'none',
                 border: 'none',
-                borderRadius: '7%',
-                color: 'rgba(255,255,255,0.9)',
+                // borderRadius: '7%',
+                // color: 'rgba(255,255,255,0.9)',
+                paddingTop: '3px', paddingBottom: '21px', paddingRight: '10px', paddingLeft: '10px'
               }}
               onClick={(e) => e.stopPropagation()}>
               Pending
-              {'  '}
+
             </Button>
           );
         }
@@ -206,7 +242,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
           return (
             <Popover
               content={
-                <div style={{width: '20rem'}}>
+                <div style={{ width: '20rem' }}>
                   <text>
                     <b>Reason : </b>
                     {record.reason}
@@ -220,7 +256,10 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
                   ) : null}
                 </div>
               }>
-              <Button type="primary" danger>
+              <Button
+                style={{ paddingTop: '3px', paddingBottom: '21px', paddingRight: '7px', paddingLeft: '7px' }}
+                size={'small'}
+                type="primary" danger>
                 Rejected
               </Button>
             </Popover>
@@ -229,40 +268,44 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         return <div />;
       },
     },
-    {
-      title: 'Raised By',
-      key: 'raised_by',
-      dataIndex: 'raised_by',
-    },
+    // {
+    //   title: 'Raised By',
+    //   key: 'raised_by',
+    //   dataIndex: 'raised_by',
+    // },
     {
       title: 'Created at',
       key: 'created_at',
+      width: '10vw',
       sorter: (a, b) => moment(a.created_at).unix() - moment(b.created_at).unix(),
       render: (text, record) => {
-        return moment(record.created_at).format('DD/MM/YYYY, h:mm:ss a');
+        return moment(record.created_at).format('DD/MM/YYYY, h:mm a');
       },
     },
     {
       title: 'Options',
       key: 'options',
-      width: '10vw',
+      width: '6vw',
       render: (text, record) => (
         <ActionsPopover
+          // style={{ paddingTop: '3px', paddingBottom: '21px', paddingRight: '7px', paddingLeft: '7px' }}
+          size="small"
           triggerTitle="Options"
           buttonList={[
             {
               Component: () => (
                 <Button
+
                   type="primary"
                   disabled={record.is_allocated || record.is_rejected}
                   onClick={async (e) => {
                     const response = await loadAPI('reate-mrstatus/', {
                       method: 'Post',
-                      data: {mr: record.id},
+                      data: { mr: record.id },
                     });
                     e.stopPropagation();
                   }}>
-                  <Link to="../create-allotment/" state={{id: record.id}} key={record.id}>
+                  <Link to="../create-allotment/" state={{ id: record.id }} key={record.id}>
                     Create Allotment Docket
                   </Link>
                 </Button>
@@ -271,6 +314,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
             {
               Component: () => (
                 <Button
+
                   className="mx-2"
                   type="primary"
                   disabled={record.is_allocated || record.is_rejected}
@@ -322,7 +366,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
     {
       title: 'Action',
       key: 'operation',
-      width: '9vw',
+      width: '6vw',
       render: (text, record) => (
         <div className="row justify-evenly">
           <Popover
@@ -348,7 +392,18 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
               <Edit />
             </Button>
           </Popover>
-          <DeleteWithPassword
+          <Button onClick={async (e) => {
+            const response = loadAPI(`/void-mrequest/?pk=${record.id}`, {
+            })
+            window.location.reload()
+          }
+          }
+            style={{ marginTop: '3px', marginLeft: '7px' }}
+            size='small' type='primary'>
+            Void
+          </Button>
+
+          {/* <DeleteWithPassword
             password={DEFAULT_PASSWORD}
             deleteHOC={deleteHOC({
               record,
@@ -357,7 +412,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
               success: 'Deleted MR successfully',
               failure: 'Error in deleting MR',
             })}
-          />
+          /> */}
           {/* <Popconfirm
             title="Confirm Delete"
             onCancel={(e) => e.stopPropagation()}
@@ -388,6 +443,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
     {
       name: 'All Material Requests',
       key: 'allMaterialRequests',
+      data:  filteredData || [],
       data: mergeArray(filteredData || [], mrStatusData || []),
       columns,
       loading,
@@ -405,7 +461,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         maskClosable={false}
         visible={materialReqVisible}
         destroyOnClose
-        style={{minWidth: `80vw`}}
+        style={{ minWidth: `80vw` }}
         title="Add Material Request"
         onCancel={(e) => {
           setMaterialReqVisible(false);
@@ -429,7 +485,7 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         maskClosable={false}
         visible={rejectionVisible}
         destroyOnClose
-        style={{minWidth: `80vw`}}
+        style={{ minWidth: `80vw` }}
         title="Reject Material Request"
         onCancel={(e) => {
           setRejectionVisible(false);
@@ -447,8 +503,8 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
           }}
         />
       </Modal>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <div style={{width: '15vw', display: 'flex', alignItems: 'flex-end'}}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ width: '15vw', display: 'flex', alignItems: 'flex-end' }}>
           <Search onChange={(e) => setSearchVal(e.target.value)} placeholder="Search" enterButton />
         </div>
       </div>
@@ -474,22 +530,20 @@ const ReceiverClientEmployeeScreen = ({currentPage}) => {
         rowKey={(record) => record.id}
         refresh={reload}
         tabs={tabs}
-        size="middle"
+        size="small"
         title=""
-        //editingId={editingId}
-        //cancelEditing={cancelEditing}
         ExpandBody={ExpandTable}
         hideRightButton
-        //expandParams={{loading}}
-        //csvdata={csvData}
-        //csvname={`MRs${searchVal}.csv`}
+        totalRows={paginationData?.count}
+        rowClassName={record => record?.void && "disabled-row"}
+
       />
     </NoPermissionAlert>
   );
 };
 
 const mapStateToProps = (state) => {
-  return {currentPage: state.page.currentPage};
+  return { currentPage: state.page.currentPage };
 };
 
 export default connect(mapStateToProps)(ReceiverClientEmployeeScreen);

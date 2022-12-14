@@ -1,43 +1,44 @@
-import {loadAPI} from '../helpers/api';
+import { loadAPI } from '../helpers/api';
+import { Page } from '../reducers/page';
 
-export const getJWTTokens = ({username, password}) =>
+export const getJWTTokens = ({ username, password }) =>
   loadAPI(`/api/token/`, {
     method: 'POST',
-    data: {username, password},
+    data: { username, password },
     secure: false,
   });
 
-export const isUserVerified = ({username}) =>
+export const isUserVerified = ({ username }) =>
   loadAPI(`/verification/`, {
-    params: {username},
+    params: { username },
     secure: false,
   });
 
-export const verifyUser = ({username, otp}) =>
+export const verifyUser = ({ username, otp }) =>
   loadAPI('/verifyOTP/', {
     method: 'POST',
-    data: {username, otp},
+    data: { username, otp },
     secure: false,
   });
 
 export const getUserMeta = () => loadAPI(`/user/meta/`);
 
-export const createEmployee = ({username, email, password, first_name, last_name}) =>
+export const createEmployee = ({ username, email, password, first_name, last_name }) =>
   loadAPI('/create-employee/', {
     method: 'POST',
-    data: {username, email, password, first_name, last_name},
+    data: { username, email, password, first_name, last_name },
     secure: false,
   });
 
-export const createClient = ({username, email, password, first_name, last_name}) =>
+export const createClient = ({ username, email, password, first_name, last_name }) =>
   loadAPI('/create-client/', {
     method: 'POST',
-    data: {username, email, password, first_name, last_name},
+    data: { username, email, password, first_name, last_name },
     secure: false,
   });
 
-export const retrieveClients = () =>
-  loadAPI('/clients/', {
+export const retrieveClients = ({ page, pageSize }) =>
+  loadAPI(`/clients/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });
@@ -52,8 +53,8 @@ export const createProduct = (req) =>
     },
   });
 
-export const retrieveProducts = () =>
-  loadAPI('/products/', {
+export const retrieveProducts = ({ page, pageSize }) =>
+  loadAPI(`/products/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });
@@ -138,8 +139,8 @@ export const editKit = (
     },
   });
 
-export const retrieveKits = () =>
-  loadAPI('/kits/', {
+export const retrieveKits = ({ page, pageSize }) =>
+  loadAPI(`/kits/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });
@@ -199,7 +200,7 @@ export const retrieveOutwardDocketEmp = (id) =>
     secure: true,
   });
 
-export const uploadOutwardDocket = ( src) =>
+export const uploadOutwardDocket = (src) =>
   loadAPI(`/upload-outwards`, {
     method: 'POST',
     data: src,
@@ -318,8 +319,8 @@ export const retrieveVendor = (id) =>
     secure: true,
   });
 
-export const retrieveVendors = () =>
-  loadAPI(`/vendors/`, {
+export const retrieveVendors = ({ page, pageSize }) =>
+  loadAPI(`/vendors/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });
@@ -356,8 +357,8 @@ export const retrieveWarehouse = (id) =>
     secure: true,
   });
 
-export const retrieveWarehouses = () =>
-  loadAPI('/warehouse/', {
+export const retrieveWarehouses = ({ page, pageSize }) =>
+  loadAPI(`/warehouse/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });
@@ -394,18 +395,18 @@ export const retrieveEmployeeProfile = (id) =>
     secure: true,
   });
 
-export const createReceiverClient = ({name, city, address, emitter, pan, gst, active}) =>
+export const createReceiverClient = ({ name, city, address, emitter, pan, gst, active }) =>
   loadAPI('/create-receiverclient/', {
     method: 'POST',
-    data: {name, city, address, emitter, pan, gst, active},
+    data: { name, city, address, emitter, pan, gst, active },
     secure: true,
   });
 
-export const editReceiverClient = (id, {name, city, address, emitter, pan, gst, active}) =>
+export const editReceiverClient = (id, { name, city, address, emitter, pan, gst, active }) =>
   // loadAPI(`/edit-receiverclient/${id}/`, {
   loadAPI(`/edit-receiverclient/${id}/`, {
     method: 'PATCH',
-    data: {name, city, address, emitter, pan, gst, active},
+    data: { name, city, address, emitter, pan, gst, active },
     secure: true,
   });
 
@@ -421,8 +422,8 @@ export const retrieveReceiverClient = (id) =>
     secure: true,
   });
 
-export const retieveReceiverClients = (id) =>
-  loadAPI(`/receiverclients/`, {
+export const retieveReceiverClients = ({ page, pageSize }) =>
+  loadAPI(`/receiverclients/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });
@@ -460,7 +461,7 @@ export const createFlow = ({
 
 export const editFlow = (
   id,
-  {flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits, active},
+  { flow_name, flow_info, flow_type, flow_days, sender_client, receiver_client, kits, active },
 ) =>
   loadAPI(`/edit-flow/${id}/`, {
     method: 'PATCH',
@@ -483,8 +484,8 @@ export const retreiveFlow = (id) =>
     secure: true,
   });
 
-export const retreiveFlows = () =>
-  loadAPI(`/flows/`, {
+export const retreiveFlows = ({ page, pageSize }) =>
+  loadAPI(`/flows/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });
@@ -507,24 +508,24 @@ export const deleteFlow = (id) =>
     secure: true,
   });
 
-export const createMr = ({delivery_required_on, flows, client_id}) =>
+export const createMr = ({ delivery_required_on, flows, client_id }) =>
   loadAPI('/create-mrequets/', {
     method: 'POST',
-    data: {delivery_required_on, flows, client_id},
+    data: { delivery_required_on, flows, client_id },
     secure: true,
   });
 
-export const editMr = (id, {delivery_required_on, flows}) =>
+export const editMr = (id, { delivery_required_on, flows }) =>
   loadAPI(`/edit-mrequets/${id}/`, {
     method: 'PATCH',
-    data: {delivery_required_on, flows},
+    data: { delivery_required_on, flows },
     secure: true,
   });
 
-export const editAddMr = (id, {delivery_required_on, flows, client_id}) =>
+export const editAddMr = (id, { delivery_required_on, flows, client_id }) =>
   loadAPI(`/admin-mredit/${id}/`, {
     method: 'PATCH',
-    data: {delivery_required_on, flows, client_id},
+    data: { delivery_required_on, flows, client_id },
     secure: true,
   });
 
@@ -558,24 +559,24 @@ export const deleteAddMr = (id) =>
     secure: true,
   });
 
-export const createDm = ({delivery_month, demand_flows, client_id}) =>
+export const createDm = ({ delivery_month, demand_flows, client_id }) =>
   loadAPI('/create-demand/', {
     method: 'POST',
-    data: {delivery_month, demand_flows, client_id},
+    data: { delivery_month, demand_flows, client_id },
     secure: true,
   });
 
-export const editDm = (id, {delivery_month, demand_flows}) =>
+export const editDm = (id, { delivery_month, demand_flows }) =>
   loadAPI(`/edit-demand/${id}/`, {
     method: 'PATCH',
-    data: {delivery_month, demand_flows},
+    data: { delivery_month, demand_flows },
     secure: true,
   });
 
-export const editAddDm = (id, {delivery_required_on, flows, client_id}) =>
+export const editAddDm = (id, { delivery_required_on, flows, client_id }) =>
   loadAPI(`/admin-mredit/${id}/`, {
     method: 'PATCH',
-    data: {delivery_required_on, flows, client_id},
+    data: { delivery_required_on, flows, client_id },
     secure: true,
   });
 
@@ -621,11 +622,17 @@ export const retrieveEmployeeMrs = () =>
     secure: true,
   });
 
-export const retrieveEmployeeMrsEfficient = () =>
-  loadAPI('/allmrequest-table/', {
+export const retrieveEmployeeMrsEfficient = ({ page, pageSize }) =>
+  loadAPI(`/allmrequest-table/?page=${page}&pageSize=${pageSize}`, {
     method: 'GET',
     secure: true,
   });
+
+export const createVoidMr = ({ id }) =>
+  loadAPI(`/void-mrequest/?pk=${id}`, {
+    method: 'POST'
+  }
+  );
 
 export const createAllotment = ({
   transaction_no,
@@ -708,6 +715,36 @@ export const editAllotment = (
     secure: true,
   });
 
+export const retriveAllotmentsTable = ({ page, pageSize }) => 
+  loadAPI(`/allotments-table/?page=${page}&pagesSize=${pageSize}`, {
+    method: 'GET',
+    secure: true,
+  })
+
+export const retriveOutwardTable = ({page, pageSize}) => 
+  loadAPI(`/emp-outwards1/?page=${page}&pageSize=${pageSize}`, {
+    method: 'GET',
+    secure: true
+  })
+
+export const retriveReturnTable = ({ page, pageSize }) =>
+  loadAPI(`/return-table/?page=${page}&pagesSize=${pageSize}`, {
+    method: 'GET',
+    secure: true,
+  })
+
+export const retrivePurchaseTable = ({ page, pageSize }) =>
+  loadAPI(`/purchaseorders/?page=${page}&pageSize=${pageSize}`, {
+    method: 'GET',
+    secure: true
+  })
+export const retriveGRNTable = ({ page, pageSize }) =>
+  loadAPI(`/grns/?page=${page}&pageSize=${pageSize}`, {
+    method: 'GET',
+    secure: true
+  })
+
+
 export const retrieveAllotment = (id) =>
   loadAPI(`/edit-allotment/${id}/`, {
     methood: 'GET',
@@ -718,7 +755,7 @@ export const retrieveAllotments = (id) =>
   loadAPI('/allotments/', {
     method: 'GET',
     secure: true,
-    params: {id},
+    params: { id },
   });
 
 export const retrieveAllotmentsCalender = (tno) =>
@@ -966,7 +1003,7 @@ export const retrieveReturns = (id) =>
   loadAPI('/return-received/', {
     method: 'GET',
     secure: true,
-    params: {id},
+    params: { id },
   });
 //
 // export const retrieveReturns = () =>
@@ -1046,7 +1083,7 @@ export const retrieveGRNBarCodes = (id) =>
     secure: true,
   });
 
-export const retrieveAllotmentReport = ({cname, to, from}) =>
+export const retrieveAllotmentReport = ({ cname, to, from }) =>
   loadAPI(`/allotment-reports/`, {
     method: 'GET',
     secure: true,
@@ -1057,7 +1094,7 @@ export const retrieveAllotmentReport = ({cname, to, from}) =>
     },
   });
 
-export const retrieveStockingReport = ({to, from, cname}) =>
+export const retrieveStockingReport = ({ to, from, cname }) =>
   loadAPI(`/floating-report/`, {
     method: 'GET',
     secure: true,
@@ -1068,7 +1105,7 @@ export const retrieveStockingReport = ({to, from, cname}) =>
     },
   });
 
-export const retrieveReturnReport = ({cname, to, from}) =>
+export const retrieveReturnReport = ({ cname, to, from }) =>
   loadAPI(`/return-reports/`, {
     method: 'GET',
     secure: true,
@@ -1083,14 +1120,14 @@ export const retrieveAllotmentsDelivered = (id) =>
   loadAPI('/allotments-delivered/', {
     method: 'GET',
     secure: true,
-    params: {id},
+    params: { id },
   });
 
 export const retrieveDocketOutwardInward = (id) =>
   loadAPI('/outward-inward/', {
     method: 'GET',
     secure: true,
-    params: {id},
+    params: { id },
   });
 
 export const retrieveReturnDocket = (id) =>
@@ -1641,5 +1678,5 @@ export const printPurchaseOrders = (id) =>
   loadAPI(`/print-purchaseorders/`, {
     method: 'GET',
     secure: true,
-    params: {id},
+    params: { id },
   });

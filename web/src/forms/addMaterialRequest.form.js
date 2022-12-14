@@ -28,6 +28,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
   const [kitdata, setKitData] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+  console.log({ flows });
 
   //code to fetch kitdata whenever client or date is changed or selected
   useEffect(() => {
@@ -101,7 +102,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
       if (data) {
         if (data[0]) {
           if (data[0].name[0] === 'client_id') {
-            const sc = _.find(clients, (item) => item.user === data[0].value);
+            const sc = _.find(clients?.results, (item) => item.user === data[0].value);
             setSelectedClient({name: sc.client_name, id: sc.user});
           }
         }
@@ -154,7 +155,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
         }
       }
     },
-    [clients, selectedClient, setSelectedClient, kitdata],
+    [clients?.results, selectedClient, setSelectedClient, kitdata],
   );
 
   return (
@@ -174,7 +175,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
             disabled: id ? true : false,
           },
           others: {
-            selectOptions: clients || [],
+            selectOptions: clients?.results || [],
             key: 'user',
             customTitle: 'client_name',
             dataKeys: ['client_shipping_address'],
@@ -222,7 +223,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                             },
                             others: {
-                              selectOptions: filterActive(_, flows) || [],
+                              selectOptions: filterActive(_, flows?.results) || [],
                               key: 'id',
                               dataKeys: ['flow_info'],
                               customTitle: 'flow_name',
@@ -257,7 +258,7 @@ export const AddMaterialRequestForm = ({id, onCancel, onDone}) => {
                               // },
                             },
                             others: {
-                              selectOptions: filterActive(_, selectedKits) || [],
+                              selectOptions: filterActive(_, selectedKits?.results) || [],
                               key: 'id',
                               dataKeys: ['kit_info', 'components_per_kit'],
                               customTitle: 'kit_name',

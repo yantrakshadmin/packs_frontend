@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {Form, Col, Row, Button, Divider, Spin, Alert} from 'antd';
-import {vendorFormFields} from 'common/formFields/vendor.formFields';
-import {useHandleForm} from 'hooks/form';
-import {createVendor, editVendor, retrieveVendor, retrieveVendors} from 'common/api/auth';
+import React, { useEffect, useState } from 'react';
+import { Form, Col, Row, Button, Divider, Spin, Alert } from 'antd';
+import { vendorFormFields } from 'common/formFields/vendor.formFields';
+import { useHandleForm } from 'hooks/form';
+import { createVendor, editVendor, retrieveVendor, retrieveVendors } from 'common/api/auth';
 import formItem from '../hocs/formItem.hoc';
 
-export const VendorForm = ({id, onCancel, onDone}) => {
+const VendorForm = ({ id, onCancel, onDone }) => {
   const [allvendors, setAllVendors] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const {form, submit, loading} = useHandleForm({
+  const { form, submit, loading } = useHandleForm({
     create: createVendor,
     edit: editVendor,
     retrieve: retrieveVendor,
@@ -19,10 +19,22 @@ export const VendorForm = ({id, onCancel, onDone}) => {
     id,
   });
 
+ 
+  const getVendors = async () => {
+    const { data } = await retrieveVendors({ page: 1, pageSize: 10 })
+    setAllVendors(data?.results)
+
+  }
+
+
   useEffect(() => {
-    retrieveVendors().then((response) => {
-      setAllVendors(response.data);
-    });
+    getVendors();
+    //  const rdata = retrieveVendors(1,10)
+    //  console.log({rdata});
+    // retrieveVendors().then((response) => {
+    //   console.log({response});
+    //   setAllVendors([]);
+
   }, []);
 
   const handleFieldsChange = (data) => {
@@ -34,11 +46,11 @@ export const VendorForm = ({id, onCancel, onDone}) => {
           if (data[0].name[0]) {
             if (data[0].name[0] === 'gst' || data[0].name[0] === 'pan') {
               const val = data[0].value.toUpperCase();
-              form.setFieldsValue({[data[0].name[0]]: val});
+              form.setFieldsValue({ [data[0].name[0]]: val });
             } else if (data[0].name[0] === 'code') {
               let flag = 0;
               if (allvendors) {
-                allvendors.forEach((element) => {
+                (allvendors || []).forEach((element) => {
                   if (element.code === data[0].value) {
                     flag = 1;
                   }
@@ -56,7 +68,7 @@ export const VendorForm = ({id, onCancel, onDone}) => {
       <Form
         onFinish={submit}
         form={form}
-        initialValues={{active: true}}
+        initialValues={{ active: true }}
         layout="vertical"
         hideRequiredMark
         autoComplete="off"
@@ -65,7 +77,7 @@ export const VendorForm = ({id, onCancel, onDone}) => {
           {' '}
           <Col span={24}>{formItem(vendorFormFields[0])}</Col>
         </Row>
-        <Row style={{justifyContent: 'left'}}>
+        <Row style={{ justifyContent: 'left' }}>
           {vendorFormFields.slice(1, 3).map((item, idx) => (
             <Col span={12}>
               <div key={idx} className="p-2">
@@ -75,22 +87,22 @@ export const VendorForm = ({id, onCancel, onDone}) => {
           ))}
         </Row>
         {errorMessage && (
-          <Row justify="center" gutter={[0, 30]} style={{marginBottom: '1rem'}}>
+          <Row justify="center" gutter={[0, 30]} style={{ marginBottom: '1rem' }}>
             <Col>
               <Alert message={errorMessage} type="warning" />
             </Col>
           </Row>
         )}
-        <Row style={{justifyContent: 'left'}}>
+        <Row style={{ justifyContent: 'left' }}>
           {vendorFormFields.slice(3, 7).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className="p-2">
-                {formItem({item})}
+                {formItem({ item })}
               </div>
             </Col>
           ))}
         </Row>
-        <Row style={{justifyContent: 'space-between'}}>
+        <Row style={{ justifyContent: 'space-between' }}>
           {vendorFormFields.slice(7, 11).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className="p-2">
@@ -99,7 +111,7 @@ export const VendorForm = ({id, onCancel, onDone}) => {
             </Col>
           ))}
         </Row>
-        <Row style={{justifyContent: 'space-between'}}>
+        <Row style={{ justifyContent: 'space-between' }}>
           {vendorFormFields.slice(11, 15).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className="p-2">
@@ -108,7 +120,7 @@ export const VendorForm = ({id, onCancel, onDone}) => {
             </Col>
           ))}
         </Row>
-        <Row style={{justifyContent: 'space-between'}}>
+        <Row style={{ justifyContent: 'space-between' }}>
           {vendorFormFields.slice(15, 19).map((item, idx) => (
             <Col span={6}>
               <div key={idx} className="p-2">
@@ -124,11 +136,13 @@ export const VendorForm = ({id, onCancel, onDone}) => {
             Save
           </Button>
           <div className="p-2" />
-          <Button type="primary" onClick={onCancel}>
+          {/* <Button type="primary" onClick={onCancel}>
             Cancel
-          </Button>
+          </Button> */}
         </Row>
       </Form>
     </Spin>
   );
 };
+
+export default VendorForm;

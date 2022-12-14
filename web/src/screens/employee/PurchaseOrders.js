@@ -11,7 +11,7 @@ import Document from 'icons/Document';
 import Download from 'icons/Download';
 import Print from 'icons/Print';
 import moment from 'moment';
-import {deleteGRN, retrieveGRNBars} from 'common/api/auth';
+import { deleteGRN, retrieveGRNBars, retrivePurchaseTable } from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import {ProductTable} from '../../components/GRNProductsTable';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
@@ -38,17 +38,19 @@ const KitEmployeeScreen = ({currentPage}) => {
   const [barID, setBarID] = useState(null);
   const [createGrn, setCreateGrn] = useState(null);
 
-  const {data: pos, loading, reload, status} = useAPI('/purchaseorders/', {});
+  // const {data: pos, loading, reload, status} = useAPI('/purchaseorders/', {});
 
-  const {filteredData} = useTableSearch({
-    searchVal,
-    reqData,
+  const { filteredData, loading, reload, status, paginationData } = useTableSearch({
+    retrieve: retrivePurchaseTable,
+    usePaginated: true
+    // searchVal,
+    // reqData,
   });
 
   useEffect(() => {
-    if (pos) {
+    if (filteredData) {
       const fetchData = async () => {
-        const newData = pos.map((po) => ({
+        const newData = filteredData.map((po) => ({
           id: po.id,
           delivered_to: po.delivered_to.name,
           material_vendor: po.material_vendor.name,
@@ -63,7 +65,7 @@ const KitEmployeeScreen = ({currentPage}) => {
       };
       fetchData();
     }
-  }, [pos]);
+  }, [filteredData]);
 
   const download = (filename, data) => {
     const blob = new Blob([data], {type: 'text/csv'});
@@ -221,6 +223,7 @@ const KitEmployeeScreen = ({currentPage}) => {
         modalBody={createGrn ? GRNForm : PurchaseOrderForm}
         modalWidth={60}
         createGrnWithPO={createGrn}
+        totalRows={paginationData?.count}
         // expandHandleKey="products"
         // expandParams={{loading}}
         // ExpandBody={ProductTable}

@@ -4,7 +4,7 @@ import {connect, useSelector} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
 import {Link} from '@reach/router';
 import {useAPI} from 'common/hooks/api';
-import {deleteOutward} from 'common/api/auth';
+import { deleteOutward, retriveOutwardTable } from 'common/api/auth';
 import {outwardDocketColumn} from 'common/columns/outwardDocket.column';
 import {GetUniqueValue} from 'common/helpers/getUniqueValues';
 import {loadAPI} from 'common/helpers/api';
@@ -39,20 +39,22 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
   const user = useSelector((s) => s.user.userMeta.id);
   console.log(user, isEmployee, 'Props');
 
-  const {data: outwards, loading, reload, status} = useAPI('emp-outwards/', {});
-  const {filteredData} = useTableSearch({
-    searchVal,
-    reqData,
+  // const {data: outwards, loading, reload, status} = useAPI('emp-outwards/', {});
+  const { filteredData, loading, reload, status, paginationData  } = useTableSearch({
+    retrieve: retriveOutwardTable,
+    usePaginated: true
+    // searchVal,
+    // reqData,
   });
 
   useEffect(() => {
-    if (outwards) {
-      const reqD = outwards.map((ret) => ({
+    if (filteredData) {
+      const reqD = filteredData.map((ret) => ({
         ...ret,
       }));
       setReqData(reqD);
     }
-  }, [outwards]);
+  }, [filteredData]);
   const columns = [
     {
       title: 'Sr. No.',
@@ -348,6 +350,7 @@ const OutwardDocketScreen = ({currentPage, isEmployee}) => {
         formParams={{transaction_no: TN}}
         cancelEditing={cancelEditing}
         outwardEmployee={true}
+        totalRows={paginationData?.count}
       />
     </NoPermissionAlert>
   );

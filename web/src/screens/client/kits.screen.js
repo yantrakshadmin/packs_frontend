@@ -14,7 +14,7 @@ const KitsScreen = ({currentPage}) => {
   const [editingId, setEditingId] = useState(null);
   //const [csvData, setCsvData] = useState(null);
 
-  const {filteredData, loading, reload} = useTableSearch({
+  const {filteredData, loading, reload ,paginationData} = useTableSearch({
     searchVal,
     retrieve: retrieveKitsClients,
   });
@@ -87,6 +87,7 @@ const KitsScreen = ({currentPage}) => {
         //csvdata={csvData}
         //csvname={`Kits${searchVal}.csv`}
         hideRightButton
+        totalRows={paginationData?.count}
       />
     </>
   );
