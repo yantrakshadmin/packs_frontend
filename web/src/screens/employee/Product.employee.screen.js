@@ -12,6 +12,8 @@ import Edit from '../../icons/Edit';
 import Document from '../../icons/Document';
 import {GetUniqueValue} from 'common/helpers/getUniqueValues';
 import NoPermissionAlert from 'components/NoPermissionAlert';
+import RestrictionMessage from 'forms/RestrictionMessage';
+import { useAPI } from 'common/hooks/api';
 
 const {Search} = Input;
 
@@ -19,6 +21,10 @@ const ProductEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
+
+
+  const { data: restrictionCheck } = useAPI(`/products-check/?pk=${editingId}`);
+
 
   const {filteredData, loading, reload, hasPermission, paginationData} = useTableSearch({
     searchVal,
@@ -140,7 +146,7 @@ const ProductEmployeeScreen = ({currentPage}) => {
         title="Products"
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={ProductForm}
+        modalBody={ restrictionCheck ? RestrictionMessage : ProductForm}
         modalWidth={45}
         expandParams={{loading}}
         csvdata={csvData}
@@ -148,6 +154,7 @@ const ProductEmployeeScreen = ({currentPage}) => {
         totalRows={paginationData?.count}
         // hideRightButton
         // RightBody="kkkkk"
+        formParams={{ title: "Product" }}
         newPage='/employee/master/product/form/'
       />
     </NoPermissionAlert>

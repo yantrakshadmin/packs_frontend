@@ -11,7 +11,7 @@ import Document from 'icons/Document';
 import Download from 'icons/Download';
 import Print from 'icons/Print';
 
-import {deleteGRN, retrieveGRNBars} from 'common/api/auth';
+import { deleteGRN, retrieveGRNBars, retriveGRNTable } from 'common/api/auth';
 import {deleteHOC} from '../../hocs/deleteHoc';
 import {ProductTable} from '../../components/GRNProductsTable';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
@@ -36,17 +36,19 @@ const KitEmployeeScreen = ({currentPage}) => {
   const [barID, setBarID] = useState(null);
   const [pageValue, setPageValue] = useState(7);
 
-  const {data: grns, loading, reload, status} = useAPI('/grns/', {});
+  // const {data: grns, loading, reload, status} = useAPI('/grns/', {});
 
-  const {filteredData} = useTableSearch({
-    searchVal,
-    reqData,
+  const { filteredData, loading, reload, status, paginationData } = useTableSearch({
+    retrieve: retriveGRNTable
+    // searchVal,
+    // reqData,
   });
+  console.log({ filteredData });
 
   useEffect(() => {
-    if (grns) {
+    if (filteredData) {
       const fetchData = async () => {
-        const newData = grns.map((grn) => ({
+        const newData = filteredData.map((grn) => ({
           id: grn.id,
           warehouse: grn.warehouse.name,
           material_vendor: grn.material_vendor.name,
@@ -61,16 +63,16 @@ const KitEmployeeScreen = ({currentPage}) => {
       };
       fetchData();
     }
-  }, [grns]);
+  }, [filteredData]);
 
   useEffect(() => {
     if (filteredData) {
       const csvd = [];
-      filteredData.forEach((d) => {
+      (filteredData || []).forEach((d) => {
         const temp = {...d};
         delete temp.products;
         csvd.push(temp);
-        d.products.forEach((prod) => {
+        (d.products || []).forEach((prod) => {
           csvd.push({
             ShortCode: prod.item.short_code,
             Name: prod.item.name,
@@ -169,7 +171,7 @@ const KitEmployeeScreen = ({currentPage}) => {
               <Document />
             </Button>
           </a>
-          <Button
+          {/* <Button
             style={{
               backgroundColor: 'transparent',
               border: 'none',
@@ -188,7 +190,7 @@ const KitEmployeeScreen = ({currentPage}) => {
               }
             }}>
             <Download />
-          </Button>
+          </Button> */}
           {/* <a
             // href={`${DEFAULT_BASE_URL}print-barcodes/${record.id}/`}
             href={`../print-rebarcodes/${record.id}`}
@@ -294,11 +296,12 @@ const KitEmployeeScreen = ({currentPage}) => {
         cancelEditing={cancelEditing}
         modalBody={GRNForm}
         modalWidth={60}
-        expandHandleKey="products"
+        // expandHandleKey="products"
         expandParams={{loading}}
-        ExpandBody={ProductTable}
+        // ExpandBody={ProductTable}
         // csvdata={csvData}
         downloadLink={`${DEFAULT_BASE_URL}grn-download/`}
+        totalRows={paginationData?.count}
 
         // csvname={`GRNs${  searchVal  } .csv`}
       />

@@ -87,18 +87,19 @@ const ReturnForm = ({location}) => {
   }, [returnn, form]);
 
   useEffect(() => {
-    if (flows && receiverClient) {
-      const reqf = flows.filter((flo) => flo.receiver_client.id === receiverClient);
+    if (flows?.results && receiverClient) {
+      const reqf = flows?.results.filter((flo) => flo.receiver_client.id === receiverClient);
       // console.log(reqf);
       setReqFlows(reqf);
     }
-  }, [flows, receiverClient]);
+  }, [flows?.results, receiverClient]);
 
   useEffect(() => {
     const fetchKits = async () => {
       const kitss = [];
       const prods = [];
-      const {data} = await loadAPI(`/r-flows/?id=${receiverClient}`);
+      const { data } = await loadAPI(`/r-flows/?id=${receiverClient}`);
+      console.log(data,"kkits data");
       data.forEach((d) => {
         d.kits.forEach((k) => {
           kitss.push({...k.kit});
@@ -237,7 +238,7 @@ const ReturnForm = ({location}) => {
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
-                  selectOptions: filterActive(_, warehouses) || [],
+                  selectOptions: filterActive(_, warehouses?.results) || [],
                   key: 'id',
                   dataKeys: ['address', 'city'],
                   customTitle: 'name',
@@ -260,7 +261,7 @@ const ReturnForm = ({location}) => {
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
-                  selectOptions: filterActive(_, receiverClients) || [],
+                  selectOptions: filterActive(_, receiverClients?.results) || [],
                   key: 'id',
                   dataKeys: ['address', 'city'],
                   customTitle: 'name',
@@ -316,8 +317,8 @@ const ReturnForm = ({location}) => {
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
-                  selectOptions: vendors
-                    ? filterActive(_, vendors).filter((vendor) => vendor.type === 'Transporter')
+                  selectOptions: vendors?.results
+                    ? filterActive(_, vendors?.results).filter((vendor) => vendor.type === 'Transporter')
                     : [],
                   key: 'id',
                   customTitle: 'name',
@@ -357,7 +358,7 @@ const ReturnForm = ({location}) => {
                                   option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                               },
                               others: {
-                                selectOptions: filterActive(_, kits) || [],
+                                selectOptions: filterActive(_, kits?.results) || [],
                                 key: 'id',
                                 //dataKeys: ['kit_name'],
                                 customTitle: 'kit_name',

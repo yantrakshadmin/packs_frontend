@@ -111,6 +111,10 @@ export const extraRoutesEmployee = [
     Component: lazy(() => import('forms/return.form')),
   },
   {
+    path: '/return-dockets/restrict-return/',
+    Component: lazy(() => import('forms/ReturnRestrictMsg')),
+  },
+  {
     path: '*',
     Component: lazy(() => import('screens/404.screen')),
   },

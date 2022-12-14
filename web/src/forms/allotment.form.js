@@ -86,8 +86,8 @@ const AllotmentForm = ({location}) => {
   };
 
   const getWarehouses = (warehouses) => {
-    if (warehouses != undefined) {
-      return warehouses.filter((warehouse) => {
+    if (warehouses?.results != undefined) {
+      return warehouses?.results.filter((warehouse) => {
         if (warehouse.active === true) return true;
         return false;
       });
@@ -123,7 +123,7 @@ const AllotmentForm = ({location}) => {
               {formItem({
                 ...allotmentFormFields[8],
                 others: {
-                  selectOptions: getWarehouses(warehouses) || [],
+                  selectOptions: getWarehouses(warehouses?.results) || [],
                   key: 'id',
                   customTitle: 'name',
                   dataKeys: ['address', 'email'],
@@ -136,8 +136,8 @@ const AllotmentForm = ({location}) => {
               {formItem({
                 ...allotmentFormFields[9],
                 others: {
-                  selectOptions: vendors
-                    ? vendors.filter((vendor) => vendor.type === 'Transporter')
+                  selectOptions: vendors?.results
+                    ? vendors?.results.filter((vendor) => vendor.type === 'Transporter')
                     : [],
                   key: 'id',
                   customTitle: 'name',

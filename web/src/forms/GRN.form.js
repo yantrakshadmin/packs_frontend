@@ -90,7 +90,7 @@ export const GRNForm = ({id, onCancel, onDone, createGrnWithPO}) => {
                       option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                   },
                   others: {
-                    selectOptions: filterActive(_, warehouses) || [],
+                    selectOptions: filterActive(_, warehouses?.results) || [],
                     key: 'id',
                     customTitle: 'name',
                     dataKeys: ['address', 'city'],
@@ -113,8 +113,8 @@ export const GRNForm = ({id, onCancel, onDone, createGrnWithPO}) => {
                   },
                   others: {
                     key: 'id',
-                    selectOptions: vendors
-                      ? filterActive(_, vendors).filter((vendor) => vendor.type === 'Material')
+                    selectOptions: vendors?.results
+                      ? filterActive(_, vendors?.results).filter((vendor) => vendor.type === 'Material')
                       : [],
                     customTitle: 'name',
                     dataKeys: ['street', 'city'],
@@ -136,8 +136,8 @@ export const GRNForm = ({id, onCancel, onDone, createGrnWithPO}) => {
                   },
                   others: {
                     key: 'id',
-                    selectOptions: vendors
-                      ? filterActive(_, vendors).filter((vendor) => vendor.type === 'Transporter')
+                    selectOptions: vendors?.results
+                      ? filterActive(_, vendors?.results).filter((vendor) => vendor.type === 'Transporter')
                       : [],
                     customTitle: 'name',
                     dataKeys: ['street', 'city'],
@@ -232,7 +232,7 @@ export const GRNForm = ({id, onCancel, onDone, createGrnWithPO}) => {
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                             },
                             others: {
-                              selectOptions: filterActive(_, products) || [],
+                              selectOptions: filterActive(_, products?.results) || [],
                               key: 'id',
                               dataKeys: ['name', 'description', 'category'],
                               customTitle: 'short_code',

@@ -169,6 +169,7 @@ const FlowEmployeeScreen = ({currentPage}) => {
         csvdata={csvData}
         csvname={`Flows${searchVal}.csv`}
         totalRows={paginationData?.count}
+        formParams={{title:'Flow'}}
         newPage={'/employee/master/flow/form/'}
 
       />

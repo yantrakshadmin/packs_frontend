@@ -62,8 +62,8 @@ export const AllotmentMainForm = ({ id, onCancel, onDone }) => {
         setLoading(false);
       }
     };
-    if (id && form && kits && warehouses && flows && vendors) fetchAllotment();
-  }, [id, form, kits, warehouses, flows, vendors]);
+    if (id && form && kits?.results && warehouses?.results && flows?.results && vendors?.results) fetchAllotment();
+  }, [id, form, kits?.results, warehouses?.results, flows?.results, vendors?.results]);
 
   const preProcess = (data) => {
     console.log(data);
@@ -104,7 +104,7 @@ export const AllotmentMainForm = ({ id, onCancel, onDone }) => {
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
-                  selectOptions: warehouses || [],
+                  selectOptions: warehouses?.results || [],
                   key: 'id',
                   customTitle: 'name',
                   dataKeys: ['address', 'email'],
@@ -123,8 +123,8 @@ export const AllotmentMainForm = ({ id, onCancel, onDone }) => {
                     option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                 },
                 others: {
-                  selectOptions: vendors
-                    ? vendors.filter((vendor) => vendor.type === 'Transporter')
+                  selectOptions: vendors?.results
+                    ? vendors?.results.filter((vendor) => vendor.type === 'Transporter')
                     : [],
                   key: 'id',
                   customTitle: 'name',
@@ -155,7 +155,7 @@ export const AllotmentMainForm = ({ id, onCancel, onDone }) => {
                           ...allotmentProductFormFields[0],
                           noLabel: index != 0,
                           others: {
-                            selectOptions: flows || [],
+                            selectOptions: flows?.results || [],
                             customTitle: 'flow_name',
                             key: 'id',
                             formOptions: {
@@ -173,7 +173,7 @@ export const AllotmentMainForm = ({ id, onCancel, onDone }) => {
                           ...allotmentProductFormFields[1],
                           noLabel: index != 0,
                           others: {
-                            selectOptions: kits || [],
+                            selectOptions: kits?.results || [],
                             customTitle: 'kit_name',
                             key: 'id',
                             formOptions: {

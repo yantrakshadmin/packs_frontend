@@ -19,7 +19,7 @@ import {DeliveredForm} from 'forms/delivered.form';
 import {AllotmentMainForm} from 'forms/allotmentMain.form';
 import {connect} from 'react-redux';
 import {useTableSearch} from 'hooks/useTableSearch';
-import {deleteAllotment} from 'common/api/auth';
+import { deleteAllotment, retrieveAddDm, retriveAllotmentsTable } from 'common/api/auth';
 import {loadAPI} from 'common/helpers/api';
 import {DEFAULT_BASE_URL} from 'common/constants/enviroment';
 import {useAPI} from 'common/hooks/api';
@@ -41,6 +41,7 @@ import {LineGraph} from '../../components/graphComponent/lineGraph';
 import DeleteWithPassword from '../../components/DeleteWithPassword';
 import {DEFAULT_PASSWORD} from 'common/constants/passwords';
 import NoPermissionAlert from 'components/NoPermissionAlert';
+import RestrictionMessage from 'forms/RestrictionMessage';
 
 const {Search} = Input;
 const {Title} = Typography;
@@ -51,16 +52,20 @@ const AllotmentDocketsScreen = ({currentPage}) => {
   const [reqData, setReqData] = useState([]);
   const [TN, setTN] = useState(null);
   const [visible, setVisible] = useState(false);
-  const {data: allotments, loading, reload: reloadFull, status} = useAPI('/allotments-table/', {});
-  const {data: count} = useAPI('/mr-count/', {});
+  // const {data: allotments, loading, reload: reloadFull, status} = useAPI('/allotments-tablee/', {});
+  const { data: count } = useAPI('/mr-count/', {});
+  const { data: adminCheck } = useAPI(`user/meta`);
+
   const [altId, setAltId] = useState(null);
-  const {filteredData, reload} = useTableSearch({
-    searchVal,
-    reqData,
+  const { filteredData, reload , loading, status, paginationData} = useTableSearch({
+    retrieve: retriveAllotmentsTable,
+    usePaginated: true,
+    // searchVal,
+    // reqData,
   });
   useEffect(() => {
-    if (allotments) {
-      const reqD = allotments.map((alt) => ({
+    if (filteredData) {
+      const reqD = filteredData.map((alt) => ({
         id: alt.id,
         transaction_no: alt.transaction_no,
         parent_name: alt.sales_order.owner,
@@ -74,7 +79,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
       }));
       setReqData(reqD);
     }
-  }, [allotments]);
+  }, [filteredData]);
 
   const columns = [
     {
@@ -233,7 +238,7 @@ const AllotmentDocketsScreen = ({currentPage}) => {
               <Delete />
             </Button>
           </Popconfirm> */}
-          <DeleteWithPassword
+          {/* <DeleteWithPassword
             password={DEFAULT_PASSWORD}
             deleteHOC={deleteHOC({
               record,
@@ -242,12 +247,21 @@ const AllotmentDocketsScreen = ({currentPage}) => {
               success: 'Deleted Allotment successfully',
               failure: 'Error in deleting Allotment',
             })}
-          />
+          /> */}
+          <Button onClick={async (e) => {
+             loadAPI(`/void-allotment/?pk=${record.id}`, {
+            })
+            window.location.reload()
+          }
+          }
+            style={{ marginTop: '3px', marginLeft: '7px' }}
+            size='small' type='primary'>
+            Void
+          </Button>
         </div>
       ),
     },
   ];
-
   const tabs = [
     {
       name: 'All Allotment Dockets',
@@ -324,18 +338,20 @@ const AllotmentDocketsScreen = ({currentPage}) => {
 
       <TableWithTabHOC
         rowKey={(record) => record.id}
-        refresh={reloadFull}
+        refresh={reload}
         tabs={tabs}
         size="middle"
         title=""
-        modalBody={deliveryId ? DeliveredForm : AllotmentMainForm}
+        modalBody={deliveryId ? DeliveredForm : adminCheck?.admin ? RestrictionMessage: AllotmentMainForm}
         modalWidth={60}
         ExpandBody={ExpandTable}
         editingId={editingId || deliveryId}
-        formParams={{transaction_no: TN}}
+        formParams={{transaction_no: TN, title:'Allotment'}}
         cancelEditing={cancelEditing}
         hideRightButton
-        scroll={{x: 1200}}
+        scroll={{ x: 1200 }}
+        totalRows={paginationData?.count}
+        rowClassName={record => record?.void && "disabled-row"} 
       />
     </NoPermissionAlert>
   );

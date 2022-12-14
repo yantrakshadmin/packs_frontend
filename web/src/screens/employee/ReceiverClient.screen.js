@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import receiverColumns from 'common/columns/Receiver.column';
 import { Popconfirm, Button, Input } from 'antd';
 import { deleteReceiverClient, retieveReceiverClients } from 'common/api/auth';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { useTableSearch } from 'hooks/useTableSearch';
 import { GetUniqueValue, GetUniqueValueNested } from 'common/helpers/getUniqueValues';
 import { deleteHOC } from '../../hocs/deleteHoc';
@@ -12,6 +12,8 @@ import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import  ReceiverForm  from '../../forms/receiver.form';
 import NoPermissionAlert from 'components/NoPermissionAlert';
 import { ifNotStrReturnA } from 'common/helpers/mrHelper';
+import RestrictionMessage from 'forms/RestrictionMessage';
+import { useAPI } from 'common/hooks/api';
 
 const { Search } = Input;
 
@@ -19,6 +21,11 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
+  // const { user } = useSelector(s => s)
+  // console.log(user,"user");
+
+  const  adminCheck  = useAPI(`user/meta`);
+  console.log(adminCheck?.data?.admin,"adminCheck");
 
   const { filteredData, loading, reload, hasPermission, paginationData } = useTableSearch({
     searchVal,
@@ -140,9 +147,10 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
         title="Receiver Clients"
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={ReceiverForm}
+        modalBody={adminCheck?.data?.admin ? RestrictionMessage : ReceiverForm}
         modalWidth={45}
         expandParams={{ loading }}
+        formParams={{title:'Reciver'}}
         csvdata={csvData}
         csvname={`ReceiverClients${searchVal}.csv`}
         totalRows={paginationData?.count}

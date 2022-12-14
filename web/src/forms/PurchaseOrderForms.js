@@ -45,7 +45,7 @@ export const PurchaseOrderForm = ({id, onCancel, onDone}) => {
     const index = data[0].name[1];
     let priceperunit;
     if (products !== null && products !== undefined) {
-      products.forEach((prod) => {
+      (products?.results || []).forEach((prod) => {
         if (prod.id === value && name === 'item') {
           priceperunit = prod.priceperunit;
         }
@@ -109,8 +109,8 @@ export const PurchaseOrderForm = ({id, onCancel, onDone}) => {
                   },
                   others: {
                     key: 'id',
-                    selectOptions: vendors
-                      ? filterActive(_, vendors).filter((vendor) => vendor.type === 'Material')
+                    selectOptions: vendors?.results
+                      ? filterActive(_, vendors?.results).filter((vendor) => vendor.type === 'Material')
                       : [],
                     customTitle: 'name',
                     dataKeys: ['street', 'city'],
@@ -138,7 +138,7 @@ export const PurchaseOrderForm = ({id, onCancel, onDone}) => {
                       option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                   },
                   others: {
-                    selectOptions: filterActive(_, warehouses) || [],
+                    selectOptions: filterActive(_, warehouses?.results) || [],
                     key: 'id',
                     customTitle: 'name',
                     dataKeys: ['address', 'city'],
@@ -179,7 +179,7 @@ export const PurchaseOrderForm = ({id, onCancel, onDone}) => {
                                 option.search.toLowerCase().indexOf(input.toLowerCase()) >= 0,
                             },
                             others: {
-                              selectOptions: filterActive(_, products) || [],
+                              selectOptions: filterActive(_, products?.results) || [],
                               key: 'id',
                               dataKeys: ['name', 'description', 'category'],
                               customTitle: 'short_code',

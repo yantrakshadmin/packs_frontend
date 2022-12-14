@@ -9,7 +9,9 @@ import Edit from '../../icons/Edit';
 import TableWithTabHOC from '../../hocs/TableWithTab.hoc';
 import  ClientForm  from '../../forms/client.form';
 import { GetUniqueValue } from 'common/helpers/getUniqueValues';
+import RestrictionMessage from 'forms/RestrictionMessage';
 import NoPermissionAlert from 'components/NoPermissionAlert';
+import { useAPI } from 'common/hooks/api';
 
 const { Search } = Input;
 
@@ -17,6 +19,9 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
+
+  const adminCheck = useAPI(`user/meta`);
+  console.log(adminCheck?.data?.admin, "adminCheck");
 
   const { filteredData, loading, reload, hasPermission, paginationData } = useTableSearch({
     searchVal,
@@ -165,8 +170,9 @@ const WarehouseEmployeeScreen = ({ currentPage }) => {
         title="Sender Clients"
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={ClientForm}
+        modalBody={ adminCheck?.data?.admin? RestrictionMessage: ClientForm}
         modalWidth={60}
+        formParams={{ title:'Sender'}}
         expandParams={{ loading }}
         hideRightButton
         scroll={{ x: 2000 }}

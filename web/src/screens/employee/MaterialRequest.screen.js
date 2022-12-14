@@ -33,6 +33,7 @@ import { MRRejectionForm } from '../../forms/MRRejection.form';
 import DeleteWithPassword from '../../components/DeleteWithPassword';
 import { DEFAULT_PASSWORD } from 'common/constants/passwords';
 import NoPermissionAlert from 'components/NoPermissionAlert';
+// import { loadAPI } from 'common/helpers/api';
 import { size } from 'lodash';
 
 const { Search } = Input;
@@ -54,11 +55,24 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
     retrieve: retrieveEmployeeMrsEfficient,
     usePaginated: true
   });
-  console.log({ paginationData });
 
   const { data: mrStatusData } = useAPI('list-mrstatus/');
 
+
   const [userData, setUserData] = useState({ password: '' });
+
+  // useEffect(() => {
+  //   let temp= []
+  //   const tempData = (filteredData || []).map((item, idx) =>
+  //     temp.push(item?.void ? { ...item, enabled: 'true' } : { ...item, enabled: 'false' }))
+  //   // filteredData = temp;
+  //   console.log({ temp });
+  //   setNewFilteredData(temp);
+  // }, [filteredData])
+  // console.log({ newFilteredData });
+
+
+
 
   const PasswordPopUp = (
     <Space direction="vertical">
@@ -141,7 +155,10 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
       // filters: filterOptions || [],
       // onFilter: (value, record) => record.linked === value,
       render: (text, record) => {
-        return record.transaction_no === null ? '-' : record.transaction_no;
+        return record.transaction_no === null ? '-' :
+          <a href={`../docket/${record.transaction_no}`} target='_blank' rel='noreferrer'>
+            {record.transaction_no === null ? '-' : record.transaction_no}
+          </a>
       },
     },
     {
@@ -203,7 +220,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
           return (
             <Button
               // style={{ paddingTop: '3px', paddingBottom: '21px', paddingRight: '7px', paddingLeft: '7px' }},
-            // size={'small'},
+              // size={'small'},
 
               type="primary"
               size='small'
@@ -217,7 +234,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
               }}
               onClick={(e) => e.stopPropagation()}>
               Pending
-              
+
             </Button>
           );
         }
@@ -240,7 +257,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
                 </div>
               }>
               <Button
-                style={{paddingTop:'3px', paddingBottom:'21px', paddingRight:'7px', paddingLeft:'7px'}}
+                style={{ paddingTop: '3px', paddingBottom: '21px', paddingRight: '7px', paddingLeft: '7px' }}
                 size={'small'}
                 type="primary" danger>
                 Rejected
@@ -278,7 +295,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
             {
               Component: () => (
                 <Button
-                  
+
                   type="primary"
                   disabled={record.is_allocated || record.is_rejected}
                   onClick={async (e) => {
@@ -297,7 +314,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
             {
               Component: () => (
                 <Button
-                  
+
                   className="mx-2"
                   type="primary"
                   disabled={record.is_allocated || record.is_rejected}
@@ -372,10 +389,21 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
                 setPopoverEditVisible(true);
                 e.stopPropagation();
               }}>
-              <Edit  />
+              <Edit />
             </Button>
           </Popover>
-          <DeleteWithPassword
+          <Button onClick={async (e) => {
+            const response = loadAPI(`/void-mrequest/?pk=${record.id}`, {
+            })
+            window.location.reload()
+          }
+          }
+            style={{ marginTop: '3px', marginLeft: '7px' }}
+            size='small' type='primary'>
+            Void
+          </Button>
+
+          {/* <DeleteWithPassword
             password={DEFAULT_PASSWORD}
             deleteHOC={deleteHOC({
               record,
@@ -384,7 +412,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
               success: 'Deleted MR successfully',
               failure: 'Error in deleting MR',
             })}
-          />
+          /> */}
           {/* <Popconfirm
             title="Confirm Delete"
             onCancel={(e) => e.stopPropagation()}
@@ -415,7 +443,7 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
     {
       name: 'All Material Requests',
       key: 'allMaterialRequests',
-      data: [],
+      data:  filteredData || [],
       data: mergeArray(filteredData || [], mrStatusData || []),
       columns,
       loading,
@@ -504,10 +532,10 @@ const ReceiverClientEmployeeScreen = ({ currentPage }) => {
         tabs={tabs}
         size="small"
         title=""
-
         ExpandBody={ExpandTable}
         hideRightButton
         totalRows={paginationData?.count}
+        rowClassName={record => record?.void && "disabled-row"}
 
       />
     </NoPermissionAlert>

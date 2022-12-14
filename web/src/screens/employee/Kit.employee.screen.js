@@ -12,6 +12,8 @@ import Delete from '../../icons/Delete';
 import Edit from '../../icons/Edit';
 import {GetUniqueValueNested} from 'common/helpers/getUniqueValues';
 import NoPermissionAlert from 'components/NoPermissionAlert';
+import RestrictionMessage from 'forms/RestrictionMessage';
+import { useAPI } from 'common/hooks/api';
 
 const {Search} = Input;
 
@@ -19,6 +21,9 @@ const KitEmployeeScreen = ({currentPage}) => {
   const [searchVal, setSearchVal] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [csvData, setCsvData] = useState(null);
+
+  const { data: restrictionCheck } = useAPI(`/kits-check/?pk=${editingId}`);
+
 
   const {filteredData, loading, reload, hasPermission, paginationData} = useTableSearch({
     searchVal,
@@ -145,7 +150,7 @@ const KitEmployeeScreen = ({currentPage}) => {
         title="Kits"
         editingId={editingId}
         cancelEditing={cancelEditing}
-        modalBody={KitForm}
+        modalBody={restrictionCheck? RestrictionMessage: KitForm}
         modalWidth={45}
         expandHandleKey="products"
         expandParams={{loading}}
@@ -153,6 +158,7 @@ const KitEmployeeScreen = ({currentPage}) => {
         csvdata={csvData}
         csvname={`Kits${searchVal}.csv`}
         totalRows={paginationData?.count}
+        formParams={{ title: "Kit" }}
         newPage='/employee/master/kit/form/'
       />
     </NoPermissionAlert>
