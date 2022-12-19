@@ -24,7 +24,6 @@ export const LineGraph = ({ tagName, count,width,height }) => {
       <div className='chart-content'>
         <Text style={{ color: '#fff', fontSize: 20 }}>
           {tagName}
-          {'       '}
           {count}
         </Text>
       </div>

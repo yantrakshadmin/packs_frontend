@@ -422,3 +422,16 @@
     margin: 1vh 0vh;
   }
 }
+
+@media print   {
+  .table-docket{
+    padding-bottom: 150px;
+  }
+  // .final-docket{
+  //   padding-top: 110px;
+  //   background-color: red;
+  // }
+  // .container-docket{
+  // background-color: red;
+  // }
+}
