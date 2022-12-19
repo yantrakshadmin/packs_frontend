@@ -132,7 +132,8 @@ const AllotmentDocketsScreen = ({currentPage}) => {
           {/*  rel='noopener noreferrer' */}
           {/* > */}
           <FilesViewModal
-            documentAvail={record.document_available ? true : false}
+            // documentAvail={record.document_available ? true : false}
+            deliveredAvail={record.document_available ? true : false}
             getDocuments={async () => {
               const {data: req} = await loadAPI(
                 `${DEFAULT_BASE_URL}delivered-docket/?pk=${record.id}`,
